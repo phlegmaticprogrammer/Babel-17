@@ -1,0 +1,110 @@
+if true then
+  0
+end
+
+
+/*package myModule
+    val b = 0
+    val a = someModule.a_def
+    module someModule
+        def a_def = b
+    end
+    def method = someModule
+    external module greatx
+end
+
+module myModule.great
+end
+
+def funky = 0
+
+def f = random 7
+val z = f
+def g = z
+val w = 0
+def g = 0
+
+val u = h
+val z = 0
+def h = g2
+def g2 = z
+
+begin
+  def f (-9) = 0
+  val x = (3 * with (): begin end)
+end
+
+val q =
+  object
+    val a = b
+    def b = 0
+    private def lol 0 = 1
+    private def lol 1 = 2
+  end
+
+z = 3
+
+
+val x = 2
+val rüber = 0
+rÜber = 1
+module a.what
+  yield ()
+  val x = what
+  x = what
+  module b
+    val u = (1,0)
+  end
+  val x = b.cool
+end
+
+~ C
+val //a_ID = 0
+a_Id = 1
+a_id = 2
+val (xa, xa) = 10
+val (xa, xA) = 20
+def f {C n, ...} = n
+if n < 3 then 0 elseif true then x
+end
+begin end
+val x = 0
+val (x, ...) = ∞;
+while false do 
+x = (1,2)
+y = 5
+end
+for i in {1,2,3} do
+  x = Whatever (i*i)
+end
+with {} match 2
+case a => 0
+case b => 1
+end
+
+memoize cool
+
+begin
+  "cool"
+  memoize fib (whatever) cool great (sowhat) 
+  memoize (token)
+end
+yield 5*4
+
+module cool.lecker
+  private module great
+  end
+  4
+end
+
+(case x => 5 case y => 10 case _ => 9)
+
+val y = 4
+
+object
+  val x = 2
+  val y = 3*this
+  y = 3*z+w
+  def z = 3*this
+  val w = 0
+end*/

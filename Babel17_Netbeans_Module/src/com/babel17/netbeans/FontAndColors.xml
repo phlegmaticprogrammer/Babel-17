@@ -1,0 +1,63 @@
+<!DOCTYPE fontscolors PUBLIC
+    "-//NetBeans//DTD Editor Fonts and Colors settings 1.1//EN"
+    "http://www.netbeans.org/dtds/EditorFontsColors-1_1.dtd">
+<fontscolors>
+
+    <fontcolor name="identifier" default="identifier" foreColor="black">
+      <font style="plain"/>
+    </fontcolor>
+
+    <fontcolor name="keyword" default="keyword" foreColor="99034E">
+      <font style="bold"/>
+    </fontcolor>
+
+    <fontcolor name="comment" default="comment" foreColor="969696">
+      <font style="italic"/>
+    </fontcolor>
+
+    <fontcolor name="operator" default="operator" foreColor="black">
+      <font style="plain"/>
+    </fontcolor>
+
+    <fontcolor name="boolean" default="number" foreColor="blue">
+      <font style="plain"/>
+    </fontcolor>
+
+    <fontcolor name="string" default="string" foreColor="blue">
+      <font style="plain"/>
+    </fontcolor>
+
+    <fontcolor name="number" default="number" foreColor="blue">
+      <font style="plain"/>
+    </fontcolor>
+
+
+    <fontcolor name="constructor" default="default" foreColor="0F880F">
+        <font style="italic" />
+    </fontcolor>
+
+    <fontcolor name="separator" default="separator" foreColor="black">
+      <font style="plain"/>
+    </fontcolor>
+
+    <fontcolor name="whitespace" default="whitespace"/>
+
+    <fontcolor name="bracket" default="separator"/>
+
+    <fontcolor name="math" default="operator"/>
+    <fontcolor name="symbol_equal" default="math"/>
+    <fontcolor name="symbol_not_equal" default="math"/>
+    <fontcolor name="symbol_less_eq" default="math"/>
+    <fontcolor name="symbol_greater_eq" default="math"/>
+    <fontcolor name="symbol_infinity" default="math" foreColor="blue"/>
+    <fontcolor name="symbol_and" default="math"/>
+    <fontcolor name="symbol_or" default="math"/>
+    <fontcolor name="symbol_not" default="math"/>
+    <fontcolor name="symbol_double_colon" default="math"/>
+    <fontcolor name="symbol_double_arrow" default="math"/>
+    <fontcolor name="symbol_arrow" default="math"/>
+    <fontcolor name="symbol_ellipsis" default="math"/>
+
+    <fontcolor name="keyword_op" default="keyword"/>
+
+</fontscolors>

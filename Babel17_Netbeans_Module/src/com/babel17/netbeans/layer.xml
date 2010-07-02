@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<filesystem>
+  <folder name="Loaders">
+    <folder name="text">
+      <folder name="x-babel17">
+        <folder name="Actions">
+          <file name="org-openide-actions-CopyAction.instance">
+            <attr name="position" intvalue="400"/>
+          </file>
+          <file name="org-openide-actions-CutAction.instance">
+            <attr name="position" intvalue="300"/>
+          </file>
+          <file name="org-openide-actions-DeleteAction.instance">
+            <attr name="position" intvalue="600"/>
+          </file>
+          <file name="org-openide-actions-FileSystemAction.instance">
+            <attr name="position" intvalue="1100"/>
+          </file>
+          <file name="org-openide-actions-OpenAction.instance">
+            <attr name="position" intvalue="100"/>
+          </file>
+          <file name="org-openide-actions-PropertiesAction.instance">
+            <attr name="position" intvalue="1400"/>
+          </file>
+          <file name="org-openide-actions-RenameAction.instance">
+            <attr name="position" intvalue="700"/>
+          </file>
+          <file name="org-openide-actions-SaveAsTemplateAction.instance">
+            <attr name="position" intvalue="900"/>
+          </file>
+          <file name="org-openide-actions-ToolsAction.instance">
+            <attr name="position" intvalue="1300"/>
+          </file>
+          <file name="sep-1.instance">
+            <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+            <attr name="position" intvalue="200"/>
+          </file>
+          <file name="sep-2.instance">
+            <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+            <attr name="position" intvalue="500"/>
+          </file>
+          <file name="sep-3.instance">
+            <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+            <attr name="position" intvalue="800"/>
+          </file>
+          <file name="sep-4.instance">
+            <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+            <attr name="position" intvalue="1000"/>
+          </file>
+          <file name="sep-5.instance">
+            <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+            <attr name="position" intvalue="1200"/>
+          </file>
+        </folder>
+        <folder name="Factories">
+          <file name="Babel17DataLoader.instance">
+            <attr name="SystemFileSystem.icon" urlvalue="nbresloc:/com/babel17/netbeans/Babel17IconSmall.png"/>
+            <attr name="dataObjectClass" stringvalue="com.babel17.netbeans.Babel17DataObject"/>
+            <attr name="instanceCreate" methodvalue="org.openide.loaders.DataLoaderPool.factory"/>
+            <attr name="mimeType" stringvalue="text/x-babel17"/>
+          </file>
+        </folder>
+      </folder>
+    </folder>
+  </folder>
+  <folder name="Services">
+    <folder name="MIMEResolver">
+      <file name="Babel17Resolver.xml" url="Babel17Resolver.xml">
+        <attr name="SystemFileSystem.localizingBundle" stringvalue="com.babel17.netbeans.Bundle"/>
+      </file>
+    </folder>
+  </folder>
+  <folder name="Templates">
+    <folder name="Other">
+      <file name="Babel17Template.babel17" url="Babel17Template.babel17">
+        <attr name="SystemFileSystem.localizingBundle" stringvalue="com.babel17.netbeans.Bundle"/>
+        <attr name="template" boolvalue="true"/>
+      </file>
+    </folder>
+  </folder>
+
+  <folder name="Editors">
+    <folder name="text">
+      <folder name="x-babel17">
+        <file name="EditorKit.instance">
+          <attr name="instanceCreate" newvalue="com.babel17.netbeans.Babel17EditorKit"/>
+          <attr name="instanceOf" stringvalue="javax.swing.text.EditorKit"/>
+        </file>
+        <file name="com-babel17-netbeans-Babel17IndentTask.instance"/>
+        <file name="language.instance">
+          <attr name="instanceCreate" methodvalue="com.babel17.netbeans.Babel17TokenId.getLanguage"/>
+          <attr name="instanceOf" stringvalue="org.netbeans.api.lexer.Language"/>
+        </file>
+        <file name="com-babel17-netbeans-Babel17ParserFactory.instance"/>
+        <file name="com-babel17-netbeans-SyntaxErrorsHighlightingTaskFactory.instance"/>
+        <folder name="UpToDateStatusProvider">
+          <file name="com-babel17-netbeans-Babel17EditorStatusProviderFactory.instance"/>
+        </folder>
+        <attr name="SystemFileSystem.localizingBundle" stringvalue="com.babel17.netbeans.Bundle"/>
+        <folder name="FontsColors">
+          <folder name="NetBeans">
+            <folder name="Defaults">
+              <file name="FontAndColors.xml" url="FontAndColors.xml">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="com.babel17.netbeans.Bundle"/>
+              </file>
+            </folder>
+          </folder>
+        </folder>
+      </folder>
+    </folder>
+  </folder>
+  <folder name="OptionsDialog">
+    <folder name="PreviewExamples">
+      <folder name="text">
+        <file name="x-babel17" url="Babel17Example.b17"/>
+      </folder>
+    </folder>
+  </folder>
+
+  <!--folder name="CslPlugins">
+    <folder name="text">
+      <folder name="x-babel17">
+        <file name="language.instance">
+          <attr name="instanceClass" stringvalue="com.babel17.netbeans.Babel17Language"/>
+        </file>
+      </folder>
+    </folder>
+  </folder-->
+
+
+</filesystem>
