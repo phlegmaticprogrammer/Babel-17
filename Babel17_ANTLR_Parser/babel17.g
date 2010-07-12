@@ -30,7 +30,7 @@ ASTLabelType=CommonTree;
 
 tokens {
 PROG;
-NIL;
+NIL_TOKEN;
 ANY;
 LAMBDA;
 SQUARE_LIST;
@@ -51,20 +51,17 @@ MESSAGE_SEND;
 UMINUS;
 POW;
 
+PARENTS_PLUS;
+PARENTS_MUL;
 
 BLOCK;
 BEGIN;
 WITH;
 VAL;
+OBJELEM_ASSIGN;
 ASSIGN;
 DEF;
-ATTRIBUTE;
 YIELD;
-
-MODULE_DEF;
-MODULE_DECL;
-MODULE_PATH;
-PACKAGE;
 
 LAZY;
 CONCURRENT;
@@ -177,16 +174,11 @@ U_infinity
 token_infinity
 	:	A_infinity | U_infinity;
 	
-	
-L_module:	'module';
 L_private
 	:	'private';
 L_protected
 	:	'protected';
 L_public:	'public';
-L_root	:	'root';
-L_external
-	:	'external';
 	
 L_concurrent
 	:	'concurrent';
@@ -202,12 +194,11 @@ L_true	:	'true';
 L_false	:	'false';
 
 L_this	:	'this';
-L_here	:	'here';
 
 L_random:	'random';
 
-L_package
-	:	'package';
+L_nil	:	'nil';
+
 /* Symbolic Tokens */
 
 A_EQUAL	:	'==';
@@ -255,8 +246,6 @@ TIMES	:	'*';
 DIV	:	'/' ;
 MOD	:	'%';
 POW_tok	:	'^';
-MODULE_KEY
-	:	'@';
 	
 A_OR	:	'|';
 A_AND	:	'&';
@@ -376,7 +365,7 @@ bracket_pattern
 	
 mselem_pattern
 	:	bracket_pattern (NL? token_ARROW NL? bracket_pattern)?
-		-> ^(NIL bracket_pattern*);
+		-> ^(NIL_TOKEN bracket_pattern*);
 
 primitive_pattern
 	:	Id
@@ -391,7 +380,7 @@ primitive_pattern
 	|	'['  NL? (bracket_pattern NL? ( COMMA NL? bracket_pattern NL?)* )? ']' 
 	 	  -> ^(SQUARE_LIST bracket_pattern*)
 	|	'('  NL? (bracket_pattern NL? ( COMMA  NL? bracket_pattern NL?)* (COMMA NL?)?)? ')' 
-		  -> ^(ROUND_LIST ^(NIL COMMA*) ^(NIL bracket_pattern*))		
+		  -> ^(ROUND_LIST ^(NIL_TOKEN COMMA*) ^(NIL_TOKEN bracket_pattern*))		
 	|	'{'  NL? (mselem_pattern NL? ( COMMA  NL? mselem_pattern NL?)* )? '}'
 		  -> ^(MAP_OR_SET mselem_pattern*)
 	|	'{' NL? token_ARROW NL? '}' -> ^(EMPTY_MAP);
@@ -410,40 +399,18 @@ statement
 	:	st_val
 	|	st_def
 	|	st_memoize
-	|	st_module
-	|	st_package
 	|	st_yield
 	|	expr_or_assign;
+
+objelem_assign
+	:	Id PERIOD Id -> ^(OBJELEM_ASSIGN Id Id);
 	
-st_val	:	L_val NL? pattern NL? '=' NL? expr -> ^(VAL pattern expr);
-st_def	:	(attribute NL?)? L_def NL? Id NL? (primitive_pattern NL?)? '=' NL? expr 
-		  -> ^(DEF attribute? Id primitive_pattern? expr);
+st_val	:	L_val NL? (pattern | objelem_assign) NL? '=' NL? expr -> ^(VAL pattern* objelem_assign* expr);
+		
+st_def	:	L_def NL? Id NL? (primitive_pattern NL?)? '=' NL? expr 
+		  -> ^(DEF Id primitive_pattern? expr);
 		  
 st_yield:	L_yield expr -> ^(YIELD expr);
-		  
-attribute
-	:	L_private -> ^(ATTRIBUTE L_private)
-	|	L_public -> ^(ATTRIBUTE L_public)
-	|	L_protected -> ^(ATTRIBUTE L_protected);
-	
-st_module
-	:	st_module_decl
-	|	st_module_def;
-	
-st_module_decl
-	:	(attribute NL?)? L_external NL? L_module NL? module_path 
-		  -> ^(MODULE_DECL attribute? module_path);
-		  
-st_module_def
-	:	(attribute NL?)? L_module NL? module_path block L_end
-		  -> ^(MODULE_DEF attribute? module_path block);
-		  
-st_package
-	:       L_package NL? module_path block L_end
-		  -> ^(PACKAGE module_path block); 		
-		  
-module_path
-	:	Id (NL? PERIOD NL? Id)* -> ^(MODULE_PATH Id*);
 	
 st_memoize
 	:	L_memoize memid+
@@ -454,7 +421,7 @@ memid	:	Id -> ^(MEM_STRONG Id)
 		
 	
 expr_or_assign
-	:	(pattern NL? '=') => pattern NL? '=' NL? expr -> ^(ASSIGN pattern expr)
+	:	((pattern | objelem_assign) NL? '=') => (pattern | objelem_assign) NL? '=' NL? expr -> ^(ASSIGN pattern expr)
 	|	expr;
 	
 expr	
@@ -481,8 +448,13 @@ protected_expr
 begin_end
 	:	L_begin block L_end -> ^(BEGIN block);	
 
-obj_expr:	L_obj block L_end 
-		-> ^(OBJ block);
+
+parents	:	'+' primitive_expr -> ^(PARENTS_PLUS primitive_expr)
+	|	'*' primitive_expr -> ^(PARENTS_MUL primitive_expr);
+	
+
+obj_expr:	(L_obj NL? parents) => L_obj NL? parents block L_end -> ^(OBJ block parents)
+        |       L_obj block L_end -> ^(OBJ block);
 				
 lop_expr	
 	:	(lambda_expr) => lambda_expr
@@ -502,13 +474,13 @@ while_do_expr
 					
 cases 
 	:	full_cases
-	|	pattern NL? token_DOUBLE_ARROW block -> ^(CASES ^(NIL pattern block));
+	|	pattern NL? token_DOUBLE_ARROW block -> ^(CASES ^(NIL_TOKEN pattern block));
 
 full_cases
 	:	case_expr+ -> ^(CASES case_expr+);	
 
 case_expr
-	:	(L_case NL? pattern NL? token_DOUBLE_ARROW block) -> ^(NIL pattern block);
+	:	(L_case NL? pattern NL? token_DOUBLE_ARROW block) -> ^(NIL_TOKEN pattern block);
 	
 match_expr
 	:	L_match NL? p_op_expr NL? full_cases L_end 
@@ -518,16 +490,16 @@ lambda_expr
 	:	lambda_cases -> ^(LAMBDA lambda_cases);
 
 lambda_cases 
-	:	pattern NL? token_DOUBLE_ARROW NL? lop_expr -> ^(CASES ^(NIL pattern ^(BLOCK lop_expr)));
+	:	pattern NL? token_DOUBLE_ARROW NL? lop_expr -> ^(CASES ^(NIL_TOKEN pattern ^(BLOCK lop_expr)));
 
 protected_lambda_expr 
 	:	protected_lambda_cases -> ^(LAMBDA protected_lambda_cases);
 
 p_lambda_case_expr
-	:	(L_case NL? pattern NL? token_DOUBLE_ARROW NL? pure_block) -> ^(NIL pattern pure_block);
+	:	(L_case NL? pattern NL? token_DOUBLE_ARROW NL? pure_block) -> ^(NIL_TOKEN pattern pure_block);
 
 protected_lambda_cases 
-	:	pattern NL? token_DOUBLE_ARROW NL? pure_block -> ^(CASES ^(NIL pattern pure_block))
+	:	pattern NL? token_DOUBLE_ARROW NL? pure_block -> ^(CASES ^(NIL_TOKEN pattern pure_block))
 	|	p_lambda_case_expr+ -> ^(CASES p_lambda_case_expr+);
 
 for_expr:	L_for NL? pattern NL? L_in NL? protected_expr NL? L_do block L_end
@@ -661,14 +633,14 @@ message_send_expr
 	
 list_expr 
 	:	'[' NL? (protected_expr (NL? COMMA NL? protected_expr)* NL?)? ']' -> ^(SQUARE_LIST protected_expr*)
-	|	'(' NL? (protected_expr (NL? COMMA NL? protected_expr)* NL? (COMMA NL?)?)? ')' -> ^(ROUND_LIST ^(NIL COMMA*) ^(NIL protected_expr*));
+	|	'(' NL? (protected_expr (NL? COMMA NL? protected_expr)* NL? (COMMA NL?)?)? ')' -> ^(ROUND_LIST ^(NIL_TOKEN COMMA*) ^(NIL_TOKEN protected_expr*));
 
 map_or_set_expr
 	:	'{' NL? (map_or_set_elem_expr NL? (COMMA NL? map_or_set_elem_expr NL?)*)? '}' -> ^(MAP_OR_SET map_or_set_elem_expr*)
 	|       '{' NL? token_ARROW NL? '}' -> ^(EMPTY_MAP);
 		
 map_or_set_elem_expr
-	:	protected_expr  (NL? token_ARROW NL? protected_expr)? -> ^(NIL protected_expr*);
+	:	protected_expr  (NL? token_ARROW NL? protected_expr)? -> ^(NIL_TOKEN protected_expr*);
 
 primitive_expr
 	:	Num
@@ -678,9 +650,7 @@ primitive_expr
 	|	L_true
 	|	L_false
 	|	L_this	
-	|	L_root
-	|	L_here
-	| 	MODULE_KEY
+	| 	L_nil
 	|	token_infinity
 	| 	list_expr
 	|	with_control_expr

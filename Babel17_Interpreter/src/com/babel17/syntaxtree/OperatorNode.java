@@ -35,8 +35,6 @@ public final class OperatorNode extends Node {
   public final static int AWAIT = 25;
 
   public final static int THIS = 26;
-  public final static int HERE = 27;
-  public final static int ROOT = 28;
 
   public final static int APPLY = 29;
   public final static int MESSAGE_SEND = 30;
@@ -50,7 +48,8 @@ public final class OperatorNode extends Node {
 
   public final static int INFINITY = 36;
 
-  public final static int MODULE_KEY = 37;
+  public final static int NIL = 37;
+
 
   public OperatorNode(int operator) {
     this.operator = operator;

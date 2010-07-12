@@ -9,7 +9,7 @@ import com.babel17.syntaxtree.*;
 public class Examples {
 
   public static void main(String args[]) throws Exception {
-    File exampledir = new File("/Users/stevenobua/NetbeansProjects/Babel17 Interpreter/src/net/babel17/examples");
+    File exampledir = new File("/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/src/com/babel17/examples");
     File f = new File(exampledir, "basic/fib.b17");
     //Parser.lexit(f.toString());
 
@@ -21,7 +21,7 @@ public class Examples {
 
     Reader reader = new InputStreamReader(new FileInputStream(f), "UTF-8");
     java.util.Collection<ErrorMessage> errors =
-            SemanticAnalysis.parseAndAnalyze(reader);
+            SemanticAnalysis.parseAndAnalyze(reader, false);
     for (ErrorMessage e : errors)
         System.out.println("  " + e);
     if (errors.size() == 0)

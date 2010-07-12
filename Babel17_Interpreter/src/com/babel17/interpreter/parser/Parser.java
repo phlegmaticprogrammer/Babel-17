@@ -38,12 +38,9 @@ public class Parser {
     k.add("to");
     k.add("downto");
     k.add("infinity");
-    k.add("module");
     k.add("private");
     k.add("protected");
     k.add("public");
-    k.add("root");
-    k.add("external");
     k.add("concurrent");
     k.add("await");
     k.add("lazy");
@@ -51,9 +48,7 @@ public class Parser {
     k.add("true");
     k.add("false");
     k.add("this");
-    k.add("here");
     k.add("random");
-    k.add("package");
     return k;
   }
 
@@ -165,34 +160,25 @@ public class Parser {
           return toNode(tree.getChild(0));
         case babel17Parser.BLOCK:
           return new BlockNode(toNodeList(tree)).mergeLocation(loc).mergeLocation();
+        case babel17Parser.ASSIGN:
         case babel17Parser.VAL: {
-          PatternNode pattern = toPattern(tree.getChild(0));
-          Node rightSide = toNode(tree.getChild(1));
-          return new ValNode(false, pattern, rightSide).mergeLocation(loc).
+          boolean assign = tree.getType() == babel17Parser.ASSIGN;
+          Tree left = tree.getChild(0);
+          if (left.getType() == babel17Parser.OBJELEM_ASSIGN) {
+            IdentifierNode id = (IdentifierNode) toNode(left.getChild(0));
+            IdentifierNode mid = (IdentifierNode) toNode(left.getChild(1));
+            MessageNode m = new MessageNode(mid.name());
+            m.mergeLocation(mid.location());
+            Node rightSide = toNode(tree.getChild(1));
+            return new ObjectUpdateNode(assign, id, m, rightSide).
+                    mergeLocation(loc).mergeLocation();
+
+          } else {
+            PatternNode pattern = toPattern(tree.getChild(0));
+            Node rightSide = toNode(tree.getChild(1));
+            return new ValNode(assign, pattern, rightSide).mergeLocation(loc).
                   mergeLocation();
-        }
-        case babel17Parser.ASSIGN: {
-          PatternNode pattern = toPattern(tree.getChild(0));
-          Node rightSide = toNode(tree.getChild(1));
-          return new ValNode(true, pattern, rightSide).mergeLocation(loc).
-                  mergeLocation();
-        }
-        case babel17Parser.ATTRIBUTE: {
-          Node result = null;
-          switch (tree.getChild(0).getType()) {
-            case babel17Parser.L_private:
-              result = new AttributeNode(AttributeNode.PRIVATE);
-              break;
-            case babel17Parser.L_protected:
-              result = new AttributeNode(AttributeNode.PROTECTED);
-              break;
-            case babel17Parser.L_public:
-              result = new AttributeNode(AttributeNode.PUBLIC);
-              break;
-            default:
-              throw new RuntimeException("unknown attribute");
           }
-          return result.mergeLocation(loc);
         }
         case babel17Parser.Id: {
           String name = tree.getText();
@@ -205,28 +191,18 @@ public class Parser {
         }
         case babel17Parser.DEF: {
           Node n = toNode(tree.getChild(0));
-          IdentifierNode id;
-          AttributeNode a;
-          int index;
-          if (n instanceof AttributeNode) {
-            a = (AttributeNode) n;
-            id = (IdentifierNode) toNode(tree.getChild(1));
-            index = 2;
-          } else {
-            a = new AttributeNode(AttributeNode.DEFAULT);
-            id = (IdentifierNode) n;
-            index = 1;
-          }
+          IdentifierNode id = (IdentifierNode) n;
+          id = (IdentifierNode) n;
           PatternNode pattern;
           Node rightSide;
-          if (index == tree.getChildCount() - 1) {
+          if (2 == tree.getChildCount()) {
             pattern = null;
-            rightSide = toNode(tree.getChild(index));
+            rightSide = toNode(tree.getChild(1));
           } else {
-            pattern = toPattern(tree.getChild(index));
-            rightSide = toNode(tree.getChild(index + 1));
+            pattern = toPattern(tree.getChild(1));
+            rightSide = toNode(tree.getChild(2));
           }
-          return new DefNode(id, a, pattern, rightSide).mergeLocation(loc).
+          return new DefNode(id, pattern, rightSide).mergeLocation(loc).
                   mergeLocation();
         }
         case babel17Parser.COMPARE: {
@@ -339,6 +315,8 @@ public class Parser {
             return new StringNode("").mergeLocation(loc);
           }
         }
+        case babel17Parser.L_nil:
+          return toNullaryNode(OperatorNode.NIL).mergeLocation(loc);
         case babel17Parser.L_true:
           return toNullaryNode(OperatorNode.TRUE).
                   mergeLocation(loc);
@@ -347,15 +325,6 @@ public class Parser {
                   mergeLocation(loc);
         case babel17Parser.L_this:
           return toNullaryNode(OperatorNode.THIS).
-                  mergeLocation(loc);
-        case babel17Parser.L_root:
-          return toNullaryNode(OperatorNode.ROOT).
-                  mergeLocation(loc);
-        case babel17Parser.MODULE_KEY:
-          return toNullaryNode(OperatorNode.MODULE_KEY).
-                  mergeLocation(loc);
-        case babel17Parser.L_here:
-          return toNullaryNode(OperatorNode.HERE).
                   mergeLocation(loc);
         case babel17Parser.L_random:
           return toUnaryNode(tree, OperatorNode.RANDOM);
@@ -439,8 +408,20 @@ public class Parser {
         }
         case babel17Parser.BEGIN:
           return new BeginNode(toNode(tree.getChild(0)).toBlock()).mergeLocation(loc);
-        case babel17Parser.OBJ:
-          return new ObjectNode(toNode(tree.getChild(0)).toBlock()).mergeLocation(loc);
+        case babel17Parser.OBJ: {
+          BlockNode block = toNode(tree.getChild(0)).toBlock();
+          if (tree.getChildCount() > 1) {
+              int t = tree.getChild(1).getType();
+              int combine_method;
+              if (t == babel17Parser.PARENTS_PLUS)
+                  combine_method = ObjectNode.COMBINE_GLUE;
+              else
+                  combine_method = ObjectNode.COMBINE_MERGE;
+              Node parents = toNode(tree.getChild(1).getChild(0));
+              return new ObjectNode(block, combine_method, parents);
+          } else
+              return new ObjectNode(block).mergeLocation(loc);
+        }
         case babel17Parser.WHILE_DO:
           return new WhileNode(
                   toNode(tree.getChild(0)),
@@ -496,35 +477,6 @@ public class Parser {
           return new MemoizeNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();
         case babel17Parser.YIELD:
           return new YieldNode(toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
-        case babel17Parser.MODULE_PATH:
-          return new ModuleNode.Path(toNodeList(tree).suppressErrors()).
-                  mergeLocation(loc).mergeLocation();
-        case babel17Parser.MODULE_DECL: {
-          NodeList l = toNodeList(tree);
-          if (l.hasErrors()) return BeginNode.empty();
-          if (l.length() == 1) {
-            l = l.cons(new AttributeNode(AttributeNode.DEFAULT));
-          }
-          return new ModuleNode((AttributeNode) l.get(0),
-                  (ModuleNode.Path) l.get(1), null).mergeLocation(loc).mergeLocation();
-        }
-        case babel17Parser.MODULE_DEF: {
-          NodeList l = toNodeList(tree);
-          if (l.hasErrors()) return BeginNode.empty();
-          if (l.length() == 2) {
-            l = l.cons(new AttributeNode(AttributeNode.DEFAULT));
-          }
-          AttributeNode attr = (AttributeNode) l.get(0);
-          ModuleNode.Path p = (ModuleNode.Path) l.get(1);
-          return new ModuleNode(attr, p,
-                      (BlockNode) l.get(2)).mergeLocation(loc).mergeLocation();
-        }
-        case babel17Parser.PACKAGE: {
-          NodeList l = toNodeList(tree);
-          if (l.hasErrors()) return BeginNode.empty();
-          return new ModuleNode(null,
-                  (ModuleNode.Path) l.get(0), (BlockNode) l.get(1)).mergeLocation(loc).mergeLocation();
-        }
         default:
           return new ParseErrorNode().mergeLocation(loc);
       }

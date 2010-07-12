@@ -2,7 +2,6 @@ package com.babel17.interpreter.runtime;
 
 import com.babel17.interpreter.values.*;
 import com.babel17.interpreter.program.*;
-import java.util.*;
 
 public final class Evaluator {
 
@@ -21,7 +20,7 @@ public final class Evaluator {
       case Pattern.KIND_AS: {
         PatternAs as = (PatternAs) p;
         MatchResult m = match(env, as.pattern(), v);
-        if (m.status() == m.STATUS_SUCCESS)
+        if (m.status() == MatchResult.STATUS_SUCCESS)
           env.pushValue(v);
         return m;
       }
@@ -221,8 +220,6 @@ public final class Evaluator {
       }
       case Program.KIND_LETREC: {
         StLetRec letrec = (StLetRec) statement;
-        if (letrec.numModules() > 0)
-          throw new RuntimeException("cannot deal with modules yet");
         int num = letrec.numDefinitions();
         Environment env = state.environment();
         for (int i=0; i<num; i++) {

@@ -22,14 +22,9 @@ public final class SymbolTable {
     public static class DepId extends Id {
       int valindex = -1; // the highest index where a val is introduced that this def depends on
       java.util.TreeSet defdeps = null; // what other defs of this block does this def depend on?
-      java.util.TreeSet moddeps = null; // what modules of this sblock does this def depend on?
       void addDefDep(DefId defdep) {
         if (defdeps == null) defdeps = new java.util.TreeSet();
         defdeps.add(defdep);
-      }
-      void addModDep(ModuleId moddep) {
-        if (moddeps == null) moddeps = new java.util.TreeSet();
-        moddeps.add(moddep);
       }
       void mergeValIndex(int index) {
         if (index > valindex) valindex = index;
@@ -38,7 +33,6 @@ public final class SymbolTable {
     
     public static class DefId extends DepId {
       MemoizeNode.MemoId memo = null;
-      AttributeNode attribute = null;
       boolean uses_this = false; // does this definition depend on this ?
     }
 
@@ -52,9 +46,6 @@ public final class SymbolTable {
     }
 
     public final static class ValId extends Id {
-    }
-
-    public final static class ModuleId extends DepId {
     }
 
     private TreeMap<String, Id> table;
