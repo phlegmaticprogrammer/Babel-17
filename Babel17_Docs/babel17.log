@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  13 JUL 2010 07:54
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  13 JUL 2010 13:35
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -259,23 +259,23 @@ Package: listings 2007/02/22 1.4 (Carsten Heinz)
 (./babel17.aux)
 \openout1 = `babel17.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 55.
-LaTeX Font Info:    ... okay on input line 55.
-LaTeX Font Info:    Try loading font information for U+msa on input line 55.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Try loading font information for U+msa on input line 54.
  (/usr/local/texlive/2009/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 55.
+LaTeX Font Info:    Try loading font information for U+msb on input line 54.
 (/usr/local/texlive/2009/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
@@ -341,7 +341,10 @@ File: ucsencs.def 2003/11/29 Fixes to fontencodings LGR, T3
 \openout3 = `babel17.toc'.
 
  [1{/usr/local/texlive/2009/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-34.def
+Underfull \vbox (badness 2326) has occurred while \output is active []
+
+ [2]
+(/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-34.def
 File: uni-34.def 2004/10/17 UCS: Unicode data U+2200..U+22FF
 )
 (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-0.def
@@ -353,46 +356,46 @@ File: uni-33.def 2004/10/17 UCS: Unicode data U+2100..U+21FF
 (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-32.def
 File: uni-32.def 2004/10/17 UCS: Unicode data U+2000..U+20FF
 ) [3] [4]
-Overfull \hbox (19.28464pt too wide) in paragraph at lines 247--254
+Overfull \hbox (19.28464pt too wide) in paragraph at lines 246--253
  [] 
  []
 
 [5] [6]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 323.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 322.
 
  (/usr/local/texlive/2009/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 323.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 360.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 322.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 359.
 
 
 (/usr/local/texlive/2009/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 360.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 359.
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 362.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 361.
 
 
-LaTeX Warning: Float too large for page by 87.81572pt on input line 370.
+LaTeX Warning: Float too large for page by 87.81572pt on input line 369.
 
 [7] [8] [9] [10]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 517.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 516.
  [11] [12] [13] [14] [15]
-Overfull \hbox (1.35509pt too wide) in paragraph at lines 793--807
+Overfull \hbox (1.35509pt too wide) in paragraph at lines 792--806
  [][] 
  []
 
 [16] [17] [18] [19] [20] [21] [22] (./babel17.aux) ) 
 Here is how much of TeX's memory you used:
- 6443 strings out of 493848
- 82592 string characters out of 3149207
- 154046 words of memory out of 3000000
- 9469 multiletter control sequences out of 15000+200000
+ 6440 strings out of 493848
+ 82559 string characters out of 3149207
+ 154003 words of memory out of 3000000
+ 9466 multiletter control sequences out of 15000+200000
  15591 words of font info for 59 fonts, out of 3000000 for 9000
  875 hyphenation exceptions out of 8191
  41i,16n,40p,576b,1671s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -414,7 +417,7 @@ e1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1
 public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/pub
 lic/amsfonts/symbols/msam10.pfb>
-Output written on babel17.pdf (22 pages, 285300 bytes).
+Output written on babel17.pdf (22 pages, 284166 bytes).
 PDF statistics:
  141 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

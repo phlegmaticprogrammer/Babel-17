@@ -46,6 +46,7 @@ public class Parser {
     k.add("false");
     k.add("this");
     k.add("random");
+    k.add("nil");
     return k;
   }
 
@@ -335,7 +336,7 @@ public class Parser {
           return toUnaryNode(tree, OperatorNode.CONCURRENT);
         case babel17Parser.EMPTY_MAP:
           return new MapNode(new NodeList()).mergeLocation(loc);
-        case babel17Parser.EMPTY_OBJ:
+        case babel17Parser.L_nil:
           return new RecordNode(new NodeList()).mergeLocation(loc);
         case babel17Parser.SQUARE_LIST:
           return new ListNode(toNodeList(tree), false).mergeLocation(loc).mergeLocation();
@@ -554,6 +555,8 @@ public class Parser {
           return (PatternNode) new NullaryPattern(NullaryPattern.ELLIPSIS).mergeLocation(loc);
         case babel17Parser.L_true:
           return (PatternNode) new NullaryPattern(NullaryPattern.TRUE).mergeLocation(loc);
+        case babel17Parser.L_nil:
+          return (PatternNode) new RecordPattern(new NodeList()).mergeLocation(loc);
         case babel17Parser.L_false:
           return (PatternNode) new NullaryPattern(NullaryPattern.FALSE).mergeLocation(loc);
         case babel17Parser.A_infinity:

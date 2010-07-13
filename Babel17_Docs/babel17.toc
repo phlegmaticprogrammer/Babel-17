@@ -21,6 +21,3 @@
 \contentsline {section}{\tocsection {}{21}{Linear Scope}}{19}
 \contentsline {section}{\tocsection {}{22}{Yield}}{20}
 \contentsline {section}{\tocsection {}{23}{Loops}}{21}
-\contentsline {section}{\tocsection {}{24}{Notes}}{22}
-\contentsline {subsection}{\tocsubsection {}{24.1}{'apply' always takes a parameter}}{22}
-\contentsline {subsection}{\tocsubsection {}{24.2}{'representative' never takes a parameter}}{22}

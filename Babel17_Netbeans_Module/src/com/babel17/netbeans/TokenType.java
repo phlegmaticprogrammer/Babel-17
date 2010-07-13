@@ -34,6 +34,7 @@ public enum TokenType {
   MEMOIZE(babel17Lexer.L_memoize),
   THIS(babel17Lexer.L_this),
   RANDOM(babel17Lexer.L_random),
+  NIL(babel17Lexer.L_nil),
 
   A_EQUAL(babel17Lexer.A_EQUAL, "operator"),
   U_EQUAL(babel17Lexer.U_EQUAL, "symbol_equal"),

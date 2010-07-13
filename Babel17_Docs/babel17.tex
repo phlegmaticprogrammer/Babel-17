@@ -30,8 +30,7 @@
 \newenvironment{babelcode}[0]{\begin{center}\tt}{\end{center}}
 
 \lstdefinelanguage{babellanguage} 
-{morekeywords={lazy, concurrent, match, case, exception, begin, end, random, await, true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,
-while,do,repeat,until,with,package,nil},
+{morekeywords={lazy, concurrent, match, case, exception, begin, end, random, await, true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil},
 sensitive=true, 
 morecomment=[l]{//}, 
 morecomment=[s]{/*}{*/}, 
@@ -113,7 +112,7 @@ These are the keywords of Babel-17:
 begin & end & object & with & if & then & else & elseif \\
 while &  for & do & await & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
-to & downto & true & false & this & infinity &  & 
+to & downto & true & false & this & infinity & nil & 
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
@@ -364,7 +363,7 @@ So what does a pattern look like? Table~\ref{table:patterns} lists all ways of b
 \babelsrc{\{->\}} & \patterndescr{matches the empty map}\\\hline
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches an object that has exactly the messages $m_1$,.., $m_n$}\\\hline
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$, $\ \delta$\}} & \patterndescr{matches an object that has the messages $m_1$,.., $m_n$}\\\hline
-\babelsrc{\{=\}} & \patterndescr{matches the empty object}
+\babelsrc{nil} & \patterndescr{matches the empty object}
 \end{tabular}
 \label{table:patterns}
 \end{table}
@@ -604,13 +603,13 @@ begin
   end
 end
 \end{babellisting}
-The empty object can be written down as
+The empty object is denoted by
+\begin{babellisting}
+nil
+\end{babellisting}
+which is equivalent to
 \begin{babellisting}
 object end
-\end{babellisting}
-or equivalently as
-\begin{babellisting}
-{ = }
 \end{babellisting}
 
 
@@ -742,7 +741,7 @@ In the above, \babelsrc{t}, \babelsrc{u}, \babelsrc{v} and \babelsrc{w} are supp
 
 The partial order is defined by the following laws:
 \begin{itemize}
-\item  $\{=\} < -\infty <  z  < \infty < s <  l < v < cexpr < set < map <  f < b$ holds for all
+\item  \babelsrc{nil} $< -\infty <  z  < \infty < s <  l < v < cexpr < set < map <  f < b$ holds for all
  integers $z$, strings $s$,  lists $l$,  vectors $v$, constructed expressions $cexpr$, functions $f$, sets $set$, maps $map$ and booleans $b$
  \item booleans are totally ordered and \babelsrc{false} $<$ \babelsrc{true} holds
  \item integers are totally ordered in the obvious way
@@ -753,7 +752,7 @@ The partial order is defined by the following laws:
 \item $f <> g$ holds for all functions $f$ and $g$
 \item sets are partially ordered by representing them by sorted lists that consist of the elements of the set
 \item maps are partially ordered by representing them by sorted lists that consist of the (key, value) pairs of the map
-\item let $U$ consist of all user-defined objects  (i.e., defined via \babelsrc{object}) that cannot receive the message \texttt{representative}; then we have  $\{=\} <= u < -\infty$  for all $u \in U$; furthermore $U$ is partially ordered by considering its elements as sorted lists that consist of (message, value) pairs.
+\item let $U$ consist of all user-defined objects  (i.e., defined via \babelsrc{object}) that cannot receive the message \texttt{representative}; then we have  \babelsrc{nil} $<= u < -\infty$  for all $u \in U$; furthermore $U$ is partially ordered by considering its elements as sorted lists that consist of (message, value) pairs.
 \item let $a$ be a user-defined object  (i.e., defined via \babelsrc{object}) that has the message \texttt{representative}; let $ra$ be the result of sending  \texttt{representative} to $a$; then $a <= b$ is defined by $ra <= b$, and $b <= a$ is defined via $b <= ra$ for all $b$.
 \end{itemize}
 
@@ -810,19 +809,17 @@ $M / f$ & \tabparbox{map created by applying the function $f$ to the values of $
 \emph{ToDo} 
 
 \section{API and Runtime Environment}
-Although we have already provided the specification of many operations for the built-in types of Babel-17, this document does not contain the complete API for all types yet. This API will be provided together with a reference implementation for Babel-17 v0.2, which is currently scheduled for the summer of 2010. Until then, let me just make a few comments about it:
+Although we have already provided the specification of many operations for the built-in types of Babel-17, this document does not contain the complete API for all types yet. This API will be provided together with a reference implementation for Babel-17 v0.21, which is currently scheduled for the summer of 2010. Until then, let me just make a few comments about it:
 \begin{itemize}
 \item Integers are arbitrary precision and support the usual operations, throwing exceptions in cases which are not well-defined. 
 \item Division and modulo of integers are euclidean. 
-\item Strings support the usual operations like concatenation; the basic unit is a code point, not a character. Advanced operations like the Unicode collation algorithm are not part of Babel-17 v0.2, but will maybe introduced in later versions of Babel-17.
+\item Strings support the usual operations like concatenation; the basic unit is a code point, not a character. Advanced operations like the Unicode collation algorithm are not part of Babel-17 v0.21, but will maybe introduced in later versions of Babel-17.
 \end{itemize}
 This specification also does not contain anything about the runtime environment in which Babel-17 is supposed to run. Depending on the runtime environment, there may be additional libraries available to the programmer. 
 The medium term goal is to have Babel-17 running on and interfacing with the following platforms:
 \begin{itemize}
-\item Java
-\item Android
-\item iPhone / iPad SDK
-\item LLVM
+\item Java and Android
+\item iPhone / iPad SDK / LLVM
 \item HTML5 / Javascript 
 \end{itemize}
 
@@ -1107,14 +1104,5 @@ end
 evaluates to \babelsrc{\{8 -> 5, 5 -> 3\}}.
 
 Using \babelsrc{for}-loops it is possible to formulate all of those \emph{fold}-related functionals known from functional programming in a way which is easier to parse for most people. 
-
-\section{Notes}
-This section mentions things that have not been explained (well) before and that must be integrated into the main text later on. These things pop up during implementation work and looking closer at the spec.
-
-\subsection{'apply' always takes a parameter}
-This is a restriction that should hurt nobody. It ensures that an implementation does not need to look recursively for an 'apply' message.
-
-\subsection{'representative' never takes a parameter}
-This makes sense because functions cannot be compared to anything. Of course, if you really want to, you can still return a function.
 
 \end{document}  
