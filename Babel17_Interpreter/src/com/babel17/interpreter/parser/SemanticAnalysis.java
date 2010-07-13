@@ -2,7 +2,6 @@ package com.babel17.interpreter.parser;
 
 import com.babel17.syntaxtree.*;
 import com.babel17.syntaxtree.patterns.*;
-import com.babel17.interpreter.values.Value;
 import java.util.*;
 import org.antlr.runtime.*;
 
@@ -317,13 +316,18 @@ public final class SemanticAnalysis {
       return analyzePatternList(env, p.elements(), true);
     } else if (pattern instanceof SetPattern) {
       SetPattern p = (SetPattern) pattern;
+      error (pattern.location(), "set patterns are not supported yet");
       return analyzePatternList(env, p.elements(), true);
     } else if (pattern instanceof MapPattern) {
       MapPattern p = (MapPattern) pattern;
+      error (pattern.location(), "map patterns are not supported yet");
       return analyzePatternList(env, p.elements(), true);
     } else if (pattern instanceof MapPattern.KeyValue) {
       MapPattern.KeyValue p = (MapPattern.KeyValue) pattern;
       return analyzePatternList(env, p.children(), false);
+    } else if (pattern instanceof RecordPattern) {
+      error (pattern.location(), "record patterns are not supported yet");
+      return new PatternAnalysisResult();
     } else if (pattern instanceof ValPattern) {
       ValPattern p = (ValPattern) pattern;
       return new PatternAnalysisResult(
@@ -773,8 +777,7 @@ public final class SemanticAnalysis {
         case OperatorNode.TRUE:
         case OperatorNode.FALSE:
         case OperatorNode.INFINITY:
-        case OperatorNode.NIL:
-            break;
+          break;
         case OperatorNode.THIS:
           if (!env.thisIsAllowed()) {
             error(n.location(), "'this' is only allowed within the 'def'-statements of an object definition");
@@ -785,6 +788,12 @@ public final class SemanticAnalysis {
         default:
           throw new RuntimeException("cannot analyze nullary operator '" + n.operator().operator() + "'");
       }
+      return new AnalysisResult();
+    } else if (node instanceof RecordNode) {
+      if (env.statement())
+        errorexpr(node);
+      RecordNode n = (RecordNode) node;
+      error(n.location(), "record notation for objects not supported yet");
       return new AnalysisResult();
     } else if (node instanceof ObjectNode) {
       if (env.statement()) {

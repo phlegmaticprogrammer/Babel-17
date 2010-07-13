@@ -1,6 +1,6 @@
 package com.babel17.syntaxtree;
 
-public final class WithNode extends ControlNode {
+public final class WithNode extends Node {
 
   public WithNode(Node condition, ControlNode control) {
     this.collector = condition;

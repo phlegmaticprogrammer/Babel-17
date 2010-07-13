@@ -1,6 +1,6 @@
 package com.babel17.syntaxtree;
 
-public final class ObjectNode extends ControlNode {
+public final class ObjectNode extends Node {
 
   public final static int COMBINE_GLUE = 1;
   public final static int COMBINE_MERGE = 2;

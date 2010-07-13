@@ -37,7 +37,7 @@ public class Babel17Parser extends Parser {
     this.snapshot = snapshot;
     Reader reader = new StringReader(snapshot.getText().toString());
     try {
-      errors = SemanticAnalysis.parseAndAnalyze(reader);
+      errors = SemanticAnalysis.parseAndAnalyze(reader, false);
     } catch (IOException ex) {
       Logger.getLogger(Babel17Parser.class.getName()).log(Level.WARNING, null, ex);
     }

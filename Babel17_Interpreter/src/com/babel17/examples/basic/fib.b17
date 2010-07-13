@@ -11,11 +11,13 @@ not the point*/
 // This program should compile, but does not:
 
 
-val _ = object() end
+val _ = object+() end
+
+val {a,b} = 10
 
 val _ = 8
 val x.oops = 0
-val x = nil
+val x = {a=10, b=12, n=9}
 
 begin
   val a = 2

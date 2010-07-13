@@ -12,8 +12,7 @@
 
 \title{Syntax and Semantics of Babel-17}
 \author{Steven Obua}
-\date{\today}                                           % Activate to display a given date or no date
-
+\date{\today}                                          
 \newcommand{\metababel}[1] {\textsl{#1}}
 \newcommand{\tabparbox}[1] {\parbox{12cm}{
 
@@ -31,8 +30,8 @@
 \newenvironment{babelcode}[0]{\begin{center}\tt}{\end{center}}
 
 \lstdefinelanguage{babellanguage} 
-{morekeywords={lazy, concurrent, match, case, exception, begin, end, random, await, true, false, infinity, val, def,module,private,public,protected,here,this,root, object,external,if,then,else,elseif,memoize,for,in,yield,
-while,do,repeat,until,with,package},
+{morekeywords={lazy, concurrent, match, case, exception, begin, end, random, await, true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,
+while,do,repeat,until,with,package,nil},
 sensitive=true, 
 morecomment=[l]{//}, 
 morecomment=[s]{/*}{*/}, 
@@ -55,8 +54,6 @@ morestring=[b]",
  
 \begin{document}
 
-
-
 %\begin{abstract}
 %Babel-17 is an evolving new programming language. In this paper I present Babel-17 v0.2. 
 %\end{abstract}
@@ -70,11 +67,25 @@ morestring=[b]",
 \section{Introduction}
 The first question that someone who creates a new programming language will  hear from others inevitably is: Why another programming language? Are there not already enough programming languages out there that you can pick from?
 
-My answer to this question is: Because I always wanted to create a programming language in which I can express myself compactly and without jumping through too many hoopes, that is easy to understand and to learn, which allows me to apply software engineering principles like encapsulation, and which yields efficient enough programs. And now I feel that I have gathered enough knowledge and experience to start walking towards this goal. 
+I always wanted a programming language 
+\begin{itemize}
+\item in which I can express myself compactly and without jumping through too many hoops, 
+\item that is easy to understand and to learn,
+\item in which purely functional programming is the default and not the exception,
+\item that supports exceptions,
+\item that has pattern matching,
+\item that has built-in support for laziness and concurrency,
+\item that has lists, vectors, sets and maps,
+\item that seamlessly marries structured programming constructs like loops with purely functional programming,
+\item that supports objects, modules and data encapsulation,
+\item that has mature implementations for all major modern computing platforms,
+\item that is beautiful.
+\end{itemize}
+There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will have been achieved. The version described in this document is Babel-17 v0.21, so there is still some distance to go. 
 
-Babel-17 is not a radically new or revolutionary programming language. It picks those raisins I like out of languages like Standard ML, Alice ML, Java, Scala, Erlang, Haskell, Lisp, Clojure and Mathematica, and tries to evolve them into a beautiful new design. Of course, what some regard as beautiful, others might find unremarkable, or even ugly.
+Babel-17 is not a radically new or revolutionary programming language. It picks those raisins I like out of languages like Standard ML, Alice ML, Java, Javascript, Scala, Erlang, Haskell, Lisp, Clojure and Mathematica, and tries to evolve them into a beautiful new design. Of course, what some regard as beautiful, others might find unremarkable, or even ugly.
 
-Babel-17 is a functional language. It is not a pure functional language because it contains sources of non-determinism like the ability to pick one of two values randomly. If you take these sources of non-determinism out of the language, it becomes pure. Therefore I call Babel-17 a \emph{clean} functional language.
+Babel-17 is a functional language. It is not a pure functional language because it contains sources of non-determinism like the ability to pick one of two values randomly. If you take these sources of non-determinism out of the language, it becomes pure. 
 
 In Babel-17, every value has a type. These types are not checked statically, but only dynamically. 
 
@@ -84,9 +95,9 @@ The default evaluation order of Babel-17 is strict. But optional laziness is bui
 
 Babel-17 has pattern matching and exception handling. Both are carefully integrated with each other and with the laziness and concurrency capabilities of Babel-17.
 
-Furthermore, Babel-17 establishes the paradigm of \emph{functional structured programming}  via the notion of linear scope.
+Furthermore, Babel-17 establishes the paradigm of \emph{purely functional structured programming}  via the notion of linear scope.
 
-In this paper  I specify Babel-17 v0.2 in a mostly informal style: formal notation is sometimes used when it supports clarity.
+In this document  I specify Babel-17 in a mostly informal style: formal notation is sometimes used when it supports clarity.
 
 \section{Lexical Matters}
 Babel-17 source code is always written UTF-8 encoded. If it ain't UTF-8, it ain't Babel-17. 
@@ -100,10 +111,9 @@ These are the keywords of Babel-17:
 \tt
 \begin{tabular}{cccccccc}
 begin & end & object & with & if & then & else & elseif \\
-while &  for & do & module & package & yield & match & case \\
+while &  for & do & await & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
-to & downto & true & false & this & random & infinity & await \\
-private & public & protected & here & root & external &  &
+to & downto & true & false & this & infinity &  & 
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
@@ -147,7 +157,7 @@ Finally, here are all ASCII special symbols that can occur in a Babel-17 program
 \verb-|- & \verb+&+ & \verb+!+ & \verb-++- & \verb+--+& \verb+**+  &
 \verb-;- & \verb+,+ & \verb+::+ & \verb+->+ & \verb+=>+& \verb+?+  & \verb+...+  \\
 \verb-(- & \verb+)+ & \verb+[+ & \verb+]+ & \verb+{+& \verb+}+  & \verb+.+ &  \verb+=+  &
-\verb+@+ & & & 
+& & & 
 \end{tabular}
 \end{center}
 Table~\ref{table:furthersymbols} lists all other Unicode symbols that have a meaning in Babel-17.
@@ -184,7 +194,8 @@ Each value in Babel-17 has a unique type. All built-in types are depicted in Tab
 \metababel{Infinity} & the type consisting of the values \babelsrc{infinity} and \babelsrc{-infinity}\\
 \metababel{Boolean} & the type consisting of the values \babelsrc{true} and \babelsrc{false}\\
 \metababel{String} & the type of valid Unicode strings\\
-\metababel{List} & the type of lists / tuples\\
+\metababel{List} & the type of lists\\
+\metababel{Vector} & the type of vectors / tuples\\
 \metababel{Set} & the type of sets \\
 \metababel{Map}& the type of maps \\
 \metababel{CExpr} & the type of constructed expressions\\
@@ -192,8 +203,6 @@ Each value in Babel-17 has a unique type. All built-in types are depicted in Tab
 \metababel{Function} & the type of  functions\\
 \metababel{PersistentException} & the type of persistent exceptions\\
 \metababel{DynamicException} & the type of dynamic exceptions\\
-\metababel{Module} & the type of modules\\
-\metababel{ModuleKey} & the type of module keys\\
 \end{tabular}
 \label{table:builtintypes}
 \end{table}
@@ -336,8 +345,8 @@ So what does a pattern look like? Table~\ref{table:patterns} lists all ways of b
 \babelsrc{infinity} or \babelsrc{-infinity} , matches just that number $z$}\\\hline
 \babelsrc{$c\ $ $p$} & \patterndescr{matches a \metababel{CExpr} with constructor $c$ if the parameter of the \metababel{CExpr} matches $p$}\\\hline
 \babelsrc{$s$} & \patterndescr{a string $s$, like \babelsrc{"hello"}, matches just that string $s$}\\\hline
-\babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$]} &  \patterndescr{matches a list consisting of $n \ge 0$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
-\babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$)} &  \patterndescr{matches a list consisting of $n=0$ or $n \ge 2$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
+\babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$]} &  \patterndescr{matches a list/vector consisting of $n \ge 0$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
+\babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$)} &  \patterndescr{matches a vector/list consisting of $n=0$ or $n \ge 2$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
 \babelsrc{($p$)} & \patterndescr{same as $p$} \\\hline
 \babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$]} &  \patterndescr{matches a list/vector consisting of at least $n \ge 0$ elements, such that the first $n$ elements $e_i$ of the list/vector are matched by the patterns $p_i$}\\\hline
 \babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$)} &  \patterndescr{matches a vector/list consisting of at least $n \ge 0$ elements, such that the first $n$ elements $e_i$ of the vector/list are matched by the patterns $p_i$}\\\hline
@@ -345,19 +354,20 @@ So what does a pattern look like? Table~\ref{table:patterns} lists all ways of b
 \babelsrc{($h$::$t$)} & \patterndescr{matches a non-empty list/vector such that $h$ matches the head of the list/vector and $t$ its tail}\\\hline
 \babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
 \babelsrc{(val $\ e$)} & \patterndescr{matches any value which is equivalent to $e$}\\\hline
-\babelsrc{($f\ $ ? $\ p$)} & \patterndescr{here $f$ is a function; $f$ is applied to the value to be matched; the match succeeds if the result of the application is \babelsrc{(Some $\ r$)} and $p$ matches $r$, or if the result is \babelsrc{true} and $p$ matches $()$.}\\\hline
-\babelsrc{($d\ $ ? $\ p$)} & \patterndescr{here $d$ is a not a function and non-exceptional;   calculate the result of \babelsrc{($v$.deconstruct $\ d$)} where $v$ denotes the value to be matched; the match succeeds if the result  is \babelsrc{(Some $\ r$)} and $p$ matches $r$, or if the result is \babelsrc{true} and $p$ matches $()$ }\\\hline
-\babelsrc{($e\ $ ?)} & \patterndescr{same as \babelsrc{($e\ $ ? _)}}\\\hline
-\babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n$\}} & \patterndescr{matches any set such that every element of the set matches some $p_i$, and such that every $p_i$ is matched by some element of the set}\\\hline
-\babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n\ $, $\ \delta$\}} & \patterndescr{matches any set such that every $p_i$ is matched by some element of the set}\\\hline
-\babelsrc{\{$k_1\ $ -> $\ v_1$,$\ \ldots\ $,$\ k_n\ $ -> $\ v_n$\}} & \patterndescr{matches any map that can be constructed from the $n$ key-value patterns}\\\hline
-\babelsrc{\{$k_1\ $ -> $\ v_1$,$\ \ldots\ $,$\ k_n\ $ -> $\ v_n$, $\ \delta$\}} & \patterndescr{matches any map that contains the $n$ key-value patterns}\\\hline
-\babelsrc{\{->\}} & \patterndescr{matches the empty map }
-
+\babelsrc{($f\ $ ? $\ p$)} & \patterndescr{here $f$ is a function; $f$ is applied to the value to be matched; the match succeeds if the result of the application is \babelsrc{(Some $\ r$)} and $p$ matches $r$, and fails if the result is  \babelsrc{None}; otherwise the dynamic exception \babelsrc{NoMatch} is thrown} \\\hline
+\babelsrc{($d\ $ ? $\ p$)} & \patterndescr{here $d$ is a not a function and non-exceptional;   short for \babelsrc{((v => v.deconstruct $\ d$) ? $\ p$)}}\\\hline
+\babelsrc{($e\ $ ?)} & \patterndescr{similar as the two patterns above but tests for \babelsrc{true / false} instead}\\\hline
+\babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n$\}} & \patterndescr{see section~\ref{sec-setmap-patterns}} \\\hline
+\babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n\ $, $\ \delta$\}} & \patterndescr{see section~\ref{sec-setmap-patterns}} \\\hline
+\babelsrc{\{$q_1\ $ -> $\ p_1$,$\ \ldots\ $,$\ q_n\ $ -> $\ p_n$\}} & \patterndescr{see section~\ref{sec-setmap-patterns}}\\\hline
+\babelsrc{\{$q_1\ $ -> $\ p_1$,$\ \ldots\ $,$\ q_n\ $ -> $\ p_n$, $\ \delta$\}} & \patterndescr{see section~\ref{sec-setmap-patterns}}\\\hline
+\babelsrc{\{->\}} & \patterndescr{matches the empty map}\\\hline
+\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches an object that has exactly the messages $m_1$,.., $m_n$}\\\hline
+\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$, $\ \delta$\}} & \patterndescr{matches an object that has the messages $m_1$,.., $m_n$}\\\hline
+\babelsrc{\{=\}} & \patterndescr{matches the empty object}
 \end{tabular}
 \label{table:patterns}
 \end{table}
-
 
 In this table of pattern constructions we use the $\delta$-pattern $\delta$. This pattern stands for "the rest of the collection under consideration" and can be constructed by the following rules:
 \begin{enumerate}
@@ -370,26 +380,18 @@ Note that pattern matching does not distinguish between vectors and lists. A pat
 
 \section{Non-Determinism in Babel-17}
 
-The possibility of matching sets and maps introduces non-determinism into Babel-17. For example, the expression
-\begin{babellisting}
-match {1, 2}
-  case {x, ...} => x
-end
-\end{babellisting}
-can return both 1 and 2. 
-
-Another source of non-determinism is \emph{probabilistic} non-determism. The expression
+One source of non-determinism in Babel-17 is \emph{probabilistic} non-determism. The expression
 \begin{babellisting}
 random $n$
 \end{babellisting}
 returns for an integer $n > 0$ a number between $0$ and $n-1$ such that each number between $0$ and $n-1$ has equal chance of being returned. If $n$ is a dynamic exception, then this exception is propagated, if $n$ is a non-exceptional value that is not an integer $> 0$ then the result is an exception with parameter \babelsrc{InvalidArgument $\ n$}.
 
-The third source of non-determinism is \emph{concurrent} non-determism. The expression
+The other source of non-determinism is \emph{concurrent} non-determism. The expression
 \begin{babellisting}
 await $l$
 \end{babellisting}
 takes a finite list $l$ of possibly concurrently evaluated expressions and waits until  at least one of the element expressions has finished computing. It returns a list of the element expressions that have been computed so far.
-Again, in case $l$ is non-exceptional and not a finite  list, the result is an exception with parameter
+Again, in case $l$ is non-exceptional and not a finite  list or vector, the result is an exception with parameter
 \babelsrc{InvalidArgument $\ l$}. If $l$ is a dynamic exception, then it is propagated such that the result is $l$. 
 
 \section{Block Expressions}
@@ -551,141 +553,66 @@ end
 \end{babellisting}
 where $\babelsrc{f}$ is fresh for the $p_i$ and $b_i$.
 
-\section{Modules}
-Modules are Babel-17's way to structure programs and to define access boundaries. A module has the following syntax:
-\begin{babellisting}
-module $m$ 
-  $s_1$
-  $\vdots$
-  $s_n$
-end
-\end{babellisting}
-The $s_i$ are  \babelsrc{val} or \babelsrc{def} statements, or they are themselves again \emph{nested} module definitions / declarations. 
-Nested module definitions have the following syntax:
-\begin{babellisting}
-$\metababel{attr}$ module $m$ 
-  $s_1$
-  $\vdots$
-  $s_n$
-end
-\end{babellisting}
-Nested module declarations look as follows:
-\begin{babellisting}
-$\metababel{attr}$ external module $m$
-\end{babellisting}
-The $m$ always is a \emph{module path}. A module path consists of a non-empty sequence of identifiers which are separated by periods. For example, \texttt{lang} is a module path, and so is  \texttt{lang.math.taylor}.  For nested module definitions/declarations, $m$ cannot contain any periods.
-Nested modules have an attribute \metababel{attr} which can be either \babelsrc{public} or \babelsrc{protected} or \babelsrc{private}. If there is no explicit attribute given, then the default attribute is \babelsrc{private}. These attributes are also used for those statements $s_i$ which are \babelsrc{def} statements, again with the default being \babelsrc{private} .
-
-Before explaining what these attributes mean, let us first look at \emph{inner} and \emph{outer submodules}. Examples of both are given in Figure~\ref{fig:innermodule}.
-In both example cases, the absolute module path of the submodule is \texttt{root.main.sub}. The absolute module path of the main module is \texttt{root.main}. 
-\begin{figure}
-\caption{Inner Submodule vs. Outer Submodule}
-\begin{center}
-
-\vspace{0.2cm}
-\begin{tabular}{c|c}
-\emph{Inner Submodule} & \emph{Outer Submodule} \\\hline
-\begin{babellisting}
-module main
-  $s_1$
-  $\vdots$
-  $s_{i-1}$
-  $\metababel{attr}$ module sub 
-    $\vdots$ 
-  end
-  $s_{i+1}$
-  $\vdots$
-  $s_n$
-end
-\end{babellisting} &
-\begin{babellisting}
-module main
-  $s_1$
-  $\vdots$
-  $s_{i-1}$
-  $\metababel{attr}$ external module sub   
-  $s_{i+1}$
-  $\vdots$
-  $s_n$
-end
-module main.sub
-  $\vdots$ 
-end
-\end{babellisting} 
-\end{tabular}
-\end{center}
-\label{fig:innermodule}
-\end{figure}
-This means that there is a \emph{root module} which is the only module that has no \emph{supermodule}. For every other module, the supermodule must exist. In other words, we can view the set of modules as a tree, such that the child of a node is a submodule of the module represented by this node, and such that for each node there is a unique module definition. If a node is an inner submodule, then all its children must be inner submodules, too.
-
-The semantic difference between an inner and an outer submodule is that the inner submodule imports the namespace of its parent; more specifically, the inner submodule imports from the parent module all \babelsrc{def} and \babelsrc{module} definitions, but only those \babelsrc{val} definitions that come before the inner submodule definition. 
-
-The reserved keyword \babelsrc{here} denotes the current module.
-The reserved keyword \babelsrc{root} denotes the root module.
-
-A module is an object, just like all other values in Babel-17. The messages it can successfully receive depend on its \babelsrc{def} and \babelsrc{module} statements, their attributes, and the module of the sender.
-For two modules $P$ and $Q$ we write $P = Q$ iff $P$ and $Q$ denote the same module (i.e. they have the same absolute module path), and $P \lhd Q$ iff not $P = Q$ and $Q$ is a direct or indirect submodule of the module $P$.
-We write $P  \lhd_i Q$ iff $P \lhd Q$ and the child of $P$ on the path to $Q$ is an inner submodule. We write
- $P  \lhd_o Q$ iff $P \lhd Q$ and not $P \lhd_i Q$.
-In Table~\ref{table:moduleaccess} \babelsrc{here} denotes the module to which the message is sent, and \emph{sender} denotes the module from where the message is sent. The table shows if a message send is successful ($+$ means yes, $-$ means no), depending on the relation between \babelsrc{here} and \emph{sender}, and depending on the attribute of the defining statement.
-\begin{table}
-\caption{Rules of Module Access}
-\begin{tabular}{c||c|c|c|c}
-  &  \babelsrc{here} $=$ \emph{sender} & \babelsrc{here} $\lhd_i$ \emph{sender} & \babelsrc{here} $\lhd_o$ \emph{sender} & otherwise \\\hline\hline
- \babelsrc{private} & + & + & - & - \\\hline
- \babelsrc{protected} & + & + & + & - \\\hline
- \babelsrc{public} & + & + & + & + 
-\end{tabular}
-\label{table:moduleaccess}
-\end{table}
-
-Before a module can be used as an object, it must be initialized. The result of a complete initialization is that all \babelsrc{val} statements of the module have been executed, and that all inner submodules of the module have been initialized, too, all in the order of their appearance in the module. It must be possible to use a module as an object before it has been completely initialized, though, as the module shown in Figure~\ref{fig:moduleinit} shows.
-\begin{figure}
-\caption{Module Initialization Example}
-
-\vspace{0.2cm}
-\begin{tabular}{c}
-\begin{babellisting}
-module main
-  val y = here.sqr 9 
-  val z = y
-  def sqr x = x * x 
-end
-\end{babellisting}
-\end{tabular}
-\label{fig:moduleinit}
-\end{figure}
-To initialize module \textsl{main}, we need to evaluate first $y$ and then $z$. Evaluating $y$ involves sending 
-the message \textsl{sqr} to \textsl{main}. But at this point, \textsl{main} has not been completely initialized yet!
-
-We solve this problem by keeping track of the progress of the initialization of a module. The progress is measured by the \emph{initialization counter} of the module. When the initialization of the module starts, it is 0. Each time a \babelsrc{val} statement has been evaluated, this counter is increased by 1. For each message of the module we can determine \emph{statically} which initialization counter is required so that all values directly used by this message are available. If during the initialization of the module a message arrives at the module that has a higher initialization counter requirement than the current initialization counter can provide, a dynamic exception is the result. It is not possible to send a message to a module that has not at least started its initialization because:
-\begin{enumerate}
-\item if the module is \babelsrc{root}, then it always has been  completely initialized; 
-\item if the module is \babelsrc{here}, then it obviously has started initialization already;
-\item if the module is \babelsrc{m.id}, then the only other means apart from the above of obtaining a reference to it is by sending \babelsrc{id} to \babelsrc{m}; the result of this message send will be a completely initialized module if its initialization has not even started yet or has been completed already; otherwise the result will be a module currently initializing. 
-\end{enumerate}
-
-\section{Packages}
-\emph{ToDo: need to write this section}
-
 \section{Objects}
-Modules already give the developer the ability to define her own objects in Babel-17. This ability is strongly limited, though, because it is possible to determine statically how many module objects there are in a Babel-17 program. A more flexible way of creating objects is provided by the \babelsrc{object} expression which has the following syntax:
+\babelsrc{Object} expressions have the following syntax:
 \begin{babellisting}
-object
+object 
   $s_1$
   $\vdots$
   $s_n$
 end
 \end{babellisting}
-The statements $s_i$ are either \babelsrc{val} definitions or optionally attributed \babelsrc{def} statements; the default attribute is \babelsrc{private}. 
+The $s_i$ are arbitrary statements.  Those $s_i$ that are  \babelsrc{def} statements define the set of messages that the object responds to.
 
-A keyword that can be used in object \babelsrc{def} statements is \babelsrc{this}. It denotes the current object. Because the current object exists only after the object has been completely initialized, it must not be used in the \babelsrc{val} statements of the object; neither may it be used by those \babelsrc{def} statements that involve messages which are sent directly or indirectly from the \babelsrc{val} statements of the same object.
+A keyword that can be used in object \babelsrc{def} statements is \babelsrc{this}. It denotes the current object. Because the current object exists only after the object has been completely initialized, it must not be used in the \babelsrc{val} statements of the object; neither may it be used by those \babelsrc{def} statements that define messages which are sent directly or indirectly from the \babelsrc{val} statements of the same object.
 
-Object initialization works similarly to module initialization. But unlike in the module case, no outside reference to the object currently being initialized exists. Because of above restrictions for \babelsrc{this}, we can furthermore determine \emph{statically} if all initialization counters fulfill their requirements. If one doesn't, then this leads to a compile-time error.
+Often you do not want to create objects from scratch but by modifying other already existing objects:
+\begin{babellisting}
+object + parents
+  $s_1$
+  $\vdots$
+  $s_n$
+end
+\end{babellisting}
+The expression \babelsrc{parents} must evaluate to either a list, a vector or a set. The members of  \babelsrc{parents}
+are considered to be the parents of the newly created object, in the order induced by the collection. The idea is that the created object not only understands the messages defined by the $s_i$, but also the messages of the parents. Messages defined via $s_i$ shadow messages of the parents. The messages of a later parent shadow the messages of an earlier one.
 
-The returned object responds to those messages which have corresponding \babelsrc{def} statements. The rules for object access are those for module access. Therefore objects that have been defined in the same module can access all of each others messages, even those which have been declared as \babelsrc{private}. 
+This way of combining objects is reminiscent of \emph{gluing together} objects. Another way of combining objects in Babel-17 is to \emph{merge} them:
+\begin{babellisting}
+object * parents
+  $s_1$
+  $\vdots$
+  $s_n$
+end
+\end{babellisting}
+The difference between glueing and merging is that the parents loose their identity during merging. This identity is represented by the \babelsrc{this} keyword.
 
-There is no inheritance in Babel-17. I think that inheritance is actually \emph{against} the practices of good software engineering, as it often is all about patching objects \emph{after} they have been designed. On the other hand, if objects are extended via inheritance according to a given design, then I think Babel-17 is flexible enough to represent this design without inheritance. 
+\emph{ToDo:} examples for the differences between merging and glueing.
+
+\noindent There is one more way to denote record-like objects:
+\begin{babellisting}
+{ $m_1$ = $v_1$, $\ldots$, $m_n$ = $v_n$ }
+\end{babellisting}
+This is equivalent to:
+\begin{babellisting}
+begin
+  val ($w_1$, $\ldots$, $w_n$) = ($v_1$, $\ldots$, $v_n$)
+  object
+    def $m_1$ = $w_1$
+    $\cdots$
+    def $m_n$ = $w_n$
+  end
+end
+\end{babellisting}
+The empty object can be written down as
+\begin{babellisting}
+object end
+\end{babellisting}
+or equivalently as
+\begin{babellisting}
+{ = }
+\end{babellisting}
+
 
 \section{Boolean Operators}
 
@@ -815,27 +742,20 @@ In the above, \babelsrc{t}, \babelsrc{u}, \babelsrc{v} and \babelsrc{w} are supp
 
 The partial order is defined by the following laws:
 \begin{itemize}
-\item $-\infty < b < z < s < mod < modkey < list < cexpr < f < set < map < \infty$ holds for all
- booleans $b$, integers $z$, strings $s$, module keys $modkey$, modules $mod$, lists $l$, constructed expressions $cexpr$, functions $f$, sets $set$, maps $map$ 
+\item  $\{=\} < -\infty <  z  < \infty < s <  l < v < cexpr < set < map <  f < b$ holds for all
+ integers $z$, strings $s$,  lists $l$,  vectors $v$, constructed expressions $cexpr$, functions $f$, sets $set$, maps $map$ and booleans $b$
  \item booleans are totally ordered and \babelsrc{false} $<$ \babelsrc{true} holds
  \item integers are totally ordered in the obvious way
  \item $-\infty == -\infty$ and $\infty == \infty$ both hold 
  \item strings are totally ordered via lexicographic ordering
- \item modules are totally ordered by representing them by the lists created from separating the absolute module path by periods
- \item module keys are totally ordered by the ordering on the modules they belong to
-\item lists are partially ordered by the lexicographic ordering 
+ item lists and vectors are partially ordered by the lexicographic ordering 
 \item constructed expressions are partially ordered by representing them by the pair consisting of constructor and parameter
 \item $f <> g$ holds for all functions $f$ and $g$
 \item sets are partially ordered by representing them by sorted lists that consist of the elements of the set
 \item maps are partially ordered by representing them by sorted lists that consist of the (key, value) pairs of the map
-\item let $a$ be a user-defined object (i.e., defined via \babelsrc{object}); if $a$ cannot receive the message \texttt{representative}, then $a <> b$ holds for all $b$; otherwise let $ra$ be the result of sending  \texttt{representative} to $a$ from within the module where $a$ was defined; then $a <= b$ is defined by $ra <= b$, and $b <= a$ is defined via $b <= ra$ for all $b$.
+\item let $U$ consist of all user-defined objects  (i.e., defined via \babelsrc{object}) that cannot receive the message \texttt{representative}; then we have  $\{=\} <= u < -\infty$  for all $u \in U$; furthermore $U$ is partially ordered by considering its elements as sorted lists that consist of (message, value) pairs.
+\item let $a$ be a user-defined object  (i.e., defined via \babelsrc{object}) that has the message \texttt{representative}; let $ra$ be the result of sending  \texttt{representative} to $a$; then $a <= b$ is defined by $ra <= b$, and $b <= a$ is defined via $b <= ra$ for all $b$.
 \end{itemize}
-
-The purpose of \emph{module keys} is to provide a secret that can only be obtained by code within the module. Inside a module, the module key can be obtained via
-\begin{babellisting}
-@
-\end{babellisting}
-The main application of module keys is to create abstract datatypes that cannot be confused with other types with respect to the built-in partial order of Babel-17. 
 
 \section{Sets and Maps}
 Sets and maps are built into Babel-17. For example, the set consisting of 3, 42 and $\infty$ can be written as
@@ -885,6 +805,9 @@ $M / f$ & \tabparbox{map created by applying the function $f$ to the values of $
 \end{tabular}
 \label{tab:mapops}
 \end{table}
+
+\section{Patterns for Sets and Maps}\label{sec-setmap-patterns}
+\emph{ToDo} 
 
 \section{API and Runtime Environment}
 Although we have already provided the specification of many operations for the built-in types of Babel-17, this document does not contain the complete API for all types yet. This API will be provided together with a reference implementation for Babel-17 v0.2, which is currently scheduled for the summer of 2010. Until then, let me just make a few comments about it:

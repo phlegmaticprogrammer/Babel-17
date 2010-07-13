@@ -39,8 +39,9 @@ LIST_CONS;
 COMPARE;
 APPLY;
 IF;
-MAP_OR_SET;
+MAP_OR_SET_OR_OBJ;
 EMPTY_MAP;
+EMPTY_OBJ;
 EXCEPTION;
 MATCH;
 CASES;
@@ -60,6 +61,7 @@ WITH;
 VAL;
 OBJELEM_ASSIGN;
 ASSIGN;
+ARROW;
 DEF;
 YIELD;
 
@@ -174,12 +176,6 @@ U_infinity
 token_infinity
 	:	A_infinity | U_infinity;
 	
-L_private
-	:	'private';
-L_protected
-	:	'protected';
-L_public:	'public';
-	
 L_concurrent
 	:	'concurrent';
 	
@@ -196,8 +192,6 @@ L_false	:	'false';
 L_this	:	'this';
 
 L_random:	'random';
-
-L_nil	:	'nil';
 
 /* Symbolic Tokens */
 
@@ -363,9 +357,13 @@ bracket_pattern
 	|	L_val NL? protected_expr -> ^(L_val protected_expr)
 	|	token_ELLIPSIS;
 	
+arrow_or_assign
+	:	token_ARROW -> ^(ARROW)
+	|	ASSIGN -> ^(ASSIGN);
+
 mselem_pattern
-	:	bracket_pattern (NL? token_ARROW NL? bracket_pattern)?
-		-> ^(NIL_TOKEN bracket_pattern*);
+	:	bracket_pattern (NL? arrow_or_assign NL? bracket_pattern)?
+		-> ^(NIL_TOKEN ^(NIL_TOKEN bracket_pattern*) arrow_or_assign*);
 
 primitive_pattern
 	:	Id
@@ -382,8 +380,10 @@ primitive_pattern
 	|	'('  NL? (bracket_pattern NL? ( COMMA  NL? bracket_pattern NL?)* (COMMA NL?)?)? ')' 
 		  -> ^(ROUND_LIST ^(NIL_TOKEN COMMA*) ^(NIL_TOKEN bracket_pattern*))		
 	|	'{'  NL? (mselem_pattern NL? ( COMMA  NL? mselem_pattern NL?)* )? '}'
-		  -> ^(MAP_OR_SET mselem_pattern*)
-	|	'{' NL? token_ARROW NL? '}' -> ^(EMPTY_MAP);
+		  -> ^(MAP_OR_SET_OR_OBJ mselem_pattern*)
+	|	'{' NL? token_ARROW NL? '}' -> ^(EMPTY_MAP)
+	|	'{' NL? ASSIGN NL? '}' -> ^(EMPTY_OBJ);
+	
 		  
 
 
@@ -636,11 +636,12 @@ list_expr
 	|	'(' NL? (protected_expr (NL? COMMA NL? protected_expr)* NL? (COMMA NL?)?)? ')' -> ^(ROUND_LIST ^(NIL_TOKEN COMMA*) ^(NIL_TOKEN protected_expr*));
 
 map_or_set_expr
-	:	'{' NL? (map_or_set_elem_expr NL? (COMMA NL? map_or_set_elem_expr NL?)*)? '}' -> ^(MAP_OR_SET map_or_set_elem_expr*)
-	|       '{' NL? token_ARROW NL? '}' -> ^(EMPTY_MAP);
+	:	'{' NL? (map_or_set_elem_expr NL? (COMMA NL? map_or_set_elem_expr NL?)*)? '}' -> ^(MAP_OR_SET_OR_OBJ map_or_set_elem_expr*)
+	|       '{' NL? token_ARROW NL? '}' -> ^(EMPTY_MAP)
+	|	'{' NL? ASSIGN NL? '}' -> ^(EMPTY_OBJ);
 		
 map_or_set_elem_expr
-	:	protected_expr  (NL? token_ARROW NL? protected_expr)? -> ^(NIL_TOKEN protected_expr*);
+	:	protected_expr (NL? arrow_or_assign NL? protected_expr)? -> ^(NIL_TOKEN ^(NIL_TOKEN protected_expr*) arrow_or_assign*);
 
 primitive_expr
 	:	Num
@@ -650,7 +651,6 @@ primitive_expr
 	|	L_true
 	|	L_false
 	|	L_this	
-	| 	L_nil
 	|	token_infinity
 	| 	list_expr
 	|	with_control_expr

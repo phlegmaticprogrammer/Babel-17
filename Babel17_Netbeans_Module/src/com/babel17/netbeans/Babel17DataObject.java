@@ -1,19 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.babel17.netbeans;
 
-/*
- *       <class-path-extension>
-        <runtime-relative-path>ext/babel17-antlr-parser-0.2.jar</runtime-relative-path>
-        <binary-origin>/Users/stevenobua/NetBeansProjects/Babel17 Antlr Parser/Babel17_Antlr_Parser.jar</binary-origin>
-      </class-path-extension>
-      <class-path-extension>
-        <runtime-relative-path>ext/functionaljava.jar</runtime-relative-path>
-        <binary-origin>/Users/stevenobua/NetBeansProjects/functionaljava/functionaljava.jar</binary-origin>
-      </class-path-extension>
-*/
 
 import java.io.IOException;
 import org.openide.filesystems.FileObject;
@@ -37,7 +23,7 @@ public class Babel17DataObject extends MultiDataObject {
 
   @Override
   protected Node createNodeDelegate() {
-    return new DataNode(this, Children.LEAF, getLookup());
+    return new DataNode(this, Children.LEAF,getLookup());
   }
 
   @Override

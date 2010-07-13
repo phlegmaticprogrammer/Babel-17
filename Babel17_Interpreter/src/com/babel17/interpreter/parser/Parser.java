@@ -38,9 +38,6 @@ public class Parser {
     k.add("to");
     k.add("downto");
     k.add("infinity");
-    k.add("private");
-    k.add("protected");
-    k.add("public");
     k.add("concurrent");
     k.add("await");
     k.add("lazy");
@@ -315,8 +312,6 @@ public class Parser {
             return new StringNode("").mergeLocation(loc);
           }
         }
-        case babel17Parser.L_nil:
-          return toNullaryNode(OperatorNode.NIL).mergeLocation(loc);
         case babel17Parser.L_true:
           return toNullaryNode(OperatorNode.TRUE).
                   mergeLocation(loc);
@@ -340,6 +335,8 @@ public class Parser {
           return toUnaryNode(tree, OperatorNode.CONCURRENT);
         case babel17Parser.EMPTY_MAP:
           return new MapNode(new NodeList()).mergeLocation(loc);
+        case babel17Parser.EMPTY_OBJ:
+          return new RecordNode(new NodeList()).mergeLocation(loc);
         case babel17Parser.SQUARE_LIST:
           return new ListNode(toNodeList(tree), false).mergeLocation(loc).mergeLocation();
         case babel17Parser.ROUND_LIST: {
@@ -355,39 +352,62 @@ public class Parser {
             return new ListNode(l, true).mergeLocation(loc).mergeLocation();
           }
         }
-        case babel17Parser.MAP_OR_SET: {
+        case babel17Parser.MAP_OR_SET_OR_OBJ: {
           NodeList l = new NodeList();
           int count = tree.getChildCount();
           boolean is_set = false;
           boolean is_map = false;
+          boolean is_obj = false;
           boolean error = false;
           for (int i = 0; i < count && !error; i++) {
             Tree t = tree.getChild(i);
-            NodeList c = toNodeList(t);
+            NodeList c = toNodeList(t.getChild(0));
             if (c.length() == 1) {
-              if (is_map) {
+              if (is_map || is_obj) {
                 pe.addMessage(getLocation(t),
-                        "mixing set and map elements is not allowed: set element expected");
+                        "set element in map or object");
                 error = true;
               } else {
                 is_set = true;
                 l = l.cons(c.head().mergeLocation(getLocation(t)));
               }
             } else {
-              if (is_set) {
-                pe.addMessage(getLocation(t),
-                        "mixing set and map elements is not allowed: map element expected");
-                error = true;
-              } else {
-                is_map = true;
-                l = l.cons(new MapNode.KeyValue(c.head(), c.tail().head()).mergeLocation(getLocation(t)));
-              }
+              int ty = t.getChild(1).getType();
+              if (ty == babel17Parser.ARROW) {
+                if (is_set || is_obj) {
+                  pe.addMessage(getLocation(t),
+                        "map element in set or object");
+                  error = true;
+                } else {
+                  is_map = true;
+                  l = l.cons(new MapNode.KeyValue(c.head(), c.tail().head()).mergeLocation(getLocation(t)));
+                }
+              } else if (ty == babel17Parser.ASSIGN) {
+                if (is_set || is_map) {
+                  pe.addMessage(getLocation(t),
+                        "object element in set or map");
+                  error = true;
+                } else {
+                  is_obj = true;
+                  Node m = c.head();
+                  Node v = c.tail().head();
+                  if (m instanceof IdentifierNode) {
+                    IdentifierNode message = (IdentifierNode)m;
+                    l = l.cons(new RecordNode.MessageValue(message, v).mergeLocation(getLocation(t)));
+                  } else {
+                    pe.addMessage(m.location(), "message identifier expected");
+                    error = true;
+                  }
+                }
+              } else throw new RuntimeException("ARROW or ASSIGN expected, ty="+ty+" found");
             }
           }
           if (is_map) {
             return new MapNode(l.reverse()).mergeLocation(loc).mergeLocation();
-          } else {
+          } else if (is_set) {
             return new SetNode(l.reverse()).mergeLocation(loc).mergeLocation();
+          } else if (is_obj) {
+            return new RecordNode(l.reverse()).mergeLocation(loc).mergeLocation();
           }
         }
         case babel17Parser.IF: {
@@ -583,40 +603,63 @@ public class Parser {
           NodeList l = toPatternList(tree);
           return (PatternNode) new ListPattern(l, false).mergeLocation(loc).mergeLocation();
         }
-        case babel17Parser.MAP_OR_SET: {
+        case babel17Parser.MAP_OR_SET_OR_OBJ: {
           NodeList l = new NodeList();
           int count = tree.getChildCount();
           boolean is_set = false;
           boolean is_map = false;
+          boolean is_obj = false;
           boolean error = false;
           for (int i = 0; i < count && !error; i++) {
             Tree t = tree.getChild(i);
-            NodeList c = toPatternList(t);
+            NodeList c = toPatternList(t.getChild(0));
             if (c.length() == 1) {
-              if (is_map) {
+              if (is_map || is_obj) {
                 pe.addMessage(getLocation(t),
-                        "mixing set and map elements is not allowed: set element expected");
+                        "set element in map or object");
                 error = true;
               } else {
                 is_set = true;
                 l = l.cons(c.head().mergeLocation(getLocation(t)));
               }
             } else {
-              if (is_set) {
-                pe.addMessage(getLocation(t),
-                        "mixing set and map elements is not allowed: map element expected");
-                error = true;
-              } else {
-                is_map = true;
-                l = l.cons(new MapPattern.KeyValue((PatternNode) c.head(),
-                        (PatternNode) c.tail().head()).mergeLocation(getLocation(t)));
-              }
+              int ty = t.getChild(1).getType();
+              if (ty == babel17Parser.ARROW) {
+                if (is_set || is_obj) {
+                  pe.addMessage(getLocation(t),
+                        "map element in set or object");
+                  error = true;
+                } else {
+                  is_map = true;
+                  l = l.cons(new MapPattern.KeyValue((PatternNode) c.head(),
+                          (PatternNode) c.tail().head()).mergeLocation(getLocation(t)));
+                }
+              } else if (ty == babel17Parser.ASSIGN) {
+                if (is_set || is_map) {
+                  pe.addMessage(getLocation(t),
+                        "object element in set or map");
+                  error = true;
+                } else {
+                  is_obj = true;
+                  Node m = c.head();
+                  PatternNode v = (PatternNode) c.tail().head();
+                  if (m instanceof IdentifierPattern) {
+                    IdentifierPattern message = (IdentifierPattern)m;
+                    l = l.cons(new RecordPattern.MessageValue(message, v).mergeLocation(getLocation(t)));
+                  } else {
+                    pe.addMessage(m.location(), "message identifier expected");
+                    error = true;
+                  }
+                }
+              } else throw new RuntimeException("ARROW or ASSIGN expected, ty="+ty+" found");
             }
           }
           if (is_map) {
             return (PatternNode) new MapPattern(l.reverse()).mergeLocation(loc).mergeLocation();
-          } else {
+          } else if (is_set) {
             return (PatternNode) new SetPattern(l.reverse()).mergeLocation(loc).mergeLocation();
+          } else if (is_obj) {
+            return (PatternNode) new RecordPattern(l.reverse()).mergeLocation(loc).mergeLocation();
           }
         }
         case babel17Parser.LIST_CONS:

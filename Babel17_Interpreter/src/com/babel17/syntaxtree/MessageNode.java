@@ -8,6 +8,10 @@ public final class MessageNode extends Node {
     this.name = name;
   }
 
+  public String description() {
+    return "message '"+name()+"'";
+  }
+
   public String name() { return name; }
   public NodeList children() { return null; }
 
