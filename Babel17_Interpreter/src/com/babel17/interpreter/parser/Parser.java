@@ -585,6 +585,8 @@ public class Parser {
           }
         case babel17Parser.L_val:
           return (PatternNode) new ValPattern(toNode(tree.getChild(0))).mergeLocation(loc);
+        case babel17Parser.L_exception:
+          return (PatternNode) new ExceptionPattern(toPattern(tree.getChild(0))).mergeLocation(loc);
         case babel17Parser.QUESTION_MARK:
           return (PatternNode) new PredicatePattern(toNode(tree.getChild(0)),
                   tree.getChildCount() == 2 ? toPattern(tree.getChild(1)) : null);

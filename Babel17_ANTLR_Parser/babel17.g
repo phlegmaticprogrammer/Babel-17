@@ -348,7 +348,8 @@ COLON	:	':';
 
 pattern :	Constr (NL? primitive_pattern)? -> ^(Constr primitive_pattern?)
 	|	primitive_pattern (NL? token_DOUBLE_COLON NL? primitive_pattern)* 
-		-> ^(LIST_CONS primitive_pattern*);
+		-> ^(LIST_CONS primitive_pattern*)
+	|	L_exception primitive_pattern -> ^(L_exception primitive_pattern);
 	
 bracket_pattern
 	:       (Id NL? L_as) => Id NL? L_as NL? pattern -> ^(L_as Id pattern)

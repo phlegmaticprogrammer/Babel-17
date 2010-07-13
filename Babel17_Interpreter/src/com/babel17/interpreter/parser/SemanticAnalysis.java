@@ -297,6 +297,15 @@ public final class SemanticAnalysis {
       }
       ids.clearDelta();
       return r;
+    } else if (pattern instanceof ExceptionPattern) {
+      ExceptionPattern p = (ExceptionPattern) pattern;
+      PatternAnalysisResult r = analyzePattern(env, p.param());
+      PatternIds ids = r.patternIds();
+      if (ids.delta()) {
+        errorDeltaPattern(p.param());
+      }
+      ids.clearDelta();
+      return r;
     } else if (pattern instanceof IfPattern) {
       IfPattern p = (IfPattern) pattern;
       PatternAnalysisResult r = analyzePattern(env, p.pattern());

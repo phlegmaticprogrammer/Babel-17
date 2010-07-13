@@ -353,7 +353,7 @@ So what does a pattern look like? Table~\ref{table:patterns} lists all ways of b
 \babelsrc{($h$::$t$)} & \patterndescr{matches a non-empty list/vector such that $h$ matches the head of the list/vector and $t$ its tail}\\\hline
 \babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
 \babelsrc{(val $\ e$)} & \patterndescr{matches any value which is equivalent to $e$}\\\hline
-\babelsrc{($f\ $ ? $\ p$)} & \patterndescr{here $f$ is a function; $f$ is applied to the value to be matched; the match succeeds if the result of the application is \babelsrc{(Some $\ r$)} and $p$ matches $r$, and fails if the result is  \babelsrc{None}; otherwise the dynamic exception \babelsrc{NoMatch} is thrown} \\\hline
+\babelsrc{($f\ $ ? $\ p$)} & \patterndescr{here $f$ is a function; $f$ is applied to the value to be matched; the match succeeds if the result of the application is \babelsrc{(Some $\ r$)} and $p$ matches $r$, and fails if the result is  \babelsrc{None}; otherwise the dynamic exception \babelsrc{TypeError} is thrown} \\\hline
 \babelsrc{($d\ $ ? $\ p$)} & \patterndescr{here $d$ is a not a function and non-exceptional;   short for \babelsrc{((v => v.deconstruct $\ d$) ? $\ p$)}}\\\hline
 \babelsrc{($e\ $ ?)} & \patterndescr{similar as the two patterns above but tests for \babelsrc{true / false} instead}\\\hline
 \babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n$\}} & \patterndescr{see section~\ref{sec-setmap-patterns}} \\\hline
@@ -363,7 +363,8 @@ So what does a pattern look like? Table~\ref{table:patterns} lists all ways of b
 \babelsrc{\{->\}} & \patterndescr{matches the empty map}\\\hline
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches an object that has exactly the messages $m_1$,.., $m_n$}\\\hline
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$, $\ \delta$\}} & \patterndescr{matches an object that has the messages $m_1$,.., $m_n$}\\\hline
-\babelsrc{nil} & \patterndescr{matches the empty object}
+\babelsrc{nil} & \patterndescr{matches the empty object}\\\hline
+\babelsrc{exception} $p$ & \patterndescr{matches any exception such that its parameter matches $p$}
 \end{tabular}
 \label{table:patterns}
 \end{table}

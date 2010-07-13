@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  13 JUL 2010 13:35
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  13 JUL 2010 14:05
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -380,13 +380,13 @@ LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 361.
 
 
-LaTeX Warning: Float too large for page by 87.81572pt on input line 369.
+LaTeX Warning: Float too large for page by 92.73993pt on input line 370.
 
 [7] [8] [9] [10]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 516.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 517.
  [11] [12] [13] [14] [15]
-Overfull \hbox (1.35509pt too wide) in paragraph at lines 792--806
+Overfull \hbox (1.35509pt too wide) in paragraph at lines 793--807
  [][] 
  []
 
@@ -394,7 +394,7 @@ Overfull \hbox (1.35509pt too wide) in paragraph at lines 792--806
 Here is how much of TeX's memory you used:
  6440 strings out of 493848
  82559 string characters out of 3149207
- 154003 words of memory out of 3000000
+ 155003 words of memory out of 3000000
  9466 multiletter control sequences out of 15000+200000
  15591 words of font info for 59 fonts, out of 3000000 for 9000
  875 hyphenation exceptions out of 8191
@@ -417,7 +417,7 @@ e1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1
 public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/pub
 lic/amsfonts/symbols/msam10.pfb>
-Output written on babel17.pdf (22 pages, 284166 bytes).
+Output written on babel17.pdf (22 pages, 284240 bytes).
 PDF statistics:
  141 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

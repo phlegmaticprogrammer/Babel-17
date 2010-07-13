@@ -11,6 +11,8 @@ not the point*/
 // This program should compile, but does not:
 
 
+val (2, exception _) = 0
+
 val _ = object+() end
 
 val {a,b} = 10
