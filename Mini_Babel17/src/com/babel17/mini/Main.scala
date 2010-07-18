@@ -172,6 +172,12 @@ object Main {
         case OperatorNode.TIMES => arithop((a:BigInt,b:BigInt) => a*b) _
         case OperatorNode.DIV => arithop((a:BigInt,b:BigInt) => a/b) _
         case OperatorNode.MOD => arithop((a:BigInt,b:BigInt) => a%b) _
+        case OperatorNode.EQUAL => arithtest((a:BigInt,b:BigInt) => a == b) _
+        case OperatorNode.UNEQUAL => arithtest((a:BigInt,b:BigInt) => a != b) _
+        case OperatorNode.GREATER => arithtest((a:BigInt,b:BigInt) => a > b) _
+        case OperatorNode.LESS => arithtest((a:BigInt,b:BigInt) => a < b) _
+        case OperatorNode.GREATER_EQ => arithtest((a:BigInt,b:BigInt) => a >= b) _
+        case OperatorNode.LESS_EQ => arithtest((a:BigInt,b:BigInt) => a <= b) _
         case OperatorNode.APPLY => app _
         case _ => throw nonmini(node, "unknown binary operator")
       }
