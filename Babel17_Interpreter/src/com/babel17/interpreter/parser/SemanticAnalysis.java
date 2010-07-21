@@ -10,6 +10,7 @@ public final class SemanticAnalysis {
   private ParseException ae;
 
   private void error(Location loc, String message) {
+    System.out.println("error: "+message);
     ae.addMessage(loc, message);
   }
 
@@ -30,6 +31,11 @@ public final class SemanticAnalysis {
     private boolean expr;
     private boolean statement;
     private SymbolTable symbols;
+
+    public void debug(String section) {
+      System.out.println(section);
+      symbols.debug("  ");
+    }
 
     public boolean expr() {
       return expr;
@@ -463,7 +469,6 @@ public final class SemanticAnalysis {
 
     boolean block_is_expr = env.expr();
     boolean block_is_statement = env.statement();
-
     int i = -1;
     for (Node statement : statements) {
       i++;
@@ -549,7 +554,7 @@ public final class SemanticAnalysis {
           used[i] = SymbolTable.EMPTY;
           introduced[i] = new PatternIds();
         } else {
-          AnalysisResult u = analyze(env.setExpr(), y.expr());
+          AnalysisResult u = analyze(env.setLinearExpr(), y.expr());
           used[i] = u.usedSymbols();
           introduced[i] = new PatternIds();
         }
@@ -868,7 +873,8 @@ public final class SemanticAnalysis {
   }
 
   public static Collection<ErrorMessage> parseAndAnalyze(java.io.Reader reader, boolean expr)
-          throws java.io.IOException {
+          throws java.io.IOException
+  {
     ArrayList<ErrorMessage> errors = new ArrayList<ErrorMessage>();
     CharStream charstream = new ANTLRReaderStream(reader);
     Parser.ParseResult r = Parser.parse(charstream);
@@ -887,4 +893,37 @@ public final class SemanticAnalysis {
     }
     return cleanErrorMessages(errors);
   }
+  
+  public final static class Result {
+    public Collection<ErrorMessage> errors;
+    public Node node;
+  }
+
+  public static Result doAnalysis(java.io.Reader reader, boolean expr)
+          throws java.io.IOException
+  {
+    ArrayList<ErrorMessage> errors = new ArrayList<ErrorMessage>();
+    CharStream charstream = new ANTLRReaderStream(reader);
+    Parser.ParseResult r = Parser.parse(charstream);
+    if (r.hasErrors()) {
+      ParseException e = r.exception();
+      for (int i = 0; i < e.countMessages(); i++) {
+        errors.add(e.getMessage(i));
+      }
+    }
+    try {
+      SemanticAnalysis.analyze(r.node(), expr);
+    } catch (ParseException e) {
+      for (int i = 0; i < e.countMessages(); i++) {
+        errors.add(e.getMessage(i));
+      }
+    }
+    Result result = new Result();
+    result.errors = cleanErrorMessages(errors);
+    result.node = r.node();
+    return result;
+  }
+
+
+
 }

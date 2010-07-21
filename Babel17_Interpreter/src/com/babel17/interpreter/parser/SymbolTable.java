@@ -51,6 +51,18 @@ public final class SymbolTable {
     private TreeMap<String, Id> table;
     private TreeMap<String, ValId> linearscope;
 
+    public void debug(String prefix) {
+      System.out.print(prefix+"nonlinear:");
+      for (String x : table.keys()) {
+        System.out.print(" "+x);
+      }
+      System.out.print(prefix+" linear:");
+      for (String x : linearscope.keys()) {
+        System.out.print(" "+x);
+      }
+      System.out.println("");
+    }
+
     public SymbolTable() {
       table = TreeMap.empty(Ord.stringOrd);
       linearscope = TreeMap.empty(Ord.stringOrd);

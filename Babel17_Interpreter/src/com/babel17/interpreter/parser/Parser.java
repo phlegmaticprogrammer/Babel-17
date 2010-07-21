@@ -135,8 +135,14 @@ public class Parser {
     } else if (ti2 < 0) {
       ti2 = ti1;
     }
-    Token t1 = tokens.get(ti1);
-    Token t2 = tokens.get(ti2);
+    Token t1;
+    Token t2;
+    try {
+      t1 = tokens.get(ti1);
+      t2 = tokens.get(ti2);
+    } catch (Exception e) {
+      return lastKnownLocations.peek();
+    }
     Location l1 = new Location(t1.getLine(), t1.getCharPositionInLine() + 1);
     Location l2 = new Location(t2.getLine(), t2.getCharPositionInLine() + 1 + t2.getText().length() - 1);
     Location l = l1.add(l2);
@@ -419,11 +425,12 @@ public class Parser {
           int len = children.length();
           int i = 0;
           for (Node n : children) {
-            if (i < (len + 1) / 2) {
+            if (i < len / 2) {
               conditions = conditions.cons(n);
             } else {
               blocks = blocks.cons(n);
             }
+            i++;
           }
           return new IfNode(conditions.reverse(), blocks.reverse()).mergeLocation(loc);
         }

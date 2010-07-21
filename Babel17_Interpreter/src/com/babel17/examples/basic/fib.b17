@@ -10,12 +10,24 @@ not the point*/
 
 // This program should compile, but does not:
 
+val f = a => b => begin
+                    b = 2
+                    a = 5
+                    a*b
+                  end
+val x = 0
+begin x=1; x end * begin x=x+2; x end
 
-val (2, exception _) = 0
+
+/*val (2, exception _) = 0
+val x = begin
+  yield 10
+  nil
+end
 
 val _ = object+() end
 
-val {a,b} = 10
+val (a,b) = 10
 
 val _ = 8
 val x.oops = 0
@@ -25,7 +37,7 @@ begin
   val a = 2
   val b = 3
   //10
-end
+end*/
 
 /*val a = 0
 x.a = t

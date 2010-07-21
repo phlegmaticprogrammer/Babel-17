@@ -1,0 +1,14 @@
+a => b =>
+  if a == 0 then
+    b
+  else
+    val a = a
+    while b != 0 do
+      if a > b then
+        a = a - b
+      else
+        b = b - a
+      end
+    end
+    a
+  end
