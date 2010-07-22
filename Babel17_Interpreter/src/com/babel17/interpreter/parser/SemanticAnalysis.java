@@ -10,7 +10,6 @@ public final class SemanticAnalysis {
   private ParseException ae;
 
   private void error(Location loc, String message) {
-    System.out.println("error: "+message);
     ae.addMessage(loc, message);
   }
 
@@ -32,10 +31,10 @@ public final class SemanticAnalysis {
     private boolean statement;
     private SymbolTable symbols;
 
-    public void debug(String section) {
+    /*public void debug(String section) {
       System.out.println(section);
       symbols.debug("  ");
-    }
+    }*/
 
     public boolean expr() {
       return expr;

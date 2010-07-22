@@ -1,4 +1,4 @@
-a => b =>
+val f = a => b =>
   if a == 0 then
     b
   else
@@ -12,3 +12,4 @@ a => b =>
     end
     a
   end
+f 27 45

@@ -41,7 +41,10 @@ object Main {
 
 
   def error(node : Node, message : String) : RuntimeException = {
-    return new RuntimeException(message+": "+node)
+    val l = node.location().toString();
+    val w = "at "+l+": "+message
+    println(w)
+    return new RuntimeException(w)
   }
 
   def nonmini(node : Node, feature : String) : RuntimeException =
@@ -93,7 +96,6 @@ object Main {
     }
   }
 
-
   def toList(nl : NodeList) : List[Node] = {
       val len = nl.length()
       var i = 0
@@ -108,9 +110,37 @@ object Main {
 
   def patternId(pattern : Node) : String = {
       if (pattern.isInstanceOf[IdentifierPattern])
-        return pattern.asInstanceOf[IdentifierPattern].name()
+        return pattern.asInstanceOf[IdentifierPattern].name().toLowerCase()
       else
         throw nonmini(pattern, "pattern that is not an identifier")
+  }
+
+  def compareValueLists(xs : List[Value], ys : List[Value]) : Int = {
+    (xs, ys) match {
+      case (List(), List()) => 0
+      case (List(), _) => -1
+      case (_, List()) => 1
+      case (x::xs, y::ys) =>
+        val c = compareValues(x, y)
+        if (c == 0) compareValueLists(xs, ys)
+        else c       
+    }
+  }
+
+  def compareValues(a : Value, b : Value) : Int = {
+    (a, b) match {
+      case (VInt(x), VInt(y)) => if (x == y) 0 else if (x < y) -1 else 1;
+      case (VBool(x), VBool(y)) => if (x == y) 0 else if (x) 1 else -1
+      case (VList(xs), VList(ys)) =>
+        compareValueLists(VInt(xs.length)::xs, VInt(ys.length)::ys);
+      case (VBool(_), _) => -1
+      case (_, VBool(_)) => 1
+      case (VInt(_), _) => -1
+      case (_, VInt(_)) => 1
+      case (VList(_), _) => -1
+      case (_, VList(_)) => 1
+      case _ => throw TypeError ()
+    }
   }
 
   def build(node : Node) : Term = {
@@ -134,7 +164,7 @@ object Main {
       throw nonmini(node, "operator")
     } else if (node.isInstanceOf[IdentifierNode]) {
       val n = node.asInstanceOf[IdentifierNode]
-      return EId(n.name())
+      return EId(n.name().toLowerCase())
     } else if (node.isInstanceOf[LambdaNode]) {
       val n = node.asInstanceOf[LambdaNode]
       val patterns = toList(n.patterns())
@@ -152,12 +182,6 @@ object Main {
           case _ => throw TypeError()
         }
       }
-      def arithtest(f:(BigInt, BigInt)=>Boolean)(a:Value, b:Value) : Value = {
-        (a, b) match {
-          case (VInt(x), VInt(y)) => return VBool (f(x,y))
-          case _ => throw TypeError()
-        }        
-      }
       def app(a:Value, b:Value) : Value = {
         a match {
           case VFun(f) => return f (b)
@@ -172,14 +196,28 @@ object Main {
         case OperatorNode.TIMES => arithop((a:BigInt,b:BigInt) => a*b) _
         case OperatorNode.DIV => arithop((a:BigInt,b:BigInt) => a/b) _
         case OperatorNode.MOD => arithop((a:BigInt,b:BigInt) => a%b) _
-        case OperatorNode.EQUAL => arithtest((a:BigInt,b:BigInt) => a == b) _
-        case OperatorNode.UNEQUAL => arithtest((a:BigInt,b:BigInt) => a != b) _
-        case OperatorNode.GREATER => arithtest((a:BigInt,b:BigInt) => a > b) _
-        case OperatorNode.LESS => arithtest((a:BigInt,b:BigInt) => a < b) _
-        case OperatorNode.GREATER_EQ => arithtest((a:BigInt,b:BigInt) => a >= b) _
-        case OperatorNode.LESS_EQ => arithtest((a:BigInt,b:BigInt) => a <= b) _
         case OperatorNode.APPLY => app _
         case _ => throw nonmini(node, "unknown binary operator")
+      }
+      return EBinOp(f, left, right)
+    } else if (node.isInstanceOf[CompareNode]) {
+      val n = node.asInstanceOf[CompareNode]
+      val comparisons = toList(n.comparisons())
+      if (comparisons.length != 3)
+          throw nonmini(node, "comparison chain");
+      val left = buildExpression(comparisons(0));
+      val right = buildExpression(comparisons(2));
+      def comp (f:Int=>Boolean)(a:Value, b:Value) : Value = {
+        return VBool(f(compareValues(a, b)))
+      }
+      val f = (comparisons(1).asInstanceOf[OperatorNode]).operator() match {
+        case OperatorNode.EQUAL => comp (_ == 0) _
+        case OperatorNode.UNEQUAL => comp (_ != 0) _
+        case OperatorNode.GREATER => comp (_ > 0) _
+        case OperatorNode.LESS => comp (_ < 0) _
+        case OperatorNode.GREATER_EQ => comp (_ >= 0) _
+        case OperatorNode.LESS_EQ => comp(_ <= 0) _
+        case t => throw nonmini(comparisons(1), "comparison with operator code "+t)
       }
       return EBinOp(f, left, right)
     } else if (node.isInstanceOf[YieldNode]) {
@@ -215,6 +253,134 @@ object Main {
     }
     throw error(node, "non-Mini Babel-17 term encountered")
   }
+  
+  class ValueRef(var value : Value){
+  }
+
+  class Environment(
+    val nonlinear: Map[String, Value],
+    val linear: Map[String, ValueRef])
+  {
+    def lookupNonlinear(id : String) : Value = {
+      if (nonlinear.contains(id)) nonlinear(id)
+      else throw new Illformed()
+    }
+
+    def lookupLinear(id : String) : ValueRef = {
+      if (linear.contains(id)) linear(id)
+      else throw new Illformed()
+    }
+
+    def bind(id : String, value : Value) : Environment = {
+      return new Environment(nonlinear - id,
+                             linear + (id -> new ValueRef(value)))
+    }
+
+    def rebind(id : String, value : Value) : Environment = {
+      lookupLinear(id).value = value
+      this
+    }
+
+    def freeze() : Environment = {
+      return new Environment(nonlinear ++ linear.mapValues (_.value), Map())
+    }
+  }
+
+  def eval_b(env:Environment, term:Block) : (Environment, List[Value]) = {
+    term match {
+      case Block(List()) => (env, List())
+      case Block(s::r) =>
+        val (env1, values_s) = eval_st(env, s)
+        val (env2, values_r) = eval_b (env1, Block(r))
+        (env2, values_s ++ values_r)
+    }
+  }
+
+  def eval_nestedb (env:Environment, term:Block) : (Environment, List[Value]) = {
+    (env, eval_b(env, term)._2)
+  }
+
+  def eval_st (env : Environment, term : Statement) : (Environment, List[Value]) = {
+    term match {
+      case SVal(id, e) => (env.bind(id, eval_e (env, e)), List())
+      case SAssign(id, e) => (env.rebind(id, eval_e (env, e)), List())
+      case SYield(e) => (env, List(eval_e (env, e)))
+      case SBlock(b) => eval_nestedb (env, b)
+      case SIf(cond, yes, no) =>
+        eval_se(env, cond) match {
+          case VBool(true) => eval_nestedb (env, yes)
+          case VBool(false) => eval_nestedb (env, no)
+          case _ => throw TypeError()
+        }
+      case SWhile (cond, body) =>
+        eval_se(env, cond) match {
+          case VBool(true) =>
+            val (_, v1) = eval_b (env, body)
+            val (_, v2) = eval_st (env, SWhile (cond, body))
+            (env, v1 ++ v2)
+          case VBool(false) => (env, List())
+          case _ => throw new TypeError()
+        }
+      case SFor (id, list, body) =>
+        eval_se (env, list) match {
+          case VList(l) => (env, eval_for (env, id, body, l))
+          case _ => throw new TypeError()
+        }
+    }
+  }
+  
+  def eval_for (env : Environment, id : String, body : Block, l : List[Value]) 
+    : List[Value] =
+  {
+    l match {
+      case x::xs =>
+        val (_, v1) = eval_b (env.bind (id, x), body)
+        val v2 = eval_for (env, id, body, xs)
+        v1 ++ v2
+      case _ => List()
+    }
+  }
+
+  def eval_e (env : Environment, term : Expression) : Value = {
+    term match {
+      case ESimple(se) => eval_se (env, se)
+      case EBlock(s) =>
+        eval_b(env, Block(List(s))) match {
+          case (_, List(a)) => a
+          case (_, l) => VList(l)
+        }
+    }
+  }
+
+  def eval_se (env : Environment, term : SimpleExpression) : Value = {
+    eval_simple (env.freeze(), term)
+  }
+
+  def eval_simple (env : Environment, term : SimpleExpression) : Value = {
+    term match {
+      case EInt(i) => VInt(i)
+      case EBool(b) => VBool(b)
+      case EBinOp (f, a, b) =>
+        f (eval_e (env, a), eval_e (env, b))
+      case EId(id) => env.lookupNonlinear(id)
+      case EFun (id, body) =>
+        VFun ((value:Value) => eval_e (env.bind(id, value), body))
+    }
+  }
+
+  def eval (prog:Expression) : Value = {
+    val empty = new Environment(Map(), Map())
+    eval_e (empty, prog)
+  }
+
+  def value2str (v : Value) : String = {
+    v match {
+      case VInt(i) => ""+i
+      case VBool(b) => ""+b
+      case VList(l) => ""+(l.map (value2str(_)))
+      case VFun(_) => "<lambda>"
+    }
+  }
 
   def main(args: Array[String]): Unit = {
     println("Mini Babel-17, (c) 2010 Steven Obua")
@@ -224,8 +390,12 @@ object Main {
     } else {
       val node = com.babel17.interpreter.Examples.mini_frontend(args(0));
       if (node != null) {
-        val t = build(node)
-        println("term = "+t)
+        try {
+          val t = buildExpression(node)
+          println(value2str(eval (t)))
+        } catch {
+          case ex => ()
+        }
       }
     }
   }
