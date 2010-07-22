@@ -143,6 +143,22 @@ object Main {
     }
   }
 
+  def euclid(D : BigInt, d : BigInt) : (BigInt, BigInt) = {
+    if (d == 0) throw TypeError()
+    var q = D / d
+    var r = D % d
+    if (r < 0) {
+      if (d > 0) {
+        q = q - 1
+        r = r + d
+      } else {
+        q = q + 1
+        r = r - d
+      }
+    }
+    (q, r)
+  }
+
   def build(node : Node) : Term = {
     if (node.isInstanceOf[BeginNode]) {
       val n = node.asInstanceOf[BeginNode]
@@ -173,6 +189,13 @@ object Main {
         throw nonmini(node, "multi-case lambda")
       val name = patternId(patterns(0))
       return EFun(name, buildExpression(blocks(0)))
+    } else if (node.isInstanceOf[UnaryNode]) {
+      val n = node.asInstanceOf[UnaryNode];
+      val opcode = n.operator().operator();
+      return (opcode, build(n.operand())) match {
+        case (OperatorNode.UMINUS, EInt(x)) => EInt(-x)
+        case (_,t) => throw nonmini(node, "unary minus")
+      }
     } else if (node.isInstanceOf[BinaryNode]) {
       val n = node.asInstanceOf[BinaryNode]
       val opcode = n.operator().operator()
@@ -194,8 +217,8 @@ object Main {
         case OperatorNode.PLUS => arithop((a:BigInt,b:BigInt) => a+b) _
         case OperatorNode.MINUS => arithop((a:BigInt,b:BigInt) => a-b) _
         case OperatorNode.TIMES => arithop((a:BigInt,b:BigInt) => a*b) _
-        case OperatorNode.DIV => arithop((a:BigInt,b:BigInt) => a/b) _
-        case OperatorNode.MOD => arithop((a:BigInt,b:BigInt) => a%b) _
+        case OperatorNode.DIV => arithop((a:BigInt,b:BigInt) => euclid(a,b)._1) _
+        case OperatorNode.MOD => arithop((a:BigInt,b:BigInt) => euclid(a,b)._2) _
         case OperatorNode.APPLY => app _
         case _ => throw nonmini(node, "unknown binary operator")
       }
@@ -377,7 +400,10 @@ object Main {
     v match {
       case VInt(i) => ""+i
       case VBool(b) => ""+b
-      case VList(l) => ""+(l.map (value2str(_)))
+      case VList(l) => 
+        val s = ""+(l.map (value2str(_)))
+        val s2 = s.slice(5, s.length - 1)
+        "[" + s2 + "]"
       case VFun(_) => "<lambda>"
     }
   }

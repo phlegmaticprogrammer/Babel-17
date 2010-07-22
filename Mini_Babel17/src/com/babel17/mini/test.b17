@@ -12,4 +12,15 @@ val f = a => b =>
     end
     a
   end
-f 27 45
+/*yield f 27 45
+yield 10 % 7
+yield 3 == 4
+yield 27 == 3*9*/
+yield 10 / (-7)
+yield 10 % (-7)
+yield 10 / 7
+yield 10 % 7
+yield (-10) / 7
+yield (-10) % 7
+yield (-10) / (-7)
+yield (-10) % (-7)

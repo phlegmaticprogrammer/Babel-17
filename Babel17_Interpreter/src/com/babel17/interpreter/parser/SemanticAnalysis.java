@@ -26,7 +26,6 @@ public final class SemanticAnalysis {
   public final static class StaticEnv {
 
     private boolean allow_this;
-    private boolean allow_yield;
     private boolean expr;
     private boolean statement;
     private SymbolTable symbols;
@@ -45,7 +44,6 @@ public final class SemanticAnalysis {
       env.expr = true;
       env.statement = false;
       env.symbols = symbols.clearLinearScope();
-      env.allow_yield = false;
       return env;
     }
 
@@ -81,7 +79,6 @@ public final class SemanticAnalysis {
       if (env != null) {
         this.expr = env.expr;
         this.statement = env.statement;
-        this.allow_yield = env.allow_yield;
         this.allow_this = env.allow_this;
         this.symbols = env.symbols;
       } else {
@@ -98,24 +95,9 @@ public final class SemanticAnalysis {
       return env;
     }
 
-    public boolean yieldIsAllowed() {
-      return allow_yield;
-    }
-
-    public StaticEnv allowYield(boolean allow) {
-      StaticEnv env = new StaticEnv(this);
-      env.allow_yield = allow;
-      return env;
-    }
-
-    public StaticEnv allowYieldIfExpr() {
-        if (expr()) return allowYield(true); else return this;
-    }
-
     private static StaticEnv initEnv() {
       StaticEnv env = new StaticEnv(null);
       env.symbols = new SymbolTable();
-      env.allow_yield = false;
       env.allow_this = false;
       env.expr = false;
       env.statement = false;
@@ -548,15 +530,9 @@ public final class SemanticAnalysis {
         }
       } else if (statement instanceof YieldNode) {
         YieldNode y = (YieldNode) statement;
-        if (!env.yieldIsAllowed()) {
-          error(y.location(), "misplaced yield statement");
-          used[i] = SymbolTable.EMPTY;
-          introduced[i] = new PatternIds();
-        } else {
-          AnalysisResult u = analyze(env.setLinearExpr(), y.expr());
-          used[i] = u.usedSymbols();
-          introduced[i] = new PatternIds();
-        }
+        AnalysisResult u = analyze(env.setLinearExpr(), y.expr());
+        used[i] = u.usedSymbols();
+        introduced[i] = new PatternIds();
       } else if (statement instanceof MemoizeNode) {
         MemoizeNode m = (MemoizeNode) statement;
         for (Node _mid : m.memoIds()) {
@@ -650,7 +626,7 @@ public final class SemanticAnalysis {
       }
     } else if (node instanceof BeginNode) {
       BeginNode n = (BeginNode) node;
-      return analyzeBlock(env.allowYieldIfExpr(), n.block());
+      return analyzeBlock(env, n.block());
     } else if (node instanceof ForNode) {
       ForNode n = (ForNode) node;
       AnalysisResult u = analyze(env.setExpr(), n.collection());
@@ -660,7 +636,7 @@ public final class SemanticAnalysis {
         errorDeltaPattern(n.pattern());
       }
       env = env.addLinearPatternVals(ids);
-      AnalysisResult v = analyzeBlock(env.allowYieldIfExpr().setStatement(), n.block());
+      AnalysisResult v = analyzeBlock(env.setStatement(), n.block());
       SymbolTable used = v.usedSymbols().remove(ids.collect()).merge(u.usedSymbols());
       return new AnalysisResult(used);
     } else if (node instanceof LambdaNode) {
@@ -673,7 +649,7 @@ public final class SemanticAnalysis {
         error(node.location(), "invalid lambda (unequal number of blocks and patterns)");
       }
       SymbolTable used = SymbolTable.EMPTY;
-      env = env.clearLinearScope().allowYield(false);
+      env = env.clearLinearScope();
       for (int i = 0; i < len; i++) {
         PatternNode p = (PatternNode) n.patterns().get(i);
         BlockNode b = (BlockNode) n.blocks().get(i);
@@ -700,7 +676,7 @@ public final class SemanticAnalysis {
     } else if (node instanceof IfNode) {
       IfNode n = (IfNode) node;
       AnalysisResult u = analyzeNodeList(env.setExpr(), n.conditions());
-      AnalysisResult v = analyzeNodeList(env.allowYieldIfExpr(), n.blocks());
+      AnalysisResult v = analyzeNodeList(env, n.blocks());
       return new AnalysisResult(u.usedSymbols().merge(v.usedSymbols()));
     } else if (node instanceof OperatorNode) {
       return new AnalysisResult();
@@ -755,7 +731,7 @@ public final class SemanticAnalysis {
         if (ids.delta()) {
           errorDeltaPattern(p);
         }
-        StaticEnv subenv = env.addLinearPatternVals(ids).allowYieldIfExpr();
+        StaticEnv subenv = env.addLinearPatternVals(ids);
         AnalysisResult v = analyzeBlock(subenv, b);
         used = used.merge(v.usedSymbols().remove(ids.collect()));
       }
@@ -771,7 +747,7 @@ public final class SemanticAnalysis {
     } else if (node instanceof WhileNode) {
       WhileNode w = (WhileNode) node;
       AnalysisResult u = analyze(env.setExpr(), w.condition());
-      AnalysisResult v = analyzeBlock(env.allowYieldIfExpr().setStatement(), w.block());
+      AnalysisResult v = analyzeBlock(env.setStatement(), w.block());
       return new AnalysisResult(u.usedSymbols().merge(v.usedSymbols()));
     } else if (node instanceof WithNode) {
       if (env.statement()) {
@@ -817,7 +793,7 @@ public final class SemanticAnalysis {
         analyze(env.setExpr(), n.parents());
         error(n.parents().location(), "derived objects are not supported yet");
       }
-      env = env.clearLinearScope().allowThis(false).allowYield(false).setStatement();
+      env = env.clearLinearScope().allowThis(false).setStatement();
       AnalysisResult r = analyzeBlock(env, n.block(), true);
       return new AnalysisResult(r.usedSymbols().remove("this"));
     } else if (node instanceof ParseErrorNode) {
