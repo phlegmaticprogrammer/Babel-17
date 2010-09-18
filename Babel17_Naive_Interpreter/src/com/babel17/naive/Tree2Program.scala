@@ -100,6 +100,9 @@ object Tree2Program {
           case msg : Message => SEMessageSend(left(), msg)
           case x => throwInternalError(op.location, "buildBinaryOperation, no message: "+x)
         }
+      case OR => SEOr(left(), right())
+      case AND => SEAnd(left(), right())
+      case CONS => SECons(left(), right())
       case x => throwInternalError(op.location, "buildBinaryOperation: "+x)
     }
   }
@@ -151,6 +154,26 @@ object Tree2Program {
     result.setLocation(n.location)
     result
   }
+  
+  def buildUnary(n : UnaryNode) : Locatable = {
+    val arg = buildSimpleExpression(n.operand)
+    def mk(m : String) : SimpleExpression = {
+      val msg = Message(m.toLowerCase)
+      msg.setLocation(n.operator().location)
+      SEMessageSend(arg, msg)
+    }
+    import OperatorNode._
+    val result : Locatable = n.operator().operator match {
+      case NOT => SENot(arg)
+      case UMINUS => mk("syntactic_uminus")
+      case LAZY => SELazy(arg)
+      case RANDOM => SERandom(arg)
+      case CONCURRENT => SEConcurrent(arg)       
+      case k => throwInternalError(n.location, "unknown unary operator code: "+k)       
+    }
+    result.setLocation(n.location)
+    result
+  }
 
   def build(node : Node) : Locatable = {
     val result : Locatable = node match {
@@ -167,6 +190,8 @@ object Tree2Program {
         buildNullary(n)
       case n : BinaryNode =>
         buildBinaryOperation(n.leftOperand, n.rightOperand, n.operator);
+      case n : UnaryNode => 
+        buildUnary(n)
       case n : IdentifierNode =>
         Id(n.name.toLowerCase)
       case n : ConstrNode =>

@@ -8,7 +8,7 @@ public final class ExceptionPattern extends PatternNode {
     this.value = value;
   }
 
-  private PatternNode value;
+private PatternNode value;
 
   public PatternNode param() {
     return value;

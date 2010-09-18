@@ -53,6 +53,10 @@ object Program {
   case class SEThis() extends SimpleExpression
   case class SERaise(param: SimpleExpression) extends SimpleExpression
   case class SEExpr(se: Expression) extends SimpleExpression
+  case class SEOr(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
+  case class SEAnd(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
+  case class SENot(u : SimpleExpression) extends SimpleExpression
+  case class SECons(head : SimpleExpression, tail : SimpleExpression) extends SimpleExpression
   case class SEFun(branches: List[(Pattern, Expression)]) extends SimpleExpression
   case class SESet(elems: List[SimpleExpression]) extends SimpleExpression
   case class SEMap(elems: List[(SimpleExpression, SimpleExpression)]) extends SimpleExpression
@@ -64,6 +68,10 @@ object Program {
   case class SEMessageSend(target: SimpleExpression, m : Message) extends SimpleExpression
   case class SEApply(f : SimpleExpression, x : SimpleExpression) extends SimpleExpression
   case class SECompare(operands : List[SimpleExpression], operators : List[CompareOp]) extends SimpleExpression
+  case class SELazy(u : SimpleExpression) extends SimpleExpression
+  case class SERandom(u : SimpleExpression) extends SimpleExpression
+  case class SEConcurrent(u : SimpleExpression) extends SimpleExpression
+  
 
   abstract class CompareOp extends Locatable
   case class EQUAL() extends CompareOp
