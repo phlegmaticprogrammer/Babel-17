@@ -1,0 +1,18 @@
+/*
+ * Each def has a val index, which is the highest index of a val/assign statement
+ * of the block of the def that the def depends on (transitively).
+ * A val/assign can reference only those defs that have a lower val index.
+ */
+val y = 1
+def f x = if x == 0 then y else g(x-1) end
+val y = 0
+def g x = if x == 0 then y else f(x-1) end
+
+val o = object
+          def q = begin
+                    val k = this;
+                    k * this
+                  end
+        end
+
+

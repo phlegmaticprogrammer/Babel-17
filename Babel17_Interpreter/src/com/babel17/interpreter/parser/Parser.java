@@ -126,6 +126,10 @@ public class Parser {
   private Location getLocation(Tree tree) {
     int ti1 = tree.getTokenStartIndex();
     int ti2 = tree.getTokenStopIndex();
+    return getLocation(tree, ti1, ti2);  
+  }
+  
+  private Location getLocation(Tree tree, int ti1, int ti2) {
     if (ti1 < 0) {
       if (ti2 < 0) {
         return lastKnownLocations.peek();
@@ -191,7 +195,7 @@ public class Parser {
           return new IdentifierNode(name).mergeLocation(loc);
         }
         case babel17Parser.Constr: {
-          return new ConstrNode(tree.getText(), null).mergeLocation(loc);
+          return new ConstrNode(tree.getText(), loc, null).mergeLocation(loc);
         }
         case babel17Parser.DEF: {
           Node n = toNode(tree.getChild(0));
@@ -231,7 +235,7 @@ public class Parser {
           if (l.head() instanceof ConstrNode) {
             ConstrNode c = (ConstrNode) l.head();
             if (c.arg() == null && !l.tail().empty()) {
-              c = (ConstrNode) new ConstrNode(c.name(), l.tail().head()).mergeLocation(c.location()).mergeLocation();
+              c = (ConstrNode) new ConstrNode(c.name(), c.location(), l.tail().head()).mergeLocation(c.location()).mergeLocation();
               l = l.tail().tail().cons(c);
             }
           }
@@ -627,9 +631,12 @@ public class Parser {
             NodeList c = toPatternList(t.getChild(0));
             if (c.length() == 1) {
               if (is_map || is_obj) {
-                pe.addMessage(getLocation(t),
+                if (i != count - 1) {
+                  pe.addMessage(getLocation(t),
                         "set element in map or object");
-                error = true;
+                  error = true;
+                } else
+                  l = l.cons(c.head().mergeLocation(getLocation(t)));                  
               } else {
                 is_set = true;
                 l = l.cons(c.head().mergeLocation(getLocation(t)));
@@ -680,9 +687,10 @@ public class Parser {
           return (PatternNode) new MapPattern(new NodeList()).mergeLocation(loc);
         case babel17Parser.Constr:
           if (tree.getChildCount() == 0) {
-            return (PatternNode) new ConstrPattern(tree.getText(), null).mergeLocation(loc);
+            return (PatternNode) new ConstrPattern(tree.getText(), loc, null).mergeLocation(loc);
           } else {
-            return (PatternNode) new ConstrPattern(tree.getText(), toPattern(tree.getChild(0))).mergeLocation(loc).mergeLocation();
+            Location l = getLocation(tree, tree.getTokenStartIndex(), tree.getTokenStartIndex());
+            return (PatternNode) new ConstrPattern(tree.getText(), l, toPattern(tree.getChild(0))).mergeLocation(loc).mergeLocation();
           }
         default: {
           return (PatternNode) new ParseErrorNode().mergeLocation(loc);

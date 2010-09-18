@@ -10,7 +10,7 @@
 \usepackage{listings}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
-\title{Syntax and Semantics of Babel-17}
+\title{Syntax and Semantics of Babel-17, v0.22 (Draft)}
 \author{Steven Obua}
 \date{\today}                                          
 \newcommand{\metababel}[1] {\textsl{#1}}
@@ -80,7 +80,7 @@ I always wanted a programming language
 \item that has mature implementations for all major modern computing platforms,
 \item that is beautiful.
 \end{itemize}
-There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will have been achieved. The version described in this document is Babel-17 v0.21, so there is still some distance to go. 
+There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will have been achieved. The version described in this document is Babel-17 v0.22, so there is still some distance to go. 
 
 Babel-17 is not a radically new or revolutionary programming language. It picks those raisins I like out of languages like Standard ML, Alice ML, Java, Javascript, Scala, Erlang, Haskell, Lisp, Clojure and Mathematica, and tries to evolve them into a beautiful new design. Of course, what some regard as beautiful, others might find unremarkable, or even ugly.
 
@@ -347,8 +347,8 @@ So what does a pattern look like? Table~\ref{table:patterns} lists all ways of b
 \babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$]} &  \patterndescr{matches a list/vector consisting of $n \ge 0$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
 \babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$)} &  \patterndescr{matches a vector/list consisting of $n=0$ or $n \ge 2$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
 \babelsrc{($p$)} & \patterndescr{same as $p$} \\\hline
-\babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$]} &  \patterndescr{matches a list/vector consisting of at least $n \ge 0$ elements, such that the first $n$ elements $e_i$ of the list/vector are matched by the patterns $p_i$}\\\hline
-\babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$)} &  \patterndescr{matches a vector/list consisting of at least $n \ge 0$ elements, such that the first $n$ elements $e_i$ of the vector/list are matched by the patterns $p_i$}\\\hline
+\babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$]} &  \patterndescr{matches a list/vector consisting of at least $n \ge 1$ elements, such that the first $n$ elements $e_i$ of the list/vector are matched by the patterns $p_i$}\\\hline
+\babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$)} &  \patterndescr{matches a vector/list consisting of at least $n \ge 1$ elements, such that the first $n$ elements $e_i$ of the vector/list are matched by the patterns $p_i$}\\\hline
 \babelsrc{($p$, )} &  \patterndescr{matches a vector/list consisting of a single element that matches the pattern $p$.} \\\hline
 \babelsrc{($h$::$t$)} & \patterndescr{matches a non-empty list/vector such that $h$ matches the head of the list/vector and $t$ its tail}\\\hline
 \babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
@@ -810,17 +810,17 @@ $M / f$ & \tabparbox{map created by applying the function $f$ to the values of $
 \emph{ToDo} 
 
 \section{API and Runtime Environment}
-Although we have already provided the specification of many operations for the built-in types of Babel-17, this document does not contain the complete API for all types yet. This API will be provided together with a reference implementation for Babel-17 v0.21, which is currently scheduled for the summer of 2010. Until then, let me just make a few comments about it:
+Although we have already provided the specification of many operations for the built-in types of Babel-17, this document does not contain the complete API for all types yet. This API will be provided together with the reference implementation for Babel-17. Here is a quick preview of some of its features:
 \begin{itemize}
 \item Integers are arbitrary precision and support the usual operations, throwing exceptions in cases which are not well-defined. 
 \item Division and modulo of integers are euclidean. 
-\item Strings support the usual operations like concatenation; the basic unit is a code point, not a character. Advanced operations like the Unicode collation algorithm are not part of Babel-17 v0.21, but will maybe introduced in later versions of Babel-17.
+\item Strings support the usual operations like concatenation; the basic unit is a code point, not a character. Advanced operations like the Unicode collation algorithm are not part of Babel-17 currently, but might be introduced in later versions of Babel-17.
 \end{itemize}
 This specification also does not contain anything about the runtime environment in which Babel-17 is supposed to run. Depending on the runtime environment, there may be additional libraries available to the programmer. 
 The medium term goal is to have Babel-17 running on and interfacing with the following platforms:
 \begin{itemize}
 \item Java and Android
-\item iPhone / iPad SDK / LLVM
+\item iOS 
 \item HTML5 / Javascript 
 \end{itemize}
 

@@ -15,6 +15,8 @@ public final class StringPattern extends PatternNode {
   public String description() {
     return s.toString();
   }
+
+  public String str() { return s; }
   
   private String s;
 

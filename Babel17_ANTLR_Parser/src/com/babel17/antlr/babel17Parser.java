@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g 2010-07-13 14:07:47
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g 2010-09-18 20:22:26
 
 package com.babel17.antlr;
 
@@ -892,7 +892,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "pattern"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:1: pattern : ( Constr ( ( NL )? primitive_pattern )? -> ^( Constr ( primitive_pattern )? ) | primitive_pattern ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )* -> ^( LIST_CONS ( primitive_pattern )* ) | L_exception primitive_pattern -> ^( L_exception primitive_pattern ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:1: pattern : ( Constr ( ( NL )? primitive_pattern )? -> ^( Constr ( primitive_pattern )? ) | primitive_pattern ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )* -> ^( LIST_CONS ( primitive_pattern )* ) | L_exception primitive_pattern -> ^( L_exception primitive_pattern ) | token_ELLIPSIS );
     public final babel17Parser.pattern_return pattern() throws RecognitionException {
         babel17Parser.pattern_return retval = new babel17Parser.pattern_return();
         retval.start = input.LT(1);
@@ -914,6 +914,8 @@ public class babel17Parser extends Parser {
 
         babel17Parser.primitive_pattern_return primitive_pattern22 = null;
 
+        babel17Parser.token_ELLIPSIS_return token_ELLIPSIS23 = null;
+
 
         CommonTree Constr13_tree=null;
         CommonTree NL14_tree=null;
@@ -926,8 +928,8 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_primitive_pattern=new RewriteRuleSubtreeStream(adaptor,"rule primitive_pattern");
         RewriteRuleSubtreeStream stream_token_DOUBLE_COLON=new RewriteRuleSubtreeStream(adaptor,"rule token_DOUBLE_COLON");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:9: ( Constr ( ( NL )? primitive_pattern )? -> ^( Constr ( primitive_pattern )? ) | primitive_pattern ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )* -> ^( LIST_CONS ( primitive_pattern )* ) | L_exception primitive_pattern -> ^( L_exception primitive_pattern ) )
-            int alt6=3;
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:9: ( Constr ( ( NL )? primitive_pattern )? -> ^( Constr ( primitive_pattern )? ) | primitive_pattern ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )* -> ^( LIST_CONS ( primitive_pattern )* ) | L_exception primitive_pattern -> ^( L_exception primitive_pattern ) | token_ELLIPSIS )
+            int alt6=4;
             switch ( input.LA(1) ) {
             case Constr:
                 {
@@ -954,6 +956,12 @@ public class babel17Parser extends Parser {
             case L_exception:
                 {
                 alt6=3;
+                }
+                break;
+            case A_ELLIPSIS:
+            case U_ELLIPSIS:
+                {
+                alt6=4;
                 }
                 break;
             default:
@@ -1024,7 +1032,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: Constr, primitive_pattern
+                    // elements: primitive_pattern, Constr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1230,6 +1238,20 @@ public class babel17Parser extends Parser {
                     retval.tree = root_0;}
                     }
                     break;
+                case 4 :
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:353:4: token_ELLIPSIS
+                    {
+                    root_0 = (CommonTree)adaptor.nil();
+
+                    pushFollow(FOLLOW_token_ELLIPSIS_in_pattern1573);
+                    token_ELLIPSIS23=token_ELLIPSIS();
+
+                    state._fsp--;
+                    if (state.failed) return retval;
+                    if ( state.backtracking==0 ) adaptor.addChild(root_0, token_ELLIPSIS23.getTree());
+
+                    }
+                    break;
 
             }
             retval.stop = input.LT(-1);
@@ -1258,52 +1280,50 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "bracket_pattern"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:354:1: bracket_pattern : ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) | token_ELLIPSIS );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:1: bracket_pattern : ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) );
     public final babel17Parser.bracket_pattern_return bracket_pattern() throws RecognitionException {
         babel17Parser.bracket_pattern_return retval = new babel17Parser.bracket_pattern_return();
         retval.start = input.LT(1);
 
         CommonTree root_0 = null;
 
-        Token Id23=null;
-        Token NL24=null;
-        Token L_as25=null;
-        Token NL26=null;
-        Token NL29=null;
-        Token QUESTION_MARK30=null;
-        Token NL31=null;
-        Token NL34=null;
-        Token L_if35=null;
-        Token NL36=null;
-        Token L_val38=null;
-        Token NL39=null;
-        babel17Parser.pattern_return pattern27 = null;
+        Token Id24=null;
+        Token NL25=null;
+        Token L_as26=null;
+        Token NL27=null;
+        Token NL30=null;
+        Token QUESTION_MARK31=null;
+        Token NL32=null;
+        Token NL35=null;
+        Token L_if36=null;
+        Token NL37=null;
+        Token L_val39=null;
+        Token NL40=null;
+        babel17Parser.pattern_return pattern28 = null;
 
-        babel17Parser.protected_expr_return protected_expr28 = null;
-
-        babel17Parser.pattern_return pattern32 = null;
+        babel17Parser.protected_expr_return protected_expr29 = null;
 
         babel17Parser.pattern_return pattern33 = null;
 
-        babel17Parser.protected_expr_return protected_expr37 = null;
+        babel17Parser.pattern_return pattern34 = null;
 
-        babel17Parser.protected_expr_return protected_expr40 = null;
+        babel17Parser.protected_expr_return protected_expr38 = null;
 
-        babel17Parser.token_ELLIPSIS_return token_ELLIPSIS41 = null;
+        babel17Parser.protected_expr_return protected_expr41 = null;
 
 
-        CommonTree Id23_tree=null;
-        CommonTree NL24_tree=null;
-        CommonTree L_as25_tree=null;
-        CommonTree NL26_tree=null;
-        CommonTree NL29_tree=null;
-        CommonTree QUESTION_MARK30_tree=null;
-        CommonTree NL31_tree=null;
-        CommonTree NL34_tree=null;
-        CommonTree L_if35_tree=null;
-        CommonTree NL36_tree=null;
-        CommonTree L_val38_tree=null;
-        CommonTree NL39_tree=null;
+        CommonTree Id24_tree=null;
+        CommonTree NL25_tree=null;
+        CommonTree L_as26_tree=null;
+        CommonTree NL27_tree=null;
+        CommonTree NL30_tree=null;
+        CommonTree QUESTION_MARK31_tree=null;
+        CommonTree NL32_tree=null;
+        CommonTree NL35_tree=null;
+        CommonTree L_if36_tree=null;
+        CommonTree NL37_tree=null;
+        CommonTree L_val39_tree=null;
+        CommonTree NL40_tree=null;
         RewriteRuleTokenStream stream_L_as=new RewriteRuleTokenStream(adaptor,"token L_as");
         RewriteRuleTokenStream stream_NL=new RewriteRuleTokenStream(adaptor,"token NL");
         RewriteRuleTokenStream stream_Id=new RewriteRuleTokenStream(adaptor,"token Id");
@@ -1313,17 +1333,17 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_pattern=new RewriteRuleSubtreeStream(adaptor,"rule pattern");
         RewriteRuleSubtreeStream stream_protected_expr=new RewriteRuleSubtreeStream(adaptor,"rule protected_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:2: ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) | token_ELLIPSIS )
-            int alt16=5;
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:2: ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) )
+            int alt16=4;
             alt16 = dfa16.predict(input);
             switch (alt16) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:10: ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:10: ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern
                     {
-                    Id23=(Token)match(input,Id,FOLLOW_Id_in_bracket_pattern1595); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_Id.add(Id23);
+                    Id24=(Token)match(input,Id,FOLLOW_Id_in_bracket_pattern1600); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_Id.add(Id24);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:30: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:30: ( NL )?
                     int alt7=2;
                     int LA7_0 = input.LA(1);
 
@@ -1332,10 +1352,10 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt7) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:30: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:30: NL
                             {
-                            NL24=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1597); if (state.failed) return retval; 
-                            if ( state.backtracking==0 ) stream_NL.add(NL24);
+                            NL25=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1602); if (state.failed) return retval; 
+                            if ( state.backtracking==0 ) stream_NL.add(NL25);
 
 
                             }
@@ -1343,10 +1363,10 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    L_as25=(Token)match(input,L_as,FOLLOW_L_as_in_bracket_pattern1600); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_L_as.add(L_as25);
+                    L_as26=(Token)match(input,L_as,FOLLOW_L_as_in_bracket_pattern1605); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_L_as.add(L_as26);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:39: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:39: ( NL )?
                     int alt8=2;
                     int LA8_0 = input.LA(1);
 
@@ -1355,10 +1375,10 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt8) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:39: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:39: NL
                             {
-                            NL26=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1602); if (state.failed) return retval; 
-                            if ( state.backtracking==0 ) stream_NL.add(NL26);
+                            NL27=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1607); if (state.failed) return retval; 
+                            if ( state.backtracking==0 ) stream_NL.add(NL27);
 
 
                             }
@@ -1366,12 +1386,12 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_pattern_in_bracket_pattern1605);
-                    pattern27=pattern();
+                    pushFollow(FOLLOW_pattern_in_bracket_pattern1610);
+                    pattern28=pattern();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_pattern.add(pattern27.getTree());
+                    if ( state.backtracking==0 ) stream_pattern.add(pattern28.getTree());
 
 
                     // AST REWRITE
@@ -1386,9 +1406,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 355:51: -> ^( L_as Id pattern )
+                    // 356:51: -> ^( L_as Id pattern )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:54: ^( L_as Id pattern )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:54: ^( L_as Id pattern )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(stream_L_as.nextNode(), root_1);
@@ -1405,15 +1425,15 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:4: ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:4: ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )?
                     {
-                    pushFollow(FOLLOW_protected_expr_in_bracket_pattern1634);
-                    protected_expr28=protected_expr();
+                    pushFollow(FOLLOW_protected_expr_in_bracket_pattern1639);
+                    protected_expr29=protected_expr();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr28.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:18: ( NL )?
+                    if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr29.getTree());
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:18: ( NL )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -1422,10 +1442,10 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt9) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:18: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:18: NL
                             {
-                            NL29=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1636); if (state.failed) return retval; 
-                            if ( state.backtracking==0 ) stream_NL.add(NL29);
+                            NL30=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1641); if (state.failed) return retval; 
+                            if ( state.backtracking==0 ) stream_NL.add(NL30);
 
 
                             }
@@ -1433,28 +1453,28 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    QUESTION_MARK30=(Token)match(input,QUESTION_MARK,FOLLOW_QUESTION_MARK_in_bracket_pattern1639); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_QUESTION_MARK.add(QUESTION_MARK30);
+                    QUESTION_MARK31=(Token)match(input,QUESTION_MARK,FOLLOW_QUESTION_MARK_in_bracket_pattern1644); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_QUESTION_MARK.add(QUESTION_MARK31);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:36: ( ( NL )? pattern )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:36: ( ( NL )? pattern )?
                     int alt11=2;
                     int LA11_0 = input.LA(1);
 
                     if ( (LA11_0==NL) ) {
                         int LA11_1 = input.LA(2);
 
-                        if ( (LA11_1==L_exception||(LA11_1>=A_infinity && LA11_1<=U_infinity)||(LA11_1>=L_true && LA11_1<=L_false)||LA11_1==L_nil||LA11_1==MINUS||(LA11_1>=Constr && LA11_1<=Num)||(LA11_1>=String && LA11_1<=ROUND_BRACKET_OPEN)||LA11_1==SQUARE_BRACKET_OPEN||LA11_1==CURLY_BRACKET_OPEN||LA11_1==UNDERSCORE) ) {
+                        if ( (LA11_1==L_exception||(LA11_1>=A_infinity && LA11_1<=U_infinity)||(LA11_1>=L_true && LA11_1<=L_false)||LA11_1==L_nil||LA11_1==MINUS||(LA11_1>=A_ELLIPSIS && LA11_1<=U_ELLIPSIS)||(LA11_1>=Constr && LA11_1<=Num)||(LA11_1>=String && LA11_1<=ROUND_BRACKET_OPEN)||LA11_1==SQUARE_BRACKET_OPEN||LA11_1==CURLY_BRACKET_OPEN||LA11_1==UNDERSCORE) ) {
                             alt11=1;
                         }
                     }
-                    else if ( (LA11_0==L_exception||(LA11_0>=A_infinity && LA11_0<=U_infinity)||(LA11_0>=L_true && LA11_0<=L_false)||LA11_0==L_nil||LA11_0==MINUS||(LA11_0>=Constr && LA11_0<=Num)||(LA11_0>=String && LA11_0<=ROUND_BRACKET_OPEN)||LA11_0==SQUARE_BRACKET_OPEN||LA11_0==CURLY_BRACKET_OPEN||LA11_0==UNDERSCORE) ) {
+                    else if ( (LA11_0==L_exception||(LA11_0>=A_infinity && LA11_0<=U_infinity)||(LA11_0>=L_true && LA11_0<=L_false)||LA11_0==L_nil||LA11_0==MINUS||(LA11_0>=A_ELLIPSIS && LA11_0<=U_ELLIPSIS)||(LA11_0>=Constr && LA11_0<=Num)||(LA11_0>=String && LA11_0<=ROUND_BRACKET_OPEN)||LA11_0==SQUARE_BRACKET_OPEN||LA11_0==CURLY_BRACKET_OPEN||LA11_0==UNDERSCORE) ) {
                         alt11=1;
                     }
                     switch (alt11) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:37: ( NL )? pattern
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:37: ( NL )? pattern
                             {
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:37: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:37: ( NL )?
                             int alt10=2;
                             int LA10_0 = input.LA(1);
 
@@ -1463,10 +1483,10 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt10) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:37: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:37: NL
                                     {
-                                    NL31=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1642); if (state.failed) return retval; 
-                                    if ( state.backtracking==0 ) stream_NL.add(NL31);
+                                    NL32=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1647); if (state.failed) return retval; 
+                                    if ( state.backtracking==0 ) stream_NL.add(NL32);
 
 
                                     }
@@ -1474,12 +1494,12 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            pushFollow(FOLLOW_pattern_in_bracket_pattern1645);
-                            pattern32=pattern();
+                            pushFollow(FOLLOW_pattern_in_bracket_pattern1650);
+                            pattern33=pattern();
 
                             state._fsp--;
                             if (state.failed) return retval;
-                            if ( state.backtracking==0 ) stream_pattern.add(pattern32.getTree());
+                            if ( state.backtracking==0 ) stream_pattern.add(pattern33.getTree());
 
                             }
                             break;
@@ -1489,7 +1509,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: pattern, protected_expr, QUESTION_MARK
+                    // elements: pattern, QUESTION_MARK, protected_expr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1500,15 +1520,15 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 357:51: -> ^( QUESTION_MARK protected_expr ( pattern )? )
+                    // 358:51: -> ^( QUESTION_MARK protected_expr ( pattern )? )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:54: ^( QUESTION_MARK protected_expr ( pattern )? )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:54: ^( QUESTION_MARK protected_expr ( pattern )? )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(stream_QUESTION_MARK.nextNode(), root_1);
 
                         adaptor.addChild(root_1, stream_protected_expr.nextTree());
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:85: ( pattern )?
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:85: ( pattern )?
                         if ( stream_pattern.hasNext() ) {
                             adaptor.addChild(root_1, stream_pattern.nextTree());
 
@@ -1524,15 +1544,15 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:4: pattern ( ( NL )? L_if ( NL )? protected_expr )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:4: pattern ( ( NL )? L_if ( NL )? protected_expr )?
                     {
-                    pushFollow(FOLLOW_pattern_in_bracket_pattern1663);
-                    pattern33=pattern();
+                    pushFollow(FOLLOW_pattern_in_bracket_pattern1668);
+                    pattern34=pattern();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_pattern.add(pattern33.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:12: ( ( NL )? L_if ( NL )? protected_expr )?
+                    if ( state.backtracking==0 ) stream_pattern.add(pattern34.getTree());
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:12: ( ( NL )? L_if ( NL )? protected_expr )?
                     int alt14=2;
                     int LA14_0 = input.LA(1);
 
@@ -1548,9 +1568,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt14) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:13: ( NL )? L_if ( NL )? protected_expr
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:13: ( NL )? L_if ( NL )? protected_expr
                             {
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:13: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:13: ( NL )?
                             int alt12=2;
                             int LA12_0 = input.LA(1);
 
@@ -1559,10 +1579,10 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt12) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:13: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:13: NL
                                     {
-                                    NL34=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1666); if (state.failed) return retval; 
-                                    if ( state.backtracking==0 ) stream_NL.add(NL34);
+                                    NL35=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1671); if (state.failed) return retval; 
+                                    if ( state.backtracking==0 ) stream_NL.add(NL35);
 
 
                                     }
@@ -1570,10 +1590,10 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            L_if35=(Token)match(input,L_if,FOLLOW_L_if_in_bracket_pattern1669); if (state.failed) return retval; 
-                            if ( state.backtracking==0 ) stream_L_if.add(L_if35);
+                            L_if36=(Token)match(input,L_if,FOLLOW_L_if_in_bracket_pattern1674); if (state.failed) return retval; 
+                            if ( state.backtracking==0 ) stream_L_if.add(L_if36);
 
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:22: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:22: ( NL )?
                             int alt13=2;
                             int LA13_0 = input.LA(1);
 
@@ -1582,10 +1602,10 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt13) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:22: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:22: NL
                                     {
-                                    NL36=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1671); if (state.failed) return retval; 
-                                    if ( state.backtracking==0 ) stream_NL.add(NL36);
+                                    NL37=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1676); if (state.failed) return retval; 
+                                    if ( state.backtracking==0 ) stream_NL.add(NL37);
 
 
                                     }
@@ -1593,12 +1613,12 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            pushFollow(FOLLOW_protected_expr_in_bracket_pattern1674);
-                            protected_expr37=protected_expr();
+                            pushFollow(FOLLOW_protected_expr_in_bracket_pattern1679);
+                            protected_expr38=protected_expr();
 
                             state._fsp--;
                             if (state.failed) return retval;
-                            if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr37.getTree());
+                            if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr38.getTree());
 
                             }
                             break;
@@ -1608,7 +1628,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: protected_expr, pattern
+                    // elements: pattern, protected_expr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1619,15 +1639,15 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 358:43: -> ^( IF_PATTERN pattern ( protected_expr )? )
+                    // 359:43: -> ^( IF_PATTERN pattern ( protected_expr )? )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:46: ^( IF_PATTERN pattern ( protected_expr )? )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:46: ^( IF_PATTERN pattern ( protected_expr )? )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(IF_PATTERN, "IF_PATTERN"), root_1);
 
                         adaptor.addChild(root_1, stream_pattern.nextTree());
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:67: ( protected_expr )?
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:67: ( protected_expr )?
                         if ( stream_protected_expr.hasNext() ) {
                             adaptor.addChild(root_1, stream_protected_expr.nextTree());
 
@@ -1643,12 +1663,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:4: L_val ( NL )? protected_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:4: L_val ( NL )? protected_expr
                     {
-                    L_val38=(Token)match(input,L_val,FOLLOW_L_val_in_bracket_pattern1692); if (state.failed) return retval; 
-                    if ( state.backtracking==0 ) stream_L_val.add(L_val38);
+                    L_val39=(Token)match(input,L_val,FOLLOW_L_val_in_bracket_pattern1697); if (state.failed) return retval; 
+                    if ( state.backtracking==0 ) stream_L_val.add(L_val39);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:10: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:10: ( NL )?
                     int alt15=2;
                     int LA15_0 = input.LA(1);
 
@@ -1657,10 +1677,10 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt15) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:10: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:10: NL
                             {
-                            NL39=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1694); if (state.failed) return retval; 
-                            if ( state.backtracking==0 ) stream_NL.add(NL39);
+                            NL40=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1699); if (state.failed) return retval; 
+                            if ( state.backtracking==0 ) stream_NL.add(NL40);
 
 
                             }
@@ -1668,12 +1688,12 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_protected_expr_in_bracket_pattern1697);
-                    protected_expr40=protected_expr();
+                    pushFollow(FOLLOW_protected_expr_in_bracket_pattern1702);
+                    protected_expr41=protected_expr();
 
                     state._fsp--;
                     if (state.failed) return retval;
-                    if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr40.getTree());
+                    if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr41.getTree());
 
 
                     // AST REWRITE
@@ -1688,9 +1708,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 359:29: -> ^( L_val protected_expr )
+                    // 360:29: -> ^( L_val protected_expr )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:32: ^( L_val protected_expr )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:32: ^( L_val protected_expr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(stream_L_val.nextNode(), root_1);
@@ -1703,20 +1723,6 @@ public class babel17Parser extends Parser {
                     }
 
                     retval.tree = root_0;}
-                    }
-                    break;
-                case 5 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:4: token_ELLIPSIS
-                    {
-                    root_0 = (CommonTree)adaptor.nil();
-
-                    pushFollow(FOLLOW_token_ELLIPSIS_in_bracket_pattern1710);
-                    token_ELLIPSIS41=token_ELLIPSIS();
-
-                    state._fsp--;
-                    if (state.failed) return retval;
-                    if ( state.backtracking==0 ) adaptor.addChild(root_0, token_ELLIPSIS41.getTree());
-
                     }
                     break;
 
@@ -1991,7 +1997,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: bracket_pattern, arrow_or_assign
+            // elements: arrow_or_assign, bracket_pattern
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2816,7 +2822,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: bracket_pattern, COMMA
+                    // elements: COMMA, bracket_pattern
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3518,7 +3524,7 @@ public class babel17Parser extends Parser {
                 if ( (LA52_0==NL) ) {
                     int LA52_1 = input.LA(2);
 
-                    if ( (LA52_1==L_begin||(LA52_1>=L_obj && LA52_1<=L_if)||(LA52_1>=L_while && LA52_1<=L_for)||(LA52_1>=L_yield && LA52_1<=L_match)||(LA52_1>=L_val && LA52_1<=L_def)||LA52_1==L_exception||(LA52_1>=A_infinity && LA52_1<=L_nil)||LA52_1==SC||LA52_1==MINUS||LA52_1==A_NOT||LA52_1==U_NOT||LA52_1==TILDE||(LA52_1>=NL && LA52_1<=Num)||(LA52_1>=String && LA52_1<=ROUND_BRACKET_OPEN)||LA52_1==SQUARE_BRACKET_OPEN||LA52_1==CURLY_BRACKET_OPEN||LA52_1==UNDERSCORE) ) {
+                    if ( (LA52_1==L_begin||(LA52_1>=L_obj && LA52_1<=L_if)||(LA52_1>=L_while && LA52_1<=L_for)||(LA52_1>=L_yield && LA52_1<=L_match)||(LA52_1>=L_val && LA52_1<=L_def)||LA52_1==L_exception||(LA52_1>=A_infinity && LA52_1<=L_nil)||LA52_1==SC||LA52_1==MINUS||LA52_1==A_NOT||LA52_1==U_NOT||(LA52_1>=A_ELLIPSIS && LA52_1<=U_ELLIPSIS)||LA52_1==TILDE||(LA52_1>=NL && LA52_1<=Num)||(LA52_1>=String && LA52_1<=ROUND_BRACKET_OPEN)||LA52_1==SQUARE_BRACKET_OPEN||LA52_1==CURLY_BRACKET_OPEN||LA52_1==UNDERSCORE) ) {
                         alt52=1;
                     }
 
@@ -3680,6 +3686,8 @@ public class babel17Parser extends Parser {
             case MINUS:
             case A_NOT:
             case U_NOT:
+            case A_ELLIPSIS:
+            case U_ELLIPSIS:
             case TILDE:
             case Constr:
             case Id:
@@ -3949,7 +3957,7 @@ public class babel17Parser extends Parser {
             int alt55=2;
             int LA55_0 = input.LA(1);
 
-            if ( (LA55_0==L_exception||(LA55_0>=A_infinity && LA55_0<=U_infinity)||(LA55_0>=L_true && LA55_0<=L_false)||LA55_0==L_nil||LA55_0==MINUS||LA55_0==Constr||LA55_0==Num||(LA55_0>=String && LA55_0<=ROUND_BRACKET_OPEN)||LA55_0==SQUARE_BRACKET_OPEN||LA55_0==CURLY_BRACKET_OPEN||LA55_0==UNDERSCORE) ) {
+            if ( (LA55_0==L_exception||(LA55_0>=A_infinity && LA55_0<=U_infinity)||(LA55_0>=L_true && LA55_0<=L_false)||LA55_0==L_nil||LA55_0==MINUS||(LA55_0>=A_ELLIPSIS && LA55_0<=U_ELLIPSIS)||LA55_0==Constr||LA55_0==Num||(LA55_0>=String && LA55_0<=ROUND_BRACKET_OPEN)||LA55_0==SQUARE_BRACKET_OPEN||LA55_0==CURLY_BRACKET_OPEN||LA55_0==UNDERSCORE) ) {
                 alt55=1;
             }
             else if ( (LA55_0==Id) ) {
@@ -4056,7 +4064,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: pattern, objelem_assign, expr
+            // elements: expr, objelem_assign, pattern
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4279,7 +4287,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: expr, Id, primitive_pattern
+            // elements: Id, expr, primitive_pattern
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4729,7 +4737,7 @@ public class babel17Parser extends Parser {
                     int alt65=2;
                     int LA65_0 = input.LA(1);
 
-                    if ( (LA65_0==L_exception||(LA65_0>=A_infinity && LA65_0<=U_infinity)||(LA65_0>=L_true && LA65_0<=L_false)||LA65_0==L_nil||LA65_0==MINUS||LA65_0==Constr||LA65_0==Num||(LA65_0>=String && LA65_0<=ROUND_BRACKET_OPEN)||LA65_0==SQUARE_BRACKET_OPEN||LA65_0==CURLY_BRACKET_OPEN||LA65_0==UNDERSCORE) ) {
+                    if ( (LA65_0==L_exception||(LA65_0>=A_infinity && LA65_0<=U_infinity)||(LA65_0>=L_true && LA65_0<=L_false)||LA65_0==L_nil||LA65_0==MINUS||(LA65_0>=A_ELLIPSIS && LA65_0<=U_ELLIPSIS)||LA65_0==Constr||LA65_0==Num||(LA65_0>=String && LA65_0<=ROUND_BRACKET_OPEN)||LA65_0==SQUARE_BRACKET_OPEN||LA65_0==CURLY_BRACKET_OPEN||LA65_0==UNDERSCORE) ) {
                         alt65=1;
                     }
                     else if ( (LA65_0==Id) ) {
@@ -4836,7 +4844,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: pattern, expr
+                    // elements: expr, pattern
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -4925,7 +4933,7 @@ public class babel17Parser extends Parser {
             int alt69=2;
             int LA69_0 = input.LA(1);
 
-            if ( (LA69_0==L_begin||(LA69_0>=L_with && LA69_0<=L_if)||(LA69_0>=L_while && LA69_0<=L_for)||LA69_0==L_match||LA69_0==L_exception||(LA69_0>=A_infinity && LA69_0<=L_lazy)||(LA69_0>=L_true && LA69_0<=L_nil)||LA69_0==MINUS||LA69_0==A_NOT||LA69_0==U_NOT||LA69_0==TILDE||(LA69_0>=Constr && LA69_0<=Num)||(LA69_0>=String && LA69_0<=ROUND_BRACKET_OPEN)||LA69_0==SQUARE_BRACKET_OPEN||LA69_0==CURLY_BRACKET_OPEN||LA69_0==UNDERSCORE) ) {
+            if ( (LA69_0==L_begin||(LA69_0>=L_with && LA69_0<=L_if)||(LA69_0>=L_while && LA69_0<=L_for)||LA69_0==L_match||LA69_0==L_exception||(LA69_0>=A_infinity && LA69_0<=L_lazy)||(LA69_0>=L_true && LA69_0<=L_nil)||LA69_0==MINUS||LA69_0==A_NOT||LA69_0==U_NOT||(LA69_0>=A_ELLIPSIS && LA69_0<=U_ELLIPSIS)||LA69_0==TILDE||(LA69_0>=Constr && LA69_0<=Num)||(LA69_0>=String && LA69_0<=ROUND_BRACKET_OPEN)||LA69_0==SQUARE_BRACKET_OPEN||LA69_0==CURLY_BRACKET_OPEN||LA69_0==UNDERSCORE) ) {
                 alt69=1;
             }
             else if ( (LA69_0==L_obj) ) {
@@ -5371,7 +5379,7 @@ public class babel17Parser extends Parser {
             int alt75=2;
             int LA75_0 = input.LA(1);
 
-            if ( (LA75_0==L_begin||(LA75_0>=L_with && LA75_0<=L_if)||(LA75_0>=L_while && LA75_0<=L_for)||(LA75_0>=L_match && LA75_0<=L_case)||LA75_0==L_exception||(LA75_0>=A_infinity && LA75_0<=L_lazy)||(LA75_0>=L_true && LA75_0<=L_nil)||LA75_0==MINUS||LA75_0==A_NOT||LA75_0==U_NOT||LA75_0==TILDE||(LA75_0>=Constr && LA75_0<=Num)||(LA75_0>=String && LA75_0<=ROUND_BRACKET_OPEN)||LA75_0==SQUARE_BRACKET_OPEN||LA75_0==CURLY_BRACKET_OPEN||LA75_0==UNDERSCORE) ) {
+            if ( (LA75_0==L_begin||(LA75_0>=L_with && LA75_0<=L_if)||(LA75_0>=L_while && LA75_0<=L_for)||(LA75_0>=L_match && LA75_0<=L_case)||LA75_0==L_exception||(LA75_0>=A_infinity && LA75_0<=L_lazy)||(LA75_0>=L_true && LA75_0<=L_nil)||LA75_0==MINUS||LA75_0==A_NOT||LA75_0==U_NOT||(LA75_0>=A_ELLIPSIS && LA75_0<=U_ELLIPSIS)||LA75_0==TILDE||(LA75_0>=Constr && LA75_0<=Num)||(LA75_0>=String && LA75_0<=ROUND_BRACKET_OPEN)||LA75_0==SQUARE_BRACKET_OPEN||LA75_0==CURLY_BRACKET_OPEN||LA75_0==UNDERSCORE) ) {
                 alt75=1;
             }
             else if ( (LA75_0==L_obj) ) {
@@ -5729,7 +5737,7 @@ public class babel17Parser extends Parser {
                     else if ( (LA78_2==TIMES) && (synpred4_babel17())) {
                         alt78=1;
                     }
-                    else if ( ((LA78_2>=L_begin && LA78_2<=L_if)||(LA78_2>=L_while && LA78_2<=L_for)||(LA78_2>=L_yield && LA78_2<=L_match)||(LA78_2>=L_val && LA78_2<=L_def)||LA78_2==L_exception||(LA78_2>=A_infinity && LA78_2<=L_nil)||LA78_2==SC||LA78_2==MINUS||LA78_2==A_NOT||LA78_2==U_NOT||LA78_2==TILDE||(LA78_2>=NL && LA78_2<=Num)||(LA78_2>=String && LA78_2<=ROUND_BRACKET_OPEN)||LA78_2==SQUARE_BRACKET_OPEN||LA78_2==CURLY_BRACKET_OPEN||LA78_2==UNDERSCORE) ) {
+                    else if ( ((LA78_2>=L_begin && LA78_2<=L_if)||(LA78_2>=L_while && LA78_2<=L_for)||(LA78_2>=L_yield && LA78_2<=L_match)||(LA78_2>=L_val && LA78_2<=L_def)||LA78_2==L_exception||(LA78_2>=A_infinity && LA78_2<=L_nil)||LA78_2==SC||LA78_2==MINUS||LA78_2==A_NOT||LA78_2==U_NOT||(LA78_2>=A_ELLIPSIS && LA78_2<=U_ELLIPSIS)||LA78_2==TILDE||(LA78_2>=NL && LA78_2<=Num)||(LA78_2>=String && LA78_2<=ROUND_BRACKET_OPEN)||LA78_2==SQUARE_BRACKET_OPEN||LA78_2==CURLY_BRACKET_OPEN||LA78_2==UNDERSCORE) ) {
                         alt78=2;
                     }
                     else {
@@ -5740,7 +5748,7 @@ public class babel17Parser extends Parser {
                         throw nvae;
                     }
                 }
-                else if ( ((LA78_1>=L_begin && LA78_1<=L_if)||(LA78_1>=L_while && LA78_1<=L_for)||(LA78_1>=L_yield && LA78_1<=L_match)||(LA78_1>=L_val && LA78_1<=L_def)||LA78_1==L_exception||(LA78_1>=A_infinity && LA78_1<=L_nil)||LA78_1==SC||LA78_1==MINUS||LA78_1==A_NOT||LA78_1==U_NOT||LA78_1==TILDE||(LA78_1>=Constr && LA78_1<=Num)||(LA78_1>=String && LA78_1<=ROUND_BRACKET_OPEN)||LA78_1==SQUARE_BRACKET_OPEN||LA78_1==CURLY_BRACKET_OPEN||LA78_1==UNDERSCORE) ) {
+                else if ( ((LA78_1>=L_begin && LA78_1<=L_if)||(LA78_1>=L_while && LA78_1<=L_for)||(LA78_1>=L_yield && LA78_1<=L_match)||(LA78_1>=L_val && LA78_1<=L_def)||LA78_1==L_exception||(LA78_1>=A_infinity && LA78_1<=L_nil)||LA78_1==SC||LA78_1==MINUS||LA78_1==A_NOT||LA78_1==U_NOT||(LA78_1>=A_ELLIPSIS && LA78_1<=U_ELLIPSIS)||LA78_1==TILDE||(LA78_1>=Constr && LA78_1<=Num)||(LA78_1>=String && LA78_1<=ROUND_BRACKET_OPEN)||LA78_1==SQUARE_BRACKET_OPEN||LA78_1==CURLY_BRACKET_OPEN||LA78_1==UNDERSCORE) ) {
                     alt78=2;
                 }
                 else if ( (LA78_1==PLUS) && (synpred4_babel17())) {
@@ -6282,7 +6290,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: protected_expr, block
+            // elements: block, protected_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -6528,7 +6536,7 @@ public class babel17Parser extends Parser {
             if ( (LA90_0==L_case) ) {
                 alt90=1;
             }
-            else if ( (LA90_0==L_exception||(LA90_0>=A_infinity && LA90_0<=U_infinity)||(LA90_0>=L_true && LA90_0<=L_false)||LA90_0==L_nil||LA90_0==MINUS||(LA90_0>=Constr && LA90_0<=Num)||(LA90_0>=String && LA90_0<=ROUND_BRACKET_OPEN)||LA90_0==SQUARE_BRACKET_OPEN||LA90_0==CURLY_BRACKET_OPEN||LA90_0==UNDERSCORE) ) {
+            else if ( (LA90_0==L_exception||(LA90_0>=A_infinity && LA90_0<=U_infinity)||(LA90_0>=L_true && LA90_0<=L_false)||LA90_0==L_nil||LA90_0==MINUS||(LA90_0>=A_ELLIPSIS && LA90_0<=U_ELLIPSIS)||(LA90_0>=Constr && LA90_0<=Num)||(LA90_0>=String && LA90_0<=ROUND_BRACKET_OPEN)||LA90_0==SQUARE_BRACKET_OPEN||LA90_0==CURLY_BRACKET_OPEN||LA90_0==UNDERSCORE) ) {
                 alt90=2;
             }
             else {
@@ -7511,7 +7519,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: pure_block, pattern
+            // elements: pattern, pure_block
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -7596,7 +7604,7 @@ public class babel17Parser extends Parser {
             int alt104=2;
             int LA104_0 = input.LA(1);
 
-            if ( (LA104_0==L_exception||(LA104_0>=A_infinity && LA104_0<=U_infinity)||(LA104_0>=L_true && LA104_0<=L_false)||LA104_0==L_nil||LA104_0==MINUS||(LA104_0>=Constr && LA104_0<=Num)||(LA104_0>=String && LA104_0<=ROUND_BRACKET_OPEN)||LA104_0==SQUARE_BRACKET_OPEN||LA104_0==CURLY_BRACKET_OPEN||LA104_0==UNDERSCORE) ) {
+            if ( (LA104_0==L_exception||(LA104_0>=A_infinity && LA104_0<=U_infinity)||(LA104_0>=L_true && LA104_0<=L_false)||LA104_0==L_nil||LA104_0==MINUS||(LA104_0>=A_ELLIPSIS && LA104_0<=U_ELLIPSIS)||(LA104_0>=Constr && LA104_0<=Num)||(LA104_0>=String && LA104_0<=ROUND_BRACKET_OPEN)||LA104_0==SQUARE_BRACKET_OPEN||LA104_0==CURLY_BRACKET_OPEN||LA104_0==UNDERSCORE) ) {
                 alt104=1;
             }
             else if ( (LA104_0==L_case) ) {
@@ -7971,7 +7979,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: block, protected_expr, pattern
+            // elements: protected_expr, pattern, block
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -9316,7 +9324,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: arith_expr, arith_expr, rel_op
+            // elements: rel_op, arith_expr, arith_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -9336,13 +9344,13 @@ public class babel17Parser extends Parser {
 
                 adaptor.addChild(root_1, stream_arith_expr.nextTree());
                 // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:549:68: ( rel_op arith_expr )*
-                while ( stream_arith_expr.hasNext()||stream_rel_op.hasNext() ) {
+                while ( stream_rel_op.hasNext()||stream_arith_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_rel_op.nextTree());
                     adaptor.addChild(root_1, stream_arith_expr.nextTree());
 
                 }
-                stream_arith_expr.reset();
                 stream_rel_op.reset();
+                stream_arith_expr.reset();
 
                 adaptor.addChild(root_0, root_1);
                 }
@@ -13053,7 +13061,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: Id, primitive_expr
+            // elements: primitive_expr, Id
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -13217,7 +13225,7 @@ public class babel17Parser extends Parser {
                     int alt197=2;
                     int LA197_0 = input.LA(1);
 
-                    if ( (LA197_0==L_begin||(LA197_0>=L_obj && LA197_0<=L_if)||(LA197_0>=L_while && LA197_0<=L_for)||(LA197_0>=L_match && LA197_0<=L_case)||LA197_0==L_exception||(LA197_0>=A_infinity && LA197_0<=L_lazy)||(LA197_0>=L_true && LA197_0<=L_nil)||LA197_0==MINUS||LA197_0==A_NOT||LA197_0==U_NOT||LA197_0==TILDE||(LA197_0>=Constr && LA197_0<=Num)||(LA197_0>=String && LA197_0<=ROUND_BRACKET_OPEN)||LA197_0==SQUARE_BRACKET_OPEN||LA197_0==CURLY_BRACKET_OPEN||LA197_0==UNDERSCORE) ) {
+                    if ( (LA197_0==L_begin||(LA197_0>=L_obj && LA197_0<=L_if)||(LA197_0>=L_while && LA197_0<=L_for)||(LA197_0>=L_match && LA197_0<=L_case)||LA197_0==L_exception||(LA197_0>=A_infinity && LA197_0<=L_lazy)||(LA197_0>=L_true && LA197_0<=L_nil)||LA197_0==MINUS||LA197_0==A_NOT||LA197_0==U_NOT||(LA197_0>=A_ELLIPSIS && LA197_0<=U_ELLIPSIS)||LA197_0==TILDE||(LA197_0>=Constr && LA197_0<=Num)||(LA197_0>=String && LA197_0<=ROUND_BRACKET_OPEN)||LA197_0==SQUARE_BRACKET_OPEN||LA197_0==CURLY_BRACKET_OPEN||LA197_0==UNDERSCORE) ) {
                         alt197=1;
                     }
                     switch (alt197) {
@@ -13407,7 +13415,7 @@ public class babel17Parser extends Parser {
                     int alt205=2;
                     int LA205_0 = input.LA(1);
 
-                    if ( (LA205_0==L_begin||(LA205_0>=L_obj && LA205_0<=L_if)||(LA205_0>=L_while && LA205_0<=L_for)||(LA205_0>=L_match && LA205_0<=L_case)||LA205_0==L_exception||(LA205_0>=A_infinity && LA205_0<=L_lazy)||(LA205_0>=L_true && LA205_0<=L_nil)||LA205_0==MINUS||LA205_0==A_NOT||LA205_0==U_NOT||LA205_0==TILDE||(LA205_0>=Constr && LA205_0<=Num)||(LA205_0>=String && LA205_0<=ROUND_BRACKET_OPEN)||LA205_0==SQUARE_BRACKET_OPEN||LA205_0==CURLY_BRACKET_OPEN||LA205_0==UNDERSCORE) ) {
+                    if ( (LA205_0==L_begin||(LA205_0>=L_obj && LA205_0<=L_if)||(LA205_0>=L_while && LA205_0<=L_for)||(LA205_0>=L_match && LA205_0<=L_case)||LA205_0==L_exception||(LA205_0>=A_infinity && LA205_0<=L_lazy)||(LA205_0>=L_true && LA205_0<=L_nil)||LA205_0==MINUS||LA205_0==A_NOT||LA205_0==U_NOT||(LA205_0>=A_ELLIPSIS && LA205_0<=U_ELLIPSIS)||LA205_0==TILDE||(LA205_0>=Constr && LA205_0<=Num)||(LA205_0>=String && LA205_0<=ROUND_BRACKET_OPEN)||LA205_0==SQUARE_BRACKET_OPEN||LA205_0==CURLY_BRACKET_OPEN||LA205_0==UNDERSCORE) ) {
                         alt205=1;
                     }
                     switch (alt205) {
@@ -13435,13 +13443,13 @@ public class babel17Parser extends Parser {
                                         if ( (LA201_2==NL) ) {
                                             int LA201_4 = input.LA(4);
 
-                                            if ( (LA201_4==L_begin||(LA201_4>=L_obj && LA201_4<=L_if)||(LA201_4>=L_while && LA201_4<=L_for)||(LA201_4>=L_match && LA201_4<=L_case)||LA201_4==L_exception||(LA201_4>=A_infinity && LA201_4<=L_lazy)||(LA201_4>=L_true && LA201_4<=L_nil)||LA201_4==MINUS||LA201_4==A_NOT||LA201_4==U_NOT||LA201_4==TILDE||(LA201_4>=Constr && LA201_4<=Num)||(LA201_4>=String && LA201_4<=ROUND_BRACKET_OPEN)||LA201_4==SQUARE_BRACKET_OPEN||LA201_4==CURLY_BRACKET_OPEN||LA201_4==UNDERSCORE) ) {
+                                            if ( (LA201_4==L_begin||(LA201_4>=L_obj && LA201_4<=L_if)||(LA201_4>=L_while && LA201_4<=L_for)||(LA201_4>=L_match && LA201_4<=L_case)||LA201_4==L_exception||(LA201_4>=A_infinity && LA201_4<=L_lazy)||(LA201_4>=L_true && LA201_4<=L_nil)||LA201_4==MINUS||LA201_4==A_NOT||LA201_4==U_NOT||(LA201_4>=A_ELLIPSIS && LA201_4<=U_ELLIPSIS)||LA201_4==TILDE||(LA201_4>=Constr && LA201_4<=Num)||(LA201_4>=String && LA201_4<=ROUND_BRACKET_OPEN)||LA201_4==SQUARE_BRACKET_OPEN||LA201_4==CURLY_BRACKET_OPEN||LA201_4==UNDERSCORE) ) {
                                                 alt201=1;
                                             }
 
 
                                         }
-                                        else if ( (LA201_2==L_begin||(LA201_2>=L_obj && LA201_2<=L_if)||(LA201_2>=L_while && LA201_2<=L_for)||(LA201_2>=L_match && LA201_2<=L_case)||LA201_2==L_exception||(LA201_2>=A_infinity && LA201_2<=L_lazy)||(LA201_2>=L_true && LA201_2<=L_nil)||LA201_2==MINUS||LA201_2==A_NOT||LA201_2==U_NOT||LA201_2==TILDE||(LA201_2>=Constr && LA201_2<=Num)||(LA201_2>=String && LA201_2<=ROUND_BRACKET_OPEN)||LA201_2==SQUARE_BRACKET_OPEN||LA201_2==CURLY_BRACKET_OPEN||LA201_2==UNDERSCORE) ) {
+                                        else if ( (LA201_2==L_begin||(LA201_2>=L_obj && LA201_2<=L_if)||(LA201_2>=L_while && LA201_2<=L_for)||(LA201_2>=L_match && LA201_2<=L_case)||LA201_2==L_exception||(LA201_2>=A_infinity && LA201_2<=L_lazy)||(LA201_2>=L_true && LA201_2<=L_nil)||LA201_2==MINUS||LA201_2==A_NOT||LA201_2==U_NOT||(LA201_2>=A_ELLIPSIS && LA201_2<=U_ELLIPSIS)||LA201_2==TILDE||(LA201_2>=Constr && LA201_2<=Num)||(LA201_2>=String && LA201_2<=ROUND_BRACKET_OPEN)||LA201_2==SQUARE_BRACKET_OPEN||LA201_2==CURLY_BRACKET_OPEN||LA201_2==UNDERSCORE) ) {
                                             alt201=1;
                                         }
 
@@ -13456,13 +13464,13 @@ public class babel17Parser extends Parser {
                                     if ( (LA201_2==NL) ) {
                                         int LA201_4 = input.LA(3);
 
-                                        if ( (LA201_4==L_begin||(LA201_4>=L_obj && LA201_4<=L_if)||(LA201_4>=L_while && LA201_4<=L_for)||(LA201_4>=L_match && LA201_4<=L_case)||LA201_4==L_exception||(LA201_4>=A_infinity && LA201_4<=L_lazy)||(LA201_4>=L_true && LA201_4<=L_nil)||LA201_4==MINUS||LA201_4==A_NOT||LA201_4==U_NOT||LA201_4==TILDE||(LA201_4>=Constr && LA201_4<=Num)||(LA201_4>=String && LA201_4<=ROUND_BRACKET_OPEN)||LA201_4==SQUARE_BRACKET_OPEN||LA201_4==CURLY_BRACKET_OPEN||LA201_4==UNDERSCORE) ) {
+                                        if ( (LA201_4==L_begin||(LA201_4>=L_obj && LA201_4<=L_if)||(LA201_4>=L_while && LA201_4<=L_for)||(LA201_4>=L_match && LA201_4<=L_case)||LA201_4==L_exception||(LA201_4>=A_infinity && LA201_4<=L_lazy)||(LA201_4>=L_true && LA201_4<=L_nil)||LA201_4==MINUS||LA201_4==A_NOT||LA201_4==U_NOT||(LA201_4>=A_ELLIPSIS && LA201_4<=U_ELLIPSIS)||LA201_4==TILDE||(LA201_4>=Constr && LA201_4<=Num)||(LA201_4>=String && LA201_4<=ROUND_BRACKET_OPEN)||LA201_4==SQUARE_BRACKET_OPEN||LA201_4==CURLY_BRACKET_OPEN||LA201_4==UNDERSCORE) ) {
                                             alt201=1;
                                         }
 
 
                                     }
-                                    else if ( (LA201_2==L_begin||(LA201_2>=L_obj && LA201_2<=L_if)||(LA201_2>=L_while && LA201_2<=L_for)||(LA201_2>=L_match && LA201_2<=L_case)||LA201_2==L_exception||(LA201_2>=A_infinity && LA201_2<=L_lazy)||(LA201_2>=L_true && LA201_2<=L_nil)||LA201_2==MINUS||LA201_2==A_NOT||LA201_2==U_NOT||LA201_2==TILDE||(LA201_2>=Constr && LA201_2<=Num)||(LA201_2>=String && LA201_2<=ROUND_BRACKET_OPEN)||LA201_2==SQUARE_BRACKET_OPEN||LA201_2==CURLY_BRACKET_OPEN||LA201_2==UNDERSCORE) ) {
+                                    else if ( (LA201_2==L_begin||(LA201_2>=L_obj && LA201_2<=L_if)||(LA201_2>=L_while && LA201_2<=L_for)||(LA201_2>=L_match && LA201_2<=L_case)||LA201_2==L_exception||(LA201_2>=A_infinity && LA201_2<=L_lazy)||(LA201_2>=L_true && LA201_2<=L_nil)||LA201_2==MINUS||LA201_2==A_NOT||LA201_2==U_NOT||(LA201_2>=A_ELLIPSIS && LA201_2<=U_ELLIPSIS)||LA201_2==TILDE||(LA201_2>=Constr && LA201_2<=Num)||(LA201_2>=String && LA201_2<=ROUND_BRACKET_OPEN)||LA201_2==SQUARE_BRACKET_OPEN||LA201_2==CURLY_BRACKET_OPEN||LA201_2==UNDERSCORE) ) {
                                         alt201=1;
                                     }
 
@@ -13604,7 +13612,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: COMMA, protected_expr
+                    // elements: protected_expr, COMMA
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -13743,7 +13751,7 @@ public class babel17Parser extends Parser {
                     if ( ((LA215_2>=A_ARROW && LA215_2<=U_ARROW)) ) {
                         alt215=2;
                     }
-                    else if ( (LA215_2==L_begin||(LA215_2>=L_obj && LA215_2<=L_if)||(LA215_2>=L_while && LA215_2<=L_for)||(LA215_2>=L_match && LA215_2<=L_case)||LA215_2==L_exception||(LA215_2>=A_infinity && LA215_2<=L_lazy)||(LA215_2>=L_true && LA215_2<=L_nil)||LA215_2==MINUS||LA215_2==A_NOT||LA215_2==U_NOT||LA215_2==TILDE||(LA215_2>=Constr && LA215_2<=Num)||(LA215_2>=String && LA215_2<=ROUND_BRACKET_OPEN)||LA215_2==SQUARE_BRACKET_OPEN||(LA215_2>=CURLY_BRACKET_OPEN && LA215_2<=UNDERSCORE)) ) {
+                    else if ( (LA215_2==L_begin||(LA215_2>=L_obj && LA215_2<=L_if)||(LA215_2>=L_while && LA215_2<=L_for)||(LA215_2>=L_match && LA215_2<=L_case)||LA215_2==L_exception||(LA215_2>=A_infinity && LA215_2<=L_lazy)||(LA215_2>=L_true && LA215_2<=L_nil)||LA215_2==MINUS||LA215_2==A_NOT||LA215_2==U_NOT||(LA215_2>=A_ELLIPSIS && LA215_2<=U_ELLIPSIS)||LA215_2==TILDE||(LA215_2>=Constr && LA215_2<=Num)||(LA215_2>=String && LA215_2<=ROUND_BRACKET_OPEN)||LA215_2==SQUARE_BRACKET_OPEN||(LA215_2>=CURLY_BRACKET_OPEN && LA215_2<=UNDERSCORE)) ) {
                         alt215=1;
                     }
                     else {
@@ -13783,6 +13791,8 @@ public class babel17Parser extends Parser {
                 case MINUS:
                 case A_NOT:
                 case U_NOT:
+                case A_ELLIPSIS:
+                case U_ELLIPSIS:
                 case TILDE:
                 case Constr:
                 case Id:
@@ -13844,7 +13854,7 @@ public class babel17Parser extends Parser {
                     int alt212=2;
                     int LA212_0 = input.LA(1);
 
-                    if ( (LA212_0==L_begin||(LA212_0>=L_obj && LA212_0<=L_if)||(LA212_0>=L_while && LA212_0<=L_for)||(LA212_0>=L_match && LA212_0<=L_case)||LA212_0==L_exception||(LA212_0>=A_infinity && LA212_0<=L_lazy)||(LA212_0>=L_true && LA212_0<=L_nil)||LA212_0==MINUS||LA212_0==A_NOT||LA212_0==U_NOT||LA212_0==TILDE||(LA212_0>=Constr && LA212_0<=Num)||(LA212_0>=String && LA212_0<=ROUND_BRACKET_OPEN)||LA212_0==SQUARE_BRACKET_OPEN||LA212_0==CURLY_BRACKET_OPEN||LA212_0==UNDERSCORE) ) {
+                    if ( (LA212_0==L_begin||(LA212_0>=L_obj && LA212_0<=L_if)||(LA212_0>=L_while && LA212_0<=L_for)||(LA212_0>=L_match && LA212_0<=L_case)||LA212_0==L_exception||(LA212_0>=A_infinity && LA212_0<=L_lazy)||(LA212_0>=L_true && LA212_0<=L_nil)||LA212_0==MINUS||LA212_0==A_NOT||LA212_0==U_NOT||(LA212_0>=A_ELLIPSIS && LA212_0<=U_ELLIPSIS)||LA212_0==TILDE||(LA212_0>=Constr && LA212_0<=Num)||(LA212_0>=String && LA212_0<=ROUND_BRACKET_OPEN)||LA212_0==SQUARE_BRACKET_OPEN||LA212_0==CURLY_BRACKET_OPEN||LA212_0==UNDERSCORE) ) {
                         alt212=1;
                     }
                     switch (alt212) {
@@ -14217,7 +14227,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: protected_expr, arrow_or_assign
+            // elements: arrow_or_assign, protected_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -14671,11 +14681,11 @@ public class babel17Parser extends Parser {
 
     // $ANTLR start synpred1_babel17
     public final void synpred1_babel17_fragment() throws RecognitionException {   
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:10: ( Id ( NL )? L_as )
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:11: Id ( NL )? L_as
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:10: ( Id ( NL )? L_as )
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:11: Id ( NL )? L_as
         {
-        match(input,Id,FOLLOW_Id_in_synpred1_babel171585); if (state.failed) return ;
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:14: ( NL )?
+        match(input,Id,FOLLOW_Id_in_synpred1_babel171590); if (state.failed) return ;
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:14: ( NL )?
         int alt220=2;
         int LA220_0 = input.LA(1);
 
@@ -14684,16 +14694,16 @@ public class babel17Parser extends Parser {
         }
         switch (alt220) {
             case 1 :
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:14: NL
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:14: NL
                 {
-                match(input,NL,FOLLOW_NL_in_synpred1_babel171587); if (state.failed) return ;
+                match(input,NL,FOLLOW_NL_in_synpred1_babel171592); if (state.failed) return ;
 
                 }
                 break;
 
         }
 
-        match(input,L_as,FOLLOW_L_as_in_synpred1_babel171590); if (state.failed) return ;
+        match(input,L_as,FOLLOW_L_as_in_synpred1_babel171595); if (state.failed) return ;
 
         }
     }
@@ -14701,15 +14711,15 @@ public class babel17Parser extends Parser {
 
     // $ANTLR start synpred2_babel17
     public final void synpred2_babel17_fragment() throws RecognitionException {   
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:4: ( protected_expr ( NL )? QUESTION_MARK )
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:5: protected_expr ( NL )? QUESTION_MARK
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:4: ( protected_expr ( NL )? QUESTION_MARK )
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:5: protected_expr ( NL )? QUESTION_MARK
         {
-        pushFollow(FOLLOW_protected_expr_in_synpred2_babel171621);
+        pushFollow(FOLLOW_protected_expr_in_synpred2_babel171626);
         protected_expr();
 
         state._fsp--;
         if (state.failed) return ;
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:20: ( NL )?
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:20: ( NL )?
         int alt221=2;
         int LA221_0 = input.LA(1);
 
@@ -14718,16 +14728,16 @@ public class babel17Parser extends Parser {
         }
         switch (alt221) {
             case 1 :
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:20: NL
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:20: NL
                 {
-                match(input,NL,FOLLOW_NL_in_synpred2_babel171623); if (state.failed) return ;
+                match(input,NL,FOLLOW_NL_in_synpred2_babel171628); if (state.failed) return ;
 
                 }
                 break;
 
         }
 
-        match(input,QUESTION_MARK,FOLLOW_QUESTION_MARK_in_synpred2_babel171626); if (state.failed) return ;
+        match(input,QUESTION_MARK,FOLLOW_QUESTION_MARK_in_synpred2_babel171631); if (state.failed) return ;
 
         }
     }
@@ -14742,7 +14752,7 @@ public class babel17Parser extends Parser {
         int alt222=2;
         int LA222_0 = input.LA(1);
 
-        if ( (LA222_0==L_exception||(LA222_0>=A_infinity && LA222_0<=U_infinity)||(LA222_0>=L_true && LA222_0<=L_false)||LA222_0==L_nil||LA222_0==MINUS||LA222_0==Constr||LA222_0==Num||(LA222_0>=String && LA222_0<=ROUND_BRACKET_OPEN)||LA222_0==SQUARE_BRACKET_OPEN||LA222_0==CURLY_BRACKET_OPEN||LA222_0==UNDERSCORE) ) {
+        if ( (LA222_0==L_exception||(LA222_0>=A_infinity && LA222_0<=U_infinity)||(LA222_0>=L_true && LA222_0<=L_false)||LA222_0==L_nil||LA222_0==MINUS||(LA222_0>=A_ELLIPSIS && LA222_0<=U_ELLIPSIS)||LA222_0==Constr||LA222_0==Num||(LA222_0>=String && LA222_0<=ROUND_BRACKET_OPEN)||LA222_0==SQUARE_BRACKET_OPEN||LA222_0==CURLY_BRACKET_OPEN||LA222_0==UNDERSCORE) ) {
             alt222=1;
         }
         else if ( (LA222_0==Id) ) {
@@ -14983,19 +14993,19 @@ public class babel17Parser extends Parser {
     static final String DFA16_eofS =
         "\36\uffff";
     static final String DFA16_minS =
-        "\1\63\16\0\17\uffff";
+        "\1\63\17\0\16\uffff";
     static final String DFA16_maxS =
-        "\1\u0088\16\0\17\uffff";
+        "\1\u0088\17\0\16\uffff";
     static final String DFA16_acceptS =
-        "\17\uffff\13\2\1\4\1\5\1\1\1\3";
+        "\20\uffff\13\2\1\4\1\1\1\3";
     static final String DFA16_specialS =
         "\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1"+
-        "\16\17\uffff}>";
+        "\16\1\17\16\uffff}>";
     static final String[] DFA16_transitionS = {
-            "\1\27\1\uffff\1\31\1\30\1\23\3\uffff\1\24\1\26\2\uffff\1\25"+
-            "\1\17\1\uffff\1\32\2\uffff\1\16\2\uffff\2\11\3\20\1\uffff\1"+
-            "\6\1\7\1\22\1\20\1\10\15\uffff\1\12\6\uffff\1\21\2\uffff\1\21"+
-            "\11\uffff\2\33\3\uffff\1\20\3\uffff\1\2\1\1\1\5\1\uffff\1\4"+
+            "\1\30\1\uffff\1\32\1\31\1\24\3\uffff\1\25\1\27\2\uffff\1\26"+
+            "\1\20\1\uffff\1\33\2\uffff\1\16\2\uffff\2\11\3\21\1\uffff\1"+
+            "\6\1\7\1\23\1\21\1\10\15\uffff\1\12\6\uffff\1\22\2\uffff\1\22"+
+            "\11\uffff\2\17\3\uffff\1\21\3\uffff\1\2\1\1\1\5\1\uffff\1\4"+
             "\1\14\1\uffff\1\13\1\uffff\1\15\1\uffff\1\3",
             "\1\uffff",
             "\1\uffff",
@@ -15011,7 +15021,7 @@ public class babel17Parser extends Parser {
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
-            "",
+            "\1\uffff",
             "",
             "",
             "",
@@ -15058,7 +15068,7 @@ public class babel17Parser extends Parser {
             this.transition = DFA16_transition;
         }
         public String getDescription() {
-            return "354:1: bracket_pattern : ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) | token_ELLIPSIS );";
+            return "355:1: bracket_pattern : ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
@@ -15099,31 +15109,31 @@ public class babel17Parser extends Parser {
 
                         else if ( (LA16_0==L_exception) ) {s = 14;}
 
-                        else if ( (LA16_0==L_case) && (synpred2_babel17())) {s = 15;}
+                        else if ( ((LA16_0>=A_ELLIPSIS && LA16_0<=U_ELLIPSIS)) ) {s = 15;}
 
-                        else if ( ((LA16_0>=L_concurrent && LA16_0<=L_lazy)||LA16_0==L_random||LA16_0==TILDE) && (synpred2_babel17())) {s = 16;}
+                        else if ( (LA16_0==L_case) && (synpred2_babel17())) {s = 16;}
 
-                        else if ( (LA16_0==A_NOT||LA16_0==U_NOT) && (synpred2_babel17())) {s = 17;}
+                        else if ( ((LA16_0>=L_concurrent && LA16_0<=L_lazy)||LA16_0==L_random||LA16_0==TILDE) && (synpred2_babel17())) {s = 17;}
 
-                        else if ( (LA16_0==L_this) && (synpred2_babel17())) {s = 18;}
+                        else if ( (LA16_0==A_NOT||LA16_0==U_NOT) && (synpred2_babel17())) {s = 18;}
 
-                        else if ( (LA16_0==L_if) && (synpred2_babel17())) {s = 19;}
+                        else if ( (LA16_0==L_this) && (synpred2_babel17())) {s = 19;}
 
-                        else if ( (LA16_0==L_while) && (synpred2_babel17())) {s = 20;}
+                        else if ( (LA16_0==L_if) && (synpred2_babel17())) {s = 20;}
 
-                        else if ( (LA16_0==L_match) && (synpred2_babel17())) {s = 21;}
+                        else if ( (LA16_0==L_while) && (synpred2_babel17())) {s = 21;}
 
-                        else if ( (LA16_0==L_for) && (synpred2_babel17())) {s = 22;}
+                        else if ( (LA16_0==L_match) && (synpred2_babel17())) {s = 22;}
 
-                        else if ( (LA16_0==L_begin) && (synpred2_babel17())) {s = 23;}
+                        else if ( (LA16_0==L_for) && (synpred2_babel17())) {s = 23;}
 
-                        else if ( (LA16_0==L_with) && (synpred2_babel17())) {s = 24;}
+                        else if ( (LA16_0==L_begin) && (synpred2_babel17())) {s = 24;}
 
-                        else if ( (LA16_0==L_obj) && (synpred2_babel17())) {s = 25;}
+                        else if ( (LA16_0==L_with) && (synpred2_babel17())) {s = 25;}
 
-                        else if ( (LA16_0==L_val) ) {s = 26;}
+                        else if ( (LA16_0==L_obj) && (synpred2_babel17())) {s = 26;}
 
-                        else if ( ((LA16_0>=A_ELLIPSIS && LA16_0<=U_ELLIPSIS)) ) {s = 27;}
+                        else if ( (LA16_0==L_val) ) {s = 27;}
 
                          
                         input.seek(index16_0);
@@ -15138,7 +15148,7 @@ public class babel17Parser extends Parser {
                         s = -1;
                         if ( (synpred1_babel17()) ) {s = 28;}
 
-                        else if ( (synpred2_babel17()) ) {s = 25;}
+                        else if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15153,7 +15163,7 @@ public class babel17Parser extends Parser {
                         int index16_2 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15168,7 +15178,7 @@ public class babel17Parser extends Parser {
                         int index16_3 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15183,7 +15193,7 @@ public class babel17Parser extends Parser {
                         int index16_4 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15198,7 +15208,7 @@ public class babel17Parser extends Parser {
                         int index16_5 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15213,7 +15223,7 @@ public class babel17Parser extends Parser {
                         int index16_6 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15228,7 +15238,7 @@ public class babel17Parser extends Parser {
                         int index16_7 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15243,7 +15253,7 @@ public class babel17Parser extends Parser {
                         int index16_8 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15258,7 +15268,7 @@ public class babel17Parser extends Parser {
                         int index16_9 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15273,7 +15283,7 @@ public class babel17Parser extends Parser {
                         int index16_10 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15288,7 +15298,7 @@ public class babel17Parser extends Parser {
                         int index16_11 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15303,7 +15313,7 @@ public class babel17Parser extends Parser {
                         int index16_12 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15318,7 +15328,7 @@ public class babel17Parser extends Parser {
                         int index16_13 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
@@ -15333,12 +15343,27 @@ public class babel17Parser extends Parser {
                         int index16_14 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred2_babel17()) ) {s = 25;}
+                        if ( (synpred2_babel17()) ) {s = 26;}
 
                         else if ( (true) ) {s = 29;}
 
                          
                         input.seek(index16_14);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 15 : 
+                        int LA16_15 = input.LA(1);
+
+                         
+                        int index16_15 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred2_babel17()) ) {s = 26;}
+
+                        else if ( (true) ) {s = 29;}
+
+                         
+                        input.seek(index16_15);
                         if ( s>=0 ) return s;
                         break;
             }
@@ -15440,12 +15465,12 @@ public class babel17Parser extends Parser {
     static final String[] DFA51_transitionS = {
             "\1\2\1\3\3\2\1\uffff\2\3\2\2\1\uffff\2\2\1\3\1\uffff\2\2\1\uffff"+
             "\1\2\2\uffff\13\2\13\uffff\1\1\1\uffff\1\2\6\uffff\1\2\2\uffff"+
-            "\1\2\16\uffff\1\2\2\uffff\1\1\3\2\1\uffff\2\2\1\uffff\1\2\1"+
-            "\uffff\1\2\1\uffff\1\2",
+            "\1\2\11\uffff\2\2\3\uffff\1\2\2\uffff\1\1\3\2\1\uffff\2\2\1"+
+            "\uffff\1\2\1\uffff\1\2\1\uffff\1\2",
             "\1\2\1\3\3\2\1\uffff\2\3\2\2\1\uffff\2\2\1\3\1\uffff\2\2\1"+
             "\uffff\1\2\2\uffff\13\2\13\uffff\1\1\1\uffff\1\2\6\uffff\1\2"+
-            "\2\uffff\1\2\16\uffff\1\2\2\uffff\1\1\3\2\1\uffff\2\2\1\uffff"+
-            "\1\2\1\uffff\1\2\1\uffff\1\2",
+            "\2\uffff\1\2\11\uffff\2\2\3\uffff\1\2\2\uffff\1\1\3\2\1\uffff"+
+            "\2\2\1\uffff\1\2\1\uffff\1\2\1\uffff\1\2",
             "",
             ""
     };
@@ -15499,8 +15524,8 @@ public class babel17Parser extends Parser {
             "\1\2\4\uffff\2\2\5\uffff\1\2\35\uffff\1\1\35\uffff\1\1",
             "\1\3\1\2\3\3\1\uffff\2\2\2\3\1\uffff\2\3\1\2\1\uffff\2\3\1"+
             "\uffff\1\3\2\uffff\13\3\13\uffff\1\1\1\uffff\1\3\6\uffff\1\3"+
-            "\2\uffff\1\3\16\uffff\1\3\2\uffff\1\1\3\3\1\uffff\2\3\1\uffff"+
-            "\1\3\1\uffff\1\3\1\uffff\1\3",
+            "\2\uffff\1\3\11\uffff\2\3\3\uffff\1\3\2\uffff\1\1\3\3\1\uffff"+
+            "\2\3\1\uffff\1\3\1\uffff\1\3\1\uffff\1\3",
             "",
             ""
     };
@@ -15539,23 +15564,25 @@ public class babel17Parser extends Parser {
         }
     }
     static final String DFA68_eotS =
-        "\32\uffff";
+        "\33\uffff";
     static final String DFA68_eofS =
-        "\32\uffff";
+        "\33\uffff";
     static final String DFA68_minS =
-        "\1\63\16\0\13\uffff";
+        "\1\63\17\0\13\uffff";
     static final String DFA68_maxS =
-        "\1\u0088\16\0\13\uffff";
+        "\1\u0088\17\0\13\uffff";
     static final String DFA68_acceptS =
-        "\17\uffff\1\2\11\uffff\1\1";
+        "\20\uffff\1\2\11\uffff\1\1";
     static final String DFA68_specialS =
         "\1\uffff\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14"+
-        "\1\15\13\uffff}>";
+        "\1\15\1\16\13\uffff}>";
     static final String[] DFA68_transitionS = {
-            "\1\17\1\uffff\3\17\3\uffff\2\17\2\uffff\1\17\5\uffff\1\16\2"+
-            "\uffff\2\11\3\17\1\uffff\1\6\1\7\2\17\1\10\15\uffff\1\12\6\uffff"+
-            "\1\17\2\uffff\1\17\16\uffff\1\17\3\uffff\1\1\1\2\1\5\1\uffff"+
-            "\1\4\1\14\1\uffff\1\13\1\uffff\1\15\1\uffff\1\3",
+            "\1\20\1\uffff\3\20\3\uffff\2\20\2\uffff\1\20\5\uffff\1\16\2"+
+            "\uffff\2\11\3\20\1\uffff\1\6\1\7\2\20\1\10\15\uffff\1\12\6\uffff"+
+            "\1\20\2\uffff\1\20\11\uffff\2\17\3\uffff\1\20\3\uffff\1\1\1"+
+            "\2\1\5\1\uffff\1\4\1\14\1\uffff\1\13\1\uffff\1\15\1\uffff\1"+
+            "\3",
+            "\1\uffff",
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
@@ -15626,9 +15653,9 @@ public class babel17Parser extends Parser {
                         int index68_1 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_1);
@@ -15641,9 +15668,9 @@ public class babel17Parser extends Parser {
                         int index68_2 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_2);
@@ -15656,9 +15683,9 @@ public class babel17Parser extends Parser {
                         int index68_3 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_3);
@@ -15671,9 +15698,9 @@ public class babel17Parser extends Parser {
                         int index68_4 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_4);
@@ -15686,9 +15713,9 @@ public class babel17Parser extends Parser {
                         int index68_5 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_5);
@@ -15701,9 +15728,9 @@ public class babel17Parser extends Parser {
                         int index68_6 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_6);
@@ -15716,9 +15743,9 @@ public class babel17Parser extends Parser {
                         int index68_7 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_7);
@@ -15731,9 +15758,9 @@ public class babel17Parser extends Parser {
                         int index68_8 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_8);
@@ -15746,9 +15773,9 @@ public class babel17Parser extends Parser {
                         int index68_9 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_9);
@@ -15761,9 +15788,9 @@ public class babel17Parser extends Parser {
                         int index68_10 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_10);
@@ -15776,9 +15803,9 @@ public class babel17Parser extends Parser {
                         int index68_11 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_11);
@@ -15791,9 +15818,9 @@ public class babel17Parser extends Parser {
                         int index68_12 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_12);
@@ -15806,9 +15833,9 @@ public class babel17Parser extends Parser {
                         int index68_13 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_13);
@@ -15821,12 +15848,27 @@ public class babel17Parser extends Parser {
                         int index68_14 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred3_babel17()) ) {s = 25;}
+                        if ( (synpred3_babel17()) ) {s = 26;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index68_14);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 14 : 
+                        int LA68_15 = input.LA(1);
+
+                         
+                        int index68_15 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (synpred3_babel17()) ) {s = 26;}
+
+                        else if ( (true) ) {s = 16;}
+
+                         
+                        input.seek(index68_15);
                         if ( s>=0 ) return s;
                         break;
             }
@@ -15838,23 +15880,24 @@ public class babel17Parser extends Parser {
         }
     }
     static final String DFA79_eotS =
-        "\30\uffff";
+        "\31\uffff";
     static final String DFA79_eofS =
-        "\30\uffff";
+        "\31\uffff";
     static final String DFA79_minS =
-        "\1\63\2\0\1\uffff\13\0\11\uffff";
+        "\1\63\2\0\1\uffff\13\0\12\uffff";
     static final String DFA79_maxS =
-        "\1\u0088\2\0\1\uffff\13\0\11\uffff";
+        "\1\u0088\2\0\1\uffff\13\0\12\uffff";
     static final String DFA79_acceptS =
-        "\3\uffff\1\1\13\uffff\1\2\10\uffff";
+        "\3\uffff\1\1\13\uffff\1\1\1\2\10\uffff";
     static final String DFA79_specialS =
         "\1\0\1\1\1\2\1\uffff\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14"+
-        "\1\15\11\uffff}>";
+        "\1\15\12\uffff}>";
     static final String[] DFA79_transitionS = {
-            "\1\17\2\uffff\2\17\3\uffff\2\17\2\uffff\1\17\5\uffff\1\16\2"+
-            "\uffff\2\11\3\17\1\uffff\1\6\1\7\2\17\1\10\15\uffff\1\12\6\uffff"+
-            "\1\17\2\uffff\1\17\16\uffff\1\17\3\uffff\1\1\1\2\1\5\1\uffff"+
-            "\1\4\1\14\1\uffff\1\13\1\uffff\1\15\1\uffff\1\3",
+            "\1\20\2\uffff\2\20\3\uffff\2\20\2\uffff\1\20\5\uffff\1\16\2"+
+            "\uffff\2\11\3\20\1\uffff\1\6\1\7\2\20\1\10\15\uffff\1\12\6\uffff"+
+            "\1\20\2\uffff\1\20\11\uffff\2\17\3\uffff\1\20\3\uffff\1\1\1"+
+            "\2\1\5\1\uffff\1\4\1\14\1\uffff\1\13\1\uffff\1\15\1\uffff\1"+
+            "\3",
             "\1\uffff",
             "\1\uffff",
             "",
@@ -15869,6 +15912,7 @@ public class babel17Parser extends Parser {
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
+            "",
             "",
             "",
             "",
@@ -15951,7 +15995,9 @@ public class babel17Parser extends Parser {
 
                         else if ( (LA79_0==L_exception) ) {s = 14;}
 
-                        else if ( (LA79_0==L_begin||(LA79_0>=L_with && LA79_0<=L_if)||(LA79_0>=L_while && LA79_0<=L_for)||LA79_0==L_match||(LA79_0>=L_concurrent && LA79_0<=L_lazy)||(LA79_0>=L_this && LA79_0<=L_random)||LA79_0==A_NOT||LA79_0==U_NOT||LA79_0==TILDE) ) {s = 15;}
+                        else if ( ((LA79_0>=A_ELLIPSIS && LA79_0<=U_ELLIPSIS)) && (synpred5_babel17())) {s = 15;}
+
+                        else if ( (LA79_0==L_begin||(LA79_0>=L_with && LA79_0<=L_if)||(LA79_0>=L_while && LA79_0<=L_for)||LA79_0==L_match||(LA79_0>=L_concurrent && LA79_0<=L_lazy)||(LA79_0>=L_this && LA79_0<=L_random)||LA79_0==A_NOT||LA79_0==U_NOT||LA79_0==TILDE) ) {s = 16;}
 
                          
                         input.seek(index79_0);
@@ -15964,9 +16010,9 @@ public class babel17Parser extends Parser {
                         int index79_1 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_1);
@@ -15979,9 +16025,9 @@ public class babel17Parser extends Parser {
                         int index79_2 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_2);
@@ -15994,9 +16040,9 @@ public class babel17Parser extends Parser {
                         int index79_4 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_4);
@@ -16009,9 +16055,9 @@ public class babel17Parser extends Parser {
                         int index79_5 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_5);
@@ -16024,9 +16070,9 @@ public class babel17Parser extends Parser {
                         int index79_6 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_6);
@@ -16039,9 +16085,9 @@ public class babel17Parser extends Parser {
                         int index79_7 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_7);
@@ -16054,9 +16100,9 @@ public class babel17Parser extends Parser {
                         int index79_8 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_8);
@@ -16069,9 +16115,9 @@ public class babel17Parser extends Parser {
                         int index79_9 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_9);
@@ -16084,9 +16130,9 @@ public class babel17Parser extends Parser {
                         int index79_10 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_10);
@@ -16099,9 +16145,9 @@ public class babel17Parser extends Parser {
                         int index79_11 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_11);
@@ -16114,9 +16160,9 @@ public class babel17Parser extends Parser {
                         int index79_12 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_12);
@@ -16129,9 +16175,9 @@ public class babel17Parser extends Parser {
                         int index79_13 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_13);
@@ -16144,9 +16190,9 @@ public class babel17Parser extends Parser {
                         int index79_14 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred5_babel17()) ) {s = 3;}
+                        if ( (synpred5_babel17()) ) {s = 15;}
 
-                        else if ( (true) ) {s = 15;}
+                        else if ( (true) ) {s = 16;}
 
                          
                         input.seek(index79_14);
@@ -16161,23 +16207,24 @@ public class babel17Parser extends Parser {
         }
     }
     static final String DFA80_eotS =
-        "\31\uffff";
+        "\32\uffff";
     static final String DFA80_eofS =
-        "\31\uffff";
+        "\32\uffff";
     static final String DFA80_minS =
-        "\1\63\2\0\1\uffff\13\0\12\uffff";
+        "\1\63\2\0\1\uffff\13\0\13\uffff";
     static final String DFA80_maxS =
-        "\1\u0088\2\0\1\uffff\13\0\12\uffff";
+        "\1\u0088\2\0\1\uffff\13\0\13\uffff";
     static final String DFA80_acceptS =
-        "\3\uffff\1\1\13\uffff\1\1\1\2\10\uffff";
+        "\3\uffff\1\1\13\uffff\2\1\1\2\10\uffff";
     static final String DFA80_specialS =
         "\1\0\1\1\1\2\1\uffff\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14"+
-        "\1\15\12\uffff}>";
+        "\1\15\13\uffff}>";
     static final String[] DFA80_transitionS = {
-            "\1\20\2\uffff\2\20\3\uffff\2\20\2\uffff\1\20\1\17\4\uffff\1"+
-            "\16\2\uffff\2\11\3\20\1\uffff\1\6\1\7\2\20\1\10\15\uffff\1\12"+
-            "\6\uffff\1\20\2\uffff\1\20\16\uffff\1\20\3\uffff\1\1\1\2\1\5"+
-            "\1\uffff\1\4\1\14\1\uffff\1\13\1\uffff\1\15\1\uffff\1\3",
+            "\1\21\2\uffff\2\21\3\uffff\2\21\2\uffff\1\21\1\20\4\uffff\1"+
+            "\16\2\uffff\2\11\3\21\1\uffff\1\6\1\7\2\21\1\10\15\uffff\1\12"+
+            "\6\uffff\1\21\2\uffff\1\21\11\uffff\2\17\3\uffff\1\21\3\uffff"+
+            "\1\1\1\2\1\5\1\uffff\1\4\1\14\1\uffff\1\13\1\uffff\1\15\1\uffff"+
+            "\1\3",
             "\1\uffff",
             "\1\uffff",
             "",
@@ -16192,6 +16239,7 @@ public class babel17Parser extends Parser {
             "\1\uffff",
             "\1\uffff",
             "\1\uffff",
+            "",
             "",
             "",
             "",
@@ -16275,9 +16323,11 @@ public class babel17Parser extends Parser {
 
                         else if ( (LA80_0==L_exception) ) {s = 14;}
 
-                        else if ( (LA80_0==L_case) && (synpred6_babel17())) {s = 15;}
+                        else if ( ((LA80_0>=A_ELLIPSIS && LA80_0<=U_ELLIPSIS)) && (synpred6_babel17())) {s = 15;}
 
-                        else if ( (LA80_0==L_begin||(LA80_0>=L_with && LA80_0<=L_if)||(LA80_0>=L_while && LA80_0<=L_for)||LA80_0==L_match||(LA80_0>=L_concurrent && LA80_0<=L_lazy)||(LA80_0>=L_this && LA80_0<=L_random)||LA80_0==A_NOT||LA80_0==U_NOT||LA80_0==TILDE) ) {s = 16;}
+                        else if ( (LA80_0==L_case) && (synpred6_babel17())) {s = 16;}
+
+                        else if ( (LA80_0==L_begin||(LA80_0>=L_with && LA80_0<=L_if)||(LA80_0>=L_while && LA80_0<=L_for)||LA80_0==L_match||(LA80_0>=L_concurrent && LA80_0<=L_lazy)||(LA80_0>=L_this && LA80_0<=L_random)||LA80_0==A_NOT||LA80_0==U_NOT||LA80_0==TILDE) ) {s = 17;}
 
                          
                         input.seek(index80_0);
@@ -16290,9 +16340,9 @@ public class babel17Parser extends Parser {
                         int index80_1 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_1);
@@ -16305,9 +16355,9 @@ public class babel17Parser extends Parser {
                         int index80_2 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_2);
@@ -16320,9 +16370,9 @@ public class babel17Parser extends Parser {
                         int index80_4 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_4);
@@ -16335,9 +16385,9 @@ public class babel17Parser extends Parser {
                         int index80_5 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_5);
@@ -16350,9 +16400,9 @@ public class babel17Parser extends Parser {
                         int index80_6 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_6);
@@ -16365,9 +16415,9 @@ public class babel17Parser extends Parser {
                         int index80_7 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_7);
@@ -16380,9 +16430,9 @@ public class babel17Parser extends Parser {
                         int index80_8 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_8);
@@ -16395,9 +16445,9 @@ public class babel17Parser extends Parser {
                         int index80_9 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_9);
@@ -16410,9 +16460,9 @@ public class babel17Parser extends Parser {
                         int index80_10 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_10);
@@ -16425,9 +16475,9 @@ public class babel17Parser extends Parser {
                         int index80_11 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_11);
@@ -16440,9 +16490,9 @@ public class babel17Parser extends Parser {
                         int index80_12 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_12);
@@ -16455,9 +16505,9 @@ public class babel17Parser extends Parser {
                         int index80_13 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_13);
@@ -16470,9 +16520,9 @@ public class babel17Parser extends Parser {
                         int index80_14 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (synpred6_babel17()) ) {s = 15;}
+                        if ( (synpred6_babel17()) ) {s = 16;}
 
-                        else if ( (true) ) {s = 16;}
+                        else if ( (true) ) {s = 17;}
 
                          
                         input.seek(index80_14);
@@ -16510,25 +16560,25 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_primitive_pattern_in_pattern1539 = new BitSet(new long[]{0x0000000000000002L,0x1000180000000000L});
     public static final BitSet FOLLOW_L_exception_in_pattern1558 = new BitSet(new long[]{0x0000000000000000L,0xD00000010004C300L,0x0000000000000156L});
     public static final BitSet FOLLOW_primitive_pattern_in_pattern1560 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Id_in_bracket_pattern1595 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000002L});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1597 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000002L});
-    public static final BitSet FOLLOW_L_as_in_bracket_pattern1600 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1602 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
-    public static final BitSet FOLLOW_pattern_in_bracket_pattern1605 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1634 = new BitSet(new long[]{0x0000000000000000L,0x1100000000000000L});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1636 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
-    public static final BitSet FOLLOW_QUESTION_MARK_in_bracket_pattern1639 = new BitSet(new long[]{0x0000000000000002L,0xF00000010004C320L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1642 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
-    public static final BitSet FOLLOW_pattern_in_bracket_pattern1645 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pattern_in_bracket_pattern1663 = new BitSet(new long[]{0x0080000000000002L,0x1000000000000000L});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1666 = new BitSet(new long[]{0x0080000000000000L});
-    public static final BitSet FOLLOW_L_if_in_bracket_pattern1669 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1671 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1674 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_val_in_bracket_pattern1692 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1694 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1697 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_token_ELLIPSIS_in_bracket_pattern1710 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_token_ELLIPSIS_in_pattern1573 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Id_in_bracket_pattern1600 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000002L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1602 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000002L});
+    public static final BitSet FOLLOW_L_as_in_bracket_pattern1605 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1607 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_pattern_in_bracket_pattern1610 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1639 = new BitSet(new long[]{0x0000000000000000L,0x1100000000000000L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1641 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
+    public static final BitSet FOLLOW_QUESTION_MARK_in_bracket_pattern1644 = new BitSet(new long[]{0x0000000000000002L,0xF03000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1647 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_pattern_in_bracket_pattern1650 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pattern_in_bracket_pattern1668 = new BitSet(new long[]{0x0080000000000002L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1671 = new BitSet(new long[]{0x0080000000000000L});
+    public static final BitSet FOLLOW_L_if_in_bracket_pattern1674 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1676 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1679 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_val_in_bracket_pattern1697 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1699 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1702 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_token_ARROW_in_arrow_or_assign1720 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_ASSIGN_in_arrow_or_assign1731 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_bracket_pattern_in_mselem_pattern1746 = new BitSet(new long[]{0x0000000100000002L,0x100C000000000000L});
@@ -16585,14 +16635,14 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_NL_in_primitive_pattern2039 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
     public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_primitive_pattern2042 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_sep2064 = new BitSet(new long[]{0x0000000000000002L,0x1000000040000000L});
-    public static final BitSet FOLLOW_sep_in_block2080 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_sep_in_block2080 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_statement_in_block2083 = new BitSet(new long[]{0x0000000000000002L,0x1000000040000000L});
-    public static final BitSet FOLLOW_sep_in_block2086 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_sep_in_block2086 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_statement_in_block2088 = new BitSet(new long[]{0x0000000000000002L,0x1000000040000000L});
     public static final BitSet FOLLOW_sep_in_block2092 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_sep_in_block2108 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_statement_in_pure_block2125 = new BitSet(new long[]{0x0000000000000002L,0x1000000040000000L});
-    public static final BitSet FOLLOW_sep_in_pure_block2128 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_sep_in_pure_block2128 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_statement_in_pure_block2130 = new BitSet(new long[]{0x0000000000000002L,0x1000000040000000L});
     public static final BitSet FOLLOW_st_val_in_statement2151 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_st_def_in_statement2156 = new BitSet(new long[]{0x0000000000000002L});
@@ -16602,13 +16652,13 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_Id_in_objelem_assign2180 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
     public static final BitSet FOLLOW_PERIOD_in_objelem_assign2182 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L});
     public static final BitSet FOLLOW_Id_in_objelem_assign2184 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_val_in_st_val2203 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_st_val2205 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_val_in_st_val2203 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_st_val2205 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
     public static final BitSet FOLLOW_pattern_in_st_val2209 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_objelem_assign_in_st_val2213 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_NL_in_st_val2216 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_ASSIGN_in_st_val2219 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_st_val2221 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_ASSIGN_in_st_val2219 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_st_val2221 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_expr_in_st_val2224 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_L_def_in_st_def2248 = new BitSet(new long[]{0x0000000000000000L,0x5000000000000000L});
     public static final BitSet FOLLOW_NL_in_st_def2250 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L});
@@ -16616,10 +16666,10 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_NL_in_st_def2255 = new BitSet(new long[]{0x0000000100000000L,0xD00000010004C300L,0x0000000000000156L});
     public static final BitSet FOLLOW_primitive_pattern_in_st_def2259 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_NL_in_st_def2261 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_ASSIGN_in_st_def2266 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_st_def2268 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_ASSIGN_in_st_def2266 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_st_def2268 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_expr_in_st_def2271 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_yield_in_st_yield2300 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_yield_in_st_yield2300 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_expr_in_st_yield2302 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_L_memoize_in_st_memoize2320 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L,0x0000000000000004L});
     public static final BitSet FOLLOW_memid_in_st_memoize2322 = new BitSet(new long[]{0x0000000000000002L,0x4000000000000000L,0x0000000000000004L});
@@ -16630,8 +16680,8 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_pattern_in_expr_or_assign2403 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_objelem_assign_in_expr_or_assign2407 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_NL_in_expr_or_assign2410 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_ASSIGN_in_expr_or_assign2413 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_expr_or_assign2415 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_ASSIGN_in_expr_or_assign2413 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_expr_or_assign2415 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_expr_in_expr_or_assign2418 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_expr_in_expr_or_assign2433 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_lop_expr_in_expr2444 = new BitSet(new long[]{0x0000000000000002L});
@@ -16642,8 +16692,8 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_for_expr_in_control_expr2474 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_begin_end_in_control_expr2479 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_control_expr_in_with_control_expr2489 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_with_in_with_control_expr2494 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_with_control_expr2496 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_with_in_with_control_expr2494 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_with_control_expr2496 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_protected_expr_in_with_control_expr2499 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000000L,0x0000000000000200L});
     public static final BitSet FOLLOW_NL_in_with_control_expr2501 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000200L});
     public static final BitSet FOLLOW_COLON_in_with_control_expr2504 = new BitSet(new long[]{0x9888000000000000L,0x1000000000000000L});
@@ -16651,61 +16701,61 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_control_expr_in_with_control_expr2509 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_p_lop_expr_in_protected_expr2530 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_obj_expr_in_protected_expr2535 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_begin_in_begin_end2547 = new BitSet(new long[]{0xD8F8000000000000L,0xF20004814007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_begin_in_begin_end2547 = new BitSet(new long[]{0xD8F8000000000000L,0xF23004814007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_block_in_begin_end2549 = new BitSet(new long[]{0x0010000000000000L});
     public static final BitSet FOLLOW_L_end_in_begin_end2551 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PLUS_in_parents2569 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_PLUS_in_parents2569 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_primitive_expr_in_parents2571 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TIMES_in_parents2584 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_TIMES_in_parents2584 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_primitive_expr_in_parents2586 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_L_obj_in_obj_expr2614 = new BitSet(new long[]{0x0000000000000000L,0x1000000280000000L});
     public static final BitSet FOLLOW_NL_in_obj_expr2616 = new BitSet(new long[]{0x0000000000000000L,0x1000000280000000L});
-    public static final BitSet FOLLOW_parents_in_obj_expr2619 = new BitSet(new long[]{0xD8F8000000000000L,0xF20004814007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_parents_in_obj_expr2619 = new BitSet(new long[]{0xD8F8000000000000L,0xF23004814007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_block_in_obj_expr2621 = new BitSet(new long[]{0x0010000000000000L});
     public static final BitSet FOLLOW_L_end_in_obj_expr2623 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_obj_in_obj_expr2651 = new BitSet(new long[]{0xD8F8000000000000L,0xF20004814007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_obj_in_obj_expr2651 = new BitSet(new long[]{0xD8F8000000000000L,0xF23004814007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_block_in_obj_expr2653 = new BitSet(new long[]{0x0010000000000000L});
     public static final BitSet FOLLOW_L_end_in_obj_expr2655 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_lambda_expr_in_lop_expr2683 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_op_expr_in_lop_expr2688 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_protected_lambda_expr_in_p_lop_expr2704 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_p_op_expr_in_p_lop_expr2709 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_if_in_if_expr2720 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_if_expr2722 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_if_in_if_expr2720 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_if_expr2722 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_protected_expr_in_if_expr2725 = new BitSet(new long[]{0x0100000000000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_NL_in_if_expr2727 = new BitSet(new long[]{0x0100000000000000L});
-    public static final BitSet FOLLOW_L_then_in_if_expr2730 = new BitSet(new long[]{0xDEF8000000000000L,0xF20004814007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_then_in_if_expr2730 = new BitSet(new long[]{0xDEF8000000000000L,0xF23004814007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_block_in_if_expr2732 = new BitSet(new long[]{0x0610000000000000L});
-    public static final BitSet FOLLOW_L_elseif_in_if_expr2738 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_if_expr2740 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_elseif_in_if_expr2738 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_if_expr2740 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_protected_expr_in_if_expr2743 = new BitSet(new long[]{0x0100000000000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_NL_in_if_expr2745 = new BitSet(new long[]{0x0100000000000000L});
-    public static final BitSet FOLLOW_L_then_in_if_expr2748 = new BitSet(new long[]{0xDEF8000000000000L,0xF20004814007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_then_in_if_expr2748 = new BitSet(new long[]{0xDEF8000000000000L,0xF23004814007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_block_in_if_expr2750 = new BitSet(new long[]{0x0610000000000000L});
-    public static final BitSet FOLLOW_L_else_in_if_expr2758 = new BitSet(new long[]{0xD8F8000000000000L,0xF20004814007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_else_in_if_expr2758 = new BitSet(new long[]{0xD8F8000000000000L,0xF23004814007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_block_in_if_expr2760 = new BitSet(new long[]{0x0010000000000000L});
     public static final BitSet FOLLOW_L_end_in_if_expr2764 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_while_in_while_do_expr2788 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_while_do_expr2790 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_while_in_while_do_expr2788 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_while_do_expr2790 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_protected_expr_in_while_do_expr2793 = new BitSet(new long[]{0x2000000000000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_NL_in_while_do_expr2795 = new BitSet(new long[]{0x2000000000000000L});
-    public static final BitSet FOLLOW_L_do_in_while_do_expr2798 = new BitSet(new long[]{0xD8F8000000000000L,0xF20004814007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_do_in_while_do_expr2798 = new BitSet(new long[]{0xD8F8000000000000L,0xF23004814007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_block_in_while_do_expr2800 = new BitSet(new long[]{0x0010000000000000L});
     public static final BitSet FOLLOW_L_end_in_while_do_expr2802 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_full_cases_in_cases2832 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_pattern_in_cases2837 = new BitSet(new long[]{0x0000000000000000L,0x1003000000000000L});
     public static final BitSet FOLLOW_NL_in_cases2839 = new BitSet(new long[]{0x0000000000000000L,0x1003000000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_cases2842 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004814007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_cases2842 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004814007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_block_in_cases2844 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_case_expr_in_full_cases2867 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000001L});
-    public static final BitSet FOLLOW_L_case_in_case_expr2888 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_case_expr2890 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_case_in_case_expr2888 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_case_expr2890 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
     public static final BitSet FOLLOW_pattern_in_case_expr2893 = new BitSet(new long[]{0x0000000000000000L,0x1003000000000000L});
     public static final BitSet FOLLOW_NL_in_case_expr2895 = new BitSet(new long[]{0x0000000000000000L,0x1003000000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_case_expr2898 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004814007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_case_expr2898 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004814007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_block_in_case_expr2900 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_match_in_match_expr2921 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_match_expr2923 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_match_in_match_expr2921 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_match_expr2923 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_op_expr_in_match_expr2926 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000001L});
     public static final BitSet FOLLOW_NL_in_match_expr2928 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000001L});
     public static final BitSet FOLLOW_full_cases_in_match_expr2931 = new BitSet(new long[]{0x0010000000000000L});
@@ -16713,39 +16763,39 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_lambda_cases_in_lambda_expr2959 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_pattern_in_lambda_cases2977 = new BitSet(new long[]{0x0000000000000000L,0x1003000000000000L});
     public static final BitSet FOLLOW_NL_in_lambda_cases2979 = new BitSet(new long[]{0x0000000000000000L,0x1003000000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_lambda_cases2982 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_lambda_cases2984 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_lambda_cases2982 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_lambda_cases2984 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_lop_expr_in_lambda_cases2987 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_protected_lambda_cases_in_protected_lambda_expr3015 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_case_in_p_lambda_case_expr3033 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3035 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_case_in_p_lambda_case_expr3033 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3035 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
     public static final BitSet FOLLOW_pattern_in_p_lambda_case_expr3038 = new BitSet(new long[]{0x0000000000000000L,0x1003000000000000L});
     public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3040 = new BitSet(new long[]{0x0000000000000000L,0x1003000000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_p_lambda_case_expr3043 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3045 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_p_lambda_case_expr3043 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3045 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_pure_block_in_p_lambda_case_expr3048 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_pattern_in_protected_lambda_cases3069 = new BitSet(new long[]{0x0000000000000000L,0x1003000000000000L});
     public static final BitSet FOLLOW_NL_in_protected_lambda_cases3071 = new BitSet(new long[]{0x0000000000000000L,0x1003000000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_protected_lambda_cases3074 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_protected_lambda_cases3076 = new BitSet(new long[]{0xD8E8000000000000L,0xF20004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_protected_lambda_cases3074 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_protected_lambda_cases3076 = new BitSet(new long[]{0xD8E8000000000000L,0xF23004810007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_pure_block_in_protected_lambda_cases3079 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_lambda_case_expr_in_protected_lambda_cases3098 = new BitSet(new long[]{0x0000000000000002L,0xF00000010004C321L,0x0000000000000156L});
-    public static final BitSet FOLLOW_L_for_in_for_expr3115 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_for_expr3117 = new BitSet(new long[]{0x0000000000000000L,0xF00000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_lambda_case_expr_in_protected_lambda_cases3098 = new BitSet(new long[]{0x0000000000000002L,0xF03000010004C321L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_for_in_for_expr3115 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_for_expr3117 = new BitSet(new long[]{0x0000000000000000L,0xF03000010004C320L,0x0000000000000156L});
     public static final BitSet FOLLOW_pattern_in_for_expr3120 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000010L});
     public static final BitSet FOLLOW_NL_in_for_expr3122 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000010L});
-    public static final BitSet FOLLOW_L_in_in_for_expr3125 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_for_expr3127 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_in_in_for_expr3125 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_for_expr3127 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_protected_expr_in_for_expr3130 = new BitSet(new long[]{0x2000000000000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_NL_in_for_expr3132 = new BitSet(new long[]{0x2000000000000000L});
-    public static final BitSet FOLLOW_L_do_in_for_expr3135 = new BitSet(new long[]{0xD8F8000000000000L,0xF20004814007FF2DL,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_do_in_for_expr3135 = new BitSet(new long[]{0xD8F8000000000000L,0xF23004814007FF2DL,0x0000000000000156L});
     public static final BitSet FOLLOW_block_in_for_expr3137 = new BitSet(new long[]{0x0010000000000000L});
     public static final BitSet FOLLOW_L_end_in_for_expr3139 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_builtin_primitive_in_op_expr3164 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_builtin_primitive_in_op_expr3164 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_op_expr_in_op_expr3167 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_bool_expr_in_op_expr3172 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_builtin_primitive_in_p_op_expr3182 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_op_expr3185 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_builtin_primitive_in_p_op_expr3182 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_op_expr3185 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_op_expr_in_p_op_expr3189 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_p_bool_expr_in_p_op_expr3194 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_builtin_primitive0 = new BitSet(new long[]{0x0000000000000002L});
@@ -16753,41 +16803,41 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_p_bool_or_expr_in_p_bool_expr3244 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_bool_and_expr_in_bool_or_expr3253 = new BitSet(new long[]{0x0000000000000002L,0x1000012000000000L});
     public static final BitSet FOLLOW_NL_in_bool_or_expr3256 = new BitSet(new long[]{0x0000000000000000L,0x1000012000000000L});
-    public static final BitSet FOLLOW_token_OR_in_bool_or_expr3260 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_bool_or_expr3263 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_OR_in_bool_or_expr3260 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bool_or_expr3263 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_bool_and_expr_in_bool_or_expr3267 = new BitSet(new long[]{0x0000000000000002L,0x1000012000000000L});
     public static final BitSet FOLLOW_p_bool_and_expr_in_p_bool_or_expr3279 = new BitSet(new long[]{0x0000000000000002L,0x1000012000000000L});
     public static final BitSet FOLLOW_NL_in_p_bool_or_expr3282 = new BitSet(new long[]{0x0000000000000000L,0x1000012000000000L});
-    public static final BitSet FOLLOW_token_OR_in_p_bool_or_expr3286 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_bool_or_expr3289 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_OR_in_p_bool_or_expr3286 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_bool_or_expr3289 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_bool_and_expr_in_p_bool_or_expr3293 = new BitSet(new long[]{0x0000000000000002L,0x1000012000000000L});
     public static final BitSet FOLLOW_bool_not_expr_in_bool_and_expr3305 = new BitSet(new long[]{0x0000000000000002L,0x1000024000000000L});
     public static final BitSet FOLLOW_NL_in_bool_and_expr3308 = new BitSet(new long[]{0x0000000000000000L,0x1000024000000000L});
-    public static final BitSet FOLLOW_token_AND_in_bool_and_expr3312 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_bool_and_expr3315 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_AND_in_bool_and_expr3312 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bool_and_expr3315 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_bool_not_expr_in_bool_and_expr3319 = new BitSet(new long[]{0x0000000000000002L,0x1000024000000000L});
     public static final BitSet FOLLOW_p_bool_not_expr_in_p_bool_and_expr3331 = new BitSet(new long[]{0x0000000000000002L,0x1000024000000000L});
     public static final BitSet FOLLOW_NL_in_p_bool_and_expr3334 = new BitSet(new long[]{0x0000000000000000L,0x1000024000000000L});
-    public static final BitSet FOLLOW_token_AND_in_p_bool_and_expr3338 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_bool_and_expr3341 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_AND_in_p_bool_and_expr3338 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_bool_and_expr3341 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_bool_not_expr_in_p_bool_and_expr3345 = new BitSet(new long[]{0x0000000000000002L,0x1000024000000000L});
-    public static final BitSet FOLLOW_token_NOT_in_bool_not_expr3357 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_bool_not_expr3360 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_NOT_in_bool_not_expr3357 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bool_not_expr3360 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_bool_not_expr_in_bool_not_expr3364 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_rel_expr_in_bool_not_expr3369 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_token_NOT_in_p_bool_not_expr3380 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_bool_not_expr3383 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_NOT_in_p_bool_not_expr3380 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_bool_not_expr3383 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_bool_not_expr_in_p_bool_not_expr3387 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_p_rel_expr_in_p_bool_not_expr3392 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_arith_expr_in_rel_expr3401 = new BitSet(new long[]{0x0000000000000002L,0x100000003FF80000L});
     public static final BitSet FOLLOW_NL_in_rel_expr3404 = new BitSet(new long[]{0x0000000000000000L,0x100000003FF80000L});
-    public static final BitSet FOLLOW_rel_op_in_rel_expr3407 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_rel_expr3409 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_rel_op_in_rel_expr3407 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_rel_expr3409 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_arith_expr_in_rel_expr3412 = new BitSet(new long[]{0x0000000000000002L,0x100000003FF80000L});
     public static final BitSet FOLLOW_p_arith_expr_in_p_rel_expr3439 = new BitSet(new long[]{0x0000000000000002L,0x100000003FF80000L});
     public static final BitSet FOLLOW_NL_in_p_rel_expr3442 = new BitSet(new long[]{0x0000000000000000L,0x100000003FF80000L});
-    public static final BitSet FOLLOW_rel_op_in_p_rel_expr3445 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_rel_expr3447 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_rel_op_in_p_rel_expr3445 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_rel_expr3447 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_arith_expr_in_p_rel_expr3450 = new BitSet(new long[]{0x0000000000000002L,0x100000003FF80000L});
     public static final BitSet FOLLOW_token_EQUAL_in_rel_op3476 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_token_NOT_EQUAL_in_rel_op3480 = new BitSet(new long[]{0x0000000000000002L});
@@ -16800,93 +16850,93 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_p_plusplus_expr_in_p_arith_expr3522 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_timestimes_expr_in_plusplus_expr3532 = new BitSet(new long[]{0x0000000000000002L,0x1000C00000000000L});
     public static final BitSet FOLLOW_NL_in_plusplus_expr3535 = new BitSet(new long[]{0x0000000000000000L,0x0000C00000000000L});
-    public static final BitSet FOLLOW_PLUSPLUS_in_plusplus_expr3540 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_MINUSMINUS_in_plusplus_expr3543 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_plusplus_expr3547 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_PLUSPLUS_in_plusplus_expr3540 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_MINUSMINUS_in_plusplus_expr3543 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_plusplus_expr3547 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_timestimes_expr_in_plusplus_expr3551 = new BitSet(new long[]{0x0000000000000002L,0x1000C00000000000L});
     public static final BitSet FOLLOW_p_timestimes_expr_in_p_plusplus_expr3563 = new BitSet(new long[]{0x0000000000000002L,0x1000C00000000000L});
     public static final BitSet FOLLOW_NL_in_p_plusplus_expr3566 = new BitSet(new long[]{0x0000000000000000L,0x0000C00000000000L});
-    public static final BitSet FOLLOW_PLUSPLUS_in_p_plusplus_expr3571 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_MINUSMINUS_in_p_plusplus_expr3574 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_plusplus_expr3578 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_PLUSPLUS_in_p_plusplus_expr3571 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_MINUSMINUS_in_p_plusplus_expr3574 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_plusplus_expr3578 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_timestimes_expr_in_p_plusplus_expr3582 = new BitSet(new long[]{0x0000000000000002L,0x1000C00000000000L});
     public static final BitSet FOLLOW_simple_expr_in_timestimes_expr3594 = new BitSet(new long[]{0x0000000000000002L,0x1000200000000000L});
     public static final BitSet FOLLOW_NL_in_timestimes_expr3597 = new BitSet(new long[]{0x0000000000000000L,0x0000200000000000L});
-    public static final BitSet FOLLOW_TIMESTIMES_in_timestimes_expr3602 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_timestimes_expr3606 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_TIMESTIMES_in_timestimes_expr3602 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_timestimes_expr3606 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_simple_expr_in_timestimes_expr3610 = new BitSet(new long[]{0x0000000000000002L,0x1000200000000000L});
     public static final BitSet FOLLOW_p_simple_expr_in_p_timestimes_expr3623 = new BitSet(new long[]{0x0000000000000002L,0x1000200000000000L});
     public static final BitSet FOLLOW_NL_in_p_timestimes_expr3626 = new BitSet(new long[]{0x0000000000000000L,0x0000200000000000L});
-    public static final BitSet FOLLOW_TIMESTIMES_in_p_timestimes_expr3631 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_timestimes_expr3635 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_TIMESTIMES_in_p_timestimes_expr3631 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_timestimes_expr3635 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_simple_expr_in_p_timestimes_expr3639 = new BitSet(new long[]{0x0000000000000002L,0x1000200000000000L});
     public static final BitSet FOLLOW_cons_expr_in_simple_expr3650 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_p_cons_expr_in_p_simple_expr3659 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_to_expr_in_cons_expr3668 = new BitSet(new long[]{0x0000000000000002L,0x1000180000000000L});
     public static final BitSet FOLLOW_NL_in_cons_expr3671 = new BitSet(new long[]{0x0000000000000000L,0x1000180000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_COLON_in_cons_expr3674 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_cons_expr3676 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_DOUBLE_COLON_in_cons_expr3674 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_cons_expr3676 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_to_expr_in_cons_expr3679 = new BitSet(new long[]{0x0000000000000002L,0x1000180000000000L});
     public static final BitSet FOLLOW_p_to_expr_in_p_cons_expr3699 = new BitSet(new long[]{0x0000000000000002L,0x1000180000000000L});
     public static final BitSet FOLLOW_NL_in_p_cons_expr3702 = new BitSet(new long[]{0x0000000000000000L,0x1000180000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_COLON_in_p_cons_expr3705 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_cons_expr3707 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_token_DOUBLE_COLON_in_p_cons_expr3705 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_cons_expr3707 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_to_expr_in_p_cons_expr3710 = new BitSet(new long[]{0x0000000000000002L,0x1000180000000000L});
     public static final BitSet FOLLOW_arith_plus_expr_in_to_expr3730 = new BitSet(new long[]{0x0000000000000002L,0x10000000000000C0L});
     public static final BitSet FOLLOW_NL_in_to_expr3733 = new BitSet(new long[]{0x0000000000000000L,0x00000000000000C0L});
-    public static final BitSet FOLLOW_L_to_in_to_expr3738 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_L_downto_in_to_expr3742 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_to_expr3746 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_to_in_to_expr3738 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_downto_in_to_expr3742 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_to_expr3746 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_arith_plus_expr_in_to_expr3750 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_p_arith_plus_expr_in_p_to_expr3763 = new BitSet(new long[]{0x0000000000000002L,0x10000000000000C0L});
     public static final BitSet FOLLOW_NL_in_p_to_expr3766 = new BitSet(new long[]{0x0000000000000000L,0x00000000000000C0L});
-    public static final BitSet FOLLOW_L_to_in_p_to_expr3771 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_L_downto_in_p_to_expr3775 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_to_expr3779 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_to_in_p_to_expr3771 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_downto_in_p_to_expr3775 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_to_expr3779 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_arith_plus_expr_in_p_to_expr3783 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_arith_uminus_expr_in_arith_plus_expr3795 = new BitSet(new long[]{0x0000000000000002L,0x1000000180000000L});
     public static final BitSet FOLLOW_NL_in_arith_plus_expr3799 = new BitSet(new long[]{0x0000000000000000L,0x0000000080000000L});
-    public static final BitSet FOLLOW_PLUS_in_arith_plus_expr3803 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_MINUS_in_arith_plus_expr3808 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_arith_plus_expr3812 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_PLUS_in_arith_plus_expr3803 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_MINUS_in_arith_plus_expr3808 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_arith_plus_expr3812 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_arith_uminus_expr_in_arith_plus_expr3816 = new BitSet(new long[]{0x0000000000000002L,0x1000000180000000L});
     public static final BitSet FOLLOW_p_arith_uminus_expr_in_p_arith_plus_expr3827 = new BitSet(new long[]{0x0000000000000002L,0x1000000180000000L});
     public static final BitSet FOLLOW_NL_in_p_arith_plus_expr3830 = new BitSet(new long[]{0x0000000000000000L,0x0000000180000000L});
-    public static final BitSet FOLLOW_set_in_p_arith_plus_expr3834 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_arith_plus_expr3843 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_set_in_p_arith_plus_expr3834 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_arith_plus_expr3843 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_arith_uminus_expr_in_p_arith_plus_expr3847 = new BitSet(new long[]{0x0000000000000002L,0x1000000180000000L});
-    public static final BitSet FOLLOW_MINUS_in_arith_uminus_expr3860 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_arith_uminus_expr3862 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_MINUS_in_arith_uminus_expr3860 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_arith_uminus_expr3862 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_arith_mult_expr_in_arith_uminus_expr3865 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_arith_mult_expr_in_arith_uminus_expr3878 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MINUS_in_p_arith_uminus_expr3889 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_arith_uminus_expr3891 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_MINUS_in_p_arith_uminus_expr3889 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_arith_uminus_expr3891 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_arith_mult_expr_in_p_arith_uminus_expr3894 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_p_arith_mult_expr_in_p_arith_uminus_expr3907 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_arith_pow_expr_in_arith_mult_expr3916 = new BitSet(new long[]{0x0000000000000002L,0x1000000E00000000L});
     public static final BitSet FOLLOW_NL_in_arith_mult_expr3919 = new BitSet(new long[]{0x0000000000000000L,0x0000000E00000000L});
-    public static final BitSet FOLLOW_set_in_arith_mult_expr3923 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_arith_mult_expr3936 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_set_in_arith_mult_expr3923 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_arith_mult_expr3936 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_arith_pow_expr_in_arith_mult_expr3940 = new BitSet(new long[]{0x0000000000000002L,0x1000000E00000000L});
     public static final BitSet FOLLOW_p_arith_pow_expr_in_p_arith_mult_expr3952 = new BitSet(new long[]{0x0000000000000002L,0x1000000E00000000L});
     public static final BitSet FOLLOW_NL_in_p_arith_mult_expr3955 = new BitSet(new long[]{0x0000000000000000L,0x0000000E00000000L});
-    public static final BitSet FOLLOW_set_in_p_arith_mult_expr3959 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_arith_mult_expr3972 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_set_in_p_arith_mult_expr3959 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_arith_mult_expr3972 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_arith_pow_expr_in_p_arith_mult_expr3976 = new BitSet(new long[]{0x0000000000000002L,0x1000000E00000000L});
     public static final BitSet FOLLOW_apply_expr_in_arith_pow_expr3987 = new BitSet(new long[]{0x0000000000000002L,0x1000001000000000L});
     public static final BitSet FOLLOW_NL_in_arith_pow_expr3990 = new BitSet(new long[]{0x0000000000000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_POW_tok_in_arith_pow_expr3993 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_arith_pow_expr3995 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_POW_tok_in_arith_pow_expr3993 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_arith_pow_expr3995 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_apply_expr_in_arith_pow_expr3998 = new BitSet(new long[]{0x0000000000000002L,0x1000001000000000L});
     public static final BitSet FOLLOW_p_apply_expr_in_p_arith_pow_expr4019 = new BitSet(new long[]{0x0000000000000002L,0x1000001000000000L});
     public static final BitSet FOLLOW_NL_in_p_arith_pow_expr4022 = new BitSet(new long[]{0x0000000000000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_POW_tok_in_p_arith_pow_expr4025 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_arith_pow_expr4027 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_POW_tok_in_p_arith_pow_expr4025 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_arith_pow_expr4027 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_p_apply_expr_in_p_arith_pow_expr4030 = new BitSet(new long[]{0x0000000000000002L,0x1000001000000000L});
-    public static final BitSet FOLLOW_basic_expr_in_apply_expr4051 = new BitSet(new long[]{0x98C8000000000002L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_p_basic_expr_in_p_apply_expr4069 = new BitSet(new long[]{0x98C8000000000002L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_p_apply_expr4072 = new BitSet(new long[]{0x98C8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_p_basic_expr_in_p_apply_expr4075 = new BitSet(new long[]{0x98C8000000000002L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_basic_expr_in_apply_expr4051 = new BitSet(new long[]{0x98C8000000000002L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_basic_expr_in_p_apply_expr4069 = new BitSet(new long[]{0x98C8000000000002L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_apply_expr4072 = new BitSet(new long[]{0x98C8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_basic_expr_in_p_apply_expr4075 = new BitSet(new long[]{0x98C8000000000002L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_message_send_expr_in_basic_expr4095 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_message_send_expr_in_p_basic_expr4104 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_primitive_expr_in_message_send_expr4113 = new BitSet(new long[]{0x0000000000000002L,0x1040000000000000L});
@@ -16894,32 +16944,32 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_PERIOD_in_message_send_expr4119 = new BitSet(new long[]{0x0000000000000000L,0x5000000000000000L});
     public static final BitSet FOLLOW_NL_in_message_send_expr4121 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L});
     public static final BitSet FOLLOW_Id_in_message_send_expr4124 = new BitSet(new long[]{0x0000000000000002L,0x1040000000000000L});
-    public static final BitSet FOLLOW_SQUARE_BRACKET_OPEN_in_list_expr4148 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000176L});
-    public static final BitSet FOLLOW_NL_in_list_expr4150 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000176L});
+    public static final BitSet FOLLOW_SQUARE_BRACKET_OPEN_in_list_expr4148 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000176L});
+    public static final BitSet FOLLOW_NL_in_list_expr4150 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000176L});
     public static final BitSet FOLLOW_protected_expr_in_list_expr4154 = new BitSet(new long[]{0x0000000000000000L,0x1080000000000000L,0x0000000000000020L});
     public static final BitSet FOLLOW_NL_in_list_expr4157 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L});
-    public static final BitSet FOLLOW_COMMA_in_list_expr4160 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_list_expr4162 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_COMMA_in_list_expr4160 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_list_expr4162 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_protected_expr_in_list_expr4165 = new BitSet(new long[]{0x0000000000000000L,0x1080000000000000L,0x0000000000000020L});
     public static final BitSet FOLLOW_NL_in_list_expr4169 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000020L});
     public static final BitSet FOLLOW_SQUARE_BRACKET_CLOSE_in_list_expr4174 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ROUND_BRACKET_OPEN_in_list_expr4188 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x000000000000015EL});
-    public static final BitSet FOLLOW_NL_in_list_expr4190 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x000000000000015EL});
+    public static final BitSet FOLLOW_ROUND_BRACKET_OPEN_in_list_expr4188 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x000000000000015EL});
+    public static final BitSet FOLLOW_NL_in_list_expr4190 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x000000000000015EL});
     public static final BitSet FOLLOW_protected_expr_in_list_expr4194 = new BitSet(new long[]{0x0000000000000000L,0x1080000000000000L,0x0000000000000008L});
     public static final BitSet FOLLOW_NL_in_list_expr4197 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L});
-    public static final BitSet FOLLOW_COMMA_in_list_expr4200 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_list_expr4202 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_COMMA_in_list_expr4200 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_list_expr4202 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_protected_expr_in_list_expr4205 = new BitSet(new long[]{0x0000000000000000L,0x1080000000000000L,0x0000000000000008L});
     public static final BitSet FOLLOW_NL_in_list_expr4209 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L,0x0000000000000008L});
     public static final BitSet FOLLOW_COMMA_in_list_expr4213 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000000L,0x0000000000000008L});
     public static final BitSet FOLLOW_NL_in_list_expr4215 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000008L});
     public static final BitSet FOLLOW_ROUND_BRACKET_CLOSE_in_list_expr4222 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CURLY_BRACKET_OPEN_in_map_or_set_expr4251 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x00000000000001D6L});
-    public static final BitSet FOLLOW_NL_in_map_or_set_expr4253 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x00000000000001D6L});
+    public static final BitSet FOLLOW_CURLY_BRACKET_OPEN_in_map_or_set_expr4251 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x00000000000001D6L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_expr4253 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x00000000000001D6L});
     public static final BitSet FOLLOW_map_or_set_elem_expr_in_map_or_set_expr4257 = new BitSet(new long[]{0x0000000000000000L,0x1080000000000000L,0x0000000000000080L});
     public static final BitSet FOLLOW_NL_in_map_or_set_expr4259 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_COMMA_in_map_or_set_expr4263 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_map_or_set_expr4265 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_COMMA_in_map_or_set_expr4263 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_expr4265 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_map_or_set_elem_expr_in_map_or_set_expr4268 = new BitSet(new long[]{0x0000000000000000L,0x1080000000000000L,0x0000000000000080L});
     public static final BitSet FOLLOW_NL_in_map_or_set_expr4270 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L,0x0000000000000080L});
     public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_map_or_set_expr4277 = new BitSet(new long[]{0x0000000000000002L});
@@ -16930,8 +16980,8 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_map_or_set_expr4307 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_protected_expr_in_map_or_set_elem_expr4324 = new BitSet(new long[]{0x0000000100000002L,0x100C000000000000L});
     public static final BitSet FOLLOW_NL_in_map_or_set_elem_expr4327 = new BitSet(new long[]{0x0000000100000000L,0x100C000000000000L});
-    public static final BitSet FOLLOW_arrow_or_assign_in_map_or_set_elem_expr4330 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
-    public static final BitSet FOLLOW_NL_in_map_or_set_elem_expr4332 = new BitSet(new long[]{0x98E8000000000000L,0xF20004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_arrow_or_assign_in_map_or_set_elem_expr4330 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_elem_expr4332 = new BitSet(new long[]{0x98E8000000000000L,0xF23004810007DF21L,0x0000000000000156L});
     public static final BitSet FOLLOW_protected_expr_in_map_or_set_elem_expr4335 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_Num_in_primitive_expr4362 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_String_in_primitive_expr4367 = new BitSet(new long[]{0x0000000000000002L});
@@ -16947,12 +16997,12 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_map_or_set_expr_in_primitive_expr4419 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_block_in_prog4429 = new BitSet(new long[]{0x0000000000000000L});
     public static final BitSet FOLLOW_EOF_in_prog4431 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Id_in_synpred1_babel171585 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000002L});
-    public static final BitSet FOLLOW_NL_in_synpred1_babel171587 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000002L});
-    public static final BitSet FOLLOW_L_as_in_synpred1_babel171590 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_protected_expr_in_synpred2_babel171621 = new BitSet(new long[]{0x0000000000000000L,0x1100000000000000L});
-    public static final BitSet FOLLOW_NL_in_synpred2_babel171623 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
-    public static final BitSet FOLLOW_QUESTION_MARK_in_synpred2_babel171626 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Id_in_synpred1_babel171590 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000002L});
+    public static final BitSet FOLLOW_NL_in_synpred1_babel171592 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000002L});
+    public static final BitSet FOLLOW_L_as_in_synpred1_babel171595 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_protected_expr_in_synpred2_babel171626 = new BitSet(new long[]{0x0000000000000000L,0x1100000000000000L});
+    public static final BitSet FOLLOW_NL_in_synpred2_babel171628 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
+    public static final BitSet FOLLOW_QUESTION_MARK_in_synpred2_babel171631 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_pattern_in_synpred3_babel172387 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_objelem_assign_in_synpred3_babel172391 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_NL_in_synpred3_babel172394 = new BitSet(new long[]{0x0000000100000000L});

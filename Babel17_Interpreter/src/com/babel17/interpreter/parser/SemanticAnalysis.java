@@ -401,7 +401,9 @@ public final class SemanticAnalysis {
     SymbolTable defids = new SymbolTable();
     IdentifierNode lastdef = null;
     boolean lastdef_has_arg = false;
+    int i = -1;
     for (Node statement : node.statements()) {
+      i++;
       if (statement instanceof DefNode) {
         DefNode d = (DefNode) statement;
         /*if (has_methods && d.pattern() == null && d.id().name().equals(Value.APPLY))
@@ -423,6 +425,7 @@ public final class SemanticAnalysis {
             SymbolTable.DefId defid =
                     lastdef_has_arg ? new SymbolTable.DefWithArgId()
                     : new SymbolTable.DefNoArgId();
+            defid.position = i;
             defid.id = d.id();
             defid.memo = null;
             defid.defdeps = null;
@@ -450,7 +453,7 @@ public final class SemanticAnalysis {
 
     boolean block_is_expr = env.expr();
     boolean block_is_statement = env.statement();
-    int i = -1;
+    i = -1;
     for (Node statement : statements) {
       i++;
       valDependencies[i] = null;
@@ -579,6 +582,15 @@ public final class SemanticAnalysis {
             error(idNode.location(), "val-statement references def '"
                     + idNode.name() + "' which (possibly indirectly) references this or a later val-statement");
           }
+        }
+      }
+    }
+
+    for (SymbolTable.Id id : defids.collectNonLinearIds()) {
+      if (id instanceof SymbolTable.DefId) {
+        SymbolTable.DefId did = (SymbolTable.DefId) id;
+        if (did.position <= did.valindex) {
+          error(did.id.location(), "def-statement cannot forward reference (possibly indirectly) later val-statement");
         }
       }
     }

@@ -349,15 +349,15 @@ COLON	:	':';
 pattern :	Constr (NL? primitive_pattern)? -> ^(Constr primitive_pattern?)
 	|	primitive_pattern (NL? token_DOUBLE_COLON NL? primitive_pattern)* 
 		-> ^(LIST_CONS primitive_pattern*)
-	|	L_exception primitive_pattern -> ^(L_exception primitive_pattern);
+	|	L_exception primitive_pattern -> ^(L_exception primitive_pattern)
+	|	token_ELLIPSIS;
 	
 bracket_pattern
 	:       (Id NL? L_as) => Id NL? L_as NL? pattern -> ^(L_as Id pattern)
 	|	(protected_expr NL? QUESTION_MARK) => 
 		protected_expr NL? QUESTION_MARK (NL? pattern)? -> ^(QUESTION_MARK protected_expr pattern?)
 	|	pattern (NL? L_if NL? protected_expr)? -> ^(IF_PATTERN pattern protected_expr?)
-	|	L_val NL? protected_expr -> ^(L_val protected_expr)
-	|	token_ELLIPSIS;
+	|	L_val NL? protected_expr -> ^(L_val protected_expr);
 	
 arrow_or_assign
 	:	token_ARROW -> ^(ARROW)

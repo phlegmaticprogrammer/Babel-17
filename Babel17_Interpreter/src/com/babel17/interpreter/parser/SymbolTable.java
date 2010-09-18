@@ -32,6 +32,7 @@ public final class SymbolTable {
     }
     
     public static class DefId extends DepId {
+      int position;
       MemoizeNode.MemoId memo = null;
       boolean uses_this = false; // does this definition depend on this ?
     }
@@ -131,7 +132,7 @@ public final class SymbolTable {
       TreeMap<String, ValId> empty = TreeMap.empty(Ord.stringOrd);
       return new SymbolTable(t, empty);
     }
-
+    
     public SymbolTable addNonLinear(SymbolTable s) {
       TreeMap<String, ValId> lin = linearscope;
       TreeMap<String, Id> t = table;
