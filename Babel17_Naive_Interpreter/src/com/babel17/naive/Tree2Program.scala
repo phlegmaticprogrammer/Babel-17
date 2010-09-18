@@ -168,7 +168,9 @@ object Tree2Program {
       case UMINUS => mk("syntactic_uminus")
       case LAZY => SELazy(arg)
       case RANDOM => SERandom(arg)
-      case CONCURRENT => SEConcurrent(arg)       
+      case CONCURRENT => SEConcurrent(arg)
+      case AWAIT => SEAwait(arg)
+      case EXCEPTION => SEException(arg)
       case k => throwInternalError(n.location, "unknown unary operator code: "+k)       
     }
     result.setLocation(n.location)

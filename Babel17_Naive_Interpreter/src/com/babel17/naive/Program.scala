@@ -71,7 +71,8 @@ object Program {
   case class SELazy(u : SimpleExpression) extends SimpleExpression
   case class SERandom(u : SimpleExpression) extends SimpleExpression
   case class SEConcurrent(u : SimpleExpression) extends SimpleExpression
-  
+  case class SEAwait(u : SimpleExpression) extends SimpleExpression
+  case class SEException(u : SimpleExpression) extends SimpleExpression
 
   abstract class CompareOp extends Locatable
   case class EQUAL() extends CompareOp
