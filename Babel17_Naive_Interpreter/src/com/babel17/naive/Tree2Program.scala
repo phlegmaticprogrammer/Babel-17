@@ -4,6 +4,7 @@ import Program._
 import com.babel17.syntaxtree.patterns._
 import com.babel17.syntaxtree._
 import com.babel17.interpreter.parser._
+import scala.collection.immutable.SortedSet
 
 
 object Tree2Program {
@@ -51,6 +52,17 @@ object Tree2Program {
       case d : Def => EBlock(Block(List(SDefs(List(d)))))
       case id : Id => ESimple(SEId(id))
       case x => throwInternalError(node.location(), "buildExpression: "+x)
+    }
+    e.setLocation(node.location())
+    return e
+  }
+  
+  def buildBlock (node : Node) : Block = {
+    val e = build(node) match {
+      case b: Block => b
+      case s : Statement => Block(List(s))
+      case EBlock(b) => b
+      case x => throwInternalError(node.location(), "buildBlock: "+x)
     }
     e.setLocation(node.location())
     return e
@@ -176,7 +188,64 @@ object Tree2Program {
     result.setLocation(n.location)
     result
   }
-
+  
+  def mergeLoc(l1 : Location, l2 : Location) : Location = {
+    if (l1 == null) l2
+    else if (l2 == null) l1
+    else l1.add(l2)
+  }
+  
+  def buildIf(n : IfNode) : Locatable = {
+    val conds = toList(n.conditions)
+    val blocks = toList(n.blocks)
+    def mkif (cs : List[Node], bs : List[Node]) : Statement = {
+      (cs, bs) match {
+        case (c::crest, b::brest) => 
+          val cond = buildSimpleExpression(c)
+          val yes = buildBlock(b)
+          val no = mkif(crest, brest) match {
+            case SBlock(b) => b
+            case x => 
+              val q = Block(List(x))
+              q.setLocation(x.location)
+              q
+          }
+          val r = SIf(cond, yes, no)
+          r.setLocation(mergeLoc(cond.location, mergeLoc(yes.location, no.location)))
+          r
+        case (_, List(b)) => buildStatement(b)
+        case (List(), List()) => SBlock(Block(List()))
+        case _ => throwInternalError(n.location, "invalid if")
+      }
+    }
+    mkif(conds, blocks)
+  }
+  
+  def mkExpressionBranches(ps : List[Node], bs : List[Node]) : List[(Pattern, Expression)] = {
+    (ps, bs) match {
+      case (p::prest, b::brest) =>
+        (buildProperPattern(p), buildExpression(b)) :: (mkExpressionBranches(prest, brest))
+      case (List(), List()) => List()
+      case _ => throwInternalError(null, "invalid expression branches")
+    }
+  }
+  
+  def mkBlockBranches(ps : List[Node], bs : List[Node]) : List[(Pattern, Block)] = {
+    (ps, bs) match {
+      case (p::prest, b::brest) =>
+        (buildProperPattern(p), buildBlock(b)) :: (mkBlockBranches(prest, brest))
+      case (List(), List()) => List()
+      case _ => throwInternalError(null, "invalid block branches")
+    }
+  }
+  
+  /*case class ConvertTempInfo(d : Def, memoSpec : Boolean) 
+  
+  def convertTemporaries(statements : List[Statement]) : List[Statement] = {
+    var tempInfo : Map[String, ConvertTempInfo] = Map()
+    List()
+  }*/
+  
   def build(node : Node) : Locatable = {
     val result : Locatable = node match {
       case n : BeginNode =>
@@ -186,6 +255,8 @@ object Tree2Program {
         Block(l.map(buildStatement).toList)
       case n : IntegerNode =>
         SEInt(new BigInt(n.value()))
+      case n : StringNode =>
+        SEString(n.value)
       case n : MessageNode =>
         Message(n.name().toLowerCase)
       case n : NullaryNode =>
@@ -204,6 +275,98 @@ object Tree2Program {
         val e = buildExpression(n.rightSide)
         val p = buildProperPattern(n.pattern)
         if (n.assign) SAssign(p, e) else SVal(p, e)
+      case n : ObjectUpdateNode =>
+        val e = buildExpression(n.rightSide)
+        val id = Id(n.id.name.toLowerCase)
+        id.setLocation(n.id.location)
+        val m = Message(n.message.name)
+        m.setLocation(n.message.location)
+        if (n.assign)
+          SAssignRecordUpdate(id, m, e)
+        else
+          SValRecordUpdate(id, m, e)
+      case n : ForNode =>
+        SFor(buildProperPattern(n.pattern), buildSimpleExpression(n.collection),
+             buildBlock(n.block))
+      case n : IfNode =>
+        buildIf(n)
+      case n : LambdaNode =>
+        SEFun(mkExpressionBranches(toList(n.patterns), toList(n.blocks)))         
+      case n : WhileNode =>
+        SWhile(buildSimpleExpression(n.condition), buildBlock(n.block))
+      case  n : WithNode => 
+        EWith(buildSimpleExpression(n.collector), buildBlock(n.control))
+      case n : YieldNode =>
+        SYield(buildExpression(n.expr))       
+      case n : MatchNode =>
+        SMatch(buildSimpleExpression(n.value), 
+               mkBlockBranches(toList(n.patterns), toList(n.blocks)))    
+      case n : MemoizeNode =>
+        def buildMemo(memoNode : Node) : SMemoize = {
+          memoNode match {
+            case mid : MemoizeNode.MemoId =>
+              val id = Id(mid.id.name.toLowerCase)
+              id.setLocation(mid.id.location)
+              val m = 
+                if (mid.strong)
+                  SMemoize(MemoTypeStrong(), id)
+                 else
+                  SMemoize(MemoTypeWeak(), id)
+              m.setLocation(mid.location)
+              m
+          }
+        }
+        STemporaries(toList(n.memoIds).map(buildMemo _))
+      case n : DefNode => 
+        val id = Id(n.id.name.toLowerCase)
+        id.setLocation(n.id.location)
+        val rightSide = buildExpression(n.rightSide)
+        if (n.pattern != null) {
+          val pat = buildProperPattern(n.pattern)
+          SDef1(id, pat, rightSide)
+        } else {
+          SDef0(id, rightSide)
+        }
+      case n : ListNode => 
+        val ses = toList(n.elements).map(buildSimpleExpression _)
+        if (n.isVector)
+          SEVector(ses)
+        else
+          SEList(ses)
+      case n : MapNode => 
+        def buildKeyValue(node : Node) : (SimpleExpression, SimpleExpression) = {
+          node match {
+            case kv : MapNode.KeyValue =>
+              val k = buildSimpleExpression(kv.key)
+              val v = buildSimpleExpression(kv.value)
+              (k, v)
+            case _ => throwInternalError(n.location, "invalid MapNode")
+          }
+        }
+        SEMap(toList(n.elements).map(buildKeyValue _))
+      case n : SetNode => 
+        SESet(toList(n.elements).map(buildSimpleExpression _))
+      case n : RecordNode =>
+        def buildRecordValue(node : Node) : (Message, SimpleExpression) = {
+          node match {
+            case kv : RecordNode.MessageValue =>
+              val m = Message(kv.message.name.toLowerCase)
+              m.setLocation(kv.message.location)
+              val v = buildSimpleExpression(kv.value)
+              (m, v)
+            case _ => throwInternalError(n.location, "invalid RecordNode")
+          }
+        }
+        SERecord(toList(n.elements).map(buildRecordValue _))   
+      case n : ObjectNode => 
+        val block = buildBlock(n.block)
+        if (n.parents != null) {
+          val parents = buildSimpleExpression(n.parents)
+          if (n.combineMethod == ObjectNode.COMBINE_GLUE) 
+            SEGlueObj(parents, block)
+          else
+           SEMergeObj(parents, block)
+        } else SEObj(block)
       case n : ParseErrorNode =>
         SEVector(List())
       case _ =>
@@ -352,6 +515,11 @@ object Tree2Program {
     }
     result.setLocation(patternNode.location)
     result
+  }
+  
+  def collectFrees(term : Term) : SortedSet[Id] = {
+    // to be implemented
+    null
   }
 
   def main(args: Array[String]): Unit = {

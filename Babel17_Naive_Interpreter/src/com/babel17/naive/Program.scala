@@ -13,17 +13,28 @@ object Program {
   }
 
   abstract class MemoType extends Locatable
+  case class MemoTypeWeak extends MemoType
+  case class MemoTypeStrong extends MemoType  
+  
   abstract class Term extends Locatable
 
   case class Message(m : String) extends Locatable
-  case class Id(name : String) extends Locatable
+  
+  case class Id(name : String) extends Locatable with Ordered[Id] {
+    def compare(that : Id) : Int = {
+      name.compare(that.name)
+    }
+  }
+  
   case class Constr(name : String) extends Locatable
 
   case class Block(statements : List[Statement]) extends Term
 
   abstract class Def
-  case class SingleDef(memoize : MemoType, id : Id, e : Expression) extends Def
-  case class MultiDef(memoize : MemoType, id : Id, branches : List[(Pattern, Expression)]) extends Def
+  case class Def0(memoize : MemoType, id : Id, e : Expression) extends Def
+  case class Def1(memoize : MemoType, id : Id, branches : List[(Pattern, Expression)]) extends Def
+  
+  
 
   abstract class Statement extends Term
   case class SVal(pat : Pattern, e : Expression) extends Statement
@@ -38,6 +49,12 @@ object Program {
   case class SFor(pat:Pattern,list:SimpleExpression,body:Block) extends Statement
   case class SMatch(se : SimpleExpression, branches : List[(Pattern, Block)]) extends Statement
 
+  case class TemporaryStatement extends Statement
+  case class SDef0(id : Id, e : Expression) extends TemporaryStatement
+  case class SDef1(id : Id, pat : Pattern, e : Expression) extends TemporaryStatement
+  case class SMemoize(memoize : MemoType, id : Id) extends TemporaryStatement
+  case class STemporaries(temps : List[TemporaryStatement]) extends TemporaryStatement
+    
   abstract class Expression extends Term
   case class ESimple (se:SimpleExpression) extends Expression
   case class EBlock (b:Block) extends Expression
@@ -60,11 +77,12 @@ object Program {
   case class SEFun(branches: List[(Pattern, Expression)]) extends SimpleExpression
   case class SESet(elems: List[SimpleExpression]) extends SimpleExpression
   case class SEMap(elems: List[(SimpleExpression, SimpleExpression)]) extends SimpleExpression
-  case class SERecord(elems: List[(Id, SimpleExpression)]) extends SimpleExpression
+  case class SERecord(elems: List[(Message, SimpleExpression)]) extends SimpleExpression
   case class SEList(elems: List[SimpleExpression]) extends SimpleExpression
   case class SEVector(elems: List[SimpleExpression]) extends SimpleExpression
-  case class SEGlueObj(parents: List[SimpleExpression], b : Block) extends SimpleExpression
-  case class SEMergeObj(parents: List[SimpleExpression], b : Block) extends SimpleExpression
+  case class SEGlueObj(parents: SimpleExpression, b : Block) extends SimpleExpression
+  case class SEMergeObj(parents: SimpleExpression, b : Block) extends SimpleExpression
+  case class SEObj(b : Block) extends SimpleExpression
   case class SEMessageSend(target: SimpleExpression, m : Message) extends SimpleExpression
   case class SEApply(f : SimpleExpression, x : SimpleExpression) extends SimpleExpression
   case class SECompare(operands : List[SimpleExpression], operators : List[CompareOp]) extends SimpleExpression
@@ -110,7 +128,8 @@ object Program {
    * def g x = if x == 0 then y else f(x-1) end
    * Each def has a val index, which is the highest index of a val/assign statement
    * of the block of the def that the def depends on (transitively).
-   * A val/assign can reference only those defs that have a lower val index.
+   * - A val/assign can reference only those defs that have a lower val index.
+   * - A def can reference only those val/assigns that have a lower val index than the def itself.
    *
    *
    */

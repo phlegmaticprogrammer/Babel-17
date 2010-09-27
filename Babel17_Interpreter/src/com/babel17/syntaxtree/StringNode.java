@@ -14,6 +14,10 @@ public final class StringNode extends Node {
     return s.toString();
   }
   
+  public String value() {
+    return s;
+  }
+  
   private String s;
 
 

@@ -423,7 +423,7 @@ memid	:	Id -> ^(MEM_STRONG Id)
 		
 	
 expr_or_assign
-	:	((pattern | objelem_assign) NL? '=') => (pattern | objelem_assign) NL? '=' NL? expr -> ^(ASSIGN pattern expr)
+	:	((pattern | objelem_assign) NL? '=') => (pattern | objelem_assign) NL? '=' NL? expr -> ^(ASSIGN pattern* objelem_assign* expr)
 	|	expr;
 	
 expr	
