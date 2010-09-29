@@ -1,5 +1,7 @@
 package com.babel17.naive
 
+import scala.collection.immutable.SortedSet
+
 object Program {
 
   abstract class Locatable {
@@ -15,8 +17,13 @@ object Program {
   abstract class MemoType extends Locatable
   case class MemoTypeWeak extends MemoType
   case class MemoTypeStrong extends MemoType  
-  
-  abstract class Term extends Locatable
+  case class MemoTypeNone extends MemoType
+    
+  abstract class Term extends Locatable {
+    var freeVars : SortedSet[Id] = null
+    var introducedVars : SortedSet[Id] = null  
+    var assignedVars : SortedSet[Id] = null
+  }
 
   case class Message(m : String) extends Locatable
   
@@ -29,19 +36,18 @@ object Program {
   case class Constr(name : String) extends Locatable
 
   case class Block(statements : List[Statement]) extends Term
-
-  abstract class Def
-  case class Def0(memoize : MemoType, id : Id, e : Expression) extends Def
-  case class Def1(memoize : MemoType, id : Id, branches : List[(Pattern, Expression)]) extends Def
-  
-  
-
+    
   abstract class Statement extends Term
+  
+  abstract class Def extends Statement  
+    
   case class SVal(pat : Pattern, e : Expression) extends Statement
   case class SAssign(pat : Pattern, e : Expression) extends Statement
   case class SValRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
   case class SAssignRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
-  case class SDefs(defs:List[Def]) extends Statement
+  case class SDef0(memoize : MemoType, id : Id, e : Expression) extends Def
+  case class SDef1(memoize : MemoType, id : Id, branches : List[(Pattern, Expression)]) extends Def
+  case class SDefs(defs : List[Def]) extends Statement
   case class SYield(e : Expression) extends Statement
   case class SBlock(b : Block) extends Statement
   case class SIf(cond:SimpleExpression,yes:Block,no:Block) extends Statement
@@ -50,10 +56,9 @@ object Program {
   case class SMatch(se : SimpleExpression, branches : List[(Pattern, Block)]) extends Statement
 
   case class TemporaryStatement extends Statement
-  case class SDef0(id : Id, e : Expression) extends TemporaryStatement
-  case class SDef1(id : Id, pat : Pattern, e : Expression) extends TemporaryStatement
-  case class SMemoize(memoize : MemoType, id : Id) extends TemporaryStatement
-  case class STemporaries(temps : List[TemporaryStatement]) extends TemporaryStatement
+  case class TempDef0(id : Id, e : Expression) extends TemporaryStatement
+  case class TempDef1(id : Id, pat : Pattern, e : Expression) extends TemporaryStatement
+  case class TempMemoize(memos : List[(MemoType, Id)]) extends TemporaryStatement
     
   abstract class Expression extends Term
   case class ESimple (se:SimpleExpression) extends Expression
@@ -101,7 +106,11 @@ object Program {
   case class LESS() extends CompareOp
   case class LESS_EQ() extends CompareOp
 
-  abstract class Pattern extends Locatable
+  abstract class Pattern extends Locatable {
+    var freeVars : SortedSet[Id] = null
+    var introducedVars : SortedSet[Id] = null
+  }
+    
   case class PInt(value:BigInt) extends Pattern
   case class PBool(value:Boolean) extends Pattern
   case class PString(value:String) extends Pattern

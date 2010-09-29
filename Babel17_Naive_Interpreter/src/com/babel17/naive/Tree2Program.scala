@@ -5,6 +5,7 @@ import com.babel17.syntaxtree.patterns._
 import com.babel17.syntaxtree._
 import com.babel17.interpreter.parser._
 import scala.collection.immutable.SortedSet
+import scala.collection.immutable.SortedMap
 
 
 object Tree2Program {
@@ -35,7 +36,6 @@ object Tree2Program {
       case s : Statement => s
       case e : Expression => SYield (e)
       case se : SimpleExpression => SYield (ESimple (se))
-      case d : Def => SDefs (List(d))
       case id : Id => SYield (ESimple(SEId(id)))
       case x => throwInternalError(node.location(), "buildStatement: "+x)
     }
@@ -49,7 +49,6 @@ object Tree2Program {
       case s : Statement => EBlock(Block(List(s)))
       case e : Expression => e
       case se : SimpleExpression => ESimple(se)
-      case d : Def => EBlock(Block(List(SDefs(List(d)))))
       case id : Id => ESimple(SEId(id))
       case x => throwInternalError(node.location(), "buildExpression: "+x)
     }
@@ -75,7 +74,6 @@ object Tree2Program {
       case ESimple(se) => se
       case e : Expression => SEExpr(e)
       case se : SimpleExpression => se
-      case d : Def => SEExpr(EBlock(Block(List(SDefs(List(d))))))
       case id : Id => SEId(id)
       case x => throwInternalError(node.location(), "buildSimpleExpression: "+x)
     }
@@ -239,20 +237,160 @@ object Tree2Program {
     }
   }
   
-  /*case class ConvertTempInfo(d : Def, memoSpec : Boolean) 
-  
-  def convertTemporaries(statements : List[Statement]) : List[Statement] = {
-    var tempInfo : Map[String, ConvertTempInfo] = Map()
-    List()
-  }*/
-  
+  def removeTemporaries(statements : List[Statement]) : List[Statement] = {
+    var memos : SortedMap[Id, MemoType] = SortedMap()
+    val defIds = CollectVars.collectDefIds(statements)
+    var defs : SortedMap[Id, (Def, SortedSet[Id], Int)] = SortedMap()
+    var defsFirstVal : SortedMap[Id, (Id, Int)] = SortedMap()
+    var vals : SortedMap[Id, Int] = SortedMap()
+    var line : Int = 0
+    for (s <- statements) {
+      s match {
+        case TempMemoize(ms) =>
+          for ((m, id) <- ms) {
+            if (!defIds.contains(id)) {
+              error(id.location, "no such definition found")
+            } else if (memos.contains(id)) 
+              error(id.location, "duplicate memoization specification")
+            else
+              memos = memos + (id -> m)
+          }
+        case TempDef0(id, e) =>
+          if (defs.contains(id))
+            error(id.location, "duplicate definition")
+          else {
+            CollectVars.collectVars(s)
+            val deps = defIds ** s.freeVars
+            var l : Int = -1
+            for (v <- s.freeVars) {
+              if (vals.contains(v)) {
+                val x = vals(v)
+                if (x > l) l = x;
+              }
+            }
+            val sdef0 = SDef0(MemoTypeNone(), id, e)
+            sdef0.setLocation(s.location)
+            defs = defs + (id -> (sdef0, deps, l))
+          }
+          if (!defsFirstVal.contains(id)) 
+            defsFirstVal = defsFirstVal + (id -> (id, line))
+        case TempDef1(id, pat, e) =>
+          CollectVars.collectVars(s)
+          var branches : List[(Pattern, Expression)] = List()
+          var deps : SortedSet[Id] = SortedSet()
+          var first : Int = -1
+          var maxval : Int = -1
+          if (defs.contains(id)) {
+            defs(id) match {
+              case (_ : SDef0, _, _) =>
+                error(id.location, "duplicate definition (there is already one without a parameter)")
+              case (SDef1(_, _, _branches), _deps, _maxval) =>
+                branches = _branches
+                deps = _deps
+                maxval = _maxval                
+            }
+          }
+          if (first == -1) first = line
+          deps = deps ++ (defIds ** s.freeVars)
+          for (v <- s.freeVars) {
+            if (vals.contains(v)) {
+              val x = vals(v)
+              if (x > maxval) maxval = x
+            }
+          }
+          branches = branches ++ List((pat, e))
+          val sdef1 = SDef1(MemoTypeNone(), id, branches)
+          defs = defs + (id -> (sdef1, deps, maxval))    
+          if (!defsFirstVal.contains(id)) 
+            defsFirstVal = defsFirstVal + (id -> (id, line))
+        case statement => 
+          CollectVars.collectVars(statement)
+          val vs = statement.introducedVars ++ statement.assignedVars
+          for (v <- vs) {
+            vals = vals + (v -> line)
+          }
+          val ds = statement.freeVars ** defIds
+          for (d <- ds) {
+            var first : Int = -1
+            if (defsFirstVal.contains(d))
+              first = defsFirstVal(d)._2
+            if (first == -1 || first > line)
+              defsFirstVal = defsFirstVal + (d -> (d, line))
+          }
+      }
+      line = line + 1
+    }
+    var changed = true
+    while (changed) {
+      changed = false
+      var transdefs = defs
+      for ((id, (sdef, deps, maxval)) <- defs) {
+        var transdeps = deps
+        var transmaxval = maxval
+        for (dep <- deps) {
+          val (s, d, mx) = defs(dep)
+          transdeps = (transdeps ++ d) - id
+          if (mx > transmaxval) transmaxval = mx
+        }
+        if (transdeps.size != deps.size)
+          changed = true
+        if (transmaxval != maxval)
+          changed = true
+        if (changed)
+          transdefs = transdefs + (id -> (sdef, transdeps, transmaxval))
+      }
+      defs = transdefs
+    }
+    var line2def : SortedMap[Int, List[Def]] = SortedMap()
+    for ((id, (sdef, deps, maxval)) <- defs) {
+      //println("id = "+id.name+", maxval = "+maxval+", firstval = "+defsFirstVal.get(id))
+      if (!defsFirstVal.contains(id))
+        throwInternalError(id.location, "definition is in nowhere land")
+      if (defsFirstVal(id)._2 <= maxval) {
+        error(defsFirstVal(id)._1.location, "definition of '"+id.name+"' depends on  later val")
+      } else {
+        var d = sdef
+        if (memos.contains(id)) {
+          d = sdef match {
+            case SDef0(_, id, e) => SDef0(memos(id), id, e)
+            case SDef1(_, id, branches) => SDef1(memos(id), id, branches)
+          }
+        }
+        val line = maxval+1
+        if (line2def.contains(line)) 
+          line2def = line2def + (line -> (line2def(line) ++ List(d)))
+        else
+          line2def = line2def + (line -> List(d))
+      }
+    }
+    line = 0
+    var newStatements : List[Statement] = List()
+    for (s <- statements) {
+      if (line2def.contains(line)) {
+        val ds = line2def(line)
+        var loc : Location = null
+        for (d <- ds) loc = mergeLoc(loc, d.location)
+        val sds = SDefs(ds)
+        sds.setLocation(loc)
+        newStatements = sds :: newStatements
+      }
+      s match {
+        case _ : TemporaryStatement => 
+        case _ =>
+          newStatements = s :: newStatements
+      }
+      line = line + 1
+    }
+    newStatements.reverse   
+  }
+    
   def build(node : Node) : Locatable = {
     val result : Locatable = node match {
       case n : BeginNode =>
         SBlock(build(n.block()).asInstanceOf[Block])
       case n : BlockNode =>
         val l = toList(n.statements())
-        Block(l.map(buildStatement).toList)
+        Block(removeTemporaries(l.map(buildStatement).toList))
       case n : IntegerNode =>
         SEInt(new BigInt(n.value()))
       case n : StringNode =>
@@ -302,30 +440,30 @@ object Tree2Program {
         SMatch(buildSimpleExpression(n.value), 
                mkBlockBranches(toList(n.patterns), toList(n.blocks)))    
       case n : MemoizeNode =>
-        def buildMemo(memoNode : Node) : SMemoize = {
+        def buildMemo(memoNode : Node) : (MemoType, Id) = {
           memoNode match {
             case mid : MemoizeNode.MemoId =>
               val id = Id(mid.id.name.toLowerCase)
               id.setLocation(mid.id.location)
               val m = 
                 if (mid.strong)
-                  SMemoize(MemoTypeStrong(), id)
+                  MemoTypeStrong()
                  else
-                  SMemoize(MemoTypeWeak(), id)
+                  MemoTypeWeak()
               m.setLocation(mid.location)
-              m
+              (m, id)
           }
         }
-        STemporaries(toList(n.memoIds).map(buildMemo _))
+        TempMemoize(toList(n.memoIds).map(buildMemo _))
       case n : DefNode => 
         val id = Id(n.id.name.toLowerCase)
         id.setLocation(n.id.location)
         val rightSide = buildExpression(n.rightSide)
         if (n.pattern != null) {
           val pat = buildProperPattern(n.pattern)
-          SDef1(id, pat, rightSide)
+          TempDef1(id, pat, rightSide)
         } else {
-          SDef0(id, rightSide)
+          TempDef0(id, rightSide)
         }
       case n : ListNode => 
         val ses = toList(n.elements).map(buildSimpleExpression _)
@@ -517,11 +655,23 @@ object Tree2Program {
     result
   }
   
-  def collectFrees(term : Term) : SortedSet[Id] = {
-    // to be implemented
-    null
+  case class ScopeEnv(nonlinear : SortedSet[Id], linear : SortedSet[Id]) {
+    def freeze() : ScopeEnv = {
+      ScopeEnv(nonlinear ++ linear, SortedSet())
+    }
+    def bind(id : Id) : ScopeEnv = {
+      ScopeEnv(nonlinear - id, linear + id)
+    }
+    def rebind(id : Id) {
+      if (!linear.contains(id))
+        error(id.location, "identifier '"+id.name+"' is not in linear scope")
+    }
+    def lookup(id : Id) {
+      if (!nonlinear.contains(id) && !linear.contains(id))
+        error(id.location, "identifier '"+id.name+"' is not in scope")
+    }
   }
-
+  
   def main(args: Array[String]): Unit = {
     println("Babel-17, (c) 2010 Steven Obua")
     println("");

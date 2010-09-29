@@ -3,4 +3,10 @@ def f0 = 10
 def f1 x = 20*/
 
 //val x = nil
-x = 10
+//x = 10
+val y = 20
+val x = f
+def f u = u*y
+y = 2
+def f () = 20
+memoize f
