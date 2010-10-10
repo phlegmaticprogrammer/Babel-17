@@ -157,10 +157,10 @@ object CollectVars {
         collectVars(parents)
         collectVars(b)
         term.freeVars = parents.freeVars ++ b.freeVars
-      case SEMergeObj(parents, b) =>
+      /*case SEMergeObj(parents, b) =>
         collectVars(parents)
         collectVars(b)
-        term.freeVars = parents.freeVars ++ b.freeVars
+        term.freeVars = parents.freeVars ++ (b.freeVars - Id("this"))*/
       case SEObj(b) =>      
         collectVars(b)
         term.freeVars = b.freeVars

@@ -564,8 +564,6 @@ end
 \end{babellisting}
 The $s_i$ are arbitrary statements.  Those $s_i$ that are  \babelsrc{def} statements define the set of messages that the object responds to.
 
-A keyword that can be used in object \babelsrc{def} statements is \babelsrc{this}. It denotes the current object. Because the current object exists only after the object has been completely initialized, it must not be used in the \babelsrc{val} statements of the object; neither may it be used by those \babelsrc{def} statements that define messages which are sent directly or indirectly from the \babelsrc{val} statements of the same object.
-
 Often you do not want to create objects from scratch but by modifying other already existing objects:
 \begin{babellisting}
 object + parents
@@ -575,19 +573,9 @@ object + parents
 end
 \end{babellisting}
 The expression \babelsrc{parents} must evaluate to either a list, a vector or a set. The members of  \babelsrc{parents}
-are considered to be the parents of the newly created object, in the order induced by the collection. The idea is that the created object not only understands the messages defined by the $s_i$, but also the messages of the parents. Messages defined via $s_i$ shadow messages of the parents. The messages of a later parent shadow the messages of an earlier one.
+are considered to be the parents of the newly created object, in the order induced by the collection. The idea is that the created object not only understands the messages defined by the $s_i$, but also the messages of the parents. Messages defined via $s_i$ shadow messages of the parents. The messages of an earlier parent shadow the messages of a later one.
 
-This way of combining objects is reminiscent of \emph{gluing together} objects. Another way of combining objects in Babel-17 is to \emph{merge} them:
-\begin{babellisting}
-object * parents
-  $s_1$
-  $\vdots$
-  $s_n$
-end
-\end{babellisting}
-The difference between glueing and merging is that the parents loose their identity during merging. This identity is represented by the \babelsrc{this} keyword.
-
-\emph{ToDo:} examples for the differences between merging and glueing.
+The keyword \babelsrc{this} has currently no meaning in Babel-17.
 
 \noindent There is one more way to denote record-like objects:
 \begin{babellisting}
@@ -829,30 +817,30 @@ One of the goals of Babel-17 is that Babel-17 code is easy to read and understan
 
 The programmer can use some of this syntactic sugar when defining her own objects. For example, \texttt{3 + 5} is just syntactic sugar for 
 \begin{babellisting}
-3.syntactic_plus 5
+3.plus 5
 \end{babellisting} 
 Table~\ref{tab:syntacticsugar} lists all syntactic sugar of Babel-17 that is also available to the programmer. 
 \begin{table}
 \caption{Syntactic Sugar}
 \begin{tabular}{c|c}
 \textbf{Sugared} & \textbf{Desugared} \\\hline\hline
-$a$ \verb!+! $b$ & \babelsrc{$a$.syntactic_plus $\ b$} \\\hline
-$a$ \verb!-! $b$ & \babelsrc{$a$.syntactic_minus $\ b$} \\\hline
-\verb!-! $a$ & \babelsrc{$a$.syntactic_uminus} \\\hline
-$a$ \verb!*! $b$ & \babelsrc{$a$.syntactic_times  $\ b$} \\\hline
-$a$ \verb!/! $b$ & \babelsrc{$a$.syntactic_div  $\ b$} \\\hline
-$a$ \verb!%! $b$ & \babelsrc{$a$.syntactic_mod  $\ b$} \\\hline
-$a$ \verb+^+ $b$ & \babelsrc{$a$.syntactic_pow  $\ b$} \\\hline
-$a$ \verb!++! $b$ & \babelsrc{$a$.syntactic_plusplus $\ b$} \\\hline
-$a$ \verb!--! $b$ & \babelsrc{$a$.syntactic_minusminus $\ b$} \\\hline
-$a$ \verb!**! $b$ & \babelsrc{$a$.syntactic_timestimes  $\ b$}\\\hline
-$a$ \verb!to! $b$ & \babelsrc{$a$.syntactic_to  $\ b$}\\\hline
-$a$ \verb!downto! $b$ & \babelsrc{$a$.syntactic_downto  $\ b$}\\\hline
+$a$ \verb!+! $b$ & \babelsrc{$a$.plus $\ b$} \\\hline
+$a$ \verb!-! $b$ & \babelsrc{$a$.minus $\ b$} \\\hline
+\verb!-! $a$ & \babelsrc{$a$.uminus} \\\hline
+$a$ \verb!*! $b$ & \babelsrc{$a$.times  $\ b$} \\\hline
+$a$ \verb!/! $b$ & \babelsrc{$a$.div  $\ b$} \\\hline
+$a$ \verb!%! $b$ & \babelsrc{$a$.mod  $\ b$} \\\hline
+$a$ \verb+^+ $b$ & \babelsrc{$a$.pow  $\ b$} \\\hline
+$a$ \verb!++! $b$ & \babelsrc{$a$.plusplus $\ b$} \\\hline
+$a$ \verb!--! $b$ & \babelsrc{$a$.minusminus $\ b$} \\\hline
+$a$ \verb!**! $b$ & \babelsrc{$a$.timestimes  $\ b$}\\\hline
+$a$ \verb!to! $b$ & \babelsrc{$a$.to  $\ b$}\\\hline
+$a$ \verb!downto! $b$ & \babelsrc{$a$.downto  $\ b$}\\\hline
 $f$ $x$ &  \babelsrc{$f$.apply  $\ x$}
 \end{tabular}
 \label{tab:syntacticsugar}
 \end{table}
-The availability of syntactic sugar for function application means that you can let your own objects behave as if they were functions. To simplify the implementation of this, there is the restriction that \babelsrc{apply} methods cannot be implemented via a \babelsrc{def} that takes no parameter.
+The availability of syntactic sugar for function application means that you can let your own objects behave as if they were functions. 
 
 \section{Memoization}
 Babel-17 supports \emph{memoization}. 

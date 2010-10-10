@@ -93,17 +93,17 @@ object Tree2Program {
     }
     import OperatorNode._
     op.operator match {
-      case PLUS => mk("syntactic_plus")
-      case MINUS => mk("syntactic_minus")
-      case TIMES => mk("syntactic_times")
-      case DIV => mk("syntactic_div")
-      case MOD => mk("syntactic_mod")
-      case POW => mk("syntactic_pow")
-      case PLUSPLUS => mk("syntactic_plusplus")
-      case MINUSMINUS => mk("syntactic_minusminus")
-      case TIMESTIMES => mk("syntactic_timestimes")
-      case TO => mk("syntactic_to")
-      case DOWNTO => mk("syntactic_downto")
+      case PLUS => mk("plus")
+      case MINUS => mk("minus")
+      case TIMES => mk("times")
+      case DIV => mk("div")
+      case MOD => mk("mod")
+      case POW => mk("pow")
+      case PLUSPLUS => mk("plusplus")
+      case MINUSMINUS => mk("minusminus")
+      case TIMESTIMES => mk("timestimes")
+      case TO => mk("to")
+      case DOWNTO => mk("downto")
       case APPLY => SEApply(left(), right())
       case MESSAGE_SEND =>
         build(rightNode) match {
@@ -158,7 +158,9 @@ object Tree2Program {
       case INFINITY => SEInfinity(true)
       case TRUE => SEBool(true)
       case FALSE => SEBool(false)
-      case THIS => SEThis()
+      case THIS => 
+        error(n.location, "'this' is a reserved keyword without meaning")
+        SEBool(false)
       case k => throwInternalError(n.location, "unknown nullary operator code: "+k)
     }
     result.setLocation(n.location)
@@ -175,7 +177,7 @@ object Tree2Program {
     import OperatorNode._
     val result : Locatable = n.operator().operator match {
       case NOT => SENot(arg)
-      case UMINUS => mk("syntactic_uminus")
+      case UMINUS => mk("uminus")
       case LAZY => SELazy(arg)
       case RANDOM => SERandom(arg)
       case CONCURRENT => SEConcurrent(arg)
@@ -502,8 +504,10 @@ object Tree2Program {
           val parents = buildSimpleExpression(n.parents)
           if (n.combineMethod == ObjectNode.COMBINE_GLUE) 
             SEGlueObj(parents, block)
-          else
-           SEMergeObj(parents, block)
+          else {
+            error(n.location, "cannot use * operator for inheritance, must use +");
+            SEGlueObj(parents, block)
+          }
         } else SEObj(block)
       case n : ParseErrorNode =>
         SEVector(List())
