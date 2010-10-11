@@ -308,6 +308,11 @@ object Tree2Program {
         case statement => 
           CollectVars.collectVars(statement)
           val vs = statement.introducedVars ++ statement.assignedVars
+          val invalidVs = vs ** defIds
+          if (invalidVs.size > 0) {
+            val id = invalidVs.head
+            error(id.location, "variable name already used by definition")
+          }
           for (v <- vs) {
             vals = vals + (v -> line)
           }
@@ -695,6 +700,7 @@ object Tree2Program {
       }
       if (node != null) {
         val t = build(node)
+        LinearScope.check(LinearScope.emptyEnv, t.asInstanceOf[Term])
         println("term: "+t)
       }
     }

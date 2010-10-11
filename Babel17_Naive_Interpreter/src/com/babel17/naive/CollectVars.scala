@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.babel17.naive
 
 import Program._
@@ -19,6 +14,8 @@ object CollectVars {
         case d : SDef1 => defVars = defVars + d.id
         case d : TempDef0 => defVars = defVars + d.id
         case d : TempDef1 => defVars = defVars + d.id
+        case SDefs(ds) =>
+            defVars = defVars ++ collectDefIds(ds)
         case _ => 
       } 
     }

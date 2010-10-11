@@ -1,17 +1,5 @@
-def d = object
-  val this = d
-  
-end
-
-/*memoize great (cool)
-def f0 = 10
-def f1 x = 20*/
-
-//val x = nil
-//x = 10
-val y = 20
-val x = f
-def f u = u*y
-y = 2
-def f () = 20
-memoize f
+def f x = x
+val (x,_) = 0
+x = 4
+val y = f x
+y
