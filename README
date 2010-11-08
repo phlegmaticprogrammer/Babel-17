@@ -2,6 +2,6 @@ Copyright © 2009-2010 Steven Obua (http://github.com/phlegmaticprogrammer)
 
 This is the repository of the Babel-17 project. Its goal is to specify the programming language Babel-17 and to provide implementations of it.
 
-The license used for all files in this repository is the GNU Public License v3. The copyright holder of all files in this repository is Steven Obua (http://github.com/phlegmaticprogrammer). This holds even in case there is no license mentioned in the files themselves.
+The license used for all files in this repository is the GNU Public License v3. The copyright holder of all files in this repository is Steven Obua (http://github.com/phlegmaticprogrammer). This holds even in case there is no license or copyright mentioned in the files themselves.
 
 You can retrieve a copy of the GNU Public License v3 at http://www.gnu.org/licenses/gpl.html .
