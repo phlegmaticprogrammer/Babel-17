@@ -262,7 +262,7 @@ object Values {
   case class ConsListValue(head : Value, tail : ListValue) extends ListValue {
   }
   
-  case class TupleValue(tuple :  Array[Value]) extends CollectionValue {    
+  case class VectorValue(tuple :  Array[Value]) extends CollectionValue {    
   }
   
   case class SetValue(set : SortedSet[Value]) extends CollectionValue {  
