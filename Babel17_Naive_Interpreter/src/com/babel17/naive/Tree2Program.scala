@@ -702,6 +702,8 @@ object Tree2Program {
         val t = build(node)
         LinearScope.check(LinearScope.emptyEnv, t.asInstanceOf[Term])
         println("term: "+t)
+        val v = Evaluator.evaluate(Evaluator.emptyEnv, t.asInstanceOf[Term])
+        println("value of term: "+v)
       }
     }
   }
