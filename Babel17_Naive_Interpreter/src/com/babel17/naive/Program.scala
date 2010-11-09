@@ -25,7 +25,11 @@ object Program {
     var assignedVars : SortedSet[Id] = null
   }
 
-  case class Message(m : String) extends Locatable
+  case class Message(m : String) extends Locatable with Ordered[Message] {
+    def compare(that : Message) : Int = {
+      m.compare(that.m)
+    }    
+  }
   
   case class Id(name : String) extends Locatable with Ordered[Id] {
     def compare(that : Id) : Int = {
@@ -73,7 +77,6 @@ object Program {
   case class SEConstr(c: Constr, param: SimpleExpression) extends SimpleExpression
   case class SEInfinity(positive: Boolean) extends SimpleExpression
   //case class SEThis() extends SimpleExpression
-  case class SERaise(param: SimpleExpression) extends SimpleExpression
   case class SEExpr(se: Expression) extends SimpleExpression
   case class SEOr(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SEAnd(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression

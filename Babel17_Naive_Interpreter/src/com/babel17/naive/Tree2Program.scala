@@ -123,7 +123,7 @@ object Tree2Program {
   def buildConstr(n : ConstrNode) : SimpleExpression = {
     val c = Constr(n.name.toUpperCase)
     c.setLocation(n.nameLoc)
-    val param = if (n.arg == null) SEVector(List()) else buildSimpleExpression(n.arg)
+    val param = if (n.arg == null) SERecord(List()) else buildSimpleExpression(n.arg)
     SEConstr(c, param)
   }
 

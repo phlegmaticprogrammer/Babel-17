@@ -2,3 +2,14 @@ val y = 0
 val (x) = begin y = 1; y end
 x
 yield y
+true
+false
+"hey dude!"
+-4
+infinity
+Cool
+Cool 5
+nil
+{x=10, y = 0}
+3 * 4
+2 ^10 -24

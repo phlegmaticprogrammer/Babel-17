@@ -108,8 +108,43 @@ object Evaluator {
   def evalSE(env : SimpleEnvironment, se : SimpleExpression) : Value = 
   {
     se match {
-      case SEInt(u) => IntegerValue(u)
       case SEId(id) => env.lookup(id)
+      case SEInt(u) => IntegerValue(u)
+      case SEBool(b) => BooleanValue(b)
+      case SEString(u) => StringValue(u)
+      case SEInfinity(p) => InfinityValue(p)
+      case SEConstr(constr, se) => 
+        val v = evalSE(env, se)
+        val x = v.asDynamicException()
+        if (x != null) x
+        else ConstructorValue(constr, v)
+      case SEException(se) => 
+        val v = evalSE(env, se)
+        val x = v.asDynamicException()
+        if (x != null) x
+        else ExceptionValue(true, v)
+      case SEMessageSend(target, message) =>
+        val v = evalSE(env, target).sendMessage(message)
+        if (v == null) dynamicException(CONSTRUCTOR_INVALIDMESSAGE)
+        else v
+      case SERecord(messageValuePairs) =>
+        var map : SortedMap[Message, Value] = SortedMap()
+        for ((m, se) <- messageValuePairs) {
+          val v = evalSE(env, se)
+          val x = v.asDynamicException()
+          if (x != null) return x
+          map = map + (m -> v)
+        }
+        ObjectValue(map)
+      case SEApply(fexpr, gexpr) =>
+        var f = evalSE(env, fexpr).extractFunctionValue()
+        if (f.isDynamicException()) f
+        else {
+          val fop = f.asInstanceOf[FunctionValue]
+          val g = evalSE(env, gexpr)
+          if (g.isDynamicException()) g
+          else fop.apply(g)
+        }
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }
@@ -176,7 +211,7 @@ object Evaluator {
         val x = v.asDynamicException()
         if (x != null) MatchException(x)
         else DoesMatch(if (rebind) env.rebind(id, v) else env.bind(id, v))
-      case _ => throw EvalX("incomplete matchPattern: "+pat) // dummy expression
+      case _ => throw EvalX("incomplete matchPattern: "+pat)
     }
   }
 

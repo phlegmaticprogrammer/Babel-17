@@ -25,17 +25,26 @@ object Values {
   val CONSTRUCTOR_INVALIDMESSAGE = "INVALIDMESSAGE"
   val CONSTRUCTOR_TYPEERROR = "TYPEERROR"
   val CONSTRUCTOR_NOMATCH = "NOMATCH"
+  val CONSTRUCTOR_APPLYERROR = "APPLYERROR"
   
   abstract class Value {
-    def sendMessage(message : String) : Value = {
-      message match {
+    def sendMessage(message : Program.Message) : Value = {
+      message.m match {
         case MESSAGE_TOSTRING =>
           StringValue(toString())
         case _ => null
       }
     }
-    def hasMessage(message : String) : Boolean = {
+    def hasMessage(message : Program.Message) : Boolean = {
       sendMessage(message) != null     
+    }
+    
+    // this returns either a dynamic exception or a function value
+    def extractFunctionValue() : Value = {
+      val f = sendMessage(Program.Message(MESSAGE_APPLY))
+      if (f == null) dynamicException(CONSTRUCTOR_APPLYERROR)
+      else if (f.isInstanceOf[FunctionValue] || f.isDynamicException()) f
+      else dynamicException(CONSTRUCTOR_APPLYERROR)
     }
     def force() : Value = {
       this
@@ -59,8 +68,8 @@ object Values {
     override def toString() : String = {
       v.toString()
     }
-    override def sendMessage(message : String) : Value = {
-      message match {
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
         case MESSAGE_PLUS => NativeFunctionValue(plus _)
         case MESSAGE_MINUS => NativeFunctionValue(minus _)
         case MESSAGE_UMINUS => IntegerValue(-v)
@@ -159,8 +168,8 @@ object Values {
   }
     
   case class NativeFunctionValue(native : Function[Value, Value]) extends FunctionValue {    
-    override def sendMessage(message : String) : Value = {
-      message match {
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
         case MESSAGE_APPLY => this
         case _ => super.sendMessage(message)
       }      
@@ -179,8 +188,8 @@ object Values {
     override def toString() : String = {
       if (positive) "\u221E" else "-\u221E"
     }
-    override def sendMessage(message : String) : Value = {
-      message match {
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
         case MESSAGE_PLUS => NativeFunctionValue(plus _)
         case MESSAGE_MINUS => NativeFunctionValue(minus _)
         case MESSAGE_UMINUS => InfinityValue(!positive)
@@ -235,8 +244,8 @@ object Values {
     override def toString() : String = {
       v
     }
-    override def sendMessage(message : String) : Value = {
-      message match {
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
         case MESSAGE_PLUS => NativeFunctionValue(plus _)
         case _ => super.sendMessage(message)
       }      
@@ -250,22 +259,25 @@ object Values {
     override def toString() : String = {
       if (v) "true" else "false"
     }        
-  }
+  }  
   
-  
-  case class ConstructorValue(name : String, v : Value) extends Value {
+  case class ConstructorValue(constr : Program.Constr, v : Value) extends Value {
     override def toString() : String = {
-      name + v.toString()
+      constr.name + " ("+ v.toString()+")"
     }    
   }
   
-  case class ObjectValue(messages : SortedMap[String, Value]) extends Value {   
+  case class ObjectValue(messages : SortedMap[Program.Message, Value]) extends Value {   
     override def toString() : String = {
       if (messages.size == 0) "nil" else "<Object>"
     }    
   }
   
-  case class ExceptionValue(dynamic : Boolean, v : Value) extends Value
+  case class ExceptionValue(dynamic : Boolean, v : Value) extends Value {
+    override def toString() : String = {
+      "exception ("+v+")"
+    }        
+  }
 
   abstract class CollectorValue extends Value {
     def collect_close () : Value = {
@@ -336,7 +348,7 @@ object Values {
   val nil : Value = ObjectValue(SortedMap.empty)
   
   def dynamicException(constructorName : String) : ExceptionValue = {
-    ExceptionValue(true, ConstructorValue(constructorName, nil))
+    ExceptionValue(true, ConstructorValue(Program.Constr(constructorName), nil))
   }
 
 }
