@@ -46,6 +46,7 @@ object Tree2Program {
   def buildExpression (node : Node) : Expression =  {
     val e = build(node) match {
       case b : Block => EBlock(b)
+      case SBlock(b) => EBlock(b)
       case s : Statement => EBlock(Block(List(s)))
       case e : Expression => e
       case se : SimpleExpression => ESimple(se)
@@ -59,6 +60,7 @@ object Tree2Program {
   def buildBlock (node : Node) : Block = {
     val e = build(node) match {
       case b: Block => b
+      case SBlock(b) => b
       case s : Statement => Block(List(s))
       case EBlock(b) => b
       case x => throwInternalError(node.location(), "buildBlock: "+x)
@@ -70,6 +72,7 @@ object Tree2Program {
   def buildSimpleExpression (node : Node) : SimpleExpression =  {
     val se = build(node) match {
       case b : Block => SEExpr(EBlock(b))
+      case SBlock(b) => SEExpr(EBlock(b))
       case s : Statement => SEExpr(EBlock(Block(List(s))))
       case ESimple(se) => se
       case e : Expression => SEExpr(e)
@@ -702,8 +705,13 @@ object Tree2Program {
         val t = build(node)
         LinearScope.check(LinearScope.emptyEnv, t.asInstanceOf[Term])
         println("term: "+t)
-        val v = Evaluator.evaluate(Evaluator.emptyEnv, t.asInstanceOf[Term])
-        println("value of term: "+v)
+        try {
+          val v = Evaluator.evaluate(Evaluator.emptyEnv, t.asInstanceOf[Term])
+          println("value of term: "+v)
+        } catch {
+          case (Evaluator.EvalX(s)) =>
+            println("evaluation of term failed: "+s)
+        }
       }
     }
   }

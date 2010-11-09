@@ -17,9 +17,15 @@ object LinearScope {
     }
   }
   
+  case class SimpleEnvironment(nonlinear : SortedSet[Id]) {
+    def thaw () : Environment = {
+      Environment(nonlinear, SortedSet())
+    }
+  }
+  
   case class Environment(nonlinear : SortedSet[Id], linear : SortedSet[Id]) {
-    def freeze () : Environment = {
-      Environment(nonlinear ++ linear, SortedSet())
+    def freeze () : SimpleEnvironment = {
+      SimpleEnvironment(nonlinear ++ linear)
     }
     def bind (id : Id) : Environment = {
       Environment(nonlinear - id, linear + id)
@@ -82,7 +88,7 @@ object LinearScope {
       case SDef1(m, id, branches) =>
         val env2 = env.define(id)
         for ((pat, e) <- branches) {
-          check_e(check_p(env2.freeze(), pat, false), e)
+          check_e(check_p(env2.freeze().thaw(), pat, false), e)
         }
         env2
       case SDefs(defs) =>
@@ -139,21 +145,22 @@ object LinearScope {
     
   }
 
-  def check_simple (env : Environment, simple : SimpleExpression) {
+  def check_simple (env : SimpleEnvironment, simple : SimpleExpression) {
     simple match {
       case SEId(id) =>
         lookup(env.nonlinear, id, false)
       case SEExpr(e) => 
-        check_e(env, e)
+        check_e(env.thaw, e)
       case SEFun(branches) =>
+        val tEnv = env.thaw()
         for ((pat, e) <- branches) {
-          check_e(check_p(env, pat, false), e)
+          check_e(check_p(tEnv, pat, false), e)
         }
       case SEObj(b) =>
-        check_b(env, b)
+        check_b(env.thaw(), b)
       case SEGlueObj(parents, b) => 
         check_simple(env, parents)
-        check_b(env, b)
+        check_b(env.thaw(), b)
       case se : SimpleExpression =>
         for (s <- CollectVars.subSimpleExpressions(se)) {
           check_simple(env, s)
@@ -172,7 +179,7 @@ object LinearScope {
           check_pat(env, pattern)
         case PIf(pattern, condition) =>
           val new_env = check_p(env, pattern, rebind)
-          check_simple(new_env, condition)
+          check_simple(new_env.freeze(), condition)
         case PAs(id, pattern) =>
           check_pat(env, pattern)
           if (pattern.introducedVars.contains(id))

@@ -1,5 +1,4 @@
-def f x = x
-val (x,_) = 0
-x = 4
-val y = f x
-y
+val y = 0
+val (x) = begin y = 1; y end
+x
+yield y

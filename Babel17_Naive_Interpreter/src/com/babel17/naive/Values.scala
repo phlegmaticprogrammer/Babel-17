@@ -21,6 +21,11 @@ object Values {
   val MESSAGE_DOWNTO = "downto"
   val MESSAGE_TOSTRING = "tostring"
   
+  val CONSTRUCTOR_DOMAINERROR = "DOMAINERROR"
+  val CONSTRUCTOR_INVALIDMESSAGE = "INVALIDMESSAGE"
+  val CONSTRUCTOR_TYPEERROR = "TYPEERROR"
+  val CONSTRUCTOR_NOMATCH = "NOMATCH"
+  
   abstract class Value {
     def sendMessage(message : String) : Value = {
       message match {
@@ -32,8 +37,21 @@ object Values {
     def hasMessage(message : String) : Boolean = {
       sendMessage(message) != null     
     }
+    def force() : Value = {
+      this
+    }
     override def toString() : String = {
       "<Value>"
+    }
+    def isDynamicException() : Boolean = {
+      this match {
+        case ExceptionValue(true, _) => true
+        case _ => false
+      }
+    }
+    def asDynamicException() : ExceptionValue = {
+      if (isDynamicException()) this.asInstanceOf[ExceptionValue]
+      else null
     }
   }
   
@@ -148,8 +166,8 @@ object Values {
       }      
     }
     override def apply(v : Value) : Value = {
-      val x = native(v)
-      if (x == null) ExceptionValue(true, nilValue)
+      val x = native(v.force())
+      if (x == null) dynamicException(CONSTRUCTOR_DOMAINERROR)
       else x
     }
     override def toString() : String = {
@@ -234,8 +252,6 @@ object Values {
     }        
   }
   
-  case class ExceptionValue(dynamic : Boolean, v : Value) extends Value {    
-  }
   
   case class ConstructorValue(name : String, v : Value) extends Value {
     override def toString() : String = {
@@ -249,29 +265,78 @@ object Values {
     }    
   }
   
-  abstract class CollectionValue extends Value {
+  case class ExceptionValue(dynamic : Boolean, v : Value) extends Value
+
+  abstract class CollectorValue extends Value {
+    def collect_close () : Value = {
+      throw Evaluator.EvalX("collect_close not implemented in "+this.getClass)
+    }
+    // returns either dynamic exception or CollectorValue
+    def collect_add (v : Value) : Value = {
+      throw Evaluator.EvalX("collect_add not implemented in "+this.getClass)
+    }
     
   }
   
-  abstract class ListValue extends CollectionValue {
+  def collectorValue(v : Value) : CollectorValue = {
+    v.force() match {
+      case c : CollectorValue => c
+      case c => CustomCollectorValue(c)
+    }
+  }
+  
+  class DefaultCollectorValue extends CollectorValue {    
+    import scala.collection.mutable.ArrayBuffer
+    val buffer : ArrayBuffer[Value] = new ArrayBuffer(15)
+    override def collect_close () : Value = {
+      if (buffer.size == 1) buffer(0)
+      else VectorValue(buffer.toArray)
+    }
+    override def collect_add(v : Value) : Value = {
+      buffer + v
+      this
+    }
+  }
+  
+  case class CustomCollectorValue(v : Value) extends CollectorValue {    
+  }
+  
+  abstract class ListValue extends CollectorValue {
   }
   
   case class EmptyListValue() extends ListValue {    
   }
   
-  case class ConsListValue(head : Value, tail : ListValue) extends ListValue {
+  case class ConsListValue(head : Value, tail : Value) extends ListValue {
   }
   
-  case class VectorValue(tuple :  Array[Value]) extends CollectionValue {    
+  case class VectorValue(tuple : Array[Value]) extends CollectorValue {   
+    override def toString() : String = {
+      val size = tuple.size
+      if (size == 0) "()"
+      else if (size == 1) "("+tuple(0)+",)"
+      else {
+        var s = "("+tuple(0)
+        var i = 1
+        while (i < size) {
+          s = s + ", " + tuple(i)
+          i = i + 1
+        }
+        s + ")"       
+      }
+    }
   }
   
-  case class SetValue(set : SortedSet[Value]) extends CollectionValue {  
+  case class SetValue(set : SortedSet[Value]) extends CollectorValue {  
   }
   
-  case class MapValue(map : SortedMap[Value, Value]) extends CollectionValue {
-    
+  case class MapValue(map : SortedMap[Value, Value]) extends CollectorValue {    
   }
   
-  val nilValue : Value = ObjectValue(SortedMap.empty)
+  val nil : Value = ObjectValue(SortedMap.empty)
+  
+  def dynamicException(constructorName : String) : ExceptionValue = {
+    ExceptionValue(true, ConstructorValue(constructorName, nil))
+  }
 
 }
