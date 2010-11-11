@@ -103,7 +103,6 @@ object Program {
   abstract class CompareOp extends Locatable
   case class EQUAL() extends CompareOp
   case class UNEQUAL() extends CompareOp
-  case class UNRELATED() extends CompareOp
   case class GREATER() extends CompareOp
   case class GREATER_EQ() extends CompareOp
   case class LESS() extends CompareOp

@@ -14,7 +14,7 @@
 \contentsline {section}{\tocsection {}{14}{Boolean Operators}}{13}
 \contentsline {section}{\tocsection {}{15}{Order}}{14}
 \contentsline {section}{\tocsection {}{16}{Sets and Maps}}{15}
-\contentsline {section}{\tocsection {}{17}{Patterns for Sets and Maps}}{17}
+\contentsline {section}{\tocsection {}{17}{Patterns for Sets and Maps}}{15}
 \contentsline {section}{\tocsection {}{18}{API and Runtime Environment}}{17}
 \contentsline {section}{\tocsection {}{19}{Syntactic Sugar}}{17}
 \contentsline {section}{\tocsection {}{20}{Memoization}}{17}

@@ -8,7 +8,6 @@ public final class OperatorNode extends Node {
 
   public final static int EQUAL = 4;
   public final static int UNEQUAL = 5;
-  public final static int UNRELATED = 6;
   public final static int GREATER = 7;
   public final static int GREATER_EQ = 8;
   public final static int LESS = 9;

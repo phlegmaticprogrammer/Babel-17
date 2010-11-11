@@ -26,8 +26,10 @@ object Values {
   val CONSTRUCTOR_TYPEERROR = "TYPEERROR"
   val CONSTRUCTOR_NOMATCH = "NOMATCH"
   val CONSTRUCTOR_APPLYERROR = "APPLYERROR"
+  val CONSTRUCTOR_INVALIDLIST = "INVALIDLIST"
   
   abstract class Value {
+    // sending an object a message always forces it
     def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_TOSTRING =>
@@ -39,19 +41,39 @@ object Values {
       sendMessage(message) != null     
     }
     
-    // this returns either a dynamic exception or a function value
+    // this returns either a dynamic exception or a FunctionValue
     def extractFunctionValue() : Value = {
       val f = sendMessage(Program.Message(MESSAGE_APPLY))
       if (f == null) dynamicException(CONSTRUCTOR_APPLYERROR)
       else if (f.isInstanceOf[FunctionValue] || f.isDynamicException()) f
       else dynamicException(CONSTRUCTOR_APPLYERROR)
     }
+    
+    // this returns either an ObjectValue without a "representative" message or something that is
+    // a) not an ObjectValue b) forced c) not a persistent exception
+    def extractRepresentative() : Value = {
+      var f = this
+      var oldf = f
+      while (f != null) {
+        if  (f.isDynamicException()) return f
+        oldf = f
+        f = f.sendMessage(Program.Message(MESSAGE_REPRESENTATIVE))
+      }
+      oldf = oldf.force()
+      oldf match {
+        case ExceptionValue(false, p) => ExceptionValue(true, p)
+        case _ => oldf
+      }
+    }
+    
     def force() : Value = {
       this
     }
+    
     override def toString() : String = {
       "<Value>"
     }
+    
     def isDynamicException() : Boolean = {
       this match {
         case ExceptionValue(true, _) => true
@@ -62,6 +84,8 @@ object Values {
       if (isDynamicException()) this.asInstanceOf[ExceptionValue]
       else null
     }
+    
+    
   }
   
   case class IntegerValue(v : BigInt) extends Value {
@@ -350,5 +374,175 @@ object Values {
   def dynamicException(constructorName : String) : ExceptionValue = {
     ExceptionValue(true, ConstructorValue(Program.Constr(constructorName), nil))
   }
+    
+  object CompareResult {
+    val UNRELATED = 0
+    val LESS = 1
+    val EQUAL = 2
+    val GREATER = 3
+  }
+    
+  def orderRank(f : Value) : Int = {
+    f match {
+      case _ : ExceptionValue => -1
+      case _ : FunctionValue => -1
+      case _ : ObjectValue => 1
+      case InfinityValue(false) => 2
+      case _ : IntegerValue => 3
+      case InfinityValue(true) => 4
+      case _ : StringValue => 5
+      case _ : ListValue => 6
+      case _ : VectorValue => 6
+      case _ : ConstructorValue => 7
+      case _ : SetValue => 8
+      case _ : MapValue => 9
+      case BooleanValue(false) => 10
+      case BooleanValue(true) => 11
+    }
+  }
+  
+  def compareValues(v1 : Value, v2 : Value) : Int = {
+    import CompareResult._
+    val f1 = v1.force()
+    val f2 = v2.force()
+    val r1 = orderRank(f1)
+    val r2 = orderRank(f2)
+    if (r1 < 0 || r2 < 0) return UNRELATED
+    if (r1 < r2) return LESS
+    if (r1 > r2) return GREATER
+    (f1, f2) match {
+      case (x : ObjectValue, y : ObjectValue) => compareObjects(x, y)
+      case (x : MapValue, y : MapValue) => compareMaps(x, y)
+      case (x : SetValue, y : SetValue) => compareSets(x, y)
+      case (x : VectorValue, y : VectorValue) => compareVectors(x, y)
+      case (x : ListValue, y : ListValue) => compareLists(x, y)
+      case (x : ConstructorValue, y : ConstructorValue) => compareCExprs(x, y)
+      case (InfinityValue(x), InfinityValue(y)) => 
+        if (x == y) EQUAL else if (x) GREATER else LESS
+      case (InfinityValue(x), _ : IntegerValue) => 
+        if (x) GREATER else LESS
+      case (_ : IntegerValue, InfinityValue(x)) => 
+        if (x) LESS else GREATER
+      case (IntegerValue(x), IntegerValue(y)) => 
+        if (x < y) LESS else if (x > y) GREATER else EQUAL
+      case (StringValue(x), StringValue(y)) => 
+        val c = x.compare(y)
+        if (c < 0) LESS else if (c > 0) GREATER else EQUAL
+      case (_ : ListValue, _) => throw Evaluator.EvalX("ListValue comparison")
+      case (_ : VectorValue, _) => throw Evaluator.EvalX("VectorValue comparison")
+      case _ => throw Evaluator.EvalX("cannot compare "+f1+" and "+f2)       
+    }
+  }
+  
+  def compareObjects(v1 : ObjectValue, v2 : ObjectValue) : Int = {
+    import CompareResult._
+    val s1 = v1.messages.size
+    val s2 = v2.messages.size
+    if (s1 < s2) return LESS
+    if (s1 > s2) return GREATER    
+    var i1 = v1.messages.iterator
+    var i2 = v2.messages.iterator
+    while (!i1.isEmpty) {
+      val (m1, _) = i1.next
+      val (m2, _) = i2.next
+      val c = m1.compare(m2)
+      if (c < 0) return LESS
+      else if (c > 0) return GREATER
+    }
+    i1 = v1.messages.iterator
+    i2 = v2.messages.iterator
+    while (!i1.isEmpty) {
+      var (_, v1) = i1.next
+      var (_, v2) = i2.next
+      val c = compareValues(v1, v2)
+      if (c != EQUAL) return c
+    }
+    return EQUAL
+  }
 
+  def compareMaps(v1 : MapValue, v2 : MapValue) : Int = {
+    import CompareResult._
+    val s1 = v1.map.size
+    val s2 = v2.map.size
+    if (s1 < s2) return LESS
+    if (s1 > s2) return GREATER    
+    var i1 = v1.map.iterator
+    var i2 = v2.map.iterator
+    while (!i1.isEmpty) {
+      val (m1, _) = i1.next
+      val (m2, _) = i2.next
+      val c = compareValues(m1, m2)
+      if (c != EQUAL) return c
+    }
+    i1 = v1.map.iterator
+    i2 = v2.map.iterator
+    while (!i1.isEmpty) {
+      var (_, v1) = i1.next
+      var (_, v2) = i2.next
+      val c = compareValues(v1, v2)
+      if (c != EQUAL) return c
+    }
+    return EQUAL
+  }
+
+  def compareSets(v1 : SetValue, v2 : SetValue) : Int = {
+    import CompareResult._
+    val s1 = v1.set.size
+    val s2 = v2.set.size
+    if (s1 < s2) return LESS
+    if (s1 > s2) return GREATER    
+    var i1 = v1.set.iterator
+    var i2 = v2.set.iterator
+    while (!i1.isEmpty) {
+      val e1 = i1.next
+      val e2 = i2.next
+      val c = compareValues(e1, e2)
+      if (c != EQUAL) return c
+    }
+    return EQUAL
+  }
+  
+  def compareCExprs(v1 : ConstructorValue, v2 : ConstructorValue) : Int = {
+    val c = v1.constr.name.compare(v2.constr.name)
+    if (c < 0) CompareResult.LESS
+    else if (c > 0) CompareResult.GREATER
+    else compareValues(v1.v, v2.v)
+  } 
+  
+  def compareVectors(v1 : VectorValue, v2 : VectorValue) : Int = {
+    import CompareResult._
+    val s1 = v1.tuple.size
+    val s2 = v2.tuple.size
+    if (s1 < s2) return LESS
+    if (s1 > s2) return GREATER    
+    var i1 = v1.tuple.iterator
+    var i2 = v2.tuple.iterator
+    while (!i1.isEmpty) {
+      val e1 = i1.next
+      val e2 = i2.next
+      val c = compareValues(e1, e2)
+      if (c != EQUAL) return c
+    }
+    return EQUAL
+  }
+  
+  def normalizeListTail(tail : Value) : ListValue = {
+    val t = tail.force()
+    if (t.isInstanceOf[ListValue]) t.asInstanceOf[ListValue]
+    else ConsListValue(t, EmptyListValue())
+  }
+  
+  def compareLists(v1 : ListValue, v2 : ListValue) : Int = {
+    import CompareResult._
+    (v1, v2) match {
+      case (EmptyListValue(), EmptyListValue()) => EQUAL
+      case (EmptyListValue(), _ : ConsListValue) => LESS
+      case (_  : ConsListValue, EmptyListValue()) => GREATER
+      case (ConsListValue(h1, t1), ConsListValue(h2, t2)) =>
+        val c = compareValues(h1, h2)
+        if (c != EQUAL) return c
+        return compareLists(normalizeListTail(t1), normalizeListTail(t2))
+    }
+  }
+  
 }

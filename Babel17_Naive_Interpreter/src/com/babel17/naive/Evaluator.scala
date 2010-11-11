@@ -28,9 +28,6 @@ object Evaluator {
     def lookup(id : Id) : Value = {
       nonlinear(id)
     }
-    /*def bind (id : Id, v : Value) : SimpleEnvironment = {
-      SimpleEnvironment(nonlinear + (id -> v))
-    }  */  
   }
   
   case class Environment(nonlinear : SortedMap[Id, Value], linear : SortedMap[Id, ValueRef]) {
@@ -145,8 +142,37 @@ object Evaluator {
           if (g.isDynamicException()) g
           else fop.apply(g)
         }
+      case SECompare(operands, operators) =>
+        var firstOperand = evalSE(env, operands(0)).extractRepresentative()
+        if (firstOperand.isDynamicException) return firstOperand
+        var operandsList = operands.tail
+        var operatorsList = operators
+        while (!operatorsList.isEmpty) {
+          var secondOperand = evalSE(env, operandsList(0)).extractRepresentative()
+          if (secondOperand.isDynamicException) return secondOperand
+          var operator = operatorsList(0)
+          if (!compareValuesByOp(operator, firstOperand, secondOperand)) 
+            return BooleanValue(false)
+          firstOperand = secondOperand
+          operandsList = operandsList.tail
+          operatorsList = operatorsList.tail
+        }
+        BooleanValue(true)
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
+  }
+  
+  def compareValuesByOp(op : Program.CompareOp, u : Value, v : Value) : Boolean = {
+    import CompareResult._
+    val r = compareValues(u, v)
+    op match {
+      case Program.LESS_EQ() => r == LESS || r == EQUAL
+      case Program.GREATER_EQ() => r == GREATER || r == EQUAL
+      case Program.EQUAL() => r == EQUAL
+      case Program.LESS() => r == LESS
+      case Program.GREATER() => r == GREATER
+      case Program.UNEQUAL() => !(r == EQUAL)
+    }    
   }
   
   def evalStatement(env : Environment, coll : CollectorValue, st : Statement) : StatementResult = 

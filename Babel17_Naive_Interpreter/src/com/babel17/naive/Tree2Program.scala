@@ -132,7 +132,6 @@ object Tree2Program {
       val p = op.operator match {
         case OperatorNode.EQUAL => EQUAL()
         case OperatorNode.UNEQUAL => UNEQUAL()
-        case OperatorNode.UNRELATED => UNRELATED()
         case OperatorNode.GREATER => GREATER()
         case OperatorNode.GREATER_EQ => GREATER_EQ()
         case OperatorNode.LESS => LESS()

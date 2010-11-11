@@ -229,9 +229,6 @@ U_GREATER_EQ
 	:	'\u2265';
 token_GREATER_EQ
 	:	A_GREATER_EQ | U_GREATER_EQ;
-
-UNRELATED
-	:	'<>';
 	
 SC	:	';';
 
@@ -552,7 +549,7 @@ p_rel_expr
 	:	p_arith_expr (NL? rel_op NL? p_arith_expr)* -> ^(COMPARE p_arith_expr (rel_op p_arith_expr)*);
 
 
-rel_op	:	token_EQUAL | token_NOT_EQUAL | UNRELATED | GREATER | token_GREATER_EQ | LESS | token_LESS_EQ;
+rel_op	:	token_EQUAL | token_NOT_EQUAL | GREATER | token_GREATER_EQ | LESS | token_LESS_EQ;
 	 
 
 arith_expr

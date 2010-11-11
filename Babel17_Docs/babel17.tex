@@ -112,7 +112,7 @@ These are the keywords of Babel-17:
 begin & end & object & with & if & then & else & elseif \\
 while &  for & do & await & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
-to & downto & true & false & this & infinity & nil & 
+to & downto & true & false & nil & infinity &  & 
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
@@ -151,11 +151,11 @@ Finally, here are all ASCII special symbols that can occur in a Babel-17 program
 \begin{center}
 \tt
 \begin{tabular}{ccccccccccccc}
-\verb+==+ & \verb+!=+ & \verb+<>+ & \verb+<+ & \verb+<=+ & \verb+>+& \verb+>=+  &
+\verb+=+ & \verb+==+ & \verb+!=+ & \verb+<+ & \verb+<=+ & \verb+>+& \verb+>=+  &
 \verb-+- & \verb+-+ & \verb+*+ & \verb+/+ & \verb+%+ & \verb+^+  \\
 \verb-|- & \verb+&+ & \verb+!+ & \verb-++- & \verb+--+& \verb+**+  &
 \verb-;- & \verb+,+ & \verb+::+ & \verb+->+ & \verb+=>+& \verb+?+  & \verb+...+  \\
-\verb-(- & \verb+)+ & \verb+[+ & \verb+]+ & \verb+{+& \verb+}+  & \verb+.+ &  \verb+=+  &
+\verb-(- & \verb+)+ & \verb+[+ & \verb+]+ & \verb+{+& \verb+}+  & \verb+.+ &   &
 & & & 
 \end{tabular}
 \end{center}
@@ -695,7 +695,6 @@ Babel-17 has a built-in partial order \babelsrc{$\le$}. All other relational ope
 \textbf{Syntax} & \textbf{Semantics} \\\hline
 $a >= b$ & $b <= a$ \\
 $a == b$ & $a <= b\ \&\ b <= a$ \\
-$a <> b$ &  $!(a <= b)\ \&\ !(b <= a)$\\
 $a < b$ & $a <= b\ \&\ !(a >= b)$ \\
 $a > b$ & $a >= b\ \&\ !(a <= b)$ \\
 $a$ $!=$ $b$ & $! (a == b)$ \\
@@ -704,13 +703,13 @@ $a$ $!=$ $b$ & $! (a == b)$ \\
 \end{table}
 It is possible to chain relational operators like this:
 \begin{babellisting}
-$a$ <= $b$ <= $c$ > $d$ <> $e$ 
+$a$ <= $b$ <= $c$ > $d$ != $e$ 
 \end{babellisting}
-The semantics of the above is 
+Intuitively, the above means 
 \begin{babellisting}
-$a$ <= $b$ & $b$ <= $c$  & $c$ > $d$  & $d$ <> $e$ .
+$a$ <= $b$ & $b$ <= $c$  & $c$ > $d$  & $d$ != $e$ .
 \end{babellisting}
-Note that  we always evaluate the operands  of relational operators, even chained ones, only once. For example, the precise semantics of $a <= b <= c <= d <= e$ is not $a <= b\ \&\ b <= c\ \&\  c <= d\ \&\  d <= e$, but rather
+Note that  we always evaluate the operands  of relational operators, even chained ones, only once. For example, the precise semantics of $a <= b <= c <= d <= e$ is 
 \begin{babellisting}
 begin
   val t = $a$
@@ -730,13 +729,13 @@ In the above, \babelsrc{t}, \babelsrc{u}, \babelsrc{v} and \babelsrc{w} are supp
 
 The partial order is defined by the following laws:
 \begin{itemize}
-\item  \babelsrc{nil} $< -\infty <  z  < \infty < s <  l < v < cexpr < set < map <  f < b$ holds for all
- integers $z$, strings $s$,  lists $l$,  vectors $v$, constructed expressions $cexpr$, functions $f$, sets $set$, maps $map$ and booleans $b$
+\item  \babelsrc{nil} $< -\infty <  z  < \infty < s <  lv < cexpr < set < map < b$ holds for all
+ integers $z$, strings $s$,  lists and vectors $lv$,  constructed expressions $cexpr$, sets $set$, maps $map$ and booleans $b$
  \item booleans are totally ordered and \babelsrc{false} $<$ \babelsrc{true} holds
  \item integers are totally ordered in the obvious way
  \item $-\infty == -\infty$ and $\infty == \infty$ both hold 
  \item strings are totally ordered via lexicographic ordering
- item lists and vectors are partially ordered by the lexicographic ordering 
+\item lists and vectors are partially ordered by the lexicographic ordering 
 \item constructed expressions are partially ordered by representing them by the pair consisting of constructor and parameter
 \item $f <> g$ holds for all functions $f$ and $g$
 \item sets are partially ordered by representing them by sorted lists that consist of the elements of the set

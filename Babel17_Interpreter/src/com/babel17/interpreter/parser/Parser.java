@@ -291,8 +291,6 @@ public class Parser {
         case babel17Parser.A_NOT_EQUAL:
         case babel17Parser.U_NOT_EQUAL:
           return new OperatorNode(OperatorNode.UNEQUAL);
-        case babel17Parser.UNRELATED:
-          return new OperatorNode(OperatorNode.UNRELATED);
         case babel17Parser.GREATER:
           return new OperatorNode(OperatorNode.GREATER);
         case babel17Parser.A_GREATER_EQ:
