@@ -1,4 +1,4 @@
-val y = 0
+/*val y = 0
 val (x) = begin y = 1; y end
 x
 yield y
@@ -24,4 +24,8 @@ A < B
 (1, lazy(2))
 1::2::3::4
 1::2::3::4::[]
-(1::2).tail == 2::[]
+(1::2).tail == 2::[]*/
+7 div 4
+7 mod 4
+7.quotient 4
+//with () : begin end

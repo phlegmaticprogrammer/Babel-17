@@ -194,6 +194,10 @@ L_random:	'random';
 
 L_nil	:	'nil';
 
+L_div 	:	 'div';
+
+L_mod 	:	'mod';
+
 /* Symbolic Tokens */
 
 A_EQUAL	:	'==';
@@ -235,8 +239,7 @@ SC	:	';';
 PLUS	:	'+';
 MINUS	:	'-';
 TIMES	:	'*';
-DIV	:	'/' ;
-MOD	:	'%';
+QUOTIENT:	'/' ;
 POW_tok	:	'^';
 	
 A_OR	:	'|';
@@ -290,6 +293,8 @@ PERIOD	:	'.';
 
 COMMA	:	',';
 
+COLON	:	':';
+
 QUESTION_MARK	:	'?';
 
 TILDE	:	'\~';	
@@ -339,8 +344,6 @@ ASSIGN	:	'=';
 
 UNDERSCORE
 	:	'_';	
-	
-COLON	:	':';
 
 
 pattern :	Constr (NL? primitive_pattern)? -> ^(Constr primitive_pattern?)
@@ -605,10 +608,10 @@ p_arith_uminus_expr
 	|	p_arith_mult_expr;
 
 arith_mult_expr
-	:	arith_pow_expr (NL!? (TIMES | DIV | MOD)^ NL!? arith_pow_expr)*;
+	:	arith_pow_expr (NL!? (TIMES | QUOTIENT | L_div | L_mod)^ NL!? arith_pow_expr)*;
 	
 p_arith_mult_expr
-	:	p_arith_pow_expr (NL!? (TIMES | DIV | MOD)^ NL!? p_arith_pow_expr)*;
+	:	p_arith_pow_expr (NL!? (TIMES | QUOTIENT | L_div | L_mod)^ NL!? p_arith_pow_expr)*;
 
 arith_pow_expr
 	:	apply_expr (NL? POW_tok NL? apply_expr)* -> ^(POW apply_expr*);	

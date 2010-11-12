@@ -99,6 +99,7 @@ object Tree2Program {
       case PLUS => mk("plus")
       case MINUS => mk("minus")
       case TIMES => mk("times")
+      case QUOTIENT => mk("quotient")        
       case DIV => mk("div")
       case MOD => mk("mod")
       case POW => mk("pow")

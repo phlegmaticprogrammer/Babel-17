@@ -43,6 +43,7 @@ object Values {
     
     // this returns either a dynamic exception or a FunctionValue
     def extractFunctionValue() : Value = {
+      if (isDynamicException()) return this
       val f = sendMessage(Program.Message(MESSAGE_APPLY))
       if (f == null) dynamicException(CONSTRUCTOR_APPLYERROR)
       else if (f.isInstanceOf[FunctionValue] || f.isDynamicException()) f

@@ -26,26 +26,27 @@ public final class OperatorNode extends Node {
   public final static int MINUS = 18;
   public final static int UMINUS = 19;
   public final static int TIMES = 20;
-  public final static int DIV = 21;
-  public final static int MOD = 22;
-  public final static int POW = 23;
+  public final static int QUOTIENT = 21;  
+  public final static int DIV = 22;
+  public final static int MOD = 23;
+  public final static int POW = 24;
 
-  public final static int RANDOM = 24;
-  public final static int AWAIT = 25;
+  public final static int RANDOM = 25;
+  public final static int AWAIT = 26;
 
-  public final static int THIS = 26;
+  public final static int THIS = 27;
 
-  public final static int APPLY = 29;
-  public final static int MESSAGE_SEND = 30;
+  public final static int APPLY = 28;
+  public final static int MESSAGE_SEND = 29;
 
-  public final static int TRUE = 31;
-  public final static int FALSE = 32;
+  public final static int TRUE = 30;
+  public final static int FALSE = 31;
 
-  public final static int EXCEPTION = 33;
-  public final static int LAZY = 34;
-  public final static int CONCURRENT = 35;
+  public final static int EXCEPTION = 32;
+  public final static int LAZY = 33;
+  public final static int CONCURRENT = 34;
 
-  public final static int INFINITY = 36;
+  public final static int INFINITY = 35;
 
 
   public OperatorNode(int operator) {

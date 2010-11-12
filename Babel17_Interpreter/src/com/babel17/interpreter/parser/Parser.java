@@ -47,6 +47,8 @@ public class Parser {
     k.add("this");
     k.add("random");
     k.add("nil");
+    k.add("div");
+    k.add("mod");
     return k;
   }
 
@@ -281,9 +283,11 @@ public class Parser {
           return toUnaryNode(tree, OperatorNode.UMINUS);
         case babel17Parser.TIMES:
           return toBinaryNode(tree, OperatorNode.TIMES);
-        case babel17Parser.DIV:
+        case babel17Parser.QUOTIENT:
+          return toBinaryNode(tree, OperatorNode.QUOTIENT);          
+        case babel17Parser.L_div:
           return toBinaryNode(tree, OperatorNode.DIV);
-        case babel17Parser.MOD:
+        case babel17Parser.L_mod:
           return toBinaryNode(tree, OperatorNode.MOD);
         case babel17Parser.A_EQUAL:
         case babel17Parser.U_EQUAL:
