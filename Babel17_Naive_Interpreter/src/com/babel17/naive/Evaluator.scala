@@ -203,9 +203,9 @@ class Evaluator {
         BooleanValue(true)
       case SECons(u, v) =>
         val xu = evalSE(env, u)
-        if (xu.isDynamicException) return xu.asDynamicException
+        if (xu.isDynamicException) return xu
         val xv = evalSE(env, v)
-        if (xv.isDynamicException) return xv.asDynamicException
+        if (xv.isDynamicException) return xv
         ConsListValue(xu, xv)
       case SEList(l) => evalList(env, l)
       case SEVector(l) => evalVector(env, l)
@@ -218,6 +218,16 @@ class Evaluator {
           case _ => dynamicException(CONSTRUCTOR_DOMAINERROR)            
         }
       case SELazy(e) => LazyValue(this, env, e, null)
+      case SEChoose(e) => 
+        val v = evalSE(env, e)
+        if (v.isDynamicException) v
+        else v.choose()
+      case SEForce(e, deep) =>
+        val v = evalSE(env, e)
+        if (deep)
+          v.forceDeep()
+        else
+          v.force()
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }

@@ -24,6 +24,7 @@ object Values {
   val MESSAGE_TOSTRING = "tostring_"
   
   val CONSTRUCTOR_DOMAINERROR = "DOMAINERROR"
+  val CONSTRUCTOR_EMPTYCHOICE = "EMPTYCHOICE"  
   val CONSTRUCTOR_INVALIDMESSAGE = "INVALIDMESSAGE"
   val CONSTRUCTOR_TYPEERROR = "TYPEERROR"
   val CONSTRUCTOR_NOMATCH = "NOMATCH"
@@ -400,6 +401,9 @@ object Values {
         case _ => null
       }      
     }
+    override def choose() : Value = {
+      dynamicException(CONSTRUCTOR_EMPTYCHOICE)
+    }
   }
   
   case class ConsListValue(head : Value, tail : Value) extends ListValue {
@@ -414,6 +418,9 @@ object Values {
     }
     override def forceDeep() : Value = {
       ConsListValue(head.forceDeep(), tail.forceDeep())
+    }
+    override def choose() : Value = {
+      head
     }
   }
   
@@ -448,6 +455,10 @@ object Values {
       }
       VectorValue(tuple2)      
     }
+    override def choose() : Value = {
+      if (tuple.size == 0) dynamicException(CONSTRUCTOR_EMPTYCHOICE)
+      else tuple(0)
+    }    
   }
   
   case class SetValue(set : SortedSet[Value]) extends CollectorValue {  
@@ -457,6 +468,10 @@ object Values {
         case _ => null
       }      
     }
+    override def choose() : Value = {
+      if (set.size == 0) dynamicException(CONSTRUCTOR_EMPTYCHOICE)
+      else set.firstKey
+    }    
   }
   
   case class MapValue(map : SortedMap[Value, Value]) extends CollectorValue {    
@@ -466,6 +481,13 @@ object Values {
         case _ => null
       }      
     }
+    override def choose() : Value = {
+      val it = map.iterator
+      if (it.hasNext) {
+        val x = it.next
+        VectorValue(Array(x._1, x._2))
+      } else dynamicException(CONSTRUCTOR_EMPTYCHOICE)
+    }    
   }
   
   val nil : Value = ObjectValue(SortedMap.empty)

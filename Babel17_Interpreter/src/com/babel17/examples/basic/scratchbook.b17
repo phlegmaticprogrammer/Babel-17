@@ -35,6 +35,6 @@ random 2
 random 2
 random 2
 random 2*/
-[10 div 0]
+force choose [4, 5, 19]
 
 /*/ with () : begin end
