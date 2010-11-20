@@ -381,6 +381,14 @@ object Values {
     val LESS = 1
     val EQUAL = 2
     val GREATER = 3
+    def negate(c : Int) : Int = {
+      c match {
+        case UNRELATED => UNRELATED
+        case LESS => GREATER
+        case GREATER => LESS
+        case _ => c
+      }
+    }
   }
     
   def orderRank(f : Value) : Int = {
@@ -404,8 +412,8 @@ object Values {
   
   def compareValues(v1 : Value, v2 : Value) : Int = {
     import CompareResult._
-    val f1 = v1.force()
-    val f2 = v2.force()
+    val f1 = v1.extractRepresentative()
+    val f2 = v2.extractRepresentative()
     val r1 = orderRank(f1)
     val r2 = orderRank(f2)
     if (r1 < 0 || r2 < 0) return UNRELATED
@@ -417,6 +425,8 @@ object Values {
       case (x : SetValue, y : SetValue) => compareSets(x, y)
       case (x : VectorValue, y : VectorValue) => compareVectors(x, y)
       case (x : ListValue, y : ListValue) => compareLists(x, y)
+      case (x : ListValue, y : VectorValue) => compareListWithVector(x, y)
+      case (x : VectorValue, y : ListValue) => negate(compareListWithVector(y, x))
       case (x : ConstructorValue, y : ConstructorValue) => compareCExprs(x, y)
       case (InfinityValue(x), InfinityValue(y)) => 
         if (x == y) EQUAL else if (x) GREATER else LESS
@@ -512,19 +522,19 @@ object Values {
   
   def compareVectors(v1 : VectorValue, v2 : VectorValue) : Int = {
     import CompareResult._
-    val s1 = v1.tuple.size
-    val s2 = v2.tuple.size
-    if (s1 < s2) return LESS
-    if (s1 > s2) return GREATER    
-    var i1 = v1.tuple.iterator
-    var i2 = v2.tuple.iterator
+    val i1 = v1.tuple.iterator
+    val i2 = v2.tuple.iterator
     while (!i1.isEmpty) {
+      if (i2.isEmpty) return GREATER
       val e1 = i1.next
       val e2 = i2.next
       val c = compareValues(e1, e2)
       if (c != EQUAL) return c
     }
-    return EQUAL
+    if (i2.isEmpty) 
+      EQUAL
+    else
+      LESS
   }
   
   def normalizeListTail(tail : Value) : ListValue = {
@@ -544,6 +554,27 @@ object Values {
         if (c != EQUAL) return c
         return compareLists(normalizeListTail(t1), normalizeListTail(t2))
     }
+  }
+  
+  def compareListWithVector(v1 : ListValue, v2 : VectorValue) : Int = {
+    import CompareResult._
+    val tuple = v2.tuple
+    val count = tuple.size
+    var i = 0;
+    var l = v1;
+    while (i < count) {
+      l match {
+        case (EmptyListValue()) => return LESS
+        case (ConsListValue(h, t)) =>
+          val c = compareValues(h, tuple(i))
+          if (c != EQUAL) return c
+          l = normalizeListTail(t)
+      }
+    }
+    l match {
+      case (EmptyListValue()) => EQUAL
+      case _ => GREATER
+    }    
   }
   
 }
