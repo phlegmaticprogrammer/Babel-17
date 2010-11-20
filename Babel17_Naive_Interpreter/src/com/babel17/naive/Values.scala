@@ -71,11 +71,7 @@ object Values {
     def force() : Value = {
       this
     }
-    
-    override def toString() : String = {
-      return toCodeString()
-    }
-    
+        
     def toStringValue() : StringValue = {
       return StringValue(toString())
     }
@@ -354,9 +350,15 @@ object Values {
   }
   
   case class EmptyListValue() extends ListValue {    
+    override def toString() : String = {
+      return "[]";
+    }
   }
   
   case class ConsListValue(head : Value, tail : Value) extends ListValue {
+    override def toString() : String = {
+      return "("+ head + "::" +tail+")";
+    }
   }
   
   case class VectorValue(tuple : Array[Value]) extends CollectorValue {   
@@ -582,6 +584,7 @@ object Values {
           if (c != EQUAL) return c
           l = normalizeListTail(t)
       }
+      i = i + 1
     }
     l match {
       case (EmptyListValue()) => EQUAL

@@ -102,6 +102,32 @@ object Evaluator {
     }
   }
   
+  def evalList(env : SimpleEnvironment, l : List[SimpleExpression]) : Value = {
+    if (l.isEmpty)
+      EmptyListValue()
+    else {
+      val h = evalSE(env, l.head)
+      if (h.isDynamicException) return h.asDynamicException
+      val t = evalList(env, l.tail)
+      if (t.isDynamicException) return t.asDynamicException
+      ConsListValue(h, t)
+    }
+  }
+
+  def evalVector(env : SimpleEnvironment, l : List[SimpleExpression]) : Value = {
+    val count = l.length
+    val v : Array[Value] = new Array(count)
+    var i = 0
+    for (e <- l) {
+      val x = evalSE(env, e)
+      if (x.isDynamicException) return x.asDynamicException
+      v(i) = x
+      i = i + 1
+    }
+    VectorValue(v)
+  }
+
+  
   def evalSE(env : SimpleEnvironment, se : SimpleExpression) : Value = 
   {
     se match {
@@ -158,6 +184,14 @@ object Evaluator {
           operatorsList = operatorsList.tail
         }
         BooleanValue(true)
+      case SECons(u, v) =>
+        val xu = evalSE(env, u)
+        if (xu.isDynamicException) return xu.asDynamicException
+        val xv = evalSE(env, v)
+        if (xv.isDynamicException) return xv.asDynamicException
+        ConsListValue(xu, xv)
+      case SEList(l) => evalList(env, l)
+      case SEVector(l) => evalVector(env, l)
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }
