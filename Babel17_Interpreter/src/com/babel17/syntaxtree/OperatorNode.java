@@ -16,6 +16,8 @@ public final class OperatorNode extends Node {
   public final static int PLUSPLUS = 11;
   public final static int MINUSMINUS = 12;
   public final static int TIMESTIMES = 13;
+  public final static int QUOTIENTQUOTIENT = 35;
+  
 
   public final static int CONS = 14;
 
@@ -46,7 +48,7 @@ public final class OperatorNode extends Node {
   public final static int LAZY = 33;
   public final static int CONCURRENT = 34;
 
-  public final static int INFINITY = 35;
+  public final static int INFINITY = 36;
 
 
   public OperatorNode(int operator) {

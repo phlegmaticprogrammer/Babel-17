@@ -96,18 +96,19 @@ object Tree2Program {
     }
     import OperatorNode._
     op.operator match {
-      case PLUS => mk("plus")
-      case MINUS => mk("minus")
-      case TIMES => mk("times")
-      case QUOTIENT => mk("quotient")        
-      case DIV => mk("div")
-      case MOD => mk("mod")
-      case POW => mk("pow")
-      case PLUSPLUS => mk("plusplus")
-      case MINUSMINUS => mk("minusminus")
-      case TIMESTIMES => mk("timestimes")
-      case TO => mk("to")
-      case DOWNTO => mk("downto")
+      case PLUS => mk(Values.MESSAGE_PLUS)
+      case MINUS => mk(Values.MESSAGE_MINUS)
+      case TIMES => mk(Values.MESSAGE_TIMES)
+      case QUOTIENT => mk(Values.MESSAGE_QUOTIENT)        
+      case DIV => mk(Values.MESSAGE_DIV)
+      case MOD => mk(Values.MESSAGE_MOD)
+      case POW => mk(Values.MESSAGE_POW)
+      case PLUSPLUS => mk(Values.MESSAGE_PLUSPLUS)
+      case MINUSMINUS => mk(Values.MESSAGE_MINUSMINUS)
+      case TIMESTIMES => mk(Values.MESSAGE_TIMESTIMES)
+      case QUOTIENTQUOTIENT => mk(Values.MESSAGE_QUOTIENTQUOTIENT)        
+      case TO => mk(Values.MESSAGE_TO)
+      case DOWNTO => mk(Values.MESSAGE_DOWNTO)
       case APPLY => SEApply(left(), right())
       case MESSAGE_SEND =>
         build(rightNode) match {

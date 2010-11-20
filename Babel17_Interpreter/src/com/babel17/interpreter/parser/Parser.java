@@ -271,6 +271,8 @@ public class Parser {
           return toBinaryNode(tree, OperatorNode.MINUSMINUS);
         case babel17Parser.TIMESTIMES:
           return toBinaryNode(tree, OperatorNode.TIMESTIMES);
+        case babel17Parser.QUOTIENTQUOTIENT:
+          return toBinaryNode(tree, OperatorNode.QUOTIENTQUOTIENT);
         case babel17Parser.L_to:
           return toBinaryNode(tree, OperatorNode.TO);
         case babel17Parser.L_downto:

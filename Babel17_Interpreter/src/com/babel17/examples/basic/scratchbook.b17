@@ -1,5 +1,5 @@
 /*/val y = 0
-val (x) = begin y = 1; y end
+/*val (x) = begin y = 1; y end
 x
 yield y
 true
@@ -29,4 +29,5 @@ A < B
 7 mod 4
 7 / 4*/
 1::2
-//with () : begin end
+7 // 4
+/*/with () : begin end

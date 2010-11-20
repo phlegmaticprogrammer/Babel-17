@@ -5,21 +5,23 @@ import scala.collection.immutable.SortedMap
 
 object Values {
 
-  val MESSAGE_APPLY = "apply"
-  val MESSAGE_REPRESENTATIVE = "representative"
-  val MESSAGE_PLUS = "plus"
-  val MESSAGE_MINUS = "minus"
-  val MESSAGE_UMINUS = "uminus"
-  val MESSAGE_TIMES = "times"
-  val MESSAGE_DIV = "div"
-  val MESSAGE_MOD = "mod"
-  val MESSAGE_POW = "pow"
-  val MESSAGE_PLUSPLUS = "plusplus"
-  val MESSAGE_MINUSMINUS = "minusminus"
-  val MESSAGE_TIMESTIMES = "timestimes"
-  val MESSAGE_TO = "to"
-  val MESSAGE_DOWNTO = "downto"
-  val MESSAGE_TOSTRING = "tostring"
+  val MESSAGE_APPLY = "apply_"
+  val MESSAGE_REPRESENTATIVE = "representative_"
+  val MESSAGE_PLUS = "plus_"
+  val MESSAGE_MINUS = "minus_"
+  val MESSAGE_UMINUS = "uminus_"
+  val MESSAGE_TIMES = "times_"
+  val MESSAGE_QUOTIENT = "quotient_"
+  val MESSAGE_DIV = "div_"
+  val MESSAGE_MOD = "mod_"
+  val MESSAGE_POW = "pow_"
+  val MESSAGE_PLUSPLUS = "plus__"
+  val MESSAGE_MINUSMINUS = "minus__"
+  val MESSAGE_TIMESTIMES = "times__"
+  val MESSAGE_QUOTIENTQUOTIENT = "quotient__"
+  val MESSAGE_TO = "to_"
+  val MESSAGE_DOWNTO = "downto_"
+  val MESSAGE_TOSTRING = "tostring_"
   
   val CONSTRUCTOR_DOMAINERROR = "DOMAINERROR"
   val CONSTRUCTOR_INVALIDMESSAGE = "INVALIDMESSAGE"
@@ -32,8 +34,7 @@ object Values {
     // sending an object a message always forces it
     def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING =>
-          StringValue(toString())
+        case MESSAGE_TOSTRING => return toStringValue()
         case _ => null
       }
     }
@@ -72,8 +73,17 @@ object Values {
     }
     
     override def toString() : String = {
-      "<Value>"
+      return toCodeString()
     }
+    
+    def toStringValue() : StringValue = {
+      return StringValue(toString())
+    }
+    
+    def toCodeString() : String = {
+      return toString()
+    }
+    
     
     def isDynamicException() : Boolean = {
       this match {
@@ -103,8 +113,7 @@ object Values {
         case MESSAGE_DIV => NativeFunctionValue(div _)
         case MESSAGE_MOD => NativeFunctionValue(mod _)
         case _ => super.sendMessage(message)
-      }
-      
+      }      
     }
     def plus(w : Value) : Value = {
       w match {
@@ -205,7 +214,7 @@ object Values {
       else x
     }
     override def toString() : String = {
-      "<NativeFunction>"
+      "<NativeFunction>"   
     }
   }
   
@@ -267,7 +276,10 @@ object Values {
   
   case class StringValue(v : String) extends Value {
     override def toString() : String = {
-      v
+      return "\""+v+"\"";
+    }
+    override def toStringValue() : StringValue = {
+      return this;
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {

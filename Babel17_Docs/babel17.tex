@@ -144,7 +144,7 @@ String consisting only of line feed via 32-bit escaping & \verb+"\U0000000A"+
 \end{tabular}
 \end{center}
 
-Comments in Babel-17 obey the same syntax as in C: There are multiline comments written between matching pairs of \verb+/*+ and \verb+*/+, and there are comments that occupy the rest of the line which start with a \verb+//+.
+Comments in Babel-17 obey a similar syntax as in C: There are multiline comments written between matching pairs of \verb+/*+ and \verb+*/+, and there are comments that occupy the rest of the line which start with a \verb+/*/+.
 
 Finally, here are all ASCII special symbols that can occur in a Babel-17 program:
 \newcommand{\mapcurlyleft}{\{|}
@@ -152,9 +152,9 @@ Finally, here are all ASCII special symbols that can occur in a Babel-17 program
 \tt
 \begin{tabular}{ccccccccccccc}
 \verb+=+ & \verb+==+ & \verb+!=+ & \verb+<+ & \verb+<=+ & \verb+>+& \verb+>=+  &
-\verb-+- & \verb+-+ & \verb+*+ & \verb+/+ & \verb+%+ & \verb+^+  \\
+\verb-+- & \verb+-+ & \verb+*+ & \verb+/+ & \verb+^+ & \verb+;+  \\
 \verb-|- & \verb+&+ & \verb+!+ & \verb-++- & \verb+--+& \verb+**+  &
-\verb-;- & \verb+,+ & \verb+::+ & \verb+->+ & \verb+=>+& \verb+?+  & \verb+...+  \\
+\verb-//- & \verb+,+ & \verb+::+ & \verb+->+ & \verb+=>+& \verb+?+  & \verb+...+  \\
 \verb-(- & \verb+)+ & \verb+[+ & \verb+]+ & \verb+{+& \verb+}+  & \verb+.+ &   &
 & & & 
 \end{tabular}
@@ -220,9 +220,9 @@ $f$ $x$
 \end{babellisting}
 Note that $f$ $x$ is equivalent to 
 \begin{babellisting}
-($f$.apply) $x$
+($f$.apply_) $x$
 \end{babellisting}
-Therefore any object that responds to the \babelsrc{apply} message can act as a function.
+Therefore any object that responds to the \babelsrc{apply_} message can act as a function.
 In the above we could also leave out the brackets because sending messages binds stronger than function application. 
 
 Repeated function application associates to the left, therefore 
@@ -823,19 +823,21 @@ Table~\ref{tab:syntacticsugar} lists all syntactic sugar of Babel-17 that is als
 \caption{Syntactic Sugar}
 \begin{tabular}{c|c}
 \textbf{Sugared} & \textbf{Desugared} \\\hline\hline
-$a$ \verb!+! $b$ & \babelsrc{$a$.plus $\ b$} \\\hline
-$a$ \verb!-! $b$ & \babelsrc{$a$.minus $\ b$} \\\hline
-\verb!-! $a$ & \babelsrc{$a$.uminus} \\\hline
-$a$ \verb!*! $b$ & \babelsrc{$a$.times  $\ b$} \\\hline
-$a$ \verb!/! $b$ & \babelsrc{$a$.div  $\ b$} \\\hline
-$a$ \verb!%! $b$ & \babelsrc{$a$.mod  $\ b$} \\\hline
-$a$ \verb+^+ $b$ & \babelsrc{$a$.pow  $\ b$} \\\hline
-$a$ \verb!++! $b$ & \babelsrc{$a$.plusplus $\ b$} \\\hline
-$a$ \verb!--! $b$ & \babelsrc{$a$.minusminus $\ b$} \\\hline
-$a$ \verb!**! $b$ & \babelsrc{$a$.timestimes  $\ b$}\\\hline
-$a$ \verb!to! $b$ & \babelsrc{$a$.to  $\ b$}\\\hline
-$a$ \verb!downto! $b$ & \babelsrc{$a$.downto  $\ b$}\\\hline
-$f$ $x$ &  \babelsrc{$f$.apply  $\ x$}
+$a$ \verb!+! $b$ & \babelsrc{$a$.plus_ $\ b$} \\\hline
+$a$ \verb!-! $b$ & \babelsrc{$a$.minus_ $\ b$} \\\hline
+\verb!-! $a$ & \babelsrc{$a$.uminus_} \\\hline
+$a$ \verb!*! $b$ & \babelsrc{$a$.times_  $\ b$} \\\hline
+$a$ \verb!/! $b$ & \babelsrc{$a$.quotient_  $\ b$} \\\hline
+$a$ \verb!div! $b$ & \babelsrc{$a$.div_  $\ b$} \\\hline
+$a$ \verb!mod! $b$ & \babelsrc{$a$.mod_  $\ b$} \\\hline
+$a$ \verb+^+ $b$ & \babelsrc{$a$.pow_  $\ b$} \\\hline
+$a$ \verb!++! $b$ & \babelsrc{$a$.plus__ $\ b$} \\\hline
+$a$ \verb!--! $b$ & \babelsrc{$a$.minus__ $\ b$} \\\hline
+$a$ \verb!**! $b$ & \babelsrc{$a$.times__  $\ b$}\\\hline
+$a$ \verb!//! $b$ & \babelsrc{$a$.quotient__  $\ b$}\\\hline
+$a$ \verb!to! $b$ & \babelsrc{$a$.to_ $\ b$}\\\hline
+$a$ \verb!downto! $b$ & \babelsrc{$a$.downto_  $\ b$}\\\hline
+$f$ $x$ &  \babelsrc{$f$.apply_  $\ x$}
 \end{tabular}
 \label{tab:syntacticsugar}
 \end{table}

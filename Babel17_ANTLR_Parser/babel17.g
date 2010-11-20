@@ -118,7 +118,7 @@ fragment
 NotNewline
 	:	~('\u000A' | '\u000D' | '\u0085' | '\u000C' | '\u2028' | '\u2029');
 
-COMMENT2:	'//' NotNewline* Newline* {$channel=HIDDEN;};
+COMMENT2:	'/*/' NotNewline* Newline* {$channel=HIDDEN;};
 
 
 fragment
@@ -265,6 +265,8 @@ token_DOUBLE_COLON
 	
 TIMESTIMES
 	:	'**';	
+QUOTIENTQUOTIENT
+	:	'//';
 PLUSPLUS	
 	:	'++';
 	
@@ -570,10 +572,10 @@ p_plusplus_expr
 
 
 timestimes_expr
-	:	simple_expr (NL!? (TIMESTIMES^) NL!? simple_expr)*;
+	:	simple_expr (NL!? (TIMESTIMES^|QUOTIENTQUOTIENT^) NL!? simple_expr)*;
 		
 p_timestimes_expr
-	:	p_simple_expr (NL!? (TIMESTIMES^) NL!? p_simple_expr)*;
+	:	p_simple_expr (NL!? (TIMESTIMES^|QUOTIENTQUOTIENT^) NL!? p_simple_expr)*;
 
 simple_expr
 	:	cons_expr;
