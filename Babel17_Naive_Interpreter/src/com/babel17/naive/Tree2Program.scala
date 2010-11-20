@@ -707,7 +707,8 @@ object Tree2Program {
         LinearScope.check(LinearScope.emptyEnv, t.asInstanceOf[Term])
         println("term: "+t)
         try {
-          val v = Evaluator.evaluate(Evaluator.emptyEnv, t.asInstanceOf[Term])
+          val evaluator = new Evaluator()
+          val v = evaluator.evaluate(Evaluator.emptyEnv, t.asInstanceOf[Term]).forceDeep()
           println("value of term: "+v)
         } catch {
           case (Evaluator.EvalX(s)) =>

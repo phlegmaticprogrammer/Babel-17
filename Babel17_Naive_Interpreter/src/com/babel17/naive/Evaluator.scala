@@ -8,14 +8,6 @@ import scala.collection.immutable.SortedMap
 
 
 object Evaluator {
-
-  /*def lookup (ids : SortedSet[Id], id : Id, linear : Boolean) {
-    if (!ids.contains(id)) {
-      if (linear) error(id.location, "identifier is not in linear scope")
-      else error(id.location, "unknown identifier")
-    }
-  }*/
- 
   case class EvalX(reason : String) extends Exception
   
   case class ValueRef(var value : Value);
@@ -91,6 +83,22 @@ object Evaluator {
       c.collect_close()
     }    
   }
+}
+
+
+class Evaluator {
+  
+  import Evaluator._
+  
+  val random : java.util.Random = new java.util.Random()
+
+  /*def lookup (ids : SortedSet[Id], id : Id, linear : Boolean) {
+    if (!ids.contains(id)) {
+      if (linear) error(id.location, "identifier is not in linear scope")
+      else error(id.location, "unknown identifier")
+    }
+  }*/
+ 
   
     
   def evaluate(env : Environment, term : Term) : Value = {
@@ -125,6 +133,15 @@ object Evaluator {
       i = i + 1
     }
     VectorValue(v)
+  }
+  
+  def randomBigInt(n : BigInt) : BigInt = {
+    var r : BigInt = 0
+    do {
+      val x : java.math.BigInteger = new java.math.BigInteger(n.bitLength, random)
+      r = new BigInt(x)
+    } while (r >= n)
+    r
   }
 
   
@@ -192,6 +209,15 @@ object Evaluator {
         ConsListValue(xu, xv)
       case SEList(l) => evalList(env, l)
       case SEVector(l) => evalVector(env, l)
+      case SERandom(e) =>
+        evalSE(env, e).force() match {
+          case ExceptionValue(_, p) => ExceptionValue(true, p)
+          case IntegerValue(n) => 
+            if (n <= 0) dynamicException(CONSTRUCTOR_DOMAINERROR)
+            else IntegerValue(randomBigInt(n))
+          case _ => dynamicException(CONSTRUCTOR_DOMAINERROR)            
+        }
+      case SELazy(e) => LazyValue(this, env, e, null)
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }

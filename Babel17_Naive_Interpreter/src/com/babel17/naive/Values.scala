@@ -32,12 +32,8 @@ object Values {
   
   abstract class Value {
     // sending an object a message always forces it
-    def sendMessage(message : Program.Message) : Value = {
-      message.m match {
-        case MESSAGE_TOSTRING => return toStringValue()
-        case _ => null
-      }
-    }
+    def sendMessage(message : Program.Message) : Value;
+
     def hasMessage(message : Program.Message) : Boolean = {
       sendMessage(message) != null     
     }
@@ -71,6 +67,10 @@ object Values {
     def force() : Value = {
       this
     }
+    
+    def forceDeep() : Value = {
+      this
+    }
         
     def toStringValue() : StringValue = {
       return StringValue(toString())
@@ -78,8 +78,7 @@ object Values {
     
     def toCodeString() : String = {
       return toString()
-    }
-    
+    }   
     
     def isDynamicException() : Boolean = {
       this match {
@@ -90,11 +89,9 @@ object Values {
     def asDynamicException() : ExceptionValue = {
       if (isDynamicException()) this.asInstanceOf[ExceptionValue]
       else null
-    }
-    
-    
+    }    
   }
-  
+    
   case class IntegerValue(v : BigInt) extends Value {
     override def toString() : String = {
       v.toString()
@@ -108,7 +105,8 @@ object Values {
         case MESSAGE_POW => NativeFunctionValue(pow _)
         case MESSAGE_DIV => NativeFunctionValue(div _)
         case MESSAGE_MOD => NativeFunctionValue(mod _)
-        case _ => super.sendMessage(message)
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
       }      
     }
     def plus(w : Value) : Value = {
@@ -201,7 +199,8 @@ object Values {
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_APPLY => this
-        case _ => super.sendMessage(message)
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
       }      
     }
     override def apply(v : Value) : Value = {
@@ -225,7 +224,8 @@ object Values {
         case MESSAGE_UMINUS => InfinityValue(!positive)
         case MESSAGE_TIMES => NativeFunctionValue(times _)
         case MESSAGE_POW => NativeFunctionValue(pow _)
-        case _ => super.sendMessage(message)
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
       }
       
     }
@@ -280,7 +280,8 @@ object Values {
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_PLUS => NativeFunctionValue(plus _)
-        case _ => super.sendMessage(message)
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
       }      
     }
     def plus(w : Value) : Value = {
@@ -292,24 +293,55 @@ object Values {
     override def toString() : String = {
       if (v) "true" else "false"
     }        
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
+      }      
+    }
   }  
   
   case class ConstructorValue(constr : Program.Constr, v : Value) extends Value {
     override def toString() : String = {
       constr.name + " ("+ v.toString()+")"
     }    
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
+      }      
+    }
   }
   
   case class ObjectValue(messages : SortedMap[Program.Message, Value]) extends Value {   
     override def toString() : String = {
       if (messages.size == 0) "nil" else "<Object>"
     }    
+    override def sendMessage(message : Program.Message) : Value = {
+      messages.get(message) match {
+        case Some(v) => v          
+        case None => 
+          message.m match {
+            case MESSAGE_TOSTRING => toStringValue()
+            case _ => null
+          }
+      }
+    }    
   }
   
   case class ExceptionValue(dynamic : Boolean, v : Value) extends Value {
     override def toString() : String = {
-      "exception ("+v+")"
+      if (dynamic)
+        "DynamicException ("+v+")"
+      else
+        "PersistentException ("+v+")"
     }        
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
+      }      
+    }
   }
 
   abstract class CollectorValue extends Value {
@@ -320,7 +352,12 @@ object Values {
     def collect_add (v : Value) : Value = {
       throw Evaluator.EvalX("collect_add not implemented in "+this.getClass)
     }
-    
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
+      }      
+    }    
   }
   
   def collectorValue(v : Value) : CollectorValue = {
@@ -353,11 +390,26 @@ object Values {
     override def toString() : String = {
       return "[]";
     }
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
+      }      
+    }
   }
   
   case class ConsListValue(head : Value, tail : Value) extends ListValue {
     override def toString() : String = {
       return "("+ head + "::" +tail+")";
+    }
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
+      }      
+    }
+    override def forceDeep() : Value = {
+      ConsListValue(head.forceDeep(), tail.forceDeep())
     }
   }
   
@@ -376,12 +428,40 @@ object Values {
         s + ")"       
       }
     }
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
+      }      
+    }
+    override def forceDeep() : Value = {
+      val size = tuple.size
+      val tuple2 : Array[Value] = new Array(size)
+      var i = 0
+      while (i < size) {
+        tuple2(i) = tuple(i).forceDeep()
+        i = i + 1
+      }
+      VectorValue(tuple2)      
+    }
   }
   
   case class SetValue(set : SortedSet[Value]) extends CollectorValue {  
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
+      }      
+    }
   }
   
   case class MapValue(map : SortedMap[Value, Value]) extends CollectorValue {    
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
+      }      
+    }
   }
   
   val nil : Value = ObjectValue(SortedMap.empty)
@@ -591,5 +671,55 @@ object Values {
       case _ => GREATER
     }    
   }
+  
+  case class LazyValue(var evaluator : Evaluator, var env : Evaluator.SimpleEnvironment, var se : Program.SimpleExpression, var result : Value) extends Value {
+    var deep : Boolean = false
+    override def toStringValue() : StringValue = {
+      return force().toStringValue();
+    }
+    override def toCodeString() : String = {
+      return force().toCodeString;
+    }
+    override def force() : Value = this.synchronized {
+      if (result != null) result
+      else {
+        result = 
+          evaluator.evalSE(env, se).force() match {
+            case ExceptionValue(true, p) => ExceptionValue(false, p)
+            case x => x
+          }   
+        evaluator = null;
+        env = null;
+        se = null;
+        result
+      }
+    }
+    override def forceDeep() : Value = this.synchronized {
+      if (result != null) {
+        if (deep) result 
+        else {
+          result = result.forceDeep()
+          deep = true
+          result
+        }
+      } else {
+        result = 
+          evaluator.evalSE(env, se).force() match {
+            case ExceptionValue(true, p) => ExceptionValue(false, p)
+            case x => x
+          }
+        evaluator = null;
+        env = null;
+        se = null;
+        deep = true;
+        result        
+      }
+    }
+    override def sendMessage(message : Program.Message) : Value = {
+      val o = force()
+      return force().sendMessage(message)
+    }   
+  }    
+  
   
 }
