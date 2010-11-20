@@ -30,7 +30,7 @@
 \newenvironment{babelcode}[0]{\begin{center}\tt}{\end{center}}
 
 \lstdefinelanguage{babellanguage} 
-{morekeywords={lazy, concurrent, match, case, exception, begin, end, random, await, true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil},
+{morekeywords={lazy, concurrent, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil},
 sensitive=true, 
 morecomment=[l]{//}, 
 morecomment=[s]{/*}{*/}, 
@@ -110,9 +110,9 @@ These are the keywords of Babel-17:
 \tt
 \begin{tabular}{cccccccc}
 begin & end & object & with & if & then & else & elseif \\
-while &  for & do & await & random & yield & match & case \\
+while &  for & do & choose & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
-to & downto & true & false & nil & infinity &  & 
+to & downto & true & false & nil & infinity &  force & 
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
@@ -306,6 +306,7 @@ Dynamic exceptions cannot be part of a list but are propagated:
 $h$::(\metababel{DynamicException $v$}) & $\leadsto$ & \metababel{DynamicException $v$}& {\rm where $h$ is non-exceptional}\\
 \end{tabular}\\
 \end{babelcode}
+Note that in cases where the tail $t$ is not a list, we identify \babelsrc{$h$::$t$} with  \babelsrc{$h$::$t$::[]} .
 
 \section{CExprs}
 A \metababel{CExpr} is a constructor $c$ together with a parameter $p$, written $c$ $p$. It is allowed to leave out the parameter $p$, which then defaults to \babelsrc{()}. For example,  \babelsrc{HELLO} is equivalent to \babelsrc{HELLO ()}. A constructor $c$ cannot have a dynamic exception as its parameter, therefore we have:
@@ -386,13 +387,15 @@ random $n$
 \end{babellisting}
 returns for an integer $n > 0$ a number between $0$ and $n-1$ such that each number between $0$ and $n-1$ has equal chance of being returned. If $n$ is a dynamic exception, then this exception is propagated, if $n$ is a non-exceptional value that is not an integer $> 0$ then the result is an exception with parameter \babelsrc{InvalidArgument $\ n$}.
 
-The other source of non-determinism is \emph{concurrent} non-determism. The expression
+The other source of non-determinism is choice. The expression
 \begin{babellisting}
-await $l$
+choose $l$
 \end{babellisting}
-takes a finite list $l$ of possibly concurrently evaluated expressions and waits until  at least one of the element expressions has finished computing. It returns a list of the element expressions that have been computed so far.
-Again, in case $l$ is non-exceptional and not a finite  list or vector, the result is an exception with parameter
-\babelsrc{InvalidArgument $\ l$}. If $l$ is a dynamic exception, then it is propagated such that the result is $l$. 
+takes a non-empty collection $l$ and returns a member of the collection. The choice operator makes it possible to optimize evaluation in certain cases. For example, in 
+\begin{babellisting}
+choose (concurrent a, concurrent b)
+\end{babellisting}
+the evaluator could choose the member that evaluates quicker.
 
 \section{Block Expressions}
 So far we have only looked at expressions. We briefly mentioned the term \emph{block expressions} in the description of the \babelsrc{match} function, though.  We will now introduce and explain block expressions.

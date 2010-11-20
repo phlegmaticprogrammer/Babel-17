@@ -34,7 +34,8 @@ public final class OperatorNode extends Node {
   public final static int POW = 24;
 
   public final static int RANDOM = 25;
-  public final static int AWAIT = 26;
+  public final static int CHOOSE = 26;
+  public final static int FORCE = 36;  
 
   public final static int THIS = 27;
 
@@ -48,7 +49,7 @@ public final class OperatorNode extends Node {
   public final static int LAZY = 33;
   public final static int CONCURRENT = 34;
 
-  public final static int INFINITY = 36;
+  public final static int INFINITY = 37;
 
 
   public OperatorNode(int operator) {

@@ -185,7 +185,8 @@ object Tree2Program {
       case LAZY => SELazy(arg)
       case RANDOM => SERandom(arg)
       case CONCURRENT => SEConcurrent(arg)
-      case AWAIT => SEAwait(arg)
+      case CHOOSE => SEChoose(arg)
+      case FORCE => SEForce(arg, true)
       case EXCEPTION => SEException(arg)
       case k => throwInternalError(n.location, "unknown unary operator code: "+k)       
     }

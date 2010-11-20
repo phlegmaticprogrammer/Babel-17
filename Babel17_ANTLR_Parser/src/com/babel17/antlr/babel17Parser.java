@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g 2010-11-20 03:29:36
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g 2010-11-20 16:59:36
 
 package com.babel17.antlr;
 
@@ -14,143 +14,141 @@ import org.antlr.runtime.tree.*;
 
 public class babel17Parser extends Parser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "PROG", "NIL_TOKEN", "ANY", "LAMBDA", "SQUARE_LIST", "ROUND_LIST", "LIST_CONS", "COMPARE", "APPLY", "IF", "MAP_OR_SET_OR_OBJ", "EMPTY_MAP", "EXCEPTION", "MATCH", "CASES", "OBJ", "FOR_EXPR", "WHILE_DO", "MESSAGE_SEND", "UMINUS", "POW", "PARENTS_PLUS", "PARENTS_MUL", "BLOCK", "BEGIN", "WITH", "VAL", "OBJELEM_ASSIGN", "ASSIGN", "ARROW", "DEF", "YIELD", "LAZY", "CONCURRENT", "MEMOIZE", "MEM_STRONG", "MEM_WEAK", "IF_PATTERN", "COMMENT1", "Newline", "NotNewline", "COMMENT2", "SmallLetter", "BigLetter", "Letter", "Digit", "Hex", "L_begin", "L_end", "L_obj", "L_with", "L_if", "L_then", "L_else", "L_elseif", "L_while", "L_for", "L_do", "L_yield", "L_match", "L_case", "L_as", "L_val", "L_def", "L_in", "L_exception", "L_to", "L_downto", "A_infinity", "U_infinity", "L_concurrent", "L_await", "L_lazy", "L_memoize", "L_true", "L_false", "L_this", "L_random", "L_nil", "L_div", "L_mod", "A_EQUAL", "U_EQUAL", "A_NOT_EQUAL", "U_NOT_EQUAL", "LESS", "A_LESS_EQ", "U_LESS_EQ", "GREATER", "A_GREATER_EQ", "U_GREATER_EQ", "SC", "PLUS", "MINUS", "TIMES", "QUOTIENT", "POW_tok", "A_OR", "A_AND", "A_NOT", "U_OR", "U_AND", "U_NOT", "A_DOUBLE_COLON", "U_DOUBLE_COLON", "TIMESTIMES", "QUOTIENTQUOTIENT", "PLUSPLUS", "MINUSMINUS", "A_DOUBLE_ARROW", "U_DOUBLE_ARROW", "A_ARROW", "U_ARROW", "A_ELLIPSIS", "U_ELLIPSIS", "PERIOD", "COMMA", "COLON", "QUESTION_MARK", "TILDE", "WsChar", "WS", "NL", "Constr", "Id", "Num", "Charcode", "String", "ROUND_BRACKET_OPEN", "ROUND_BRACKET_CLOSE", "SQUARE_BRACKET_OPEN", "SQUARE_BRACKET_CLOSE", "CURLY_BRACKET_OPEN", "CURLY_BRACKET_CLOSE", "UNDERSCORE"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "PROG", "NIL_TOKEN", "ANY", "LAMBDA", "SQUARE_LIST", "ROUND_LIST", "LIST_CONS", "COMPARE", "APPLY", "IF", "MAP_OR_SET_OR_OBJ", "EMPTY_MAP", "EXCEPTION", "MATCH", "CASES", "OBJ", "FOR_EXPR", "WHILE_DO", "MESSAGE_SEND", "UMINUS", "POW", "PARENTS_PLUS", "PARENTS_MUL", "BLOCK", "BEGIN", "WITH", "VAL", "OBJELEM_ASSIGN", "ASSIGN", "ARROW", "DEF", "YIELD", "MEMOIZE", "MEM_STRONG", "MEM_WEAK", "IF_PATTERN", "COMMENT1", "Newline", "NotNewline", "COMMENT2", "SmallLetter", "BigLetter", "Letter", "Digit", "Hex", "L_begin", "L_end", "L_obj", "L_with", "L_if", "L_then", "L_else", "L_elseif", "L_while", "L_for", "L_do", "L_yield", "L_match", "L_case", "L_as", "L_val", "L_def", "L_in", "L_exception", "L_to", "L_downto", "A_infinity", "U_infinity", "L_concurrent", "L_choose", "L_lazy", "L_memoize", "L_true", "L_false", "L_this", "L_random", "L_nil", "L_div", "L_mod", "A_EQUAL", "U_EQUAL", "A_NOT_EQUAL", "U_NOT_EQUAL", "LESS", "A_LESS_EQ", "U_LESS_EQ", "GREATER", "A_GREATER_EQ", "U_GREATER_EQ", "SC", "PLUS", "MINUS", "TIMES", "QUOTIENT", "POW_tok", "A_OR", "A_AND", "A_NOT", "U_OR", "U_AND", "U_NOT", "A_DOUBLE_COLON", "U_DOUBLE_COLON", "TIMESTIMES", "QUOTIENTQUOTIENT", "PLUSPLUS", "MINUSMINUS", "A_DOUBLE_ARROW", "U_DOUBLE_ARROW", "A_ARROW", "U_ARROW", "A_ELLIPSIS", "U_ELLIPSIS", "PERIOD", "COMMA", "COLON", "QUESTION_MARK", "L_force", "WsChar", "WS", "NL", "Constr", "Id", "Num", "Charcode", "String", "ROUND_BRACKET_OPEN", "ROUND_BRACKET_CLOSE", "SQUARE_BRACKET_OPEN", "SQUARE_BRACKET_CLOSE", "CURLY_BRACKET_OPEN", "CURLY_BRACKET_CLOSE", "UNDERSCORE"
     };
-    public static final int U_AND=105;
-    public static final int L_end=52;
-    public static final int COMMENT1=42;
-    public static final int COMMENT2=45;
-    public static final int U_NOT_EQUAL=88;
-    public static final int TIMESTIMES=109;
-    public static final int BigLetter=47;
-    public static final int ROUND_BRACKET_CLOSE=133;
-    public static final int L_mod=84;
-    public static final int A_OR=101;
-    public static final int MINUSMINUS=112;
-    public static final int Newline=43;
-    public static final int SQUARE_BRACKET_CLOSE=135;
+    public static final int U_AND=103;
+    public static final int L_end=50;
+    public static final int COMMENT1=40;
+    public static final int COMMENT2=43;
+    public static final int U_NOT_EQUAL=86;
+    public static final int TIMESTIMES=107;
+    public static final int BigLetter=45;
+    public static final int ROUND_BRACKET_CLOSE=131;
+    public static final int L_mod=82;
+    public static final int A_OR=99;
+    public static final int MINUSMINUS=110;
+    public static final int Newline=41;
+    public static final int SQUARE_BRACKET_CLOSE=133;
     public static final int MAP_OR_SET_OR_OBJ=14;
     public static final int EOF=-1;
-    public static final int U_DOUBLE_ARROW=114;
-    public static final int L_exception=69;
-    public static final int Num=129;
-    public static final int GREATER=92;
+    public static final int U_DOUBLE_ARROW=112;
+    public static final int L_exception=67;
+    public static final int Num=127;
     public static final int EMPTY_MAP=15;
+    public static final int GREATER=90;
     public static final int POW=24;
-    public static final int L_concurrent=74;
-    public static final int L_await=75;
-    public static final int L_false=79;
-    public static final int QUOTIENTQUOTIENT=110;
-    public static final int L_nil=82;
+    public static final int L_concurrent=72;
+    public static final int L_false=77;
+    public static final int QUOTIENTQUOTIENT=108;
+    public static final int L_nil=80;
     public static final int BEGIN=28;
     public static final int LIST_CONS=10;
-    public static final int L_with=54;
-    public static final int QUESTION_MARK=122;
-    public static final int LESS=89;
-    public static final int ROUND_BRACKET_OPEN=132;
+    public static final int L_with=52;
+    public static final int QUESTION_MARK=120;
+    public static final int LESS=87;
+    public static final int ROUND_BRACKET_OPEN=130;
     public static final int SQUARE_LIST=8;
     public static final int VAL=30;
-    public static final int L_as=65;
-    public static final int NL=126;
+    public static final int L_as=63;
+    public static final int NL=124;
     public static final int MESSAGE_SEND=22;
-    public static final int A_ARROW=115;
-    public static final int A_DOUBLE_COLON=107;
-    public static final int L_def=67;
-    public static final int A_AND=102;
+    public static final int A_ARROW=113;
+    public static final int A_DOUBLE_COLON=105;
+    public static final int L_def=65;
+    public static final int A_AND=100;
     public static final int EXCEPTION=16;
-    public static final int L_this=80;
-    public static final int PERIOD=119;
-    public static final int SmallLetter=46;
+    public static final int L_this=78;
+    public static final int L_force=121;
+    public static final int L_choose=73;
+    public static final int PERIOD=117;
+    public static final int SmallLetter=44;
     public static final int NIL_TOKEN=5;
-    public static final int CURLY_BRACKET_OPEN=136;
-    public static final int UNDERSCORE=138;
+    public static final int CURLY_BRACKET_OPEN=134;
+    public static final int UNDERSCORE=136;
     public static final int MATCH=17;
-    public static final int U_LESS_EQ=91;
-    public static final int MEM_STRONG=39;
-    public static final int L_to=70;
-    public static final int WS=125;
-    public static final int Charcode=130;
-    public static final int L_do=61;
-    public static final int L_val=66;
-    public static final int L_match=63;
-    public static final int L_obj=53;
-    public static final int WsChar=124;
-    public static final int Hex=50;
-    public static final int CONCURRENT=37;
-    public static final int L_for=60;
-    public static final int Letter=48;
+    public static final int U_LESS_EQ=89;
+    public static final int MEM_STRONG=37;
+    public static final int L_to=68;
+    public static final int WS=123;
+    public static final int Charcode=128;
+    public static final int L_do=59;
+    public static final int L_val=64;
+    public static final int L_match=61;
+    public static final int L_obj=51;
+    public static final int WsChar=122;
+    public static final int Hex=48;
+    public static final int L_for=58;
+    public static final int Letter=46;
     public static final int APPLY=12;
-    public static final int U_ARROW=116;
-    public static final int L_else=57;
-    public static final int A_EQUAL=85;
+    public static final int U_ARROW=114;
+    public static final int L_else=55;
+    public static final int A_EQUAL=83;
     public static final int DEF=34;
-    public static final int L_begin=51;
-    public static final int U_NOT=106;
-    public static final int L_yield=62;
-    public static final int L_div=83;
-    public static final int PLUSPLUS=111;
-    public static final int L_while=59;
+    public static final int L_begin=49;
+    public static final int U_NOT=104;
+    public static final int L_yield=60;
+    public static final int L_div=81;
+    public static final int PLUSPLUS=109;
+    public static final int L_while=57;
     public static final int CASES=18;
-    public static final int POW_tok=100;
-    public static final int IF_PATTERN=41;
-    public static final int A_ELLIPSIS=117;
+    public static final int POW_tok=98;
+    public static final int IF_PATTERN=39;
+    public static final int A_ELLIPSIS=115;
     public static final int PARENTS_PLUS=25;
-    public static final int A_DOUBLE_ARROW=113;
-    public static final int SQUARE_BRACKET_OPEN=134;
+    public static final int A_DOUBLE_ARROW=111;
+    public static final int SQUARE_BRACKET_OPEN=132;
     public static final int IF=13;
     public static final int PROG=4;
-    public static final int U_OR=104;
-    public static final int COMMA=120;
+    public static final int U_OR=102;
+    public static final int COMMA=118;
     public static final int OBJ=19;
-    public static final int MEMOIZE=38;
-    public static final int U_ELLIPSIS=118;
-    public static final int TILDE=123;
+    public static final int MEMOIZE=36;
+    public static final int U_ELLIPSIS=116;
     public static final int YIELD=35;
     public static final int COMPARE=11;
-    public static final int U_GREATER_EQ=94;
-    public static final int U_EQUAL=86;
-    public static final int PLUS=96;
-    public static final int String=131;
+    public static final int U_GREATER_EQ=92;
+    public static final int U_EQUAL=84;
+    public static final int PLUS=94;
+    public static final int String=129;
     public static final int LAMBDA=7;
-    public static final int L_true=78;
-    public static final int Id=128;
-    public static final int A_infinity=72;
+    public static final int L_true=76;
+    public static final int Id=126;
+    public static final int A_infinity=70;
     public static final int WITH=29;
-    public static final int L_in=68;
-    public static final int A_NOT=103;
-    public static final int LAZY=36;
-    public static final int L_lazy=76;
-    public static final int NotNewline=44;
-    public static final int L_then=56;
-    public static final int QUOTIENT=99;
-    public static final int L_if=55;
-    public static final int CURLY_BRACKET_CLOSE=137;
+    public static final int L_in=66;
+    public static final int A_NOT=101;
+    public static final int L_lazy=74;
+    public static final int NotNewline=42;
+    public static final int L_then=54;
+    public static final int QUOTIENT=97;
+    public static final int L_if=53;
+    public static final int CURLY_BRACKET_CLOSE=135;
     public static final int UMINUS=23;
     public static final int FOR_EXPR=20;
-    public static final int Constr=127;
+    public static final int Constr=125;
     public static final int WHILE_DO=21;
-    public static final int L_elseif=58;
-    public static final int MINUS=97;
-    public static final int Digit=49;
-    public static final int L_memoize=77;
-    public static final int MEM_WEAK=40;
-    public static final int A_GREATER_EQ=93;
+    public static final int L_elseif=56;
+    public static final int MINUS=95;
+    public static final int Digit=47;
+    public static final int L_memoize=75;
+    public static final int MEM_WEAK=38;
+    public static final int A_GREATER_EQ=91;
     public static final int ROUND_LIST=9;
-    public static final int COLON=121;
-    public static final int SC=95;
-    public static final int L_downto=71;
+    public static final int COLON=119;
+    public static final int SC=93;
+    public static final int L_downto=69;
     public static final int ANY=6;
-    public static final int L_random=81;
+    public static final int L_random=79;
     public static final int BLOCK=27;
-    public static final int A_NOT_EQUAL=87;
+    public static final int A_NOT_EQUAL=85;
     public static final int ASSIGN=32;
-    public static final int U_DOUBLE_COLON=108;
+    public static final int U_DOUBLE_COLON=106;
     public static final int OBJELEM_ASSIGN=31;
     public static final int ARROW=33;
-    public static final int L_case=64;
-    public static final int TIMES=98;
-    public static final int U_infinity=73;
-    public static final int A_LESS_EQ=90;
+    public static final int L_case=62;
+    public static final int TIMES=96;
+    public static final int U_infinity=71;
+    public static final int A_LESS_EQ=88;
     public static final int PARENTS_MUL=26;
 
     // delegates
@@ -197,7 +195,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_infinity"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:175:1: token_infinity : ( A_infinity | U_infinity );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:172:1: token_infinity : ( A_infinity | U_infinity );
     public final babel17Parser.token_infinity_return token_infinity() throws RecognitionException {
         babel17Parser.token_infinity_return retval = new babel17Parser.token_infinity_return();
         retval.start = input.LT(1);
@@ -209,7 +207,7 @@ public class babel17Parser extends Parser {
         CommonTree set1_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:176:2: ( A_infinity | U_infinity )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:173:2: ( A_infinity | U_infinity )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -255,7 +253,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_EQUAL"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:207:1: token_EQUAL : ( A_EQUAL | U_EQUAL );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:205:1: token_EQUAL : ( A_EQUAL | U_EQUAL );
     public final babel17Parser.token_EQUAL_return token_EQUAL() throws RecognitionException {
         babel17Parser.token_EQUAL_return retval = new babel17Parser.token_EQUAL_return();
         retval.start = input.LT(1);
@@ -267,7 +265,7 @@ public class babel17Parser extends Parser {
         CommonTree set2_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:208:2: ( A_EQUAL | U_EQUAL )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:206:2: ( A_EQUAL | U_EQUAL )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -313,7 +311,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_NOT_EQUAL"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:215:1: token_NOT_EQUAL : ( A_NOT_EQUAL | U_NOT_EQUAL );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:213:1: token_NOT_EQUAL : ( A_NOT_EQUAL | U_NOT_EQUAL );
     public final babel17Parser.token_NOT_EQUAL_return token_NOT_EQUAL() throws RecognitionException {
         babel17Parser.token_NOT_EQUAL_return retval = new babel17Parser.token_NOT_EQUAL_return();
         retval.start = input.LT(1);
@@ -325,7 +323,7 @@ public class babel17Parser extends Parser {
         CommonTree set3_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:216:2: ( A_NOT_EQUAL | U_NOT_EQUAL )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:214:2: ( A_NOT_EQUAL | U_NOT_EQUAL )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -371,7 +369,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_LESS_EQ"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:224:1: token_LESS_EQ : ( A_LESS_EQ | U_LESS_EQ );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:222:1: token_LESS_EQ : ( A_LESS_EQ | U_LESS_EQ );
     public final babel17Parser.token_LESS_EQ_return token_LESS_EQ() throws RecognitionException {
         babel17Parser.token_LESS_EQ_return retval = new babel17Parser.token_LESS_EQ_return();
         retval.start = input.LT(1);
@@ -383,7 +381,7 @@ public class babel17Parser extends Parser {
         CommonTree set4_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:225:2: ( A_LESS_EQ | U_LESS_EQ )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:223:2: ( A_LESS_EQ | U_LESS_EQ )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -429,7 +427,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_GREATER_EQ"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:234:1: token_GREATER_EQ : ( A_GREATER_EQ | U_GREATER_EQ );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:232:1: token_GREATER_EQ : ( A_GREATER_EQ | U_GREATER_EQ );
     public final babel17Parser.token_GREATER_EQ_return token_GREATER_EQ() throws RecognitionException {
         babel17Parser.token_GREATER_EQ_return retval = new babel17Parser.token_GREATER_EQ_return();
         retval.start = input.LT(1);
@@ -441,7 +439,7 @@ public class babel17Parser extends Parser {
         CommonTree set5_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:235:2: ( A_GREATER_EQ | U_GREATER_EQ )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:233:2: ( A_GREATER_EQ | U_GREATER_EQ )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -487,7 +485,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_OR"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:252:1: token_OR : ( A_OR | U_OR );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:250:1: token_OR : ( A_OR | U_OR );
     public final babel17Parser.token_OR_return token_OR() throws RecognitionException {
         babel17Parser.token_OR_return retval = new babel17Parser.token_OR_return();
         retval.start = input.LT(1);
@@ -499,7 +497,7 @@ public class babel17Parser extends Parser {
         CommonTree set6_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:252:9: ( A_OR | U_OR )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:250:9: ( A_OR | U_OR )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -545,7 +543,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_AND"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:253:1: token_AND : ( A_AND | U_AND );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:251:1: token_AND : ( A_AND | U_AND );
     public final babel17Parser.token_AND_return token_AND() throws RecognitionException {
         babel17Parser.token_AND_return retval = new babel17Parser.token_AND_return();
         retval.start = input.LT(1);
@@ -557,7 +555,7 @@ public class babel17Parser extends Parser {
         CommonTree set7_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:254:2: ( A_AND | U_AND )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:252:2: ( A_AND | U_AND )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -603,7 +601,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_NOT"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:255:1: token_NOT : ( A_NOT | U_NOT );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:253:1: token_NOT : ( A_NOT | U_NOT );
     public final babel17Parser.token_NOT_return token_NOT() throws RecognitionException {
         babel17Parser.token_NOT_return retval = new babel17Parser.token_NOT_return();
         retval.start = input.LT(1);
@@ -615,7 +613,7 @@ public class babel17Parser extends Parser {
         CommonTree set8_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:256:2: ( A_NOT | U_NOT )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:254:2: ( A_NOT | U_NOT )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -661,7 +659,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_DOUBLE_COLON"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:262:1: token_DOUBLE_COLON : ( A_DOUBLE_COLON | U_DOUBLE_COLON );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:260:1: token_DOUBLE_COLON : ( A_DOUBLE_COLON | U_DOUBLE_COLON );
     public final babel17Parser.token_DOUBLE_COLON_return token_DOUBLE_COLON() throws RecognitionException {
         babel17Parser.token_DOUBLE_COLON_return retval = new babel17Parser.token_DOUBLE_COLON_return();
         retval.start = input.LT(1);
@@ -673,7 +671,7 @@ public class babel17Parser extends Parser {
         CommonTree set9_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:263:2: ( A_DOUBLE_COLON | U_DOUBLE_COLON )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:261:2: ( A_DOUBLE_COLON | U_DOUBLE_COLON )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -719,7 +717,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_DOUBLE_ARROW"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:280:1: token_DOUBLE_ARROW : ( A_DOUBLE_ARROW | U_DOUBLE_ARROW );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:277:1: token_DOUBLE_ARROW : ( A_DOUBLE_ARROW | U_DOUBLE_ARROW );
     public final babel17Parser.token_DOUBLE_ARROW_return token_DOUBLE_ARROW() throws RecognitionException {
         babel17Parser.token_DOUBLE_ARROW_return retval = new babel17Parser.token_DOUBLE_ARROW_return();
         retval.start = input.LT(1);
@@ -731,7 +729,7 @@ public class babel17Parser extends Parser {
         CommonTree set10_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:281:2: ( A_DOUBLE_ARROW | U_DOUBLE_ARROW )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:278:2: ( A_DOUBLE_ARROW | U_DOUBLE_ARROW )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -777,7 +775,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_ARROW"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:285:1: token_ARROW : ( A_ARROW | U_ARROW );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:282:1: token_ARROW : ( A_ARROW | U_ARROW );
     public final babel17Parser.token_ARROW_return token_ARROW() throws RecognitionException {
         babel17Parser.token_ARROW_return retval = new babel17Parser.token_ARROW_return();
         retval.start = input.LT(1);
@@ -789,7 +787,7 @@ public class babel17Parser extends Parser {
         CommonTree set11_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:286:2: ( A_ARROW | U_ARROW )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:283:2: ( A_ARROW | U_ARROW )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -835,7 +833,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "token_ELLIPSIS"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:291:1: token_ELLIPSIS : ( A_ELLIPSIS | U_ELLIPSIS );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:288:1: token_ELLIPSIS : ( A_ELLIPSIS | U_ELLIPSIS );
     public final babel17Parser.token_ELLIPSIS_return token_ELLIPSIS() throws RecognitionException {
         babel17Parser.token_ELLIPSIS_return retval = new babel17Parser.token_ELLIPSIS_return();
         retval.start = input.LT(1);
@@ -847,7 +845,7 @@ public class babel17Parser extends Parser {
         CommonTree set12_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:292:2: ( A_ELLIPSIS | U_ELLIPSIS )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:289:2: ( A_ELLIPSIS | U_ELLIPSIS )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
@@ -893,7 +891,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "pattern"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:1: pattern : ( Constr ( ( NL )? primitive_pattern )? -> ^( Constr ( primitive_pattern )? ) | primitive_pattern ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )* -> ^( LIST_CONS ( primitive_pattern )* ) | L_exception primitive_pattern -> ^( L_exception primitive_pattern ) | token_ELLIPSIS );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:348:1: pattern : ( Constr ( ( NL )? primitive_pattern )? -> ^( Constr ( primitive_pattern )? ) | primitive_pattern ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )* -> ^( LIST_CONS ( primitive_pattern )* ) | L_exception primitive_pattern -> ^( L_exception primitive_pattern ) | token_ELLIPSIS );
     public final babel17Parser.pattern_return pattern() throws RecognitionException {
         babel17Parser.pattern_return retval = new babel17Parser.pattern_return();
         retval.start = input.LT(1);
@@ -929,7 +927,7 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_primitive_pattern=new RewriteRuleSubtreeStream(adaptor,"rule primitive_pattern");
         RewriteRuleSubtreeStream stream_token_DOUBLE_COLON=new RewriteRuleSubtreeStream(adaptor,"rule token_DOUBLE_COLON");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:9: ( Constr ( ( NL )? primitive_pattern )? -> ^( Constr ( primitive_pattern )? ) | primitive_pattern ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )* -> ^( LIST_CONS ( primitive_pattern )* ) | L_exception primitive_pattern -> ^( L_exception primitive_pattern ) | token_ELLIPSIS )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:348:9: ( Constr ( ( NL )? primitive_pattern )? -> ^( Constr ( primitive_pattern )? ) | primitive_pattern ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )* -> ^( LIST_CONS ( primitive_pattern )* ) | L_exception primitive_pattern -> ^( L_exception primitive_pattern ) | token_ELLIPSIS )
             int alt6=4;
             switch ( input.LA(1) ) {
             case Constr:
@@ -975,12 +973,12 @@ public class babel17Parser extends Parser {
 
             switch (alt6) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:11: Constr ( ( NL )? primitive_pattern )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:348:11: Constr ( ( NL )? primitive_pattern )?
                     {
-                    Constr13=(Token)match(input,Constr,FOLLOW_Constr_in_pattern1515); if (state.failed) return retval; 
+                    Constr13=(Token)match(input,Constr,FOLLOW_Constr_in_pattern1509); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_Constr.add(Constr13);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:18: ( ( NL )? primitive_pattern )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:348:18: ( ( NL )? primitive_pattern )?
                     int alt2=2;
                     int LA2_0 = input.LA(1);
 
@@ -996,9 +994,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt2) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:19: ( NL )? primitive_pattern
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:348:19: ( NL )? primitive_pattern
                             {
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:19: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:348:19: ( NL )?
                             int alt1=2;
                             int LA1_0 = input.LA(1);
 
@@ -1007,9 +1005,9 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt1) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:19: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:348:19: NL
                                     {
-                                    NL14=(Token)match(input,NL,FOLLOW_NL_in_pattern1518); if (state.failed) return retval; 
+                                    NL14=(Token)match(input,NL,FOLLOW_NL_in_pattern1512); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_NL.add(NL14);
 
 
@@ -1018,7 +1016,7 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            pushFollow(FOLLOW_primitive_pattern_in_pattern1521);
+                            pushFollow(FOLLOW_primitive_pattern_in_pattern1515);
                             primitive_pattern15=primitive_pattern();
 
                             state._fsp--;
@@ -1033,7 +1031,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: Constr, primitive_pattern
+                    // elements: primitive_pattern, Constr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1044,14 +1042,14 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 351:43: -> ^( Constr ( primitive_pattern )? )
+                    // 348:43: -> ^( Constr ( primitive_pattern )? )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:46: ^( Constr ( primitive_pattern )? )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:348:46: ^( Constr ( primitive_pattern )? )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(stream_Constr.nextNode(), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:55: ( primitive_pattern )?
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:348:55: ( primitive_pattern )?
                         if ( stream_primitive_pattern.hasNext() ) {
                             adaptor.addChild(root_1, stream_primitive_pattern.nextTree());
 
@@ -1067,15 +1065,15 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:352:4: primitive_pattern ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )*
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:4: primitive_pattern ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )*
                     {
-                    pushFollow(FOLLOW_primitive_pattern_in_pattern1537);
+                    pushFollow(FOLLOW_primitive_pattern_in_pattern1531);
                     primitive_pattern16=primitive_pattern();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_primitive_pattern.add(primitive_pattern16.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:352:22: ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )*
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:22: ( ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern )*
                     loop5:
                     do {
                         int alt5=2;
@@ -1097,9 +1095,9 @@ public class babel17Parser extends Parser {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:352:23: ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern
+                    	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:23: ( NL )? token_DOUBLE_COLON ( NL )? primitive_pattern
                     	    {
-                    	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:352:23: ( NL )?
+                    	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:23: ( NL )?
                     	    int alt3=2;
                     	    int LA3_0 = input.LA(1);
 
@@ -1108,9 +1106,9 @@ public class babel17Parser extends Parser {
                     	    }
                     	    switch (alt3) {
                     	        case 1 :
-                    	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:352:23: NL
+                    	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:23: NL
                     	            {
-                    	            NL17=(Token)match(input,NL,FOLLOW_NL_in_pattern1540); if (state.failed) return retval; 
+                    	            NL17=(Token)match(input,NL,FOLLOW_NL_in_pattern1534); if (state.failed) return retval; 
                     	            if ( state.backtracking==0 ) stream_NL.add(NL17);
 
 
@@ -1119,13 +1117,13 @@ public class babel17Parser extends Parser {
 
                     	    }
 
-                    	    pushFollow(FOLLOW_token_DOUBLE_COLON_in_pattern1543);
+                    	    pushFollow(FOLLOW_token_DOUBLE_COLON_in_pattern1537);
                     	    token_DOUBLE_COLON18=token_DOUBLE_COLON();
 
                     	    state._fsp--;
                     	    if (state.failed) return retval;
                     	    if ( state.backtracking==0 ) stream_token_DOUBLE_COLON.add(token_DOUBLE_COLON18.getTree());
-                    	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:352:46: ( NL )?
+                    	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:46: ( NL )?
                     	    int alt4=2;
                     	    int LA4_0 = input.LA(1);
 
@@ -1134,9 +1132,9 @@ public class babel17Parser extends Parser {
                     	    }
                     	    switch (alt4) {
                     	        case 1 :
-                    	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:352:46: NL
+                    	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:349:46: NL
                     	            {
-                    	            NL19=(Token)match(input,NL,FOLLOW_NL_in_pattern1545); if (state.failed) return retval; 
+                    	            NL19=(Token)match(input,NL,FOLLOW_NL_in_pattern1539); if (state.failed) return retval; 
                     	            if ( state.backtracking==0 ) stream_NL.add(NL19);
 
 
@@ -1145,7 +1143,7 @@ public class babel17Parser extends Parser {
 
                     	    }
 
-                    	    pushFollow(FOLLOW_primitive_pattern_in_pattern1548);
+                    	    pushFollow(FOLLOW_primitive_pattern_in_pattern1542);
                     	    primitive_pattern20=primitive_pattern();
 
                     	    state._fsp--;
@@ -1174,14 +1172,14 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 353:3: -> ^( LIST_CONS ( primitive_pattern )* )
+                    // 350:3: -> ^( LIST_CONS ( primitive_pattern )* )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:353:6: ^( LIST_CONS ( primitive_pattern )* )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:350:6: ^( LIST_CONS ( primitive_pattern )* )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LIST_CONS, "LIST_CONS"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:353:18: ( primitive_pattern )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:350:18: ( primitive_pattern )*
                         while ( stream_primitive_pattern.hasNext() ) {
                             adaptor.addChild(root_1, stream_primitive_pattern.nextTree());
 
@@ -1197,12 +1195,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:354:4: L_exception primitive_pattern
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:4: L_exception primitive_pattern
                     {
-                    L_exception21=(Token)match(input,L_exception,FOLLOW_L_exception_in_pattern1567); if (state.failed) return retval; 
+                    L_exception21=(Token)match(input,L_exception,FOLLOW_L_exception_in_pattern1561); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_L_exception.add(L_exception21);
 
-                    pushFollow(FOLLOW_primitive_pattern_in_pattern1569);
+                    pushFollow(FOLLOW_primitive_pattern_in_pattern1563);
                     primitive_pattern22=primitive_pattern();
 
                     state._fsp--;
@@ -1222,9 +1220,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 354:34: -> ^( L_exception primitive_pattern )
+                    // 351:34: -> ^( L_exception primitive_pattern )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:354:37: ^( L_exception primitive_pattern )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:351:37: ^( L_exception primitive_pattern )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(stream_L_exception.nextNode(), root_1);
@@ -1240,11 +1238,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:4: token_ELLIPSIS
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:352:4: token_ELLIPSIS
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_token_ELLIPSIS_in_pattern1582);
+                    pushFollow(FOLLOW_token_ELLIPSIS_in_pattern1576);
                     token_ELLIPSIS23=token_ELLIPSIS();
 
                     state._fsp--;
@@ -1281,7 +1279,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "bracket_pattern"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:1: bracket_pattern : ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:354:1: bracket_pattern : ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) );
     public final babel17Parser.bracket_pattern_return bracket_pattern() throws RecognitionException {
         babel17Parser.bracket_pattern_return retval = new babel17Parser.bracket_pattern_return();
         retval.start = input.LT(1);
@@ -1334,17 +1332,17 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_pattern=new RewriteRuleSubtreeStream(adaptor,"rule pattern");
         RewriteRuleSubtreeStream stream_protected_expr=new RewriteRuleSubtreeStream(adaptor,"rule protected_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:2: ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:2: ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) )
             int alt16=4;
             alt16 = dfa16.predict(input);
             switch (alt16) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:10: ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:10: ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern
                     {
-                    Id24=(Token)match(input,Id,FOLLOW_Id_in_bracket_pattern1609); if (state.failed) return retval; 
+                    Id24=(Token)match(input,Id,FOLLOW_Id_in_bracket_pattern1603); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_Id.add(Id24);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:30: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:30: ( NL )?
                     int alt7=2;
                     int LA7_0 = input.LA(1);
 
@@ -1353,9 +1351,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt7) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:30: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:30: NL
                             {
-                            NL25=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1611); if (state.failed) return retval; 
+                            NL25=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1605); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL25);
 
 
@@ -1364,10 +1362,10 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    L_as26=(Token)match(input,L_as,FOLLOW_L_as_in_bracket_pattern1614); if (state.failed) return retval; 
+                    L_as26=(Token)match(input,L_as,FOLLOW_L_as_in_bracket_pattern1608); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_L_as.add(L_as26);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:39: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:39: ( NL )?
                     int alt8=2;
                     int LA8_0 = input.LA(1);
 
@@ -1376,9 +1374,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt8) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:39: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:39: NL
                             {
-                            NL27=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1616); if (state.failed) return retval; 
+                            NL27=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1610); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL27);
 
 
@@ -1387,7 +1385,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_pattern_in_bracket_pattern1619);
+                    pushFollow(FOLLOW_pattern_in_bracket_pattern1613);
                     pattern28=pattern();
 
                     state._fsp--;
@@ -1407,9 +1405,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 358:51: -> ^( L_as Id pattern )
+                    // 355:51: -> ^( L_as Id pattern )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:54: ^( L_as Id pattern )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:54: ^( L_as Id pattern )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(stream_L_as.nextNode(), root_1);
@@ -1426,15 +1424,15 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:4: ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:4: ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )?
                     {
-                    pushFollow(FOLLOW_protected_expr_in_bracket_pattern1648);
+                    pushFollow(FOLLOW_protected_expr_in_bracket_pattern1642);
                     protected_expr29=protected_expr();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr29.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:18: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:18: ( NL )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -1443,9 +1441,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt9) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:18: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:18: NL
                             {
-                            NL30=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1650); if (state.failed) return retval; 
+                            NL30=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1644); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL30);
 
 
@@ -1454,10 +1452,10 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    QUESTION_MARK31=(Token)match(input,QUESTION_MARK,FOLLOW_QUESTION_MARK_in_bracket_pattern1653); if (state.failed) return retval; 
+                    QUESTION_MARK31=(Token)match(input,QUESTION_MARK,FOLLOW_QUESTION_MARK_in_bracket_pattern1647); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_QUESTION_MARK.add(QUESTION_MARK31);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:36: ( ( NL )? pattern )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:36: ( ( NL )? pattern )?
                     int alt11=2;
                     int LA11_0 = input.LA(1);
 
@@ -1473,9 +1471,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt11) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:37: ( NL )? pattern
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:37: ( NL )? pattern
                             {
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:37: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:37: ( NL )?
                             int alt10=2;
                             int LA10_0 = input.LA(1);
 
@@ -1484,9 +1482,9 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt10) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:37: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:37: NL
                                     {
-                                    NL32=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1656); if (state.failed) return retval; 
+                                    NL32=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1650); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_NL.add(NL32);
 
 
@@ -1495,7 +1493,7 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            pushFollow(FOLLOW_pattern_in_bracket_pattern1659);
+                            pushFollow(FOLLOW_pattern_in_bracket_pattern1653);
                             pattern33=pattern();
 
                             state._fsp--;
@@ -1510,7 +1508,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: protected_expr, pattern, QUESTION_MARK
+                    // elements: pattern, protected_expr, QUESTION_MARK
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1521,15 +1519,15 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 360:51: -> ^( QUESTION_MARK protected_expr ( pattern )? )
+                    // 357:51: -> ^( QUESTION_MARK protected_expr ( pattern )? )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:54: ^( QUESTION_MARK protected_expr ( pattern )? )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:54: ^( QUESTION_MARK protected_expr ( pattern )? )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(stream_QUESTION_MARK.nextNode(), root_1);
 
                         adaptor.addChild(root_1, stream_protected_expr.nextTree());
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:360:85: ( pattern )?
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:357:85: ( pattern )?
                         if ( stream_pattern.hasNext() ) {
                             adaptor.addChild(root_1, stream_pattern.nextTree());
 
@@ -1545,15 +1543,15 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:361:4: pattern ( ( NL )? L_if ( NL )? protected_expr )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:4: pattern ( ( NL )? L_if ( NL )? protected_expr )?
                     {
-                    pushFollow(FOLLOW_pattern_in_bracket_pattern1677);
+                    pushFollow(FOLLOW_pattern_in_bracket_pattern1671);
                     pattern34=pattern();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_pattern.add(pattern34.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:361:12: ( ( NL )? L_if ( NL )? protected_expr )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:12: ( ( NL )? L_if ( NL )? protected_expr )?
                     int alt14=2;
                     int LA14_0 = input.LA(1);
 
@@ -1569,9 +1567,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt14) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:361:13: ( NL )? L_if ( NL )? protected_expr
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:13: ( NL )? L_if ( NL )? protected_expr
                             {
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:361:13: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:13: ( NL )?
                             int alt12=2;
                             int LA12_0 = input.LA(1);
 
@@ -1580,9 +1578,9 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt12) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:361:13: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:13: NL
                                     {
-                                    NL35=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1680); if (state.failed) return retval; 
+                                    NL35=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1674); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_NL.add(NL35);
 
 
@@ -1591,10 +1589,10 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            L_if36=(Token)match(input,L_if,FOLLOW_L_if_in_bracket_pattern1683); if (state.failed) return retval; 
+                            L_if36=(Token)match(input,L_if,FOLLOW_L_if_in_bracket_pattern1677); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_L_if.add(L_if36);
 
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:361:22: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:22: ( NL )?
                             int alt13=2;
                             int LA13_0 = input.LA(1);
 
@@ -1603,9 +1601,9 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt13) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:361:22: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:22: NL
                                     {
-                                    NL37=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1685); if (state.failed) return retval; 
+                                    NL37=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1679); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_NL.add(NL37);
 
 
@@ -1614,7 +1612,7 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            pushFollow(FOLLOW_protected_expr_in_bracket_pattern1688);
+                            pushFollow(FOLLOW_protected_expr_in_bracket_pattern1682);
                             protected_expr38=protected_expr();
 
                             state._fsp--;
@@ -1629,7 +1627,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: protected_expr, pattern
+                    // elements: pattern, protected_expr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1640,15 +1638,15 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 361:43: -> ^( IF_PATTERN pattern ( protected_expr )? )
+                    // 358:43: -> ^( IF_PATTERN pattern ( protected_expr )? )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:361:46: ^( IF_PATTERN pattern ( protected_expr )? )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:46: ^( IF_PATTERN pattern ( protected_expr )? )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(IF_PATTERN, "IF_PATTERN"), root_1);
 
                         adaptor.addChild(root_1, stream_pattern.nextTree());
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:361:67: ( protected_expr )?
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:67: ( protected_expr )?
                         if ( stream_protected_expr.hasNext() ) {
                             adaptor.addChild(root_1, stream_protected_expr.nextTree());
 
@@ -1664,12 +1662,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:362:4: L_val ( NL )? protected_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:4: L_val ( NL )? protected_expr
                     {
-                    L_val39=(Token)match(input,L_val,FOLLOW_L_val_in_bracket_pattern1706); if (state.failed) return retval; 
+                    L_val39=(Token)match(input,L_val,FOLLOW_L_val_in_bracket_pattern1700); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_L_val.add(L_val39);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:362:10: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:10: ( NL )?
                     int alt15=2;
                     int LA15_0 = input.LA(1);
 
@@ -1678,9 +1676,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt15) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:362:10: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:10: NL
                             {
-                            NL40=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1708); if (state.failed) return retval; 
+                            NL40=(Token)match(input,NL,FOLLOW_NL_in_bracket_pattern1702); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL40);
 
 
@@ -1689,7 +1687,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_protected_expr_in_bracket_pattern1711);
+                    pushFollow(FOLLOW_protected_expr_in_bracket_pattern1705);
                     protected_expr41=protected_expr();
 
                     state._fsp--;
@@ -1709,9 +1707,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 362:29: -> ^( L_val protected_expr )
+                    // 359:29: -> ^( L_val protected_expr )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:362:32: ^( L_val protected_expr )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:32: ^( L_val protected_expr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(stream_L_val.nextNode(), root_1);
@@ -1754,7 +1752,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "arrow_or_assign"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:364:1: arrow_or_assign : ( token_ARROW -> ^( ARROW ) | ASSIGN -> ^( ASSIGN ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:361:1: arrow_or_assign : ( token_ARROW -> ^( ARROW ) | ASSIGN -> ^( ASSIGN ) );
     public final babel17Parser.arrow_or_assign_return arrow_or_assign() throws RecognitionException {
         babel17Parser.arrow_or_assign_return retval = new babel17Parser.arrow_or_assign_return();
         retval.start = input.LT(1);
@@ -1769,7 +1767,7 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_ASSIGN=new RewriteRuleTokenStream(adaptor,"token ASSIGN");
         RewriteRuleSubtreeStream stream_token_ARROW=new RewriteRuleSubtreeStream(adaptor,"rule token_ARROW");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:365:2: ( token_ARROW -> ^( ARROW ) | ASSIGN -> ^( ASSIGN ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:362:2: ( token_ARROW -> ^( ARROW ) | ASSIGN -> ^( ASSIGN ) )
             int alt17=2;
             int LA17_0 = input.LA(1);
 
@@ -1788,9 +1786,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt17) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:365:4: token_ARROW
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:362:4: token_ARROW
                     {
-                    pushFollow(FOLLOW_token_ARROW_in_arrow_or_assign1729);
+                    pushFollow(FOLLOW_token_ARROW_in_arrow_or_assign1723);
                     token_ARROW42=token_ARROW();
 
                     state._fsp--;
@@ -1810,9 +1808,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 365:16: -> ^( ARROW )
+                    // 362:16: -> ^( ARROW )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:365:19: ^( ARROW )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:362:19: ^( ARROW )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ARROW, "ARROW"), root_1);
@@ -1826,9 +1824,9 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:366:4: ASSIGN
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:363:4: ASSIGN
                     {
-                    ASSIGN43=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_arrow_or_assign1740); if (state.failed) return retval; 
+                    ASSIGN43=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_arrow_or_assign1734); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ASSIGN.add(ASSIGN43);
 
 
@@ -1845,9 +1843,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 366:11: -> ^( ASSIGN )
+                    // 363:11: -> ^( ASSIGN )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:366:14: ^( ASSIGN )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:363:14: ^( ASSIGN )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot(stream_ASSIGN.nextNode(), root_1);
@@ -1888,7 +1886,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "mselem_pattern"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:368:1: mselem_pattern : bracket_pattern ( ( NL )? arrow_or_assign ( NL )? bracket_pattern )? -> ^( NIL_TOKEN ^( NIL_TOKEN ( bracket_pattern )* ) ( arrow_or_assign )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:365:1: mselem_pattern : bracket_pattern ( ( NL )? arrow_or_assign ( NL )? bracket_pattern )? -> ^( NIL_TOKEN ^( NIL_TOKEN ( bracket_pattern )* ) ( arrow_or_assign )* ) ;
     public final babel17Parser.mselem_pattern_return mselem_pattern() throws RecognitionException {
         babel17Parser.mselem_pattern_return retval = new babel17Parser.mselem_pattern_return();
         retval.start = input.LT(1);
@@ -1910,16 +1908,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_arrow_or_assign=new RewriteRuleSubtreeStream(adaptor,"rule arrow_or_assign");
         RewriteRuleSubtreeStream stream_bracket_pattern=new RewriteRuleSubtreeStream(adaptor,"rule bracket_pattern");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:369:2: ( bracket_pattern ( ( NL )? arrow_or_assign ( NL )? bracket_pattern )? -> ^( NIL_TOKEN ^( NIL_TOKEN ( bracket_pattern )* ) ( arrow_or_assign )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:369:4: bracket_pattern ( ( NL )? arrow_or_assign ( NL )? bracket_pattern )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:366:2: ( bracket_pattern ( ( NL )? arrow_or_assign ( NL )? bracket_pattern )? -> ^( NIL_TOKEN ^( NIL_TOKEN ( bracket_pattern )* ) ( arrow_or_assign )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:366:4: bracket_pattern ( ( NL )? arrow_or_assign ( NL )? bracket_pattern )?
             {
-            pushFollow(FOLLOW_bracket_pattern_in_mselem_pattern1755);
+            pushFollow(FOLLOW_bracket_pattern_in_mselem_pattern1749);
             bracket_pattern44=bracket_pattern();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_bracket_pattern.add(bracket_pattern44.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:369:20: ( ( NL )? arrow_or_assign ( NL )? bracket_pattern )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:366:20: ( ( NL )? arrow_or_assign ( NL )? bracket_pattern )?
             int alt20=2;
             int LA20_0 = input.LA(1);
 
@@ -1935,9 +1933,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt20) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:369:21: ( NL )? arrow_or_assign ( NL )? bracket_pattern
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:366:21: ( NL )? arrow_or_assign ( NL )? bracket_pattern
                     {
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:369:21: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:366:21: ( NL )?
                     int alt18=2;
                     int LA18_0 = input.LA(1);
 
@@ -1946,9 +1944,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt18) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:369:21: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:366:21: NL
                             {
-                            NL45=(Token)match(input,NL,FOLLOW_NL_in_mselem_pattern1758); if (state.failed) return retval; 
+                            NL45=(Token)match(input,NL,FOLLOW_NL_in_mselem_pattern1752); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL45);
 
 
@@ -1957,13 +1955,13 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_arrow_or_assign_in_mselem_pattern1761);
+                    pushFollow(FOLLOW_arrow_or_assign_in_mselem_pattern1755);
                     arrow_or_assign46=arrow_or_assign();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_arrow_or_assign.add(arrow_or_assign46.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:369:41: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:366:41: ( NL )?
                     int alt19=2;
                     int LA19_0 = input.LA(1);
 
@@ -1972,9 +1970,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt19) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:369:41: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:366:41: NL
                             {
-                            NL47=(Token)match(input,NL,FOLLOW_NL_in_mselem_pattern1763); if (state.failed) return retval; 
+                            NL47=(Token)match(input,NL,FOLLOW_NL_in_mselem_pattern1757); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL47);
 
 
@@ -1983,7 +1981,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_bracket_pattern_in_mselem_pattern1766);
+                    pushFollow(FOLLOW_bracket_pattern_in_mselem_pattern1760);
                     bracket_pattern48=bracket_pattern();
 
                     state._fsp--;
@@ -1998,7 +1996,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: bracket_pattern, arrow_or_assign
+            // elements: arrow_or_assign, bracket_pattern
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2009,19 +2007,19 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 370:3: -> ^( NIL_TOKEN ^( NIL_TOKEN ( bracket_pattern )* ) ( arrow_or_assign )* )
+            // 367:3: -> ^( NIL_TOKEN ^( NIL_TOKEN ( bracket_pattern )* ) ( arrow_or_assign )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:370:6: ^( NIL_TOKEN ^( NIL_TOKEN ( bracket_pattern )* ) ( arrow_or_assign )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:367:6: ^( NIL_TOKEN ^( NIL_TOKEN ( bracket_pattern )* ) ( arrow_or_assign )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:370:18: ^( NIL_TOKEN ( bracket_pattern )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:367:18: ^( NIL_TOKEN ( bracket_pattern )* )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
                 root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_2);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:370:30: ( bracket_pattern )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:367:30: ( bracket_pattern )*
                 while ( stream_bracket_pattern.hasNext() ) {
                     adaptor.addChild(root_2, stream_bracket_pattern.nextTree());
 
@@ -2030,7 +2028,7 @@ public class babel17Parser extends Parser {
 
                 adaptor.addChild(root_1, root_2);
                 }
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:370:48: ( arrow_or_assign )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:367:48: ( arrow_or_assign )*
                 while ( stream_arrow_or_assign.hasNext() ) {
                     adaptor.addChild(root_1, stream_arrow_or_assign.nextTree());
 
@@ -2071,7 +2069,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "primitive_pattern"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:372:1: primitive_pattern : ( Id | '_' -> ANY | String | Num | L_true | L_false | L_nil | token_infinity | '-' ( NL )? token_infinity -> ^( UMINUS token_infinity ) | '-' ( NL )? Num -> ^( UMINUS Num ) | '[' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* )? ']' -> ^( SQUARE_LIST ( bracket_pattern )* ) | '(' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )? )? ')' -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( bracket_pattern )* ) ) | '{' ( NL )? ( mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )* )? '}' -> ^( MAP_OR_SET_OR_OBJ ( mselem_pattern )* ) | '{' ( NL )? token_ARROW ( NL )? '}' -> ^( EMPTY_MAP ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:369:1: primitive_pattern : ( Id | '_' -> ANY | String | Num | L_true | L_false | L_nil | token_infinity | '-' ( NL )? token_infinity -> ^( UMINUS token_infinity ) | '-' ( NL )? Num -> ^( UMINUS Num ) | '[' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* )? ']' -> ^( SQUARE_LIST ( bracket_pattern )* ) | '(' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )? )? ')' -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( bracket_pattern )* ) ) | '{' ( NL )? ( mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )* )? '}' -> ^( MAP_OR_SET_OR_OBJ ( mselem_pattern )* ) | '{' ( NL )? token_ARROW ( NL )? '}' -> ^( EMPTY_MAP ) );
     public final babel17Parser.primitive_pattern_return primitive_pattern() throws RecognitionException {
         babel17Parser.primitive_pattern_return retval = new babel17Parser.primitive_pattern_return();
         retval.start = input.LT(1);
@@ -2191,16 +2189,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_token_infinity=new RewriteRuleSubtreeStream(adaptor,"rule token_infinity");
         RewriteRuleSubtreeStream stream_bracket_pattern=new RewriteRuleSubtreeStream(adaptor,"rule bracket_pattern");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:373:2: ( Id | '_' -> ANY | String | Num | L_true | L_false | L_nil | token_infinity | '-' ( NL )? token_infinity -> ^( UMINUS token_infinity ) | '-' ( NL )? Num -> ^( UMINUS Num ) | '[' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* )? ']' -> ^( SQUARE_LIST ( bracket_pattern )* ) | '(' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )? )? ')' -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( bracket_pattern )* ) ) | '{' ( NL )? ( mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )* )? '}' -> ^( MAP_OR_SET_OR_OBJ ( mselem_pattern )* ) | '{' ( NL )? token_ARROW ( NL )? '}' -> ^( EMPTY_MAP ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:370:2: ( Id | '_' -> ANY | String | Num | L_true | L_false | L_nil | token_infinity | '-' ( NL )? token_infinity -> ^( UMINUS token_infinity ) | '-' ( NL )? Num -> ^( UMINUS Num ) | '[' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* )? ']' -> ^( SQUARE_LIST ( bracket_pattern )* ) | '(' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )? )? ')' -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( bracket_pattern )* ) ) | '{' ( NL )? ( mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )* )? '}' -> ^( MAP_OR_SET_OR_OBJ ( mselem_pattern )* ) | '{' ( NL )? token_ARROW ( NL )? '}' -> ^( EMPTY_MAP ) )
             int alt45=14;
             alt45 = dfa45.predict(input);
             switch (alt45) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:373:4: Id
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:370:4: Id
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    Id49=(Token)match(input,Id,FOLLOW_Id_in_primitive_pattern1795); if (state.failed) return retval;
+                    Id49=(Token)match(input,Id,FOLLOW_Id_in_primitive_pattern1789); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     Id49_tree = (CommonTree)adaptor.create(Id49);
                     adaptor.addChild(root_0, Id49_tree);
@@ -2209,9 +2207,9 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:374:4: '_'
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:371:4: '_'
                     {
-                    char_literal50=(Token)match(input,UNDERSCORE,FOLLOW_UNDERSCORE_in_primitive_pattern1800); if (state.failed) return retval; 
+                    char_literal50=(Token)match(input,UNDERSCORE,FOLLOW_UNDERSCORE_in_primitive_pattern1794); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_UNDERSCORE.add(char_literal50);
 
 
@@ -2228,7 +2226,7 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 374:8: -> ANY
+                    // 371:8: -> ANY
                     {
                         adaptor.addChild(root_0, (CommonTree)adaptor.create(ANY, "ANY"));
 
@@ -2238,11 +2236,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:375:4: String
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:372:4: String
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    String51=(Token)match(input,String,FOLLOW_String_in_primitive_pattern1809); if (state.failed) return retval;
+                    String51=(Token)match(input,String,FOLLOW_String_in_primitive_pattern1803); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     String51_tree = (CommonTree)adaptor.create(String51);
                     adaptor.addChild(root_0, String51_tree);
@@ -2251,11 +2249,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:376:4: Num
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:373:4: Num
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    Num52=(Token)match(input,Num,FOLLOW_Num_in_primitive_pattern1814); if (state.failed) return retval;
+                    Num52=(Token)match(input,Num,FOLLOW_Num_in_primitive_pattern1808); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     Num52_tree = (CommonTree)adaptor.create(Num52);
                     adaptor.addChild(root_0, Num52_tree);
@@ -2264,11 +2262,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:377:4: L_true
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:374:4: L_true
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    L_true53=(Token)match(input,L_true,FOLLOW_L_true_in_primitive_pattern1819); if (state.failed) return retval;
+                    L_true53=(Token)match(input,L_true,FOLLOW_L_true_in_primitive_pattern1813); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     L_true53_tree = (CommonTree)adaptor.create(L_true53);
                     adaptor.addChild(root_0, L_true53_tree);
@@ -2277,11 +2275,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 6 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:378:4: L_false
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:375:4: L_false
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    L_false54=(Token)match(input,L_false,FOLLOW_L_false_in_primitive_pattern1824); if (state.failed) return retval;
+                    L_false54=(Token)match(input,L_false,FOLLOW_L_false_in_primitive_pattern1818); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     L_false54_tree = (CommonTree)adaptor.create(L_false54);
                     adaptor.addChild(root_0, L_false54_tree);
@@ -2290,11 +2288,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 7 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:379:4: L_nil
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:376:4: L_nil
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    L_nil55=(Token)match(input,L_nil,FOLLOW_L_nil_in_primitive_pattern1829); if (state.failed) return retval;
+                    L_nil55=(Token)match(input,L_nil,FOLLOW_L_nil_in_primitive_pattern1823); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     L_nil55_tree = (CommonTree)adaptor.create(L_nil55);
                     adaptor.addChild(root_0, L_nil55_tree);
@@ -2303,11 +2301,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 8 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:4: token_infinity
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:377:4: token_infinity
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_token_infinity_in_primitive_pattern1834);
+                    pushFollow(FOLLOW_token_infinity_in_primitive_pattern1828);
                     token_infinity56=token_infinity();
 
                     state._fsp--;
@@ -2317,12 +2315,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 9 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:381:4: '-' ( NL )? token_infinity
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:378:4: '-' ( NL )? token_infinity
                     {
-                    char_literal57=(Token)match(input,MINUS,FOLLOW_MINUS_in_primitive_pattern1839); if (state.failed) return retval; 
+                    char_literal57=(Token)match(input,MINUS,FOLLOW_MINUS_in_primitive_pattern1833); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_MINUS.add(char_literal57);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:381:8: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:378:8: ( NL )?
                     int alt21=2;
                     int LA21_0 = input.LA(1);
 
@@ -2331,9 +2329,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt21) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:381:8: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:378:8: NL
                             {
-                            NL58=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1841); if (state.failed) return retval; 
+                            NL58=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1835); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL58);
 
 
@@ -2342,7 +2340,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_token_infinity_in_primitive_pattern1844);
+                    pushFollow(FOLLOW_token_infinity_in_primitive_pattern1838);
                     token_infinity59=token_infinity();
 
                     state._fsp--;
@@ -2362,9 +2360,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 381:27: -> ^( UMINUS token_infinity )
+                    // 378:27: -> ^( UMINUS token_infinity )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:381:30: ^( UMINUS token_infinity )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:378:30: ^( UMINUS token_infinity )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(UMINUS, "UMINUS"), root_1);
@@ -2380,12 +2378,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 10 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:4: '-' ( NL )? Num
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:379:4: '-' ( NL )? Num
                     {
-                    char_literal60=(Token)match(input,MINUS,FOLLOW_MINUS_in_primitive_pattern1857); if (state.failed) return retval; 
+                    char_literal60=(Token)match(input,MINUS,FOLLOW_MINUS_in_primitive_pattern1851); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_MINUS.add(char_literal60);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:8: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:379:8: ( NL )?
                     int alt22=2;
                     int LA22_0 = input.LA(1);
 
@@ -2394,9 +2392,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt22) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:8: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:379:8: NL
                             {
-                            NL61=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1859); if (state.failed) return retval; 
+                            NL61=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1853); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL61);
 
 
@@ -2405,7 +2403,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    Num62=(Token)match(input,Num,FOLLOW_Num_in_primitive_pattern1862); if (state.failed) return retval; 
+                    Num62=(Token)match(input,Num,FOLLOW_Num_in_primitive_pattern1856); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_Num.add(Num62);
 
 
@@ -2422,9 +2420,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 382:16: -> ^( UMINUS Num )
+                    // 379:16: -> ^( UMINUS Num )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:19: ^( UMINUS Num )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:379:19: ^( UMINUS Num )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(UMINUS, "UMINUS"), root_1);
@@ -2440,12 +2438,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 11 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:4: '[' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* )? ']'
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:4: '[' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* )? ']'
                     {
-                    char_literal63=(Token)match(input,SQUARE_BRACKET_OPEN,FOLLOW_SQUARE_BRACKET_OPEN_in_primitive_pattern1875); if (state.failed) return retval; 
+                    char_literal63=(Token)match(input,SQUARE_BRACKET_OPEN,FOLLOW_SQUARE_BRACKET_OPEN_in_primitive_pattern1869); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SQUARE_BRACKET_OPEN.add(char_literal63);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:9: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:9: ( NL )?
                     int alt23=2;
                     int LA23_0 = input.LA(1);
 
@@ -2454,9 +2452,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt23) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:9: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:9: NL
                             {
-                            NL64=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1878); if (state.failed) return retval; 
+                            NL64=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1872); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL64);
 
 
@@ -2465,24 +2463,24 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:13: ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:13: ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* )?
                     int alt28=2;
                     int LA28_0 = input.LA(1);
 
-                    if ( (LA28_0==L_begin||(LA28_0>=L_obj && LA28_0<=L_if)||(LA28_0>=L_while && LA28_0<=L_for)||(LA28_0>=L_match && LA28_0<=L_case)||LA28_0==L_val||LA28_0==L_exception||(LA28_0>=A_infinity && LA28_0<=L_lazy)||(LA28_0>=L_true && LA28_0<=L_nil)||LA28_0==MINUS||LA28_0==A_NOT||LA28_0==U_NOT||(LA28_0>=A_ELLIPSIS && LA28_0<=U_ELLIPSIS)||LA28_0==TILDE||(LA28_0>=Constr && LA28_0<=Num)||(LA28_0>=String && LA28_0<=ROUND_BRACKET_OPEN)||LA28_0==SQUARE_BRACKET_OPEN||LA28_0==CURLY_BRACKET_OPEN||LA28_0==UNDERSCORE) ) {
+                    if ( (LA28_0==L_begin||(LA28_0>=L_obj && LA28_0<=L_if)||(LA28_0>=L_while && LA28_0<=L_for)||(LA28_0>=L_match && LA28_0<=L_case)||LA28_0==L_val||LA28_0==L_exception||(LA28_0>=A_infinity && LA28_0<=L_lazy)||(LA28_0>=L_true && LA28_0<=L_nil)||LA28_0==MINUS||LA28_0==A_NOT||LA28_0==U_NOT||(LA28_0>=A_ELLIPSIS && LA28_0<=U_ELLIPSIS)||LA28_0==L_force||(LA28_0>=Constr && LA28_0<=Num)||(LA28_0>=String && LA28_0<=ROUND_BRACKET_OPEN)||LA28_0==SQUARE_BRACKET_OPEN||LA28_0==CURLY_BRACKET_OPEN||LA28_0==UNDERSCORE) ) {
                         alt28=1;
                     }
                     switch (alt28) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:14: bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )*
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:14: bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )*
                             {
-                            pushFollow(FOLLOW_bracket_pattern_in_primitive_pattern1882);
+                            pushFollow(FOLLOW_bracket_pattern_in_primitive_pattern1876);
                             bracket_pattern65=bracket_pattern();
 
                             state._fsp--;
                             if (state.failed) return retval;
                             if ( state.backtracking==0 ) stream_bracket_pattern.add(bracket_pattern65.getTree());
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:30: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:30: ( NL )?
                             int alt24=2;
                             int LA24_0 = input.LA(1);
 
@@ -2491,9 +2489,9 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt24) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:30: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:30: NL
                                     {
-                                    NL66=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1884); if (state.failed) return retval; 
+                                    NL66=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1878); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_NL.add(NL66);
 
 
@@ -2502,7 +2500,7 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:34: ( COMMA ( NL )? bracket_pattern ( NL )? )*
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:34: ( COMMA ( NL )? bracket_pattern ( NL )? )*
                             loop27:
                             do {
                                 int alt27=2;
@@ -2515,12 +2513,12 @@ public class babel17Parser extends Parser {
 
                                 switch (alt27) {
                             	case 1 :
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:36: COMMA ( NL )? bracket_pattern ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:36: COMMA ( NL )? bracket_pattern ( NL )?
                             	    {
-                            	    COMMA67=(Token)match(input,COMMA,FOLLOW_COMMA_in_primitive_pattern1889); if (state.failed) return retval; 
+                            	    COMMA67=(Token)match(input,COMMA,FOLLOW_COMMA_in_primitive_pattern1883); if (state.failed) return retval; 
                             	    if ( state.backtracking==0 ) stream_COMMA.add(COMMA67);
 
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:42: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:42: ( NL )?
                             	    int alt25=2;
                             	    int LA25_0 = input.LA(1);
 
@@ -2529,9 +2527,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt25) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:42: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:42: NL
                             	            {
-                            	            NL68=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1891); if (state.failed) return retval; 
+                            	            NL68=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1885); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL68);
 
 
@@ -2540,13 +2538,13 @@ public class babel17Parser extends Parser {
 
                             	    }
 
-                            	    pushFollow(FOLLOW_bracket_pattern_in_primitive_pattern1894);
+                            	    pushFollow(FOLLOW_bracket_pattern_in_primitive_pattern1888);
                             	    bracket_pattern69=bracket_pattern();
 
                             	    state._fsp--;
                             	    if (state.failed) return retval;
                             	    if ( state.backtracking==0 ) stream_bracket_pattern.add(bracket_pattern69.getTree());
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:62: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:62: ( NL )?
                             	    int alt26=2;
                             	    int LA26_0 = input.LA(1);
 
@@ -2555,9 +2553,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt26) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:62: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:380:62: NL
                             	            {
-                            	            NL70=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1896); if (state.failed) return retval; 
+                            	            NL70=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1890); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL70);
 
 
@@ -2581,7 +2579,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    char_literal71=(Token)match(input,SQUARE_BRACKET_CLOSE,FOLLOW_SQUARE_BRACKET_CLOSE_in_primitive_pattern1904); if (state.failed) return retval; 
+                    char_literal71=(Token)match(input,SQUARE_BRACKET_CLOSE,FOLLOW_SQUARE_BRACKET_CLOSE_in_primitive_pattern1898); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SQUARE_BRACKET_CLOSE.add(char_literal71);
 
 
@@ -2598,14 +2596,14 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 384:6: -> ^( SQUARE_LIST ( bracket_pattern )* )
+                    // 381:6: -> ^( SQUARE_LIST ( bracket_pattern )* )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:9: ^( SQUARE_LIST ( bracket_pattern )* )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:381:9: ^( SQUARE_LIST ( bracket_pattern )* )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SQUARE_LIST, "SQUARE_LIST"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:23: ( bracket_pattern )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:381:23: ( bracket_pattern )*
                         while ( stream_bracket_pattern.hasNext() ) {
                             adaptor.addChild(root_1, stream_bracket_pattern.nextTree());
 
@@ -2621,12 +2619,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 12 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:4: '(' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )? )? ')'
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:4: '(' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )? )? ')'
                     {
-                    char_literal72=(Token)match(input,ROUND_BRACKET_OPEN,FOLLOW_ROUND_BRACKET_OPEN_in_primitive_pattern1924); if (state.failed) return retval; 
+                    char_literal72=(Token)match(input,ROUND_BRACKET_OPEN,FOLLOW_ROUND_BRACKET_OPEN_in_primitive_pattern1918); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ROUND_BRACKET_OPEN.add(char_literal72);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:9: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:9: ( NL )?
                     int alt29=2;
                     int LA29_0 = input.LA(1);
 
@@ -2635,9 +2633,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt29) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:9: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:9: NL
                             {
-                            NL73=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1927); if (state.failed) return retval; 
+                            NL73=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1921); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL73);
 
 
@@ -2646,24 +2644,24 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:13: ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )? )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:13: ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )? )?
                     int alt36=2;
                     int LA36_0 = input.LA(1);
 
-                    if ( (LA36_0==L_begin||(LA36_0>=L_obj && LA36_0<=L_if)||(LA36_0>=L_while && LA36_0<=L_for)||(LA36_0>=L_match && LA36_0<=L_case)||LA36_0==L_val||LA36_0==L_exception||(LA36_0>=A_infinity && LA36_0<=L_lazy)||(LA36_0>=L_true && LA36_0<=L_nil)||LA36_0==MINUS||LA36_0==A_NOT||LA36_0==U_NOT||(LA36_0>=A_ELLIPSIS && LA36_0<=U_ELLIPSIS)||LA36_0==TILDE||(LA36_0>=Constr && LA36_0<=Num)||(LA36_0>=String && LA36_0<=ROUND_BRACKET_OPEN)||LA36_0==SQUARE_BRACKET_OPEN||LA36_0==CURLY_BRACKET_OPEN||LA36_0==UNDERSCORE) ) {
+                    if ( (LA36_0==L_begin||(LA36_0>=L_obj && LA36_0<=L_if)||(LA36_0>=L_while && LA36_0<=L_for)||(LA36_0>=L_match && LA36_0<=L_case)||LA36_0==L_val||LA36_0==L_exception||(LA36_0>=A_infinity && LA36_0<=L_lazy)||(LA36_0>=L_true && LA36_0<=L_nil)||LA36_0==MINUS||LA36_0==A_NOT||LA36_0==U_NOT||(LA36_0>=A_ELLIPSIS && LA36_0<=U_ELLIPSIS)||LA36_0==L_force||(LA36_0>=Constr && LA36_0<=Num)||(LA36_0>=String && LA36_0<=ROUND_BRACKET_OPEN)||LA36_0==SQUARE_BRACKET_OPEN||LA36_0==CURLY_BRACKET_OPEN||LA36_0==UNDERSCORE) ) {
                         alt36=1;
                     }
                     switch (alt36) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:14: bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:14: bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )?
                             {
-                            pushFollow(FOLLOW_bracket_pattern_in_primitive_pattern1931);
+                            pushFollow(FOLLOW_bracket_pattern_in_primitive_pattern1925);
                             bracket_pattern74=bracket_pattern();
 
                             state._fsp--;
                             if (state.failed) return retval;
                             if ( state.backtracking==0 ) stream_bracket_pattern.add(bracket_pattern74.getTree());
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:30: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:30: ( NL )?
                             int alt30=2;
                             int LA30_0 = input.LA(1);
 
@@ -2672,9 +2670,9 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt30) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:30: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:30: NL
                                     {
-                                    NL75=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1933); if (state.failed) return retval; 
+                                    NL75=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1927); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_NL.add(NL75);
 
 
@@ -2683,7 +2681,7 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:34: ( COMMA ( NL )? bracket_pattern ( NL )? )*
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:34: ( COMMA ( NL )? bracket_pattern ( NL )? )*
                             loop33:
                             do {
                                 int alt33=2;
@@ -2695,13 +2693,13 @@ public class babel17Parser extends Parser {
                                     if ( (LA33_1==NL) ) {
                                         int LA33_3 = input.LA(3);
 
-                                        if ( (LA33_3==L_begin||(LA33_3>=L_obj && LA33_3<=L_if)||(LA33_3>=L_while && LA33_3<=L_for)||(LA33_3>=L_match && LA33_3<=L_case)||LA33_3==L_val||LA33_3==L_exception||(LA33_3>=A_infinity && LA33_3<=L_lazy)||(LA33_3>=L_true && LA33_3<=L_nil)||LA33_3==MINUS||LA33_3==A_NOT||LA33_3==U_NOT||(LA33_3>=A_ELLIPSIS && LA33_3<=U_ELLIPSIS)||LA33_3==TILDE||(LA33_3>=Constr && LA33_3<=Num)||(LA33_3>=String && LA33_3<=ROUND_BRACKET_OPEN)||LA33_3==SQUARE_BRACKET_OPEN||LA33_3==CURLY_BRACKET_OPEN||LA33_3==UNDERSCORE) ) {
+                                        if ( (LA33_3==L_begin||(LA33_3>=L_obj && LA33_3<=L_if)||(LA33_3>=L_while && LA33_3<=L_for)||(LA33_3>=L_match && LA33_3<=L_case)||LA33_3==L_val||LA33_3==L_exception||(LA33_3>=A_infinity && LA33_3<=L_lazy)||(LA33_3>=L_true && LA33_3<=L_nil)||LA33_3==MINUS||LA33_3==A_NOT||LA33_3==U_NOT||(LA33_3>=A_ELLIPSIS && LA33_3<=U_ELLIPSIS)||LA33_3==L_force||(LA33_3>=Constr && LA33_3<=Num)||(LA33_3>=String && LA33_3<=ROUND_BRACKET_OPEN)||LA33_3==SQUARE_BRACKET_OPEN||LA33_3==CURLY_BRACKET_OPEN||LA33_3==UNDERSCORE) ) {
                                             alt33=1;
                                         }
 
 
                                     }
-                                    else if ( (LA33_1==L_begin||(LA33_1>=L_obj && LA33_1<=L_if)||(LA33_1>=L_while && LA33_1<=L_for)||(LA33_1>=L_match && LA33_1<=L_case)||LA33_1==L_val||LA33_1==L_exception||(LA33_1>=A_infinity && LA33_1<=L_lazy)||(LA33_1>=L_true && LA33_1<=L_nil)||LA33_1==MINUS||LA33_1==A_NOT||LA33_1==U_NOT||(LA33_1>=A_ELLIPSIS && LA33_1<=U_ELLIPSIS)||LA33_1==TILDE||(LA33_1>=Constr && LA33_1<=Num)||(LA33_1>=String && LA33_1<=ROUND_BRACKET_OPEN)||LA33_1==SQUARE_BRACKET_OPEN||LA33_1==CURLY_BRACKET_OPEN||LA33_1==UNDERSCORE) ) {
+                                    else if ( (LA33_1==L_begin||(LA33_1>=L_obj && LA33_1<=L_if)||(LA33_1>=L_while && LA33_1<=L_for)||(LA33_1>=L_match && LA33_1<=L_case)||LA33_1==L_val||LA33_1==L_exception||(LA33_1>=A_infinity && LA33_1<=L_lazy)||(LA33_1>=L_true && LA33_1<=L_nil)||LA33_1==MINUS||LA33_1==A_NOT||LA33_1==U_NOT||(LA33_1>=A_ELLIPSIS && LA33_1<=U_ELLIPSIS)||LA33_1==L_force||(LA33_1>=Constr && LA33_1<=Num)||(LA33_1>=String && LA33_1<=ROUND_BRACKET_OPEN)||LA33_1==SQUARE_BRACKET_OPEN||LA33_1==CURLY_BRACKET_OPEN||LA33_1==UNDERSCORE) ) {
                                         alt33=1;
                                     }
 
@@ -2711,12 +2709,12 @@ public class babel17Parser extends Parser {
 
                                 switch (alt33) {
                             	case 1 :
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:36: COMMA ( NL )? bracket_pattern ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:36: COMMA ( NL )? bracket_pattern ( NL )?
                             	    {
-                            	    COMMA76=(Token)match(input,COMMA,FOLLOW_COMMA_in_primitive_pattern1938); if (state.failed) return retval; 
+                            	    COMMA76=(Token)match(input,COMMA,FOLLOW_COMMA_in_primitive_pattern1932); if (state.failed) return retval; 
                             	    if ( state.backtracking==0 ) stream_COMMA.add(COMMA76);
 
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:43: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:43: ( NL )?
                             	    int alt31=2;
                             	    int LA31_0 = input.LA(1);
 
@@ -2725,9 +2723,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt31) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:43: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:43: NL
                             	            {
-                            	            NL77=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1941); if (state.failed) return retval; 
+                            	            NL77=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1935); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL77);
 
 
@@ -2736,13 +2734,13 @@ public class babel17Parser extends Parser {
 
                             	    }
 
-                            	    pushFollow(FOLLOW_bracket_pattern_in_primitive_pattern1944);
+                            	    pushFollow(FOLLOW_bracket_pattern_in_primitive_pattern1938);
                             	    bracket_pattern78=bracket_pattern();
 
                             	    state._fsp--;
                             	    if (state.failed) return retval;
                             	    if ( state.backtracking==0 ) stream_bracket_pattern.add(bracket_pattern78.getTree());
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:63: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:63: ( NL )?
                             	    int alt32=2;
                             	    int LA32_0 = input.LA(1);
 
@@ -2751,9 +2749,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt32) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:63: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:63: NL
                             	            {
-                            	            NL79=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1946); if (state.failed) return retval; 
+                            	            NL79=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1940); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL79);
 
 
@@ -2771,7 +2769,7 @@ public class babel17Parser extends Parser {
                                 }
                             } while (true);
 
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:69: ( COMMA ( NL )? )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:69: ( COMMA ( NL )? )?
                             int alt35=2;
                             int LA35_0 = input.LA(1);
 
@@ -2780,12 +2778,12 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt35) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:70: COMMA ( NL )?
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:70: COMMA ( NL )?
                                     {
-                                    COMMA80=(Token)match(input,COMMA,FOLLOW_COMMA_in_primitive_pattern1952); if (state.failed) return retval; 
+                                    COMMA80=(Token)match(input,COMMA,FOLLOW_COMMA_in_primitive_pattern1946); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_COMMA.add(COMMA80);
 
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:76: ( NL )?
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:76: ( NL )?
                                     int alt34=2;
                                     int LA34_0 = input.LA(1);
 
@@ -2794,9 +2792,9 @@ public class babel17Parser extends Parser {
                                     }
                                     switch (alt34) {
                                         case 1 :
-                                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:76: NL
+                                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:382:76: NL
                                             {
-                                            NL81=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1954); if (state.failed) return retval; 
+                                            NL81=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1948); if (state.failed) return retval; 
                                             if ( state.backtracking==0 ) stream_NL.add(NL81);
 
 
@@ -2817,13 +2815,13 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    char_literal82=(Token)match(input,ROUND_BRACKET_CLOSE,FOLLOW_ROUND_BRACKET_CLOSE_in_primitive_pattern1961); if (state.failed) return retval; 
+                    char_literal82=(Token)match(input,ROUND_BRACKET_CLOSE,FOLLOW_ROUND_BRACKET_CLOSE_in_primitive_pattern1955); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ROUND_BRACKET_CLOSE.add(char_literal82);
 
 
 
                     // AST REWRITE
-                    // elements: COMMA, bracket_pattern
+                    // elements: bracket_pattern, COMMA
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2834,19 +2832,19 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 386:5: -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( bracket_pattern )* ) )
+                    // 383:5: -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( bracket_pattern )* ) )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:8: ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( bracket_pattern )* ) )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:8: ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( bracket_pattern )* ) )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ROUND_LIST, "ROUND_LIST"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:21: ^( NIL_TOKEN ( COMMA )* )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:21: ^( NIL_TOKEN ( COMMA )* )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_2);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:33: ( COMMA )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:33: ( COMMA )*
                         while ( stream_COMMA.hasNext() ) {
                             adaptor.addChild(root_2, stream_COMMA.nextNode());
 
@@ -2855,12 +2853,12 @@ public class babel17Parser extends Parser {
 
                         adaptor.addChild(root_1, root_2);
                         }
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:41: ^( NIL_TOKEN ( bracket_pattern )* )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:41: ^( NIL_TOKEN ( bracket_pattern )* )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_2);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:53: ( bracket_pattern )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:383:53: ( bracket_pattern )*
                         while ( stream_bracket_pattern.hasNext() ) {
                             adaptor.addChild(root_2, stream_bracket_pattern.nextTree());
 
@@ -2879,12 +2877,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 13 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:4: '{' ( NL )? ( mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )* )? '}'
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:4: '{' ( NL )? ( mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )* )? '}'
                     {
-                    char_literal83=(Token)match(input,CURLY_BRACKET_OPEN,FOLLOW_CURLY_BRACKET_OPEN_in_primitive_pattern1993); if (state.failed) return retval; 
+                    char_literal83=(Token)match(input,CURLY_BRACKET_OPEN,FOLLOW_CURLY_BRACKET_OPEN_in_primitive_pattern1987); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CURLY_BRACKET_OPEN.add(char_literal83);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:9: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:9: ( NL )?
                     int alt37=2;
                     int LA37_0 = input.LA(1);
 
@@ -2893,9 +2891,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt37) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:9: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:9: NL
                             {
-                            NL84=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1996); if (state.failed) return retval; 
+                            NL84=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1990); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL84);
 
 
@@ -2904,24 +2902,24 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:13: ( mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )* )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:13: ( mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )* )?
                     int alt42=2;
                     int LA42_0 = input.LA(1);
 
-                    if ( (LA42_0==L_begin||(LA42_0>=L_obj && LA42_0<=L_if)||(LA42_0>=L_while && LA42_0<=L_for)||(LA42_0>=L_match && LA42_0<=L_case)||LA42_0==L_val||LA42_0==L_exception||(LA42_0>=A_infinity && LA42_0<=L_lazy)||(LA42_0>=L_true && LA42_0<=L_nil)||LA42_0==MINUS||LA42_0==A_NOT||LA42_0==U_NOT||(LA42_0>=A_ELLIPSIS && LA42_0<=U_ELLIPSIS)||LA42_0==TILDE||(LA42_0>=Constr && LA42_0<=Num)||(LA42_0>=String && LA42_0<=ROUND_BRACKET_OPEN)||LA42_0==SQUARE_BRACKET_OPEN||LA42_0==CURLY_BRACKET_OPEN||LA42_0==UNDERSCORE) ) {
+                    if ( (LA42_0==L_begin||(LA42_0>=L_obj && LA42_0<=L_if)||(LA42_0>=L_while && LA42_0<=L_for)||(LA42_0>=L_match && LA42_0<=L_case)||LA42_0==L_val||LA42_0==L_exception||(LA42_0>=A_infinity && LA42_0<=L_lazy)||(LA42_0>=L_true && LA42_0<=L_nil)||LA42_0==MINUS||LA42_0==A_NOT||LA42_0==U_NOT||(LA42_0>=A_ELLIPSIS && LA42_0<=U_ELLIPSIS)||LA42_0==L_force||(LA42_0>=Constr && LA42_0<=Num)||(LA42_0>=String && LA42_0<=ROUND_BRACKET_OPEN)||LA42_0==SQUARE_BRACKET_OPEN||LA42_0==CURLY_BRACKET_OPEN||LA42_0==UNDERSCORE) ) {
                         alt42=1;
                     }
                     switch (alt42) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:14: mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )*
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:14: mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )*
                             {
-                            pushFollow(FOLLOW_mselem_pattern_in_primitive_pattern2000);
+                            pushFollow(FOLLOW_mselem_pattern_in_primitive_pattern1994);
                             mselem_pattern85=mselem_pattern();
 
                             state._fsp--;
                             if (state.failed) return retval;
                             if ( state.backtracking==0 ) stream_mselem_pattern.add(mselem_pattern85.getTree());
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:29: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:29: ( NL )?
                             int alt38=2;
                             int LA38_0 = input.LA(1);
 
@@ -2930,9 +2928,9 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt38) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:29: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:29: NL
                                     {
-                                    NL86=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern2002); if (state.failed) return retval; 
+                                    NL86=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern1996); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_NL.add(NL86);
 
 
@@ -2941,7 +2939,7 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:33: ( COMMA ( NL )? mselem_pattern ( NL )? )*
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:33: ( COMMA ( NL )? mselem_pattern ( NL )? )*
                             loop41:
                             do {
                                 int alt41=2;
@@ -2954,12 +2952,12 @@ public class babel17Parser extends Parser {
 
                                 switch (alt41) {
                             	case 1 :
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:35: COMMA ( NL )? mselem_pattern ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:35: COMMA ( NL )? mselem_pattern ( NL )?
                             	    {
-                            	    COMMA87=(Token)match(input,COMMA,FOLLOW_COMMA_in_primitive_pattern2007); if (state.failed) return retval; 
+                            	    COMMA87=(Token)match(input,COMMA,FOLLOW_COMMA_in_primitive_pattern2001); if (state.failed) return retval; 
                             	    if ( state.backtracking==0 ) stream_COMMA.add(COMMA87);
 
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:42: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:42: ( NL )?
                             	    int alt39=2;
                             	    int LA39_0 = input.LA(1);
 
@@ -2968,9 +2966,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt39) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:42: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:42: NL
                             	            {
-                            	            NL88=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern2010); if (state.failed) return retval; 
+                            	            NL88=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern2004); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL88);
 
 
@@ -2979,13 +2977,13 @@ public class babel17Parser extends Parser {
 
                             	    }
 
-                            	    pushFollow(FOLLOW_mselem_pattern_in_primitive_pattern2013);
+                            	    pushFollow(FOLLOW_mselem_pattern_in_primitive_pattern2007);
                             	    mselem_pattern89=mselem_pattern();
 
                             	    state._fsp--;
                             	    if (state.failed) return retval;
                             	    if ( state.backtracking==0 ) stream_mselem_pattern.add(mselem_pattern89.getTree());
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:61: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:61: ( NL )?
                             	    int alt40=2;
                             	    int LA40_0 = input.LA(1);
 
@@ -2994,9 +2992,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt40) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:387:61: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:384:61: NL
                             	            {
-                            	            NL90=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern2015); if (state.failed) return retval; 
+                            	            NL90=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern2009); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL90);
 
 
@@ -3020,7 +3018,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    char_literal91=(Token)match(input,CURLY_BRACKET_CLOSE,FOLLOW_CURLY_BRACKET_CLOSE_in_primitive_pattern2023); if (state.failed) return retval; 
+                    char_literal91=(Token)match(input,CURLY_BRACKET_CLOSE,FOLLOW_CURLY_BRACKET_CLOSE_in_primitive_pattern2017); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CURLY_BRACKET_CLOSE.add(char_literal91);
 
 
@@ -3037,14 +3035,14 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 388:5: -> ^( MAP_OR_SET_OR_OBJ ( mselem_pattern )* )
+                    // 385:5: -> ^( MAP_OR_SET_OR_OBJ ( mselem_pattern )* )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:388:8: ^( MAP_OR_SET_OR_OBJ ( mselem_pattern )* )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:8: ^( MAP_OR_SET_OR_OBJ ( mselem_pattern )* )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MAP_OR_SET_OR_OBJ, "MAP_OR_SET_OR_OBJ"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:388:28: ( mselem_pattern )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:385:28: ( mselem_pattern )*
                         while ( stream_mselem_pattern.hasNext() ) {
                             adaptor.addChild(root_1, stream_mselem_pattern.nextTree());
 
@@ -3060,12 +3058,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 14 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:389:4: '{' ( NL )? token_ARROW ( NL )? '}'
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:4: '{' ( NL )? token_ARROW ( NL )? '}'
                     {
-                    char_literal92=(Token)match(input,CURLY_BRACKET_OPEN,FOLLOW_CURLY_BRACKET_OPEN_in_primitive_pattern2041); if (state.failed) return retval; 
+                    char_literal92=(Token)match(input,CURLY_BRACKET_OPEN,FOLLOW_CURLY_BRACKET_OPEN_in_primitive_pattern2035); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CURLY_BRACKET_OPEN.add(char_literal92);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:389:8: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:8: ( NL )?
                     int alt43=2;
                     int LA43_0 = input.LA(1);
 
@@ -3074,9 +3072,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt43) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:389:8: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:8: NL
                             {
-                            NL93=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern2043); if (state.failed) return retval; 
+                            NL93=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern2037); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL93);
 
 
@@ -3085,13 +3083,13 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_token_ARROW_in_primitive_pattern2046);
+                    pushFollow(FOLLOW_token_ARROW_in_primitive_pattern2040);
                     token_ARROW94=token_ARROW();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_token_ARROW.add(token_ARROW94.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:389:24: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:24: ( NL )?
                     int alt44=2;
                     int LA44_0 = input.LA(1);
 
@@ -3100,9 +3098,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt44) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:389:24: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:24: NL
                             {
-                            NL95=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern2048); if (state.failed) return retval; 
+                            NL95=(Token)match(input,NL,FOLLOW_NL_in_primitive_pattern2042); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL95);
 
 
@@ -3111,7 +3109,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    char_literal96=(Token)match(input,CURLY_BRACKET_CLOSE,FOLLOW_CURLY_BRACKET_CLOSE_in_primitive_pattern2051); if (state.failed) return retval; 
+                    char_literal96=(Token)match(input,CURLY_BRACKET_CLOSE,FOLLOW_CURLY_BRACKET_CLOSE_in_primitive_pattern2045); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CURLY_BRACKET_CLOSE.add(char_literal96);
 
 
@@ -3128,9 +3126,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 389:32: -> ^( EMPTY_MAP )
+                    // 386:32: -> ^( EMPTY_MAP )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:389:35: ^( EMPTY_MAP )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:386:35: ^( EMPTY_MAP )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EMPTY_MAP, "EMPTY_MAP"), root_1);
@@ -3171,7 +3169,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "sep"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:394:1: sep : ( NL | SC )+ ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:391:1: sep : ( NL | SC )+ ;
     public final babel17Parser.sep_return sep() throws RecognitionException {
         babel17Parser.sep_return retval = new babel17Parser.sep_return();
         retval.start = input.LT(1);
@@ -3183,12 +3181,12 @@ public class babel17Parser extends Parser {
         CommonTree set97_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:394:5: ( ( NL | SC )+ )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:394:7: ( NL | SC )+
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:391:5: ( ( NL | SC )+ )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:391:7: ( NL | SC )+
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:394:7: ( NL | SC )+
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:391:7: ( NL | SC )+
             int cnt46=0;
             loop46:
             do {
@@ -3259,7 +3257,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "block"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:1: block : ( ( sep )? statement ( sep statement )* ( sep )? -> ^( BLOCK ( statement )* ) | ( sep )? -> ^( BLOCK ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:1: block : ( ( sep )? statement ( sep statement )* ( sep )? -> ^( BLOCK ( statement )* ) | ( sep )? -> ^( BLOCK ) );
     public final babel17Parser.block_return block() throws RecognitionException {
         babel17Parser.block_return retval = new babel17Parser.block_return();
         retval.start = input.LT(1);
@@ -3282,14 +3280,14 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_statement=new RewriteRuleSubtreeStream(adaptor,"rule statement");
         RewriteRuleSubtreeStream stream_sep=new RewriteRuleSubtreeStream(adaptor,"rule sep");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:8: ( ( sep )? statement ( sep statement )* ( sep )? -> ^( BLOCK ( statement )* ) | ( sep )? -> ^( BLOCK ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:8: ( ( sep )? statement ( sep statement )* ( sep )? -> ^( BLOCK ( statement )* ) | ( sep )? -> ^( BLOCK ) )
             int alt51=2;
             alt51 = dfa51.predict(input);
             switch (alt51) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:10: ( sep )? statement ( sep statement )* ( sep )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:10: ( sep )? statement ( sep statement )* ( sep )?
                     {
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:10: ( sep )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:10: ( sep )?
                     int alt47=2;
                     int LA47_0 = input.LA(1);
 
@@ -3298,9 +3296,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt47) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:10: sep
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:10: sep
                             {
-                            pushFollow(FOLLOW_sep_in_block2089);
+                            pushFollow(FOLLOW_sep_in_block2083);
                             sep98=sep();
 
                             state._fsp--;
@@ -3312,28 +3310,28 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_statement_in_block2092);
+                    pushFollow(FOLLOW_statement_in_block2086);
                     statement99=statement();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_statement.add(statement99.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:25: ( sep statement )*
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:25: ( sep statement )*
                     loop48:
                     do {
                         int alt48=2;
                         alt48 = dfa48.predict(input);
                         switch (alt48) {
                     	case 1 :
-                    	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:26: sep statement
+                    	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:26: sep statement
                     	    {
-                    	    pushFollow(FOLLOW_sep_in_block2095);
+                    	    pushFollow(FOLLOW_sep_in_block2089);
                     	    sep100=sep();
 
                     	    state._fsp--;
                     	    if (state.failed) return retval;
                     	    if ( state.backtracking==0 ) stream_sep.add(sep100.getTree());
-                    	    pushFollow(FOLLOW_statement_in_block2097);
+                    	    pushFollow(FOLLOW_statement_in_block2091);
                     	    statement101=statement();
 
                     	    state._fsp--;
@@ -3348,7 +3346,7 @@ public class babel17Parser extends Parser {
                         }
                     } while (true);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:42: ( sep )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:42: ( sep )?
                     int alt49=2;
                     int LA49_0 = input.LA(1);
 
@@ -3357,9 +3355,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt49) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:42: sep
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:42: sep
                             {
-                            pushFollow(FOLLOW_sep_in_block2101);
+                            pushFollow(FOLLOW_sep_in_block2095);
                             sep102=sep();
 
                             state._fsp--;
@@ -3385,14 +3383,14 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 396:47: -> ^( BLOCK ( statement )* )
+                    // 393:47: -> ^( BLOCK ( statement )* )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:50: ^( BLOCK ( statement )* )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:50: ^( BLOCK ( statement )* )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BLOCK, "BLOCK"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:58: ( statement )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:393:58: ( statement )*
                         while ( stream_statement.hasNext() ) {
                             adaptor.addChild(root_1, stream_statement.nextTree());
 
@@ -3408,9 +3406,9 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:397:4: ( sep )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:394:4: ( sep )?
                     {
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:397:4: ( sep )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:394:4: ( sep )?
                     int alt50=2;
                     int LA50_0 = input.LA(1);
 
@@ -3419,9 +3417,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt50) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:397:4: sep
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:394:4: sep
                             {
-                            pushFollow(FOLLOW_sep_in_block2117);
+                            pushFollow(FOLLOW_sep_in_block2111);
                             sep103=sep();
 
                             state._fsp--;
@@ -3447,9 +3445,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 397:9: -> ^( BLOCK )
+                    // 394:9: -> ^( BLOCK )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:397:12: ^( BLOCK )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:394:12: ^( BLOCK )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BLOCK, "BLOCK"), root_1);
@@ -3490,7 +3488,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "pure_block"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:399:1: pure_block : statement ( sep statement )* -> ^( BLOCK ( statement )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:396:1: pure_block : statement ( sep statement )* -> ^( BLOCK ( statement )* ) ;
     public final babel17Parser.pure_block_return pure_block() throws RecognitionException {
         babel17Parser.pure_block_return retval = new babel17Parser.pure_block_return();
         retval.start = input.LT(1);
@@ -3507,16 +3505,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_statement=new RewriteRuleSubtreeStream(adaptor,"rule statement");
         RewriteRuleSubtreeStream stream_sep=new RewriteRuleSubtreeStream(adaptor,"rule sep");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:400:2: ( statement ( sep statement )* -> ^( BLOCK ( statement )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:400:4: statement ( sep statement )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:397:2: ( statement ( sep statement )* -> ^( BLOCK ( statement )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:397:4: statement ( sep statement )*
             {
-            pushFollow(FOLLOW_statement_in_pure_block2134);
+            pushFollow(FOLLOW_statement_in_pure_block2128);
             statement104=statement();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_statement.add(statement104.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:400:14: ( sep statement )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:397:14: ( sep statement )*
             loop52:
             do {
                 int alt52=2;
@@ -3525,7 +3523,7 @@ public class babel17Parser extends Parser {
                 if ( (LA52_0==NL) ) {
                     int LA52_1 = input.LA(2);
 
-                    if ( (LA52_1==L_begin||(LA52_1>=L_obj && LA52_1<=L_if)||(LA52_1>=L_while && LA52_1<=L_for)||(LA52_1>=L_yield && LA52_1<=L_match)||(LA52_1>=L_val && LA52_1<=L_def)||LA52_1==L_exception||(LA52_1>=A_infinity && LA52_1<=L_nil)||LA52_1==SC||LA52_1==MINUS||LA52_1==A_NOT||LA52_1==U_NOT||(LA52_1>=A_ELLIPSIS && LA52_1<=U_ELLIPSIS)||LA52_1==TILDE||(LA52_1>=NL && LA52_1<=Num)||(LA52_1>=String && LA52_1<=ROUND_BRACKET_OPEN)||LA52_1==SQUARE_BRACKET_OPEN||LA52_1==CURLY_BRACKET_OPEN||LA52_1==UNDERSCORE) ) {
+                    if ( (LA52_1==L_begin||(LA52_1>=L_obj && LA52_1<=L_if)||(LA52_1>=L_while && LA52_1<=L_for)||(LA52_1>=L_yield && LA52_1<=L_match)||(LA52_1>=L_val && LA52_1<=L_def)||LA52_1==L_exception||(LA52_1>=A_infinity && LA52_1<=L_nil)||LA52_1==SC||LA52_1==MINUS||LA52_1==A_NOT||LA52_1==U_NOT||(LA52_1>=A_ELLIPSIS && LA52_1<=U_ELLIPSIS)||LA52_1==L_force||(LA52_1>=NL && LA52_1<=Num)||(LA52_1>=String && LA52_1<=ROUND_BRACKET_OPEN)||LA52_1==SQUARE_BRACKET_OPEN||LA52_1==CURLY_BRACKET_OPEN||LA52_1==UNDERSCORE) ) {
                         alt52=1;
                     }
 
@@ -3538,15 +3536,15 @@ public class babel17Parser extends Parser {
 
                 switch (alt52) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:400:15: sep statement
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:397:15: sep statement
             	    {
-            	    pushFollow(FOLLOW_sep_in_pure_block2137);
+            	    pushFollow(FOLLOW_sep_in_pure_block2131);
             	    sep105=sep();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) stream_sep.add(sep105.getTree());
-            	    pushFollow(FOLLOW_statement_in_pure_block2139);
+            	    pushFollow(FOLLOW_statement_in_pure_block2133);
             	    statement106=statement();
 
             	    state._fsp--;
@@ -3575,14 +3573,14 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 400:31: -> ^( BLOCK ( statement )* )
+            // 397:31: -> ^( BLOCK ( statement )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:400:34: ^( BLOCK ( statement )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:397:34: ^( BLOCK ( statement )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BLOCK, "BLOCK"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:400:42: ( statement )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:397:42: ( statement )*
                 while ( stream_statement.hasNext() ) {
                     adaptor.addChild(root_1, stream_statement.nextTree());
 
@@ -3623,7 +3621,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "statement"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:402:1: statement : ( st_val | st_def | st_memoize | st_yield | expr_or_assign );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:399:1: statement : ( st_val | st_def | st_memoize | st_yield | expr_or_assign );
     public final babel17Parser.statement_return statement() throws RecognitionException {
         babel17Parser.statement_return retval = new babel17Parser.statement_return();
         retval.start = input.LT(1);
@@ -3643,7 +3641,7 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:403:2: ( st_val | st_def | st_memoize | st_yield | expr_or_assign )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:400:2: ( st_val | st_def | st_memoize | st_yield | expr_or_assign )
             int alt53=5;
             switch ( input.LA(1) ) {
             case L_val:
@@ -3677,7 +3675,7 @@ public class babel17Parser extends Parser {
             case A_infinity:
             case U_infinity:
             case L_concurrent:
-            case L_await:
+            case L_choose:
             case L_lazy:
             case L_true:
             case L_false:
@@ -3689,7 +3687,7 @@ public class babel17Parser extends Parser {
             case U_NOT:
             case A_ELLIPSIS:
             case U_ELLIPSIS:
-            case TILDE:
+            case L_force:
             case Constr:
             case Id:
             case Num:
@@ -3712,11 +3710,11 @@ public class babel17Parser extends Parser {
 
             switch (alt53) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:403:4: st_val
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:400:4: st_val
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_st_val_in_statement2160);
+                    pushFollow(FOLLOW_st_val_in_statement2154);
                     st_val107=st_val();
 
                     state._fsp--;
@@ -3726,11 +3724,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:404:4: st_def
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:401:4: st_def
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_st_def_in_statement2165);
+                    pushFollow(FOLLOW_st_def_in_statement2159);
                     st_def108=st_def();
 
                     state._fsp--;
@@ -3740,11 +3738,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:405:4: st_memoize
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:402:4: st_memoize
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_st_memoize_in_statement2170);
+                    pushFollow(FOLLOW_st_memoize_in_statement2164);
                     st_memoize109=st_memoize();
 
                     state._fsp--;
@@ -3754,11 +3752,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:406:4: st_yield
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:403:4: st_yield
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_st_yield_in_statement2175);
+                    pushFollow(FOLLOW_st_yield_in_statement2169);
                     st_yield110=st_yield();
 
                     state._fsp--;
@@ -3768,11 +3766,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:407:4: expr_or_assign
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:404:4: expr_or_assign
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_expr_or_assign_in_statement2180);
+                    pushFollow(FOLLOW_expr_or_assign_in_statement2174);
                     expr_or_assign111=expr_or_assign();
 
                     state._fsp--;
@@ -3809,7 +3807,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "objelem_assign"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:1: objelem_assign : Id PERIOD Id -> ^( OBJELEM_ASSIGN Id Id ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:406:1: objelem_assign : Id PERIOD Id -> ^( OBJELEM_ASSIGN Id Id ) ;
     public final babel17Parser.objelem_assign_return objelem_assign() throws RecognitionException {
         babel17Parser.objelem_assign_return retval = new babel17Parser.objelem_assign_return();
         retval.start = input.LT(1);
@@ -3827,16 +3825,16 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_PERIOD=new RewriteRuleTokenStream(adaptor,"token PERIOD");
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:410:2: ( Id PERIOD Id -> ^( OBJELEM_ASSIGN Id Id ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:410:4: Id PERIOD Id
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:407:2: ( Id PERIOD Id -> ^( OBJELEM_ASSIGN Id Id ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:407:4: Id PERIOD Id
             {
-            Id112=(Token)match(input,Id,FOLLOW_Id_in_objelem_assign2189); if (state.failed) return retval; 
+            Id112=(Token)match(input,Id,FOLLOW_Id_in_objelem_assign2183); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_Id.add(Id112);
 
-            PERIOD113=(Token)match(input,PERIOD,FOLLOW_PERIOD_in_objelem_assign2191); if (state.failed) return retval; 
+            PERIOD113=(Token)match(input,PERIOD,FOLLOW_PERIOD_in_objelem_assign2185); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_PERIOD.add(PERIOD113);
 
-            Id114=(Token)match(input,Id,FOLLOW_Id_in_objelem_assign2193); if (state.failed) return retval; 
+            Id114=(Token)match(input,Id,FOLLOW_Id_in_objelem_assign2187); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_Id.add(Id114);
 
 
@@ -3853,9 +3851,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 410:17: -> ^( OBJELEM_ASSIGN Id Id )
+            // 407:17: -> ^( OBJELEM_ASSIGN Id Id )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:410:20: ^( OBJELEM_ASSIGN Id Id )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:407:20: ^( OBJELEM_ASSIGN Id Id )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OBJELEM_ASSIGN, "OBJELEM_ASSIGN"), root_1);
@@ -3897,7 +3895,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "st_val"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:1: st_val : L_val ( NL )? ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr -> ^( VAL ( pattern )* ( objelem_assign )* expr ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:1: st_val : L_val ( NL )? ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr -> ^( VAL ( pattern )* ( objelem_assign )* expr ) ;
     public final babel17Parser.st_val_return st_val() throws RecognitionException {
         babel17Parser.st_val_return retval = new babel17Parser.st_val_return();
         retval.start = input.LT(1);
@@ -3928,13 +3926,13 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_objelem_assign=new RewriteRuleSubtreeStream(adaptor,"rule objelem_assign");
         RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:8: ( L_val ( NL )? ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr -> ^( VAL ( pattern )* ( objelem_assign )* expr ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:10: L_val ( NL )? ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:8: ( L_val ( NL )? ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr -> ^( VAL ( pattern )* ( objelem_assign )* expr ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:10: L_val ( NL )? ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr
             {
-            L_val115=(Token)match(input,L_val,FOLLOW_L_val_in_st_val2212); if (state.failed) return retval; 
+            L_val115=(Token)match(input,L_val,FOLLOW_L_val_in_st_val2206); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_val.add(L_val115);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:16: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:16: ( NL )?
             int alt54=2;
             int LA54_0 = input.LA(1);
 
@@ -3943,9 +3941,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt54) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:16: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:16: NL
                     {
-                    NL116=(Token)match(input,NL,FOLLOW_NL_in_st_val2214); if (state.failed) return retval; 
+                    NL116=(Token)match(input,NL,FOLLOW_NL_in_st_val2208); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL116);
 
 
@@ -3954,7 +3952,7 @@ public class babel17Parser extends Parser {
 
             }
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:20: ( pattern | objelem_assign )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:20: ( pattern | objelem_assign )
             int alt55=2;
             int LA55_0 = input.LA(1);
 
@@ -3987,9 +3985,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt55) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:21: pattern
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:21: pattern
                     {
-                    pushFollow(FOLLOW_pattern_in_st_val2218);
+                    pushFollow(FOLLOW_pattern_in_st_val2212);
                     pattern117=pattern();
 
                     state._fsp--;
@@ -3999,9 +3997,9 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:31: objelem_assign
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:31: objelem_assign
                     {
-                    pushFollow(FOLLOW_objelem_assign_in_st_val2222);
+                    pushFollow(FOLLOW_objelem_assign_in_st_val2216);
                     objelem_assign118=objelem_assign();
 
                     state._fsp--;
@@ -4013,7 +4011,7 @@ public class babel17Parser extends Parser {
 
             }
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:47: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:47: ( NL )?
             int alt56=2;
             int LA56_0 = input.LA(1);
 
@@ -4022,9 +4020,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt56) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:47: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:47: NL
                     {
-                    NL119=(Token)match(input,NL,FOLLOW_NL_in_st_val2225); if (state.failed) return retval; 
+                    NL119=(Token)match(input,NL,FOLLOW_NL_in_st_val2219); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL119);
 
 
@@ -4033,10 +4031,10 @@ public class babel17Parser extends Parser {
 
             }
 
-            char_literal120=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_st_val2228); if (state.failed) return retval; 
+            char_literal120=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_st_val2222); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_ASSIGN.add(char_literal120);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:55: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:55: ( NL )?
             int alt57=2;
             int LA57_0 = input.LA(1);
 
@@ -4045,9 +4043,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt57) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:55: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:55: NL
                     {
-                    NL121=(Token)match(input,NL,FOLLOW_NL_in_st_val2230); if (state.failed) return retval; 
+                    NL121=(Token)match(input,NL,FOLLOW_NL_in_st_val2224); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL121);
 
 
@@ -4056,7 +4054,7 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_expr_in_st_val2233);
+            pushFollow(FOLLOW_expr_in_st_val2227);
             expr122=expr();
 
             state._fsp--;
@@ -4076,20 +4074,20 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 412:64: -> ^( VAL ( pattern )* ( objelem_assign )* expr )
+            // 409:64: -> ^( VAL ( pattern )* ( objelem_assign )* expr )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:67: ^( VAL ( pattern )* ( objelem_assign )* expr )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:67: ^( VAL ( pattern )* ( objelem_assign )* expr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VAL, "VAL"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:73: ( pattern )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:73: ( pattern )*
                 while ( stream_pattern.hasNext() ) {
                     adaptor.addChild(root_1, stream_pattern.nextTree());
 
                 }
                 stream_pattern.reset();
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:82: ( objelem_assign )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:409:82: ( objelem_assign )*
                 while ( stream_objelem_assign.hasNext() ) {
                     adaptor.addChild(root_1, stream_objelem_assign.nextTree());
 
@@ -4131,7 +4129,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "st_def"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:1: st_def : L_def ( NL )? Id ( NL )? ( primitive_pattern ( NL )? )? '=' ( NL )? expr -> ^( DEF Id ( primitive_pattern )? expr ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:1: st_def : L_def ( NL )? Id ( NL )? ( primitive_pattern ( NL )? )? '=' ( NL )? expr -> ^( DEF Id ( primitive_pattern )? expr ) ;
     public final babel17Parser.st_def_return st_def() throws RecognitionException {
         babel17Parser.st_def_return retval = new babel17Parser.st_def_return();
         retval.start = input.LT(1);
@@ -4164,13 +4162,13 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_primitive_pattern=new RewriteRuleSubtreeStream(adaptor,"rule primitive_pattern");
         RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:8: ( L_def ( NL )? Id ( NL )? ( primitive_pattern ( NL )? )? '=' ( NL )? expr -> ^( DEF Id ( primitive_pattern )? expr ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:10: L_def ( NL )? Id ( NL )? ( primitive_pattern ( NL )? )? '=' ( NL )? expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:8: ( L_def ( NL )? Id ( NL )? ( primitive_pattern ( NL )? )? '=' ( NL )? expr -> ^( DEF Id ( primitive_pattern )? expr ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:10: L_def ( NL )? Id ( NL )? ( primitive_pattern ( NL )? )? '=' ( NL )? expr
             {
-            L_def123=(Token)match(input,L_def,FOLLOW_L_def_in_st_def2257); if (state.failed) return retval; 
+            L_def123=(Token)match(input,L_def,FOLLOW_L_def_in_st_def2251); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_def.add(L_def123);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:16: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:16: ( NL )?
             int alt58=2;
             int LA58_0 = input.LA(1);
 
@@ -4179,9 +4177,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt58) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:16: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:16: NL
                     {
-                    NL124=(Token)match(input,NL,FOLLOW_NL_in_st_def2259); if (state.failed) return retval; 
+                    NL124=(Token)match(input,NL,FOLLOW_NL_in_st_def2253); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL124);
 
 
@@ -4190,10 +4188,10 @@ public class babel17Parser extends Parser {
 
             }
 
-            Id125=(Token)match(input,Id,FOLLOW_Id_in_st_def2262); if (state.failed) return retval; 
+            Id125=(Token)match(input,Id,FOLLOW_Id_in_st_def2256); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_Id.add(Id125);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:23: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:23: ( NL )?
             int alt59=2;
             int LA59_0 = input.LA(1);
 
@@ -4202,9 +4200,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt59) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:23: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:23: NL
                     {
-                    NL126=(Token)match(input,NL,FOLLOW_NL_in_st_def2264); if (state.failed) return retval; 
+                    NL126=(Token)match(input,NL,FOLLOW_NL_in_st_def2258); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL126);
 
 
@@ -4213,7 +4211,7 @@ public class babel17Parser extends Parser {
 
             }
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:27: ( primitive_pattern ( NL )? )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:27: ( primitive_pattern ( NL )? )?
             int alt61=2;
             int LA61_0 = input.LA(1);
 
@@ -4222,15 +4220,15 @@ public class babel17Parser extends Parser {
             }
             switch (alt61) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:28: primitive_pattern ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:28: primitive_pattern ( NL )?
                     {
-                    pushFollow(FOLLOW_primitive_pattern_in_st_def2268);
+                    pushFollow(FOLLOW_primitive_pattern_in_st_def2262);
                     primitive_pattern127=primitive_pattern();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_primitive_pattern.add(primitive_pattern127.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:46: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:46: ( NL )?
                     int alt60=2;
                     int LA60_0 = input.LA(1);
 
@@ -4239,9 +4237,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt60) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:46: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:46: NL
                             {
-                            NL128=(Token)match(input,NL,FOLLOW_NL_in_st_def2270); if (state.failed) return retval; 
+                            NL128=(Token)match(input,NL,FOLLOW_NL_in_st_def2264); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL128);
 
 
@@ -4256,10 +4254,10 @@ public class babel17Parser extends Parser {
 
             }
 
-            char_literal129=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_st_def2275); if (state.failed) return retval; 
+            char_literal129=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_st_def2269); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_ASSIGN.add(char_literal129);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:56: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:56: ( NL )?
             int alt62=2;
             int LA62_0 = input.LA(1);
 
@@ -4268,9 +4266,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt62) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:56: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:411:56: NL
                     {
-                    NL130=(Token)match(input,NL,FOLLOW_NL_in_st_def2277); if (state.failed) return retval; 
+                    NL130=(Token)match(input,NL,FOLLOW_NL_in_st_def2271); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL130);
 
 
@@ -4279,7 +4277,7 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_expr_in_st_def2280);
+            pushFollow(FOLLOW_expr_in_st_def2274);
             expr131=expr();
 
             state._fsp--;
@@ -4288,7 +4286,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: Id, expr, primitive_pattern
+            // elements: primitive_pattern, Id, expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4299,15 +4297,15 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 415:5: -> ^( DEF Id ( primitive_pattern )? expr )
+            // 412:5: -> ^( DEF Id ( primitive_pattern )? expr )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:415:8: ^( DEF Id ( primitive_pattern )? expr )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:8: ^( DEF Id ( primitive_pattern )? expr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DEF, "DEF"), root_1);
 
                 adaptor.addChild(root_1, stream_Id.nextNode());
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:415:17: ( primitive_pattern )?
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:412:17: ( primitive_pattern )?
                 if ( stream_primitive_pattern.hasNext() ) {
                     adaptor.addChild(root_1, stream_primitive_pattern.nextTree());
 
@@ -4349,7 +4347,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "st_yield"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:417:1: st_yield : L_yield expr -> ^( YIELD expr ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:1: st_yield : L_yield expr -> ^( YIELD expr ) ;
     public final babel17Parser.st_yield_return st_yield() throws RecognitionException {
         babel17Parser.st_yield_return retval = new babel17Parser.st_yield_return();
         retval.start = input.LT(1);
@@ -4364,13 +4362,13 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_L_yield=new RewriteRuleTokenStream(adaptor,"token L_yield");
         RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:417:9: ( L_yield expr -> ^( YIELD expr ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:417:11: L_yield expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:9: ( L_yield expr -> ^( YIELD expr ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:11: L_yield expr
             {
-            L_yield132=(Token)match(input,L_yield,FOLLOW_L_yield_in_st_yield2309); if (state.failed) return retval; 
+            L_yield132=(Token)match(input,L_yield,FOLLOW_L_yield_in_st_yield2303); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_yield.add(L_yield132);
 
-            pushFollow(FOLLOW_expr_in_st_yield2311);
+            pushFollow(FOLLOW_expr_in_st_yield2305);
             expr133=expr();
 
             state._fsp--;
@@ -4390,9 +4388,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 417:24: -> ^( YIELD expr )
+            // 414:24: -> ^( YIELD expr )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:417:27: ^( YIELD expr )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:414:27: ^( YIELD expr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(YIELD, "YIELD"), root_1);
@@ -4433,7 +4431,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "st_memoize"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:419:1: st_memoize : L_memoize ( memid )+ -> ^( MEMOIZE ( memid )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:416:1: st_memoize : L_memoize ( memid )+ -> ^( MEMOIZE ( memid )* ) ;
     public final babel17Parser.st_memoize_return st_memoize() throws RecognitionException {
         babel17Parser.st_memoize_return retval = new babel17Parser.st_memoize_return();
         retval.start = input.LT(1);
@@ -4448,13 +4446,13 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_L_memoize=new RewriteRuleTokenStream(adaptor,"token L_memoize");
         RewriteRuleSubtreeStream stream_memid=new RewriteRuleSubtreeStream(adaptor,"rule memid");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:420:2: ( L_memoize ( memid )+ -> ^( MEMOIZE ( memid )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:420:4: L_memoize ( memid )+
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:417:2: ( L_memoize ( memid )+ -> ^( MEMOIZE ( memid )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:417:4: L_memoize ( memid )+
             {
-            L_memoize134=(Token)match(input,L_memoize,FOLLOW_L_memoize_in_st_memoize2329); if (state.failed) return retval; 
+            L_memoize134=(Token)match(input,L_memoize,FOLLOW_L_memoize_in_st_memoize2323); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_memoize.add(L_memoize134);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:420:14: ( memid )+
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:417:14: ( memid )+
             int cnt63=0;
             loop63:
             do {
@@ -4468,9 +4466,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt63) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:420:14: memid
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:417:14: memid
             	    {
-            	    pushFollow(FOLLOW_memid_in_st_memoize2331);
+            	    pushFollow(FOLLOW_memid_in_st_memoize2325);
             	    memid135=memid();
 
             	    state._fsp--;
@@ -4504,14 +4502,14 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 421:5: -> ^( MEMOIZE ( memid )* )
+            // 418:5: -> ^( MEMOIZE ( memid )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:421:8: ^( MEMOIZE ( memid )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:418:8: ^( MEMOIZE ( memid )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MEMOIZE, "MEMOIZE"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:421:18: ( memid )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:418:18: ( memid )*
                 while ( stream_memid.hasNext() ) {
                     adaptor.addChild(root_1, stream_memid.nextTree());
 
@@ -4552,7 +4550,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "memid"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:423:1: memid : ( Id -> ^( MEM_STRONG Id ) | '(' Id ')' -> ^( MEM_WEAK Id ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:420:1: memid : ( Id -> ^( MEM_STRONG Id ) | '(' Id ')' -> ^( MEM_WEAK Id ) );
     public final babel17Parser.memid_return memid() throws RecognitionException {
         babel17Parser.memid_return retval = new babel17Parser.memid_return();
         retval.start = input.LT(1);
@@ -4573,7 +4571,7 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_Id=new RewriteRuleTokenStream(adaptor,"token Id");
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:423:7: ( Id -> ^( MEM_STRONG Id ) | '(' Id ')' -> ^( MEM_WEAK Id ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:420:7: ( Id -> ^( MEM_STRONG Id ) | '(' Id ')' -> ^( MEM_WEAK Id ) )
             int alt64=2;
             int LA64_0 = input.LA(1);
 
@@ -4592,9 +4590,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt64) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:423:9: Id
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:420:9: Id
                     {
-                    Id136=(Token)match(input,Id,FOLLOW_Id_in_memid2355); if (state.failed) return retval; 
+                    Id136=(Token)match(input,Id,FOLLOW_Id_in_memid2349); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_Id.add(Id136);
 
 
@@ -4611,9 +4609,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 423:12: -> ^( MEM_STRONG Id )
+                    // 420:12: -> ^( MEM_STRONG Id )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:423:15: ^( MEM_STRONG Id )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:420:15: ^( MEM_STRONG Id )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MEM_STRONG, "MEM_STRONG"), root_1);
@@ -4629,15 +4627,15 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:424:4: '(' Id ')'
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:421:4: '(' Id ')'
                     {
-                    char_literal137=(Token)match(input,ROUND_BRACKET_OPEN,FOLLOW_ROUND_BRACKET_OPEN_in_memid2368); if (state.failed) return retval; 
+                    char_literal137=(Token)match(input,ROUND_BRACKET_OPEN,FOLLOW_ROUND_BRACKET_OPEN_in_memid2362); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ROUND_BRACKET_OPEN.add(char_literal137);
 
-                    Id138=(Token)match(input,Id,FOLLOW_Id_in_memid2370); if (state.failed) return retval; 
+                    Id138=(Token)match(input,Id,FOLLOW_Id_in_memid2364); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_Id.add(Id138);
 
-                    char_literal139=(Token)match(input,ROUND_BRACKET_CLOSE,FOLLOW_ROUND_BRACKET_CLOSE_in_memid2372); if (state.failed) return retval; 
+                    char_literal139=(Token)match(input,ROUND_BRACKET_CLOSE,FOLLOW_ROUND_BRACKET_CLOSE_in_memid2366); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ROUND_BRACKET_CLOSE.add(char_literal139);
 
 
@@ -4654,9 +4652,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 424:15: -> ^( MEM_WEAK Id )
+                    // 421:15: -> ^( MEM_WEAK Id )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:424:18: ^( MEM_WEAK Id )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:421:18: ^( MEM_WEAK Id )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MEM_WEAK, "MEM_WEAK"), root_1);
@@ -4699,7 +4697,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "expr_or_assign"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:427:1: expr_or_assign : ( ( ( pattern | objelem_assign ) ( NL )? '=' )=> ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr -> ^( ASSIGN ( pattern )* ( objelem_assign )* expr ) | expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:424:1: expr_or_assign : ( ( ( pattern | objelem_assign ) ( NL )? '=' )=> ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr -> ^( ASSIGN ( pattern )* ( objelem_assign )* expr ) | expr );
     public final babel17Parser.expr_or_assign_return expr_or_assign() throws RecognitionException {
         babel17Parser.expr_or_assign_return retval = new babel17Parser.expr_or_assign_return();
         retval.start = input.LT(1);
@@ -4727,14 +4725,14 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_objelem_assign=new RewriteRuleSubtreeStream(adaptor,"rule objelem_assign");
         RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:2: ( ( ( pattern | objelem_assign ) ( NL )? '=' )=> ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr -> ^( ASSIGN ( pattern )* ( objelem_assign )* expr ) | expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:2: ( ( ( pattern | objelem_assign ) ( NL )? '=' )=> ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr -> ^( ASSIGN ( pattern )* ( objelem_assign )* expr ) | expr )
             int alt68=2;
             alt68 = dfa68.predict(input);
             switch (alt68) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:4: ( ( pattern | objelem_assign ) ( NL )? '=' )=> ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:4: ( ( pattern | objelem_assign ) ( NL )? '=' )=> ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr
                     {
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:44: ( pattern | objelem_assign )
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:44: ( pattern | objelem_assign )
                     int alt65=2;
                     int LA65_0 = input.LA(1);
 
@@ -4767,9 +4765,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt65) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:45: pattern
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:45: pattern
                             {
-                            pushFollow(FOLLOW_pattern_in_expr_or_assign2412);
+                            pushFollow(FOLLOW_pattern_in_expr_or_assign2406);
                             pattern140=pattern();
 
                             state._fsp--;
@@ -4779,9 +4777,9 @@ public class babel17Parser extends Parser {
                             }
                             break;
                         case 2 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:55: objelem_assign
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:55: objelem_assign
                             {
-                            pushFollow(FOLLOW_objelem_assign_in_expr_or_assign2416);
+                            pushFollow(FOLLOW_objelem_assign_in_expr_or_assign2410);
                             objelem_assign141=objelem_assign();
 
                             state._fsp--;
@@ -4793,7 +4791,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:71: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:71: ( NL )?
                     int alt66=2;
                     int LA66_0 = input.LA(1);
 
@@ -4802,9 +4800,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt66) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:71: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:71: NL
                             {
-                            NL142=(Token)match(input,NL,FOLLOW_NL_in_expr_or_assign2419); if (state.failed) return retval; 
+                            NL142=(Token)match(input,NL,FOLLOW_NL_in_expr_or_assign2413); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL142);
 
 
@@ -4813,10 +4811,10 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    char_literal143=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_expr_or_assign2422); if (state.failed) return retval; 
+                    char_literal143=(Token)match(input,ASSIGN,FOLLOW_ASSIGN_in_expr_or_assign2416); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ASSIGN.add(char_literal143);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:79: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:79: ( NL )?
                     int alt67=2;
                     int LA67_0 = input.LA(1);
 
@@ -4825,9 +4823,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt67) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:79: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:79: NL
                             {
-                            NL144=(Token)match(input,NL,FOLLOW_NL_in_expr_or_assign2424); if (state.failed) return retval; 
+                            NL144=(Token)match(input,NL,FOLLOW_NL_in_expr_or_assign2418); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL144);
 
 
@@ -4836,7 +4834,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_expr_in_expr_or_assign2427);
+                    pushFollow(FOLLOW_expr_in_expr_or_assign2421);
                     expr145=expr();
 
                     state._fsp--;
@@ -4845,7 +4843,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expr, pattern, objelem_assign
+                    // elements: expr, objelem_assign, pattern
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -4856,20 +4854,20 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 428:88: -> ^( ASSIGN ( pattern )* ( objelem_assign )* expr )
+                    // 425:88: -> ^( ASSIGN ( pattern )* ( objelem_assign )* expr )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:91: ^( ASSIGN ( pattern )* ( objelem_assign )* expr )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:91: ^( ASSIGN ( pattern )* ( objelem_assign )* expr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ASSIGN, "ASSIGN"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:100: ( pattern )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:100: ( pattern )*
                         while ( stream_pattern.hasNext() ) {
                             adaptor.addChild(root_1, stream_pattern.nextTree());
 
                         }
                         stream_pattern.reset();
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:109: ( objelem_assign )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:109: ( objelem_assign )*
                         while ( stream_objelem_assign.hasNext() ) {
                             adaptor.addChild(root_1, stream_objelem_assign.nextTree());
 
@@ -4886,11 +4884,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:429:4: expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:426:4: expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_expr_in_expr_or_assign2446);
+                    pushFollow(FOLLOW_expr_in_expr_or_assign2440);
                     expr146=expr();
 
                     state._fsp--;
@@ -4927,7 +4925,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:431:1: expr : ( lop_expr | obj_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:1: expr : ( lop_expr | obj_expr );
     public final babel17Parser.expr_return expr() throws RecognitionException {
         babel17Parser.expr_return retval = new babel17Parser.expr_return();
         retval.start = input.LT(1);
@@ -4941,11 +4939,11 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:432:2: ( lop_expr | obj_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:429:2: ( lop_expr | obj_expr )
             int alt69=2;
             int LA69_0 = input.LA(1);
 
-            if ( (LA69_0==L_begin||(LA69_0>=L_with && LA69_0<=L_if)||(LA69_0>=L_while && LA69_0<=L_for)||LA69_0==L_match||LA69_0==L_exception||(LA69_0>=A_infinity && LA69_0<=L_lazy)||(LA69_0>=L_true && LA69_0<=L_nil)||LA69_0==MINUS||LA69_0==A_NOT||LA69_0==U_NOT||(LA69_0>=A_ELLIPSIS && LA69_0<=U_ELLIPSIS)||LA69_0==TILDE||(LA69_0>=Constr && LA69_0<=Num)||(LA69_0>=String && LA69_0<=ROUND_BRACKET_OPEN)||LA69_0==SQUARE_BRACKET_OPEN||LA69_0==CURLY_BRACKET_OPEN||LA69_0==UNDERSCORE) ) {
+            if ( (LA69_0==L_begin||(LA69_0>=L_with && LA69_0<=L_if)||(LA69_0>=L_while && LA69_0<=L_for)||LA69_0==L_match||LA69_0==L_exception||(LA69_0>=A_infinity && LA69_0<=L_lazy)||(LA69_0>=L_true && LA69_0<=L_nil)||LA69_0==MINUS||LA69_0==A_NOT||LA69_0==U_NOT||(LA69_0>=A_ELLIPSIS && LA69_0<=U_ELLIPSIS)||LA69_0==L_force||(LA69_0>=Constr && LA69_0<=Num)||(LA69_0>=String && LA69_0<=ROUND_BRACKET_OPEN)||LA69_0==SQUARE_BRACKET_OPEN||LA69_0==CURLY_BRACKET_OPEN||LA69_0==UNDERSCORE) ) {
                 alt69=1;
             }
             else if ( (LA69_0==L_obj) ) {
@@ -4960,11 +4958,11 @@ public class babel17Parser extends Parser {
             }
             switch (alt69) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:432:4: lop_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:429:4: lop_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_lop_expr_in_expr2457);
+                    pushFollow(FOLLOW_lop_expr_in_expr2451);
                     lop_expr147=lop_expr();
 
                     state._fsp--;
@@ -4974,11 +4972,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:433:4: obj_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:430:4: obj_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_obj_expr_in_expr2462);
+                    pushFollow(FOLLOW_obj_expr_in_expr2456);
                     obj_expr148=obj_expr();
 
                     state._fsp--;
@@ -5015,7 +5013,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "control_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:435:1: control_expr : ( if_expr | while_do_expr | match_expr | for_expr | begin_end );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:432:1: control_expr : ( if_expr | while_do_expr | match_expr | for_expr | begin_end );
     public final babel17Parser.control_expr_return control_expr() throws RecognitionException {
         babel17Parser.control_expr_return retval = new babel17Parser.control_expr_return();
         retval.start = input.LT(1);
@@ -5035,7 +5033,7 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:436:2: ( if_expr | while_do_expr | match_expr | for_expr | begin_end )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:433:2: ( if_expr | while_do_expr | match_expr | for_expr | begin_end )
             int alt70=5;
             switch ( input.LA(1) ) {
             case L_if:
@@ -5073,11 +5071,11 @@ public class babel17Parser extends Parser {
 
             switch (alt70) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:436:4: if_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:433:4: if_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_if_expr_in_control_expr2472);
+                    pushFollow(FOLLOW_if_expr_in_control_expr2466);
                     if_expr149=if_expr();
 
                     state._fsp--;
@@ -5087,11 +5085,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:437:4: while_do_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:434:4: while_do_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_while_do_expr_in_control_expr2477);
+                    pushFollow(FOLLOW_while_do_expr_in_control_expr2471);
                     while_do_expr150=while_do_expr();
 
                     state._fsp--;
@@ -5101,11 +5099,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:438:4: match_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:435:4: match_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_match_expr_in_control_expr2482);
+                    pushFollow(FOLLOW_match_expr_in_control_expr2476);
                     match_expr151=match_expr();
 
                     state._fsp--;
@@ -5115,11 +5113,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:439:4: for_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:436:4: for_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_for_expr_in_control_expr2487);
+                    pushFollow(FOLLOW_for_expr_in_control_expr2481);
                     for_expr152=for_expr();
 
                     state._fsp--;
@@ -5129,11 +5127,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:440:4: begin_end
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:437:4: begin_end
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_begin_end_in_control_expr2492);
+                    pushFollow(FOLLOW_begin_end_in_control_expr2486);
                     begin_end153=begin_end();
 
                     state._fsp--;
@@ -5170,7 +5168,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "with_control_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:442:1: with_control_expr : ( control_expr | L_with ( NL )? protected_expr ( NL )? COLON ( NL )? control_expr -> ^( WITH protected_expr control_expr ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:439:1: with_control_expr : ( control_expr | L_with ( NL )? protected_expr ( NL )? COLON ( NL )? control_expr -> ^( WITH protected_expr control_expr ) );
     public final babel17Parser.with_control_expr_return with_control_expr() throws RecognitionException {
         babel17Parser.with_control_expr_return retval = new babel17Parser.with_control_expr_return();
         retval.start = input.LT(1);
@@ -5200,7 +5198,7 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_control_expr=new RewriteRuleSubtreeStream(adaptor,"rule control_expr");
         RewriteRuleSubtreeStream stream_protected_expr=new RewriteRuleSubtreeStream(adaptor,"rule protected_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:443:2: ( control_expr | L_with ( NL )? protected_expr ( NL )? COLON ( NL )? control_expr -> ^( WITH protected_expr control_expr ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:440:2: ( control_expr | L_with ( NL )? protected_expr ( NL )? COLON ( NL )? control_expr -> ^( WITH protected_expr control_expr ) )
             int alt74=2;
             int LA74_0 = input.LA(1);
 
@@ -5219,11 +5217,11 @@ public class babel17Parser extends Parser {
             }
             switch (alt74) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:443:4: control_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:440:4: control_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_control_expr_in_with_control_expr2502);
+                    pushFollow(FOLLOW_control_expr_in_with_control_expr2496);
                     control_expr154=control_expr();
 
                     state._fsp--;
@@ -5233,12 +5231,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:444:4: L_with ( NL )? protected_expr ( NL )? COLON ( NL )? control_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:441:4: L_with ( NL )? protected_expr ( NL )? COLON ( NL )? control_expr
                     {
-                    L_with155=(Token)match(input,L_with,FOLLOW_L_with_in_with_control_expr2507); if (state.failed) return retval; 
+                    L_with155=(Token)match(input,L_with,FOLLOW_L_with_in_with_control_expr2501); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_L_with.add(L_with155);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:444:11: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:441:11: ( NL )?
                     int alt71=2;
                     int LA71_0 = input.LA(1);
 
@@ -5247,9 +5245,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt71) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:444:11: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:441:11: NL
                             {
-                            NL156=(Token)match(input,NL,FOLLOW_NL_in_with_control_expr2509); if (state.failed) return retval; 
+                            NL156=(Token)match(input,NL,FOLLOW_NL_in_with_control_expr2503); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL156);
 
 
@@ -5258,13 +5256,13 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_protected_expr_in_with_control_expr2512);
+                    pushFollow(FOLLOW_protected_expr_in_with_control_expr2506);
                     protected_expr157=protected_expr();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr157.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:444:30: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:441:30: ( NL )?
                     int alt72=2;
                     int LA72_0 = input.LA(1);
 
@@ -5273,9 +5271,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt72) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:444:30: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:441:30: NL
                             {
-                            NL158=(Token)match(input,NL,FOLLOW_NL_in_with_control_expr2514); if (state.failed) return retval; 
+                            NL158=(Token)match(input,NL,FOLLOW_NL_in_with_control_expr2508); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL158);
 
 
@@ -5284,10 +5282,10 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    COLON159=(Token)match(input,COLON,FOLLOW_COLON_in_with_control_expr2517); if (state.failed) return retval; 
+                    COLON159=(Token)match(input,COLON,FOLLOW_COLON_in_with_control_expr2511); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_COLON.add(COLON159);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:444:40: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:441:40: ( NL )?
                     int alt73=2;
                     int LA73_0 = input.LA(1);
 
@@ -5296,9 +5294,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt73) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:444:40: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:441:40: NL
                             {
-                            NL160=(Token)match(input,NL,FOLLOW_NL_in_with_control_expr2519); if (state.failed) return retval; 
+                            NL160=(Token)match(input,NL,FOLLOW_NL_in_with_control_expr2513); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL160);
 
 
@@ -5307,7 +5305,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_control_expr_in_with_control_expr2522);
+                    pushFollow(FOLLOW_control_expr_in_with_control_expr2516);
                     control_expr161=control_expr();
 
                     state._fsp--;
@@ -5316,7 +5314,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: control_expr, protected_expr
+                    // elements: protected_expr, control_expr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -5327,9 +5325,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 444:57: -> ^( WITH protected_expr control_expr )
+                    // 441:57: -> ^( WITH protected_expr control_expr )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:444:60: ^( WITH protected_expr control_expr )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:441:60: ^( WITH protected_expr control_expr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(WITH, "WITH"), root_1);
@@ -5373,7 +5371,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "protected_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:447:1: protected_expr : ( p_lop_expr | obj_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:444:1: protected_expr : ( p_lop_expr | obj_expr );
     public final babel17Parser.protected_expr_return protected_expr() throws RecognitionException {
         babel17Parser.protected_expr_return retval = new babel17Parser.protected_expr_return();
         retval.start = input.LT(1);
@@ -5387,11 +5385,11 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:448:2: ( p_lop_expr | obj_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:445:2: ( p_lop_expr | obj_expr )
             int alt75=2;
             int LA75_0 = input.LA(1);
 
-            if ( (LA75_0==L_begin||(LA75_0>=L_with && LA75_0<=L_if)||(LA75_0>=L_while && LA75_0<=L_for)||(LA75_0>=L_match && LA75_0<=L_case)||LA75_0==L_exception||(LA75_0>=A_infinity && LA75_0<=L_lazy)||(LA75_0>=L_true && LA75_0<=L_nil)||LA75_0==MINUS||LA75_0==A_NOT||LA75_0==U_NOT||(LA75_0>=A_ELLIPSIS && LA75_0<=U_ELLIPSIS)||LA75_0==TILDE||(LA75_0>=Constr && LA75_0<=Num)||(LA75_0>=String && LA75_0<=ROUND_BRACKET_OPEN)||LA75_0==SQUARE_BRACKET_OPEN||LA75_0==CURLY_BRACKET_OPEN||LA75_0==UNDERSCORE) ) {
+            if ( (LA75_0==L_begin||(LA75_0>=L_with && LA75_0<=L_if)||(LA75_0>=L_while && LA75_0<=L_for)||(LA75_0>=L_match && LA75_0<=L_case)||LA75_0==L_exception||(LA75_0>=A_infinity && LA75_0<=L_lazy)||(LA75_0>=L_true && LA75_0<=L_nil)||LA75_0==MINUS||LA75_0==A_NOT||LA75_0==U_NOT||(LA75_0>=A_ELLIPSIS && LA75_0<=U_ELLIPSIS)||LA75_0==L_force||(LA75_0>=Constr && LA75_0<=Num)||(LA75_0>=String && LA75_0<=ROUND_BRACKET_OPEN)||LA75_0==SQUARE_BRACKET_OPEN||LA75_0==CURLY_BRACKET_OPEN||LA75_0==UNDERSCORE) ) {
                 alt75=1;
             }
             else if ( (LA75_0==L_obj) ) {
@@ -5406,11 +5404,11 @@ public class babel17Parser extends Parser {
             }
             switch (alt75) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:448:4: p_lop_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:445:4: p_lop_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_p_lop_expr_in_protected_expr2543);
+                    pushFollow(FOLLOW_p_lop_expr_in_protected_expr2537);
                     p_lop_expr162=p_lop_expr();
 
                     state._fsp--;
@@ -5420,11 +5418,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:449:4: obj_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:446:4: obj_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_obj_expr_in_protected_expr2548);
+                    pushFollow(FOLLOW_obj_expr_in_protected_expr2542);
                     obj_expr163=obj_expr();
 
                     state._fsp--;
@@ -5461,7 +5459,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "begin_end"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:452:1: begin_end : L_begin block L_end -> ^( BEGIN block ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:449:1: begin_end : L_begin block L_end -> ^( BEGIN block ) ;
     public final babel17Parser.begin_end_return begin_end() throws RecognitionException {
         babel17Parser.begin_end_return retval = new babel17Parser.begin_end_return();
         retval.start = input.LT(1);
@@ -5479,19 +5477,19 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_L_begin=new RewriteRuleTokenStream(adaptor,"token L_begin");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:453:2: ( L_begin block L_end -> ^( BEGIN block ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:453:4: L_begin block L_end
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:450:2: ( L_begin block L_end -> ^( BEGIN block ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:450:4: L_begin block L_end
             {
-            L_begin164=(Token)match(input,L_begin,FOLLOW_L_begin_in_begin_end2560); if (state.failed) return retval; 
+            L_begin164=(Token)match(input,L_begin,FOLLOW_L_begin_in_begin_end2554); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_begin.add(L_begin164);
 
-            pushFollow(FOLLOW_block_in_begin_end2562);
+            pushFollow(FOLLOW_block_in_begin_end2556);
             block165=block();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_block.add(block165.getTree());
-            L_end166=(Token)match(input,L_end,FOLLOW_L_end_in_begin_end2564); if (state.failed) return retval; 
+            L_end166=(Token)match(input,L_end,FOLLOW_L_end_in_begin_end2558); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_end.add(L_end166);
 
 
@@ -5508,9 +5506,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 453:24: -> ^( BEGIN block )
+            // 450:24: -> ^( BEGIN block )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:453:27: ^( BEGIN block )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:450:27: ^( BEGIN block )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BEGIN, "BEGIN"), root_1);
@@ -5551,7 +5549,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "parents"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:456:1: parents : ( '+' primitive_expr -> ^( PARENTS_PLUS primitive_expr ) | '*' primitive_expr -> ^( PARENTS_MUL primitive_expr ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:453:1: parents : ( '+' primitive_expr -> ^( PARENTS_PLUS primitive_expr ) | '*' primitive_expr -> ^( PARENTS_MUL primitive_expr ) );
     public final babel17Parser.parents_return parents() throws RecognitionException {
         babel17Parser.parents_return retval = new babel17Parser.parents_return();
         retval.start = input.LT(1);
@@ -5571,7 +5569,7 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_TIMES=new RewriteRuleTokenStream(adaptor,"token TIMES");
         RewriteRuleSubtreeStream stream_primitive_expr=new RewriteRuleSubtreeStream(adaptor,"rule primitive_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:456:9: ( '+' primitive_expr -> ^( PARENTS_PLUS primitive_expr ) | '*' primitive_expr -> ^( PARENTS_MUL primitive_expr ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:453:9: ( '+' primitive_expr -> ^( PARENTS_PLUS primitive_expr ) | '*' primitive_expr -> ^( PARENTS_MUL primitive_expr ) )
             int alt76=2;
             int LA76_0 = input.LA(1);
 
@@ -5590,12 +5588,12 @@ public class babel17Parser extends Parser {
             }
             switch (alt76) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:456:11: '+' primitive_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:453:11: '+' primitive_expr
                     {
-                    char_literal167=(Token)match(input,PLUS,FOLLOW_PLUS_in_parents2582); if (state.failed) return retval; 
+                    char_literal167=(Token)match(input,PLUS,FOLLOW_PLUS_in_parents2576); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_PLUS.add(char_literal167);
 
-                    pushFollow(FOLLOW_primitive_expr_in_parents2584);
+                    pushFollow(FOLLOW_primitive_expr_in_parents2578);
                     primitive_expr168=primitive_expr();
 
                     state._fsp--;
@@ -5615,9 +5613,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 456:30: -> ^( PARENTS_PLUS primitive_expr )
+                    // 453:30: -> ^( PARENTS_PLUS primitive_expr )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:456:33: ^( PARENTS_PLUS primitive_expr )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:453:33: ^( PARENTS_PLUS primitive_expr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(PARENTS_PLUS, "PARENTS_PLUS"), root_1);
@@ -5633,12 +5631,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:4: '*' primitive_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:454:4: '*' primitive_expr
                     {
-                    char_literal169=(Token)match(input,TIMES,FOLLOW_TIMES_in_parents2597); if (state.failed) return retval; 
+                    char_literal169=(Token)match(input,TIMES,FOLLOW_TIMES_in_parents2591); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_TIMES.add(char_literal169);
 
-                    pushFollow(FOLLOW_primitive_expr_in_parents2599);
+                    pushFollow(FOLLOW_primitive_expr_in_parents2593);
                     primitive_expr170=primitive_expr();
 
                     state._fsp--;
@@ -5658,9 +5656,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 457:23: -> ^( PARENTS_MUL primitive_expr )
+                    // 454:23: -> ^( PARENTS_MUL primitive_expr )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:26: ^( PARENTS_MUL primitive_expr )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:454:26: ^( PARENTS_MUL primitive_expr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(PARENTS_MUL, "PARENTS_MUL"), root_1);
@@ -5703,7 +5701,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "obj_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:1: obj_expr : ( ( L_obj ( NL )? parents )=> L_obj ( NL )? parents block L_end -> ^( OBJ block parents ) | L_obj block L_end -> ^( OBJ block ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:1: obj_expr : ( ( L_obj ( NL )? parents )=> L_obj ( NL )? parents block L_end -> ^( OBJ block parents ) | L_obj block L_end -> ^( OBJ block ) );
     public final babel17Parser.obj_expr_return obj_expr() throws RecognitionException {
         babel17Parser.obj_expr_return retval = new babel17Parser.obj_expr_return();
         retval.start = input.LT(1);
@@ -5733,7 +5731,7 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_parents=new RewriteRuleSubtreeStream(adaptor,"rule parents");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:9: ( ( L_obj ( NL )? parents )=> L_obj ( NL )? parents block L_end -> ^( OBJ block parents ) | L_obj block L_end -> ^( OBJ block ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:9: ( ( L_obj ( NL )? parents )=> L_obj ( NL )? parents block L_end -> ^( OBJ block parents ) | L_obj block L_end -> ^( OBJ block ) )
             int alt78=2;
             int LA78_0 = input.LA(1);
 
@@ -5749,7 +5747,7 @@ public class babel17Parser extends Parser {
                     else if ( (LA78_2==TIMES) && (synpred4_babel17())) {
                         alt78=1;
                     }
-                    else if ( ((LA78_2>=L_begin && LA78_2<=L_if)||(LA78_2>=L_while && LA78_2<=L_for)||(LA78_2>=L_yield && LA78_2<=L_match)||(LA78_2>=L_val && LA78_2<=L_def)||LA78_2==L_exception||(LA78_2>=A_infinity && LA78_2<=L_nil)||LA78_2==SC||LA78_2==MINUS||LA78_2==A_NOT||LA78_2==U_NOT||(LA78_2>=A_ELLIPSIS && LA78_2<=U_ELLIPSIS)||LA78_2==TILDE||(LA78_2>=NL && LA78_2<=Num)||(LA78_2>=String && LA78_2<=ROUND_BRACKET_OPEN)||LA78_2==SQUARE_BRACKET_OPEN||LA78_2==CURLY_BRACKET_OPEN||LA78_2==UNDERSCORE) ) {
+                    else if ( ((LA78_2>=L_begin && LA78_2<=L_if)||(LA78_2>=L_while && LA78_2<=L_for)||(LA78_2>=L_yield && LA78_2<=L_match)||(LA78_2>=L_val && LA78_2<=L_def)||LA78_2==L_exception||(LA78_2>=A_infinity && LA78_2<=L_nil)||LA78_2==SC||LA78_2==MINUS||LA78_2==A_NOT||LA78_2==U_NOT||(LA78_2>=A_ELLIPSIS && LA78_2<=U_ELLIPSIS)||LA78_2==L_force||(LA78_2>=NL && LA78_2<=Num)||(LA78_2>=String && LA78_2<=ROUND_BRACKET_OPEN)||LA78_2==SQUARE_BRACKET_OPEN||LA78_2==CURLY_BRACKET_OPEN||LA78_2==UNDERSCORE) ) {
                         alt78=2;
                     }
                     else {
@@ -5760,7 +5758,7 @@ public class babel17Parser extends Parser {
                         throw nvae;
                     }
                 }
-                else if ( ((LA78_1>=L_begin && LA78_1<=L_if)||(LA78_1>=L_while && LA78_1<=L_for)||(LA78_1>=L_yield && LA78_1<=L_match)||(LA78_1>=L_val && LA78_1<=L_def)||LA78_1==L_exception||(LA78_1>=A_infinity && LA78_1<=L_nil)||LA78_1==SC||LA78_1==MINUS||LA78_1==A_NOT||LA78_1==U_NOT||(LA78_1>=A_ELLIPSIS && LA78_1<=U_ELLIPSIS)||LA78_1==TILDE||(LA78_1>=Constr && LA78_1<=Num)||(LA78_1>=String && LA78_1<=ROUND_BRACKET_OPEN)||LA78_1==SQUARE_BRACKET_OPEN||LA78_1==CURLY_BRACKET_OPEN||LA78_1==UNDERSCORE) ) {
+                else if ( ((LA78_1>=L_begin && LA78_1<=L_if)||(LA78_1>=L_while && LA78_1<=L_for)||(LA78_1>=L_yield && LA78_1<=L_match)||(LA78_1>=L_val && LA78_1<=L_def)||LA78_1==L_exception||(LA78_1>=A_infinity && LA78_1<=L_nil)||LA78_1==SC||LA78_1==MINUS||LA78_1==A_NOT||LA78_1==U_NOT||(LA78_1>=A_ELLIPSIS && LA78_1<=U_ELLIPSIS)||LA78_1==L_force||(LA78_1>=Constr && LA78_1<=Num)||(LA78_1>=String && LA78_1<=ROUND_BRACKET_OPEN)||LA78_1==SQUARE_BRACKET_OPEN||LA78_1==CURLY_BRACKET_OPEN||LA78_1==UNDERSCORE) ) {
                     alt78=2;
                 }
                 else if ( (LA78_1==PLUS) && (synpred4_babel17())) {
@@ -5786,12 +5784,12 @@ public class babel17Parser extends Parser {
             }
             switch (alt78) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:11: ( L_obj ( NL )? parents )=> L_obj ( NL )? parents block L_end
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:11: ( L_obj ( NL )? parents )=> L_obj ( NL )? parents block L_end
                     {
-                    L_obj171=(Token)match(input,L_obj,FOLLOW_L_obj_in_obj_expr2627); if (state.failed) return retval; 
+                    L_obj171=(Token)match(input,L_obj,FOLLOW_L_obj_in_obj_expr2621); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_L_obj.add(L_obj171);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:40: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:40: ( NL )?
                     int alt77=2;
                     int LA77_0 = input.LA(1);
 
@@ -5800,9 +5798,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt77) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:40: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:40: NL
                             {
-                            NL172=(Token)match(input,NL,FOLLOW_NL_in_obj_expr2629); if (state.failed) return retval; 
+                            NL172=(Token)match(input,NL,FOLLOW_NL_in_obj_expr2623); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL172);
 
 
@@ -5811,19 +5809,19 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_parents_in_obj_expr2632);
+                    pushFollow(FOLLOW_parents_in_obj_expr2626);
                     parents173=parents();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_parents.add(parents173.getTree());
-                    pushFollow(FOLLOW_block_in_obj_expr2634);
+                    pushFollow(FOLLOW_block_in_obj_expr2628);
                     block174=block();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_block.add(block174.getTree());
-                    L_end175=(Token)match(input,L_end,FOLLOW_L_end_in_obj_expr2636); if (state.failed) return retval; 
+                    L_end175=(Token)match(input,L_end,FOLLOW_L_end_in_obj_expr2630); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_L_end.add(L_end175);
 
 
@@ -5840,9 +5838,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 460:64: -> ^( OBJ block parents )
+                    // 457:64: -> ^( OBJ block parents )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:67: ^( OBJ block parents )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:67: ^( OBJ block parents )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OBJ, "OBJ"), root_1);
@@ -5859,18 +5857,18 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:461:17: L_obj block L_end
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:458:17: L_obj block L_end
                     {
-                    L_obj176=(Token)match(input,L_obj,FOLLOW_L_obj_in_obj_expr2664); if (state.failed) return retval; 
+                    L_obj176=(Token)match(input,L_obj,FOLLOW_L_obj_in_obj_expr2658); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_L_obj.add(L_obj176);
 
-                    pushFollow(FOLLOW_block_in_obj_expr2666);
+                    pushFollow(FOLLOW_block_in_obj_expr2660);
                     block177=block();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_block.add(block177.getTree());
-                    L_end178=(Token)match(input,L_end,FOLLOW_L_end_in_obj_expr2668); if (state.failed) return retval; 
+                    L_end178=(Token)match(input,L_end,FOLLOW_L_end_in_obj_expr2662); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_L_end.add(L_end178);
 
 
@@ -5887,9 +5885,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 461:35: -> ^( OBJ block )
+                    // 458:35: -> ^( OBJ block )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:461:38: ^( OBJ block )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:458:38: ^( OBJ block )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OBJ, "OBJ"), root_1);
@@ -5932,7 +5930,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "lop_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:463:1: lop_expr : ( ( lambda_expr )=> lambda_expr | op_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:1: lop_expr : ( ( lambda_expr )=> lambda_expr | op_expr );
     public final babel17Parser.lop_expr_return lop_expr() throws RecognitionException {
         babel17Parser.lop_expr_return retval = new babel17Parser.lop_expr_return();
         retval.start = input.LT(1);
@@ -5946,16 +5944,16 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:464:2: ( ( lambda_expr )=> lambda_expr | op_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:461:2: ( ( lambda_expr )=> lambda_expr | op_expr )
             int alt79=2;
             alt79 = dfa79.predict(input);
             switch (alt79) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:464:4: ( lambda_expr )=> lambda_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:461:4: ( lambda_expr )=> lambda_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_lambda_expr_in_lop_expr2696);
+                    pushFollow(FOLLOW_lambda_expr_in_lop_expr2690);
                     lambda_expr179=lambda_expr();
 
                     state._fsp--;
@@ -5965,11 +5963,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:465:4: op_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:462:4: op_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_op_expr_in_lop_expr2701);
+                    pushFollow(FOLLOW_op_expr_in_lop_expr2695);
                     op_expr180=op_expr();
 
                     state._fsp--;
@@ -6006,7 +6004,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_lop_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:467:1: p_lop_expr : ( ( protected_lambda_expr )=> protected_lambda_expr | p_op_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:464:1: p_lop_expr : ( ( protected_lambda_expr )=> protected_lambda_expr | p_op_expr );
     public final babel17Parser.p_lop_expr_return p_lop_expr() throws RecognitionException {
         babel17Parser.p_lop_expr_return retval = new babel17Parser.p_lop_expr_return();
         retval.start = input.LT(1);
@@ -6020,16 +6018,16 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:2: ( ( protected_lambda_expr )=> protected_lambda_expr | p_op_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:465:2: ( ( protected_lambda_expr )=> protected_lambda_expr | p_op_expr )
             int alt80=2;
             alt80 = dfa80.predict(input);
             switch (alt80) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:4: ( protected_lambda_expr )=> protected_lambda_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:465:4: ( protected_lambda_expr )=> protected_lambda_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_protected_lambda_expr_in_p_lop_expr2717);
+                    pushFollow(FOLLOW_protected_lambda_expr_in_p_lop_expr2711);
                     protected_lambda_expr181=protected_lambda_expr();
 
                     state._fsp--;
@@ -6039,11 +6037,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:469:4: p_op_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:466:4: p_op_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_p_op_expr_in_p_lop_expr2722);
+                    pushFollow(FOLLOW_p_op_expr_in_p_lop_expr2716);
                     p_op_expr182=p_op_expr();
 
                     state._fsp--;
@@ -6080,7 +6078,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "if_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:471:1: if_expr : L_if ( NL )? protected_expr ( NL )? L_then block ( L_elseif ( NL )? protected_expr ( NL )? L_then block )* ( L_else block )? L_end -> ^( IF ( protected_expr )* ( block )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:1: if_expr : L_if ( NL )? protected_expr ( NL )? L_then block ( L_elseif ( NL )? protected_expr ( NL )? L_then block )* ( L_else block )? L_end -> ^( IF ( protected_expr )* ( block )* ) ;
     public final babel17Parser.if_expr_return if_expr() throws RecognitionException {
         babel17Parser.if_expr_return retval = new babel17Parser.if_expr_return();
         retval.start = input.LT(1);
@@ -6127,13 +6125,13 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_protected_expr=new RewriteRuleSubtreeStream(adaptor,"rule protected_expr");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:471:9: ( L_if ( NL )? protected_expr ( NL )? L_then block ( L_elseif ( NL )? protected_expr ( NL )? L_then block )* ( L_else block )? L_end -> ^( IF ( protected_expr )* ( block )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:471:11: L_if ( NL )? protected_expr ( NL )? L_then block ( L_elseif ( NL )? protected_expr ( NL )? L_then block )* ( L_else block )? L_end
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:9: ( L_if ( NL )? protected_expr ( NL )? L_then block ( L_elseif ( NL )? protected_expr ( NL )? L_then block )* ( L_else block )? L_end -> ^( IF ( protected_expr )* ( block )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:11: L_if ( NL )? protected_expr ( NL )? L_then block ( L_elseif ( NL )? protected_expr ( NL )? L_then block )* ( L_else block )? L_end
             {
-            L_if183=(Token)match(input,L_if,FOLLOW_L_if_in_if_expr2733); if (state.failed) return retval; 
+            L_if183=(Token)match(input,L_if,FOLLOW_L_if_in_if_expr2727); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_if.add(L_if183);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:471:16: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:16: ( NL )?
             int alt81=2;
             int LA81_0 = input.LA(1);
 
@@ -6142,9 +6140,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt81) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:471:16: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:16: NL
                     {
-                    NL184=(Token)match(input,NL,FOLLOW_NL_in_if_expr2735); if (state.failed) return retval; 
+                    NL184=(Token)match(input,NL,FOLLOW_NL_in_if_expr2729); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL184);
 
 
@@ -6153,13 +6151,13 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_protected_expr_in_if_expr2738);
+            pushFollow(FOLLOW_protected_expr_in_if_expr2732);
             protected_expr185=protected_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr185.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:471:35: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:35: ( NL )?
             int alt82=2;
             int LA82_0 = input.LA(1);
 
@@ -6168,9 +6166,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt82) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:471:35: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:35: NL
                     {
-                    NL186=(Token)match(input,NL,FOLLOW_NL_in_if_expr2740); if (state.failed) return retval; 
+                    NL186=(Token)match(input,NL,FOLLOW_NL_in_if_expr2734); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL186);
 
 
@@ -6179,16 +6177,16 @@ public class babel17Parser extends Parser {
 
             }
 
-            L_then187=(Token)match(input,L_then,FOLLOW_L_then_in_if_expr2743); if (state.failed) return retval; 
+            L_then187=(Token)match(input,L_then,FOLLOW_L_then_in_if_expr2737); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_then.add(L_then187);
 
-            pushFollow(FOLLOW_block_in_if_expr2745);
+            pushFollow(FOLLOW_block_in_if_expr2739);
             block188=block();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_block.add(block188.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:472:3: ( L_elseif ( NL )? protected_expr ( NL )? L_then block )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:469:3: ( L_elseif ( NL )? protected_expr ( NL )? L_then block )*
             loop85:
             do {
                 int alt85=2;
@@ -6201,12 +6199,12 @@ public class babel17Parser extends Parser {
 
                 switch (alt85) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:472:4: L_elseif ( NL )? protected_expr ( NL )? L_then block
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:469:4: L_elseif ( NL )? protected_expr ( NL )? L_then block
             	    {
-            	    L_elseif189=(Token)match(input,L_elseif,FOLLOW_L_elseif_in_if_expr2751); if (state.failed) return retval; 
+            	    L_elseif189=(Token)match(input,L_elseif,FOLLOW_L_elseif_in_if_expr2745); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_L_elseif.add(L_elseif189);
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:472:13: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:469:13: ( NL )?
             	    int alt83=2;
             	    int LA83_0 = input.LA(1);
 
@@ -6215,9 +6213,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt83) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:472:13: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:469:13: NL
             	            {
-            	            NL190=(Token)match(input,NL,FOLLOW_NL_in_if_expr2753); if (state.failed) return retval; 
+            	            NL190=(Token)match(input,NL,FOLLOW_NL_in_if_expr2747); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL190);
 
 
@@ -6226,13 +6224,13 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_protected_expr_in_if_expr2756);
+            	    pushFollow(FOLLOW_protected_expr_in_if_expr2750);
             	    protected_expr191=protected_expr();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr191.getTree());
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:472:32: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:469:32: ( NL )?
             	    int alt84=2;
             	    int LA84_0 = input.LA(1);
 
@@ -6241,9 +6239,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt84) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:472:32: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:469:32: NL
             	            {
-            	            NL192=(Token)match(input,NL,FOLLOW_NL_in_if_expr2758); if (state.failed) return retval; 
+            	            NL192=(Token)match(input,NL,FOLLOW_NL_in_if_expr2752); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL192);
 
 
@@ -6252,10 +6250,10 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    L_then193=(Token)match(input,L_then,FOLLOW_L_then_in_if_expr2761); if (state.failed) return retval; 
+            	    L_then193=(Token)match(input,L_then,FOLLOW_L_then_in_if_expr2755); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_L_then.add(L_then193);
 
-            	    pushFollow(FOLLOW_block_in_if_expr2763);
+            	    pushFollow(FOLLOW_block_in_if_expr2757);
             	    block194=block();
 
             	    state._fsp--;
@@ -6270,7 +6268,7 @@ public class babel17Parser extends Parser {
                 }
             } while (true);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:3: ( L_else block )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:470:3: ( L_else block )?
             int alt86=2;
             int LA86_0 = input.LA(1);
 
@@ -6279,12 +6277,12 @@ public class babel17Parser extends Parser {
             }
             switch (alt86) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:4: L_else block
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:470:4: L_else block
                     {
-                    L_else195=(Token)match(input,L_else,FOLLOW_L_else_in_if_expr2771); if (state.failed) return retval; 
+                    L_else195=(Token)match(input,L_else,FOLLOW_L_else_in_if_expr2765); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_L_else.add(L_else195);
 
-                    pushFollow(FOLLOW_block_in_if_expr2773);
+                    pushFollow(FOLLOW_block_in_if_expr2767);
                     block196=block();
 
                     state._fsp--;
@@ -6296,7 +6294,7 @@ public class babel17Parser extends Parser {
 
             }
 
-            L_end197=(Token)match(input,L_end,FOLLOW_L_end_in_if_expr2777); if (state.failed) return retval; 
+            L_end197=(Token)match(input,L_end,FOLLOW_L_end_in_if_expr2771); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_end.add(L_end197);
 
 
@@ -6313,20 +6311,20 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 473:26: -> ^( IF ( protected_expr )* ( block )* )
+            // 470:26: -> ^( IF ( protected_expr )* ( block )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:29: ^( IF ( protected_expr )* ( block )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:470:29: ^( IF ( protected_expr )* ( block )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(IF, "IF"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:34: ( protected_expr )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:470:34: ( protected_expr )*
                 while ( stream_protected_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_protected_expr.nextTree());
 
                 }
                 stream_protected_expr.reset();
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:50: ( block )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:470:50: ( block )*
                 while ( stream_block.hasNext() ) {
                     adaptor.addChild(root_1, stream_block.nextTree());
 
@@ -6367,7 +6365,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "while_do_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:475:1: while_do_expr : L_while ( NL )? protected_expr ( NL )? L_do block L_end -> ^( WHILE_DO protected_expr block ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:472:1: while_do_expr : L_while ( NL )? protected_expr ( NL )? L_do block L_end -> ^( WHILE_DO protected_expr block ) ;
     public final babel17Parser.while_do_expr_return while_do_expr() throws RecognitionException {
         babel17Parser.while_do_expr_return retval = new babel17Parser.while_do_expr_return();
         retval.start = input.LT(1);
@@ -6396,13 +6394,13 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_protected_expr=new RewriteRuleSubtreeStream(adaptor,"rule protected_expr");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:476:2: ( L_while ( NL )? protected_expr ( NL )? L_do block L_end -> ^( WHILE_DO protected_expr block ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:476:4: L_while ( NL )? protected_expr ( NL )? L_do block L_end
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:2: ( L_while ( NL )? protected_expr ( NL )? L_do block L_end -> ^( WHILE_DO protected_expr block ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:4: L_while ( NL )? protected_expr ( NL )? L_do block L_end
             {
-            L_while198=(Token)match(input,L_while,FOLLOW_L_while_in_while_do_expr2801); if (state.failed) return retval; 
+            L_while198=(Token)match(input,L_while,FOLLOW_L_while_in_while_do_expr2795); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_while.add(L_while198);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:476:12: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:12: ( NL )?
             int alt87=2;
             int LA87_0 = input.LA(1);
 
@@ -6411,9 +6409,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt87) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:476:12: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:12: NL
                     {
-                    NL199=(Token)match(input,NL,FOLLOW_NL_in_while_do_expr2803); if (state.failed) return retval; 
+                    NL199=(Token)match(input,NL,FOLLOW_NL_in_while_do_expr2797); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL199);
 
 
@@ -6422,13 +6420,13 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_protected_expr_in_while_do_expr2806);
+            pushFollow(FOLLOW_protected_expr_in_while_do_expr2800);
             protected_expr200=protected_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr200.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:476:31: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:31: ( NL )?
             int alt88=2;
             int LA88_0 = input.LA(1);
 
@@ -6437,9 +6435,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt88) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:476:31: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:473:31: NL
                     {
-                    NL201=(Token)match(input,NL,FOLLOW_NL_in_while_do_expr2808); if (state.failed) return retval; 
+                    NL201=(Token)match(input,NL,FOLLOW_NL_in_while_do_expr2802); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL201);
 
 
@@ -6448,22 +6446,22 @@ public class babel17Parser extends Parser {
 
             }
 
-            L_do202=(Token)match(input,L_do,FOLLOW_L_do_in_while_do_expr2811); if (state.failed) return retval; 
+            L_do202=(Token)match(input,L_do,FOLLOW_L_do_in_while_do_expr2805); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_do.add(L_do202);
 
-            pushFollow(FOLLOW_block_in_while_do_expr2813);
+            pushFollow(FOLLOW_block_in_while_do_expr2807);
             block203=block();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_block.add(block203.getTree());
-            L_end204=(Token)match(input,L_end,FOLLOW_L_end_in_while_do_expr2815); if (state.failed) return retval; 
+            L_end204=(Token)match(input,L_end,FOLLOW_L_end_in_while_do_expr2809); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_end.add(L_end204);
 
 
 
             // AST REWRITE
-            // elements: block, protected_expr
+            // elements: protected_expr, block
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -6474,9 +6472,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 477:5: -> ^( WHILE_DO protected_expr block )
+            // 474:5: -> ^( WHILE_DO protected_expr block )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:477:8: ^( WHILE_DO protected_expr block )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:474:8: ^( WHILE_DO protected_expr block )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(WHILE_DO, "WHILE_DO"), root_1);
@@ -6518,7 +6516,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "cases"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:479:1: cases : ( full_cases | pattern ( NL )? token_DOUBLE_ARROW block -> ^( CASES ^( NIL_TOKEN pattern block ) ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:476:1: cases : ( full_cases | pattern ( NL )? token_DOUBLE_ARROW block -> ^( CASES ^( NIL_TOKEN pattern block ) ) );
     public final babel17Parser.cases_return cases() throws RecognitionException {
         babel17Parser.cases_return retval = new babel17Parser.cases_return();
         retval.start = input.LT(1);
@@ -6541,7 +6539,7 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_token_DOUBLE_ARROW=new RewriteRuleSubtreeStream(adaptor,"rule token_DOUBLE_ARROW");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:480:2: ( full_cases | pattern ( NL )? token_DOUBLE_ARROW block -> ^( CASES ^( NIL_TOKEN pattern block ) ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:477:2: ( full_cases | pattern ( NL )? token_DOUBLE_ARROW block -> ^( CASES ^( NIL_TOKEN pattern block ) ) )
             int alt90=2;
             int LA90_0 = input.LA(1);
 
@@ -6560,11 +6558,11 @@ public class babel17Parser extends Parser {
             }
             switch (alt90) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:480:4: full_cases
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:477:4: full_cases
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_full_cases_in_cases2845);
+                    pushFollow(FOLLOW_full_cases_in_cases2839);
                     full_cases205=full_cases();
 
                     state._fsp--;
@@ -6574,15 +6572,15 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:481:4: pattern ( NL )? token_DOUBLE_ARROW block
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:478:4: pattern ( NL )? token_DOUBLE_ARROW block
                     {
-                    pushFollow(FOLLOW_pattern_in_cases2850);
+                    pushFollow(FOLLOW_pattern_in_cases2844);
                     pattern206=pattern();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_pattern.add(pattern206.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:481:12: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:478:12: ( NL )?
                     int alt89=2;
                     int LA89_0 = input.LA(1);
 
@@ -6591,9 +6589,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt89) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:481:12: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:478:12: NL
                             {
-                            NL207=(Token)match(input,NL,FOLLOW_NL_in_cases2852); if (state.failed) return retval; 
+                            NL207=(Token)match(input,NL,FOLLOW_NL_in_cases2846); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL207);
 
 
@@ -6602,13 +6600,13 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_token_DOUBLE_ARROW_in_cases2855);
+                    pushFollow(FOLLOW_token_DOUBLE_ARROW_in_cases2849);
                     token_DOUBLE_ARROW208=token_DOUBLE_ARROW();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_token_DOUBLE_ARROW.add(token_DOUBLE_ARROW208.getTree());
-                    pushFollow(FOLLOW_block_in_cases2857);
+                    pushFollow(FOLLOW_block_in_cases2851);
                     block209=block();
 
                     state._fsp--;
@@ -6617,7 +6615,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: block, pattern
+                    // elements: pattern, block
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -6628,14 +6626,14 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 481:41: -> ^( CASES ^( NIL_TOKEN pattern block ) )
+                    // 478:41: -> ^( CASES ^( NIL_TOKEN pattern block ) )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:481:44: ^( CASES ^( NIL_TOKEN pattern block ) )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:478:44: ^( CASES ^( NIL_TOKEN pattern block ) )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CASES, "CASES"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:481:52: ^( NIL_TOKEN pattern block )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:478:52: ^( NIL_TOKEN pattern block )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_2);
@@ -6682,7 +6680,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "full_cases"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:483:1: full_cases : ( case_expr )+ -> ^( CASES ( case_expr )+ ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:480:1: full_cases : ( case_expr )+ -> ^( CASES ( case_expr )+ ) ;
     public final babel17Parser.full_cases_return full_cases() throws RecognitionException {
         babel17Parser.full_cases_return retval = new babel17Parser.full_cases_return();
         retval.start = input.LT(1);
@@ -6694,10 +6692,10 @@ public class babel17Parser extends Parser {
 
         RewriteRuleSubtreeStream stream_case_expr=new RewriteRuleSubtreeStream(adaptor,"rule case_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:2: ( ( case_expr )+ -> ^( CASES ( case_expr )+ ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:4: ( case_expr )+
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:481:2: ( ( case_expr )+ -> ^( CASES ( case_expr )+ ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:481:4: ( case_expr )+
             {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:4: ( case_expr )+
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:481:4: ( case_expr )+
             int cnt91=0;
             loop91:
             do {
@@ -6711,9 +6709,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt91) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:4: case_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:481:4: case_expr
             	    {
-            	    pushFollow(FOLLOW_case_expr_in_full_cases2880);
+            	    pushFollow(FOLLOW_case_expr_in_full_cases2874);
             	    case_expr210=case_expr();
 
             	    state._fsp--;
@@ -6747,9 +6745,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 484:15: -> ^( CASES ( case_expr )+ )
+            // 481:15: -> ^( CASES ( case_expr )+ )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:18: ^( CASES ( case_expr )+ )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:481:18: ^( CASES ( case_expr )+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CASES, "CASES"), root_1);
@@ -6797,7 +6795,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "case_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:486:1: case_expr : ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW block ) -> ^( NIL_TOKEN pattern block ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:483:1: case_expr : ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW block ) -> ^( NIL_TOKEN pattern block ) ;
     public final babel17Parser.case_expr_return case_expr() throws RecognitionException {
         babel17Parser.case_expr_return retval = new babel17Parser.case_expr_return();
         retval.start = input.LT(1);
@@ -6823,16 +6821,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_token_DOUBLE_ARROW=new RewriteRuleSubtreeStream(adaptor,"rule token_DOUBLE_ARROW");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:2: ( ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW block ) -> ^( NIL_TOKEN pattern block ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:4: ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW block )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:2: ( ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW block ) -> ^( NIL_TOKEN pattern block ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:4: ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW block )
             {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:4: ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW block )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:5: L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW block
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:4: ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW block )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:5: L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW block
             {
-            L_case211=(Token)match(input,L_case,FOLLOW_L_case_in_case_expr2901); if (state.failed) return retval; 
+            L_case211=(Token)match(input,L_case,FOLLOW_L_case_in_case_expr2895); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_case.add(L_case211);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:12: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:12: ( NL )?
             int alt92=2;
             int LA92_0 = input.LA(1);
 
@@ -6841,9 +6839,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt92) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:12: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:12: NL
                     {
-                    NL212=(Token)match(input,NL,FOLLOW_NL_in_case_expr2903); if (state.failed) return retval; 
+                    NL212=(Token)match(input,NL,FOLLOW_NL_in_case_expr2897); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL212);
 
 
@@ -6852,13 +6850,13 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_pattern_in_case_expr2906);
+            pushFollow(FOLLOW_pattern_in_case_expr2900);
             pattern213=pattern();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_pattern.add(pattern213.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:24: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:24: ( NL )?
             int alt93=2;
             int LA93_0 = input.LA(1);
 
@@ -6867,9 +6865,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt93) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:24: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:24: NL
                     {
-                    NL214=(Token)match(input,NL,FOLLOW_NL_in_case_expr2908); if (state.failed) return retval; 
+                    NL214=(Token)match(input,NL,FOLLOW_NL_in_case_expr2902); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL214);
 
 
@@ -6878,13 +6876,13 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_token_DOUBLE_ARROW_in_case_expr2911);
+            pushFollow(FOLLOW_token_DOUBLE_ARROW_in_case_expr2905);
             token_DOUBLE_ARROW215=token_DOUBLE_ARROW();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_token_DOUBLE_ARROW.add(token_DOUBLE_ARROW215.getTree());
-            pushFollow(FOLLOW_block_in_case_expr2913);
+            pushFollow(FOLLOW_block_in_case_expr2907);
             block216=block();
 
             state._fsp--;
@@ -6896,7 +6894,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: block, pattern
+            // elements: pattern, block
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -6907,9 +6905,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 487:54: -> ^( NIL_TOKEN pattern block )
+            // 484:54: -> ^( NIL_TOKEN pattern block )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:57: ^( NIL_TOKEN pattern block )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:484:57: ^( NIL_TOKEN pattern block )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_1);
@@ -6951,7 +6949,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "match_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:489:1: match_expr : L_match ( NL )? p_op_expr ( NL )? full_cases L_end -> ^( MATCH p_op_expr full_cases ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:486:1: match_expr : L_match ( NL )? p_op_expr ( NL )? full_cases L_end -> ^( MATCH p_op_expr full_cases ) ;
     public final babel17Parser.match_expr_return match_expr() throws RecognitionException {
         babel17Parser.match_expr_return retval = new babel17Parser.match_expr_return();
         retval.start = input.LT(1);
@@ -6977,13 +6975,13 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_full_cases=new RewriteRuleSubtreeStream(adaptor,"rule full_cases");
         RewriteRuleSubtreeStream stream_p_op_expr=new RewriteRuleSubtreeStream(adaptor,"rule p_op_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:490:2: ( L_match ( NL )? p_op_expr ( NL )? full_cases L_end -> ^( MATCH p_op_expr full_cases ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:490:4: L_match ( NL )? p_op_expr ( NL )? full_cases L_end
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:2: ( L_match ( NL )? p_op_expr ( NL )? full_cases L_end -> ^( MATCH p_op_expr full_cases ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:4: L_match ( NL )? p_op_expr ( NL )? full_cases L_end
             {
-            L_match217=(Token)match(input,L_match,FOLLOW_L_match_in_match_expr2934); if (state.failed) return retval; 
+            L_match217=(Token)match(input,L_match,FOLLOW_L_match_in_match_expr2928); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_match.add(L_match217);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:490:12: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:12: ( NL )?
             int alt94=2;
             int LA94_0 = input.LA(1);
 
@@ -6992,9 +6990,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt94) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:490:12: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:12: NL
                     {
-                    NL218=(Token)match(input,NL,FOLLOW_NL_in_match_expr2936); if (state.failed) return retval; 
+                    NL218=(Token)match(input,NL,FOLLOW_NL_in_match_expr2930); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL218);
 
 
@@ -7003,13 +7001,13 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_p_op_expr_in_match_expr2939);
+            pushFollow(FOLLOW_p_op_expr_in_match_expr2933);
             p_op_expr219=p_op_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_p_op_expr.add(p_op_expr219.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:490:26: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:26: ( NL )?
             int alt95=2;
             int LA95_0 = input.LA(1);
 
@@ -7018,9 +7016,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt95) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:490:26: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:487:26: NL
                     {
-                    NL220=(Token)match(input,NL,FOLLOW_NL_in_match_expr2941); if (state.failed) return retval; 
+                    NL220=(Token)match(input,NL,FOLLOW_NL_in_match_expr2935); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL220);
 
 
@@ -7029,19 +7027,19 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_full_cases_in_match_expr2944);
+            pushFollow(FOLLOW_full_cases_in_match_expr2938);
             full_cases221=full_cases();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_full_cases.add(full_cases221.getTree());
-            L_end222=(Token)match(input,L_end,FOLLOW_L_end_in_match_expr2946); if (state.failed) return retval; 
+            L_end222=(Token)match(input,L_end,FOLLOW_L_end_in_match_expr2940); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_end.add(L_end222);
 
 
 
             // AST REWRITE
-            // elements: full_cases, p_op_expr
+            // elements: p_op_expr, full_cases
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -7052,9 +7050,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 491:5: -> ^( MATCH p_op_expr full_cases )
+            // 488:5: -> ^( MATCH p_op_expr full_cases )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:491:8: ^( MATCH p_op_expr full_cases )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:488:8: ^( MATCH p_op_expr full_cases )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MATCH, "MATCH"), root_1);
@@ -7096,7 +7094,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "lambda_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:493:1: lambda_expr : lambda_cases -> ^( LAMBDA lambda_cases ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:490:1: lambda_expr : lambda_cases -> ^( LAMBDA lambda_cases ) ;
     public final babel17Parser.lambda_expr_return lambda_expr() throws RecognitionException {
         babel17Parser.lambda_expr_return retval = new babel17Parser.lambda_expr_return();
         retval.start = input.LT(1);
@@ -7108,10 +7106,10 @@ public class babel17Parser extends Parser {
 
         RewriteRuleSubtreeStream stream_lambda_cases=new RewriteRuleSubtreeStream(adaptor,"rule lambda_cases");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:2: ( lambda_cases -> ^( LAMBDA lambda_cases ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:4: lambda_cases
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:491:2: ( lambda_cases -> ^( LAMBDA lambda_cases ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:491:4: lambda_cases
             {
-            pushFollow(FOLLOW_lambda_cases_in_lambda_expr2972);
+            pushFollow(FOLLOW_lambda_cases_in_lambda_expr2966);
             lambda_cases223=lambda_cases();
 
             state._fsp--;
@@ -7131,9 +7129,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 494:17: -> ^( LAMBDA lambda_cases )
+            // 491:17: -> ^( LAMBDA lambda_cases )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:20: ^( LAMBDA lambda_cases )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:491:20: ^( LAMBDA lambda_cases )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LAMBDA, "LAMBDA"), root_1);
@@ -7174,7 +7172,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "lambda_cases"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:496:1: lambda_cases : pattern ( NL )? token_DOUBLE_ARROW ( NL )? lop_expr -> ^( CASES ^( NIL_TOKEN pattern ^( BLOCK lop_expr ) ) ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:493:1: lambda_cases : pattern ( NL )? token_DOUBLE_ARROW ( NL )? lop_expr -> ^( CASES ^( NIL_TOKEN pattern ^( BLOCK lop_expr ) ) ) ;
     public final babel17Parser.lambda_cases_return lambda_cases() throws RecognitionException {
         babel17Parser.lambda_cases_return retval = new babel17Parser.lambda_cases_return();
         retval.start = input.LT(1);
@@ -7197,16 +7195,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_token_DOUBLE_ARROW=new RewriteRuleSubtreeStream(adaptor,"rule token_DOUBLE_ARROW");
         RewriteRuleSubtreeStream stream_lop_expr=new RewriteRuleSubtreeStream(adaptor,"rule lop_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:2: ( pattern ( NL )? token_DOUBLE_ARROW ( NL )? lop_expr -> ^( CASES ^( NIL_TOKEN pattern ^( BLOCK lop_expr ) ) ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:4: pattern ( NL )? token_DOUBLE_ARROW ( NL )? lop_expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:2: ( pattern ( NL )? token_DOUBLE_ARROW ( NL )? lop_expr -> ^( CASES ^( NIL_TOKEN pattern ^( BLOCK lop_expr ) ) ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:4: pattern ( NL )? token_DOUBLE_ARROW ( NL )? lop_expr
             {
-            pushFollow(FOLLOW_pattern_in_lambda_cases2990);
+            pushFollow(FOLLOW_pattern_in_lambda_cases2984);
             pattern224=pattern();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_pattern.add(pattern224.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:12: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:12: ( NL )?
             int alt96=2;
             int LA96_0 = input.LA(1);
 
@@ -7215,9 +7213,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt96) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:12: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:12: NL
                     {
-                    NL225=(Token)match(input,NL,FOLLOW_NL_in_lambda_cases2992); if (state.failed) return retval; 
+                    NL225=(Token)match(input,NL,FOLLOW_NL_in_lambda_cases2986); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL225);
 
 
@@ -7226,13 +7224,13 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_token_DOUBLE_ARROW_in_lambda_cases2995);
+            pushFollow(FOLLOW_token_DOUBLE_ARROW_in_lambda_cases2989);
             token_DOUBLE_ARROW226=token_DOUBLE_ARROW();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_token_DOUBLE_ARROW.add(token_DOUBLE_ARROW226.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:35: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:35: ( NL )?
             int alt97=2;
             int LA97_0 = input.LA(1);
 
@@ -7241,9 +7239,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt97) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:35: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:35: NL
                     {
-                    NL227=(Token)match(input,NL,FOLLOW_NL_in_lambda_cases2997); if (state.failed) return retval; 
+                    NL227=(Token)match(input,NL,FOLLOW_NL_in_lambda_cases2991); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL227);
 
 
@@ -7252,7 +7250,7 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_lop_expr_in_lambda_cases3000);
+            pushFollow(FOLLOW_lop_expr_in_lambda_cases2994);
             lop_expr228=lop_expr();
 
             state._fsp--;
@@ -7261,7 +7259,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: pattern, lop_expr
+            // elements: lop_expr, pattern
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -7272,20 +7270,20 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 497:48: -> ^( CASES ^( NIL_TOKEN pattern ^( BLOCK lop_expr ) ) )
+            // 494:48: -> ^( CASES ^( NIL_TOKEN pattern ^( BLOCK lop_expr ) ) )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:51: ^( CASES ^( NIL_TOKEN pattern ^( BLOCK lop_expr ) ) )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:51: ^( CASES ^( NIL_TOKEN pattern ^( BLOCK lop_expr ) ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CASES, "CASES"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:59: ^( NIL_TOKEN pattern ^( BLOCK lop_expr ) )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:59: ^( NIL_TOKEN pattern ^( BLOCK lop_expr ) )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
                 root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_2);
 
                 adaptor.addChild(root_2, stream_pattern.nextTree());
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:79: ^( BLOCK lop_expr )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:494:79: ^( BLOCK lop_expr )
                 {
                 CommonTree root_3 = (CommonTree)adaptor.nil();
                 root_3 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BLOCK, "BLOCK"), root_3);
@@ -7332,7 +7330,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "protected_lambda_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:499:1: protected_lambda_expr : protected_lambda_cases -> ^( LAMBDA protected_lambda_cases ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:496:1: protected_lambda_expr : protected_lambda_cases -> ^( LAMBDA protected_lambda_cases ) ;
     public final babel17Parser.protected_lambda_expr_return protected_lambda_expr() throws RecognitionException {
         babel17Parser.protected_lambda_expr_return retval = new babel17Parser.protected_lambda_expr_return();
         retval.start = input.LT(1);
@@ -7344,10 +7342,10 @@ public class babel17Parser extends Parser {
 
         RewriteRuleSubtreeStream stream_protected_lambda_cases=new RewriteRuleSubtreeStream(adaptor,"rule protected_lambda_cases");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:2: ( protected_lambda_cases -> ^( LAMBDA protected_lambda_cases ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:4: protected_lambda_cases
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:2: ( protected_lambda_cases -> ^( LAMBDA protected_lambda_cases ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:4: protected_lambda_cases
             {
-            pushFollow(FOLLOW_protected_lambda_cases_in_protected_lambda_expr3028);
+            pushFollow(FOLLOW_protected_lambda_cases_in_protected_lambda_expr3022);
             protected_lambda_cases229=protected_lambda_cases();
 
             state._fsp--;
@@ -7367,9 +7365,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 500:27: -> ^( LAMBDA protected_lambda_cases )
+            // 497:27: -> ^( LAMBDA protected_lambda_cases )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:30: ^( LAMBDA protected_lambda_cases )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:497:30: ^( LAMBDA protected_lambda_cases )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LAMBDA, "LAMBDA"), root_1);
@@ -7410,7 +7408,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_lambda_case_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:502:1: p_lambda_case_expr : ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block ) -> ^( NIL_TOKEN pattern pure_block ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:499:1: p_lambda_case_expr : ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block ) -> ^( NIL_TOKEN pattern pure_block ) ;
     public final babel17Parser.p_lambda_case_expr_return p_lambda_case_expr() throws RecognitionException {
         babel17Parser.p_lambda_case_expr_return retval = new babel17Parser.p_lambda_case_expr_return();
         retval.start = input.LT(1);
@@ -7438,16 +7436,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_token_DOUBLE_ARROW=new RewriteRuleSubtreeStream(adaptor,"rule token_DOUBLE_ARROW");
         RewriteRuleSubtreeStream stream_pure_block=new RewriteRuleSubtreeStream(adaptor,"rule pure_block");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:2: ( ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block ) -> ^( NIL_TOKEN pattern pure_block ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:4: ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:2: ( ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block ) -> ^( NIL_TOKEN pattern pure_block ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:4: ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block )
             {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:4: ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:5: L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:4: ( L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:5: L_case ( NL )? pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block
             {
-            L_case230=(Token)match(input,L_case,FOLLOW_L_case_in_p_lambda_case_expr3046); if (state.failed) return retval; 
+            L_case230=(Token)match(input,L_case,FOLLOW_L_case_in_p_lambda_case_expr3040); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_case.add(L_case230);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:12: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:12: ( NL )?
             int alt98=2;
             int LA98_0 = input.LA(1);
 
@@ -7456,9 +7454,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt98) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:12: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:12: NL
                     {
-                    NL231=(Token)match(input,NL,FOLLOW_NL_in_p_lambda_case_expr3048); if (state.failed) return retval; 
+                    NL231=(Token)match(input,NL,FOLLOW_NL_in_p_lambda_case_expr3042); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL231);
 
 
@@ -7467,13 +7465,13 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_pattern_in_p_lambda_case_expr3051);
+            pushFollow(FOLLOW_pattern_in_p_lambda_case_expr3045);
             pattern232=pattern();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_pattern.add(pattern232.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:24: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:24: ( NL )?
             int alt99=2;
             int LA99_0 = input.LA(1);
 
@@ -7482,9 +7480,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt99) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:24: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:24: NL
                     {
-                    NL233=(Token)match(input,NL,FOLLOW_NL_in_p_lambda_case_expr3053); if (state.failed) return retval; 
+                    NL233=(Token)match(input,NL,FOLLOW_NL_in_p_lambda_case_expr3047); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL233);
 
 
@@ -7493,13 +7491,13 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_token_DOUBLE_ARROW_in_p_lambda_case_expr3056);
+            pushFollow(FOLLOW_token_DOUBLE_ARROW_in_p_lambda_case_expr3050);
             token_DOUBLE_ARROW234=token_DOUBLE_ARROW();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_token_DOUBLE_ARROW.add(token_DOUBLE_ARROW234.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:47: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:47: ( NL )?
             int alt100=2;
             int LA100_0 = input.LA(1);
 
@@ -7508,9 +7506,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt100) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:47: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:47: NL
                     {
-                    NL235=(Token)match(input,NL,FOLLOW_NL_in_p_lambda_case_expr3058); if (state.failed) return retval; 
+                    NL235=(Token)match(input,NL,FOLLOW_NL_in_p_lambda_case_expr3052); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL235);
 
 
@@ -7519,7 +7517,7 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_pure_block_in_p_lambda_case_expr3061);
+            pushFollow(FOLLOW_pure_block_in_p_lambda_case_expr3055);
             pure_block236=pure_block();
 
             state._fsp--;
@@ -7542,9 +7540,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 503:63: -> ^( NIL_TOKEN pattern pure_block )
+            // 500:63: -> ^( NIL_TOKEN pattern pure_block )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:66: ^( NIL_TOKEN pattern pure_block )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:500:66: ^( NIL_TOKEN pattern pure_block )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_1);
@@ -7586,7 +7584,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "protected_lambda_cases"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:505:1: protected_lambda_cases : ( pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block -> ^( CASES ^( NIL_TOKEN pattern pure_block ) ) | ( p_lambda_case_expr )+ -> ^( CASES ( p_lambda_case_expr )+ ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:502:1: protected_lambda_cases : ( pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block -> ^( CASES ^( NIL_TOKEN pattern pure_block ) ) | ( p_lambda_case_expr )+ -> ^( CASES ( p_lambda_case_expr )+ ) );
     public final babel17Parser.protected_lambda_cases_return protected_lambda_cases() throws RecognitionException {
         babel17Parser.protected_lambda_cases_return retval = new babel17Parser.protected_lambda_cases_return();
         retval.start = input.LT(1);
@@ -7612,7 +7610,7 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_p_lambda_case_expr=new RewriteRuleSubtreeStream(adaptor,"rule p_lambda_case_expr");
         RewriteRuleSubtreeStream stream_pure_block=new RewriteRuleSubtreeStream(adaptor,"rule pure_block");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:2: ( pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block -> ^( CASES ^( NIL_TOKEN pattern pure_block ) ) | ( p_lambda_case_expr )+ -> ^( CASES ( p_lambda_case_expr )+ ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:2: ( pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block -> ^( CASES ^( NIL_TOKEN pattern pure_block ) ) | ( p_lambda_case_expr )+ -> ^( CASES ( p_lambda_case_expr )+ ) )
             int alt104=2;
             int LA104_0 = input.LA(1);
 
@@ -7631,15 +7629,15 @@ public class babel17Parser extends Parser {
             }
             switch (alt104) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:4: pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:4: pattern ( NL )? token_DOUBLE_ARROW ( NL )? pure_block
                     {
-                    pushFollow(FOLLOW_pattern_in_protected_lambda_cases3082);
+                    pushFollow(FOLLOW_pattern_in_protected_lambda_cases3076);
                     pattern237=pattern();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_pattern.add(pattern237.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:12: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:12: ( NL )?
                     int alt101=2;
                     int LA101_0 = input.LA(1);
 
@@ -7648,9 +7646,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt101) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:12: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:12: NL
                             {
-                            NL238=(Token)match(input,NL,FOLLOW_NL_in_protected_lambda_cases3084); if (state.failed) return retval; 
+                            NL238=(Token)match(input,NL,FOLLOW_NL_in_protected_lambda_cases3078); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL238);
 
 
@@ -7659,13 +7657,13 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_token_DOUBLE_ARROW_in_protected_lambda_cases3087);
+                    pushFollow(FOLLOW_token_DOUBLE_ARROW_in_protected_lambda_cases3081);
                     token_DOUBLE_ARROW239=token_DOUBLE_ARROW();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_token_DOUBLE_ARROW.add(token_DOUBLE_ARROW239.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:35: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:35: ( NL )?
                     int alt102=2;
                     int LA102_0 = input.LA(1);
 
@@ -7674,9 +7672,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt102) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:35: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:35: NL
                             {
-                            NL240=(Token)match(input,NL,FOLLOW_NL_in_protected_lambda_cases3089); if (state.failed) return retval; 
+                            NL240=(Token)match(input,NL,FOLLOW_NL_in_protected_lambda_cases3083); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL240);
 
 
@@ -7685,7 +7683,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_pure_block_in_protected_lambda_cases3092);
+                    pushFollow(FOLLOW_pure_block_in_protected_lambda_cases3086);
                     pure_block241=pure_block();
 
                     state._fsp--;
@@ -7694,7 +7692,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: pattern, pure_block
+                    // elements: pure_block, pattern
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -7705,14 +7703,14 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 506:50: -> ^( CASES ^( NIL_TOKEN pattern pure_block ) )
+                    // 503:50: -> ^( CASES ^( NIL_TOKEN pattern pure_block ) )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:53: ^( CASES ^( NIL_TOKEN pattern pure_block ) )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:53: ^( CASES ^( NIL_TOKEN pattern pure_block ) )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CASES, "CASES"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:61: ^( NIL_TOKEN pattern pure_block )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:503:61: ^( NIL_TOKEN pattern pure_block )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_2);
@@ -7732,9 +7730,9 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:507:4: ( p_lambda_case_expr )+
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:504:4: ( p_lambda_case_expr )+
                     {
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:507:4: ( p_lambda_case_expr )+
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:504:4: ( p_lambda_case_expr )+
                     int cnt103=0;
                     loop103:
                     do {
@@ -7748,9 +7746,9 @@ public class babel17Parser extends Parser {
 
                         switch (alt103) {
                     	case 1 :
-                    	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:507:4: p_lambda_case_expr
+                    	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:504:4: p_lambda_case_expr
                     	    {
-                    	    pushFollow(FOLLOW_p_lambda_case_expr_in_protected_lambda_cases3111);
+                    	    pushFollow(FOLLOW_p_lambda_case_expr_in_protected_lambda_cases3105);
                     	    p_lambda_case_expr242=p_lambda_case_expr();
 
                     	    state._fsp--;
@@ -7784,9 +7782,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 507:24: -> ^( CASES ( p_lambda_case_expr )+ )
+                    // 504:24: -> ^( CASES ( p_lambda_case_expr )+ )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:507:27: ^( CASES ( p_lambda_case_expr )+ )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:504:27: ^( CASES ( p_lambda_case_expr )+ )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CASES, "CASES"), root_1);
@@ -7836,7 +7834,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "for_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:1: for_expr : L_for ( NL )? pattern ( NL )? L_in ( NL )? protected_expr ( NL )? L_do block L_end -> ^( FOR_EXPR pattern protected_expr block ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:1: for_expr : L_for ( NL )? pattern ( NL )? L_in ( NL )? protected_expr ( NL )? L_do block L_end -> ^( FOR_EXPR pattern protected_expr block ) ;
     public final babel17Parser.for_expr_return for_expr() throws RecognitionException {
         babel17Parser.for_expr_return retval = new babel17Parser.for_expr_return();
         retval.start = input.LT(1);
@@ -7875,13 +7873,13 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_protected_expr=new RewriteRuleSubtreeStream(adaptor,"rule protected_expr");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:9: ( L_for ( NL )? pattern ( NL )? L_in ( NL )? protected_expr ( NL )? L_do block L_end -> ^( FOR_EXPR pattern protected_expr block ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:11: L_for ( NL )? pattern ( NL )? L_in ( NL )? protected_expr ( NL )? L_do block L_end
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:9: ( L_for ( NL )? pattern ( NL )? L_in ( NL )? protected_expr ( NL )? L_do block L_end -> ^( FOR_EXPR pattern protected_expr block ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:11: L_for ( NL )? pattern ( NL )? L_in ( NL )? protected_expr ( NL )? L_do block L_end
             {
-            L_for243=(Token)match(input,L_for,FOLLOW_L_for_in_for_expr3128); if (state.failed) return retval; 
+            L_for243=(Token)match(input,L_for,FOLLOW_L_for_in_for_expr3122); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_for.add(L_for243);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:17: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:17: ( NL )?
             int alt105=2;
             int LA105_0 = input.LA(1);
 
@@ -7890,9 +7888,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt105) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:17: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:17: NL
                     {
-                    NL244=(Token)match(input,NL,FOLLOW_NL_in_for_expr3130); if (state.failed) return retval; 
+                    NL244=(Token)match(input,NL,FOLLOW_NL_in_for_expr3124); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL244);
 
 
@@ -7901,13 +7899,13 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_pattern_in_for_expr3133);
+            pushFollow(FOLLOW_pattern_in_for_expr3127);
             pattern245=pattern();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_pattern.add(pattern245.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:29: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:29: ( NL )?
             int alt106=2;
             int LA106_0 = input.LA(1);
 
@@ -7916,9 +7914,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt106) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:29: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:29: NL
                     {
-                    NL246=(Token)match(input,NL,FOLLOW_NL_in_for_expr3135); if (state.failed) return retval; 
+                    NL246=(Token)match(input,NL,FOLLOW_NL_in_for_expr3129); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL246);
 
 
@@ -7927,10 +7925,10 @@ public class babel17Parser extends Parser {
 
             }
 
-            L_in247=(Token)match(input,L_in,FOLLOW_L_in_in_for_expr3138); if (state.failed) return retval; 
+            L_in247=(Token)match(input,L_in,FOLLOW_L_in_in_for_expr3132); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_in.add(L_in247);
 
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:38: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:38: ( NL )?
             int alt107=2;
             int LA107_0 = input.LA(1);
 
@@ -7939,9 +7937,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt107) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:38: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:38: NL
                     {
-                    NL248=(Token)match(input,NL,FOLLOW_NL_in_for_expr3140); if (state.failed) return retval; 
+                    NL248=(Token)match(input,NL,FOLLOW_NL_in_for_expr3134); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL248);
 
 
@@ -7950,13 +7948,13 @@ public class babel17Parser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_protected_expr_in_for_expr3143);
+            pushFollow(FOLLOW_protected_expr_in_for_expr3137);
             protected_expr249=protected_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr249.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:57: ( NL )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:57: ( NL )?
             int alt108=2;
             int LA108_0 = input.LA(1);
 
@@ -7965,9 +7963,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt108) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:57: NL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:506:57: NL
                     {
-                    NL250=(Token)match(input,NL,FOLLOW_NL_in_for_expr3145); if (state.failed) return retval; 
+                    NL250=(Token)match(input,NL,FOLLOW_NL_in_for_expr3139); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NL.add(NL250);
 
 
@@ -7976,22 +7974,22 @@ public class babel17Parser extends Parser {
 
             }
 
-            L_do251=(Token)match(input,L_do,FOLLOW_L_do_in_for_expr3148); if (state.failed) return retval; 
+            L_do251=(Token)match(input,L_do,FOLLOW_L_do_in_for_expr3142); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_do.add(L_do251);
 
-            pushFollow(FOLLOW_block_in_for_expr3150);
+            pushFollow(FOLLOW_block_in_for_expr3144);
             block252=block();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_block.add(block252.getTree());
-            L_end253=(Token)match(input,L_end,FOLLOW_L_end_in_for_expr3152); if (state.failed) return retval; 
+            L_end253=(Token)match(input,L_end,FOLLOW_L_end_in_for_expr3146); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_L_end.add(L_end253);
 
 
 
             // AST REWRITE
-            // elements: block, pattern, protected_expr
+            // elements: pattern, protected_expr, block
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -8002,9 +8000,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 510:5: -> ^( FOR_EXPR pattern protected_expr block )
+            // 507:5: -> ^( FOR_EXPR pattern protected_expr block )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:510:8: ^( FOR_EXPR pattern protected_expr block )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:507:8: ^( FOR_EXPR pattern protected_expr block )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FOR_EXPR, "FOR_EXPR"), root_1);
@@ -8047,7 +8045,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "op_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:512:1: op_expr : ( builtin_primitive op_expr | bool_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:1: op_expr : ( builtin_primitive op_expr | bool_expr );
     public final babel17Parser.op_expr_return op_expr() throws RecognitionException {
         babel17Parser.op_expr_return retval = new babel17Parser.op_expr_return();
         retval.start = input.LT(1);
@@ -8063,11 +8061,11 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:512:9: ( builtin_primitive op_expr | bool_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:9: ( builtin_primitive op_expr | bool_expr )
             int alt109=2;
             int LA109_0 = input.LA(1);
 
-            if ( (LA109_0==L_exception||(LA109_0>=L_concurrent && LA109_0<=L_lazy)||LA109_0==L_random||LA109_0==TILDE) ) {
+            if ( (LA109_0==L_exception||(LA109_0>=L_concurrent && LA109_0<=L_lazy)||LA109_0==L_random||LA109_0==L_force) ) {
                 alt109=1;
             }
             else if ( (LA109_0==L_begin||(LA109_0>=L_with && LA109_0<=L_if)||(LA109_0>=L_while && LA109_0<=L_for)||LA109_0==L_match||(LA109_0>=A_infinity && LA109_0<=U_infinity)||(LA109_0>=L_true && LA109_0<=L_this)||LA109_0==L_nil||LA109_0==MINUS||LA109_0==A_NOT||LA109_0==U_NOT||(LA109_0>=Constr && LA109_0<=Num)||(LA109_0>=String && LA109_0<=ROUND_BRACKET_OPEN)||LA109_0==SQUARE_BRACKET_OPEN||LA109_0==CURLY_BRACKET_OPEN) ) {
@@ -8082,17 +8080,17 @@ public class babel17Parser extends Parser {
             }
             switch (alt109) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:512:11: builtin_primitive op_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:509:11: builtin_primitive op_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_builtin_primitive_in_op_expr3177);
+                    pushFollow(FOLLOW_builtin_primitive_in_op_expr3171);
                     builtin_primitive254=builtin_primitive();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) root_0 = (CommonTree)adaptor.becomeRoot(builtin_primitive254.getTree(), root_0);
-                    pushFollow(FOLLOW_op_expr_in_op_expr3180);
+                    pushFollow(FOLLOW_op_expr_in_op_expr3174);
                     op_expr255=op_expr();
 
                     state._fsp--;
@@ -8102,11 +8100,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:513:4: bool_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:510:4: bool_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_bool_expr_in_op_expr3185);
+                    pushFollow(FOLLOW_bool_expr_in_op_expr3179);
                     bool_expr256=bool_expr();
 
                     state._fsp--;
@@ -8143,7 +8141,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_op_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:515:1: p_op_expr : ( builtin_primitive ( NL )? p_op_expr | p_bool_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:512:1: p_op_expr : ( builtin_primitive ( NL )? p_op_expr | p_bool_expr );
     public final babel17Parser.p_op_expr_return p_op_expr() throws RecognitionException {
         babel17Parser.p_op_expr_return retval = new babel17Parser.p_op_expr_return();
         retval.start = input.LT(1);
@@ -8161,11 +8159,11 @@ public class babel17Parser extends Parser {
         CommonTree NL258_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:516:2: ( builtin_primitive ( NL )? p_op_expr | p_bool_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:513:2: ( builtin_primitive ( NL )? p_op_expr | p_bool_expr )
             int alt111=2;
             int LA111_0 = input.LA(1);
 
-            if ( (LA111_0==L_exception||(LA111_0>=L_concurrent && LA111_0<=L_lazy)||LA111_0==L_random||LA111_0==TILDE) ) {
+            if ( (LA111_0==L_exception||(LA111_0>=L_concurrent && LA111_0<=L_lazy)||LA111_0==L_random||LA111_0==L_force) ) {
                 alt111=1;
             }
             else if ( (LA111_0==L_begin||(LA111_0>=L_with && LA111_0<=L_if)||(LA111_0>=L_while && LA111_0<=L_for)||LA111_0==L_match||(LA111_0>=A_infinity && LA111_0<=U_infinity)||(LA111_0>=L_true && LA111_0<=L_this)||LA111_0==L_nil||LA111_0==MINUS||LA111_0==A_NOT||LA111_0==U_NOT||(LA111_0>=Constr && LA111_0<=Num)||(LA111_0>=String && LA111_0<=ROUND_BRACKET_OPEN)||LA111_0==SQUARE_BRACKET_OPEN||LA111_0==CURLY_BRACKET_OPEN) ) {
@@ -8180,17 +8178,17 @@ public class babel17Parser extends Parser {
             }
             switch (alt111) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:516:4: builtin_primitive ( NL )? p_op_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:513:4: builtin_primitive ( NL )? p_op_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_builtin_primitive_in_p_op_expr3195);
+                    pushFollow(FOLLOW_builtin_primitive_in_p_op_expr3189);
                     builtin_primitive257=builtin_primitive();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) root_0 = (CommonTree)adaptor.becomeRoot(builtin_primitive257.getTree(), root_0);
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:516:25: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:513:25: ( NL )?
                     int alt110=2;
                     int LA110_0 = input.LA(1);
 
@@ -8199,16 +8197,16 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt110) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:516:25: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:513:25: NL
                             {
-                            NL258=(Token)match(input,NL,FOLLOW_NL_in_p_op_expr3198); if (state.failed) return retval;
+                            NL258=(Token)match(input,NL,FOLLOW_NL_in_p_op_expr3192); if (state.failed) return retval;
 
                             }
                             break;
 
                     }
 
-                    pushFollow(FOLLOW_p_op_expr_in_p_op_expr3202);
+                    pushFollow(FOLLOW_p_op_expr_in_p_op_expr3196);
                     p_op_expr259=p_op_expr();
 
                     state._fsp--;
@@ -8218,11 +8216,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:517:4: p_bool_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:514:4: p_bool_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_p_bool_expr_in_p_op_expr3207);
+                    pushFollow(FOLLOW_p_bool_expr_in_p_op_expr3201);
                     p_bool_expr260=p_bool_expr();
 
                     state._fsp--;
@@ -8259,7 +8257,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "builtin_primitive"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:520:1: builtin_primitive : ( L_random | L_await | L_exception | L_lazy | TILDE | L_concurrent );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:517:1: builtin_primitive : ( L_random | L_exception | L_lazy | L_choose | L_concurrent | L_force );
     public final babel17Parser.builtin_primitive_return builtin_primitive() throws RecognitionException {
         babel17Parser.builtin_primitive_return retval = new babel17Parser.builtin_primitive_return();
         retval.start = input.LT(1);
@@ -8271,13 +8269,13 @@ public class babel17Parser extends Parser {
         CommonTree set261_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:521:2: ( L_random | L_await | L_exception | L_lazy | TILDE | L_concurrent )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:518:2: ( L_random | L_exception | L_lazy | L_choose | L_concurrent | L_force )
             // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:
             {
             root_0 = (CommonTree)adaptor.nil();
 
             set261=(Token)input.LT(1);
-            if ( input.LA(1)==L_exception||(input.LA(1)>=L_concurrent && input.LA(1)<=L_lazy)||input.LA(1)==L_random||input.LA(1)==TILDE ) {
+            if ( input.LA(1)==L_exception||(input.LA(1)>=L_concurrent && input.LA(1)<=L_lazy)||input.LA(1)==L_random||input.LA(1)==L_force ) {
                 input.consume();
                 if ( state.backtracking==0 ) adaptor.addChild(root_0, (CommonTree)adaptor.create(set261));
                 state.errorRecovery=false;state.failed=false;
@@ -8317,7 +8315,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "bool_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:523:1: bool_expr : bool_or_expr ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:520:1: bool_expr : bool_or_expr ;
     public final babel17Parser.bool_expr_return bool_expr() throws RecognitionException {
         babel17Parser.bool_expr_return retval = new babel17Parser.bool_expr_return();
         retval.start = input.LT(1);
@@ -8329,12 +8327,12 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:524:2: ( bool_or_expr )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:524:4: bool_or_expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:521:2: ( bool_or_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:521:4: bool_or_expr
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_bool_or_expr_in_bool_expr3247);
+            pushFollow(FOLLOW_bool_or_expr_in_bool_expr3241);
             bool_or_expr262=bool_or_expr();
 
             state._fsp--;
@@ -8369,7 +8367,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_bool_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:526:1: p_bool_expr : p_bool_or_expr ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:523:1: p_bool_expr : p_bool_or_expr ;
     public final babel17Parser.p_bool_expr_return p_bool_expr() throws RecognitionException {
         babel17Parser.p_bool_expr_return retval = new babel17Parser.p_bool_expr_return();
         retval.start = input.LT(1);
@@ -8381,12 +8379,12 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:527:2: ( p_bool_or_expr )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:527:4: p_bool_or_expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:524:2: ( p_bool_or_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:524:4: p_bool_or_expr
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_bool_or_expr_in_p_bool_expr3257);
+            pushFollow(FOLLOW_p_bool_or_expr_in_p_bool_expr3251);
             p_bool_or_expr263=p_bool_or_expr();
 
             state._fsp--;
@@ -8421,7 +8419,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "bool_or_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:529:1: bool_or_expr : bool_and_expr ( ( NL )? token_OR ( NL )? bool_and_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:526:1: bool_or_expr : bool_and_expr ( ( NL )? token_OR ( NL )? bool_and_expr )* ;
     public final babel17Parser.bool_or_expr_return bool_or_expr() throws RecognitionException {
         babel17Parser.bool_or_expr_return retval = new babel17Parser.bool_or_expr_return();
         retval.start = input.LT(1);
@@ -8441,18 +8439,18 @@ public class babel17Parser extends Parser {
         CommonTree NL267_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:2: ( bool_and_expr ( ( NL )? token_OR ( NL )? bool_and_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:4: bool_and_expr ( ( NL )? token_OR ( NL )? bool_and_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:527:2: ( bool_and_expr ( ( NL )? token_OR ( NL )? bool_and_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:527:4: bool_and_expr ( ( NL )? token_OR ( NL )? bool_and_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_bool_and_expr_in_bool_or_expr3266);
+            pushFollow(FOLLOW_bool_and_expr_in_bool_or_expr3260);
             bool_and_expr264=bool_and_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, bool_and_expr264.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:18: ( ( NL )? token_OR ( NL )? bool_and_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:527:18: ( ( NL )? token_OR ( NL )? bool_and_expr )*
             loop114:
             do {
                 int alt114=2;
@@ -8474,9 +8472,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt114) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:19: ( NL )? token_OR ( NL )? bool_and_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:527:19: ( NL )? token_OR ( NL )? bool_and_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:21: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:527:21: ( NL )?
             	    int alt112=2;
             	    int LA112_0 = input.LA(1);
 
@@ -8485,22 +8483,22 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt112) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:21: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:527:21: NL
             	            {
-            	            NL265=(Token)match(input,NL,FOLLOW_NL_in_bool_or_expr3269); if (state.failed) return retval;
+            	            NL265=(Token)match(input,NL,FOLLOW_NL_in_bool_or_expr3263); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_token_OR_in_bool_or_expr3273);
+            	    pushFollow(FOLLOW_token_OR_in_bool_or_expr3267);
             	    token_OR266=token_OR();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) root_0 = (CommonTree)adaptor.becomeRoot(token_OR266.getTree(), root_0);
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:36: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:527:36: ( NL )?
             	    int alt113=2;
             	    int LA113_0 = input.LA(1);
 
@@ -8509,16 +8507,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt113) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:36: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:527:36: NL
             	            {
-            	            NL267=(Token)match(input,NL,FOLLOW_NL_in_bool_or_expr3276); if (state.failed) return retval;
+            	            NL267=(Token)match(input,NL,FOLLOW_NL_in_bool_or_expr3270); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_bool_and_expr_in_bool_or_expr3280);
+            	    pushFollow(FOLLOW_bool_and_expr_in_bool_or_expr3274);
             	    bool_and_expr268=bool_and_expr();
 
             	    state._fsp--;
@@ -8562,7 +8560,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_bool_or_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:532:1: p_bool_or_expr : p_bool_and_expr ( ( NL )? token_OR ( NL )? p_bool_and_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:529:1: p_bool_or_expr : p_bool_and_expr ( ( NL )? token_OR ( NL )? p_bool_and_expr )* ;
     public final babel17Parser.p_bool_or_expr_return p_bool_or_expr() throws RecognitionException {
         babel17Parser.p_bool_or_expr_return retval = new babel17Parser.p_bool_or_expr_return();
         retval.start = input.LT(1);
@@ -8582,18 +8580,18 @@ public class babel17Parser extends Parser {
         CommonTree NL272_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:2: ( p_bool_and_expr ( ( NL )? token_OR ( NL )? p_bool_and_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:4: p_bool_and_expr ( ( NL )? token_OR ( NL )? p_bool_and_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:2: ( p_bool_and_expr ( ( NL )? token_OR ( NL )? p_bool_and_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:4: p_bool_and_expr ( ( NL )? token_OR ( NL )? p_bool_and_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_bool_and_expr_in_p_bool_or_expr3292);
+            pushFollow(FOLLOW_p_bool_and_expr_in_p_bool_or_expr3286);
             p_bool_and_expr269=p_bool_and_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, p_bool_and_expr269.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:20: ( ( NL )? token_OR ( NL )? p_bool_and_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:20: ( ( NL )? token_OR ( NL )? p_bool_and_expr )*
             loop117:
             do {
                 int alt117=2;
@@ -8615,9 +8613,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt117) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:21: ( NL )? token_OR ( NL )? p_bool_and_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:21: ( NL )? token_OR ( NL )? p_bool_and_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:23: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:23: ( NL )?
             	    int alt115=2;
             	    int LA115_0 = input.LA(1);
 
@@ -8626,22 +8624,22 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt115) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:23: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:23: NL
             	            {
-            	            NL270=(Token)match(input,NL,FOLLOW_NL_in_p_bool_or_expr3295); if (state.failed) return retval;
+            	            NL270=(Token)match(input,NL,FOLLOW_NL_in_p_bool_or_expr3289); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_token_OR_in_p_bool_or_expr3299);
+            	    pushFollow(FOLLOW_token_OR_in_p_bool_or_expr3293);
             	    token_OR271=token_OR();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) root_0 = (CommonTree)adaptor.becomeRoot(token_OR271.getTree(), root_0);
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:38: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:38: ( NL )?
             	    int alt116=2;
             	    int LA116_0 = input.LA(1);
 
@@ -8650,16 +8648,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt116) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:38: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:530:38: NL
             	            {
-            	            NL272=(Token)match(input,NL,FOLLOW_NL_in_p_bool_or_expr3302); if (state.failed) return retval;
+            	            NL272=(Token)match(input,NL,FOLLOW_NL_in_p_bool_or_expr3296); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_p_bool_and_expr_in_p_bool_or_expr3306);
+            	    pushFollow(FOLLOW_p_bool_and_expr_in_p_bool_or_expr3300);
             	    p_bool_and_expr273=p_bool_and_expr();
 
             	    state._fsp--;
@@ -8703,7 +8701,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "bool_and_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:535:1: bool_and_expr : bool_not_expr ( ( NL )? token_AND ( NL )? bool_not_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:532:1: bool_and_expr : bool_not_expr ( ( NL )? token_AND ( NL )? bool_not_expr )* ;
     public final babel17Parser.bool_and_expr_return bool_and_expr() throws RecognitionException {
         babel17Parser.bool_and_expr_return retval = new babel17Parser.bool_and_expr_return();
         retval.start = input.LT(1);
@@ -8723,18 +8721,18 @@ public class babel17Parser extends Parser {
         CommonTree NL277_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:2: ( bool_not_expr ( ( NL )? token_AND ( NL )? bool_not_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:4: bool_not_expr ( ( NL )? token_AND ( NL )? bool_not_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:2: ( bool_not_expr ( ( NL )? token_AND ( NL )? bool_not_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:4: bool_not_expr ( ( NL )? token_AND ( NL )? bool_not_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_bool_not_expr_in_bool_and_expr3318);
+            pushFollow(FOLLOW_bool_not_expr_in_bool_and_expr3312);
             bool_not_expr274=bool_not_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, bool_not_expr274.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:18: ( ( NL )? token_AND ( NL )? bool_not_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:18: ( ( NL )? token_AND ( NL )? bool_not_expr )*
             loop120:
             do {
                 int alt120=2;
@@ -8756,9 +8754,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt120) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:19: ( NL )? token_AND ( NL )? bool_not_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:19: ( NL )? token_AND ( NL )? bool_not_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:21: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:21: ( NL )?
             	    int alt118=2;
             	    int LA118_0 = input.LA(1);
 
@@ -8767,22 +8765,22 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt118) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:21: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:21: NL
             	            {
-            	            NL275=(Token)match(input,NL,FOLLOW_NL_in_bool_and_expr3321); if (state.failed) return retval;
+            	            NL275=(Token)match(input,NL,FOLLOW_NL_in_bool_and_expr3315); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_token_AND_in_bool_and_expr3325);
+            	    pushFollow(FOLLOW_token_AND_in_bool_and_expr3319);
             	    token_AND276=token_AND();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) root_0 = (CommonTree)adaptor.becomeRoot(token_AND276.getTree(), root_0);
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:37: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:37: ( NL )?
             	    int alt119=2;
             	    int LA119_0 = input.LA(1);
 
@@ -8791,16 +8789,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt119) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:37: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:533:37: NL
             	            {
-            	            NL277=(Token)match(input,NL,FOLLOW_NL_in_bool_and_expr3328); if (state.failed) return retval;
+            	            NL277=(Token)match(input,NL,FOLLOW_NL_in_bool_and_expr3322); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_bool_not_expr_in_bool_and_expr3332);
+            	    pushFollow(FOLLOW_bool_not_expr_in_bool_and_expr3326);
             	    bool_not_expr278=bool_not_expr();
 
             	    state._fsp--;
@@ -8844,7 +8842,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_bool_and_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:538:1: p_bool_and_expr : p_bool_not_expr ( ( NL )? token_AND ( NL )? p_bool_not_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:535:1: p_bool_and_expr : p_bool_not_expr ( ( NL )? token_AND ( NL )? p_bool_not_expr )* ;
     public final babel17Parser.p_bool_and_expr_return p_bool_and_expr() throws RecognitionException {
         babel17Parser.p_bool_and_expr_return retval = new babel17Parser.p_bool_and_expr_return();
         retval.start = input.LT(1);
@@ -8864,18 +8862,18 @@ public class babel17Parser extends Parser {
         CommonTree NL282_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:539:2: ( p_bool_not_expr ( ( NL )? token_AND ( NL )? p_bool_not_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:539:4: p_bool_not_expr ( ( NL )? token_AND ( NL )? p_bool_not_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:2: ( p_bool_not_expr ( ( NL )? token_AND ( NL )? p_bool_not_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:4: p_bool_not_expr ( ( NL )? token_AND ( NL )? p_bool_not_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_bool_not_expr_in_p_bool_and_expr3344);
+            pushFollow(FOLLOW_p_bool_not_expr_in_p_bool_and_expr3338);
             p_bool_not_expr279=p_bool_not_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, p_bool_not_expr279.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:539:20: ( ( NL )? token_AND ( NL )? p_bool_not_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:20: ( ( NL )? token_AND ( NL )? p_bool_not_expr )*
             loop123:
             do {
                 int alt123=2;
@@ -8897,9 +8895,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt123) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:539:21: ( NL )? token_AND ( NL )? p_bool_not_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:21: ( NL )? token_AND ( NL )? p_bool_not_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:539:23: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:23: ( NL )?
             	    int alt121=2;
             	    int LA121_0 = input.LA(1);
 
@@ -8908,22 +8906,22 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt121) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:539:23: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:23: NL
             	            {
-            	            NL280=(Token)match(input,NL,FOLLOW_NL_in_p_bool_and_expr3347); if (state.failed) return retval;
+            	            NL280=(Token)match(input,NL,FOLLOW_NL_in_p_bool_and_expr3341); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_token_AND_in_p_bool_and_expr3351);
+            	    pushFollow(FOLLOW_token_AND_in_p_bool_and_expr3345);
             	    token_AND281=token_AND();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) root_0 = (CommonTree)adaptor.becomeRoot(token_AND281.getTree(), root_0);
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:539:39: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:39: ( NL )?
             	    int alt122=2;
             	    int LA122_0 = input.LA(1);
 
@@ -8932,16 +8930,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt122) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:539:39: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:536:39: NL
             	            {
-            	            NL282=(Token)match(input,NL,FOLLOW_NL_in_p_bool_and_expr3354); if (state.failed) return retval;
+            	            NL282=(Token)match(input,NL,FOLLOW_NL_in_p_bool_and_expr3348); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_p_bool_not_expr_in_p_bool_and_expr3358);
+            	    pushFollow(FOLLOW_p_bool_not_expr_in_p_bool_and_expr3352);
             	    p_bool_not_expr283=p_bool_not_expr();
 
             	    state._fsp--;
@@ -8985,7 +8983,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "bool_not_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:542:1: bool_not_expr : ( token_NOT ( NL )? bool_not_expr | rel_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:539:1: bool_not_expr : ( token_NOT ( NL )? bool_not_expr | rel_expr );
     public final babel17Parser.bool_not_expr_return bool_not_expr() throws RecognitionException {
         babel17Parser.bool_not_expr_return retval = new babel17Parser.bool_not_expr_return();
         retval.start = input.LT(1);
@@ -9003,7 +9001,7 @@ public class babel17Parser extends Parser {
         CommonTree NL285_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:543:2: ( token_NOT ( NL )? bool_not_expr | rel_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:540:2: ( token_NOT ( NL )? bool_not_expr | rel_expr )
             int alt125=2;
             int LA125_0 = input.LA(1);
 
@@ -9022,17 +9020,17 @@ public class babel17Parser extends Parser {
             }
             switch (alt125) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:543:4: token_NOT ( NL )? bool_not_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:540:4: token_NOT ( NL )? bool_not_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_token_NOT_in_bool_not_expr3370);
+                    pushFollow(FOLLOW_token_NOT_in_bool_not_expr3364);
                     token_NOT284=token_NOT();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) root_0 = (CommonTree)adaptor.becomeRoot(token_NOT284.getTree(), root_0);
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:543:17: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:540:17: ( NL )?
                     int alt124=2;
                     int LA124_0 = input.LA(1);
 
@@ -9041,16 +9039,16 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt124) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:543:17: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:540:17: NL
                             {
-                            NL285=(Token)match(input,NL,FOLLOW_NL_in_bool_not_expr3373); if (state.failed) return retval;
+                            NL285=(Token)match(input,NL,FOLLOW_NL_in_bool_not_expr3367); if (state.failed) return retval;
 
                             }
                             break;
 
                     }
 
-                    pushFollow(FOLLOW_bool_not_expr_in_bool_not_expr3377);
+                    pushFollow(FOLLOW_bool_not_expr_in_bool_not_expr3371);
                     bool_not_expr286=bool_not_expr();
 
                     state._fsp--;
@@ -9060,11 +9058,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:544:4: rel_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:541:4: rel_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_rel_expr_in_bool_not_expr3382);
+                    pushFollow(FOLLOW_rel_expr_in_bool_not_expr3376);
                     rel_expr287=rel_expr();
 
                     state._fsp--;
@@ -9101,7 +9099,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_bool_not_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:546:1: p_bool_not_expr : ( token_NOT ( NL )? p_bool_not_expr | p_rel_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:543:1: p_bool_not_expr : ( token_NOT ( NL )? p_bool_not_expr | p_rel_expr );
     public final babel17Parser.p_bool_not_expr_return p_bool_not_expr() throws RecognitionException {
         babel17Parser.p_bool_not_expr_return retval = new babel17Parser.p_bool_not_expr_return();
         retval.start = input.LT(1);
@@ -9119,7 +9117,7 @@ public class babel17Parser extends Parser {
         CommonTree NL289_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:547:2: ( token_NOT ( NL )? p_bool_not_expr | p_rel_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:544:2: ( token_NOT ( NL )? p_bool_not_expr | p_rel_expr )
             int alt127=2;
             int LA127_0 = input.LA(1);
 
@@ -9138,17 +9136,17 @@ public class babel17Parser extends Parser {
             }
             switch (alt127) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:547:4: token_NOT ( NL )? p_bool_not_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:544:4: token_NOT ( NL )? p_bool_not_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_token_NOT_in_p_bool_not_expr3393);
+                    pushFollow(FOLLOW_token_NOT_in_p_bool_not_expr3387);
                     token_NOT288=token_NOT();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) root_0 = (CommonTree)adaptor.becomeRoot(token_NOT288.getTree(), root_0);
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:547:17: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:544:17: ( NL )?
                     int alt126=2;
                     int LA126_0 = input.LA(1);
 
@@ -9157,16 +9155,16 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt126) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:547:17: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:544:17: NL
                             {
-                            NL289=(Token)match(input,NL,FOLLOW_NL_in_p_bool_not_expr3396); if (state.failed) return retval;
+                            NL289=(Token)match(input,NL,FOLLOW_NL_in_p_bool_not_expr3390); if (state.failed) return retval;
 
                             }
                             break;
 
                     }
 
-                    pushFollow(FOLLOW_p_bool_not_expr_in_p_bool_not_expr3400);
+                    pushFollow(FOLLOW_p_bool_not_expr_in_p_bool_not_expr3394);
                     p_bool_not_expr290=p_bool_not_expr();
 
                     state._fsp--;
@@ -9176,11 +9174,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:4: p_rel_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:545:4: p_rel_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_p_rel_expr_in_p_bool_not_expr3405);
+                    pushFollow(FOLLOW_p_rel_expr_in_p_bool_not_expr3399);
                     p_rel_expr291=p_rel_expr();
 
                     state._fsp--;
@@ -9217,7 +9215,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "rel_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:550:1: rel_expr : arith_expr ( ( NL )? rel_op ( NL )? arith_expr )* -> ^( COMPARE arith_expr ( rel_op arith_expr )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:547:1: rel_expr : arith_expr ( ( NL )? rel_op ( NL )? arith_expr )* -> ^( COMPARE arith_expr ( rel_op arith_expr )* ) ;
     public final babel17Parser.rel_expr_return rel_expr() throws RecognitionException {
         babel17Parser.rel_expr_return retval = new babel17Parser.rel_expr_return();
         retval.start = input.LT(1);
@@ -9239,16 +9237,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_arith_expr=new RewriteRuleSubtreeStream(adaptor,"rule arith_expr");
         RewriteRuleSubtreeStream stream_rel_op=new RewriteRuleSubtreeStream(adaptor,"rule rel_op");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:2: ( arith_expr ( ( NL )? rel_op ( NL )? arith_expr )* -> ^( COMPARE arith_expr ( rel_op arith_expr )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:4: arith_expr ( ( NL )? rel_op ( NL )? arith_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:2: ( arith_expr ( ( NL )? rel_op ( NL )? arith_expr )* -> ^( COMPARE arith_expr ( rel_op arith_expr )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:4: arith_expr ( ( NL )? rel_op ( NL )? arith_expr )*
             {
-            pushFollow(FOLLOW_arith_expr_in_rel_expr3414);
+            pushFollow(FOLLOW_arith_expr_in_rel_expr3408);
             arith_expr292=arith_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_arith_expr.add(arith_expr292.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:15: ( ( NL )? rel_op ( NL )? arith_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:15: ( ( NL )? rel_op ( NL )? arith_expr )*
             loop130:
             do {
                 int alt130=2;
@@ -9270,9 +9268,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt130) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:16: ( NL )? rel_op ( NL )? arith_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:16: ( NL )? rel_op ( NL )? arith_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:16: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:16: ( NL )?
             	    int alt128=2;
             	    int LA128_0 = input.LA(1);
 
@@ -9281,9 +9279,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt128) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:16: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:16: NL
             	            {
-            	            NL293=(Token)match(input,NL,FOLLOW_NL_in_rel_expr3417); if (state.failed) return retval; 
+            	            NL293=(Token)match(input,NL,FOLLOW_NL_in_rel_expr3411); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL293);
 
 
@@ -9292,13 +9290,13 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_rel_op_in_rel_expr3420);
+            	    pushFollow(FOLLOW_rel_op_in_rel_expr3414);
             	    rel_op294=rel_op();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) stream_rel_op.add(rel_op294.getTree());
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:27: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:27: ( NL )?
             	    int alt129=2;
             	    int LA129_0 = input.LA(1);
 
@@ -9307,9 +9305,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt129) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:27: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:27: NL
             	            {
-            	            NL295=(Token)match(input,NL,FOLLOW_NL_in_rel_expr3422); if (state.failed) return retval; 
+            	            NL295=(Token)match(input,NL,FOLLOW_NL_in_rel_expr3416); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL295);
 
 
@@ -9318,7 +9316,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_arith_expr_in_rel_expr3425);
+            	    pushFollow(FOLLOW_arith_expr_in_rel_expr3419);
             	    arith_expr296=arith_expr();
 
             	    state._fsp--;
@@ -9347,15 +9345,15 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 551:44: -> ^( COMPARE arith_expr ( rel_op arith_expr )* )
+            // 548:44: -> ^( COMPARE arith_expr ( rel_op arith_expr )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:47: ^( COMPARE arith_expr ( rel_op arith_expr )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:47: ^( COMPARE arith_expr ( rel_op arith_expr )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(COMPARE, "COMPARE"), root_1);
 
                 adaptor.addChild(root_1, stream_arith_expr.nextTree());
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:68: ( rel_op arith_expr )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:548:68: ( rel_op arith_expr )*
                 while ( stream_rel_op.hasNext()||stream_arith_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_rel_op.nextTree());
                     adaptor.addChild(root_1, stream_arith_expr.nextTree());
@@ -9398,7 +9396,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_rel_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:553:1: p_rel_expr : p_arith_expr ( ( NL )? rel_op ( NL )? p_arith_expr )* -> ^( COMPARE p_arith_expr ( rel_op p_arith_expr )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:550:1: p_rel_expr : p_arith_expr ( ( NL )? rel_op ( NL )? p_arith_expr )* -> ^( COMPARE p_arith_expr ( rel_op p_arith_expr )* ) ;
     public final babel17Parser.p_rel_expr_return p_rel_expr() throws RecognitionException {
         babel17Parser.p_rel_expr_return retval = new babel17Parser.p_rel_expr_return();
         retval.start = input.LT(1);
@@ -9420,16 +9418,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_p_arith_expr=new RewriteRuleSubtreeStream(adaptor,"rule p_arith_expr");
         RewriteRuleSubtreeStream stream_rel_op=new RewriteRuleSubtreeStream(adaptor,"rule rel_op");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:2: ( p_arith_expr ( ( NL )? rel_op ( NL )? p_arith_expr )* -> ^( COMPARE p_arith_expr ( rel_op p_arith_expr )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:4: p_arith_expr ( ( NL )? rel_op ( NL )? p_arith_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:2: ( p_arith_expr ( ( NL )? rel_op ( NL )? p_arith_expr )* -> ^( COMPARE p_arith_expr ( rel_op p_arith_expr )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:4: p_arith_expr ( ( NL )? rel_op ( NL )? p_arith_expr )*
             {
-            pushFollow(FOLLOW_p_arith_expr_in_p_rel_expr3452);
+            pushFollow(FOLLOW_p_arith_expr_in_p_rel_expr3446);
             p_arith_expr297=p_arith_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_p_arith_expr.add(p_arith_expr297.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:17: ( ( NL )? rel_op ( NL )? p_arith_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:17: ( ( NL )? rel_op ( NL )? p_arith_expr )*
             loop133:
             do {
                 int alt133=2;
@@ -9451,9 +9449,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt133) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:18: ( NL )? rel_op ( NL )? p_arith_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:18: ( NL )? rel_op ( NL )? p_arith_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:18: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:18: ( NL )?
             	    int alt131=2;
             	    int LA131_0 = input.LA(1);
 
@@ -9462,9 +9460,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt131) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:18: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:18: NL
             	            {
-            	            NL298=(Token)match(input,NL,FOLLOW_NL_in_p_rel_expr3455); if (state.failed) return retval; 
+            	            NL298=(Token)match(input,NL,FOLLOW_NL_in_p_rel_expr3449); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL298);
 
 
@@ -9473,13 +9471,13 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_rel_op_in_p_rel_expr3458);
+            	    pushFollow(FOLLOW_rel_op_in_p_rel_expr3452);
             	    rel_op299=rel_op();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) stream_rel_op.add(rel_op299.getTree());
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:29: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:29: ( NL )?
             	    int alt132=2;
             	    int LA132_0 = input.LA(1);
 
@@ -9488,9 +9486,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt132) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:29: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:29: NL
             	            {
-            	            NL300=(Token)match(input,NL,FOLLOW_NL_in_p_rel_expr3460); if (state.failed) return retval; 
+            	            NL300=(Token)match(input,NL,FOLLOW_NL_in_p_rel_expr3454); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL300);
 
 
@@ -9499,7 +9497,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_p_arith_expr_in_p_rel_expr3463);
+            	    pushFollow(FOLLOW_p_arith_expr_in_p_rel_expr3457);
             	    p_arith_expr301=p_arith_expr();
 
             	    state._fsp--;
@@ -9517,7 +9515,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: p_arith_expr, rel_op, p_arith_expr
+            // elements: rel_op, p_arith_expr, p_arith_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -9528,22 +9526,22 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 554:48: -> ^( COMPARE p_arith_expr ( rel_op p_arith_expr )* )
+            // 551:48: -> ^( COMPARE p_arith_expr ( rel_op p_arith_expr )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:51: ^( COMPARE p_arith_expr ( rel_op p_arith_expr )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:51: ^( COMPARE p_arith_expr ( rel_op p_arith_expr )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(COMPARE, "COMPARE"), root_1);
 
                 adaptor.addChild(root_1, stream_p_arith_expr.nextTree());
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:74: ( rel_op p_arith_expr )*
-                while ( stream_p_arith_expr.hasNext()||stream_rel_op.hasNext() ) {
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:551:74: ( rel_op p_arith_expr )*
+                while ( stream_rel_op.hasNext()||stream_p_arith_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_rel_op.nextTree());
                     adaptor.addChild(root_1, stream_p_arith_expr.nextTree());
 
                 }
-                stream_p_arith_expr.reset();
                 stream_rel_op.reset();
+                stream_p_arith_expr.reset();
 
                 adaptor.addChild(root_0, root_1);
                 }
@@ -9579,7 +9577,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "rel_op"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:557:1: rel_op : ( token_EQUAL | token_NOT_EQUAL | GREATER | token_GREATER_EQ | LESS | token_LESS_EQ );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:1: rel_op : ( token_EQUAL | token_NOT_EQUAL | GREATER | token_GREATER_EQ | LESS | token_LESS_EQ );
     public final babel17Parser.rel_op_return rel_op() throws RecognitionException {
         babel17Parser.rel_op_return retval = new babel17Parser.rel_op_return();
         retval.start = input.LT(1);
@@ -9601,7 +9599,7 @@ public class babel17Parser extends Parser {
         CommonTree LESS306_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:557:8: ( token_EQUAL | token_NOT_EQUAL | GREATER | token_GREATER_EQ | LESS | token_LESS_EQ )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:8: ( token_EQUAL | token_NOT_EQUAL | GREATER | token_GREATER_EQ | LESS | token_LESS_EQ )
             int alt134=6;
             switch ( input.LA(1) ) {
             case A_EQUAL:
@@ -9648,11 +9646,11 @@ public class babel17Parser extends Parser {
 
             switch (alt134) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:557:10: token_EQUAL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:10: token_EQUAL
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_token_EQUAL_in_rel_op3489);
+                    pushFollow(FOLLOW_token_EQUAL_in_rel_op3483);
                     token_EQUAL302=token_EQUAL();
 
                     state._fsp--;
@@ -9662,11 +9660,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:557:24: token_NOT_EQUAL
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:24: token_NOT_EQUAL
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_token_NOT_EQUAL_in_rel_op3493);
+                    pushFollow(FOLLOW_token_NOT_EQUAL_in_rel_op3487);
                     token_NOT_EQUAL303=token_NOT_EQUAL();
 
                     state._fsp--;
@@ -9676,11 +9674,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:557:42: GREATER
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:42: GREATER
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    GREATER304=(Token)match(input,GREATER,FOLLOW_GREATER_in_rel_op3497); if (state.failed) return retval;
+                    GREATER304=(Token)match(input,GREATER,FOLLOW_GREATER_in_rel_op3491); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     GREATER304_tree = (CommonTree)adaptor.create(GREATER304);
                     adaptor.addChild(root_0, GREATER304_tree);
@@ -9689,11 +9687,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:557:52: token_GREATER_EQ
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:52: token_GREATER_EQ
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_token_GREATER_EQ_in_rel_op3501);
+                    pushFollow(FOLLOW_token_GREATER_EQ_in_rel_op3495);
                     token_GREATER_EQ305=token_GREATER_EQ();
 
                     state._fsp--;
@@ -9703,11 +9701,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:557:71: LESS
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:71: LESS
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    LESS306=(Token)match(input,LESS,FOLLOW_LESS_in_rel_op3505); if (state.failed) return retval;
+                    LESS306=(Token)match(input,LESS,FOLLOW_LESS_in_rel_op3499); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     LESS306_tree = (CommonTree)adaptor.create(LESS306);
                     adaptor.addChild(root_0, LESS306_tree);
@@ -9716,11 +9714,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 6 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:557:78: token_LESS_EQ
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:554:78: token_LESS_EQ
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_token_LESS_EQ_in_rel_op3509);
+                    pushFollow(FOLLOW_token_LESS_EQ_in_rel_op3503);
                     token_LESS_EQ307=token_LESS_EQ();
 
                     state._fsp--;
@@ -9757,7 +9755,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "arith_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:560:1: arith_expr : plusplus_expr ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:557:1: arith_expr : plusplus_expr ;
     public final babel17Parser.arith_expr_return arith_expr() throws RecognitionException {
         babel17Parser.arith_expr_return retval = new babel17Parser.arith_expr_return();
         retval.start = input.LT(1);
@@ -9769,12 +9767,12 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:561:2: ( plusplus_expr )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:561:4: plusplus_expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:558:2: ( plusplus_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:558:4: plusplus_expr
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_plusplus_expr_in_arith_expr3521);
+            pushFollow(FOLLOW_plusplus_expr_in_arith_expr3515);
             plusplus_expr308=plusplus_expr();
 
             state._fsp--;
@@ -9809,7 +9807,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_arith_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:564:1: p_arith_expr : p_plusplus_expr ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:561:1: p_arith_expr : p_plusplus_expr ;
     public final babel17Parser.p_arith_expr_return p_arith_expr() throws RecognitionException {
         babel17Parser.p_arith_expr_return retval = new babel17Parser.p_arith_expr_return();
         retval.start = input.LT(1);
@@ -9821,12 +9819,12 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:2: ( p_plusplus_expr )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:4: p_plusplus_expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:562:2: ( p_plusplus_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:562:4: p_plusplus_expr
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_plusplus_expr_in_p_arith_expr3531);
+            pushFollow(FOLLOW_p_plusplus_expr_in_p_arith_expr3525);
             p_plusplus_expr309=p_plusplus_expr();
 
             state._fsp--;
@@ -9861,7 +9859,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "plusplus_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:567:1: plusplus_expr : timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? timestimes_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:564:1: plusplus_expr : timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? timestimes_expr )* ;
     public final babel17Parser.plusplus_expr_return plusplus_expr() throws RecognitionException {
         babel17Parser.plusplus_expr_return retval = new babel17Parser.plusplus_expr_return();
         retval.start = input.LT(1);
@@ -9883,18 +9881,18 @@ public class babel17Parser extends Parser {
         CommonTree NL314_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:2: ( timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? timestimes_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:4: timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? timestimes_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:2: ( timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? timestimes_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:4: timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? timestimes_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_timestimes_expr_in_plusplus_expr3541);
+            pushFollow(FOLLOW_timestimes_expr_in_plusplus_expr3535);
             timestimes_expr310=timestimes_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, timestimes_expr310.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:20: ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? timestimes_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:20: ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? timestimes_expr )*
             loop138:
             do {
                 int alt138=2;
@@ -9916,9 +9914,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt138) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:21: ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? timestimes_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:21: ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? timestimes_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:23: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:23: ( NL )?
             	    int alt135=2;
             	    int LA135_0 = input.LA(1);
 
@@ -9927,16 +9925,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt135) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:23: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:23: NL
             	            {
-            	            NL311=(Token)match(input,NL,FOLLOW_NL_in_plusplus_expr3544); if (state.failed) return retval;
+            	            NL311=(Token)match(input,NL,FOLLOW_NL_in_plusplus_expr3538); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:26: ( PLUSPLUS | MINUSMINUS )
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:26: ( PLUSPLUS | MINUSMINUS )
             	    int alt136=2;
             	    int LA136_0 = input.LA(1);
 
@@ -9955,9 +9953,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt136) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:27: PLUSPLUS
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:27: PLUSPLUS
             	            {
-            	            PLUSPLUS312=(Token)match(input,PLUSPLUS,FOLLOW_PLUSPLUS_in_plusplus_expr3549); if (state.failed) return retval;
+            	            PLUSPLUS312=(Token)match(input,PLUSPLUS,FOLLOW_PLUSPLUS_in_plusplus_expr3543); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            PLUSPLUS312_tree = (CommonTree)adaptor.create(PLUSPLUS312);
             	            root_0 = (CommonTree)adaptor.becomeRoot(PLUSPLUS312_tree, root_0);
@@ -9966,9 +9964,9 @@ public class babel17Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:37: MINUSMINUS
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:37: MINUSMINUS
             	            {
-            	            MINUSMINUS313=(Token)match(input,MINUSMINUS,FOLLOW_MINUSMINUS_in_plusplus_expr3552); if (state.failed) return retval;
+            	            MINUSMINUS313=(Token)match(input,MINUSMINUS,FOLLOW_MINUSMINUS_in_plusplus_expr3546); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            MINUSMINUS313_tree = (CommonTree)adaptor.create(MINUSMINUS313);
             	            root_0 = (CommonTree)adaptor.becomeRoot(MINUSMINUS313_tree, root_0);
@@ -9979,7 +9977,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:52: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:52: ( NL )?
             	    int alt137=2;
             	    int LA137_0 = input.LA(1);
 
@@ -9988,16 +9986,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt137) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:52: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:565:52: NL
             	            {
-            	            NL314=(Token)match(input,NL,FOLLOW_NL_in_plusplus_expr3556); if (state.failed) return retval;
+            	            NL314=(Token)match(input,NL,FOLLOW_NL_in_plusplus_expr3550); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_timestimes_expr_in_plusplus_expr3560);
+            	    pushFollow(FOLLOW_timestimes_expr_in_plusplus_expr3554);
             	    timestimes_expr315=timestimes_expr();
 
             	    state._fsp--;
@@ -10041,7 +10039,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_plusplus_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:570:1: p_plusplus_expr : p_timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? p_timestimes_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:567:1: p_plusplus_expr : p_timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? p_timestimes_expr )* ;
     public final babel17Parser.p_plusplus_expr_return p_plusplus_expr() throws RecognitionException {
         babel17Parser.p_plusplus_expr_return retval = new babel17Parser.p_plusplus_expr_return();
         retval.start = input.LT(1);
@@ -10063,18 +10061,18 @@ public class babel17Parser extends Parser {
         CommonTree NL320_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:2: ( p_timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? p_timestimes_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:4: p_timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? p_timestimes_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:2: ( p_timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? p_timestimes_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:4: p_timestimes_expr ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? p_timestimes_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_timestimes_expr_in_p_plusplus_expr3572);
+            pushFollow(FOLLOW_p_timestimes_expr_in_p_plusplus_expr3566);
             p_timestimes_expr316=p_timestimes_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, p_timestimes_expr316.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:22: ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? p_timestimes_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:22: ( ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? p_timestimes_expr )*
             loop142:
             do {
                 int alt142=2;
@@ -10096,9 +10094,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt142) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:23: ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? p_timestimes_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:23: ( NL )? ( PLUSPLUS | MINUSMINUS ) ( NL )? p_timestimes_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:25: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:25: ( NL )?
             	    int alt139=2;
             	    int LA139_0 = input.LA(1);
 
@@ -10107,16 +10105,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt139) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:25: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:25: NL
             	            {
-            	            NL317=(Token)match(input,NL,FOLLOW_NL_in_p_plusplus_expr3575); if (state.failed) return retval;
+            	            NL317=(Token)match(input,NL,FOLLOW_NL_in_p_plusplus_expr3569); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:28: ( PLUSPLUS | MINUSMINUS )
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:28: ( PLUSPLUS | MINUSMINUS )
             	    int alt140=2;
             	    int LA140_0 = input.LA(1);
 
@@ -10135,9 +10133,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt140) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:29: PLUSPLUS
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:29: PLUSPLUS
             	            {
-            	            PLUSPLUS318=(Token)match(input,PLUSPLUS,FOLLOW_PLUSPLUS_in_p_plusplus_expr3580); if (state.failed) return retval;
+            	            PLUSPLUS318=(Token)match(input,PLUSPLUS,FOLLOW_PLUSPLUS_in_p_plusplus_expr3574); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            PLUSPLUS318_tree = (CommonTree)adaptor.create(PLUSPLUS318);
             	            root_0 = (CommonTree)adaptor.becomeRoot(PLUSPLUS318_tree, root_0);
@@ -10146,9 +10144,9 @@ public class babel17Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:39: MINUSMINUS
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:39: MINUSMINUS
             	            {
-            	            MINUSMINUS319=(Token)match(input,MINUSMINUS,FOLLOW_MINUSMINUS_in_p_plusplus_expr3583); if (state.failed) return retval;
+            	            MINUSMINUS319=(Token)match(input,MINUSMINUS,FOLLOW_MINUSMINUS_in_p_plusplus_expr3577); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            MINUSMINUS319_tree = (CommonTree)adaptor.create(MINUSMINUS319);
             	            root_0 = (CommonTree)adaptor.becomeRoot(MINUSMINUS319_tree, root_0);
@@ -10159,7 +10157,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:54: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:54: ( NL )?
             	    int alt141=2;
             	    int LA141_0 = input.LA(1);
 
@@ -10168,16 +10166,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt141) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:54: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:568:54: NL
             	            {
-            	            NL320=(Token)match(input,NL,FOLLOW_NL_in_p_plusplus_expr3587); if (state.failed) return retval;
+            	            NL320=(Token)match(input,NL,FOLLOW_NL_in_p_plusplus_expr3581); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_p_timestimes_expr_in_p_plusplus_expr3591);
+            	    pushFollow(FOLLOW_p_timestimes_expr_in_p_plusplus_expr3585);
             	    p_timestimes_expr321=p_timestimes_expr();
 
             	    state._fsp--;
@@ -10221,7 +10219,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "timestimes_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:574:1: timestimes_expr : simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? simple_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:571:1: timestimes_expr : simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? simple_expr )* ;
     public final babel17Parser.timestimes_expr_return timestimes_expr() throws RecognitionException {
         babel17Parser.timestimes_expr_return retval = new babel17Parser.timestimes_expr_return();
         retval.start = input.LT(1);
@@ -10243,18 +10241,18 @@ public class babel17Parser extends Parser {
         CommonTree NL326_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:2: ( simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? simple_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:4: simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? simple_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:2: ( simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? simple_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:4: simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? simple_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_simple_expr_in_timestimes_expr3603);
+            pushFollow(FOLLOW_simple_expr_in_timestimes_expr3597);
             simple_expr322=simple_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, simple_expr322.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:16: ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? simple_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:16: ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? simple_expr )*
             loop146:
             do {
                 int alt146=2;
@@ -10276,9 +10274,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt146) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:17: ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? simple_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:17: ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? simple_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:19: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:19: ( NL )?
             	    int alt143=2;
             	    int LA143_0 = input.LA(1);
 
@@ -10287,16 +10285,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt143) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:19: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:19: NL
             	            {
-            	            NL323=(Token)match(input,NL,FOLLOW_NL_in_timestimes_expr3606); if (state.failed) return retval;
+            	            NL323=(Token)match(input,NL,FOLLOW_NL_in_timestimes_expr3600); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:22: ( TIMESTIMES | QUOTIENTQUOTIENT )
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:22: ( TIMESTIMES | QUOTIENTQUOTIENT )
             	    int alt144=2;
             	    int LA144_0 = input.LA(1);
 
@@ -10315,9 +10313,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt144) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:23: TIMESTIMES
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:23: TIMESTIMES
             	            {
-            	            TIMESTIMES324=(Token)match(input,TIMESTIMES,FOLLOW_TIMESTIMES_in_timestimes_expr3611); if (state.failed) return retval;
+            	            TIMESTIMES324=(Token)match(input,TIMESTIMES,FOLLOW_TIMESTIMES_in_timestimes_expr3605); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            TIMESTIMES324_tree = (CommonTree)adaptor.create(TIMESTIMES324);
             	            root_0 = (CommonTree)adaptor.becomeRoot(TIMESTIMES324_tree, root_0);
@@ -10326,9 +10324,9 @@ public class babel17Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:35: QUOTIENTQUOTIENT
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:35: QUOTIENTQUOTIENT
             	            {
-            	            QUOTIENTQUOTIENT325=(Token)match(input,QUOTIENTQUOTIENT,FOLLOW_QUOTIENTQUOTIENT_in_timestimes_expr3614); if (state.failed) return retval;
+            	            QUOTIENTQUOTIENT325=(Token)match(input,QUOTIENTQUOTIENT,FOLLOW_QUOTIENTQUOTIENT_in_timestimes_expr3608); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            QUOTIENTQUOTIENT325_tree = (CommonTree)adaptor.create(QUOTIENTQUOTIENT325);
             	            root_0 = (CommonTree)adaptor.becomeRoot(QUOTIENTQUOTIENT325_tree, root_0);
@@ -10339,7 +10337,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:56: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:56: ( NL )?
             	    int alt145=2;
             	    int LA145_0 = input.LA(1);
 
@@ -10348,16 +10346,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt145) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:56: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:572:56: NL
             	            {
-            	            NL326=(Token)match(input,NL,FOLLOW_NL_in_timestimes_expr3618); if (state.failed) return retval;
+            	            NL326=(Token)match(input,NL,FOLLOW_NL_in_timestimes_expr3612); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_simple_expr_in_timestimes_expr3622);
+            	    pushFollow(FOLLOW_simple_expr_in_timestimes_expr3616);
             	    simple_expr327=simple_expr();
 
             	    state._fsp--;
@@ -10401,7 +10399,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_timestimes_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:577:1: p_timestimes_expr : p_simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? p_simple_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:574:1: p_timestimes_expr : p_simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? p_simple_expr )* ;
     public final babel17Parser.p_timestimes_expr_return p_timestimes_expr() throws RecognitionException {
         babel17Parser.p_timestimes_expr_return retval = new babel17Parser.p_timestimes_expr_return();
         retval.start = input.LT(1);
@@ -10423,18 +10421,18 @@ public class babel17Parser extends Parser {
         CommonTree NL332_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:2: ( p_simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? p_simple_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:4: p_simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? p_simple_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:2: ( p_simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? p_simple_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:4: p_simple_expr ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? p_simple_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_simple_expr_in_p_timestimes_expr3635);
+            pushFollow(FOLLOW_p_simple_expr_in_p_timestimes_expr3629);
             p_simple_expr328=p_simple_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, p_simple_expr328.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:18: ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? p_simple_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:18: ( ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? p_simple_expr )*
             loop150:
             do {
                 int alt150=2;
@@ -10456,9 +10454,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt150) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:19: ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? p_simple_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:19: ( NL )? ( TIMESTIMES | QUOTIENTQUOTIENT ) ( NL )? p_simple_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:21: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:21: ( NL )?
             	    int alt147=2;
             	    int LA147_0 = input.LA(1);
 
@@ -10467,16 +10465,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt147) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:21: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:21: NL
             	            {
-            	            NL329=(Token)match(input,NL,FOLLOW_NL_in_p_timestimes_expr3638); if (state.failed) return retval;
+            	            NL329=(Token)match(input,NL,FOLLOW_NL_in_p_timestimes_expr3632); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:24: ( TIMESTIMES | QUOTIENTQUOTIENT )
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:24: ( TIMESTIMES | QUOTIENTQUOTIENT )
             	    int alt148=2;
             	    int LA148_0 = input.LA(1);
 
@@ -10495,9 +10493,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt148) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:25: TIMESTIMES
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:25: TIMESTIMES
             	            {
-            	            TIMESTIMES330=(Token)match(input,TIMESTIMES,FOLLOW_TIMESTIMES_in_p_timestimes_expr3643); if (state.failed) return retval;
+            	            TIMESTIMES330=(Token)match(input,TIMESTIMES,FOLLOW_TIMESTIMES_in_p_timestimes_expr3637); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            TIMESTIMES330_tree = (CommonTree)adaptor.create(TIMESTIMES330);
             	            root_0 = (CommonTree)adaptor.becomeRoot(TIMESTIMES330_tree, root_0);
@@ -10506,9 +10504,9 @@ public class babel17Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:37: QUOTIENTQUOTIENT
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:37: QUOTIENTQUOTIENT
             	            {
-            	            QUOTIENTQUOTIENT331=(Token)match(input,QUOTIENTQUOTIENT,FOLLOW_QUOTIENTQUOTIENT_in_p_timestimes_expr3646); if (state.failed) return retval;
+            	            QUOTIENTQUOTIENT331=(Token)match(input,QUOTIENTQUOTIENT,FOLLOW_QUOTIENTQUOTIENT_in_p_timestimes_expr3640); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            QUOTIENTQUOTIENT331_tree = (CommonTree)adaptor.create(QUOTIENTQUOTIENT331);
             	            root_0 = (CommonTree)adaptor.becomeRoot(QUOTIENTQUOTIENT331_tree, root_0);
@@ -10519,7 +10517,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:58: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:58: ( NL )?
             	    int alt149=2;
             	    int LA149_0 = input.LA(1);
 
@@ -10528,16 +10526,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt149) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:58: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:575:58: NL
             	            {
-            	            NL332=(Token)match(input,NL,FOLLOW_NL_in_p_timestimes_expr3650); if (state.failed) return retval;
+            	            NL332=(Token)match(input,NL,FOLLOW_NL_in_p_timestimes_expr3644); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_p_simple_expr_in_p_timestimes_expr3654);
+            	    pushFollow(FOLLOW_p_simple_expr_in_p_timestimes_expr3648);
             	    p_simple_expr333=p_simple_expr();
 
             	    state._fsp--;
@@ -10581,7 +10579,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "simple_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:580:1: simple_expr : cons_expr ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:577:1: simple_expr : cons_expr ;
     public final babel17Parser.simple_expr_return simple_expr() throws RecognitionException {
         babel17Parser.simple_expr_return retval = new babel17Parser.simple_expr_return();
         retval.start = input.LT(1);
@@ -10593,12 +10591,12 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:581:2: ( cons_expr )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:581:4: cons_expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:2: ( cons_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:578:4: cons_expr
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_cons_expr_in_simple_expr3665);
+            pushFollow(FOLLOW_cons_expr_in_simple_expr3659);
             cons_expr334=cons_expr();
 
             state._fsp--;
@@ -10633,7 +10631,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_simple_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:583:1: p_simple_expr : p_cons_expr ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:580:1: p_simple_expr : p_cons_expr ;
     public final babel17Parser.p_simple_expr_return p_simple_expr() throws RecognitionException {
         babel17Parser.p_simple_expr_return retval = new babel17Parser.p_simple_expr_return();
         retval.start = input.LT(1);
@@ -10645,12 +10643,12 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:2: ( p_cons_expr )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:4: p_cons_expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:581:2: ( p_cons_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:581:4: p_cons_expr
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_cons_expr_in_p_simple_expr3674);
+            pushFollow(FOLLOW_p_cons_expr_in_p_simple_expr3668);
             p_cons_expr335=p_cons_expr();
 
             state._fsp--;
@@ -10685,7 +10683,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "cons_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:586:1: cons_expr : to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? to_expr )* -> ^( LIST_CONS ( to_expr )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:583:1: cons_expr : to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? to_expr )* -> ^( LIST_CONS ( to_expr )* ) ;
     public final babel17Parser.cons_expr_return cons_expr() throws RecognitionException {
         babel17Parser.cons_expr_return retval = new babel17Parser.cons_expr_return();
         retval.start = input.LT(1);
@@ -10707,16 +10705,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_token_DOUBLE_COLON=new RewriteRuleSubtreeStream(adaptor,"rule token_DOUBLE_COLON");
         RewriteRuleSubtreeStream stream_to_expr=new RewriteRuleSubtreeStream(adaptor,"rule to_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:2: ( to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? to_expr )* -> ^( LIST_CONS ( to_expr )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:4: to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? to_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:2: ( to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? to_expr )* -> ^( LIST_CONS ( to_expr )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:4: to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? to_expr )*
             {
-            pushFollow(FOLLOW_to_expr_in_cons_expr3683);
+            pushFollow(FOLLOW_to_expr_in_cons_expr3677);
             to_expr336=to_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_to_expr.add(to_expr336.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:12: ( ( NL )? token_DOUBLE_COLON ( NL )? to_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:12: ( ( NL )? token_DOUBLE_COLON ( NL )? to_expr )*
             loop153:
             do {
                 int alt153=2;
@@ -10738,9 +10736,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt153) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:13: ( NL )? token_DOUBLE_COLON ( NL )? to_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:13: ( NL )? token_DOUBLE_COLON ( NL )? to_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:13: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:13: ( NL )?
             	    int alt151=2;
             	    int LA151_0 = input.LA(1);
 
@@ -10749,9 +10747,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt151) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:13: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:13: NL
             	            {
-            	            NL337=(Token)match(input,NL,FOLLOW_NL_in_cons_expr3686); if (state.failed) return retval; 
+            	            NL337=(Token)match(input,NL,FOLLOW_NL_in_cons_expr3680); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL337);
 
 
@@ -10760,13 +10758,13 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_token_DOUBLE_COLON_in_cons_expr3689);
+            	    pushFollow(FOLLOW_token_DOUBLE_COLON_in_cons_expr3683);
             	    token_DOUBLE_COLON338=token_DOUBLE_COLON();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) stream_token_DOUBLE_COLON.add(token_DOUBLE_COLON338.getTree());
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:36: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:36: ( NL )?
             	    int alt152=2;
             	    int LA152_0 = input.LA(1);
 
@@ -10775,9 +10773,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt152) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:36: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:36: NL
             	            {
-            	            NL339=(Token)match(input,NL,FOLLOW_NL_in_cons_expr3691); if (state.failed) return retval; 
+            	            NL339=(Token)match(input,NL,FOLLOW_NL_in_cons_expr3685); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL339);
 
 
@@ -10786,7 +10784,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_to_expr_in_cons_expr3694);
+            	    pushFollow(FOLLOW_to_expr_in_cons_expr3688);
             	    to_expr340=to_expr();
 
             	    state._fsp--;
@@ -10815,14 +10813,14 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 587:50: -> ^( LIST_CONS ( to_expr )* )
+            // 584:50: -> ^( LIST_CONS ( to_expr )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:53: ^( LIST_CONS ( to_expr )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:53: ^( LIST_CONS ( to_expr )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LIST_CONS, "LIST_CONS"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:65: ( to_expr )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:584:65: ( to_expr )*
                 while ( stream_to_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_to_expr.nextTree());
 
@@ -10863,7 +10861,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_cons_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:589:1: p_cons_expr : p_to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? p_to_expr )* -> ^( LIST_CONS ( p_to_expr )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:586:1: p_cons_expr : p_to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? p_to_expr )* -> ^( LIST_CONS ( p_to_expr )* ) ;
     public final babel17Parser.p_cons_expr_return p_cons_expr() throws RecognitionException {
         babel17Parser.p_cons_expr_return retval = new babel17Parser.p_cons_expr_return();
         retval.start = input.LT(1);
@@ -10885,16 +10883,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_p_to_expr=new RewriteRuleSubtreeStream(adaptor,"rule p_to_expr");
         RewriteRuleSubtreeStream stream_token_DOUBLE_COLON=new RewriteRuleSubtreeStream(adaptor,"rule token_DOUBLE_COLON");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:2: ( p_to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? p_to_expr )* -> ^( LIST_CONS ( p_to_expr )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:4: p_to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? p_to_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:2: ( p_to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? p_to_expr )* -> ^( LIST_CONS ( p_to_expr )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:4: p_to_expr ( ( NL )? token_DOUBLE_COLON ( NL )? p_to_expr )*
             {
-            pushFollow(FOLLOW_p_to_expr_in_p_cons_expr3714);
+            pushFollow(FOLLOW_p_to_expr_in_p_cons_expr3708);
             p_to_expr341=p_to_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_p_to_expr.add(p_to_expr341.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:14: ( ( NL )? token_DOUBLE_COLON ( NL )? p_to_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:14: ( ( NL )? token_DOUBLE_COLON ( NL )? p_to_expr )*
             loop156:
             do {
                 int alt156=2;
@@ -10916,9 +10914,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt156) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:15: ( NL )? token_DOUBLE_COLON ( NL )? p_to_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:15: ( NL )? token_DOUBLE_COLON ( NL )? p_to_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:15: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:15: ( NL )?
             	    int alt154=2;
             	    int LA154_0 = input.LA(1);
 
@@ -10927,9 +10925,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt154) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:15: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:15: NL
             	            {
-            	            NL342=(Token)match(input,NL,FOLLOW_NL_in_p_cons_expr3717); if (state.failed) return retval; 
+            	            NL342=(Token)match(input,NL,FOLLOW_NL_in_p_cons_expr3711); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL342);
 
 
@@ -10938,13 +10936,13 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_token_DOUBLE_COLON_in_p_cons_expr3720);
+            	    pushFollow(FOLLOW_token_DOUBLE_COLON_in_p_cons_expr3714);
             	    token_DOUBLE_COLON343=token_DOUBLE_COLON();
 
             	    state._fsp--;
             	    if (state.failed) return retval;
             	    if ( state.backtracking==0 ) stream_token_DOUBLE_COLON.add(token_DOUBLE_COLON343.getTree());
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:38: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:38: ( NL )?
             	    int alt155=2;
             	    int LA155_0 = input.LA(1);
 
@@ -10953,9 +10951,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt155) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:38: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:38: NL
             	            {
-            	            NL344=(Token)match(input,NL,FOLLOW_NL_in_p_cons_expr3722); if (state.failed) return retval; 
+            	            NL344=(Token)match(input,NL,FOLLOW_NL_in_p_cons_expr3716); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL344);
 
 
@@ -10964,7 +10962,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_p_to_expr_in_p_cons_expr3725);
+            	    pushFollow(FOLLOW_p_to_expr_in_p_cons_expr3719);
             	    p_to_expr345=p_to_expr();
 
             	    state._fsp--;
@@ -10993,14 +10991,14 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 590:54: -> ^( LIST_CONS ( p_to_expr )* )
+            // 587:54: -> ^( LIST_CONS ( p_to_expr )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:57: ^( LIST_CONS ( p_to_expr )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:57: ^( LIST_CONS ( p_to_expr )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LIST_CONS, "LIST_CONS"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:69: ( p_to_expr )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:587:69: ( p_to_expr )*
                 while ( stream_p_to_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_p_to_expr.nextTree());
 
@@ -11041,7 +11039,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "to_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:1: to_expr : arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? arith_plus_expr )? ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:1: to_expr : arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? arith_plus_expr )? ;
     public final babel17Parser.to_expr_return to_expr() throws RecognitionException {
         babel17Parser.to_expr_return retval = new babel17Parser.to_expr_return();
         retval.start = input.LT(1);
@@ -11063,18 +11061,18 @@ public class babel17Parser extends Parser {
         CommonTree NL350_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:9: ( arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? arith_plus_expr )? )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:11: arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? arith_plus_expr )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:9: ( arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? arith_plus_expr )? )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:11: arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? arith_plus_expr )?
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_arith_plus_expr_in_to_expr3745);
+            pushFollow(FOLLOW_arith_plus_expr_in_to_expr3739);
             arith_plus_expr346=arith_plus_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, arith_plus_expr346.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:27: ( ( NL )? ( L_to | L_downto ) ( NL )? arith_plus_expr )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:27: ( ( NL )? ( L_to | L_downto ) ( NL )? arith_plus_expr )?
             int alt160=2;
             int LA160_0 = input.LA(1);
 
@@ -11090,9 +11088,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt160) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:28: ( NL )? ( L_to | L_downto ) ( NL )? arith_plus_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:28: ( NL )? ( L_to | L_downto ) ( NL )? arith_plus_expr
                     {
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:30: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:30: ( NL )?
                     int alt157=2;
                     int LA157_0 = input.LA(1);
 
@@ -11101,16 +11099,16 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt157) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:30: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:30: NL
                             {
-                            NL347=(Token)match(input,NL,FOLLOW_NL_in_to_expr3748); if (state.failed) return retval;
+                            NL347=(Token)match(input,NL,FOLLOW_NL_in_to_expr3742); if (state.failed) return retval;
 
                             }
                             break;
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:33: ( L_to | L_downto )
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:33: ( L_to | L_downto )
                     int alt158=2;
                     int LA158_0 = input.LA(1);
 
@@ -11129,9 +11127,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt158) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:34: L_to
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:34: L_to
                             {
-                            L_to348=(Token)match(input,L_to,FOLLOW_L_to_in_to_expr3753); if (state.failed) return retval;
+                            L_to348=(Token)match(input,L_to,FOLLOW_L_to_in_to_expr3747); if (state.failed) return retval;
                             if ( state.backtracking==0 ) {
                             L_to348_tree = (CommonTree)adaptor.create(L_to348);
                             root_0 = (CommonTree)adaptor.becomeRoot(L_to348_tree, root_0);
@@ -11140,9 +11138,9 @@ public class babel17Parser extends Parser {
                             }
                             break;
                         case 2 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:41: L_downto
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:41: L_downto
                             {
-                            L_downto349=(Token)match(input,L_downto,FOLLOW_L_downto_in_to_expr3757); if (state.failed) return retval;
+                            L_downto349=(Token)match(input,L_downto,FOLLOW_L_downto_in_to_expr3751); if (state.failed) return retval;
                             if ( state.backtracking==0 ) {
                             L_downto349_tree = (CommonTree)adaptor.create(L_downto349);
                             root_0 = (CommonTree)adaptor.becomeRoot(L_downto349_tree, root_0);
@@ -11153,7 +11151,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:54: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:54: ( NL )?
                     int alt159=2;
                     int LA159_0 = input.LA(1);
 
@@ -11162,16 +11160,16 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt159) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:54: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:590:54: NL
                             {
-                            NL350=(Token)match(input,NL,FOLLOW_NL_in_to_expr3761); if (state.failed) return retval;
+                            NL350=(Token)match(input,NL,FOLLOW_NL_in_to_expr3755); if (state.failed) return retval;
 
                             }
                             break;
 
                     }
 
-                    pushFollow(FOLLOW_arith_plus_expr_in_to_expr3765);
+                    pushFollow(FOLLOW_arith_plus_expr_in_to_expr3759);
                     arith_plus_expr351=arith_plus_expr();
 
                     state._fsp--;
@@ -11212,7 +11210,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_to_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:595:1: p_to_expr : p_arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? p_arith_plus_expr )? ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:592:1: p_to_expr : p_arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? p_arith_plus_expr )? ;
     public final babel17Parser.p_to_expr_return p_to_expr() throws RecognitionException {
         babel17Parser.p_to_expr_return retval = new babel17Parser.p_to_expr_return();
         retval.start = input.LT(1);
@@ -11234,18 +11232,18 @@ public class babel17Parser extends Parser {
         CommonTree NL356_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:2: ( p_arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? p_arith_plus_expr )? )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:4: p_arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? p_arith_plus_expr )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:2: ( p_arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? p_arith_plus_expr )? )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:4: p_arith_plus_expr ( ( NL )? ( L_to | L_downto ) ( NL )? p_arith_plus_expr )?
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_arith_plus_expr_in_p_to_expr3778);
+            pushFollow(FOLLOW_p_arith_plus_expr_in_p_to_expr3772);
             p_arith_plus_expr352=p_arith_plus_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, p_arith_plus_expr352.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:22: ( ( NL )? ( L_to | L_downto ) ( NL )? p_arith_plus_expr )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:22: ( ( NL )? ( L_to | L_downto ) ( NL )? p_arith_plus_expr )?
             int alt164=2;
             int LA164_0 = input.LA(1);
 
@@ -11261,9 +11259,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt164) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:23: ( NL )? ( L_to | L_downto ) ( NL )? p_arith_plus_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:23: ( NL )? ( L_to | L_downto ) ( NL )? p_arith_plus_expr
                     {
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:25: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:25: ( NL )?
                     int alt161=2;
                     int LA161_0 = input.LA(1);
 
@@ -11272,16 +11270,16 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt161) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:25: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:25: NL
                             {
-                            NL353=(Token)match(input,NL,FOLLOW_NL_in_p_to_expr3781); if (state.failed) return retval;
+                            NL353=(Token)match(input,NL,FOLLOW_NL_in_p_to_expr3775); if (state.failed) return retval;
 
                             }
                             break;
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:28: ( L_to | L_downto )
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:28: ( L_to | L_downto )
                     int alt162=2;
                     int LA162_0 = input.LA(1);
 
@@ -11300,9 +11298,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt162) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:29: L_to
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:29: L_to
                             {
-                            L_to354=(Token)match(input,L_to,FOLLOW_L_to_in_p_to_expr3786); if (state.failed) return retval;
+                            L_to354=(Token)match(input,L_to,FOLLOW_L_to_in_p_to_expr3780); if (state.failed) return retval;
                             if ( state.backtracking==0 ) {
                             L_to354_tree = (CommonTree)adaptor.create(L_to354);
                             root_0 = (CommonTree)adaptor.becomeRoot(L_to354_tree, root_0);
@@ -11311,9 +11309,9 @@ public class babel17Parser extends Parser {
                             }
                             break;
                         case 2 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:36: L_downto
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:36: L_downto
                             {
-                            L_downto355=(Token)match(input,L_downto,FOLLOW_L_downto_in_p_to_expr3790); if (state.failed) return retval;
+                            L_downto355=(Token)match(input,L_downto,FOLLOW_L_downto_in_p_to_expr3784); if (state.failed) return retval;
                             if ( state.backtracking==0 ) {
                             L_downto355_tree = (CommonTree)adaptor.create(L_downto355);
                             root_0 = (CommonTree)adaptor.becomeRoot(L_downto355_tree, root_0);
@@ -11324,7 +11322,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:49: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:49: ( NL )?
                     int alt163=2;
                     int LA163_0 = input.LA(1);
 
@@ -11333,16 +11331,16 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt163) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:49: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:593:49: NL
                             {
-                            NL356=(Token)match(input,NL,FOLLOW_NL_in_p_to_expr3794); if (state.failed) return retval;
+                            NL356=(Token)match(input,NL,FOLLOW_NL_in_p_to_expr3788); if (state.failed) return retval;
 
                             }
                             break;
 
                     }
 
-                    pushFollow(FOLLOW_p_arith_plus_expr_in_p_to_expr3798);
+                    pushFollow(FOLLOW_p_arith_plus_expr_in_p_to_expr3792);
                     p_arith_plus_expr357=p_arith_plus_expr();
 
                     state._fsp--;
@@ -11383,7 +11381,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "arith_plus_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:598:1: arith_plus_expr : arith_uminus_expr ( ( ( NL )? PLUS | MINUS ) ( NL )? arith_uminus_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:595:1: arith_plus_expr : arith_uminus_expr ( ( ( NL )? PLUS | MINUS ) ( NL )? arith_uminus_expr )* ;
     public final babel17Parser.arith_plus_expr_return arith_plus_expr() throws RecognitionException {
         babel17Parser.arith_plus_expr_return retval = new babel17Parser.arith_plus_expr_return();
         retval.start = input.LT(1);
@@ -11405,18 +11403,18 @@ public class babel17Parser extends Parser {
         CommonTree NL362_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:2: ( arith_uminus_expr ( ( ( NL )? PLUS | MINUS ) ( NL )? arith_uminus_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:4: arith_uminus_expr ( ( ( NL )? PLUS | MINUS ) ( NL )? arith_uminus_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:2: ( arith_uminus_expr ( ( ( NL )? PLUS | MINUS ) ( NL )? arith_uminus_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:4: arith_uminus_expr ( ( ( NL )? PLUS | MINUS ) ( NL )? arith_uminus_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_arith_uminus_expr_in_arith_plus_expr3810);
+            pushFollow(FOLLOW_arith_uminus_expr_in_arith_plus_expr3804);
             arith_uminus_expr358=arith_uminus_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, arith_uminus_expr358.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:22: ( ( ( NL )? PLUS | MINUS ) ( NL )? arith_uminus_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:22: ( ( ( NL )? PLUS | MINUS ) ( NL )? arith_uminus_expr )*
             loop168:
             do {
                 int alt168=2;
@@ -11438,9 +11436,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt168) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:23: ( ( NL )? PLUS | MINUS ) ( NL )? arith_uminus_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:23: ( ( NL )? PLUS | MINUS ) ( NL )? arith_uminus_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:23: ( ( NL )? PLUS | MINUS )
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:23: ( ( NL )? PLUS | MINUS )
             	    int alt166=2;
             	    int LA166_0 = input.LA(1);
 
@@ -11459,9 +11457,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt166) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:24: ( NL )? PLUS
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:24: ( NL )? PLUS
             	            {
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:26: ( NL )?
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:26: ( NL )?
             	            int alt165=2;
             	            int LA165_0 = input.LA(1);
 
@@ -11470,16 +11468,16 @@ public class babel17Parser extends Parser {
             	            }
             	            switch (alt165) {
             	                case 1 :
-            	                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:26: NL
+            	                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:26: NL
             	                    {
-            	                    NL359=(Token)match(input,NL,FOLLOW_NL_in_arith_plus_expr3814); if (state.failed) return retval;
+            	                    NL359=(Token)match(input,NL,FOLLOW_NL_in_arith_plus_expr3808); if (state.failed) return retval;
 
             	                    }
             	                    break;
 
             	            }
 
-            	            PLUS360=(Token)match(input,PLUS,FOLLOW_PLUS_in_arith_plus_expr3818); if (state.failed) return retval;
+            	            PLUS360=(Token)match(input,PLUS,FOLLOW_PLUS_in_arith_plus_expr3812); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            PLUS360_tree = (CommonTree)adaptor.create(PLUS360);
             	            root_0 = (CommonTree)adaptor.becomeRoot(PLUS360_tree, root_0);
@@ -11488,9 +11486,9 @@ public class babel17Parser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:37: MINUS
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:37: MINUS
             	            {
-            	            MINUS361=(Token)match(input,MINUS,FOLLOW_MINUS_in_arith_plus_expr3823); if (state.failed) return retval;
+            	            MINUS361=(Token)match(input,MINUS,FOLLOW_MINUS_in_arith_plus_expr3817); if (state.failed) return retval;
             	            if ( state.backtracking==0 ) {
             	            MINUS361_tree = (CommonTree)adaptor.create(MINUS361);
             	            root_0 = (CommonTree)adaptor.becomeRoot(MINUS361_tree, root_0);
@@ -11501,7 +11499,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:47: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:47: ( NL )?
             	    int alt167=2;
             	    int LA167_0 = input.LA(1);
 
@@ -11510,16 +11508,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt167) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:47: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:596:47: NL
             	            {
-            	            NL362=(Token)match(input,NL,FOLLOW_NL_in_arith_plus_expr3827); if (state.failed) return retval;
+            	            NL362=(Token)match(input,NL,FOLLOW_NL_in_arith_plus_expr3821); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_arith_uminus_expr_in_arith_plus_expr3831);
+            	    pushFollow(FOLLOW_arith_uminus_expr_in_arith_plus_expr3825);
             	    arith_uminus_expr363=arith_uminus_expr();
 
             	    state._fsp--;
@@ -11563,7 +11561,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_arith_plus_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:601:1: p_arith_plus_expr : p_arith_uminus_expr ( ( NL )? ( PLUS | MINUS ) ( NL )? p_arith_uminus_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:598:1: p_arith_plus_expr : p_arith_uminus_expr ( ( NL )? ( PLUS | MINUS ) ( NL )? p_arith_uminus_expr )* ;
     public final babel17Parser.p_arith_plus_expr_return p_arith_plus_expr() throws RecognitionException {
         babel17Parser.p_arith_plus_expr_return retval = new babel17Parser.p_arith_plus_expr_return();
         retval.start = input.LT(1);
@@ -11583,18 +11581,18 @@ public class babel17Parser extends Parser {
         CommonTree NL367_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:2: ( p_arith_uminus_expr ( ( NL )? ( PLUS | MINUS ) ( NL )? p_arith_uminus_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:4: p_arith_uminus_expr ( ( NL )? ( PLUS | MINUS ) ( NL )? p_arith_uminus_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:2: ( p_arith_uminus_expr ( ( NL )? ( PLUS | MINUS ) ( NL )? p_arith_uminus_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:4: p_arith_uminus_expr ( ( NL )? ( PLUS | MINUS ) ( NL )? p_arith_uminus_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_arith_uminus_expr_in_p_arith_plus_expr3842);
+            pushFollow(FOLLOW_p_arith_uminus_expr_in_p_arith_plus_expr3836);
             p_arith_uminus_expr364=p_arith_uminus_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, p_arith_uminus_expr364.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:24: ( ( NL )? ( PLUS | MINUS ) ( NL )? p_arith_uminus_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:24: ( ( NL )? ( PLUS | MINUS ) ( NL )? p_arith_uminus_expr )*
             loop171:
             do {
                 int alt171=2;
@@ -11616,9 +11614,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt171) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:25: ( NL )? ( PLUS | MINUS ) ( NL )? p_arith_uminus_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:25: ( NL )? ( PLUS | MINUS ) ( NL )? p_arith_uminus_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:27: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:27: ( NL )?
             	    int alt169=2;
             	    int LA169_0 = input.LA(1);
 
@@ -11627,9 +11625,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt169) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:27: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:27: NL
             	            {
-            	            NL365=(Token)match(input,NL,FOLLOW_NL_in_p_arith_plus_expr3845); if (state.failed) return retval;
+            	            NL365=(Token)match(input,NL,FOLLOW_NL_in_p_arith_plus_expr3839); if (state.failed) return retval;
 
             	            }
             	            break;
@@ -11649,7 +11647,7 @@ public class babel17Parser extends Parser {
             	        throw mse;
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:48: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:48: ( NL )?
             	    int alt170=2;
             	    int LA170_0 = input.LA(1);
 
@@ -11658,16 +11656,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt170) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:48: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:599:48: NL
             	            {
-            	            NL367=(Token)match(input,NL,FOLLOW_NL_in_p_arith_plus_expr3858); if (state.failed) return retval;
+            	            NL367=(Token)match(input,NL,FOLLOW_NL_in_p_arith_plus_expr3852); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_p_arith_uminus_expr_in_p_arith_plus_expr3862);
+            	    pushFollow(FOLLOW_p_arith_uminus_expr_in_p_arith_plus_expr3856);
             	    p_arith_uminus_expr368=p_arith_uminus_expr();
 
             	    state._fsp--;
@@ -11711,7 +11709,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "arith_uminus_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:604:1: arith_uminus_expr : ( MINUS ( NL )? arith_mult_expr -> ^( UMINUS arith_mult_expr ) | arith_mult_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:601:1: arith_uminus_expr : ( MINUS ( NL )? arith_mult_expr -> ^( UMINUS arith_mult_expr ) | arith_mult_expr );
     public final babel17Parser.arith_uminus_expr_return arith_uminus_expr() throws RecognitionException {
         babel17Parser.arith_uminus_expr_return retval = new babel17Parser.arith_uminus_expr_return();
         retval.start = input.LT(1);
@@ -11731,7 +11729,7 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_MINUS=new RewriteRuleTokenStream(adaptor,"token MINUS");
         RewriteRuleSubtreeStream stream_arith_mult_expr=new RewriteRuleSubtreeStream(adaptor,"rule arith_mult_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:605:2: ( MINUS ( NL )? arith_mult_expr -> ^( UMINUS arith_mult_expr ) | arith_mult_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:2: ( MINUS ( NL )? arith_mult_expr -> ^( UMINUS arith_mult_expr ) | arith_mult_expr )
             int alt173=2;
             int LA173_0 = input.LA(1);
 
@@ -11750,12 +11748,12 @@ public class babel17Parser extends Parser {
             }
             switch (alt173) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:605:4: MINUS ( NL )? arith_mult_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:4: MINUS ( NL )? arith_mult_expr
                     {
-                    MINUS369=(Token)match(input,MINUS,FOLLOW_MINUS_in_arith_uminus_expr3875); if (state.failed) return retval; 
+                    MINUS369=(Token)match(input,MINUS,FOLLOW_MINUS_in_arith_uminus_expr3869); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_MINUS.add(MINUS369);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:605:10: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:10: ( NL )?
                     int alt172=2;
                     int LA172_0 = input.LA(1);
 
@@ -11764,9 +11762,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt172) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:605:10: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:10: NL
                             {
-                            NL370=(Token)match(input,NL,FOLLOW_NL_in_arith_uminus_expr3877); if (state.failed) return retval; 
+                            NL370=(Token)match(input,NL,FOLLOW_NL_in_arith_uminus_expr3871); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL370);
 
 
@@ -11775,7 +11773,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_arith_mult_expr_in_arith_uminus_expr3880);
+                    pushFollow(FOLLOW_arith_mult_expr_in_arith_uminus_expr3874);
                     arith_mult_expr371=arith_mult_expr();
 
                     state._fsp--;
@@ -11795,9 +11793,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 605:30: -> ^( UMINUS arith_mult_expr )
+                    // 602:30: -> ^( UMINUS arith_mult_expr )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:605:33: ^( UMINUS arith_mult_expr )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:602:33: ^( UMINUS arith_mult_expr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(UMINUS, "UMINUS"), root_1);
@@ -11813,11 +11811,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:606:4: arith_mult_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:603:4: arith_mult_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_arith_mult_expr_in_arith_uminus_expr3893);
+                    pushFollow(FOLLOW_arith_mult_expr_in_arith_uminus_expr3887);
                     arith_mult_expr372=arith_mult_expr();
 
                     state._fsp--;
@@ -11854,7 +11852,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_arith_uminus_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:608:1: p_arith_uminus_expr : ( MINUS ( NL )? p_arith_mult_expr -> ^( UMINUS p_arith_mult_expr ) | p_arith_mult_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:605:1: p_arith_uminus_expr : ( MINUS ( NL )? p_arith_mult_expr -> ^( UMINUS p_arith_mult_expr ) | p_arith_mult_expr );
     public final babel17Parser.p_arith_uminus_expr_return p_arith_uminus_expr() throws RecognitionException {
         babel17Parser.p_arith_uminus_expr_return retval = new babel17Parser.p_arith_uminus_expr_return();
         retval.start = input.LT(1);
@@ -11874,7 +11872,7 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_MINUS=new RewriteRuleTokenStream(adaptor,"token MINUS");
         RewriteRuleSubtreeStream stream_p_arith_mult_expr=new RewriteRuleSubtreeStream(adaptor,"rule p_arith_mult_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:609:2: ( MINUS ( NL )? p_arith_mult_expr -> ^( UMINUS p_arith_mult_expr ) | p_arith_mult_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:606:2: ( MINUS ( NL )? p_arith_mult_expr -> ^( UMINUS p_arith_mult_expr ) | p_arith_mult_expr )
             int alt175=2;
             int LA175_0 = input.LA(1);
 
@@ -11893,12 +11891,12 @@ public class babel17Parser extends Parser {
             }
             switch (alt175) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:609:4: MINUS ( NL )? p_arith_mult_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:606:4: MINUS ( NL )? p_arith_mult_expr
                     {
-                    MINUS373=(Token)match(input,MINUS,FOLLOW_MINUS_in_p_arith_uminus_expr3904); if (state.failed) return retval; 
+                    MINUS373=(Token)match(input,MINUS,FOLLOW_MINUS_in_p_arith_uminus_expr3898); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_MINUS.add(MINUS373);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:609:10: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:606:10: ( NL )?
                     int alt174=2;
                     int LA174_0 = input.LA(1);
 
@@ -11907,9 +11905,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt174) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:609:10: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:606:10: NL
                             {
-                            NL374=(Token)match(input,NL,FOLLOW_NL_in_p_arith_uminus_expr3906); if (state.failed) return retval; 
+                            NL374=(Token)match(input,NL,FOLLOW_NL_in_p_arith_uminus_expr3900); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL374);
 
 
@@ -11918,7 +11916,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_p_arith_mult_expr_in_p_arith_uminus_expr3909);
+                    pushFollow(FOLLOW_p_arith_mult_expr_in_p_arith_uminus_expr3903);
                     p_arith_mult_expr375=p_arith_mult_expr();
 
                     state._fsp--;
@@ -11938,9 +11936,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 609:32: -> ^( UMINUS p_arith_mult_expr )
+                    // 606:32: -> ^( UMINUS p_arith_mult_expr )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:609:35: ^( UMINUS p_arith_mult_expr )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:606:35: ^( UMINUS p_arith_mult_expr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(UMINUS, "UMINUS"), root_1);
@@ -11956,11 +11954,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:610:4: p_arith_mult_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:607:4: p_arith_mult_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_p_arith_mult_expr_in_p_arith_uminus_expr3922);
+                    pushFollow(FOLLOW_p_arith_mult_expr_in_p_arith_uminus_expr3916);
                     p_arith_mult_expr376=p_arith_mult_expr();
 
                     state._fsp--;
@@ -11997,7 +11995,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "arith_mult_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:612:1: arith_mult_expr : arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? arith_pow_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:609:1: arith_mult_expr : arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? arith_pow_expr )* ;
     public final babel17Parser.arith_mult_expr_return arith_mult_expr() throws RecognitionException {
         babel17Parser.arith_mult_expr_return retval = new babel17Parser.arith_mult_expr_return();
         retval.start = input.LT(1);
@@ -12017,18 +12015,18 @@ public class babel17Parser extends Parser {
         CommonTree NL380_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:2: ( arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? arith_pow_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:4: arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? arith_pow_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:610:2: ( arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? arith_pow_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:610:4: arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? arith_pow_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_arith_pow_expr_in_arith_mult_expr3931);
+            pushFollow(FOLLOW_arith_pow_expr_in_arith_mult_expr3925);
             arith_pow_expr377=arith_pow_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, arith_pow_expr377.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:19: ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? arith_pow_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:610:19: ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? arith_pow_expr )*
             loop178:
             do {
                 int alt178=2;
@@ -12050,9 +12048,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt178) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:20: ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? arith_pow_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:610:20: ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? arith_pow_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:22: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:610:22: ( NL )?
             	    int alt176=2;
             	    int LA176_0 = input.LA(1);
 
@@ -12061,9 +12059,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt176) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:22: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:610:22: NL
             	            {
-            	            NL378=(Token)match(input,NL,FOLLOW_NL_in_arith_mult_expr3934); if (state.failed) return retval;
+            	            NL378=(Token)match(input,NL,FOLLOW_NL_in_arith_mult_expr3928); if (state.failed) return retval;
 
             	            }
             	            break;
@@ -12083,7 +12081,7 @@ public class babel17Parser extends Parser {
             	        throw mse;
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:63: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:610:63: ( NL )?
             	    int alt177=2;
             	    int LA177_0 = input.LA(1);
 
@@ -12092,16 +12090,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt177) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:63: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:610:63: NL
             	            {
-            	            NL380=(Token)match(input,NL,FOLLOW_NL_in_arith_mult_expr3955); if (state.failed) return retval;
+            	            NL380=(Token)match(input,NL,FOLLOW_NL_in_arith_mult_expr3949); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_arith_pow_expr_in_arith_mult_expr3959);
+            	    pushFollow(FOLLOW_arith_pow_expr_in_arith_mult_expr3953);
             	    arith_pow_expr381=arith_pow_expr();
 
             	    state._fsp--;
@@ -12145,7 +12143,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_arith_mult_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:615:1: p_arith_mult_expr : p_arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? p_arith_pow_expr )* ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:612:1: p_arith_mult_expr : p_arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? p_arith_pow_expr )* ;
     public final babel17Parser.p_arith_mult_expr_return p_arith_mult_expr() throws RecognitionException {
         babel17Parser.p_arith_mult_expr_return retval = new babel17Parser.p_arith_mult_expr_return();
         retval.start = input.LT(1);
@@ -12165,18 +12163,18 @@ public class babel17Parser extends Parser {
         CommonTree NL385_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:2: ( p_arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? p_arith_pow_expr )* )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:4: p_arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? p_arith_pow_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:2: ( p_arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? p_arith_pow_expr )* )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:4: p_arith_pow_expr ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? p_arith_pow_expr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_p_arith_pow_expr_in_p_arith_mult_expr3971);
+            pushFollow(FOLLOW_p_arith_pow_expr_in_p_arith_mult_expr3965);
             p_arith_pow_expr382=p_arith_pow_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, p_arith_pow_expr382.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:21: ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? p_arith_pow_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:21: ( ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? p_arith_pow_expr )*
             loop181:
             do {
                 int alt181=2;
@@ -12198,9 +12196,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt181) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:22: ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? p_arith_pow_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:22: ( NL )? ( TIMES | QUOTIENT | L_div | L_mod ) ( NL )? p_arith_pow_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:24: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:24: ( NL )?
             	    int alt179=2;
             	    int LA179_0 = input.LA(1);
 
@@ -12209,9 +12207,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt179) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:24: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:24: NL
             	            {
-            	            NL383=(Token)match(input,NL,FOLLOW_NL_in_p_arith_mult_expr3974); if (state.failed) return retval;
+            	            NL383=(Token)match(input,NL,FOLLOW_NL_in_p_arith_mult_expr3968); if (state.failed) return retval;
 
             	            }
             	            break;
@@ -12231,7 +12229,7 @@ public class babel17Parser extends Parser {
             	        throw mse;
             	    }
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:65: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:65: ( NL )?
             	    int alt180=2;
             	    int LA180_0 = input.LA(1);
 
@@ -12240,16 +12238,16 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt180) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:65: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:613:65: NL
             	            {
-            	            NL385=(Token)match(input,NL,FOLLOW_NL_in_p_arith_mult_expr3995); if (state.failed) return retval;
+            	            NL385=(Token)match(input,NL,FOLLOW_NL_in_p_arith_mult_expr3989); if (state.failed) return retval;
 
             	            }
             	            break;
 
             	    }
 
-            	    pushFollow(FOLLOW_p_arith_pow_expr_in_p_arith_mult_expr3999);
+            	    pushFollow(FOLLOW_p_arith_pow_expr_in_p_arith_mult_expr3993);
             	    p_arith_pow_expr386=p_arith_pow_expr();
 
             	    state._fsp--;
@@ -12293,7 +12291,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "arith_pow_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:618:1: arith_pow_expr : apply_expr ( ( NL )? POW_tok ( NL )? apply_expr )* -> ^( POW ( apply_expr )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:615:1: arith_pow_expr : apply_expr ( ( NL )? POW_tok ( NL )? apply_expr )* -> ^( POW ( apply_expr )* ) ;
     public final babel17Parser.arith_pow_expr_return arith_pow_expr() throws RecognitionException {
         babel17Parser.arith_pow_expr_return retval = new babel17Parser.arith_pow_expr_return();
         retval.start = input.LT(1);
@@ -12315,16 +12313,16 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_NL=new RewriteRuleTokenStream(adaptor,"token NL");
         RewriteRuleSubtreeStream stream_apply_expr=new RewriteRuleSubtreeStream(adaptor,"rule apply_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:2: ( apply_expr ( ( NL )? POW_tok ( NL )? apply_expr )* -> ^( POW ( apply_expr )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:4: apply_expr ( ( NL )? POW_tok ( NL )? apply_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:2: ( apply_expr ( ( NL )? POW_tok ( NL )? apply_expr )* -> ^( POW ( apply_expr )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:4: apply_expr ( ( NL )? POW_tok ( NL )? apply_expr )*
             {
-            pushFollow(FOLLOW_apply_expr_in_arith_pow_expr4010);
+            pushFollow(FOLLOW_apply_expr_in_arith_pow_expr4004);
             apply_expr387=apply_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_apply_expr.add(apply_expr387.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:15: ( ( NL )? POW_tok ( NL )? apply_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:15: ( ( NL )? POW_tok ( NL )? apply_expr )*
             loop184:
             do {
                 int alt184=2;
@@ -12346,9 +12344,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt184) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:16: ( NL )? POW_tok ( NL )? apply_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:16: ( NL )? POW_tok ( NL )? apply_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:16: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:16: ( NL )?
             	    int alt182=2;
             	    int LA182_0 = input.LA(1);
 
@@ -12357,9 +12355,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt182) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:16: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:16: NL
             	            {
-            	            NL388=(Token)match(input,NL,FOLLOW_NL_in_arith_pow_expr4013); if (state.failed) return retval; 
+            	            NL388=(Token)match(input,NL,FOLLOW_NL_in_arith_pow_expr4007); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL388);
 
 
@@ -12368,10 +12366,10 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    POW_tok389=(Token)match(input,POW_tok,FOLLOW_POW_tok_in_arith_pow_expr4016); if (state.failed) return retval; 
+            	    POW_tok389=(Token)match(input,POW_tok,FOLLOW_POW_tok_in_arith_pow_expr4010); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_POW_tok.add(POW_tok389);
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:28: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:28: ( NL )?
             	    int alt183=2;
             	    int LA183_0 = input.LA(1);
 
@@ -12380,9 +12378,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt183) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:28: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:28: NL
             	            {
-            	            NL390=(Token)match(input,NL,FOLLOW_NL_in_arith_pow_expr4018); if (state.failed) return retval; 
+            	            NL390=(Token)match(input,NL,FOLLOW_NL_in_arith_pow_expr4012); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL390);
 
 
@@ -12391,7 +12389,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_apply_expr_in_arith_pow_expr4021);
+            	    pushFollow(FOLLOW_apply_expr_in_arith_pow_expr4015);
             	    apply_expr391=apply_expr();
 
             	    state._fsp--;
@@ -12420,14 +12418,14 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 619:45: -> ^( POW ( apply_expr )* )
+            // 616:45: -> ^( POW ( apply_expr )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:48: ^( POW ( apply_expr )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:48: ^( POW ( apply_expr )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(POW, "POW"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:54: ( apply_expr )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:616:54: ( apply_expr )*
                 while ( stream_apply_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_apply_expr.nextTree());
 
@@ -12468,7 +12466,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_arith_pow_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:621:1: p_arith_pow_expr : p_apply_expr ( ( NL )? POW_tok ( NL )? p_apply_expr )* -> ^( POW ( p_apply_expr )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:618:1: p_arith_pow_expr : p_apply_expr ( ( NL )? POW_tok ( NL )? p_apply_expr )* -> ^( POW ( p_apply_expr )* ) ;
     public final babel17Parser.p_arith_pow_expr_return p_arith_pow_expr() throws RecognitionException {
         babel17Parser.p_arith_pow_expr_return retval = new babel17Parser.p_arith_pow_expr_return();
         retval.start = input.LT(1);
@@ -12490,16 +12488,16 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_NL=new RewriteRuleTokenStream(adaptor,"token NL");
         RewriteRuleSubtreeStream stream_p_apply_expr=new RewriteRuleSubtreeStream(adaptor,"rule p_apply_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:2: ( p_apply_expr ( ( NL )? POW_tok ( NL )? p_apply_expr )* -> ^( POW ( p_apply_expr )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:4: p_apply_expr ( ( NL )? POW_tok ( NL )? p_apply_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:2: ( p_apply_expr ( ( NL )? POW_tok ( NL )? p_apply_expr )* -> ^( POW ( p_apply_expr )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:4: p_apply_expr ( ( NL )? POW_tok ( NL )? p_apply_expr )*
             {
-            pushFollow(FOLLOW_p_apply_expr_in_p_arith_pow_expr4042);
+            pushFollow(FOLLOW_p_apply_expr_in_p_arith_pow_expr4036);
             p_apply_expr392=p_apply_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_p_apply_expr.add(p_apply_expr392.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:17: ( ( NL )? POW_tok ( NL )? p_apply_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:17: ( ( NL )? POW_tok ( NL )? p_apply_expr )*
             loop187:
             do {
                 int alt187=2;
@@ -12521,9 +12519,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt187) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:18: ( NL )? POW_tok ( NL )? p_apply_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:18: ( NL )? POW_tok ( NL )? p_apply_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:18: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:18: ( NL )?
             	    int alt185=2;
             	    int LA185_0 = input.LA(1);
 
@@ -12532,9 +12530,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt185) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:18: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:18: NL
             	            {
-            	            NL393=(Token)match(input,NL,FOLLOW_NL_in_p_arith_pow_expr4045); if (state.failed) return retval; 
+            	            NL393=(Token)match(input,NL,FOLLOW_NL_in_p_arith_pow_expr4039); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL393);
 
 
@@ -12543,10 +12541,10 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    POW_tok394=(Token)match(input,POW_tok,FOLLOW_POW_tok_in_p_arith_pow_expr4048); if (state.failed) return retval; 
+            	    POW_tok394=(Token)match(input,POW_tok,FOLLOW_POW_tok_in_p_arith_pow_expr4042); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_POW_tok.add(POW_tok394);
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:30: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:30: ( NL )?
             	    int alt186=2;
             	    int LA186_0 = input.LA(1);
 
@@ -12555,9 +12553,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt186) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:30: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:30: NL
             	            {
-            	            NL395=(Token)match(input,NL,FOLLOW_NL_in_p_arith_pow_expr4050); if (state.failed) return retval; 
+            	            NL395=(Token)match(input,NL,FOLLOW_NL_in_p_arith_pow_expr4044); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL395);
 
 
@@ -12566,7 +12564,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_p_apply_expr_in_p_arith_pow_expr4053);
+            	    pushFollow(FOLLOW_p_apply_expr_in_p_arith_pow_expr4047);
             	    p_apply_expr396=p_apply_expr();
 
             	    state._fsp--;
@@ -12595,14 +12593,14 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 622:49: -> ^( POW ( p_apply_expr )* )
+            // 619:49: -> ^( POW ( p_apply_expr )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:52: ^( POW ( p_apply_expr )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:52: ^( POW ( p_apply_expr )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(POW, "POW"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:58: ( p_apply_expr )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:619:58: ( p_apply_expr )*
                 while ( stream_p_apply_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_p_apply_expr.nextTree());
 
@@ -12643,7 +12641,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "apply_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:624:1: apply_expr : ( basic_expr )+ -> ^( APPLY ( basic_expr )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:621:1: apply_expr : ( basic_expr )+ -> ^( APPLY ( basic_expr )* ) ;
     public final babel17Parser.apply_expr_return apply_expr() throws RecognitionException {
         babel17Parser.apply_expr_return retval = new babel17Parser.apply_expr_return();
         retval.start = input.LT(1);
@@ -12655,10 +12653,10 @@ public class babel17Parser extends Parser {
 
         RewriteRuleSubtreeStream stream_basic_expr=new RewriteRuleSubtreeStream(adaptor,"rule basic_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:625:2: ( ( basic_expr )+ -> ^( APPLY ( basic_expr )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:625:4: ( basic_expr )+
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:2: ( ( basic_expr )+ -> ^( APPLY ( basic_expr )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:4: ( basic_expr )+
             {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:625:4: ( basic_expr )+
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:4: ( basic_expr )+
             int cnt188=0;
             loop188:
             do {
@@ -12672,9 +12670,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt188) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:625:4: basic_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:4: basic_expr
             	    {
-            	    pushFollow(FOLLOW_basic_expr_in_apply_expr4074);
+            	    pushFollow(FOLLOW_basic_expr_in_apply_expr4068);
             	    basic_expr397=basic_expr();
 
             	    state._fsp--;
@@ -12708,14 +12706,14 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 625:16: -> ^( APPLY ( basic_expr )* )
+            // 622:16: -> ^( APPLY ( basic_expr )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:625:19: ^( APPLY ( basic_expr )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:19: ^( APPLY ( basic_expr )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(APPLY, "APPLY"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:625:27: ( basic_expr )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:622:27: ( basic_expr )*
                 while ( stream_basic_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_basic_expr.nextTree());
 
@@ -12756,7 +12754,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_apply_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:626:1: p_apply_expr : p_basic_expr ( ( NL )? p_basic_expr )* -> ^( APPLY ( p_basic_expr )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:623:1: p_apply_expr : p_basic_expr ( ( NL )? p_basic_expr )* -> ^( APPLY ( p_basic_expr )* ) ;
     public final babel17Parser.p_apply_expr_return p_apply_expr() throws RecognitionException {
         babel17Parser.p_apply_expr_return retval = new babel17Parser.p_apply_expr_return();
         retval.start = input.LT(1);
@@ -12773,16 +12771,16 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_NL=new RewriteRuleTokenStream(adaptor,"token NL");
         RewriteRuleSubtreeStream stream_p_basic_expr=new RewriteRuleSubtreeStream(adaptor,"rule p_basic_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:627:2: ( p_basic_expr ( ( NL )? p_basic_expr )* -> ^( APPLY ( p_basic_expr )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:627:4: p_basic_expr ( ( NL )? p_basic_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:624:2: ( p_basic_expr ( ( NL )? p_basic_expr )* -> ^( APPLY ( p_basic_expr )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:624:4: p_basic_expr ( ( NL )? p_basic_expr )*
             {
-            pushFollow(FOLLOW_p_basic_expr_in_p_apply_expr4092);
+            pushFollow(FOLLOW_p_basic_expr_in_p_apply_expr4086);
             p_basic_expr398=p_basic_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_p_basic_expr.add(p_basic_expr398.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:627:17: ( ( NL )? p_basic_expr )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:624:17: ( ( NL )? p_basic_expr )*
             loop190:
             do {
                 int alt190=2;
@@ -12804,9 +12802,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt190) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:627:18: ( NL )? p_basic_expr
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:624:18: ( NL )? p_basic_expr
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:627:18: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:624:18: ( NL )?
             	    int alt189=2;
             	    int LA189_0 = input.LA(1);
 
@@ -12815,9 +12813,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt189) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:627:18: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:624:18: NL
             	            {
-            	            NL399=(Token)match(input,NL,FOLLOW_NL_in_p_apply_expr4095); if (state.failed) return retval; 
+            	            NL399=(Token)match(input,NL,FOLLOW_NL_in_p_apply_expr4089); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL399);
 
 
@@ -12826,7 +12824,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    pushFollow(FOLLOW_p_basic_expr_in_p_apply_expr4098);
+            	    pushFollow(FOLLOW_p_basic_expr_in_p_apply_expr4092);
             	    p_basic_expr400=p_basic_expr();
 
             	    state._fsp--;
@@ -12855,14 +12853,14 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 627:37: -> ^( APPLY ( p_basic_expr )* )
+            // 624:37: -> ^( APPLY ( p_basic_expr )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:627:40: ^( APPLY ( p_basic_expr )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:624:40: ^( APPLY ( p_basic_expr )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(APPLY, "APPLY"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:627:48: ( p_basic_expr )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:624:48: ( p_basic_expr )*
                 while ( stream_p_basic_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_p_basic_expr.nextTree());
 
@@ -12903,7 +12901,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "basic_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:629:1: basic_expr : message_send_expr ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:626:1: basic_expr : message_send_expr ;
     public final babel17Parser.basic_expr_return basic_expr() throws RecognitionException {
         babel17Parser.basic_expr_return retval = new babel17Parser.basic_expr_return();
         retval.start = input.LT(1);
@@ -12915,12 +12913,12 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:630:2: ( message_send_expr )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:630:4: message_send_expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:627:2: ( message_send_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:627:4: message_send_expr
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_message_send_expr_in_basic_expr4118);
+            pushFollow(FOLLOW_message_send_expr_in_basic_expr4112);
             message_send_expr401=message_send_expr();
 
             state._fsp--;
@@ -12955,7 +12953,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "p_basic_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:632:1: p_basic_expr : message_send_expr ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:629:1: p_basic_expr : message_send_expr ;
     public final babel17Parser.p_basic_expr_return p_basic_expr() throws RecognitionException {
         babel17Parser.p_basic_expr_return retval = new babel17Parser.p_basic_expr_return();
         retval.start = input.LT(1);
@@ -12967,12 +12965,12 @@ public class babel17Parser extends Parser {
 
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:2: ( message_send_expr )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:4: message_send_expr
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:630:2: ( message_send_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:630:4: message_send_expr
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_message_send_expr_in_p_basic_expr4127);
+            pushFollow(FOLLOW_message_send_expr_in_p_basic_expr4121);
             message_send_expr402=message_send_expr();
 
             state._fsp--;
@@ -13007,7 +13005,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "message_send_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:635:1: message_send_expr : primitive_expr ( ( NL )? PERIOD ( NL )? Id )* -> ^( MESSAGE_SEND primitive_expr ( Id )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:632:1: message_send_expr : primitive_expr ( ( NL )? PERIOD ( NL )? Id )* -> ^( MESSAGE_SEND primitive_expr ( Id )* ) ;
     public final babel17Parser.message_send_expr_return message_send_expr() throws RecognitionException {
         babel17Parser.message_send_expr_return retval = new babel17Parser.message_send_expr_return();
         retval.start = input.LT(1);
@@ -13030,16 +13028,16 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_Id=new RewriteRuleTokenStream(adaptor,"token Id");
         RewriteRuleSubtreeStream stream_primitive_expr=new RewriteRuleSubtreeStream(adaptor,"rule primitive_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:2: ( primitive_expr ( ( NL )? PERIOD ( NL )? Id )* -> ^( MESSAGE_SEND primitive_expr ( Id )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:4: primitive_expr ( ( NL )? PERIOD ( NL )? Id )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:2: ( primitive_expr ( ( NL )? PERIOD ( NL )? Id )* -> ^( MESSAGE_SEND primitive_expr ( Id )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:4: primitive_expr ( ( NL )? PERIOD ( NL )? Id )*
             {
-            pushFollow(FOLLOW_primitive_expr_in_message_send_expr4136);
+            pushFollow(FOLLOW_primitive_expr_in_message_send_expr4130);
             primitive_expr403=primitive_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_primitive_expr.add(primitive_expr403.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:19: ( ( NL )? PERIOD ( NL )? Id )*
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:19: ( ( NL )? PERIOD ( NL )? Id )*
             loop193:
             do {
                 int alt193=2;
@@ -13061,9 +13059,9 @@ public class babel17Parser extends Parser {
 
                 switch (alt193) {
             	case 1 :
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:20: ( NL )? PERIOD ( NL )? Id
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:20: ( NL )? PERIOD ( NL )? Id
             	    {
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:20: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:20: ( NL )?
             	    int alt191=2;
             	    int LA191_0 = input.LA(1);
 
@@ -13072,9 +13070,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt191) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:20: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:20: NL
             	            {
-            	            NL404=(Token)match(input,NL,FOLLOW_NL_in_message_send_expr4139); if (state.failed) return retval; 
+            	            NL404=(Token)match(input,NL,FOLLOW_NL_in_message_send_expr4133); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL404);
 
 
@@ -13083,10 +13081,10 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    PERIOD405=(Token)match(input,PERIOD,FOLLOW_PERIOD_in_message_send_expr4142); if (state.failed) return retval; 
+            	    PERIOD405=(Token)match(input,PERIOD,FOLLOW_PERIOD_in_message_send_expr4136); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_PERIOD.add(PERIOD405);
 
-            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:31: ( NL )?
+            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:31: ( NL )?
             	    int alt192=2;
             	    int LA192_0 = input.LA(1);
 
@@ -13095,9 +13093,9 @@ public class babel17Parser extends Parser {
             	    }
             	    switch (alt192) {
             	        case 1 :
-            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:31: NL
+            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:31: NL
             	            {
-            	            NL406=(Token)match(input,NL,FOLLOW_NL_in_message_send_expr4144); if (state.failed) return retval; 
+            	            NL406=(Token)match(input,NL,FOLLOW_NL_in_message_send_expr4138); if (state.failed) return retval; 
             	            if ( state.backtracking==0 ) stream_NL.add(NL406);
 
 
@@ -13106,7 +13104,7 @@ public class babel17Parser extends Parser {
 
             	    }
 
-            	    Id407=(Token)match(input,Id,FOLLOW_Id_in_message_send_expr4147); if (state.failed) return retval; 
+            	    Id407=(Token)match(input,Id,FOLLOW_Id_in_message_send_expr4141); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_Id.add(Id407);
 
 
@@ -13121,7 +13119,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: primitive_expr, Id
+            // elements: Id, primitive_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -13132,15 +13130,15 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 636:40: -> ^( MESSAGE_SEND primitive_expr ( Id )* )
+            // 633:40: -> ^( MESSAGE_SEND primitive_expr ( Id )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:43: ^( MESSAGE_SEND primitive_expr ( Id )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:43: ^( MESSAGE_SEND primitive_expr ( Id )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MESSAGE_SEND, "MESSAGE_SEND"), root_1);
 
                 adaptor.addChild(root_1, stream_primitive_expr.nextTree());
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:73: ( Id )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:633:73: ( Id )*
                 while ( stream_Id.hasNext() ) {
                     adaptor.addChild(root_1, stream_Id.nextNode());
 
@@ -13181,7 +13179,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "list_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:638:1: list_expr : ( '[' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? )? ']' -> ^( SQUARE_LIST ( protected_expr )* ) | '(' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? ( COMMA ( NL )? )? )? ')' -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( protected_expr )* ) ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:635:1: list_expr : ( '[' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? )? ']' -> ^( SQUARE_LIST ( protected_expr )* ) | '(' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? ( COMMA ( NL )? )? )? ')' -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( protected_expr )* ) ) );
     public final babel17Parser.list_expr_return list_expr() throws RecognitionException {
         babel17Parser.list_expr_return retval = new babel17Parser.list_expr_return();
         retval.start = input.LT(1);
@@ -13237,7 +13235,7 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_SQUARE_BRACKET_OPEN=new RewriteRuleTokenStream(adaptor,"token SQUARE_BRACKET_OPEN");
         RewriteRuleSubtreeStream stream_protected_expr=new RewriteRuleSubtreeStream(adaptor,"rule protected_expr");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:2: ( '[' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? )? ']' -> ^( SQUARE_LIST ( protected_expr )* ) | '(' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? ( COMMA ( NL )? )? )? ')' -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( protected_expr )* ) ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:2: ( '[' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? )? ']' -> ^( SQUARE_LIST ( protected_expr )* ) | '(' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? ( COMMA ( NL )? )? )? ')' -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( protected_expr )* ) ) )
             int alt208=2;
             int LA208_0 = input.LA(1);
 
@@ -13256,12 +13254,12 @@ public class babel17Parser extends Parser {
             }
             switch (alt208) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:4: '[' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? )? ']'
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:4: '[' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? )? ']'
                     {
-                    char_literal408=(Token)match(input,SQUARE_BRACKET_OPEN,FOLLOW_SQUARE_BRACKET_OPEN_in_list_expr4171); if (state.failed) return retval; 
+                    char_literal408=(Token)match(input,SQUARE_BRACKET_OPEN,FOLLOW_SQUARE_BRACKET_OPEN_in_list_expr4165); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SQUARE_BRACKET_OPEN.add(char_literal408);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:8: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:8: ( NL )?
                     int alt194=2;
                     int LA194_0 = input.LA(1);
 
@@ -13270,9 +13268,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt194) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:8: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:8: NL
                             {
-                            NL409=(Token)match(input,NL,FOLLOW_NL_in_list_expr4173); if (state.failed) return retval; 
+                            NL409=(Token)match(input,NL,FOLLOW_NL_in_list_expr4167); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL409);
 
 
@@ -13281,24 +13279,24 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:12: ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:12: ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? )?
                     int alt199=2;
                     int LA199_0 = input.LA(1);
 
-                    if ( (LA199_0==L_begin||(LA199_0>=L_obj && LA199_0<=L_if)||(LA199_0>=L_while && LA199_0<=L_for)||(LA199_0>=L_match && LA199_0<=L_case)||LA199_0==L_exception||(LA199_0>=A_infinity && LA199_0<=L_lazy)||(LA199_0>=L_true && LA199_0<=L_nil)||LA199_0==MINUS||LA199_0==A_NOT||LA199_0==U_NOT||(LA199_0>=A_ELLIPSIS && LA199_0<=U_ELLIPSIS)||LA199_0==TILDE||(LA199_0>=Constr && LA199_0<=Num)||(LA199_0>=String && LA199_0<=ROUND_BRACKET_OPEN)||LA199_0==SQUARE_BRACKET_OPEN||LA199_0==CURLY_BRACKET_OPEN||LA199_0==UNDERSCORE) ) {
+                    if ( (LA199_0==L_begin||(LA199_0>=L_obj && LA199_0<=L_if)||(LA199_0>=L_while && LA199_0<=L_for)||(LA199_0>=L_match && LA199_0<=L_case)||LA199_0==L_exception||(LA199_0>=A_infinity && LA199_0<=L_lazy)||(LA199_0>=L_true && LA199_0<=L_nil)||LA199_0==MINUS||LA199_0==A_NOT||LA199_0==U_NOT||(LA199_0>=A_ELLIPSIS && LA199_0<=U_ELLIPSIS)||LA199_0==L_force||(LA199_0>=Constr && LA199_0<=Num)||(LA199_0>=String && LA199_0<=ROUND_BRACKET_OPEN)||LA199_0==SQUARE_BRACKET_OPEN||LA199_0==CURLY_BRACKET_OPEN||LA199_0==UNDERSCORE) ) {
                         alt199=1;
                     }
                     switch (alt199) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:13: protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:13: protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )?
                             {
-                            pushFollow(FOLLOW_protected_expr_in_list_expr4177);
+                            pushFollow(FOLLOW_protected_expr_in_list_expr4171);
                             protected_expr410=protected_expr();
 
                             state._fsp--;
                             if (state.failed) return retval;
                             if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr410.getTree());
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:28: ( ( NL )? COMMA ( NL )? protected_expr )*
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:28: ( ( NL )? COMMA ( NL )? protected_expr )*
                             loop197:
                             do {
                                 int alt197=2;
@@ -13320,9 +13318,9 @@ public class babel17Parser extends Parser {
 
                                 switch (alt197) {
                             	case 1 :
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:29: ( NL )? COMMA ( NL )? protected_expr
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:29: ( NL )? COMMA ( NL )? protected_expr
                             	    {
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:29: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:29: ( NL )?
                             	    int alt195=2;
                             	    int LA195_0 = input.LA(1);
 
@@ -13331,9 +13329,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt195) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:29: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:29: NL
                             	            {
-                            	            NL411=(Token)match(input,NL,FOLLOW_NL_in_list_expr4180); if (state.failed) return retval; 
+                            	            NL411=(Token)match(input,NL,FOLLOW_NL_in_list_expr4174); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL411);
 
 
@@ -13342,10 +13340,10 @@ public class babel17Parser extends Parser {
 
                             	    }
 
-                            	    COMMA412=(Token)match(input,COMMA,FOLLOW_COMMA_in_list_expr4183); if (state.failed) return retval; 
+                            	    COMMA412=(Token)match(input,COMMA,FOLLOW_COMMA_in_list_expr4177); if (state.failed) return retval; 
                             	    if ( state.backtracking==0 ) stream_COMMA.add(COMMA412);
 
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:39: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:39: ( NL )?
                             	    int alt196=2;
                             	    int LA196_0 = input.LA(1);
 
@@ -13354,9 +13352,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt196) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:39: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:39: NL
                             	            {
-                            	            NL413=(Token)match(input,NL,FOLLOW_NL_in_list_expr4185); if (state.failed) return retval; 
+                            	            NL413=(Token)match(input,NL,FOLLOW_NL_in_list_expr4179); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL413);
 
 
@@ -13365,7 +13363,7 @@ public class babel17Parser extends Parser {
 
                             	    }
 
-                            	    pushFollow(FOLLOW_protected_expr_in_list_expr4188);
+                            	    pushFollow(FOLLOW_protected_expr_in_list_expr4182);
                             	    protected_expr414=protected_expr();
 
                             	    state._fsp--;
@@ -13380,7 +13378,7 @@ public class babel17Parser extends Parser {
                                 }
                             } while (true);
 
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:60: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:60: ( NL )?
                             int alt198=2;
                             int LA198_0 = input.LA(1);
 
@@ -13389,9 +13387,9 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt198) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:60: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:60: NL
                                     {
-                                    NL415=(Token)match(input,NL,FOLLOW_NL_in_list_expr4192); if (state.failed) return retval; 
+                                    NL415=(Token)match(input,NL,FOLLOW_NL_in_list_expr4186); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_NL.add(NL415);
 
 
@@ -13406,7 +13404,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    char_literal416=(Token)match(input,SQUARE_BRACKET_CLOSE,FOLLOW_SQUARE_BRACKET_CLOSE_in_list_expr4197); if (state.failed) return retval; 
+                    char_literal416=(Token)match(input,SQUARE_BRACKET_CLOSE,FOLLOW_SQUARE_BRACKET_CLOSE_in_list_expr4191); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SQUARE_BRACKET_CLOSE.add(char_literal416);
 
 
@@ -13423,14 +13421,14 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 639:70: -> ^( SQUARE_LIST ( protected_expr )* )
+                    // 636:70: -> ^( SQUARE_LIST ( protected_expr )* )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:73: ^( SQUARE_LIST ( protected_expr )* )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:73: ^( SQUARE_LIST ( protected_expr )* )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SQUARE_LIST, "SQUARE_LIST"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:87: ( protected_expr )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:636:87: ( protected_expr )*
                         while ( stream_protected_expr.hasNext() ) {
                             adaptor.addChild(root_1, stream_protected_expr.nextTree());
 
@@ -13446,12 +13444,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:4: '(' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? ( COMMA ( NL )? )? )? ')'
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:4: '(' ( NL )? ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? ( COMMA ( NL )? )? )? ')'
                     {
-                    char_literal417=(Token)match(input,ROUND_BRACKET_OPEN,FOLLOW_ROUND_BRACKET_OPEN_in_list_expr4211); if (state.failed) return retval; 
+                    char_literal417=(Token)match(input,ROUND_BRACKET_OPEN,FOLLOW_ROUND_BRACKET_OPEN_in_list_expr4205); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ROUND_BRACKET_OPEN.add(char_literal417);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:8: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:8: ( NL )?
                     int alt200=2;
                     int LA200_0 = input.LA(1);
 
@@ -13460,9 +13458,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt200) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:8: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:8: NL
                             {
-                            NL418=(Token)match(input,NL,FOLLOW_NL_in_list_expr4213); if (state.failed) return retval; 
+                            NL418=(Token)match(input,NL,FOLLOW_NL_in_list_expr4207); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL418);
 
 
@@ -13471,24 +13469,24 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:12: ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? ( COMMA ( NL )? )? )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:12: ( protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? ( COMMA ( NL )? )? )?
                     int alt207=2;
                     int LA207_0 = input.LA(1);
 
-                    if ( (LA207_0==L_begin||(LA207_0>=L_obj && LA207_0<=L_if)||(LA207_0>=L_while && LA207_0<=L_for)||(LA207_0>=L_match && LA207_0<=L_case)||LA207_0==L_exception||(LA207_0>=A_infinity && LA207_0<=L_lazy)||(LA207_0>=L_true && LA207_0<=L_nil)||LA207_0==MINUS||LA207_0==A_NOT||LA207_0==U_NOT||(LA207_0>=A_ELLIPSIS && LA207_0<=U_ELLIPSIS)||LA207_0==TILDE||(LA207_0>=Constr && LA207_0<=Num)||(LA207_0>=String && LA207_0<=ROUND_BRACKET_OPEN)||LA207_0==SQUARE_BRACKET_OPEN||LA207_0==CURLY_BRACKET_OPEN||LA207_0==UNDERSCORE) ) {
+                    if ( (LA207_0==L_begin||(LA207_0>=L_obj && LA207_0<=L_if)||(LA207_0>=L_while && LA207_0<=L_for)||(LA207_0>=L_match && LA207_0<=L_case)||LA207_0==L_exception||(LA207_0>=A_infinity && LA207_0<=L_lazy)||(LA207_0>=L_true && LA207_0<=L_nil)||LA207_0==MINUS||LA207_0==A_NOT||LA207_0==U_NOT||(LA207_0>=A_ELLIPSIS && LA207_0<=U_ELLIPSIS)||LA207_0==L_force||(LA207_0>=Constr && LA207_0<=Num)||(LA207_0>=String && LA207_0<=ROUND_BRACKET_OPEN)||LA207_0==SQUARE_BRACKET_OPEN||LA207_0==CURLY_BRACKET_OPEN||LA207_0==UNDERSCORE) ) {
                         alt207=1;
                     }
                     switch (alt207) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:13: protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? ( COMMA ( NL )? )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:13: protected_expr ( ( NL )? COMMA ( NL )? protected_expr )* ( NL )? ( COMMA ( NL )? )?
                             {
-                            pushFollow(FOLLOW_protected_expr_in_list_expr4217);
+                            pushFollow(FOLLOW_protected_expr_in_list_expr4211);
                             protected_expr419=protected_expr();
 
                             state._fsp--;
                             if (state.failed) return retval;
                             if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr419.getTree());
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:28: ( ( NL )? COMMA ( NL )? protected_expr )*
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:28: ( ( NL )? COMMA ( NL )? protected_expr )*
                             loop203:
                             do {
                                 int alt203=2;
@@ -13503,13 +13501,13 @@ public class babel17Parser extends Parser {
                                         if ( (LA203_2==NL) ) {
                                             int LA203_4 = input.LA(4);
 
-                                            if ( (LA203_4==L_begin||(LA203_4>=L_obj && LA203_4<=L_if)||(LA203_4>=L_while && LA203_4<=L_for)||(LA203_4>=L_match && LA203_4<=L_case)||LA203_4==L_exception||(LA203_4>=A_infinity && LA203_4<=L_lazy)||(LA203_4>=L_true && LA203_4<=L_nil)||LA203_4==MINUS||LA203_4==A_NOT||LA203_4==U_NOT||(LA203_4>=A_ELLIPSIS && LA203_4<=U_ELLIPSIS)||LA203_4==TILDE||(LA203_4>=Constr && LA203_4<=Num)||(LA203_4>=String && LA203_4<=ROUND_BRACKET_OPEN)||LA203_4==SQUARE_BRACKET_OPEN||LA203_4==CURLY_BRACKET_OPEN||LA203_4==UNDERSCORE) ) {
+                                            if ( (LA203_4==L_begin||(LA203_4>=L_obj && LA203_4<=L_if)||(LA203_4>=L_while && LA203_4<=L_for)||(LA203_4>=L_match && LA203_4<=L_case)||LA203_4==L_exception||(LA203_4>=A_infinity && LA203_4<=L_lazy)||(LA203_4>=L_true && LA203_4<=L_nil)||LA203_4==MINUS||LA203_4==A_NOT||LA203_4==U_NOT||(LA203_4>=A_ELLIPSIS && LA203_4<=U_ELLIPSIS)||LA203_4==L_force||(LA203_4>=Constr && LA203_4<=Num)||(LA203_4>=String && LA203_4<=ROUND_BRACKET_OPEN)||LA203_4==SQUARE_BRACKET_OPEN||LA203_4==CURLY_BRACKET_OPEN||LA203_4==UNDERSCORE) ) {
                                                 alt203=1;
                                             }
 
 
                                         }
-                                        else if ( (LA203_2==L_begin||(LA203_2>=L_obj && LA203_2<=L_if)||(LA203_2>=L_while && LA203_2<=L_for)||(LA203_2>=L_match && LA203_2<=L_case)||LA203_2==L_exception||(LA203_2>=A_infinity && LA203_2<=L_lazy)||(LA203_2>=L_true && LA203_2<=L_nil)||LA203_2==MINUS||LA203_2==A_NOT||LA203_2==U_NOT||(LA203_2>=A_ELLIPSIS && LA203_2<=U_ELLIPSIS)||LA203_2==TILDE||(LA203_2>=Constr && LA203_2<=Num)||(LA203_2>=String && LA203_2<=ROUND_BRACKET_OPEN)||LA203_2==SQUARE_BRACKET_OPEN||LA203_2==CURLY_BRACKET_OPEN||LA203_2==UNDERSCORE) ) {
+                                        else if ( (LA203_2==L_begin||(LA203_2>=L_obj && LA203_2<=L_if)||(LA203_2>=L_while && LA203_2<=L_for)||(LA203_2>=L_match && LA203_2<=L_case)||LA203_2==L_exception||(LA203_2>=A_infinity && LA203_2<=L_lazy)||(LA203_2>=L_true && LA203_2<=L_nil)||LA203_2==MINUS||LA203_2==A_NOT||LA203_2==U_NOT||(LA203_2>=A_ELLIPSIS && LA203_2<=U_ELLIPSIS)||LA203_2==L_force||(LA203_2>=Constr && LA203_2<=Num)||(LA203_2>=String && LA203_2<=ROUND_BRACKET_OPEN)||LA203_2==SQUARE_BRACKET_OPEN||LA203_2==CURLY_BRACKET_OPEN||LA203_2==UNDERSCORE) ) {
                                             alt203=1;
                                         }
 
@@ -13524,13 +13522,13 @@ public class babel17Parser extends Parser {
                                     if ( (LA203_2==NL) ) {
                                         int LA203_4 = input.LA(3);
 
-                                        if ( (LA203_4==L_begin||(LA203_4>=L_obj && LA203_4<=L_if)||(LA203_4>=L_while && LA203_4<=L_for)||(LA203_4>=L_match && LA203_4<=L_case)||LA203_4==L_exception||(LA203_4>=A_infinity && LA203_4<=L_lazy)||(LA203_4>=L_true && LA203_4<=L_nil)||LA203_4==MINUS||LA203_4==A_NOT||LA203_4==U_NOT||(LA203_4>=A_ELLIPSIS && LA203_4<=U_ELLIPSIS)||LA203_4==TILDE||(LA203_4>=Constr && LA203_4<=Num)||(LA203_4>=String && LA203_4<=ROUND_BRACKET_OPEN)||LA203_4==SQUARE_BRACKET_OPEN||LA203_4==CURLY_BRACKET_OPEN||LA203_4==UNDERSCORE) ) {
+                                        if ( (LA203_4==L_begin||(LA203_4>=L_obj && LA203_4<=L_if)||(LA203_4>=L_while && LA203_4<=L_for)||(LA203_4>=L_match && LA203_4<=L_case)||LA203_4==L_exception||(LA203_4>=A_infinity && LA203_4<=L_lazy)||(LA203_4>=L_true && LA203_4<=L_nil)||LA203_4==MINUS||LA203_4==A_NOT||LA203_4==U_NOT||(LA203_4>=A_ELLIPSIS && LA203_4<=U_ELLIPSIS)||LA203_4==L_force||(LA203_4>=Constr && LA203_4<=Num)||(LA203_4>=String && LA203_4<=ROUND_BRACKET_OPEN)||LA203_4==SQUARE_BRACKET_OPEN||LA203_4==CURLY_BRACKET_OPEN||LA203_4==UNDERSCORE) ) {
                                             alt203=1;
                                         }
 
 
                                     }
-                                    else if ( (LA203_2==L_begin||(LA203_2>=L_obj && LA203_2<=L_if)||(LA203_2>=L_while && LA203_2<=L_for)||(LA203_2>=L_match && LA203_2<=L_case)||LA203_2==L_exception||(LA203_2>=A_infinity && LA203_2<=L_lazy)||(LA203_2>=L_true && LA203_2<=L_nil)||LA203_2==MINUS||LA203_2==A_NOT||LA203_2==U_NOT||(LA203_2>=A_ELLIPSIS && LA203_2<=U_ELLIPSIS)||LA203_2==TILDE||(LA203_2>=Constr && LA203_2<=Num)||(LA203_2>=String && LA203_2<=ROUND_BRACKET_OPEN)||LA203_2==SQUARE_BRACKET_OPEN||LA203_2==CURLY_BRACKET_OPEN||LA203_2==UNDERSCORE) ) {
+                                    else if ( (LA203_2==L_begin||(LA203_2>=L_obj && LA203_2<=L_if)||(LA203_2>=L_while && LA203_2<=L_for)||(LA203_2>=L_match && LA203_2<=L_case)||LA203_2==L_exception||(LA203_2>=A_infinity && LA203_2<=L_lazy)||(LA203_2>=L_true && LA203_2<=L_nil)||LA203_2==MINUS||LA203_2==A_NOT||LA203_2==U_NOT||(LA203_2>=A_ELLIPSIS && LA203_2<=U_ELLIPSIS)||LA203_2==L_force||(LA203_2>=Constr && LA203_2<=Num)||(LA203_2>=String && LA203_2<=ROUND_BRACKET_OPEN)||LA203_2==SQUARE_BRACKET_OPEN||LA203_2==CURLY_BRACKET_OPEN||LA203_2==UNDERSCORE) ) {
                                         alt203=1;
                                     }
 
@@ -13540,9 +13538,9 @@ public class babel17Parser extends Parser {
 
                                 switch (alt203) {
                             	case 1 :
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:29: ( NL )? COMMA ( NL )? protected_expr
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:29: ( NL )? COMMA ( NL )? protected_expr
                             	    {
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:29: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:29: ( NL )?
                             	    int alt201=2;
                             	    int LA201_0 = input.LA(1);
 
@@ -13551,9 +13549,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt201) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:29: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:29: NL
                             	            {
-                            	            NL420=(Token)match(input,NL,FOLLOW_NL_in_list_expr4220); if (state.failed) return retval; 
+                            	            NL420=(Token)match(input,NL,FOLLOW_NL_in_list_expr4214); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL420);
 
 
@@ -13562,10 +13560,10 @@ public class babel17Parser extends Parser {
 
                             	    }
 
-                            	    COMMA421=(Token)match(input,COMMA,FOLLOW_COMMA_in_list_expr4223); if (state.failed) return retval; 
+                            	    COMMA421=(Token)match(input,COMMA,FOLLOW_COMMA_in_list_expr4217); if (state.failed) return retval; 
                             	    if ( state.backtracking==0 ) stream_COMMA.add(COMMA421);
 
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:39: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:39: ( NL )?
                             	    int alt202=2;
                             	    int LA202_0 = input.LA(1);
 
@@ -13574,9 +13572,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt202) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:39: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:39: NL
                             	            {
-                            	            NL422=(Token)match(input,NL,FOLLOW_NL_in_list_expr4225); if (state.failed) return retval; 
+                            	            NL422=(Token)match(input,NL,FOLLOW_NL_in_list_expr4219); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL422);
 
 
@@ -13585,7 +13583,7 @@ public class babel17Parser extends Parser {
 
                             	    }
 
-                            	    pushFollow(FOLLOW_protected_expr_in_list_expr4228);
+                            	    pushFollow(FOLLOW_protected_expr_in_list_expr4222);
                             	    protected_expr423=protected_expr();
 
                             	    state._fsp--;
@@ -13600,7 +13598,7 @@ public class babel17Parser extends Parser {
                                 }
                             } while (true);
 
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:60: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:60: ( NL )?
                             int alt204=2;
                             int LA204_0 = input.LA(1);
 
@@ -13609,9 +13607,9 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt204) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:60: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:60: NL
                                     {
-                                    NL424=(Token)match(input,NL,FOLLOW_NL_in_list_expr4232); if (state.failed) return retval; 
+                                    NL424=(Token)match(input,NL,FOLLOW_NL_in_list_expr4226); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_NL.add(NL424);
 
 
@@ -13620,7 +13618,7 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:64: ( COMMA ( NL )? )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:64: ( COMMA ( NL )? )?
                             int alt206=2;
                             int LA206_0 = input.LA(1);
 
@@ -13629,12 +13627,12 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt206) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:65: COMMA ( NL )?
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:65: COMMA ( NL )?
                                     {
-                                    COMMA425=(Token)match(input,COMMA,FOLLOW_COMMA_in_list_expr4236); if (state.failed) return retval; 
+                                    COMMA425=(Token)match(input,COMMA,FOLLOW_COMMA_in_list_expr4230); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_COMMA.add(COMMA425);
 
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:71: ( NL )?
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:71: ( NL )?
                                     int alt205=2;
                                     int LA205_0 = input.LA(1);
 
@@ -13643,9 +13641,9 @@ public class babel17Parser extends Parser {
                                     }
                                     switch (alt205) {
                                         case 1 :
-                                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:71: NL
+                                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:71: NL
                                             {
-                                            NL426=(Token)match(input,NL,FOLLOW_NL_in_list_expr4238); if (state.failed) return retval; 
+                                            NL426=(Token)match(input,NL,FOLLOW_NL_in_list_expr4232); if (state.failed) return retval; 
                                             if ( state.backtracking==0 ) stream_NL.add(NL426);
 
 
@@ -13666,7 +13664,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    char_literal427=(Token)match(input,ROUND_BRACKET_CLOSE,FOLLOW_ROUND_BRACKET_CLOSE_in_list_expr4245); if (state.failed) return retval; 
+                    char_literal427=(Token)match(input,ROUND_BRACKET_CLOSE,FOLLOW_ROUND_BRACKET_CLOSE_in_list_expr4239); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ROUND_BRACKET_CLOSE.add(char_literal427);
 
 
@@ -13683,19 +13681,19 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 640:83: -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( protected_expr )* ) )
+                    // 637:83: -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( protected_expr )* ) )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:86: ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( protected_expr )* ) )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:86: ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( protected_expr )* ) )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ROUND_LIST, "ROUND_LIST"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:99: ^( NIL_TOKEN ( COMMA )* )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:99: ^( NIL_TOKEN ( COMMA )* )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_2);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:111: ( COMMA )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:111: ( COMMA )*
                         while ( stream_COMMA.hasNext() ) {
                             adaptor.addChild(root_2, stream_COMMA.nextNode());
 
@@ -13704,12 +13702,12 @@ public class babel17Parser extends Parser {
 
                         adaptor.addChild(root_1, root_2);
                         }
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:119: ^( NIL_TOKEN ( protected_expr )* )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:119: ^( NIL_TOKEN ( protected_expr )* )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_2);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:131: ( protected_expr )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:637:131: ( protected_expr )*
                         while ( stream_protected_expr.hasNext() ) {
                             adaptor.addChild(root_2, stream_protected_expr.nextTree());
 
@@ -13755,7 +13753,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "map_or_set_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:642:1: map_or_set_expr : ( '{' ( NL )? ( map_or_set_elem_expr ( NL )? ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )* )? '}' -> ^( MAP_OR_SET_OR_OBJ ( map_or_set_elem_expr )* ) | '{' ( NL )? token_ARROW ( NL )? '}' -> ^( EMPTY_MAP ) );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:639:1: map_or_set_expr : ( '{' ( NL )? ( map_or_set_elem_expr ( NL )? ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )* )? '}' -> ^( MAP_OR_SET_OR_OBJ ( map_or_set_elem_expr )* ) | '{' ( NL )? token_ARROW ( NL )? '}' -> ^( EMPTY_MAP ) );
     public final babel17Parser.map_or_set_expr_return map_or_set_expr() throws RecognitionException {
         babel17Parser.map_or_set_expr_return retval = new babel17Parser.map_or_set_expr_return();
         retval.start = input.LT(1);
@@ -13798,7 +13796,7 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_map_or_set_elem_expr=new RewriteRuleSubtreeStream(adaptor,"rule map_or_set_elem_expr");
         RewriteRuleSubtreeStream stream_token_ARROW=new RewriteRuleSubtreeStream(adaptor,"rule token_ARROW");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:2: ( '{' ( NL )? ( map_or_set_elem_expr ( NL )? ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )* )? '}' -> ^( MAP_OR_SET_OR_OBJ ( map_or_set_elem_expr )* ) | '{' ( NL )? token_ARROW ( NL )? '}' -> ^( EMPTY_MAP ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:2: ( '{' ( NL )? ( map_or_set_elem_expr ( NL )? ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )* )? '}' -> ^( MAP_OR_SET_OR_OBJ ( map_or_set_elem_expr )* ) | '{' ( NL )? token_ARROW ( NL )? '}' -> ^( EMPTY_MAP ) )
             int alt217=2;
             int LA217_0 = input.LA(1);
 
@@ -13811,7 +13809,7 @@ public class babel17Parser extends Parser {
                     if ( ((LA217_2>=A_ARROW && LA217_2<=U_ARROW)) ) {
                         alt217=2;
                     }
-                    else if ( (LA217_2==L_begin||(LA217_2>=L_obj && LA217_2<=L_if)||(LA217_2>=L_while && LA217_2<=L_for)||(LA217_2>=L_match && LA217_2<=L_case)||LA217_2==L_exception||(LA217_2>=A_infinity && LA217_2<=L_lazy)||(LA217_2>=L_true && LA217_2<=L_nil)||LA217_2==MINUS||LA217_2==A_NOT||LA217_2==U_NOT||(LA217_2>=A_ELLIPSIS && LA217_2<=U_ELLIPSIS)||LA217_2==TILDE||(LA217_2>=Constr && LA217_2<=Num)||(LA217_2>=String && LA217_2<=ROUND_BRACKET_OPEN)||LA217_2==SQUARE_BRACKET_OPEN||(LA217_2>=CURLY_BRACKET_OPEN && LA217_2<=UNDERSCORE)) ) {
+                    else if ( (LA217_2==L_begin||(LA217_2>=L_obj && LA217_2<=L_if)||(LA217_2>=L_while && LA217_2<=L_for)||(LA217_2>=L_match && LA217_2<=L_case)||LA217_2==L_exception||(LA217_2>=A_infinity && LA217_2<=L_lazy)||(LA217_2>=L_true && LA217_2<=L_nil)||LA217_2==MINUS||LA217_2==A_NOT||LA217_2==U_NOT||(LA217_2>=A_ELLIPSIS && LA217_2<=U_ELLIPSIS)||LA217_2==L_force||(LA217_2>=Constr && LA217_2<=Num)||(LA217_2>=String && LA217_2<=ROUND_BRACKET_OPEN)||LA217_2==SQUARE_BRACKET_OPEN||(LA217_2>=CURLY_BRACKET_OPEN && LA217_2<=UNDERSCORE)) ) {
                         alt217=1;
                     }
                     else {
@@ -13835,7 +13833,7 @@ public class babel17Parser extends Parser {
                 case A_infinity:
                 case U_infinity:
                 case L_concurrent:
-                case L_await:
+                case L_choose:
                 case L_lazy:
                 case L_true:
                 case L_false:
@@ -13847,7 +13845,7 @@ public class babel17Parser extends Parser {
                 case U_NOT:
                 case A_ELLIPSIS:
                 case U_ELLIPSIS:
-                case TILDE:
+                case L_force:
                 case Constr:
                 case Id:
                 case Num:
@@ -13885,12 +13883,12 @@ public class babel17Parser extends Parser {
             }
             switch (alt217) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:4: '{' ( NL )? ( map_or_set_elem_expr ( NL )? ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )* )? '}'
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:4: '{' ( NL )? ( map_or_set_elem_expr ( NL )? ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )* )? '}'
                     {
-                    char_literal428=(Token)match(input,CURLY_BRACKET_OPEN,FOLLOW_CURLY_BRACKET_OPEN_in_map_or_set_expr4274); if (state.failed) return retval; 
+                    char_literal428=(Token)match(input,CURLY_BRACKET_OPEN,FOLLOW_CURLY_BRACKET_OPEN_in_map_or_set_expr4268); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CURLY_BRACKET_OPEN.add(char_literal428);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:8: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:8: ( NL )?
                     int alt209=2;
                     int LA209_0 = input.LA(1);
 
@@ -13899,9 +13897,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt209) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:8: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:8: NL
                             {
-                            NL429=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4276); if (state.failed) return retval; 
+                            NL429=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4270); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL429);
 
 
@@ -13910,24 +13908,24 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:12: ( map_or_set_elem_expr ( NL )? ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )* )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:12: ( map_or_set_elem_expr ( NL )? ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )* )?
                     int alt214=2;
                     int LA214_0 = input.LA(1);
 
-                    if ( (LA214_0==L_begin||(LA214_0>=L_obj && LA214_0<=L_if)||(LA214_0>=L_while && LA214_0<=L_for)||(LA214_0>=L_match && LA214_0<=L_case)||LA214_0==L_exception||(LA214_0>=A_infinity && LA214_0<=L_lazy)||(LA214_0>=L_true && LA214_0<=L_nil)||LA214_0==MINUS||LA214_0==A_NOT||LA214_0==U_NOT||(LA214_0>=A_ELLIPSIS && LA214_0<=U_ELLIPSIS)||LA214_0==TILDE||(LA214_0>=Constr && LA214_0<=Num)||(LA214_0>=String && LA214_0<=ROUND_BRACKET_OPEN)||LA214_0==SQUARE_BRACKET_OPEN||LA214_0==CURLY_BRACKET_OPEN||LA214_0==UNDERSCORE) ) {
+                    if ( (LA214_0==L_begin||(LA214_0>=L_obj && LA214_0<=L_if)||(LA214_0>=L_while && LA214_0<=L_for)||(LA214_0>=L_match && LA214_0<=L_case)||LA214_0==L_exception||(LA214_0>=A_infinity && LA214_0<=L_lazy)||(LA214_0>=L_true && LA214_0<=L_nil)||LA214_0==MINUS||LA214_0==A_NOT||LA214_0==U_NOT||(LA214_0>=A_ELLIPSIS && LA214_0<=U_ELLIPSIS)||LA214_0==L_force||(LA214_0>=Constr && LA214_0<=Num)||(LA214_0>=String && LA214_0<=ROUND_BRACKET_OPEN)||LA214_0==SQUARE_BRACKET_OPEN||LA214_0==CURLY_BRACKET_OPEN||LA214_0==UNDERSCORE) ) {
                         alt214=1;
                     }
                     switch (alt214) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:13: map_or_set_elem_expr ( NL )? ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )*
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:13: map_or_set_elem_expr ( NL )? ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )*
                             {
-                            pushFollow(FOLLOW_map_or_set_elem_expr_in_map_or_set_expr4280);
+                            pushFollow(FOLLOW_map_or_set_elem_expr_in_map_or_set_expr4274);
                             map_or_set_elem_expr430=map_or_set_elem_expr();
 
                             state._fsp--;
                             if (state.failed) return retval;
                             if ( state.backtracking==0 ) stream_map_or_set_elem_expr.add(map_or_set_elem_expr430.getTree());
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:34: ( NL )?
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:34: ( NL )?
                             int alt210=2;
                             int LA210_0 = input.LA(1);
 
@@ -13936,9 +13934,9 @@ public class babel17Parser extends Parser {
                             }
                             switch (alt210) {
                                 case 1 :
-                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:34: NL
+                                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:34: NL
                                     {
-                                    NL431=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4282); if (state.failed) return retval; 
+                                    NL431=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4276); if (state.failed) return retval; 
                                     if ( state.backtracking==0 ) stream_NL.add(NL431);
 
 
@@ -13947,7 +13945,7 @@ public class babel17Parser extends Parser {
 
                             }
 
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:38: ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )*
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:38: ( COMMA ( NL )? map_or_set_elem_expr ( NL )? )*
                             loop213:
                             do {
                                 int alt213=2;
@@ -13960,12 +13958,12 @@ public class babel17Parser extends Parser {
 
                                 switch (alt213) {
                             	case 1 :
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:39: COMMA ( NL )? map_or_set_elem_expr ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:39: COMMA ( NL )? map_or_set_elem_expr ( NL )?
                             	    {
-                            	    COMMA432=(Token)match(input,COMMA,FOLLOW_COMMA_in_map_or_set_expr4286); if (state.failed) return retval; 
+                            	    COMMA432=(Token)match(input,COMMA,FOLLOW_COMMA_in_map_or_set_expr4280); if (state.failed) return retval; 
                             	    if ( state.backtracking==0 ) stream_COMMA.add(COMMA432);
 
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:45: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:45: ( NL )?
                             	    int alt211=2;
                             	    int LA211_0 = input.LA(1);
 
@@ -13974,9 +13972,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt211) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:45: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:45: NL
                             	            {
-                            	            NL433=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4288); if (state.failed) return retval; 
+                            	            NL433=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4282); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL433);
 
 
@@ -13985,13 +13983,13 @@ public class babel17Parser extends Parser {
 
                             	    }
 
-                            	    pushFollow(FOLLOW_map_or_set_elem_expr_in_map_or_set_expr4291);
+                            	    pushFollow(FOLLOW_map_or_set_elem_expr_in_map_or_set_expr4285);
                             	    map_or_set_elem_expr434=map_or_set_elem_expr();
 
                             	    state._fsp--;
                             	    if (state.failed) return retval;
                             	    if ( state.backtracking==0 ) stream_map_or_set_elem_expr.add(map_or_set_elem_expr434.getTree());
-                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:70: ( NL )?
+                            	    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:70: ( NL )?
                             	    int alt212=2;
                             	    int LA212_0 = input.LA(1);
 
@@ -14000,9 +13998,9 @@ public class babel17Parser extends Parser {
                             	    }
                             	    switch (alt212) {
                             	        case 1 :
-                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:70: NL
+                            	            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:70: NL
                             	            {
-                            	            NL435=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4293); if (state.failed) return retval; 
+                            	            NL435=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4287); if (state.failed) return retval; 
                             	            if ( state.backtracking==0 ) stream_NL.add(NL435);
 
 
@@ -14026,7 +14024,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    char_literal436=(Token)match(input,CURLY_BRACKET_CLOSE,FOLLOW_CURLY_BRACKET_CLOSE_in_map_or_set_expr4300); if (state.failed) return retval; 
+                    char_literal436=(Token)match(input,CURLY_BRACKET_CLOSE,FOLLOW_CURLY_BRACKET_CLOSE_in_map_or_set_expr4294); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CURLY_BRACKET_CLOSE.add(char_literal436);
 
 
@@ -14043,14 +14041,14 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 643:82: -> ^( MAP_OR_SET_OR_OBJ ( map_or_set_elem_expr )* )
+                    // 640:82: -> ^( MAP_OR_SET_OR_OBJ ( map_or_set_elem_expr )* )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:85: ^( MAP_OR_SET_OR_OBJ ( map_or_set_elem_expr )* )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:85: ^( MAP_OR_SET_OR_OBJ ( map_or_set_elem_expr )* )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MAP_OR_SET_OR_OBJ, "MAP_OR_SET_OR_OBJ"), root_1);
 
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:105: ( map_or_set_elem_expr )*
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:640:105: ( map_or_set_elem_expr )*
                         while ( stream_map_or_set_elem_expr.hasNext() ) {
                             adaptor.addChild(root_1, stream_map_or_set_elem_expr.nextTree());
 
@@ -14066,12 +14064,12 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:10: '{' ( NL )? token_ARROW ( NL )? '}'
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:641:10: '{' ( NL )? token_ARROW ( NL )? '}'
                     {
-                    char_literal437=(Token)match(input,CURLY_BRACKET_OPEN,FOLLOW_CURLY_BRACKET_OPEN_in_map_or_set_expr4320); if (state.failed) return retval; 
+                    char_literal437=(Token)match(input,CURLY_BRACKET_OPEN,FOLLOW_CURLY_BRACKET_OPEN_in_map_or_set_expr4314); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CURLY_BRACKET_OPEN.add(char_literal437);
 
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:14: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:641:14: ( NL )?
                     int alt215=2;
                     int LA215_0 = input.LA(1);
 
@@ -14080,9 +14078,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt215) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:14: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:641:14: NL
                             {
-                            NL438=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4322); if (state.failed) return retval; 
+                            NL438=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4316); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL438);
 
 
@@ -14091,13 +14089,13 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_token_ARROW_in_map_or_set_expr4325);
+                    pushFollow(FOLLOW_token_ARROW_in_map_or_set_expr4319);
                     token_ARROW439=token_ARROW();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_token_ARROW.add(token_ARROW439.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:30: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:641:30: ( NL )?
                     int alt216=2;
                     int LA216_0 = input.LA(1);
 
@@ -14106,9 +14104,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt216) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:30: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:641:30: NL
                             {
-                            NL440=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4327); if (state.failed) return retval; 
+                            NL440=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_expr4321); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL440);
 
 
@@ -14117,7 +14115,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    char_literal441=(Token)match(input,CURLY_BRACKET_CLOSE,FOLLOW_CURLY_BRACKET_CLOSE_in_map_or_set_expr4330); if (state.failed) return retval; 
+                    char_literal441=(Token)match(input,CURLY_BRACKET_CLOSE,FOLLOW_CURLY_BRACKET_CLOSE_in_map_or_set_expr4324); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_CURLY_BRACKET_CLOSE.add(char_literal441);
 
 
@@ -14134,9 +14132,9 @@ public class babel17Parser extends Parser {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 644:38: -> ^( EMPTY_MAP )
+                    // 641:38: -> ^( EMPTY_MAP )
                     {
-                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:41: ^( EMPTY_MAP )
+                        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:641:41: ^( EMPTY_MAP )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EMPTY_MAP, "EMPTY_MAP"), root_1);
@@ -14177,7 +14175,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "map_or_set_elem_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:646:1: map_or_set_elem_expr : protected_expr ( ( NL )? arrow_or_assign ( NL )? protected_expr )? -> ^( NIL_TOKEN ^( NIL_TOKEN ( protected_expr )* ) ( arrow_or_assign )* ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:643:1: map_or_set_elem_expr : protected_expr ( ( NL )? arrow_or_assign ( NL )? protected_expr )? -> ^( NIL_TOKEN ^( NIL_TOKEN ( protected_expr )* ) ( arrow_or_assign )* ) ;
     public final babel17Parser.map_or_set_elem_expr_return map_or_set_elem_expr() throws RecognitionException {
         babel17Parser.map_or_set_elem_expr_return retval = new babel17Parser.map_or_set_elem_expr_return();
         retval.start = input.LT(1);
@@ -14199,16 +14197,16 @@ public class babel17Parser extends Parser {
         RewriteRuleSubtreeStream stream_protected_expr=new RewriteRuleSubtreeStream(adaptor,"rule protected_expr");
         RewriteRuleSubtreeStream stream_arrow_or_assign=new RewriteRuleSubtreeStream(adaptor,"rule arrow_or_assign");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:2: ( protected_expr ( ( NL )? arrow_or_assign ( NL )? protected_expr )? -> ^( NIL_TOKEN ^( NIL_TOKEN ( protected_expr )* ) ( arrow_or_assign )* ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:4: protected_expr ( ( NL )? arrow_or_assign ( NL )? protected_expr )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:2: ( protected_expr ( ( NL )? arrow_or_assign ( NL )? protected_expr )? -> ^( NIL_TOKEN ^( NIL_TOKEN ( protected_expr )* ) ( arrow_or_assign )* ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:4: protected_expr ( ( NL )? arrow_or_assign ( NL )? protected_expr )?
             {
-            pushFollow(FOLLOW_protected_expr_in_map_or_set_elem_expr4347);
+            pushFollow(FOLLOW_protected_expr_in_map_or_set_elem_expr4341);
             protected_expr442=protected_expr();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_protected_expr.add(protected_expr442.getTree());
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:19: ( ( NL )? arrow_or_assign ( NL )? protected_expr )?
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:19: ( ( NL )? arrow_or_assign ( NL )? protected_expr )?
             int alt220=2;
             int LA220_0 = input.LA(1);
 
@@ -14224,9 +14222,9 @@ public class babel17Parser extends Parser {
             }
             switch (alt220) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:20: ( NL )? arrow_or_assign ( NL )? protected_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:20: ( NL )? arrow_or_assign ( NL )? protected_expr
                     {
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:20: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:20: ( NL )?
                     int alt218=2;
                     int LA218_0 = input.LA(1);
 
@@ -14235,9 +14233,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt218) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:20: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:20: NL
                             {
-                            NL443=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_elem_expr4350); if (state.failed) return retval; 
+                            NL443=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_elem_expr4344); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL443);
 
 
@@ -14246,13 +14244,13 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_arrow_or_assign_in_map_or_set_elem_expr4353);
+                    pushFollow(FOLLOW_arrow_or_assign_in_map_or_set_elem_expr4347);
                     arrow_or_assign444=arrow_or_assign();
 
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) stream_arrow_or_assign.add(arrow_or_assign444.getTree());
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:40: ( NL )?
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:40: ( NL )?
                     int alt219=2;
                     int LA219_0 = input.LA(1);
 
@@ -14261,9 +14259,9 @@ public class babel17Parser extends Parser {
                     }
                     switch (alt219) {
                         case 1 :
-                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:40: NL
+                            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:40: NL
                             {
-                            NL445=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_elem_expr4355); if (state.failed) return retval; 
+                            NL445=(Token)match(input,NL,FOLLOW_NL_in_map_or_set_elem_expr4349); if (state.failed) return retval; 
                             if ( state.backtracking==0 ) stream_NL.add(NL445);
 
 
@@ -14272,7 +14270,7 @@ public class babel17Parser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_protected_expr_in_map_or_set_elem_expr4358);
+                    pushFollow(FOLLOW_protected_expr_in_map_or_set_elem_expr4352);
                     protected_expr446=protected_expr();
 
                     state._fsp--;
@@ -14287,7 +14285,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: arrow_or_assign, protected_expr
+            // elements: protected_expr, arrow_or_assign
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -14298,19 +14296,19 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 647:61: -> ^( NIL_TOKEN ^( NIL_TOKEN ( protected_expr )* ) ( arrow_or_assign )* )
+            // 644:61: -> ^( NIL_TOKEN ^( NIL_TOKEN ( protected_expr )* ) ( arrow_or_assign )* )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:64: ^( NIL_TOKEN ^( NIL_TOKEN ( protected_expr )* ) ( arrow_or_assign )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:64: ^( NIL_TOKEN ^( NIL_TOKEN ( protected_expr )* ) ( arrow_or_assign )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_1);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:76: ^( NIL_TOKEN ( protected_expr )* )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:76: ^( NIL_TOKEN ( protected_expr )* )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
                 root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NIL_TOKEN, "NIL_TOKEN"), root_2);
 
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:88: ( protected_expr )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:88: ( protected_expr )*
                 while ( stream_protected_expr.hasNext() ) {
                     adaptor.addChild(root_2, stream_protected_expr.nextTree());
 
@@ -14319,7 +14317,7 @@ public class babel17Parser extends Parser {
 
                 adaptor.addChild(root_1, root_2);
                 }
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:105: ( arrow_or_assign )*
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:644:105: ( arrow_or_assign )*
                 while ( stream_arrow_or_assign.hasNext() ) {
                     adaptor.addChild(root_1, stream_arrow_or_assign.nextTree());
 
@@ -14360,7 +14358,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "primitive_expr"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:649:1: primitive_expr : ( Num | String | Id | Constr | L_true | L_false | L_this | L_nil | token_infinity | list_expr | with_control_expr | map_or_set_expr );
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:646:1: primitive_expr : ( Num | String | Id | Constr | L_true | L_false | L_this | L_nil | token_infinity | list_expr | with_control_expr | map_or_set_expr );
     public final babel17Parser.primitive_expr_return primitive_expr() throws RecognitionException {
         babel17Parser.primitive_expr_return retval = new babel17Parser.primitive_expr_return();
         retval.start = input.LT(1);
@@ -14394,7 +14392,7 @@ public class babel17Parser extends Parser {
         CommonTree L_nil454_tree=null;
 
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:650:2: ( Num | String | Id | Constr | L_true | L_false | L_this | L_nil | token_infinity | list_expr | with_control_expr | map_or_set_expr )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:2: ( Num | String | Id | Constr | L_true | L_false | L_this | L_nil | token_infinity | list_expr | with_control_expr | map_or_set_expr )
             int alt221=12;
             switch ( input.LA(1) ) {
             case Num:
@@ -14474,11 +14472,11 @@ public class babel17Parser extends Parser {
 
             switch (alt221) {
                 case 1 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:650:4: Num
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:647:4: Num
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    Num447=(Token)match(input,Num,FOLLOW_Num_in_primitive_expr4385); if (state.failed) return retval;
+                    Num447=(Token)match(input,Num,FOLLOW_Num_in_primitive_expr4379); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     Num447_tree = (CommonTree)adaptor.create(Num447);
                     adaptor.addChild(root_0, Num447_tree);
@@ -14487,11 +14485,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:651:4: String
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:648:4: String
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    String448=(Token)match(input,String,FOLLOW_String_in_primitive_expr4390); if (state.failed) return retval;
+                    String448=(Token)match(input,String,FOLLOW_String_in_primitive_expr4384); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     String448_tree = (CommonTree)adaptor.create(String448);
                     adaptor.addChild(root_0, String448_tree);
@@ -14500,11 +14498,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:652:4: Id
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:649:4: Id
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    Id449=(Token)match(input,Id,FOLLOW_Id_in_primitive_expr4395); if (state.failed) return retval;
+                    Id449=(Token)match(input,Id,FOLLOW_Id_in_primitive_expr4389); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     Id449_tree = (CommonTree)adaptor.create(Id449);
                     adaptor.addChild(root_0, Id449_tree);
@@ -14513,11 +14511,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:653:4: Constr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:650:4: Constr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    Constr450=(Token)match(input,Constr,FOLLOW_Constr_in_primitive_expr4400); if (state.failed) return retval;
+                    Constr450=(Token)match(input,Constr,FOLLOW_Constr_in_primitive_expr4394); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     Constr450_tree = (CommonTree)adaptor.create(Constr450);
                     adaptor.addChild(root_0, Constr450_tree);
@@ -14526,11 +14524,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:654:4: L_true
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:651:4: L_true
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    L_true451=(Token)match(input,L_true,FOLLOW_L_true_in_primitive_expr4405); if (state.failed) return retval;
+                    L_true451=(Token)match(input,L_true,FOLLOW_L_true_in_primitive_expr4399); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     L_true451_tree = (CommonTree)adaptor.create(L_true451);
                     adaptor.addChild(root_0, L_true451_tree);
@@ -14539,11 +14537,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 6 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:655:4: L_false
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:652:4: L_false
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    L_false452=(Token)match(input,L_false,FOLLOW_L_false_in_primitive_expr4410); if (state.failed) return retval;
+                    L_false452=(Token)match(input,L_false,FOLLOW_L_false_in_primitive_expr4404); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     L_false452_tree = (CommonTree)adaptor.create(L_false452);
                     adaptor.addChild(root_0, L_false452_tree);
@@ -14552,11 +14550,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 7 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:656:4: L_this
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:653:4: L_this
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    L_this453=(Token)match(input,L_this,FOLLOW_L_this_in_primitive_expr4415); if (state.failed) return retval;
+                    L_this453=(Token)match(input,L_this,FOLLOW_L_this_in_primitive_expr4409); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     L_this453_tree = (CommonTree)adaptor.create(L_this453);
                     adaptor.addChild(root_0, L_this453_tree);
@@ -14565,11 +14563,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 8 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:657:4: L_nil
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:654:4: L_nil
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    L_nil454=(Token)match(input,L_nil,FOLLOW_L_nil_in_primitive_expr4421); if (state.failed) return retval;
+                    L_nil454=(Token)match(input,L_nil,FOLLOW_L_nil_in_primitive_expr4415); if (state.failed) return retval;
                     if ( state.backtracking==0 ) {
                     L_nil454_tree = (CommonTree)adaptor.create(L_nil454);
                     adaptor.addChild(root_0, L_nil454_tree);
@@ -14578,11 +14576,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 9 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:658:4: token_infinity
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:655:4: token_infinity
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_token_infinity_in_primitive_expr4426);
+                    pushFollow(FOLLOW_token_infinity_in_primitive_expr4420);
                     token_infinity455=token_infinity();
 
                     state._fsp--;
@@ -14592,11 +14590,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 10 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:659:5: list_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:656:5: list_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_list_expr_in_primitive_expr4432);
+                    pushFollow(FOLLOW_list_expr_in_primitive_expr4426);
                     list_expr456=list_expr();
 
                     state._fsp--;
@@ -14606,11 +14604,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 11 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:660:4: with_control_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:657:4: with_control_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_with_control_expr_in_primitive_expr4437);
+                    pushFollow(FOLLOW_with_control_expr_in_primitive_expr4431);
                     with_control_expr457=with_control_expr();
 
                     state._fsp--;
@@ -14620,11 +14618,11 @@ public class babel17Parser extends Parser {
                     }
                     break;
                 case 12 :
-                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:661:4: map_or_set_expr
+                    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:658:4: map_or_set_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_map_or_set_expr_in_primitive_expr4442);
+                    pushFollow(FOLLOW_map_or_set_expr_in_primitive_expr4436);
                     map_or_set_expr458=map_or_set_expr();
 
                     state._fsp--;
@@ -14661,7 +14659,7 @@ public class babel17Parser extends Parser {
     };
 
     // $ANTLR start "prog"
-    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:663:1: prog : block EOF -> ^( PROG block ) ;
+    // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:660:1: prog : block EOF -> ^( PROG block ) ;
     public final babel17Parser.prog_return prog() throws RecognitionException {
         babel17Parser.prog_return retval = new babel17Parser.prog_return();
         retval.start = input.LT(1);
@@ -14676,16 +14674,16 @@ public class babel17Parser extends Parser {
         RewriteRuleTokenStream stream_EOF=new RewriteRuleTokenStream(adaptor,"token EOF");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:663:7: ( block EOF -> ^( PROG block ) )
-            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:663:9: block EOF
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:660:7: ( block EOF -> ^( PROG block ) )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:660:9: block EOF
             {
-            pushFollow(FOLLOW_block_in_prog4452);
+            pushFollow(FOLLOW_block_in_prog4446);
             block459=block();
 
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_block.add(block459.getTree());
-            EOF460=(Token)match(input,EOF,FOLLOW_EOF_in_prog4454); if (state.failed) return retval; 
+            EOF460=(Token)match(input,EOF,FOLLOW_EOF_in_prog4448); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_EOF.add(EOF460);
 
 
@@ -14702,9 +14700,9 @@ public class babel17Parser extends Parser {
             RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 663:19: -> ^( PROG block )
+            // 660:19: -> ^( PROG block )
             {
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:663:22: ^( PROG block )
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:660:22: ^( PROG block )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(PROG, "PROG"), root_1);
@@ -14741,11 +14739,11 @@ public class babel17Parser extends Parser {
 
     // $ANTLR start synpred1_babel17
     public final void synpred1_babel17_fragment() throws RecognitionException {   
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:10: ( Id ( NL )? L_as )
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:11: Id ( NL )? L_as
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:10: ( Id ( NL )? L_as )
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:11: Id ( NL )? L_as
         {
-        match(input,Id,FOLLOW_Id_in_synpred1_babel171599); if (state.failed) return ;
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:14: ( NL )?
+        match(input,Id,FOLLOW_Id_in_synpred1_babel171593); if (state.failed) return ;
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:14: ( NL )?
         int alt222=2;
         int LA222_0 = input.LA(1);
 
@@ -14754,16 +14752,16 @@ public class babel17Parser extends Parser {
         }
         switch (alt222) {
             case 1 :
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:358:14: NL
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:355:14: NL
                 {
-                match(input,NL,FOLLOW_NL_in_synpred1_babel171601); if (state.failed) return ;
+                match(input,NL,FOLLOW_NL_in_synpred1_babel171595); if (state.failed) return ;
 
                 }
                 break;
 
         }
 
-        match(input,L_as,FOLLOW_L_as_in_synpred1_babel171604); if (state.failed) return ;
+        match(input,L_as,FOLLOW_L_as_in_synpred1_babel171598); if (state.failed) return ;
 
         }
     }
@@ -14771,15 +14769,15 @@ public class babel17Parser extends Parser {
 
     // $ANTLR start synpred2_babel17
     public final void synpred2_babel17_fragment() throws RecognitionException {   
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:4: ( protected_expr ( NL )? QUESTION_MARK )
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:5: protected_expr ( NL )? QUESTION_MARK
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:4: ( protected_expr ( NL )? QUESTION_MARK )
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:5: protected_expr ( NL )? QUESTION_MARK
         {
-        pushFollow(FOLLOW_protected_expr_in_synpred2_babel171635);
+        pushFollow(FOLLOW_protected_expr_in_synpred2_babel171629);
         protected_expr();
 
         state._fsp--;
         if (state.failed) return ;
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:20: ( NL )?
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:20: ( NL )?
         int alt223=2;
         int LA223_0 = input.LA(1);
 
@@ -14788,16 +14786,16 @@ public class babel17Parser extends Parser {
         }
         switch (alt223) {
             case 1 :
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:359:20: NL
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:356:20: NL
                 {
-                match(input,NL,FOLLOW_NL_in_synpred2_babel171637); if (state.failed) return ;
+                match(input,NL,FOLLOW_NL_in_synpred2_babel171631); if (state.failed) return ;
 
                 }
                 break;
 
         }
 
-        match(input,QUESTION_MARK,FOLLOW_QUESTION_MARK_in_synpred2_babel171640); if (state.failed) return ;
+        match(input,QUESTION_MARK,FOLLOW_QUESTION_MARK_in_synpred2_babel171634); if (state.failed) return ;
 
         }
     }
@@ -14805,10 +14803,10 @@ public class babel17Parser extends Parser {
 
     // $ANTLR start synpred3_babel17
     public final void synpred3_babel17_fragment() throws RecognitionException {   
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:4: ( ( pattern | objelem_assign ) ( NL )? '=' )
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:5: ( pattern | objelem_assign ) ( NL )? '='
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:4: ( ( pattern | objelem_assign ) ( NL )? '=' )
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:5: ( pattern | objelem_assign ) ( NL )? '='
         {
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:5: ( pattern | objelem_assign )
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:5: ( pattern | objelem_assign )
         int alt224=2;
         int LA224_0 = input.LA(1);
 
@@ -14841,9 +14839,9 @@ public class babel17Parser extends Parser {
         }
         switch (alt224) {
             case 1 :
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:6: pattern
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:6: pattern
                 {
-                pushFollow(FOLLOW_pattern_in_synpred3_babel172396);
+                pushFollow(FOLLOW_pattern_in_synpred3_babel172390);
                 pattern();
 
                 state._fsp--;
@@ -14852,9 +14850,9 @@ public class babel17Parser extends Parser {
                 }
                 break;
             case 2 :
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:16: objelem_assign
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:16: objelem_assign
                 {
-                pushFollow(FOLLOW_objelem_assign_in_synpred3_babel172400);
+                pushFollow(FOLLOW_objelem_assign_in_synpred3_babel172394);
                 objelem_assign();
 
                 state._fsp--;
@@ -14865,7 +14863,7 @@ public class babel17Parser extends Parser {
 
         }
 
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:32: ( NL )?
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:32: ( NL )?
         int alt225=2;
         int LA225_0 = input.LA(1);
 
@@ -14874,16 +14872,16 @@ public class babel17Parser extends Parser {
         }
         switch (alt225) {
             case 1 :
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:428:32: NL
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:425:32: NL
                 {
-                match(input,NL,FOLLOW_NL_in_synpred3_babel172403); if (state.failed) return ;
+                match(input,NL,FOLLOW_NL_in_synpred3_babel172397); if (state.failed) return ;
 
                 }
                 break;
 
         }
 
-        match(input,ASSIGN,FOLLOW_ASSIGN_in_synpred3_babel172406); if (state.failed) return ;
+        match(input,ASSIGN,FOLLOW_ASSIGN_in_synpred3_babel172400); if (state.failed) return ;
 
         }
     }
@@ -14891,11 +14889,11 @@ public class babel17Parser extends Parser {
 
     // $ANTLR start synpred4_babel17
     public final void synpred4_babel17_fragment() throws RecognitionException {   
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:11: ( L_obj ( NL )? parents )
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:12: L_obj ( NL )? parents
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:11: ( L_obj ( NL )? parents )
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:12: L_obj ( NL )? parents
         {
-        match(input,L_obj,FOLLOW_L_obj_in_synpred4_babel172617); if (state.failed) return ;
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:18: ( NL )?
+        match(input,L_obj,FOLLOW_L_obj_in_synpred4_babel172611); if (state.failed) return ;
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:18: ( NL )?
         int alt226=2;
         int LA226_0 = input.LA(1);
 
@@ -14904,16 +14902,16 @@ public class babel17Parser extends Parser {
         }
         switch (alt226) {
             case 1 :
-                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:460:18: NL
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:457:18: NL
                 {
-                match(input,NL,FOLLOW_NL_in_synpred4_babel172619); if (state.failed) return ;
+                match(input,NL,FOLLOW_NL_in_synpred4_babel172613); if (state.failed) return ;
 
                 }
                 break;
 
         }
 
-        pushFollow(FOLLOW_parents_in_synpred4_babel172622);
+        pushFollow(FOLLOW_parents_in_synpred4_babel172616);
         parents();
 
         state._fsp--;
@@ -14925,10 +14923,10 @@ public class babel17Parser extends Parser {
 
     // $ANTLR start synpred5_babel17
     public final void synpred5_babel17_fragment() throws RecognitionException {   
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:464:4: ( lambda_expr )
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:464:5: lambda_expr
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:461:4: ( lambda_expr )
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:461:5: lambda_expr
         {
-        pushFollow(FOLLOW_lambda_expr_in_synpred5_babel172691);
+        pushFollow(FOLLOW_lambda_expr_in_synpred5_babel172685);
         lambda_expr();
 
         state._fsp--;
@@ -14940,10 +14938,10 @@ public class babel17Parser extends Parser {
 
     // $ANTLR start synpred6_babel17
     public final void synpred6_babel17_fragment() throws RecognitionException {   
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:4: ( protected_lambda_expr )
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:468:5: protected_lambda_expr
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:465:4: ( protected_lambda_expr )
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:465:5: protected_lambda_expr
         {
-        pushFollow(FOLLOW_protected_lambda_expr_in_synpred6_babel172712);
+        pushFollow(FOLLOW_protected_lambda_expr_in_synpred6_babel172706);
         protected_lambda_expr();
 
         state._fsp--;
@@ -15053,9 +15051,9 @@ public class babel17Parser extends Parser {
     static final String DFA16_eofS =
         "\36\uffff";
     static final String DFA16_minS =
-        "\1\63\17\0\16\uffff";
+        "\1\61\17\0\16\uffff";
     static final String DFA16_maxS =
-        "\1\u008a\17\0\16\uffff";
+        "\1\u0088\17\0\16\uffff";
     static final String DFA16_acceptS =
         "\20\uffff\13\2\1\4\1\1\1\3";
     static final String DFA16_specialS =
@@ -15128,7 +15126,7 @@ public class babel17Parser extends Parser {
             this.transition = DFA16_transition;
         }
         public String getDescription() {
-            return "357:1: bracket_pattern : ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) );";
+            return "354:1: bracket_pattern : ( ( Id ( NL )? L_as )=> Id ( NL )? L_as ( NL )? pattern -> ^( L_as Id pattern ) | ( protected_expr ( NL )? QUESTION_MARK )=> protected_expr ( NL )? QUESTION_MARK ( ( NL )? pattern )? -> ^( QUESTION_MARK protected_expr ( pattern )? ) | pattern ( ( NL )? L_if ( NL )? protected_expr )? -> ^( IF_PATTERN pattern ( protected_expr )? ) | L_val ( NL )? protected_expr -> ^( L_val protected_expr ) );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
@@ -15173,7 +15171,7 @@ public class babel17Parser extends Parser {
 
                         else if ( (LA16_0==L_case) && (synpred2_babel17())) {s = 16;}
 
-                        else if ( ((LA16_0>=L_concurrent && LA16_0<=L_lazy)||LA16_0==L_random||LA16_0==TILDE) && (synpred2_babel17())) {s = 17;}
+                        else if ( ((LA16_0>=L_concurrent && LA16_0<=L_lazy)||LA16_0==L_random||LA16_0==L_force) && (synpred2_babel17())) {s = 17;}
 
                         else if ( (LA16_0==A_NOT||LA16_0==U_NOT) && (synpred2_babel17())) {s = 18;}
 
@@ -15439,10 +15437,10 @@ public class babel17Parser extends Parser {
     static final String DFA45_eofS =
         "\23\uffff";
     static final String DFA45_minS =
-        "\1\110\10\uffff\1\110\2\uffff\1\63\1\110\2\uffff\1\63\2\uffff";
+        "\1\106\10\uffff\1\106\2\uffff\1\61\1\106\2\uffff\1\61\2\uffff";
     static final String DFA45_maxS =
-        "\1\u008a\10\uffff\1\u0081\2\uffff\1\u008a\1\u0081\2\uffff\1\u008a"+
-        "\2\uffff";
+        "\1\u0088\10\uffff\1\177\2\uffff\1\u0088\1\177\2\uffff\1\u0088\2"+
+        "\uffff";
     static final String DFA45_acceptS =
         "\1\uffff\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\uffff\1\13\1\14\2\uffff"+
         "\1\11\1\12\1\uffff\1\16\1\15";
@@ -15507,7 +15505,7 @@ public class babel17Parser extends Parser {
             this.transition = DFA45_transition;
         }
         public String getDescription() {
-            return "372:1: primitive_pattern : ( Id | '_' -> ANY | String | Num | L_true | L_false | L_nil | token_infinity | '-' ( NL )? token_infinity -> ^( UMINUS token_infinity ) | '-' ( NL )? Num -> ^( UMINUS Num ) | '[' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* )? ']' -> ^( SQUARE_LIST ( bracket_pattern )* ) | '(' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )? )? ')' -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( bracket_pattern )* ) ) | '{' ( NL )? ( mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )* )? '}' -> ^( MAP_OR_SET_OR_OBJ ( mselem_pattern )* ) | '{' ( NL )? token_ARROW ( NL )? '}' -> ^( EMPTY_MAP ) );";
+            return "369:1: primitive_pattern : ( Id | '_' -> ANY | String | Num | L_true | L_false | L_nil | token_infinity | '-' ( NL )? token_infinity -> ^( UMINUS token_infinity ) | '-' ( NL )? Num -> ^( UMINUS Num ) | '[' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* )? ']' -> ^( SQUARE_LIST ( bracket_pattern )* ) | '(' ( NL )? ( bracket_pattern ( NL )? ( COMMA ( NL )? bracket_pattern ( NL )? )* ( COMMA ( NL )? )? )? ')' -> ^( ROUND_LIST ^( NIL_TOKEN ( COMMA )* ) ^( NIL_TOKEN ( bracket_pattern )* ) ) | '{' ( NL )? ( mselem_pattern ( NL )? ( COMMA ( NL )? mselem_pattern ( NL )? )* )? '}' -> ^( MAP_OR_SET_OR_OBJ ( mselem_pattern )* ) | '{' ( NL )? token_ARROW ( NL )? '}' -> ^( EMPTY_MAP ) );";
         }
     }
     static final String DFA51_eotS =
@@ -15515,9 +15513,9 @@ public class babel17Parser extends Parser {
     static final String DFA51_eofS =
         "\2\3\2\uffff";
     static final String DFA51_minS =
-        "\2\63\2\uffff";
+        "\2\61\2\uffff";
     static final String DFA51_maxS =
-        "\2\u008a\2\uffff";
+        "\2\u0088\2\uffff";
     static final String DFA51_acceptS =
         "\2\uffff\1\1\1\2";
     static final String DFA51_specialS =
@@ -15565,7 +15563,7 @@ public class babel17Parser extends Parser {
             this.transition = DFA51_transition;
         }
         public String getDescription() {
-            return "396:1: block : ( ( sep )? statement ( sep statement )* ( sep )? -> ^( BLOCK ( statement )* ) | ( sep )? -> ^( BLOCK ) );";
+            return "393:1: block : ( ( sep )? statement ( sep statement )* ( sep )? -> ^( BLOCK ( statement )* ) | ( sep )? -> ^( BLOCK ) );";
         }
     }
     static final String DFA48_eotS =
@@ -15573,9 +15571,9 @@ public class babel17Parser extends Parser {
     static final String DFA48_eofS =
         "\2\2\2\uffff";
     static final String DFA48_minS =
-        "\1\64\1\63\2\uffff";
+        "\1\62\1\61\2\uffff";
     static final String DFA48_maxS =
-        "\1\176\1\u008a\2\uffff";
+        "\1\174\1\u0088\2\uffff";
     static final String DFA48_acceptS =
         "\2\uffff\1\2\1\1";
     static final String DFA48_specialS =
@@ -15620,7 +15618,7 @@ public class babel17Parser extends Parser {
             this.transition = DFA48_transition;
         }
         public String getDescription() {
-            return "()* loopback of 396:25: ( sep statement )*";
+            return "()* loopback of 393:25: ( sep statement )*";
         }
     }
     static final String DFA68_eotS =
@@ -15628,9 +15626,9 @@ public class babel17Parser extends Parser {
     static final String DFA68_eofS =
         "\33\uffff";
     static final String DFA68_minS =
-        "\1\63\17\0\13\uffff";
+        "\1\61\17\0\13\uffff";
     static final String DFA68_maxS =
-        "\1\u008a\17\0\13\uffff";
+        "\1\u0088\17\0\13\uffff";
     static final String DFA68_acceptS =
         "\20\uffff\1\2\11\uffff\1\1";
     static final String DFA68_specialS =
@@ -15700,7 +15698,7 @@ public class babel17Parser extends Parser {
             this.transition = DFA68_transition;
         }
         public String getDescription() {
-            return "427:1: expr_or_assign : ( ( ( pattern | objelem_assign ) ( NL )? '=' )=> ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr -> ^( ASSIGN ( pattern )* ( objelem_assign )* expr ) | expr );";
+            return "424:1: expr_or_assign : ( ( ( pattern | objelem_assign ) ( NL )? '=' )=> ( pattern | objelem_assign ) ( NL )? '=' ( NL )? expr -> ^( ASSIGN ( pattern )* ( objelem_assign )* expr ) | expr );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
@@ -15944,9 +15942,9 @@ public class babel17Parser extends Parser {
     static final String DFA79_eofS =
         "\31\uffff";
     static final String DFA79_minS =
-        "\1\63\2\0\1\uffff\13\0\12\uffff";
+        "\1\61\2\0\1\uffff\13\0\12\uffff";
     static final String DFA79_maxS =
-        "\1\u008a\2\0\1\uffff\13\0\12\uffff";
+        "\1\u0088\2\0\1\uffff\13\0\12\uffff";
     static final String DFA79_acceptS =
         "\3\uffff\1\1\13\uffff\1\1\1\2\10\uffff";
     static final String DFA79_specialS =
@@ -16014,7 +16012,7 @@ public class babel17Parser extends Parser {
             this.transition = DFA79_transition;
         }
         public String getDescription() {
-            return "463:1: lop_expr : ( ( lambda_expr )=> lambda_expr | op_expr );";
+            return "460:1: lop_expr : ( ( lambda_expr )=> lambda_expr | op_expr );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
@@ -16057,7 +16055,7 @@ public class babel17Parser extends Parser {
 
                         else if ( ((LA79_0>=A_ELLIPSIS && LA79_0<=U_ELLIPSIS)) && (synpred5_babel17())) {s = 15;}
 
-                        else if ( (LA79_0==L_begin||(LA79_0>=L_with && LA79_0<=L_if)||(LA79_0>=L_while && LA79_0<=L_for)||LA79_0==L_match||(LA79_0>=L_concurrent && LA79_0<=L_lazy)||(LA79_0>=L_this && LA79_0<=L_random)||LA79_0==A_NOT||LA79_0==U_NOT||LA79_0==TILDE) ) {s = 16;}
+                        else if ( (LA79_0==L_begin||(LA79_0>=L_with && LA79_0<=L_if)||(LA79_0>=L_while && LA79_0<=L_for)||LA79_0==L_match||(LA79_0>=L_concurrent && LA79_0<=L_lazy)||(LA79_0>=L_this && LA79_0<=L_random)||LA79_0==A_NOT||LA79_0==U_NOT||LA79_0==L_force) ) {s = 16;}
 
                          
                         input.seek(index79_0);
@@ -16271,9 +16269,9 @@ public class babel17Parser extends Parser {
     static final String DFA80_eofS =
         "\32\uffff";
     static final String DFA80_minS =
-        "\1\63\2\0\1\uffff\13\0\13\uffff";
+        "\1\61\2\0\1\uffff\13\0\13\uffff";
     static final String DFA80_maxS =
-        "\1\u008a\2\0\1\uffff\13\0\13\uffff";
+        "\1\u0088\2\0\1\uffff\13\0\13\uffff";
     static final String DFA80_acceptS =
         "\3\uffff\1\1\13\uffff\2\1\1\2\10\uffff";
     static final String DFA80_specialS =
@@ -16342,7 +16340,7 @@ public class babel17Parser extends Parser {
             this.transition = DFA80_transition;
         }
         public String getDescription() {
-            return "467:1: p_lop_expr : ( ( protected_lambda_expr )=> protected_lambda_expr | p_op_expr );";
+            return "464:1: p_lop_expr : ( ( protected_lambda_expr )=> protected_lambda_expr | p_op_expr );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             TokenStream input = (TokenStream)_input;
@@ -16387,7 +16385,7 @@ public class babel17Parser extends Parser {
 
                         else if ( (LA80_0==L_case) && (synpred6_babel17())) {s = 16;}
 
-                        else if ( (LA80_0==L_begin||(LA80_0>=L_with && LA80_0<=L_if)||(LA80_0>=L_while && LA80_0<=L_for)||LA80_0==L_match||(LA80_0>=L_concurrent && LA80_0<=L_lazy)||(LA80_0>=L_this && LA80_0<=L_random)||LA80_0==A_NOT||LA80_0==U_NOT||LA80_0==TILDE) ) {s = 17;}
+                        else if ( (LA80_0==L_begin||(LA80_0>=L_with && LA80_0<=L_if)||(LA80_0>=L_while && LA80_0<=L_for)||LA80_0==L_match||(LA80_0>=L_concurrent && LA80_0<=L_lazy)||(LA80_0>=L_this && LA80_0<=L_random)||LA80_0==A_NOT||LA80_0==U_NOT||LA80_0==L_force) ) {s = 17;}
 
                          
                         input.seek(index80_0);
@@ -16610,468 +16608,468 @@ public class babel17Parser extends Parser {
     public static final BitSet FOLLOW_set_in_token_DOUBLE_ARROW0 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_token_ARROW0 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_token_ELLIPSIS0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Constr_in_pattern1515 = new BitSet(new long[]{0x0000000000000002L,0x400000020004C300L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_pattern1518 = new BitSet(new long[]{0x0000000000000000L,0x400000020004C300L,0x000000000000055BL});
-    public static final BitSet FOLLOW_primitive_pattern_in_pattern1521 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_primitive_pattern_in_pattern1537 = new BitSet(new long[]{0x0000000000000002L,0x4000180000000000L});
-    public static final BitSet FOLLOW_NL_in_pattern1540 = new BitSet(new long[]{0x0000000000000000L,0x4000180000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_COLON_in_pattern1543 = new BitSet(new long[]{0x0000000000000000L,0x400000020004C300L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_pattern1545 = new BitSet(new long[]{0x0000000000000000L,0x400000020004C300L,0x000000000000055BL});
-    public static final BitSet FOLLOW_primitive_pattern_in_pattern1548 = new BitSet(new long[]{0x0000000000000002L,0x4000180000000000L});
-    public static final BitSet FOLLOW_L_exception_in_pattern1567 = new BitSet(new long[]{0x0000000000000000L,0x400000020004C300L,0x000000000000055BL});
-    public static final BitSet FOLLOW_primitive_pattern_in_pattern1569 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_token_ELLIPSIS_in_pattern1582 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Id_in_bracket_pattern1609 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000002L});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1611 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000002L});
-    public static final BitSet FOLLOW_L_as_in_bracket_pattern1614 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1616 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_pattern_in_bracket_pattern1619 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1648 = new BitSet(new long[]{0x0000000000000000L,0x4400000000000000L});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1650 = new BitSet(new long[]{0x0000000000000000L,0x0400000000000000L});
-    public static final BitSet FOLLOW_QUESTION_MARK_in_bracket_pattern1653 = new BitSet(new long[]{0x0000000000000002L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1656 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_pattern_in_bracket_pattern1659 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pattern_in_bracket_pattern1677 = new BitSet(new long[]{0x0080000000000002L,0x4000000000000000L});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1680 = new BitSet(new long[]{0x0080000000000000L});
-    public static final BitSet FOLLOW_L_if_in_bracket_pattern1683 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1685 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1688 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_val_in_bracket_pattern1706 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_bracket_pattern1708 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1711 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_token_ARROW_in_arrow_or_assign1729 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ASSIGN_in_arrow_or_assign1740 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_bracket_pattern_in_mselem_pattern1755 = new BitSet(new long[]{0x0000000100000002L,0x4018000000000000L});
-    public static final BitSet FOLLOW_NL_in_mselem_pattern1758 = new BitSet(new long[]{0x0000000100000000L,0x4018000000000000L});
-    public static final BitSet FOLLOW_arrow_or_assign_in_mselem_pattern1761 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_mselem_pattern1763 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000055BL});
-    public static final BitSet FOLLOW_bracket_pattern_in_mselem_pattern1766 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Id_in_primitive_pattern1795 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_UNDERSCORE_in_primitive_pattern1800 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_String_in_primitive_pattern1809 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Num_in_primitive_pattern1814 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_true_in_primitive_pattern1819 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_false_in_primitive_pattern1824 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_nil_in_primitive_pattern1829 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_token_infinity_in_primitive_pattern1834 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MINUS_in_primitive_pattern1839 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000300L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1841 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000300L});
-    public static final BitSet FOLLOW_token_infinity_in_primitive_pattern1844 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MINUS_in_primitive_pattern1857 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L,0x0000000000000002L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1859 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000002L});
-    public static final BitSet FOLLOW_Num_in_primitive_pattern1862 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SQUARE_BRACKET_OPEN_in_primitive_pattern1875 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x00000000000005DBL});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1878 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x00000000000005DBL});
-    public static final BitSet FOLLOW_bracket_pattern_in_primitive_pattern1882 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1884 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_COMMA_in_primitive_pattern1889 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1891 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000055BL});
-    public static final BitSet FOLLOW_bracket_pattern_in_primitive_pattern1894 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1896 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_SQUARE_BRACKET_CLOSE_in_primitive_pattern1904 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ROUND_BRACKET_OPEN_in_primitive_pattern1924 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000057BL});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1927 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000057BL});
-    public static final BitSet FOLLOW_bracket_pattern_in_primitive_pattern1931 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1933 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_COMMA_in_primitive_pattern1938 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1941 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000055BL});
-    public static final BitSet FOLLOW_bracket_pattern_in_primitive_pattern1944 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1946 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_COMMA_in_primitive_pattern1952 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1954 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_ROUND_BRACKET_CLOSE_in_primitive_pattern1961 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CURLY_BRACKET_OPEN_in_primitive_pattern1993 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000075BL});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern1996 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000075BL});
-    public static final BitSet FOLLOW_mselem_pattern_in_primitive_pattern2000 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern2002 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_COMMA_in_primitive_pattern2007 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern2010 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF25L,0x000000000000055BL});
-    public static final BitSet FOLLOW_mselem_pattern_in_primitive_pattern2013 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern2015 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_primitive_pattern2023 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CURLY_BRACKET_OPEN_in_primitive_pattern2041 = new BitSet(new long[]{0x0000000000000000L,0x4018000000000000L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern2043 = new BitSet(new long[]{0x0000000000000000L,0x0018000000000000L});
-    public static final BitSet FOLLOW_token_ARROW_in_primitive_pattern2046 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_NL_in_primitive_pattern2048 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_primitive_pattern2051 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_set_in_sep2073 = new BitSet(new long[]{0x0000000000000002L,0x4000000080000000L});
-    public static final BitSet FOLLOW_sep_in_block2089 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_statement_in_block2092 = new BitSet(new long[]{0x0000000000000002L,0x4000000080000000L});
-    public static final BitSet FOLLOW_sep_in_block2095 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_statement_in_block2097 = new BitSet(new long[]{0x0000000000000002L,0x4000000080000000L});
-    public static final BitSet FOLLOW_sep_in_block2101 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_sep_in_block2117 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_statement_in_pure_block2134 = new BitSet(new long[]{0x0000000000000002L,0x4000000080000000L});
-    public static final BitSet FOLLOW_sep_in_pure_block2137 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_statement_in_pure_block2139 = new BitSet(new long[]{0x0000000000000002L,0x4000000080000000L});
-    public static final BitSet FOLLOW_st_val_in_statement2160 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_st_def_in_statement2165 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_st_memoize_in_statement2170 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_st_yield_in_statement2175 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_expr_or_assign_in_statement2180 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Id_in_objelem_assign2189 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L});
-    public static final BitSet FOLLOW_PERIOD_in_objelem_assign2191 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000001L});
-    public static final BitSet FOLLOW_Id_in_objelem_assign2193 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_val_in_st_val2212 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_st_val2214 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_pattern_in_st_val2218 = new BitSet(new long[]{0x0000000100000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_objelem_assign_in_st_val2222 = new BitSet(new long[]{0x0000000100000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_NL_in_st_val2225 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_ASSIGN_in_st_val2228 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_st_val2230 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_expr_in_st_val2233 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_def_in_st_def2257 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L,0x0000000000000001L});
-    public static final BitSet FOLLOW_NL_in_st_def2259 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000001L});
-    public static final BitSet FOLLOW_Id_in_st_def2262 = new BitSet(new long[]{0x0000000100000000L,0x400000020004C300L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_st_def2264 = new BitSet(new long[]{0x0000000100000000L,0x400000020004C300L,0x000000000000055BL});
-    public static final BitSet FOLLOW_primitive_pattern_in_st_def2268 = new BitSet(new long[]{0x0000000100000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_NL_in_st_def2270 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_ASSIGN_in_st_def2275 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_st_def2277 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_expr_in_st_def2280 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_yield_in_st_yield2309 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_expr_in_st_yield2311 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_memoize_in_st_memoize2329 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000011L});
-    public static final BitSet FOLLOW_memid_in_st_memoize2331 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000000011L});
-    public static final BitSet FOLLOW_Id_in_memid2355 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ROUND_BRACKET_OPEN_in_memid2368 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000001L});
-    public static final BitSet FOLLOW_Id_in_memid2370 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_ROUND_BRACKET_CLOSE_in_memid2372 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pattern_in_expr_or_assign2412 = new BitSet(new long[]{0x0000000100000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_objelem_assign_in_expr_or_assign2416 = new BitSet(new long[]{0x0000000100000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_NL_in_expr_or_assign2419 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_ASSIGN_in_expr_or_assign2422 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_expr_or_assign2424 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_expr_in_expr_or_assign2427 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_expr_in_expr_or_assign2446 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_lop_expr_in_expr2457 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_obj_expr_in_expr2462 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_if_expr_in_control_expr2472 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_while_do_expr_in_control_expr2477 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_match_expr_in_control_expr2482 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_for_expr_in_control_expr2487 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_begin_end_in_control_expr2492 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_control_expr_in_with_control_expr2502 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_with_in_with_control_expr2507 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_with_control_expr2509 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_protected_expr_in_with_control_expr2512 = new BitSet(new long[]{0x0000000000000000L,0x4200000000000000L});
-    public static final BitSet FOLLOW_NL_in_with_control_expr2514 = new BitSet(new long[]{0x0000000000000000L,0x0200000000000000L});
-    public static final BitSet FOLLOW_COLON_in_with_control_expr2517 = new BitSet(new long[]{0x9888000000000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_NL_in_with_control_expr2519 = new BitSet(new long[]{0x9888000000000000L});
-    public static final BitSet FOLLOW_control_expr_in_with_control_expr2522 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_lop_expr_in_protected_expr2543 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_obj_expr_in_protected_expr2548 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_begin_in_begin_end2560 = new BitSet(new long[]{0xD8F8000000000000L,0xC86004828007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_block_in_begin_end2562 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_L_end_in_begin_end2564 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PLUS_in_parents2582 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_primitive_expr_in_parents2584 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_TIMES_in_parents2597 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_primitive_expr_in_parents2599 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_obj_in_obj_expr2627 = new BitSet(new long[]{0x0000000000000000L,0x4000000500000000L});
-    public static final BitSet FOLLOW_NL_in_obj_expr2629 = new BitSet(new long[]{0x0000000000000000L,0x4000000500000000L});
-    public static final BitSet FOLLOW_parents_in_obj_expr2632 = new BitSet(new long[]{0xD8F8000000000000L,0xC86004828007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_block_in_obj_expr2634 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_L_end_in_obj_expr2636 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_obj_in_obj_expr2664 = new BitSet(new long[]{0xD8F8000000000000L,0xC86004828007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_block_in_obj_expr2666 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_L_end_in_obj_expr2668 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_lambda_expr_in_lop_expr2696 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_op_expr_in_lop_expr2701 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_protected_lambda_expr_in_p_lop_expr2717 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_op_expr_in_p_lop_expr2722 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_if_in_if_expr2733 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_if_expr2735 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_protected_expr_in_if_expr2738 = new BitSet(new long[]{0x0100000000000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_NL_in_if_expr2740 = new BitSet(new long[]{0x0100000000000000L});
-    public static final BitSet FOLLOW_L_then_in_if_expr2743 = new BitSet(new long[]{0xDEF8000000000000L,0xC86004828007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_block_in_if_expr2745 = new BitSet(new long[]{0x0610000000000000L});
-    public static final BitSet FOLLOW_L_elseif_in_if_expr2751 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_if_expr2753 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_protected_expr_in_if_expr2756 = new BitSet(new long[]{0x0100000000000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_NL_in_if_expr2758 = new BitSet(new long[]{0x0100000000000000L});
-    public static final BitSet FOLLOW_L_then_in_if_expr2761 = new BitSet(new long[]{0xDEF8000000000000L,0xC86004828007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_block_in_if_expr2763 = new BitSet(new long[]{0x0610000000000000L});
-    public static final BitSet FOLLOW_L_else_in_if_expr2771 = new BitSet(new long[]{0xD8F8000000000000L,0xC86004828007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_block_in_if_expr2773 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_L_end_in_if_expr2777 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_while_in_while_do_expr2801 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_while_do_expr2803 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_protected_expr_in_while_do_expr2806 = new BitSet(new long[]{0x2000000000000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_NL_in_while_do_expr2808 = new BitSet(new long[]{0x2000000000000000L});
-    public static final BitSet FOLLOW_L_do_in_while_do_expr2811 = new BitSet(new long[]{0xD8F8000000000000L,0xC86004828007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_block_in_while_do_expr2813 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_L_end_in_while_do_expr2815 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_full_cases_in_cases2845 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pattern_in_cases2850 = new BitSet(new long[]{0x0000000000000000L,0x4006000000000000L});
-    public static final BitSet FOLLOW_NL_in_cases2852 = new BitSet(new long[]{0x0000000000000000L,0x4006000000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_cases2855 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004828007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_block_in_cases2857 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_case_expr_in_full_cases2880 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000001L});
-    public static final BitSet FOLLOW_L_case_in_case_expr2901 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_case_expr2903 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_pattern_in_case_expr2906 = new BitSet(new long[]{0x0000000000000000L,0x4006000000000000L});
-    public static final BitSet FOLLOW_NL_in_case_expr2908 = new BitSet(new long[]{0x0000000000000000L,0x4006000000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_case_expr2911 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004828007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_block_in_case_expr2913 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_match_in_match_expr2934 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_match_expr2936 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_op_expr_in_match_expr2939 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000001L});
-    public static final BitSet FOLLOW_NL_in_match_expr2941 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000001L});
-    public static final BitSet FOLLOW_full_cases_in_match_expr2944 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_L_end_in_match_expr2946 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_lambda_cases_in_lambda_expr2972 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pattern_in_lambda_cases2990 = new BitSet(new long[]{0x0000000000000000L,0x4006000000000000L});
-    public static final BitSet FOLLOW_NL_in_lambda_cases2992 = new BitSet(new long[]{0x0000000000000000L,0x4006000000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_lambda_cases2995 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_lambda_cases2997 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_lop_expr_in_lambda_cases3000 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_protected_lambda_cases_in_protected_lambda_expr3028 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_case_in_p_lambda_case_expr3046 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3048 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_pattern_in_p_lambda_case_expr3051 = new BitSet(new long[]{0x0000000000000000L,0x4006000000000000L});
-    public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3053 = new BitSet(new long[]{0x0000000000000000L,0x4006000000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_p_lambda_case_expr3056 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3058 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_pure_block_in_p_lambda_case_expr3061 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pattern_in_protected_lambda_cases3082 = new BitSet(new long[]{0x0000000000000000L,0x4006000000000000L});
-    public static final BitSet FOLLOW_NL_in_protected_lambda_cases3084 = new BitSet(new long[]{0x0000000000000000L,0x4006000000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_protected_lambda_cases3087 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_protected_lambda_cases3089 = new BitSet(new long[]{0xD8E8000000000000L,0xC86004820007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_pure_block_in_protected_lambda_cases3092 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_lambda_case_expr_in_protected_lambda_cases3111 = new BitSet(new long[]{0x0000000000000002L,0xC06000020004C321L,0x000000000000055BL});
-    public static final BitSet FOLLOW_L_for_in_for_expr3128 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_for_expr3130 = new BitSet(new long[]{0x0000000000000000L,0xC06000020004C320L,0x000000000000055BL});
-    public static final BitSet FOLLOW_pattern_in_for_expr3133 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000010L});
-    public static final BitSet FOLLOW_NL_in_for_expr3135 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000010L});
-    public static final BitSet FOLLOW_L_in_in_for_expr3138 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_for_expr3140 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_protected_expr_in_for_expr3143 = new BitSet(new long[]{0x2000000000000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_NL_in_for_expr3145 = new BitSet(new long[]{0x2000000000000000L});
-    public static final BitSet FOLLOW_L_do_in_for_expr3148 = new BitSet(new long[]{0xD8F8000000000000L,0xC86004828007FF2DL,0x000000000000055BL});
-    public static final BitSet FOLLOW_block_in_for_expr3150 = new BitSet(new long[]{0x0010000000000000L});
-    public static final BitSet FOLLOW_L_end_in_for_expr3152 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_builtin_primitive_in_op_expr3177 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_op_expr_in_op_expr3180 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_bool_expr_in_op_expr3185 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_builtin_primitive_in_p_op_expr3195 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_op_expr3198 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_op_expr_in_p_op_expr3202 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_bool_expr_in_p_op_expr3207 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Constr_in_pattern1509 = new BitSet(new long[]{0x0000000000000002L,0xD0000000800130C0L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_pattern1512 = new BitSet(new long[]{0x0000000000000000L,0xD0000000800130C0L,0x0000000000000156L});
+    public static final BitSet FOLLOW_primitive_pattern_in_pattern1515 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_primitive_pattern_in_pattern1531 = new BitSet(new long[]{0x0000000000000002L,0x1000060000000000L});
+    public static final BitSet FOLLOW_NL_in_pattern1534 = new BitSet(new long[]{0x0000000000000000L,0x1000060000000000L});
+    public static final BitSet FOLLOW_token_DOUBLE_COLON_in_pattern1537 = new BitSet(new long[]{0x0000000000000000L,0xD0000000800130C0L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_pattern1539 = new BitSet(new long[]{0x0000000000000000L,0xD0000000800130C0L,0x0000000000000156L});
+    public static final BitSet FOLLOW_primitive_pattern_in_pattern1542 = new BitSet(new long[]{0x0000000000000002L,0x1000060000000000L});
+    public static final BitSet FOLLOW_L_exception_in_pattern1561 = new BitSet(new long[]{0x0000000000000000L,0xD0000000800130C0L,0x0000000000000156L});
+    public static final BitSet FOLLOW_primitive_pattern_in_pattern1563 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_token_ELLIPSIS_in_pattern1576 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Id_in_bracket_pattern1603 = new BitSet(new long[]{0x8000000000000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1605 = new BitSet(new long[]{0x8000000000000000L});
+    public static final BitSet FOLLOW_L_as_in_bracket_pattern1608 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1610 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_pattern_in_bracket_pattern1613 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1642 = new BitSet(new long[]{0x0000000000000000L,0x1100000000000000L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1644 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
+    public static final BitSet FOLLOW_QUESTION_MARK_in_bracket_pattern1647 = new BitSet(new long[]{0x0000000000000002L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1650 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_pattern_in_bracket_pattern1653 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pattern_in_bracket_pattern1671 = new BitSet(new long[]{0x0020000000000002L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1674 = new BitSet(new long[]{0x0020000000000000L});
+    public static final BitSet FOLLOW_L_if_in_bracket_pattern1677 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1679 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1682 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_val_in_bracket_pattern1700 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bracket_pattern1702 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_bracket_pattern1705 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_token_ARROW_in_arrow_or_assign1723 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ASSIGN_in_arrow_or_assign1734 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_bracket_pattern_in_mselem_pattern1749 = new BitSet(new long[]{0x0000000100000002L,0x1006000000000000L});
+    public static final BitSet FOLLOW_NL_in_mselem_pattern1752 = new BitSet(new long[]{0x0000000100000000L,0x1006000000000000L});
+    public static final BitSet FOLLOW_arrow_or_assign_in_mselem_pattern1755 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_mselem_pattern1757 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x0000000000000156L});
+    public static final BitSet FOLLOW_bracket_pattern_in_mselem_pattern1760 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Id_in_primitive_pattern1789 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_UNDERSCORE_in_primitive_pattern1794 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_String_in_primitive_pattern1803 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Num_in_primitive_pattern1808 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_true_in_primitive_pattern1813 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_false_in_primitive_pattern1818 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_nil_in_primitive_pattern1823 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_token_infinity_in_primitive_pattern1828 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MINUS_in_primitive_pattern1833 = new BitSet(new long[]{0x0000000000000000L,0x10000000000000C0L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1835 = new BitSet(new long[]{0x0000000000000000L,0x00000000000000C0L});
+    public static final BitSet FOLLOW_token_infinity_in_primitive_pattern1838 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MINUS_in_primitive_pattern1851 = new BitSet(new long[]{0x0000000000000000L,0x9000000000000000L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1853 = new BitSet(new long[]{0x0000000000000000L,0x8000000000000000L});
+    public static final BitSet FOLLOW_Num_in_primitive_pattern1856 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SQUARE_BRACKET_OPEN_in_primitive_pattern1869 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x0000000000000176L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1872 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x0000000000000176L});
+    public static final BitSet FOLLOW_bracket_pattern_in_primitive_pattern1876 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1878 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_COMMA_in_primitive_pattern1883 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1885 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x0000000000000156L});
+    public static final BitSet FOLLOW_bracket_pattern_in_primitive_pattern1888 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1890 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_SQUARE_BRACKET_CLOSE_in_primitive_pattern1898 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ROUND_BRACKET_OPEN_in_primitive_pattern1918 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x000000000000015EL});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1921 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x000000000000015EL});
+    public static final BitSet FOLLOW_bracket_pattern_in_primitive_pattern1925 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1927 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_COMMA_in_primitive_pattern1932 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1935 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x0000000000000156L});
+    public static final BitSet FOLLOW_bracket_pattern_in_primitive_pattern1938 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1940 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_COMMA_in_primitive_pattern1946 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1948 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_ROUND_BRACKET_CLOSE_in_primitive_pattern1955 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CURLY_BRACKET_OPEN_in_primitive_pattern1987 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x00000000000001D6L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1990 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x00000000000001D6L});
+    public static final BitSet FOLLOW_mselem_pattern_in_primitive_pattern1994 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern1996 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_COMMA_in_primitive_pattern2001 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern2004 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C9L,0x0000000000000156L});
+    public static final BitSet FOLLOW_mselem_pattern_in_primitive_pattern2007 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern2009 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_primitive_pattern2017 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CURLY_BRACKET_OPEN_in_primitive_pattern2035 = new BitSet(new long[]{0x0000000000000000L,0x1006000000000000L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern2037 = new BitSet(new long[]{0x0000000000000000L,0x0006000000000000L});
+    public static final BitSet FOLLOW_token_ARROW_in_primitive_pattern2040 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_NL_in_primitive_pattern2042 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_primitive_pattern2045 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_set_in_sep2067 = new BitSet(new long[]{0x0000000000000002L,0x1000000020000000L});
+    public static final BitSet FOLLOW_sep_in_block2083 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_statement_in_block2086 = new BitSet(new long[]{0x0000000000000002L,0x1000000020000000L});
+    public static final BitSet FOLLOW_sep_in_block2089 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_statement_in_block2091 = new BitSet(new long[]{0x0000000000000002L,0x1000000020000000L});
+    public static final BitSet FOLLOW_sep_in_block2095 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_sep_in_block2111 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_statement_in_pure_block2128 = new BitSet(new long[]{0x0000000000000002L,0x1000000020000000L});
+    public static final BitSet FOLLOW_sep_in_pure_block2131 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_statement_in_pure_block2133 = new BitSet(new long[]{0x0000000000000002L,0x1000000020000000L});
+    public static final BitSet FOLLOW_st_val_in_statement2154 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_st_def_in_statement2159 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_st_memoize_in_statement2164 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_st_yield_in_statement2169 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_expr_or_assign_in_statement2174 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Id_in_objelem_assign2183 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_PERIOD_in_objelem_assign2185 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L});
+    public static final BitSet FOLLOW_Id_in_objelem_assign2187 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_val_in_st_val2206 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_st_val2208 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_pattern_in_st_val2212 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_objelem_assign_in_st_val2216 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_st_val2219 = new BitSet(new long[]{0x0000000100000000L});
+    public static final BitSet FOLLOW_ASSIGN_in_st_val2222 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_st_val2224 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_expr_in_st_val2227 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_def_in_st_def2251 = new BitSet(new long[]{0x0000000000000000L,0x5000000000000000L});
+    public static final BitSet FOLLOW_NL_in_st_def2253 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L});
+    public static final BitSet FOLLOW_Id_in_st_def2256 = new BitSet(new long[]{0x0000000100000000L,0xD0000000800130C0L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_st_def2258 = new BitSet(new long[]{0x0000000100000000L,0xD0000000800130C0L,0x0000000000000156L});
+    public static final BitSet FOLLOW_primitive_pattern_in_st_def2262 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_st_def2264 = new BitSet(new long[]{0x0000000100000000L});
+    public static final BitSet FOLLOW_ASSIGN_in_st_def2269 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_st_def2271 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_expr_in_st_def2274 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_yield_in_st_yield2303 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_expr_in_st_yield2305 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_memoize_in_st_memoize2323 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L,0x0000000000000004L});
+    public static final BitSet FOLLOW_memid_in_st_memoize2325 = new BitSet(new long[]{0x0000000000000002L,0x4000000000000000L,0x0000000000000004L});
+    public static final BitSet FOLLOW_Id_in_memid2349 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ROUND_BRACKET_OPEN_in_memid2362 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L});
+    public static final BitSet FOLLOW_Id_in_memid2364 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_ROUND_BRACKET_CLOSE_in_memid2366 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pattern_in_expr_or_assign2406 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_objelem_assign_in_expr_or_assign2410 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_expr_or_assign2413 = new BitSet(new long[]{0x0000000100000000L});
+    public static final BitSet FOLLOW_ASSIGN_in_expr_or_assign2416 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_expr_or_assign2418 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_expr_in_expr_or_assign2421 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_expr_in_expr_or_assign2440 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_lop_expr_in_expr2451 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_obj_expr_in_expr2456 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_if_expr_in_control_expr2466 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_while_do_expr_in_control_expr2471 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_match_expr_in_control_expr2476 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_for_expr_in_control_expr2481 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_begin_end_in_control_expr2486 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_control_expr_in_with_control_expr2496 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_with_in_with_control_expr2501 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_with_control_expr2503 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_with_control_expr2506 = new BitSet(new long[]{0x0000000000000000L,0x1080000000000000L});
+    public static final BitSet FOLLOW_NL_in_with_control_expr2508 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L});
+    public static final BitSet FOLLOW_COLON_in_with_control_expr2511 = new BitSet(new long[]{0x2622000000000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_with_control_expr2513 = new BitSet(new long[]{0x2622000000000000L});
+    public static final BitSet FOLLOW_control_expr_in_with_control_expr2516 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_lop_expr_in_protected_expr2537 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_obj_expr_in_protected_expr2542 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_begin_in_begin_end2554 = new BitSet(new long[]{0x763E000000000000L,0xF2180120A001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_block_in_begin_end2556 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_L_end_in_begin_end2558 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_PLUS_in_parents2576 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_primitive_expr_in_parents2578 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_TIMES_in_parents2591 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_primitive_expr_in_parents2593 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_obj_in_obj_expr2621 = new BitSet(new long[]{0x0000000000000000L,0x1000000140000000L});
+    public static final BitSet FOLLOW_NL_in_obj_expr2623 = new BitSet(new long[]{0x0000000000000000L,0x1000000140000000L});
+    public static final BitSet FOLLOW_parents_in_obj_expr2626 = new BitSet(new long[]{0x763E000000000000L,0xF2180120A001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_block_in_obj_expr2628 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_L_end_in_obj_expr2630 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_obj_in_obj_expr2658 = new BitSet(new long[]{0x763E000000000000L,0xF2180120A001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_block_in_obj_expr2660 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_L_end_in_obj_expr2662 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_lambda_expr_in_lop_expr2690 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_op_expr_in_lop_expr2695 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_protected_lambda_expr_in_p_lop_expr2711 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_op_expr_in_p_lop_expr2716 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_if_in_if_expr2727 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_if_expr2729 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_if_expr2732 = new BitSet(new long[]{0x0040000000000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_if_expr2734 = new BitSet(new long[]{0x0040000000000000L});
+    public static final BitSet FOLLOW_L_then_in_if_expr2737 = new BitSet(new long[]{0x77BE000000000000L,0xF2180120A001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_block_in_if_expr2739 = new BitSet(new long[]{0x0184000000000000L});
+    public static final BitSet FOLLOW_L_elseif_in_if_expr2745 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_if_expr2747 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_if_expr2750 = new BitSet(new long[]{0x0040000000000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_if_expr2752 = new BitSet(new long[]{0x0040000000000000L});
+    public static final BitSet FOLLOW_L_then_in_if_expr2755 = new BitSet(new long[]{0x77BE000000000000L,0xF2180120A001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_block_in_if_expr2757 = new BitSet(new long[]{0x0184000000000000L});
+    public static final BitSet FOLLOW_L_else_in_if_expr2765 = new BitSet(new long[]{0x763E000000000000L,0xF2180120A001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_block_in_if_expr2767 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_L_end_in_if_expr2771 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_while_in_while_do_expr2795 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_while_do_expr2797 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_while_do_expr2800 = new BitSet(new long[]{0x0800000000000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_while_do_expr2802 = new BitSet(new long[]{0x0800000000000000L});
+    public static final BitSet FOLLOW_L_do_in_while_do_expr2805 = new BitSet(new long[]{0x763E000000000000L,0xF2180120A001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_block_in_while_do_expr2807 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_L_end_in_while_do_expr2809 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_full_cases_in_cases2839 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pattern_in_cases2844 = new BitSet(new long[]{0x0000000000000000L,0x1001800000000000L});
+    public static final BitSet FOLLOW_NL_in_cases2846 = new BitSet(new long[]{0x0000000000000000L,0x1001800000000000L});
+    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_cases2849 = new BitSet(new long[]{0x763A000000000000L,0xF2180120A001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_block_in_cases2851 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_case_expr_in_full_cases2874 = new BitSet(new long[]{0x4000000000000002L});
+    public static final BitSet FOLLOW_L_case_in_case_expr2895 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_case_expr2897 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_pattern_in_case_expr2900 = new BitSet(new long[]{0x0000000000000000L,0x1001800000000000L});
+    public static final BitSet FOLLOW_NL_in_case_expr2902 = new BitSet(new long[]{0x0000000000000000L,0x1001800000000000L});
+    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_case_expr2905 = new BitSet(new long[]{0x763A000000000000L,0xF2180120A001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_block_in_case_expr2907 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_match_in_match_expr2928 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_match_expr2930 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_op_expr_in_match_expr2933 = new BitSet(new long[]{0x4000000000000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_match_expr2935 = new BitSet(new long[]{0x4000000000000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_full_cases_in_match_expr2938 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_L_end_in_match_expr2940 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_lambda_cases_in_lambda_expr2966 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pattern_in_lambda_cases2984 = new BitSet(new long[]{0x0000000000000000L,0x1001800000000000L});
+    public static final BitSet FOLLOW_NL_in_lambda_cases2986 = new BitSet(new long[]{0x0000000000000000L,0x1001800000000000L});
+    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_lambda_cases2989 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_lambda_cases2991 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_lop_expr_in_lambda_cases2994 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_protected_lambda_cases_in_protected_lambda_expr3022 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_case_in_p_lambda_case_expr3040 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3042 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_pattern_in_p_lambda_case_expr3045 = new BitSet(new long[]{0x0000000000000000L,0x1001800000000000L});
+    public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3047 = new BitSet(new long[]{0x0000000000000000L,0x1001800000000000L});
+    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_p_lambda_case_expr3050 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_lambda_case_expr3052 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_pure_block_in_p_lambda_case_expr3055 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pattern_in_protected_lambda_cases3076 = new BitSet(new long[]{0x0000000000000000L,0x1001800000000000L});
+    public static final BitSet FOLLOW_NL_in_protected_lambda_cases3078 = new BitSet(new long[]{0x0000000000000000L,0x1001800000000000L});
+    public static final BitSet FOLLOW_token_DOUBLE_ARROW_in_protected_lambda_cases3081 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_protected_lambda_cases3083 = new BitSet(new long[]{0x763A000000000000L,0xF21801208001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_pure_block_in_protected_lambda_cases3086 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_lambda_case_expr_in_protected_lambda_cases3105 = new BitSet(new long[]{0x4000000000000002L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_for_in_for_expr3122 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_for_expr3124 = new BitSet(new long[]{0x0000000000000000L,0xF0180000800130C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_pattern_in_for_expr3127 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000004L});
+    public static final BitSet FOLLOW_NL_in_for_expr3129 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000004L});
+    public static final BitSet FOLLOW_L_in_in_for_expr3132 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_for_expr3134 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_for_expr3137 = new BitSet(new long[]{0x0800000000000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_for_expr3139 = new BitSet(new long[]{0x0800000000000000L});
+    public static final BitSet FOLLOW_L_do_in_for_expr3142 = new BitSet(new long[]{0x763E000000000000L,0xF2180120A001FFCBL,0x0000000000000156L});
+    public static final BitSet FOLLOW_block_in_for_expr3144 = new BitSet(new long[]{0x0004000000000000L});
+    public static final BitSet FOLLOW_L_end_in_for_expr3146 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_builtin_primitive_in_op_expr3171 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_op_expr_in_op_expr3174 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_bool_expr_in_op_expr3179 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_builtin_primitive_in_p_op_expr3189 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_op_expr3192 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_op_expr_in_p_op_expr3196 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_bool_expr_in_p_op_expr3201 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_set_in_builtin_primitive0 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_bool_or_expr_in_bool_expr3247 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_bool_or_expr_in_p_bool_expr3257 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_bool_and_expr_in_bool_or_expr3266 = new BitSet(new long[]{0x0000000000000002L,0x4000012000000000L});
-    public static final BitSet FOLLOW_NL_in_bool_or_expr3269 = new BitSet(new long[]{0x0000000000000000L,0x4000012000000000L});
-    public static final BitSet FOLLOW_token_OR_in_bool_or_expr3273 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_bool_or_expr3276 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_bool_and_expr_in_bool_or_expr3280 = new BitSet(new long[]{0x0000000000000002L,0x4000012000000000L});
-    public static final BitSet FOLLOW_p_bool_and_expr_in_p_bool_or_expr3292 = new BitSet(new long[]{0x0000000000000002L,0x4000012000000000L});
-    public static final BitSet FOLLOW_NL_in_p_bool_or_expr3295 = new BitSet(new long[]{0x0000000000000000L,0x4000012000000000L});
-    public static final BitSet FOLLOW_token_OR_in_p_bool_or_expr3299 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_bool_or_expr3302 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_bool_and_expr_in_p_bool_or_expr3306 = new BitSet(new long[]{0x0000000000000002L,0x4000012000000000L});
-    public static final BitSet FOLLOW_bool_not_expr_in_bool_and_expr3318 = new BitSet(new long[]{0x0000000000000002L,0x4000024000000000L});
-    public static final BitSet FOLLOW_NL_in_bool_and_expr3321 = new BitSet(new long[]{0x0000000000000000L,0x4000024000000000L});
-    public static final BitSet FOLLOW_token_AND_in_bool_and_expr3325 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_bool_and_expr3328 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_bool_not_expr_in_bool_and_expr3332 = new BitSet(new long[]{0x0000000000000002L,0x4000024000000000L});
-    public static final BitSet FOLLOW_p_bool_not_expr_in_p_bool_and_expr3344 = new BitSet(new long[]{0x0000000000000002L,0x4000024000000000L});
-    public static final BitSet FOLLOW_NL_in_p_bool_and_expr3347 = new BitSet(new long[]{0x0000000000000000L,0x4000024000000000L});
-    public static final BitSet FOLLOW_token_AND_in_p_bool_and_expr3351 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_bool_and_expr3354 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_bool_not_expr_in_p_bool_and_expr3358 = new BitSet(new long[]{0x0000000000000002L,0x4000024000000000L});
-    public static final BitSet FOLLOW_token_NOT_in_bool_not_expr3370 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_bool_not_expr3373 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_bool_not_expr_in_bool_not_expr3377 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rel_expr_in_bool_not_expr3382 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_token_NOT_in_p_bool_not_expr3393 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_bool_not_expr3396 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_bool_not_expr_in_p_bool_not_expr3400 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_rel_expr_in_p_bool_not_expr3405 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_arith_expr_in_rel_expr3414 = new BitSet(new long[]{0x0000000000000002L,0x400000007FE00000L});
-    public static final BitSet FOLLOW_NL_in_rel_expr3417 = new BitSet(new long[]{0x0000000000000000L,0x400000007FE00000L});
-    public static final BitSet FOLLOW_rel_op_in_rel_expr3420 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_rel_expr3422 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_arith_expr_in_rel_expr3425 = new BitSet(new long[]{0x0000000000000002L,0x400000007FE00000L});
-    public static final BitSet FOLLOW_p_arith_expr_in_p_rel_expr3452 = new BitSet(new long[]{0x0000000000000002L,0x400000007FE00000L});
-    public static final BitSet FOLLOW_NL_in_p_rel_expr3455 = new BitSet(new long[]{0x0000000000000000L,0x400000007FE00000L});
-    public static final BitSet FOLLOW_rel_op_in_p_rel_expr3458 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_rel_expr3460 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_arith_expr_in_p_rel_expr3463 = new BitSet(new long[]{0x0000000000000002L,0x400000007FE00000L});
-    public static final BitSet FOLLOW_token_EQUAL_in_rel_op3489 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_token_NOT_EQUAL_in_rel_op3493 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_GREATER_in_rel_op3497 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_token_GREATER_EQ_in_rel_op3501 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_LESS_in_rel_op3505 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_token_LESS_EQ_in_rel_op3509 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_plusplus_expr_in_arith_expr3521 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_plusplus_expr_in_p_arith_expr3531 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_timestimes_expr_in_plusplus_expr3541 = new BitSet(new long[]{0x0000000000000002L,0x4001800000000000L});
-    public static final BitSet FOLLOW_NL_in_plusplus_expr3544 = new BitSet(new long[]{0x0000000000000000L,0x0001800000000000L});
-    public static final BitSet FOLLOW_PLUSPLUS_in_plusplus_expr3549 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_MINUSMINUS_in_plusplus_expr3552 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_plusplus_expr3556 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_timestimes_expr_in_plusplus_expr3560 = new BitSet(new long[]{0x0000000000000002L,0x4001800000000000L});
-    public static final BitSet FOLLOW_p_timestimes_expr_in_p_plusplus_expr3572 = new BitSet(new long[]{0x0000000000000002L,0x4001800000000000L});
-    public static final BitSet FOLLOW_NL_in_p_plusplus_expr3575 = new BitSet(new long[]{0x0000000000000000L,0x0001800000000000L});
-    public static final BitSet FOLLOW_PLUSPLUS_in_p_plusplus_expr3580 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_MINUSMINUS_in_p_plusplus_expr3583 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_plusplus_expr3587 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_timestimes_expr_in_p_plusplus_expr3591 = new BitSet(new long[]{0x0000000000000002L,0x4001800000000000L});
-    public static final BitSet FOLLOW_simple_expr_in_timestimes_expr3603 = new BitSet(new long[]{0x0000000000000002L,0x4000600000000000L});
-    public static final BitSet FOLLOW_NL_in_timestimes_expr3606 = new BitSet(new long[]{0x0000000000000000L,0x0000600000000000L});
-    public static final BitSet FOLLOW_TIMESTIMES_in_timestimes_expr3611 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_QUOTIENTQUOTIENT_in_timestimes_expr3614 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_timestimes_expr3618 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_simple_expr_in_timestimes_expr3622 = new BitSet(new long[]{0x0000000000000002L,0x4000600000000000L});
-    public static final BitSet FOLLOW_p_simple_expr_in_p_timestimes_expr3635 = new BitSet(new long[]{0x0000000000000002L,0x4000600000000000L});
-    public static final BitSet FOLLOW_NL_in_p_timestimes_expr3638 = new BitSet(new long[]{0x0000000000000000L,0x0000600000000000L});
-    public static final BitSet FOLLOW_TIMESTIMES_in_p_timestimes_expr3643 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_QUOTIENTQUOTIENT_in_p_timestimes_expr3646 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_timestimes_expr3650 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_simple_expr_in_p_timestimes_expr3654 = new BitSet(new long[]{0x0000000000000002L,0x4000600000000000L});
-    public static final BitSet FOLLOW_cons_expr_in_simple_expr3665 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_cons_expr_in_p_simple_expr3674 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_to_expr_in_cons_expr3683 = new BitSet(new long[]{0x0000000000000002L,0x4000180000000000L});
-    public static final BitSet FOLLOW_NL_in_cons_expr3686 = new BitSet(new long[]{0x0000000000000000L,0x4000180000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_COLON_in_cons_expr3689 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_cons_expr3691 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_to_expr_in_cons_expr3694 = new BitSet(new long[]{0x0000000000000002L,0x4000180000000000L});
-    public static final BitSet FOLLOW_p_to_expr_in_p_cons_expr3714 = new BitSet(new long[]{0x0000000000000002L,0x4000180000000000L});
-    public static final BitSet FOLLOW_NL_in_p_cons_expr3717 = new BitSet(new long[]{0x0000000000000000L,0x4000180000000000L});
-    public static final BitSet FOLLOW_token_DOUBLE_COLON_in_p_cons_expr3720 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_cons_expr3722 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_to_expr_in_p_cons_expr3725 = new BitSet(new long[]{0x0000000000000002L,0x4000180000000000L});
-    public static final BitSet FOLLOW_arith_plus_expr_in_to_expr3745 = new BitSet(new long[]{0x0000000000000002L,0x40000000000000C0L});
-    public static final BitSet FOLLOW_NL_in_to_expr3748 = new BitSet(new long[]{0x0000000000000000L,0x00000000000000C0L});
-    public static final BitSet FOLLOW_L_to_in_to_expr3753 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_L_downto_in_to_expr3757 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_to_expr3761 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_arith_plus_expr_in_to_expr3765 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_arith_plus_expr_in_p_to_expr3778 = new BitSet(new long[]{0x0000000000000002L,0x40000000000000C0L});
-    public static final BitSet FOLLOW_NL_in_p_to_expr3781 = new BitSet(new long[]{0x0000000000000000L,0x00000000000000C0L});
-    public static final BitSet FOLLOW_L_to_in_p_to_expr3786 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_L_downto_in_p_to_expr3790 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_to_expr3794 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_arith_plus_expr_in_p_to_expr3798 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_arith_uminus_expr_in_arith_plus_expr3810 = new BitSet(new long[]{0x0000000000000002L,0x4000000300000000L});
-    public static final BitSet FOLLOW_NL_in_arith_plus_expr3814 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L});
-    public static final BitSet FOLLOW_PLUS_in_arith_plus_expr3818 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_MINUS_in_arith_plus_expr3823 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_arith_plus_expr3827 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_arith_uminus_expr_in_arith_plus_expr3831 = new BitSet(new long[]{0x0000000000000002L,0x4000000300000000L});
-    public static final BitSet FOLLOW_p_arith_uminus_expr_in_p_arith_plus_expr3842 = new BitSet(new long[]{0x0000000000000002L,0x4000000300000000L});
-    public static final BitSet FOLLOW_NL_in_p_arith_plus_expr3845 = new BitSet(new long[]{0x0000000000000000L,0x0000000300000000L});
-    public static final BitSet FOLLOW_set_in_p_arith_plus_expr3849 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_arith_plus_expr3858 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_arith_uminus_expr_in_p_arith_plus_expr3862 = new BitSet(new long[]{0x0000000000000002L,0x4000000300000000L});
-    public static final BitSet FOLLOW_MINUS_in_arith_uminus_expr3875 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_arith_uminus_expr3877 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_arith_mult_expr_in_arith_uminus_expr3880 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_arith_mult_expr_in_arith_uminus_expr3893 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MINUS_in_p_arith_uminus_expr3904 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_arith_uminus_expr3906 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_arith_mult_expr_in_p_arith_uminus_expr3909 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_p_arith_mult_expr_in_p_arith_uminus_expr3922 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_arith_pow_expr_in_arith_mult_expr3931 = new BitSet(new long[]{0x0000000000000002L,0x4000000C00180000L});
-    public static final BitSet FOLLOW_NL_in_arith_mult_expr3934 = new BitSet(new long[]{0x0000000000000000L,0x0000000C00180000L});
-    public static final BitSet FOLLOW_set_in_arith_mult_expr3938 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_arith_mult_expr3955 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_arith_pow_expr_in_arith_mult_expr3959 = new BitSet(new long[]{0x0000000000000002L,0x4000000C00180000L});
-    public static final BitSet FOLLOW_p_arith_pow_expr_in_p_arith_mult_expr3971 = new BitSet(new long[]{0x0000000000000002L,0x4000000C00180000L});
-    public static final BitSet FOLLOW_NL_in_p_arith_mult_expr3974 = new BitSet(new long[]{0x0000000000000000L,0x0000000C00180000L});
-    public static final BitSet FOLLOW_set_in_p_arith_mult_expr3978 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_arith_mult_expr3995 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_arith_pow_expr_in_p_arith_mult_expr3999 = new BitSet(new long[]{0x0000000000000002L,0x4000000C00180000L});
-    public static final BitSet FOLLOW_apply_expr_in_arith_pow_expr4010 = new BitSet(new long[]{0x0000000000000002L,0x4000001000000000L});
-    public static final BitSet FOLLOW_NL_in_arith_pow_expr4013 = new BitSet(new long[]{0x0000000000000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_POW_tok_in_arith_pow_expr4016 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_arith_pow_expr4018 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_apply_expr_in_arith_pow_expr4021 = new BitSet(new long[]{0x0000000000000002L,0x4000001000000000L});
-    public static final BitSet FOLLOW_p_apply_expr_in_p_arith_pow_expr4042 = new BitSet(new long[]{0x0000000000000002L,0x4000001000000000L});
-    public static final BitSet FOLLOW_NL_in_p_arith_pow_expr4045 = new BitSet(new long[]{0x0000000000000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_POW_tok_in_p_arith_pow_expr4048 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_arith_pow_expr4050 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_apply_expr_in_p_arith_pow_expr4053 = new BitSet(new long[]{0x0000000000000002L,0x4000001000000000L});
-    public static final BitSet FOLLOW_basic_expr_in_apply_expr4074 = new BitSet(new long[]{0x98C8000000000002L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_basic_expr_in_p_apply_expr4092 = new BitSet(new long[]{0x98C8000000000002L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_p_apply_expr4095 = new BitSet(new long[]{0x98C8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_p_basic_expr_in_p_apply_expr4098 = new BitSet(new long[]{0x98C8000000000002L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_message_send_expr_in_basic_expr4118 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_message_send_expr_in_p_basic_expr4127 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_primitive_expr_in_message_send_expr4136 = new BitSet(new long[]{0x0000000000000002L,0x4080000000000000L});
-    public static final BitSet FOLLOW_NL_in_message_send_expr4139 = new BitSet(new long[]{0x0000000000000000L,0x0080000000000000L});
-    public static final BitSet FOLLOW_PERIOD_in_message_send_expr4142 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L,0x0000000000000001L});
-    public static final BitSet FOLLOW_NL_in_message_send_expr4144 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000001L});
-    public static final BitSet FOLLOW_Id_in_message_send_expr4147 = new BitSet(new long[]{0x0000000000000002L,0x4080000000000000L});
-    public static final BitSet FOLLOW_SQUARE_BRACKET_OPEN_in_list_expr4171 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x00000000000005DBL});
-    public static final BitSet FOLLOW_NL_in_list_expr4173 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x00000000000005DBL});
-    public static final BitSet FOLLOW_protected_expr_in_list_expr4177 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_NL_in_list_expr4180 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
-    public static final BitSet FOLLOW_COMMA_in_list_expr4183 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_list_expr4185 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_protected_expr_in_list_expr4188 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_NL_in_list_expr4192 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_SQUARE_BRACKET_CLOSE_in_list_expr4197 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ROUND_BRACKET_OPEN_in_list_expr4211 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000057BL});
-    public static final BitSet FOLLOW_NL_in_list_expr4213 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000057BL});
-    public static final BitSet FOLLOW_protected_expr_in_list_expr4217 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_NL_in_list_expr4220 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
-    public static final BitSet FOLLOW_COMMA_in_list_expr4223 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_list_expr4225 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_protected_expr_in_list_expr4228 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_NL_in_list_expr4232 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_COMMA_in_list_expr4236 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_NL_in_list_expr4238 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_ROUND_BRACKET_CLOSE_in_list_expr4245 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CURLY_BRACKET_OPEN_in_map_or_set_expr4274 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000075BL});
-    public static final BitSet FOLLOW_NL_in_map_or_set_expr4276 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000075BL});
-    public static final BitSet FOLLOW_map_or_set_elem_expr_in_map_or_set_expr4280 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_NL_in_map_or_set_expr4282 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_COMMA_in_map_or_set_expr4286 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_map_or_set_expr4288 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_map_or_set_elem_expr_in_map_or_set_expr4291 = new BitSet(new long[]{0x0000000000000000L,0x4100000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_NL_in_map_or_set_expr4293 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_map_or_set_expr4300 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CURLY_BRACKET_OPEN_in_map_or_set_expr4320 = new BitSet(new long[]{0x0000000000000000L,0x4018000000000000L});
-    public static final BitSet FOLLOW_NL_in_map_or_set_expr4322 = new BitSet(new long[]{0x0000000000000000L,0x0018000000000000L});
-    public static final BitSet FOLLOW_token_ARROW_in_map_or_set_expr4325 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_NL_in_map_or_set_expr4327 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_map_or_set_expr4330 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_protected_expr_in_map_or_set_elem_expr4347 = new BitSet(new long[]{0x0000000100000002L,0x4018000000000000L});
-    public static final BitSet FOLLOW_NL_in_map_or_set_elem_expr4350 = new BitSet(new long[]{0x0000000100000000L,0x4018000000000000L});
-    public static final BitSet FOLLOW_arrow_or_assign_in_map_or_set_elem_expr4353 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_NL_in_map_or_set_elem_expr4355 = new BitSet(new long[]{0x98E8000000000000L,0xC86004820007DF21L,0x000000000000055BL});
-    public static final BitSet FOLLOW_protected_expr_in_map_or_set_elem_expr4358 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Num_in_primitive_expr4385 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_String_in_primitive_expr4390 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Id_in_primitive_expr4395 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Constr_in_primitive_expr4400 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_true_in_primitive_expr4405 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_false_in_primitive_expr4410 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_this_in_primitive_expr4415 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_nil_in_primitive_expr4421 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_token_infinity_in_primitive_expr4426 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_list_expr_in_primitive_expr4432 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_with_control_expr_in_primitive_expr4437 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_map_or_set_expr_in_primitive_expr4442 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_block_in_prog4452 = new BitSet(new long[]{0x0000000000000000L});
-    public static final BitSet FOLLOW_EOF_in_prog4454 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_Id_in_synpred1_babel171599 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000002L});
-    public static final BitSet FOLLOW_NL_in_synpred1_babel171601 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000002L});
-    public static final BitSet FOLLOW_L_as_in_synpred1_babel171604 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_protected_expr_in_synpred2_babel171635 = new BitSet(new long[]{0x0000000000000000L,0x4400000000000000L});
-    public static final BitSet FOLLOW_NL_in_synpred2_babel171637 = new BitSet(new long[]{0x0000000000000000L,0x0400000000000000L});
-    public static final BitSet FOLLOW_QUESTION_MARK_in_synpred2_babel171640 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_pattern_in_synpred3_babel172396 = new BitSet(new long[]{0x0000000100000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_objelem_assign_in_synpred3_babel172400 = new BitSet(new long[]{0x0000000100000000L,0x4000000000000000L});
-    public static final BitSet FOLLOW_NL_in_synpred3_babel172403 = new BitSet(new long[]{0x0000000100000000L});
-    public static final BitSet FOLLOW_ASSIGN_in_synpred3_babel172406 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_L_obj_in_synpred4_babel172617 = new BitSet(new long[]{0x0000000000000000L,0x4000000500000000L});
-    public static final BitSet FOLLOW_NL_in_synpred4_babel172619 = new BitSet(new long[]{0x0000000000000000L,0x4000000500000000L});
-    public static final BitSet FOLLOW_parents_in_synpred4_babel172622 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_lambda_expr_in_synpred5_babel172691 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_protected_lambda_expr_in_synpred6_babel172712 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_bool_or_expr_in_bool_expr3241 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_bool_or_expr_in_p_bool_expr3251 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_bool_and_expr_in_bool_or_expr3260 = new BitSet(new long[]{0x0000000000000002L,0x1000004800000000L});
+    public static final BitSet FOLLOW_NL_in_bool_or_expr3263 = new BitSet(new long[]{0x0000000000000000L,0x1000004800000000L});
+    public static final BitSet FOLLOW_token_OR_in_bool_or_expr3267 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bool_or_expr3270 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_bool_and_expr_in_bool_or_expr3274 = new BitSet(new long[]{0x0000000000000002L,0x1000004800000000L});
+    public static final BitSet FOLLOW_p_bool_and_expr_in_p_bool_or_expr3286 = new BitSet(new long[]{0x0000000000000002L,0x1000004800000000L});
+    public static final BitSet FOLLOW_NL_in_p_bool_or_expr3289 = new BitSet(new long[]{0x0000000000000000L,0x1000004800000000L});
+    public static final BitSet FOLLOW_token_OR_in_p_bool_or_expr3293 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_bool_or_expr3296 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_bool_and_expr_in_p_bool_or_expr3300 = new BitSet(new long[]{0x0000000000000002L,0x1000004800000000L});
+    public static final BitSet FOLLOW_bool_not_expr_in_bool_and_expr3312 = new BitSet(new long[]{0x0000000000000002L,0x1000009000000000L});
+    public static final BitSet FOLLOW_NL_in_bool_and_expr3315 = new BitSet(new long[]{0x0000000000000000L,0x1000009000000000L});
+    public static final BitSet FOLLOW_token_AND_in_bool_and_expr3319 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bool_and_expr3322 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_bool_not_expr_in_bool_and_expr3326 = new BitSet(new long[]{0x0000000000000002L,0x1000009000000000L});
+    public static final BitSet FOLLOW_p_bool_not_expr_in_p_bool_and_expr3338 = new BitSet(new long[]{0x0000000000000002L,0x1000009000000000L});
+    public static final BitSet FOLLOW_NL_in_p_bool_and_expr3341 = new BitSet(new long[]{0x0000000000000000L,0x1000009000000000L});
+    public static final BitSet FOLLOW_token_AND_in_p_bool_and_expr3345 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_bool_and_expr3348 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_bool_not_expr_in_p_bool_and_expr3352 = new BitSet(new long[]{0x0000000000000002L,0x1000009000000000L});
+    public static final BitSet FOLLOW_token_NOT_in_bool_not_expr3364 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_bool_not_expr3367 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_bool_not_expr_in_bool_not_expr3371 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rel_expr_in_bool_not_expr3376 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_token_NOT_in_p_bool_not_expr3387 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_bool_not_expr3390 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_bool_not_expr_in_p_bool_not_expr3394 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_rel_expr_in_p_bool_not_expr3399 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_arith_expr_in_rel_expr3408 = new BitSet(new long[]{0x0000000000000002L,0x100000001FF80000L});
+    public static final BitSet FOLLOW_NL_in_rel_expr3411 = new BitSet(new long[]{0x0000000000000000L,0x100000001FF80000L});
+    public static final BitSet FOLLOW_rel_op_in_rel_expr3414 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_rel_expr3416 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_arith_expr_in_rel_expr3419 = new BitSet(new long[]{0x0000000000000002L,0x100000001FF80000L});
+    public static final BitSet FOLLOW_p_arith_expr_in_p_rel_expr3446 = new BitSet(new long[]{0x0000000000000002L,0x100000001FF80000L});
+    public static final BitSet FOLLOW_NL_in_p_rel_expr3449 = new BitSet(new long[]{0x0000000000000000L,0x100000001FF80000L});
+    public static final BitSet FOLLOW_rel_op_in_p_rel_expr3452 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_rel_expr3454 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_arith_expr_in_p_rel_expr3457 = new BitSet(new long[]{0x0000000000000002L,0x100000001FF80000L});
+    public static final BitSet FOLLOW_token_EQUAL_in_rel_op3483 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_token_NOT_EQUAL_in_rel_op3487 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_GREATER_in_rel_op3491 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_token_GREATER_EQ_in_rel_op3495 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_LESS_in_rel_op3499 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_token_LESS_EQ_in_rel_op3503 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_plusplus_expr_in_arith_expr3515 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_plusplus_expr_in_p_arith_expr3525 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_timestimes_expr_in_plusplus_expr3535 = new BitSet(new long[]{0x0000000000000002L,0x1000600000000000L});
+    public static final BitSet FOLLOW_NL_in_plusplus_expr3538 = new BitSet(new long[]{0x0000000000000000L,0x0000600000000000L});
+    public static final BitSet FOLLOW_PLUSPLUS_in_plusplus_expr3543 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_MINUSMINUS_in_plusplus_expr3546 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_plusplus_expr3550 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_timestimes_expr_in_plusplus_expr3554 = new BitSet(new long[]{0x0000000000000002L,0x1000600000000000L});
+    public static final BitSet FOLLOW_p_timestimes_expr_in_p_plusplus_expr3566 = new BitSet(new long[]{0x0000000000000002L,0x1000600000000000L});
+    public static final BitSet FOLLOW_NL_in_p_plusplus_expr3569 = new BitSet(new long[]{0x0000000000000000L,0x0000600000000000L});
+    public static final BitSet FOLLOW_PLUSPLUS_in_p_plusplus_expr3574 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_MINUSMINUS_in_p_plusplus_expr3577 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_plusplus_expr3581 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_timestimes_expr_in_p_plusplus_expr3585 = new BitSet(new long[]{0x0000000000000002L,0x1000600000000000L});
+    public static final BitSet FOLLOW_simple_expr_in_timestimes_expr3597 = new BitSet(new long[]{0x0000000000000002L,0x1000180000000000L});
+    public static final BitSet FOLLOW_NL_in_timestimes_expr3600 = new BitSet(new long[]{0x0000000000000000L,0x0000180000000000L});
+    public static final BitSet FOLLOW_TIMESTIMES_in_timestimes_expr3605 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_QUOTIENTQUOTIENT_in_timestimes_expr3608 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_timestimes_expr3612 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_simple_expr_in_timestimes_expr3616 = new BitSet(new long[]{0x0000000000000002L,0x1000180000000000L});
+    public static final BitSet FOLLOW_p_simple_expr_in_p_timestimes_expr3629 = new BitSet(new long[]{0x0000000000000002L,0x1000180000000000L});
+    public static final BitSet FOLLOW_NL_in_p_timestimes_expr3632 = new BitSet(new long[]{0x0000000000000000L,0x0000180000000000L});
+    public static final BitSet FOLLOW_TIMESTIMES_in_p_timestimes_expr3637 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_QUOTIENTQUOTIENT_in_p_timestimes_expr3640 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_timestimes_expr3644 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_simple_expr_in_p_timestimes_expr3648 = new BitSet(new long[]{0x0000000000000002L,0x1000180000000000L});
+    public static final BitSet FOLLOW_cons_expr_in_simple_expr3659 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_cons_expr_in_p_simple_expr3668 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_to_expr_in_cons_expr3677 = new BitSet(new long[]{0x0000000000000002L,0x1000060000000000L});
+    public static final BitSet FOLLOW_NL_in_cons_expr3680 = new BitSet(new long[]{0x0000000000000000L,0x1000060000000000L});
+    public static final BitSet FOLLOW_token_DOUBLE_COLON_in_cons_expr3683 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_cons_expr3685 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_to_expr_in_cons_expr3688 = new BitSet(new long[]{0x0000000000000002L,0x1000060000000000L});
+    public static final BitSet FOLLOW_p_to_expr_in_p_cons_expr3708 = new BitSet(new long[]{0x0000000000000002L,0x1000060000000000L});
+    public static final BitSet FOLLOW_NL_in_p_cons_expr3711 = new BitSet(new long[]{0x0000000000000000L,0x1000060000000000L});
+    public static final BitSet FOLLOW_token_DOUBLE_COLON_in_p_cons_expr3714 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_cons_expr3716 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_to_expr_in_p_cons_expr3719 = new BitSet(new long[]{0x0000000000000002L,0x1000060000000000L});
+    public static final BitSet FOLLOW_arith_plus_expr_in_to_expr3739 = new BitSet(new long[]{0x0000000000000002L,0x1000000000000030L});
+    public static final BitSet FOLLOW_NL_in_to_expr3742 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000030L});
+    public static final BitSet FOLLOW_L_to_in_to_expr3747 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_downto_in_to_expr3751 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_to_expr3755 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_arith_plus_expr_in_to_expr3759 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_arith_plus_expr_in_p_to_expr3772 = new BitSet(new long[]{0x0000000000000002L,0x1000000000000030L});
+    public static final BitSet FOLLOW_NL_in_p_to_expr3775 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000030L});
+    public static final BitSet FOLLOW_L_to_in_p_to_expr3780 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_L_downto_in_p_to_expr3784 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_to_expr3788 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_arith_plus_expr_in_p_to_expr3792 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_arith_uminus_expr_in_arith_plus_expr3804 = new BitSet(new long[]{0x0000000000000002L,0x10000000C0000000L});
+    public static final BitSet FOLLOW_NL_in_arith_plus_expr3808 = new BitSet(new long[]{0x0000000000000000L,0x0000000040000000L});
+    public static final BitSet FOLLOW_PLUS_in_arith_plus_expr3812 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_MINUS_in_arith_plus_expr3817 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_arith_plus_expr3821 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_arith_uminus_expr_in_arith_plus_expr3825 = new BitSet(new long[]{0x0000000000000002L,0x10000000C0000000L});
+    public static final BitSet FOLLOW_p_arith_uminus_expr_in_p_arith_plus_expr3836 = new BitSet(new long[]{0x0000000000000002L,0x10000000C0000000L});
+    public static final BitSet FOLLOW_NL_in_p_arith_plus_expr3839 = new BitSet(new long[]{0x0000000000000000L,0x00000000C0000000L});
+    public static final BitSet FOLLOW_set_in_p_arith_plus_expr3843 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_arith_plus_expr3852 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_arith_uminus_expr_in_p_arith_plus_expr3856 = new BitSet(new long[]{0x0000000000000002L,0x10000000C0000000L});
+    public static final BitSet FOLLOW_MINUS_in_arith_uminus_expr3869 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_arith_uminus_expr3871 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_arith_mult_expr_in_arith_uminus_expr3874 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_arith_mult_expr_in_arith_uminus_expr3887 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MINUS_in_p_arith_uminus_expr3898 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_arith_uminus_expr3900 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_arith_mult_expr_in_p_arith_uminus_expr3903 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_p_arith_mult_expr_in_p_arith_uminus_expr3916 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_arith_pow_expr_in_arith_mult_expr3925 = new BitSet(new long[]{0x0000000000000002L,0x1000000300060000L});
+    public static final BitSet FOLLOW_NL_in_arith_mult_expr3928 = new BitSet(new long[]{0x0000000000000000L,0x0000000300060000L});
+    public static final BitSet FOLLOW_set_in_arith_mult_expr3932 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_arith_mult_expr3949 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_arith_pow_expr_in_arith_mult_expr3953 = new BitSet(new long[]{0x0000000000000002L,0x1000000300060000L});
+    public static final BitSet FOLLOW_p_arith_pow_expr_in_p_arith_mult_expr3965 = new BitSet(new long[]{0x0000000000000002L,0x1000000300060000L});
+    public static final BitSet FOLLOW_NL_in_p_arith_mult_expr3968 = new BitSet(new long[]{0x0000000000000000L,0x0000000300060000L});
+    public static final BitSet FOLLOW_set_in_p_arith_mult_expr3972 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_arith_mult_expr3989 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_arith_pow_expr_in_p_arith_mult_expr3993 = new BitSet(new long[]{0x0000000000000002L,0x1000000300060000L});
+    public static final BitSet FOLLOW_apply_expr_in_arith_pow_expr4004 = new BitSet(new long[]{0x0000000000000002L,0x1000000400000000L});
+    public static final BitSet FOLLOW_NL_in_arith_pow_expr4007 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L});
+    public static final BitSet FOLLOW_POW_tok_in_arith_pow_expr4010 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_arith_pow_expr4012 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_apply_expr_in_arith_pow_expr4015 = new BitSet(new long[]{0x0000000000000002L,0x1000000400000000L});
+    public static final BitSet FOLLOW_p_apply_expr_in_p_arith_pow_expr4036 = new BitSet(new long[]{0x0000000000000002L,0x1000000400000000L});
+    public static final BitSet FOLLOW_NL_in_p_arith_pow_expr4039 = new BitSet(new long[]{0x0000000000000000L,0x0000000400000000L});
+    public static final BitSet FOLLOW_POW_tok_in_p_arith_pow_expr4042 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_arith_pow_expr4044 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_apply_expr_in_p_arith_pow_expr4047 = new BitSet(new long[]{0x0000000000000002L,0x1000000400000000L});
+    public static final BitSet FOLLOW_basic_expr_in_apply_expr4068 = new BitSet(new long[]{0x6632000000000002L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_basic_expr_in_p_apply_expr4086 = new BitSet(new long[]{0x6632000000000002L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_p_apply_expr4089 = new BitSet(new long[]{0x6632000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_p_basic_expr_in_p_apply_expr4092 = new BitSet(new long[]{0x6632000000000002L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_message_send_expr_in_basic_expr4112 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_message_send_expr_in_p_basic_expr4121 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_primitive_expr_in_message_send_expr4130 = new BitSet(new long[]{0x0000000000000002L,0x1020000000000000L});
+    public static final BitSet FOLLOW_NL_in_message_send_expr4133 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_PERIOD_in_message_send_expr4136 = new BitSet(new long[]{0x0000000000000000L,0x5000000000000000L});
+    public static final BitSet FOLLOW_NL_in_message_send_expr4138 = new BitSet(new long[]{0x0000000000000000L,0x4000000000000000L});
+    public static final BitSet FOLLOW_Id_in_message_send_expr4141 = new BitSet(new long[]{0x0000000000000002L,0x1020000000000000L});
+    public static final BitSet FOLLOW_SQUARE_BRACKET_OPEN_in_list_expr4165 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000176L});
+    public static final BitSet FOLLOW_NL_in_list_expr4167 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000176L});
+    public static final BitSet FOLLOW_protected_expr_in_list_expr4171 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_NL_in_list_expr4174 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_COMMA_in_list_expr4177 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_list_expr4179 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_list_expr4182 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_NL_in_list_expr4186 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_SQUARE_BRACKET_CLOSE_in_list_expr4191 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ROUND_BRACKET_OPEN_in_list_expr4205 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x000000000000015EL});
+    public static final BitSet FOLLOW_NL_in_list_expr4207 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x000000000000015EL});
+    public static final BitSet FOLLOW_protected_expr_in_list_expr4211 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_NL_in_list_expr4214 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_COMMA_in_list_expr4217 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_list_expr4219 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_list_expr4222 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_NL_in_list_expr4226 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_COMMA_in_list_expr4230 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_NL_in_list_expr4232 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_ROUND_BRACKET_CLOSE_in_list_expr4239 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CURLY_BRACKET_OPEN_in_map_or_set_expr4268 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x00000000000001D6L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_expr4270 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x00000000000001D6L});
+    public static final BitSet FOLLOW_map_or_set_elem_expr_in_map_or_set_expr4274 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_expr4276 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_COMMA_in_map_or_set_expr4280 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_expr4282 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_map_or_set_elem_expr_in_map_or_set_expr4285 = new BitSet(new long[]{0x0000000000000000L,0x1040000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_expr4287 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_map_or_set_expr4294 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CURLY_BRACKET_OPEN_in_map_or_set_expr4314 = new BitSet(new long[]{0x0000000000000000L,0x1006000000000000L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_expr4316 = new BitSet(new long[]{0x0000000000000000L,0x0006000000000000L});
+    public static final BitSet FOLLOW_token_ARROW_in_map_or_set_expr4319 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_expr4321 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_CURLY_BRACKET_CLOSE_in_map_or_set_expr4324 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_protected_expr_in_map_or_set_elem_expr4341 = new BitSet(new long[]{0x0000000100000002L,0x1006000000000000L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_elem_expr4344 = new BitSet(new long[]{0x0000000100000000L,0x1006000000000000L});
+    public static final BitSet FOLLOW_arrow_or_assign_in_map_or_set_elem_expr4347 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_NL_in_map_or_set_elem_expr4349 = new BitSet(new long[]{0x663A000000000000L,0xF21801208001F7C8L,0x0000000000000156L});
+    public static final BitSet FOLLOW_protected_expr_in_map_or_set_elem_expr4352 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Num_in_primitive_expr4379 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_String_in_primitive_expr4384 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Id_in_primitive_expr4389 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Constr_in_primitive_expr4394 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_true_in_primitive_expr4399 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_false_in_primitive_expr4404 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_this_in_primitive_expr4409 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_nil_in_primitive_expr4415 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_token_infinity_in_primitive_expr4420 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_list_expr_in_primitive_expr4426 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_with_control_expr_in_primitive_expr4431 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_map_or_set_expr_in_primitive_expr4436 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_block_in_prog4446 = new BitSet(new long[]{0x0000000000000000L});
+    public static final BitSet FOLLOW_EOF_in_prog4448 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_Id_in_synpred1_babel171593 = new BitSet(new long[]{0x8000000000000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_synpred1_babel171595 = new BitSet(new long[]{0x8000000000000000L});
+    public static final BitSet FOLLOW_L_as_in_synpred1_babel171598 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_protected_expr_in_synpred2_babel171629 = new BitSet(new long[]{0x0000000000000000L,0x1100000000000000L});
+    public static final BitSet FOLLOW_NL_in_synpred2_babel171631 = new BitSet(new long[]{0x0000000000000000L,0x0100000000000000L});
+    public static final BitSet FOLLOW_QUESTION_MARK_in_synpred2_babel171634 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_pattern_in_synpred3_babel172390 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_objelem_assign_in_synpred3_babel172394 = new BitSet(new long[]{0x0000000100000000L,0x1000000000000000L});
+    public static final BitSet FOLLOW_NL_in_synpred3_babel172397 = new BitSet(new long[]{0x0000000100000000L});
+    public static final BitSet FOLLOW_ASSIGN_in_synpred3_babel172400 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_L_obj_in_synpred4_babel172611 = new BitSet(new long[]{0x0000000000000000L,0x1000000140000000L});
+    public static final BitSet FOLLOW_NL_in_synpred4_babel172613 = new BitSet(new long[]{0x0000000000000000L,0x1000000140000000L});
+    public static final BitSet FOLLOW_parents_in_synpred4_babel172616 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_lambda_expr_in_synpred5_babel172685 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_protected_lambda_expr_in_synpred6_babel172706 = new BitSet(new long[]{0x0000000000000002L});
 
 }

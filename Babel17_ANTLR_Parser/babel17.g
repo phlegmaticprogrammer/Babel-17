@@ -64,9 +64,6 @@ ARROW;
 DEF;
 YIELD;
 
-LAZY;
-CONCURRENT;
-
 MEMOIZE;
 MEM_STRONG;
 MEM_WEAK;
@@ -178,7 +175,8 @@ token_infinity
 L_concurrent
 	:	'concurrent';
 	
-L_await	:	'await';
+L_choose	
+	:	'choose';
 	
 L_lazy	:	'lazy';
 
@@ -260,8 +258,7 @@ A_DOUBLE_COLON
 U_DOUBLE_COLON
 	:	'\u2237';
 token_DOUBLE_COLON 
-	:	A_DOUBLE_COLON | U_DOUBLE_COLON;
-	
+	:	A_DOUBLE_COLON | U_DOUBLE_COLON;	
 	
 TIMESTIMES
 	:	'**';	
@@ -298,8 +295,8 @@ COMMA	:	',';
 COLON	:	':';
 
 QUESTION_MARK	:	'?';
-
-TILDE	:	'\~';	
+	
+L_force	:	'force';
 	
 fragment
 WsChar 	:	'\u0020' | '\t'; 	  
@@ -518,7 +515,7 @@ p_op_expr
 
 
 builtin_primitive
-	:	L_random | L_await | L_exception | L_lazy | TILDE | L_concurrent;
+	:	L_random | L_exception | L_lazy | L_choose | L_concurrent | L_force;
 
 bool_expr 
 	:	bool_or_expr;

@@ -64,6 +64,10 @@ object Values {
       }
     }
     
+    def choose() : Value = {
+      dynamicException(CONSTRUCTOR_DOMAINERROR)
+    }
+    
     def force() : Value = {
       this
     }

@@ -39,8 +39,9 @@ public class Parser {
     k.add("downto");
     k.add("infinity");
     k.add("concurrent");
-    k.add("await");
+    k.add("choose");
     k.add("lazy");
+    k.add("force");   
     k.add("memoize");
     k.add("true");
     k.add("false");
@@ -338,16 +339,16 @@ public class Parser {
                   mergeLocation(loc);
         case babel17Parser.L_random:
           return toUnaryNode(tree, OperatorNode.RANDOM);
-        case babel17Parser.L_await:
-          return toUnaryNode(tree, OperatorNode.AWAIT);
+        case babel17Parser.L_choose:
+          return toUnaryNode(tree, OperatorNode.CHOOSE);
         case babel17Parser.L_exception:
           return toUnaryNode(tree, OperatorNode.EXCEPTION);
         case babel17Parser.L_lazy:
           return toUnaryNode(tree, OperatorNode.LAZY);
-        case babel17Parser.TILDE:
-          return toUnaryNode(tree, OperatorNode.LAZY);
         case babel17Parser.L_concurrent:
           return toUnaryNode(tree, OperatorNode.CONCURRENT);
+        case babel17Parser.L_force:
+          return toUnaryNode(tree, OperatorNode.FORCE);
         case babel17Parser.EMPTY_MAP:
           return new MapNode(new NodeList()).mergeLocation(loc);
         case babel17Parser.L_nil:

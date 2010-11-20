@@ -189,7 +189,8 @@ object CollectVars {
       case SECompare(operands, _) => operands
       case SELazy(se) => List(se)
       case SERandom(se) => List(se)
-      case SEAwait(se) => List(se)
+      case SEChoose(se) => List(se)
+      case SEForce(se, _) => List(se)
       case SEConcurrent(se) => List(se)
       case SEException(se) => List(se)
       case _ => List()
