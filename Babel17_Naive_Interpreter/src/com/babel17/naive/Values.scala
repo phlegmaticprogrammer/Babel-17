@@ -30,6 +30,7 @@ object Values {
   val CONSTRUCTOR_NOMATCH = "NOMATCH"
   val CONSTRUCTOR_APPLYERROR = "APPLYERROR"
   val CONSTRUCTOR_INVALIDLIST = "INVALIDLIST"
+  val CONSTRUCTOR_UNRELATED = "UNRELATED"
   
   abstract class Value {
     // sending an object a message always forces it
@@ -765,7 +766,21 @@ object Values {
       val o = force()
       return force().sendMessage(message)
     }   
-  }    
+  }
+
+  object unrelatedX extends Exception {}
+
+  object defaultValueOrdering extends Ordering[Value] {
+    def compare(a : Value, b : Value) : Int = {
+      import CompareResult._
+      compareValues(a, b) match {
+        case LESS => -1
+        case EQUAL => 0
+        case GREATER => 1
+        case UNRELATED => throw unrelatedX
+      }
+    }
+  }
   
   
 }

@@ -34,10 +34,11 @@ random 2
 random 2
 random 2
 random 2
-random 2*/
+random 2
 force choose [4, 5, 19]
 ! false
 false & true
 false | true
-
-/*/ with () : begin end
+ with () : begin end
+{3, -10, 2, nil, 5, 2}*/
+{1 -> 2, 3 -> 4}

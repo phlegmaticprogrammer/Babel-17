@@ -181,7 +181,7 @@ object Tree2Program {
     import OperatorNode._
     val result : Locatable = n.operator().operator match {
       case NOT => SENot(arg)
-      case UMINUS => mk("uminus")
+      case UMINUS => mk(Values.MESSAGE_UMINUS)
       case LAZY => SELazy(arg)
       case RANDOM => SERandom(arg)
       case CONCURRENT => SEConcurrent(arg)

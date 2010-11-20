@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Babel17_ANTLR_Parser/Babel17_ANTLR_Parser.iml" filepath="$PROJECT_DIR$/Babel17_ANTLR_Parser/Babel17_ANTLR_Parser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Babel17_Interpreter/Babel17_Interpreter.iml" filepath="$PROJECT_DIR$/Babel17_Interpreter/Babel17_Interpreter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/Babel17_Naive_Interpreter.iml" filepath="$PROJECT_DIR$/Babel17_Naive_Interpreter/Babel17_Naive_Interpreter.iml" />
+    </modules>
+  </component>
+</project>
+

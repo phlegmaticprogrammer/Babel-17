@@ -136,7 +136,17 @@ class Evaluator {
   }
   
   def evalSet(env : SimpleEnvironment, l : List[SimpleExpression]) : Value = {
-    
+    var s = SortedSet.empty(defaultValueOrdering)
+    for (e <- l) {
+      val x = evalSE(env, e)
+      if (x.isDynamicException) return x
+      try {
+        s = s + x
+      } catch {
+        case unrelatedX => return dynamicException(CONSTRUCTOR_UNRELATED)
+      }
+    }
+    SetValue(s)
   }
   
   def randomBigInt(n : BigInt) : BigInt = {
