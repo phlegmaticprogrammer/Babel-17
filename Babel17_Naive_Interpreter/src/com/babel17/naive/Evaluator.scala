@@ -135,6 +135,10 @@ class Evaluator {
     VectorValue(v)
   }
   
+  def evalSet(env : SimpleEnvironment, l : List[SimpleExpression]) : Value = {
+    
+  }
+  
   def randomBigInt(n : BigInt) : BigInt = {
     var r : BigInt = 0
     do {
@@ -204,6 +208,7 @@ class Evaluator {
         val xv = evalSE(env, v)
         if (xv.isDynamicException) return xv
         ConsListValue(xu, xv)
+      case SESet(l) => evalSet(env, l)
       case SEList(l) => evalList(env, l)
       case SEVector(l) => evalVector(env, l)
       case SERandom(e) =>
@@ -252,6 +257,7 @@ class Evaluator {
           case x =>
             if (x.isException) x.asDynamicException else domainError()
         }        
+      case SEExpr(e) => evalExpression(env.thaw, e)
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }
