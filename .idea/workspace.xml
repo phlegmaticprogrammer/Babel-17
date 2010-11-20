@@ -68,10 +68,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Evaluator.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Evaluator.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Evaluator.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="149" column="6" selection-start="4024" selection-end="4024" vertical-scroll-proportion="0.6631737">
+            <state line="135" column="22" selection-start="3649" selection-end="3649" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="4" selection-start="33" selection-end="33" vertical-scroll-proportion="0.1017964">
               <folding />
             </state>
           </provider>
@@ -122,6 +131,7 @@
         <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala" />
         <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Evaluator.scala" />
         <option value="$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/examples/basic/scratchbook.b17" />
+        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/.gitignore" />
       </list>
     </option>
   </component>
@@ -531,7 +541,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Evaluator.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="149" column="6" selection-start="4024" selection-end="4024" vertical-scroll-proportion="0.6631737">
+        <state line="135" column="22" selection-start="3649" selection-end="3649" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="4" selection-start="33" selection-end="33" vertical-scroll-proportion="0.1017964">
           <folding />
         </state>
       </provider>
