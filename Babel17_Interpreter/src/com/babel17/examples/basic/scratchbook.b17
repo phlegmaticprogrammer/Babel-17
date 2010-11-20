@@ -36,5 +36,8 @@ random 2
 random 2
 random 2*/
 force choose [4, 5, 19]
+! false
+false & true
+false | true
 
 /*/ with () : begin end

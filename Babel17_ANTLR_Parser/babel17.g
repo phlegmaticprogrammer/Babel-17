@@ -292,8 +292,6 @@ PERIOD	:	'.';
 
 COMMA	:	',';
 
-COLON	:	':';
-
 QUESTION_MARK	:	'?';
 	
 L_force	:	'force';
@@ -438,7 +436,7 @@ control_expr
 	
 with_control_expr
 	:	control_expr
-	|	L_with NL? protected_expr NL? COLON NL? control_expr -> ^(WITH protected_expr control_expr);
+	|	L_with NL? protected_expr NL? L_do block L_end -> ^(WITH protected_expr ^(BEGIN block));
 
 	
 protected_expr

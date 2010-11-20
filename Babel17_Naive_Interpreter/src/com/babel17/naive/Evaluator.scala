@@ -115,9 +115,9 @@ class Evaluator {
       EmptyListValue()
     else {
       val h = evalSE(env, l.head)
-      if (h.isDynamicException) return h.asDynamicException
+      if (h.isDynamicException) return h
       val t = evalList(env, l.tail)
-      if (t.isDynamicException) return t.asDynamicException
+      if (t.isDynamicException) return t
       ConsListValue(h, t)
     }
   }
@@ -128,7 +128,7 @@ class Evaluator {
     var i = 0
     for (e <- l) {
       val x = evalSE(env, e)
-      if (x.isDynamicException) return x.asDynamicException
+      if (x.isDynamicException) return x
       v(i) = x
       i = i + 1
     }
@@ -155,13 +155,11 @@ class Evaluator {
       case SEInfinity(p) => InfinityValue(p)
       case SEConstr(constr, se) => 
         val v = evalSE(env, se)
-        val x = v.asDynamicException()
-        if (x != null) x
+        if (v.isDynamicException) v
         else ConstructorValue(constr, v)
       case SEException(se) => 
         val v = evalSE(env, se)
-        val x = v.asDynamicException()
-        if (x != null) x
+        if (v.isDynamicException) v
         else ExceptionValue(true, v)
       case SEMessageSend(target, message) =>
         val v = evalSE(env, target).sendMessage(message)
@@ -171,8 +169,7 @@ class Evaluator {
         var map : SortedMap[Message, Value] = SortedMap()
         for ((m, se) <- messageValuePairs) {
           val v = evalSE(env, se)
-          val x = v.asDynamicException()
-          if (x != null) return x
+          if (v.isDynamicException) return v
           map = map + (m -> v)
         }
         ObjectValue(map)
@@ -228,6 +225,33 @@ class Evaluator {
           v.forceDeep()
         else
           v.force()
+      case SENot(e) =>
+        evalSE(env, e) match {
+          case BooleanValue(b) => BooleanValue (!b)
+          case x => if (x.isException) x.asDynamicException else domainError()
+        }
+      case SEOr(u,v) => 
+        evalSE(env, u) match {
+          case BooleanValue(a) =>
+            if (a) BooleanValue(a)
+            else evalSE(env, v) match {
+              case BooleanValue(b) => BooleanValue(b)
+              case x => if (x.isException) x.asDynamicException else domainError()
+            }
+          case x =>
+            if (x.isException) x.asDynamicException else domainError()
+        }
+      case SEAnd(u,v) => 
+        evalSE(env, u) match {
+          case BooleanValue(a) =>
+            if (!a) BooleanValue(false)
+            else evalSE(env, v) match {
+              case BooleanValue(b) => BooleanValue(b)
+              case x => if (x.isException) x.asDynamicException else domainError()
+            }
+          case x =>
+            if (x.isException) x.asDynamicException else domainError()
+        }        
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }
@@ -264,12 +288,10 @@ class Evaluator {
         }
       case SYield(expr) =>
         val e = evalExpression(env, expr)
-        val x = e.asDynamicException()
-        if (x != null) StatementException(x)
+        if (e.isDynamicException) StatementException(e.asInstanceOf[ExceptionValue])
         else {
           val c = coll.collect_add(e)
-          val cx = c.asDynamicException()
-          if (cx != null) StatementException(cx)
+          if (c.isDynamicException) StatementException(c.asInstanceOf[ExceptionValue])
           else StatementCollector(env, c.asInstanceOf[CollectorValue])
         }
       case _ => throw EvalX("incomplete evalStatement: "+st) // dummy expression
@@ -304,8 +326,7 @@ class Evaluator {
   def matchPattern(env : Environment, pat : Pattern, v : Value, rebind : Boolean) : MatchResult = {
     pat match {
       case PId(id) =>
-        val x = v.asDynamicException()
-        if (x != null) MatchException(x)
+        if (v.isDynamicException) MatchException(v.asInstanceOf[ExceptionValue])
         else DoesMatch(if (rebind) env.rebind(id, v) else env.bind(id, v))
       case _ => throw EvalX("incomplete matchPattern: "+pat)
     }

@@ -91,10 +91,26 @@ object Values {
         case _ => false
       }
     }
+    
+    def isException() : Boolean = {
+      this match {
+        case _ : ExceptionValue => true
+        case _ => false
+      }
+    }
+    
     def asDynamicException() : ExceptionValue = {
+      this match {
+        case ExceptionValue(b, p) => ExceptionValue(true, p)
+        case _ => throw Evaluator.EvalX("this is not an exception, cannot make dynamic")
+      }
+    }
+
+    
+ /*   def asDynamicException() : ExceptionValue = {
       if (isDynamicException()) this.asInstanceOf[ExceptionValue]
       else null
-    }    
+    }    */
   }
     
   case class IntegerValue(v : BigInt) extends Value {
@@ -494,6 +510,10 @@ object Values {
   
   def dynamicException(constructorName : String) : ExceptionValue = {
     ExceptionValue(true, ConstructorValue(Program.Constr(constructorName), nil))
+  }
+  
+  def domainError() : ExceptionValue = {
+    dynamicException(CONSTRUCTOR_DOMAINERROR)
   }
     
   object CompareResult {
