@@ -105,9 +105,6 @@ public void reportError(RecognitionException e) {
 }
 }
 
-COMMENT1:	'/*' (options {greedy=false;} : .)* '*/' {$channel=HIDDEN;};
-
-
 fragment
 Newline	:	('\u000A' | '\u000D' | '\u0085' | '\u000C' | '\u2028' | '\u2029'); 
  	
@@ -115,7 +112,7 @@ fragment
 NotNewline
 	:	~('\u000A' | '\u000D' | '\u0085' | '\u000C' | '\u2028' | '\u2029');
 
-COMMENT2:	'/*/' NotNewline* Newline* {$channel=HIDDEN;};
+COMMENT:	'/*' ((options {greedy=false;} : .)* '*/') {$channel=HIDDEN;};
 
 
 fragment

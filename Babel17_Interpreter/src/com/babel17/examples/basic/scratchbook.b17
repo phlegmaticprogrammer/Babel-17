@@ -40,6 +40,6 @@ force choose [4, 5, 19]
 false & true
 false | true
  with () : begin end
-{3, -10, 2, nil, 5, 2}*/
-/*/ nanu
+{3, -10, 2, nil, 5, 2}
+nanu                 */
 {1 -> 2, 3 -> 4, 1 -> 7}
