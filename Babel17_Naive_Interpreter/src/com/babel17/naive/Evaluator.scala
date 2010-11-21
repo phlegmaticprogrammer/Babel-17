@@ -285,6 +285,7 @@ class Evaluator {
             if (x.isException) x.asDynamicException else domainError()
         }
       case SEExpr(e) => evalExpression(env.thaw, e)
+      case SEFun(branches) => ClosureValue(this, env, branches)
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }
@@ -326,6 +327,20 @@ class Evaluator {
           val c = coll.collect_add(e)
           if (c.isDynamicException) StatementException(c.asInstanceOf[ExceptionValue])
           else StatementCollector(env, c.asInstanceOf[CollectorValue])
+        }
+      case SIf(cond, yesBlock, noBlock) =>
+        evalSE(env.freeze, cond) match {
+          case x : ExceptionValue => StatementException(x.asDynamicException())
+          case BooleanValue(b) =>
+            (if (b)
+              evalBlock(env, coll, yesBlock)
+            else
+              evalBlock(env, coll, noBlock))
+            match {
+              case BlockException(de) => StatementException(de)
+              case BlockCollector(c) => StatementCollector(env, c)
+            }
+          case _ => StatementException(domainError())
         }
       case _ => throw EvalX("incomplete evalStatement: "+st) // dummy expression
     }

@@ -231,9 +231,37 @@ object Values {
       else x
     }
     override def toString() : String = {
-      "<NativeFunction>"   
+      "<NativeFunction>"
     }
   }
+
+  case class ClosureValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment,
+                           branches : List[(Program.Pattern, Program.Expression)]) extends FunctionValue
+  {
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_APPLY => this
+        case MESSAGE_TOSTRING => toStringValue()
+        case _ => null
+      }
+    }
+    override def apply(v : Value) : Value = {
+      val e = env.thaw
+      for ((p, body) <- branches) {
+        evaluator.matchPattern(e, p, v, false )  match {
+          case Evaluator.NoMatch() =>
+          case Evaluator.DoesMatch(newEnv) =>
+            return evaluator.evalExpression(newEnv, body)
+          case Evaluator.MatchException(x) => return x.asDynamicException
+        }
+      }
+      return domainError()
+    }
+    override def toString() : String = {
+      "<Closure>"
+    }
+  }
+
   
   case class InfinityValue(positive : Boolean) extends Value {
     override def toString() : String = {
