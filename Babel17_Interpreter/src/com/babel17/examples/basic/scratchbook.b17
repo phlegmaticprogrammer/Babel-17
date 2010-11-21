@@ -41,4 +41,5 @@ false & true
 false | true
  with () : begin end
 {3, -10, 2, nil, 5, 2}*/
-{1 -> 2, 3 -> 4}
+/*/ nanu
+{1 -> 2, 3 -> 4, 1 -> 7}

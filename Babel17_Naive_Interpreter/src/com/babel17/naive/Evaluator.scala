@@ -148,6 +148,22 @@ class Evaluator {
     }
     SetValue(s)
   }
+
+  def evalMap(env : SimpleEnvironment, l : List[(SimpleExpression, SimpleExpression)]) : Value = {
+    var s : SortedMap[Value, Value] = SortedMap.empty(defaultValueOrdering)
+    for ((_k, _v) <- l) {
+      val k = evalSE(env, _k)
+      if (k.isException) return k.asDynamicException
+      val v = evalSE(env, _v)
+      if (v.isDynamicException) return v
+      try {
+        s = s + (k -> v)
+      } catch {
+        case unrelatedX => return dynamicException(CONSTRUCTOR_UNRELATED)
+      }
+    }
+    MapValue(s)
+  }
   
   def randomBigInt(n : BigInt) : BigInt = {
     var r : BigInt = 0
@@ -219,6 +235,7 @@ class Evaluator {
         if (xv.isDynamicException) return xv
         ConsListValue(xu, xv)
       case SESet(l) => evalSet(env, l)
+      case SEMap(l) => evalMap(env, l)
       case SEList(l) => evalList(env, l)
       case SEVector(l) => evalVector(env, l)
       case SERandom(e) =>
@@ -266,7 +283,7 @@ class Evaluator {
             }
           case x =>
             if (x.isException) x.asDynamicException else domainError()
-        }        
+        }
       case SEExpr(e) => evalExpression(env.thaw, e)
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
