@@ -6,7 +6,7 @@ import scala.collection.immutable.SortedMap
 object Values {
 
   val MESSAGE_APPLY = "apply_"
-  val MESSAGE_REPRESENTATIVE = "representative_"
+  val MESSAGE_REPRESENTATIVE = "rank_"
   val MESSAGE_PLUS = "plus_"
   val MESSAGE_MINUS = "minus_"
   val MESSAGE_UMINUS = "uminus_"
@@ -333,11 +333,15 @@ object Values {
         case _ => null
       }      
     }
+    override def forceDeep() : Value = {
+      ConstructorValue(constr, v.forceDeep())
+    }
+
   }
   
   case class ObjectValue(messages : SortedMap[Program.Message, Value]) extends Value {   
     override def toString() : String = {
-      if (messages.size == 0) "nil" else "<Object>"
+      if (messages.size == 0) "nil" else "<object>"
     }    
     override def sendMessage(message : Program.Message) : Value = {
       messages.get(message) match {
@@ -348,7 +352,14 @@ object Values {
             case _ => null
           }
       }
-    }    
+    }
+    override def forceDeep() : Value = {
+      var s : SortedMap[Program.Message, Value] = SortedMap.empty
+      for ((k,v) <- messages) {
+        s = s + (k -> v.forceDeep())
+      }
+      ObjectValue(s)
+    }
   }
   
   case class ExceptionValue(dynamic : Boolean, v : Value) extends Value {
@@ -364,6 +375,10 @@ object Values {
         case _ => null
       }      
     }
+    override def forceDeep() : Value = {
+      ExceptionValue(dynamic, v.forceDeep())
+    }
+
   }
 
   abstract class CollectorValue extends Value {
@@ -489,6 +504,13 @@ object Values {
       if (set.size == 0) dynamicException(CONSTRUCTOR_EMPTYCHOICE)
       else set.firstKey
     }    
+    override def forceDeep() : Value = {
+      var s : SortedSet[Value] = SortedSet.empty(set.ordering)
+      for (v <- set) {
+        s = s + v.forceDeep()
+      }
+      SetValue(s)
+    }
   }
   
   case class MapValue(map : SortedMap[Value, Value]) extends CollectorValue {    
@@ -504,7 +526,14 @@ object Values {
         val x = it.next
         VectorValue(Array(x._1, x._2))
       } else dynamicException(CONSTRUCTOR_EMPTYCHOICE)
-    }    
+    }
+    override def forceDeep() : Value = {
+      var s : SortedMap[Value, Value] = SortedMap.empty(map.ordering)
+      for ((k,v) <- map) {
+        s = s + (k.forceDeep() -> v.forceDeep())
+      }
+      MapValue(s)
+    }
   }
   
   val nil : Value = ObjectValue(SortedMap.empty)
@@ -751,7 +780,7 @@ object Values {
         }
       } else {
         result = 
-          evaluator.evalSE(env, se).force() match {
+          evaluator.evalSE(env, se).forceDeep() match {
             case ExceptionValue(true, p) => ExceptionValue(false, p)
             case x => x
           }

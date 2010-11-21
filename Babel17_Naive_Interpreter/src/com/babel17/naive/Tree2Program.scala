@@ -709,7 +709,7 @@ object Tree2Program {
         println("term: "+t)
         try {
           val evaluator = new Evaluator()
-          val v = evaluator.evaluate(Evaluator.emptyEnv, t.asInstanceOf[Term]).forceDeep()
+          val v = evaluator.evaluate(Evaluator.emptyEnv, t.asInstanceOf[Term])
           println("value of term: "+v)
         } catch {
           case (Evaluator.EvalX(s)) =>

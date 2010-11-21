@@ -41,5 +41,18 @@ false & true
 false | true
  with () : begin end
 {3, -10, 2, nil, 5, 2}
-nanu                 */
-{1 -> 2, 3 -> 4, 1 -> 7}
+nanu
+val v = {1 -> 2, 3 -> 4, 1 -> 7}
+val z = { rank_ = 10 }
+val x = { cool = 2, rank_ = z}
+x == 10
+choose v
+
+def fac n = if n <= 0 then 1 else n * (fac (n-1)) end
+fac 4
+val x = lazy{rank_ = lazy 12}
+val y = x
+x == 12
+y.rank_ */
+force {A (lazy exception 0), A (lazy exception 1)}
+
