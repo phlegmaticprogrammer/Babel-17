@@ -55,7 +55,21 @@ val x = lazy{rank_ = lazy 12}
 val y = x
 x == 12
 y.rank_
-force {A (lazy exception 0), A (lazy exception 1)}   */
+force {A (lazy exception 0), A (lazy exception 1)}
 val zcomb = f => (x => f (y => x x y)) (x => f (y => x x y))
 val fact = f => x => if x == 0 then 1 else x * f(x-1) end
-(zcomb fact) 10
+(zcomb fact) 10                                      */
+def x = 1
+val y = 0
+def z = y
+def fac n =
+    if n <= 0 then
+        1
+    else
+        n * fac (n-1)
+    end
+
+fac 5
+def g n = n :: (lazy g (n+1))
+
+g 0

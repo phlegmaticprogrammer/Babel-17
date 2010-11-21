@@ -248,7 +248,7 @@ object Values {
     override def apply(v : Value) : Value = {
       val e = env.thaw
       for ((p, body) <- branches) {
-        evaluator.matchPattern(e, p, v, false )  match {
+        evaluator.matchPattern(e, p, v, false)  match {
           case Evaluator.NoMatch() =>
           case Evaluator.DoesMatch(newEnv) =>
             return evaluator.evalExpression(newEnv, body)
@@ -261,7 +261,6 @@ object Values {
       "<Closure>"
     }
   }
-
   
   case class InfinityValue(positive : Boolean) extends Value {
     override def toString() : String = {
@@ -778,6 +777,9 @@ object Values {
   
   case class LazyValue(var evaluator : Evaluator, var env : Evaluator.SimpleEnvironment, var se : Program.SimpleExpression, var result : Value) extends Value {
     var deep : Boolean = false
+    override def toString() : String = {
+      "<Lazy>"
+    }
     override def toStringValue() : StringValue = {
       return force().toStringValue();
     }
