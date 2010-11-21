@@ -275,7 +275,7 @@ object Tree2Program {
                 if (x > l) l = x;
               }
             }
-            val sdef0 = SDef0(MemoTypeNone(), id, e)
+            val sdef0 = SDef0(id, e)
             sdef0.setLocation(s.location)
             defs = defs + (id -> (sdef0, deps, l))
           }
@@ -364,7 +364,9 @@ object Tree2Program {
         var d = sdef
         if (memos.contains(id)) {
           d = sdef match {
-            case SDef0(_, id, e) => SDef0(memos(id), id, e)
+            case _ : SDef0 =>
+              error (memos(id).location, "cannot memoize parameterless definition of '"+id.name+"'")
+              sdef
             case SDef1(_, id, branches) => SDef1(memos(id), id, branches)
           }
         }

@@ -49,7 +49,7 @@ object Program {
   case class SAssign(pat : Pattern, e : Expression) extends Statement
   case class SValRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
   case class SAssignRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
-  case class SDef0(memoize : MemoType, id : Id, e : Expression) extends Def
+  case class SDef0(id : Id, e : Expression) extends Def
   case class SDef1(memoize : MemoType, id : Id, branches : List[(Pattern, Expression)]) extends Def
   case class SDefs(defs : List[Def]) extends Statement
   case class SYield(e : Expression) extends Statement

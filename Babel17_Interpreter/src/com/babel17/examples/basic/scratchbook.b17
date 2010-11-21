@@ -71,5 +71,7 @@ def fac n =
 
 fac 5
 def g n = n :: (lazy g (n+1))
-
 g 0
+def urc = 2
+memoize urc
+urc

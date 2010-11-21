@@ -859,7 +859,8 @@ def fib 0 = 0
 def fib 1 = 1
 def fib n = fib (n-1) + fib (n-2)
 \end{babellisting}
-The difference between weak and strong memoization is that strong memoization guarantees that the memoized function will not be executed twice for the same argument; weak memoization does not make this guarantee, so that garbage collection can reclaim all or part of the memoization cache when it needs to. Note that all arguments to the same memoized function must be totally ordered by the built-in partial order.
+The difference between weak and strong memoization is that strong memoization guarantees that the memoized function will not be executed twice for the same argument; weak memoization does not make this guarantee, so that garbage collection can reclaim all or part of the memoization cache when it needs to. Note that all arguments to the same memoized function must be totally ordered by the built-in partial order,
+and that memoization can only be requested for definitions that take an argument.
 
 \section{Linear Scope}
 We extend now the syntax of \babelsrc{val}-statements such that it is actually legal to leave out the keyword \babelsrc{val} if all variables defined by it have already been defined  previously in its surrounding \emph{linear scope}. The following two expressions are equivalent:
