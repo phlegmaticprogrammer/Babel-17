@@ -338,6 +338,15 @@ ASSIGN	:	'=';
 
 UNDERSCORE
 	:	'_';	
+	
+PRAGMA_LOG
+	:	'#log';
+	
+PRAGMA_ASSERT
+	:	'#assert';
+	
+PRAGMA_PROFILE
+	:	'#profile';
 
 
 pattern :	Constr (NL? primitive_pattern)? -> ^(Constr primitive_pattern?)
@@ -396,8 +405,11 @@ statement
 	|	st_def
 	|	st_memoize
 	|	st_yield
-	|	expr_or_assign;
-
+	|	expr_or_assign
+	| 	PRAGMA_LOG expr -> ^(PRAGMA_LOG expr)
+	| 	PRAGMA_PROFILE expr -> ^(PRAGMA_PROFILE expr)
+	| 	PRAGMA_ASSERT expr -> ^(PRAGMA_ASSERT expr);
+	
 objelem_assign
 	:	Id PERIOD Id -> ^(OBJELEM_ASSIGN Id Id);
 	

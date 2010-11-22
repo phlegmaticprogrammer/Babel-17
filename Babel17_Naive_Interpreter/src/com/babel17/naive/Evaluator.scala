@@ -301,6 +301,27 @@ class Evaluator {
       case Program.UNEQUAL() => !(r == EQUAL)
     }    
   }
+
+  def evalDefs(env : Environment, coll : CollectorValue, defs : List[Def]) : StatementResult = {
+    var values : List[LazyValue] = List.empty
+    var e = env
+    for (d <- defs) {
+      d match {
+        case SDef0(id, expr) =>
+          val v = LazyValue(this, null, SEExpr(expr), null)
+          e = e.define(id, v)
+          values = v :: values
+        case SDef1(_, id, branches) =>
+          val v = LazyValue(this, null, SEFun(branches), null)
+          e = e.define(id, v)
+          values = v :: values
+        }
+    }
+    val senv = e.freeze()
+    for (v <- values) v.env = senv
+    StatementCollector(e, coll)
+
+  }
   
   def evalStatement(env : Environment, coll : CollectorValue, st : Statement) : StatementResult = 
   {
@@ -341,24 +362,25 @@ class Evaluator {
             }
           case _ => StatementException(domainError())
         }
-      case SDefs(defs) =>
-        var values : List[LazyValue] = List.empty
-        var e = env
-        for (d <- defs) {
-          d match {
-            case SDef0(_, id, expr) =>
-              val v = LazyValue(this, null, SEExpr(expr), null)
-              e = e.define(id, v)
-              values = v :: values
-            case SDef1(_, id, branches) =>
-              val v = LazyValue(this, null, SEFun(branches), null)
-              e = e.define(id, v)
-              values = v :: values
+      case SDefs(defs) => evalDefs(env, coll, defs)
+      case d : SDef0 => evalDefs(env, coll, List(d))
+      case d : SDef1 => evalDefs(env, coll, List(d))
+      case SPragma(pragma) =>
+        pragma match {
+          case PragmaLog(expr) =>
+            println("log (at "+st.location+"): '"+evalExpression(env,expr)+"'")
+          case PragmaAssert(expr) =>
+            evalExpression(env, expr) match {
+              case BooleanValue(true) =>
+              case x => println("assertion failed (at "+st.location+"): '"+x+"'")
             }
+          case PragmaProfile(expr) =>
+            val t1 = System.currentTimeMillis
+            val v = evalExpression(env, expr)
+            val t2 = System.currentTimeMillis
+            println("profile (at "+st.location+"): "+(t2-t1)+"ms, result = '"+v+"'")
         }
-        val senv = e.freeze()
-        for (v <- values) v.env = senv
-        StatementCollector(e, coll)
+        StatementCollector(env, coll)
       case _ => throw EvalX("incomplete evalStatement: "+st) // dummy expression
     }
   }

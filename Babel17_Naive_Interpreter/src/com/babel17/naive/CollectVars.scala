@@ -70,7 +70,7 @@ object CollectVars {
         collectVars(e)
         term.freeVars = e.freeVars
         term.assignedVars = e.assignedVars + id
-      case SDef0(_, id , e) =>
+      case SDef0(id , e) =>
         collectVars(e)
         term.freeVars = e.freeVars - id
       case SDef1(_, id, branches) =>
@@ -97,6 +97,15 @@ object CollectVars {
         collectVars(e)
         term.freeVars = (pat.freeVars ++ (e.freeVars -- pat.introducedVars)) - id
       case SYield(e) =>
+        collectVars(e)
+        term.freeVars = e.freeVars
+      case SPragma(PragmaLog(e)) =>
+        collectVars(e)
+        term.freeVars = e.freeVars
+      case SPragma(PragmaAssert(e)) =>
+        collectVars(e)
+        term.freeVars = e.freeVars
+      case SPragma(PragmaProfile(e)) =>
         collectVars(e)
         term.freeVars = e.freeVars
       case SBlock(b) =>

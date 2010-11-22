@@ -43,7 +43,13 @@ object Program {
     
   abstract class Statement extends Term
   
-  abstract class Def extends Statement  
+  abstract class Def extends Statement
+
+  abstract class Pragma extends Locatable
+
+  case class PragmaLog(e : Expression) extends Pragma
+  case class PragmaProfile(e : Expression) extends Pragma
+  case class PragmaAssert(e : Expression) extends Pragma
     
   case class SVal(pat : Pattern, e : Expression) extends Statement
   case class SAssign(pat : Pattern, e : Expression) extends Statement
@@ -58,6 +64,7 @@ object Program {
   case class SWhile(cond:SimpleExpression,body:Block) extends Statement
   case class SFor(pat:Pattern,list:SimpleExpression,body:Block) extends Statement
   case class SMatch(se : SimpleExpression, branches : List[(Pattern, Block)]) extends Statement
+  case class SPragma(pragma : Pragma) extends Statement
 
   case class TemporaryStatement extends Statement
   case class TempDef0(id : Id, e : Expression) extends TemporaryStatement

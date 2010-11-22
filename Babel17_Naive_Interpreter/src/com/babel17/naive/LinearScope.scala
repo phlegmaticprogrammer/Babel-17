@@ -69,6 +69,15 @@ object LinearScope {
   
   def check_st (env : Environment, st : Statement) : Environment = {
     st match {
+      case SPragma(PragmaLog(e)) =>
+        check_e(env, e)
+        env
+      case SPragma(PragmaProfile(e)) =>
+        check_e(env, e)
+        env
+      case SPragma(PragmaAssert(e)) =>
+        check_e(env, e)
+        env
       case SVal(p, e) =>
         check_e(env, e)
         check_p(env, p, false)
@@ -81,7 +90,7 @@ object LinearScope {
       case SAssignRecordUpdate(id, m, e) =>
         check_e(env, e)
         env.rebind(id)
-      case SDef0(m, id, e) =>
+      case SDef0(id, e) =>
         val env2 = env.define(id)
         check_e(env2, e)
         env2
@@ -95,7 +104,7 @@ object LinearScope {
         var env2 = env
         for (d <- defs) {
           d match {
-            case SDef0(m, id, _) =>
+            case SDef0(id, _) =>
               env2 = env2.define(id)
             case SDef1(m, id, _) =>
               env2 = env2.define(id)

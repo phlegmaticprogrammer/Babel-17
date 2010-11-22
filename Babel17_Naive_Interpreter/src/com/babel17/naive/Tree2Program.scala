@@ -449,7 +449,16 @@ object Tree2Program {
       case  n : WithNode => 
         EWith(buildSimpleExpression(n.collector), buildBlock(n.control))
       case n : YieldNode =>
-        SYield(buildExpression(n.expr))       
+        SYield(buildExpression(n.expr))
+      case p : PragmaNode =>
+        import PragmaNode._
+        val e = buildExpression(p.expr)
+        val u = p.pragma match {
+          case PRAGMA_LOG => PragmaLog(e)
+          case PRAGMA_ASSERT => PragmaAssert(e)
+          case PRAGMA_PROFILE => PragmaProfile(e)
+        }
+        SPragma(u)
       case n : MatchNode =>
         SMatch(buildSimpleExpression(n.value), 
                mkBlockBranches(toList(n.patterns), toList(n.blocks)))    
