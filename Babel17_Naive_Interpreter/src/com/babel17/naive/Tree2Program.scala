@@ -725,6 +725,7 @@ object Tree2Program {
         } catch {
           case (Evaluator.EvalX(s)) =>
             println("evaluation of term failed: "+s)
+          case ex => println("evaluation of term failed with exception: "+ex)
         }
       }
     }

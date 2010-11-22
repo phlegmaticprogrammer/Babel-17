@@ -62,7 +62,7 @@
       <file leaf-file-name="Tree2Program.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="454" column="33" selection-start="15919" selection-end="15919" vertical-scroll-proportion="-20.0">
+            <state line="714" column="44" selection-start="25256" selection-end="25256" vertical-scroll-proportion="-7.576923">
               <folding />
             </state>
           </provider>
@@ -134,7 +134,7 @@
       <file leaf-file-name="scratchbook.b17" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/examples/basic/scratchbook.b17">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="0" selection-start="1271" selection-end="1271" vertical-scroll-proportion="0.89506173">
+            <state line="81" column="17" selection-start="1490" selection-end="1490" vertical-scroll-proportion="0.7638889">
               <folding />
             </state>
           </provider>
@@ -169,10 +169,10 @@
         <option value="$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/syntaxtree/PragmaNode.java" />
         <option value="$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/interpreter/parser/Parser.java" />
         <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala" />
-        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala" />
         <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/CollectVars.scala" />
         <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/LinearScope.scala" />
         <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Evaluator.scala" />
+        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala" />
         <option value="$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/examples/basic/scratchbook.b17" />
       </list>
     </option>
@@ -673,13 +673,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="454" column="33" selection-start="15919" selection-end="15919" vertical-scroll-proportion="-20.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Evaluator.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="378" column="17" selection-start="12675" selection-end="12675" vertical-scroll-proportion="0.0">
@@ -687,9 +680,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="714" column="44" selection-start="25256" selection-end="25256" vertical-scroll-proportion="-7.576923">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/examples/basic/scratchbook.b17">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="0" selection-start="1271" selection-end="1271" vertical-scroll-proportion="0.89506173">
+        <state line="81" column="17" selection-start="1490" selection-end="1490" vertical-scroll-proportion="0.7638889">
           <folding />
         </state>
       </provider>

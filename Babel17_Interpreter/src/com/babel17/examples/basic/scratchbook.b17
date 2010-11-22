@@ -69,15 +69,16 @@ def fac n =
         n * fac (n-1)
     end
 
-fac 5
 def g n = n :: (lazy g (n+1))
-g 0
 def even n = if n == 0 then true else !odd(n-1) end
 def odd n = if n == 0 then false else !even(n-1) end
-odd 77
-#log "Hello world!"
-#assert "cool"
-#assert 2 > 1
-#assert 2 < 1
-#assert 1/0
-#profile odd 2000
+def testrec n = /*b => if n == 0 then b else testrec (n-1) !b end       */
+    begin
+        b => if n == 0 then b else testrec (n-1) (!b) end
+    end
+
+/*b => begin #log n; if n == 0 then 1 else 2 end end (b => (if n == 0 then b else testrec (n-1) !b end))    */
+def oddrec n = testrec n false
+#profile odd 1000
+#profile oddrec 1000
+
