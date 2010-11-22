@@ -165,9 +165,9 @@ object LinearScope {
         for ((pat, e) <- branches) {
           check_e(check_p(tEnv, pat, false), e)
         }
-      case SEObj(b) =>
+      case SEObj(b, _) =>
         check_b(env.thaw(), b)
-      case SEGlueObj(parents, b) => 
+      case SEGlueObj(parents, b, _) =>
         check_simple(env, parents)
         check_b(env.thaw(), b)
       case se : SimpleExpression =>

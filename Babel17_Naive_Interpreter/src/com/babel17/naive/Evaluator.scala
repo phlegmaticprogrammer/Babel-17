@@ -77,7 +77,7 @@ object Evaluator {
       de
     }
   }
-  case class BlockCollector(c : CollectorValue) extends BlockResult {
+  case class BlockCollector(env : Environment, c : CollectorValue) extends BlockResult {
     override def collect_close() : Value = {
       c.collect_close()
     }    
@@ -171,6 +171,87 @@ class Evaluator {
       r = new BigInt(x)
     } while (r >= n)
     r
+  }
+
+  def getParentsFromList(l : ListValue) : Object = {
+    l match {
+      case EmptyListValue() => List.empty
+      case ConsListValue(head, tail) =>
+        head.force() match {
+          case h : ObjectValue =>
+            getParentsFromList(Values.normalizeListTail(tail)) match {
+              case t : List[ObjectValue] => h :: t
+              case x : ExceptionValue => x.asDynamicException
+              case _ => dynamicException(CONSTRUCTOR_INVALIDPARENT)
+            }
+
+        }
+    }
+  }
+
+  def getParentsFromSet(l : SetValue) : Object = {
+    var parents : List[ObjectValue] = List.empty
+    for (e <- l.set) {
+      e.force() match {
+        case o : ObjectValue => parents = o :: parents
+        case x : ExceptionValue => return x.asDynamicException
+        case _ => return dynamicException(CONSTRUCTOR_INVALIDPARENT)
+      }
+    }
+    return parents.reverse
+  }
+
+  def getParentsFromVector(l : VectorValue) : Object = {
+    var parents : List[ObjectValue] = List.empty
+    for (e <- l.tuple) {
+      e.force() match {
+        case o : ObjectValue => parents = o :: parents
+        case x : ExceptionValue => return x.asDynamicException
+        case _ => return dynamicException(CONSTRUCTOR_INVALIDPARENT)
+      }
+    }
+    return parents.reverse
+  }
+
+  def mergeTwoObjects(o1 : ObjectValue, o2 : ObjectValue) : ObjectValue = {
+    ObjectValue(o1.messages ++ o2.messages)
+  }
+
+  def mergeObjects(objs : List[ObjectValue]) : ObjectValue = {
+    var merged = ObjectValue(SortedMap.empty)
+    for (o <- objs) {
+      merged = mergeTwoObjects(merged, o)
+    }
+    merged
+  }
+
+  def evalObj(env : SimpleEnvironment, block : Block, messages : List[Message]) : Value = {
+    evalBlock(env.thaw, new DefaultCollectorValue(), block) match {
+      case BlockException(de) => de
+      case BlockCollector(env, _) =>
+        var s : SortedMap[Message, Value] = SortedMap.empty
+        for (m <- messages) s = s + (m -> env.lookup(Id(m.m)))
+        ObjectValue(s)
+    }
+  }
+
+  def evalObj(parents : Value, env : SimpleEnvironment, block : Block, messages : List[Message]) : Value = {
+    var result : Object = null
+    parents.force() match {
+      case ex : ExceptionValue => return ex.asDynamicException
+      case lv : ListValue => result = getParentsFromList(lv)
+      case sv : SetValue => result = getParentsFromSet(sv)
+      case vv : VectorValue => result = getParentsFromVector(vv)
+      case _ => return dynamicException(CONSTRUCTOR_INVALIDPARENTS)
+    }
+    result match {
+      case ex : ExceptionValue => return ex.asDynamicException
+      case plist : List[ObjectValue] =>
+        evalObj(env, block, messages) match {
+          case ex : ExceptionValue => ex.asDynamicException
+          case o : ObjectValue => mergeTwoObjects(mergeObjects(plist), o)
+        }
+    }
   }
 
   
@@ -285,6 +366,10 @@ class Evaluator {
         }
       case SEExpr(e) => evalExpression(env.thaw, e)
       case SEFun(branches) => ClosureValue(this, env, branches)
+      case SEGlueObj(parents, block, messages) =>
+        evalObj(evalSE(env, parents), env, block, messages)
+      case SEObj(block, messages) =>
+        evalObj(env, block, messages)
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }
@@ -358,7 +443,7 @@ class Evaluator {
               evalBlock(env, coll, noBlock))
             match {
               case BlockException(de) => StatementException(de)
-              case BlockCollector(c) => StatementCollector(env, c)
+              case BlockCollector(_, c) => StatementCollector(env, c)
             }
           case _ => StatementException(domainError())
         }
@@ -407,7 +492,7 @@ class Evaluator {
           return BlockException(x)
       }
     }
-    BlockCollector(c)
+    BlockCollector(e, c)
   }
     
   def matchPattern(env : Environment, pat : Pattern, v : Value, rebind : Boolean) : MatchResult = {

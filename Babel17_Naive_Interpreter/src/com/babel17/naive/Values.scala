@@ -31,7 +31,9 @@ object Values {
   val CONSTRUCTOR_APPLYERROR = "APPLYERROR"
   val CONSTRUCTOR_INVALIDLIST = "INVALIDLIST"
   val CONSTRUCTOR_UNRELATED = "UNRELATED"
-  
+  val CONSTRUCTOR_INVALIDPARENT = "INVALIDPARENT"
+  val CONSTRUCTOR_INVALIDPARENTS = "INVALIDPARENTS"
+
   abstract class Value {
     // sending an object a message always forces it
     def sendMessage(message : Program.Message) : Value;
@@ -368,7 +370,7 @@ object Values {
   
   case class ObjectValue(messages : SortedMap[Program.Message, Value]) extends Value {   
     override def toString() : String = {
-      if (messages.size == 0) "nil" else "<object>"
+      if (messages.size == 0) "nil" else "<object: "+messages+">"
     }    
     override def sendMessage(message : Program.Message) : Value = {
       messages.get(message) match {
@@ -397,10 +399,8 @@ object Values {
         "PersistentException ("+v+")"
     }        
     override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
-        case MESSAGE_TOSTRING => toStringValue()
-        case _ => null
-      }      
+      if (dynamic) return this
+      else return ExceptionValue(true, v)
     }
     override def forceDeep() : Value = {
       ExceptionValue(dynamic, v.forceDeep())

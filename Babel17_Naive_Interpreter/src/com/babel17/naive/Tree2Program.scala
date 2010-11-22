@@ -521,15 +521,17 @@ object Tree2Program {
         SERecord(toList(n.elements).map(buildRecordValue _))   
       case n : ObjectNode => 
         val block = buildBlock(n.block)
-        if (n.parents != null) {
+        countYields(block)
+        val messages = CollectVars.collectDefIds(block.statements).toList.map(_.toMessage)
+         if (n.parents != null) {
           val parents = buildSimpleExpression(n.parents)
-          if (n.combineMethod == ObjectNode.COMBINE_GLUE) 
-            SEGlueObj(parents, block)
+          if (n.combineMethod == ObjectNode.COMBINE_GLUE)
+            SEGlueObj(parents, block, messages)
           else {
             error(n.location, "cannot use * operator for inheritance, must use +");
-            SEGlueObj(parents, block)
+            SEGlueObj(parents, block, messages)
           }
-        } else SEObj(block)
+        } else SEObj(block, messages)
       case n : ParseErrorNode =>
         SEVector(List())
       case _ =>
@@ -679,8 +681,32 @@ object Tree2Program {
     result.setLocation(patternNode.location)
     result
   }
+
+  def countYields(term : Object) : Int = {
+    term match {
+      case Block(b) => countYields(b)
+      case l : List[Statement] =>
+        var i = 0
+        for (e <- l) i += countYields(e)
+        i
+      case s : SYield =>
+        error(s.location, "yield does not contribute to object definition")
+        1
+      case SBlock(b) => countYields(b)
+      case SIf(_, yes : Block, no : Block) => countYields(yes) + countYields(no)
+      case SWhile(_, b : Block) => countYields(b)
+      case SFor(_, _, b : Block) => countYields(b)
+      case SMatch(_, l) =>
+        var i = 0
+        for ((_, b : Block) <- l) {
+          i += countYields(b)
+        }
+        i
+      case _ => 0
+    }
+  }
   
-  case class ScopeEnv(nonlinear : SortedSet[Id], linear : SortedSet[Id]) {
+/*  case class ScopeEnv(nonlinear : SortedSet[Id], linear : SortedSet[Id]) {
     def freeze() : ScopeEnv = {
       ScopeEnv(nonlinear ++ linear, SortedSet())
     }
@@ -695,7 +721,7 @@ object Tree2Program {
       if (!nonlinear.contains(id) && !linear.contains(id))
         error(id.location, "identifier '"+id.name+"' is not in scope")
     }
-  }
+  }      */
   
   def main(args: Array[String]): Unit = {
     println("Babel-17, (c) 2010 Steven Obua")
@@ -726,6 +752,7 @@ object Tree2Program {
           case (Evaluator.EvalX(s)) =>
             println("evaluation of term failed: "+s)
           case ex => println("evaluation of term failed with exception: "+ex)
+            ex.printStackTrace
         }
       }
     }

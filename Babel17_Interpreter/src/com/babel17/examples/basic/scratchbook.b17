@@ -77,8 +77,22 @@ def testrec n = /*b => if n == 0 then b else testrec (n-1) !b end       */
         b => if n == 0 then b else testrec (n-1) (!b) end
     end
 
-/*b => begin #log n; if n == 0 then 1 else 2 end end (b => (if n == 0 then b else testrec (n-1) !b end))    */
+/*b => begin #log n; if n == 0 then 1 else 2 end end (b => (if n == 0 then b else testrec (n-1) !b end))
 def oddrec n = testrec n false
 #profile odd 1000
-#profile oddrec 1000
+#profile oddrec 1000*/
+
+val x1 = {a="x1"}
+val x2 = {a="x2"}
+val x3 = object +(x2, x1)
+            def b = "x3"
+            yield ("cool", 10)
+         end
+force (x3.a, x3.b)
+
+def u = object +(x3,)
+            def b = u.a
+        end
+force u.b
+
 

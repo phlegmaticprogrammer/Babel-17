@@ -159,7 +159,7 @@ object CollectVars {
         collectVars(e)
         term.freeVars = e.freeVars
       case SEFun(branches) =>
-      case SEGlueObj(parents, b) =>
+      case SEGlueObj(parents, b, _) =>
         collectVars(parents)
         collectVars(b)
         term.freeVars = parents.freeVars ++ b.freeVars
@@ -167,7 +167,7 @@ object CollectVars {
         collectVars(parents)
         collectVars(b)
         term.freeVars = parents.freeVars ++ (b.freeVars - Id("this"))*/
-      case SEObj(b) =>      
+      case SEObj(b, _) =>
         collectVars(b)
         term.freeVars = b.freeVars
       case se : SimpleExpression =>

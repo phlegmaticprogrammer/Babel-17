@@ -35,6 +35,11 @@ object Program {
     def compare(that : Id) : Int = {
       name.compare(that.name)
     }
+    def toMessage() : Message = {
+      val m = Message(name)
+      m.location = this.location
+      m
+    }
   }
   
   case class Constr(name : String) extends Locatable
@@ -95,9 +100,9 @@ object Program {
   case class SERecord(elems: List[(Message, SimpleExpression)]) extends SimpleExpression
   case class SEList(elems: List[SimpleExpression]) extends SimpleExpression
   case class SEVector(elems: List[SimpleExpression]) extends SimpleExpression
-  case class SEGlueObj(parents: SimpleExpression, b : Block) extends SimpleExpression
+  case class SEGlueObj(parents: SimpleExpression, b : Block, messages : List[Message]) extends SimpleExpression
   //case class SEMergeObj(parents: SimpleExpression, b : Block) extends SimpleExpression
-  case class SEObj(b : Block) extends SimpleExpression
+  case class SEObj(b : Block, messages : List[Message]) extends SimpleExpression
   case class SEMessageSend(target: SimpleExpression, m : Message) extends SimpleExpression
   case class SEApply(f : SimpleExpression, x : SimpleExpression) extends SimpleExpression
   case class SECompare(operands : List[SimpleExpression], operators : List[CompareOp]) extends SimpleExpression
