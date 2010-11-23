@@ -1,11 +1,9 @@
 package com.babel17.naive
 
-
 import Program._
 import Values._
 import scala.collection.immutable.SortedSet
 import scala.collection.immutable.SortedMap
-
 
 object Evaluator {
   case class EvalX(reason : String) extends Exception
@@ -67,7 +65,7 @@ object Evaluator {
   
   abstract class StatementResult
   case class StatementException(de : ExceptionValue) extends StatementResult
-  case class StatementCollector(env : Environment, c : CollectorValue) extends StatementResult
+  case class StatementCollector(env : Environment, c : Collector) extends StatementResult
   
   abstract class BlockResult {
     def collect_close() : Value
@@ -77,7 +75,7 @@ object Evaluator {
       de
     }
   }
-  case class BlockCollector(env : Environment, c : CollectorValue) extends BlockResult {
+  case class BlockCollector(env : Environment, c : Collector) extends BlockResult {
     override def collect_close() : Value = {
       c.collect_close()
     }    
@@ -103,7 +101,7 @@ class Evaluator {
   def evaluate(env : Environment, term : Term) : Value = {
     term match {
       case block : Block =>
-        evalBlock(env, new DefaultCollectorValue(), block).collect_close()
+        evalBlock(env, new DefaultCollector(), block).collect_close()
       case _ => throw EvalX("incomplete evaluate") // dummy expression
         
     }
@@ -226,7 +224,7 @@ class Evaluator {
   }
 
   def evalObj(env : SimpleEnvironment, block : Block, messages : List[Message]) : Value = {
-    evalBlock(env.thaw, new DefaultCollectorValue(), block) match {
+    evalBlock(env.thaw, new DefaultCollector(), block) match {
       case BlockException(de) => de
       case BlockCollector(env, _) =>
         var s : SortedMap[Message, Value] = SortedMap.empty
@@ -253,7 +251,6 @@ class Evaluator {
         }
     }
   }
-
   
   def evalSE(env : SimpleEnvironment, se : SimpleExpression) : Value = 
   {
@@ -387,7 +384,7 @@ class Evaluator {
     }    
   }
 
-  def evalDefs(env : Environment, coll : CollectorValue, defs : List[Def]) : StatementResult = {
+  def evalDefs(env : Environment, coll : Collector, defs : List[Def]) : StatementResult = {
     var values : List[LazyValue] = List.empty
     var e = env
     for (d <- defs) {
@@ -408,7 +405,7 @@ class Evaluator {
 
   }
   
-  def evalStatement(env : Environment, coll : CollectorValue, st : Statement) : StatementResult = 
+  def evalStatement(env : Environment, coll : Collector, st : Statement) : StatementResult =
   {
     st match {
       case SVal(pat, expr) =>
@@ -430,8 +427,8 @@ class Evaluator {
         if (e.isDynamicException) StatementException(e.asInstanceOf[ExceptionValue])
         else {
           val c = coll.collect_add(e)
-          if (c.isDynamicException) StatementException(c.asInstanceOf[ExceptionValue])
-          else StatementCollector(env, c.asInstanceOf[CollectorValue])
+          if (c != null && c.isDynamicException) StatementException(c.asInstanceOf[ExceptionValue])
+          else StatementCollector(env, coll)
         }
       case SIf(cond, yesBlock, noBlock) =>
         evalSE(env.freeze, cond) match {
@@ -453,7 +450,7 @@ class Evaluator {
       case SPragma(pragma) =>
         pragma match {
           case PragmaLog(expr) =>
-            println("log (at "+st.location+"): '"+evalExpression(env,expr)+"'")
+            println("log (at "+st.location+"): '"+evalExpression(env,expr).force()+"'")
           case PragmaAssert(expr) =>
             evalExpression(env, expr) match {
               case BooleanValue(true) =>
@@ -473,14 +470,14 @@ class Evaluator {
   def evalExpression(env : Environment, expr : Expression) : Value = {
     expr match {
       case ESimple(se) => evalSE(env.freeze(), se)
-      case EBlock(block) => evalBlock(env, new DefaultCollectorValue(), block).collect_close()
+      case EBlock(block) => evalBlock(env, new DefaultCollector(), block).collect_close()
       case EWith(se, block) =>
-        val v = collectorValue(evalSE(env.freeze(), se))
+        val v = collectorOfValue(evalSE(env.freeze(), se))
         evalBlock(env, v, block).collect_close()        
     }
   }
   
-  def evalBlock(env : Environment, coll : CollectorValue, block : Block) : BlockResult = {
+  def evalBlock(env : Environment, coll : Collector, block : Block) : BlockResult = {
     var e = env
     var c = coll
     for (st <- block.statements) {

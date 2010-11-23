@@ -22,6 +22,8 @@ object Values {
   val MESSAGE_TO = "to_"
   val MESSAGE_DOWNTO = "downto_"
   val MESSAGE_TOSTRING = "tostring_"
+  val MESSAGE_COLLECT_ADD = "collect_add_"
+  val MESSAGE_COLLECT_CLOSE = "collect_close_"
   
   val CONSTRUCTOR_DOMAINERROR = "DOMAINERROR"
   val CONSTRUCTOR_EMPTYCHOICE = "EMPTYCHOICE"  
@@ -33,6 +35,7 @@ object Values {
   val CONSTRUCTOR_UNRELATED = "UNRELATED"
   val CONSTRUCTOR_INVALIDPARENT = "INVALIDPARENT"
   val CONSTRUCTOR_INVALIDPARENTS = "INVALIDPARENTS"
+
 
   abstract class Value {
     // sending an object a message always forces it
@@ -223,7 +226,6 @@ object Values {
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_APPLY => this
-        case MESSAGE_TOSTRING => toStringValue()
         case _ => null
       }      
     }
@@ -243,7 +245,6 @@ object Values {
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_APPLY => this
-        case MESSAGE_TOSTRING => toStringValue()
         case _ => null
       }
     }
@@ -394,9 +395,9 @@ object Values {
   case class ExceptionValue(dynamic : Boolean, v : Value) extends Value {
     override def toString() : String = {
       if (dynamic)
-        "DynamicException ("+v+")"
+        "DynamicException ("+v.toString+")"
       else
-        "PersistentException ("+v+")"
+        "PersistentException ("+v.toString+")"
     }        
     override def sendMessage(message : Program.Message) : Value = {
       if (dynamic) return this
@@ -408,46 +409,147 @@ object Values {
 
   }
 
-  abstract class CollectorValue extends Value {
+  abstract class Collector {
     def collect_close () : Value = {
       throw Evaluator.EvalX("collect_close not implemented in "+this.getClass)
     }
-    // returns either dynamic exception or CollectorValue
-    def collect_add (v : Value) : Value = {
+    def collect_add (v : Value) : ExceptionValue = {
       throw Evaluator.EvalX("collect_add not implemented in "+this.getClass)
     }
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
-        case MESSAGE_TOSTRING => toStringValue()
-        case _ => null
-      }      
-    }    
   }
   
-  def collectorValue(v : Value) : CollectorValue = {
+  def collectorOfValue(v : Value) : Collector = {
     v.force() match {
-      case c : CollectorValue => c
-      case c => CustomCollectorValue(c)
+      case v : ListValue => new ListCollector(v)
+      case v : VectorValue => new VectorCollector(v)
+      case v : SetValue => new SetCollector(v)
+      case v : MapValue => new MapCollector(v)
+      case v : StringValue => new StringCollector(v)
+      case c => new CustomCollector(c)
     }
   }
   
-  class DefaultCollectorValue extends CollectorValue {    
+  class DefaultCollector extends Collector {
     import scala.collection.mutable.ArrayBuffer
     val buffer : ArrayBuffer[Value] = new ArrayBuffer(15)
     override def collect_close () : Value = {
       if (buffer.size == 1) buffer(0)
       else VectorValue(buffer.toArray)
     }
-    override def collect_add(v : Value) : Value = {
+    override def collect_add(v : Value) : ExceptionValue =  {
       buffer + v
-      this
+      return null
     }
   }
-  
-  case class CustomCollectorValue(v : Value) extends CollectorValue {    
+
+  class ListCollector(v : ListValue) extends Collector {
+    var list = v.reverse
+    override def collect_add(v : Value) : ExceptionValue =  {
+      list = ConsListValue(v, list)
+      return null
+    }
+    override def collect_close() : Value = {
+      list.reverse
+    }
   }
-  
-  abstract class ListValue extends CollectorValue {
+
+  class SetCollector(v : SetValue) extends Collector {
+    // There is no mutable set in scala ... too bad!
+    var set = v.set
+    override def collect_close () : Value = {
+      SetValue(set)
+    }
+    override def collect_add(v : Value) : ExceptionValue =  {
+      try {
+        set = set + v.force()
+        return null
+      } catch {
+        case unrelatedX => dynamicException(CONSTRUCTOR_UNRELATED)
+      }
+    }
+  }
+
+  class MapCollector(v : MapValue) extends Collector {
+    var map = v.map
+    override def collect_close () : Value = {
+      MapValue(map)
+    }
+    override def collect_add(v : Value) : ExceptionValue =  {
+      v.force match {
+        case VectorValue(Array(key, value)) =>
+          try {
+            map = map + (key -> value)
+            null
+          } catch {
+            case unrelatedX => dynamicException(CONSTRUCTOR_UNRELATED)
+          }
+        case _ => domainError()
+      }
+    }
+  }
+
+  class VectorCollector(v : VectorValue) extends Collector {
+    import scala.collection.mutable.ArrayBuffer
+    val buffer : ArrayBuffer[Value] = new ArrayBuffer(v.tuple.length*2+15)
+    buffer ++ v.tuple
+    override def collect_close () : Value = {
+      VectorValue(buffer.toArray)
+    }
+    override def collect_add(v : Value) : ExceptionValue =  {
+      buffer + v
+      return null
+    }
+  }
+
+  class StringCollector(v : StringValue) extends Collector {
+    val builder : StringBuilder = new StringBuilder(v.v)
+    override def collect_close () : Value = {
+      StringValue(builder.toString)
+    }
+    override def collect_add(v : Value) : ExceptionValue =  {
+      v.sendMessage(Program.Message(MESSAGE_TOSTRING)) match {
+        case StringValue(s) =>
+          builder.append(s)
+          null
+        case x : ExceptionValue => x.asDynamicException
+        case _ => domainError()
+      }
+    }
+  }
+
+
+  class CustomCollector(v : Value) extends Collector {
+    var collector = v
+    override def collect_close () : Value = {
+      val closed = collector.sendMessage(Program.Message(MESSAGE_COLLECT_CLOSE))
+      if (closed == null)
+        dynamicException(CONSTRUCTOR_INVALIDMESSAGE)
+      else
+        closed
+    }
+    override def collect_add(v : Value) : ExceptionValue =  {
+      collector = collector.sendMessage(Program.Message(MESSAGE_COLLECT_ADD))
+      if (collector == null)
+        dynamicException(CONSTRUCTOR_INVALIDMESSAGE)
+      else {
+        collector.force() match {
+          case f : FunctionValue =>
+            collector = f.apply(v)
+            if (collector.isException) collector.asDynamicException
+            else null
+          case _ => dynamicException(CONSTRUCTOR_APPLYERROR)
+        }
+      }
+    }
+
+  }
+
+  abstract class ListValue extends Value {
+    def toList : List[Value];
+    def reverse(r : ListValue) : ListValue
+    def reverse : ListValue = {
+      reverse(EmptyListValue())
+    }
   }
   
   case class EmptyListValue() extends ListValue {    
@@ -463,7 +565,13 @@ object Values {
     override def choose() : Value = {
       dynamicException(CONSTRUCTOR_EMPTYCHOICE)
     }
-  }
+    override def toList = {
+       List.empty
+    }
+    override def reverse(r : ListValue) : ListValue = {
+      r
+    }
+   }
   
   case class ConsListValue(head : Value, tail : Value) extends ListValue {
     override def toString() : String = {
@@ -481,9 +589,15 @@ object Values {
     override def choose() : Value = {
       head
     }
+    override def toList = {
+      head :: (normalizeListTail(tail)).toList
+    }
+    override def reverse(r : ListValue) : ListValue = {
+      normalizeListTail(tail).reverse(ConsListValue(head, r))
+    }
   }
   
-  case class VectorValue(tuple : Array[Value]) extends CollectorValue {   
+  case class VectorValue(tuple : Array[Value]) extends Value {
     override def toString() : String = {
       val size = tuple.size
       if (size == 0) "()"
@@ -520,7 +634,7 @@ object Values {
     }    
   }
   
-  case class SetValue(set : SortedSet[Value]) extends CollectorValue {  
+  case class SetValue(set : SortedSet[Value]) extends Value {
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_TOSTRING => toStringValue()
@@ -540,7 +654,7 @@ object Values {
     }
   }
   
-  case class MapValue(map : SortedMap[Value, Value]) extends CollectorValue {    
+  case class MapValue(map : SortedMap[Value, Value]) extends Value {
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_TOSTRING => toStringValue()

@@ -80,7 +80,7 @@ def testrec n = /*b => if n == 0 then b else testrec (n-1) !b end       */
 /*b => begin #log n; if n == 0 then 1 else 2 end end (b => (if n == 0 then b else testrec (n-1) !b end))
 def oddrec n = testrec n false
 #profile odd 1000
-#profile oddrec 1000*/
+#profile oddrec 1000
 
 val x1 = {a="x1"}
 val x2 = {a="x2"}
@@ -93,6 +93,38 @@ force (x3.a, x3.b)
 def u = object +(x3,)
             def b = u.a
         end
-force u.b
+force u.b       */
+
+with {17, -40} do
+   4
+   2
+   20
+   13
+end
+
+with {1 -> 2} do
+   (4, 10)
+   ("hey", "ho")
+   (lazy(5), 7)
+   ("Werder", "Bremen")
+end
+
+with "hello: " do
+  1
+  2
+  3
+end
+
+def mycol(i) = object
+    def collect_close_ = i
+    def collect_add_ j = mycol(i+j)
+end
+
+#log with mycol(10) do
+  14
+  "hey"
+end
+
+
 
 
