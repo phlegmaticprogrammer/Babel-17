@@ -79,7 +79,7 @@ final class ConstParser {
         throw new ParseException(new Location(1, cpos + 1).
                 add(new Location(1, pos)),
                 "invalid code point " + codePoint);
-      } else if (codePoint >= 0xD800 && codePoint < 0xE0000) {
+      } else if (codePoint >= 0xD800 && codePoint < 0xE000) {
         throw new ParseException(new Location(1, cpos + 1).
                 add(new Location(1, pos)),
                 "invalid code point (surrogate char) " + codePoint);

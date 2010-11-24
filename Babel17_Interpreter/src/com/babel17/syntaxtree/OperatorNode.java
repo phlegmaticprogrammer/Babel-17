@@ -17,7 +17,6 @@ public final class OperatorNode extends Node {
   public final static int MINUSMINUS = 12;
   public final static int TIMESTIMES = 13;
   public final static int QUOTIENTQUOTIENT = 35;
-  
 
   public final static int CONS = 14;
 

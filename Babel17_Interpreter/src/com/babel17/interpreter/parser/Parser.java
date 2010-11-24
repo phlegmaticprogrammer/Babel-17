@@ -420,10 +420,10 @@ public class Parser {
           }
           if (is_map) {
             return new MapNode(l.reverse()).mergeLocation(loc).mergeLocation();
-          } else if (is_set) {
-            return new SetNode(l.reverse()).mergeLocation(loc).mergeLocation();
           } else if (is_obj) {
             return new RecordNode(l.reverse()).mergeLocation(loc).mergeLocation();
+          } else {
+            return new SetNode(l.reverse()).mergeLocation(loc).mergeLocation();
           }
         }
         case babel17Parser.IF: {

@@ -430,6 +430,11 @@ class Evaluator {
           if (c != null && c.isDynamicException) StatementException(c.asInstanceOf[ExceptionValue])
           else StatementCollector(env, coll)
         }
+      case SBlock(block) =>
+        evalBlock(env, coll, block) match {
+          case BlockCollector(_, c) => StatementCollector(env, c)
+          case BlockException(de) => StatementException(de)
+        }
       case SIf(cond, yesBlock, noBlock) =>
         evalSE(env.freeze, cond) match {
           case x : ExceptionValue => StatementException(x.asDynamicException())
@@ -463,6 +468,76 @@ class Evaluator {
             println("profile (at "+st.location+"): "+(t2-t1)+"ms, result = '"+v+"'")
         }
         StatementCollector(env, coll)
+      case SAssignRecordUpdate(id, m, expr) =>
+        val e = evalExpression(env, expr)
+        if (e.isDynamicException) StatementException(e.asDynamicException)
+        else {
+          env.lookup(id).force() match {
+            case ObjectValue(map) =>
+              StatementCollector(env.rebind(id, ObjectValue(map + (m -> e))), coll)
+            case _ => StatementException(dynamicException(CONSTRUCTOR_UPDATEERROR))
+          }
+        }
+      case SValRecordUpdate(id, m, expr) =>
+        val e = evalExpression(env, expr)
+        if (e.isDynamicException) StatementException(e.asDynamicException)
+        else {
+          val x = ObjectValue(SortedMap(m -> e))
+          StatementCollector(env.bind(id, x), coll)
+        }
+      case SWhile(cond, block) =>
+        do {
+          evalSE(env.freeze, cond).force() match {
+            case x : ExceptionValue => return StatementException(x.asDynamicException)
+            case BooleanValue(false) => return StatementCollector(env, coll)
+            case BooleanValue(true) =>
+              evalBlock(env, coll, block) match {
+                case BlockCollector(_, _) =>
+                  // nothing needs to be done, all the changes are in env
+                case BlockException(de) => return StatementException(de)
+              }
+            case _ => dynamicException(CONSTRUCTOR_INVALIDWHILECONDITION)
+          }
+        } while (true)
+        throw EvalX("Infinite while loop terminated ?!")
+      case SFor(pat, collection, block) =>
+        val c = evalSE(env.freeze, collection).force()
+        if (c.isException) return StatementException(c.asDynamicException)
+        var iterator = iteratorOfValue(c)
+        do {
+          val v = iterator.nextValue()
+          if (v == null) return StatementCollector(env, coll)
+          if (v.isDynamicException) return StatementException(v.asDynamicException)
+          matchPattern(env, pat, v, false) match {
+            case NoMatch() =>
+              // do nothing
+            case MatchException(ex) => return StatementException(ex)
+            case DoesMatch(blockEnv) =>
+              evalBlock(blockEnv, coll, block) match {
+                case BlockException(ex) => return StatementException(ex)
+                case BlockCollector(_,_) =>
+                  // do nothing, block has been successfully processed
+              }
+          }
+        } while (true)
+        throw EvalX("Infinite while loop terminated ?!")
+      case SMatch(expr, branches) => {
+        val e = evalSE(env.freeze, expr)
+        for ((pat, block) <- branches) {
+          matchPattern(env, pat, e, false) match {
+            case NoMatch() =>
+              // do nothing, go to next branch
+            case MatchException(ex) =>
+              return StatementException(ex)
+            case DoesMatch(blockEnv) =>
+              evalBlock(blockEnv, coll, block) match {
+                case BlockException(ex) => return StatementException(ex)
+                case BlockCollector(_,_) => return StatementCollector(env, coll)
+              }
+          }
+        }
+        StatementException(dynamicException(CONSTRUCTOR_NOMATCH))
+      }
       case _ => throw EvalX("incomplete evalStatement: "+st) // dummy expression
     }
   }

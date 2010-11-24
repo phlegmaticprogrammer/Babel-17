@@ -1,130 +1,19 @@
-/*
-val y = 0
-val (x) = begin y = 1; y end
-x
-yield y
-true
-false
-"hey dude!"
--4
-infinity
-Cool
-Cool 5
-nil
-{x=10, y = 0}
-3 * 4
-2 ^10 -24
-1 < 2 < 3 > 0
-1 > 2
-1 != 2
-1 <7> 2
-{x=2} < {a=3}
-A < B
-1::(lazy 2::[])
-(1::(lazy 2)).head == 1 
-(1, lazy(2))
-1::2::3::4
-1::2::3::4::[]
-(1::2).tail == 2::[]
-7 div 4
-7 mod 4
-7 / 4 
-random 100
-random 100
-random 2
-random 2
-random 2
-random 2
-random 2
-force choose [4, 5, 19]
-! false
-false & true
-false | true
- with () : begin end
-{3, -10, 2, nil, 5, 2}
-nanu
-val v = {1 -> 2, 3 -> 4, 1 -> 7}
-val z = { rank_ = 10 }
-val x = { cool = 2, rank_ = z}
-x == 10
-choose v
-
-def fac n = if n <= 0 then 1 else n * (fac (n-1)) end
-fac 4
-val x = lazy{rank_ = lazy 12}
-val y = x
-x == 12
-y.rank_
-force {A (lazy exception 0), A (lazy exception 1)}
-val zcomb = f => (x => f (y => x x y)) (x => f (y => x x y))
-val fact = f => x => if x == 0 then 1 else x * f(x-1) end
-(zcomb fact) 10                                      */
-def x = 1
-val y = 0
-def z = y
-def fac n =
-    if n <= 0 then
-        1
-    else
-        n * fac (n-1)
-    end
-
-def g n = n :: (lazy g (n+1))
-def even n = if n == 0 then true else !odd(n-1) end
-def odd n = if n == 0 then false else !even(n-1) end
-def testrec n = /*b => if n == 0 then b else testrec (n-1) !b end       */
-    begin
-        b => if n == 0 then b else testrec (n-1) (!b) end
-    end
-
-/*b => begin #log n; if n == 0 then 1 else 2 end end (b => (if n == 0 then b else testrec (n-1) !b end))
-def oddrec n = testrec n false
-#profile odd 1000
-#profile oddrec 1000
-
-val x1 = {a="x1"}
-val x2 = {a="x2"}
-val x3 = object +(x2, x1)
-            def b = "x3"
-            yield ("cool", 10)
-         end
-force (x3.a, x3.b)
-
-def u = object +(x3,)
-            def b = u.a
+val collection =
+    with [] do
+        val i = 0
+        while i <= 10 do
+            yield (i, i*i)
+            i = i + 1
         end
-force u.b       */
+    end
 
-with {17, -40} do
-   4
-   2
-   20
-   13
+
+
+
+val x = if 1 > 2 then
+    "hello"
 end
 
-with {1 -> 2} do
-   (4, 10)
-   ("hey", "ho")
-   (lazy(5), 7)
-   ("Werder", "Bremen")
+match lazy 1 div 0
+case x => #log x
 end
-
-with "hello: " do
-  1
-  2
-  3
-end
-
-def mycol(i) = object
-    def collect_close_ = i
-    def collect_add_ j = mycol(i+j)
-end
-
-#log with mycol(10) do
-  14
-  "hey"
-end
-
-
-
-

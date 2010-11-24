@@ -488,7 +488,7 @@ object Tree2Program {
         } else {
           TempDef0(id, rightSide)
         }
-      case n : ListNode => 
+      case n : ListNode =>
         val ses = toList(n.elements).map(buildSimpleExpression _)
         if (n.isVector)
           SEVector(ses)
@@ -505,7 +505,7 @@ object Tree2Program {
           }
         }
         SEMap(toList(n.elements).map(buildKeyValue _))
-      case n : SetNode => 
+      case n : SetNode =>
         SESet(toList(n.elements).map(buildSimpleExpression _))
       case n : RecordNode =>
         def buildRecordValue(node : Node) : (Message, SimpleExpression) = {

@@ -7,6 +7,7 @@ object Values {
 
   val MESSAGE_APPLY = "apply_"
   val MESSAGE_REPRESENTATIVE = "rank_"
+  val MESSAGE_ITERATE = "iterate_"
   val MESSAGE_PLUS = "plus_"
   val MESSAGE_MINUS = "minus_"
   val MESSAGE_UMINUS = "uminus_"
@@ -35,6 +36,9 @@ object Values {
   val CONSTRUCTOR_UNRELATED = "UNRELATED"
   val CONSTRUCTOR_INVALIDPARENT = "INVALIDPARENT"
   val CONSTRUCTOR_INVALIDPARENTS = "INVALIDPARENTS"
+  val CONSTRUCTOR_UPDATEERROR = "UPDATEERROR"
+  val CONSTRUCTOR_INVALIDWHILECONDITION = "INVALIDWHILECONDITION"
+  val CONSTRUCTOR_INVALIDITERATOR = "INVALIDITERATOR"
 
 
   abstract class Value {
@@ -409,6 +413,95 @@ object Values {
 
   }
 
+  abstract class ForIterator {
+    def nextValue() : Value;
+  }
+
+  class VectorForIterator(v : VectorValue) extends ForIterator {
+    val it = v.tuple.iterator
+    def nextValue() : Value = {
+      if (it.hasNext)
+        it.next
+      else
+        null
+    }
+  }
+
+  class SetForIterator(v : SetValue) extends ForIterator {
+    val it = v.set.iterator
+    def nextValue() : Value = {
+      if (it.hasNext)
+        it.next
+      else
+        null
+    }
+  }
+
+  class MapForIterator(v : MapValue) extends ForIterator {
+    val it = v.map.iterator
+    def nextValue() : Value = {
+      if (it.hasNext) {
+        val (key, value) = it.next
+        VectorValue(Array(key, value))
+      } else
+        null
+    }
+  }
+
+  class StringForIterator(v : StringValue) extends ForIterator {
+    val s = v.v
+    val len = s.length
+    var i = 0
+    val it = v.v.iterator
+    def nextValue() : Value = {
+      if (i < len) {
+        val c = s.codePointAt(i)
+        val count = Character.charCount(c)
+        val result = StringValue(s.substring(i, i+count))
+        i = i+count
+        result
+      } else null
+    }
+  }
+
+  class ListForIterator(v : ListValue) extends ForIterator {
+    var list = v
+    def nextValue() : Value = {
+      list match {
+        case EmptyListValue() => null
+        case ConsListValue(head, tail) =>
+          list = normalizeListTail(tail)
+          head
+      }
+    }
+  }
+
+  class CustomForIterator(v : Value) extends ForIterator {
+    var iterator = v
+    def nextValue() : Value = {
+      iterator = iterator.sendMessage(Program.Message(MESSAGE_ITERATE)).force()
+      if (iterator.isDynamicException) return iterator
+      iterator match {
+        case VectorValue(Array()) => null
+        case VectorValue(Array(e, n)) =>
+          iterator = n
+          e
+        case _ => dynamicException(CONSTRUCTOR_INVALIDITERATOR)
+      }
+    }
+  }
+
+  def iteratorOfValue(v : Value) : ForIterator = {
+    v.force() match {
+      case v : ListValue => new ListForIterator(v)
+      case v : VectorValue => new VectorForIterator(v)
+      case v : SetValue => new SetForIterator(v)
+      case v : MapValue => new MapForIterator(v)
+      case v : StringValue => new StringForIterator(v)
+      case c => new CustomForIterator(c)
+    }
+  }
+
   abstract class Collector {
     def collect_close () : Value = {
       throw Evaluator.EvalX("collect_close not implemented in "+this.getClass)
@@ -428,7 +521,7 @@ object Values {
       case c => new CustomCollector(c)
     }
   }
-  
+
   class DefaultCollector extends Collector {
     import scala.collection.mutable.ArrayBuffer
     val buffer : ArrayBuffer[Value] = new ArrayBuffer(15)
