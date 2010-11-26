@@ -1,19 +1,17 @@
-val collection =
-    with [] do
-        val i = 0
-        while i <= 10 do
-            yield (i, i*i)
-            i = i + 1
-        end
-    end
+def odd x = x mod 2 == 1
+def even x = x mod 2 == 0
 
-
-
-
-val x = if 1 > 2 then
-    "hello"
+match [1,2,3,4]
+case [odd?, even?, odd?, even?] => #log Yes
+case _ => #log No
 end
 
-match lazy 1 div 0
-case x => #log x
+
+def complex (x, y) = {x = x, y = y, deconstruct_ = Energy => x*x+y*y}
+
+
+match complex (3, 5)
+case (Energy ? e) => #log Yes e
+case r => #log No r
 end
+

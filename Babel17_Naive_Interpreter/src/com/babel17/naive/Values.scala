@@ -25,6 +25,7 @@ object Values {
   val MESSAGE_TOSTRING = "tostring_"
   val MESSAGE_COLLECT_ADD = "collect_add_"
   val MESSAGE_COLLECT_CLOSE = "collect_close_"
+  val MESSAGE_DECONSTRUCT = "deconstruct_"
   
   val CONSTRUCTOR_DOMAINERROR = "DOMAINERROR"
   val CONSTRUCTOR_EMPTYCHOICE = "EMPTYCHOICE"  
@@ -259,7 +260,6 @@ object Values {
           case Evaluator.NoMatch() =>
           case Evaluator.DoesMatch(newEnv) =>
             return evaluator.evalExpression(newEnv, body)
-          case Evaluator.MatchException(x) => return x.asDynamicException
         }
       }
       return domainError()
@@ -415,36 +415,64 @@ object Values {
 
   abstract class ForIterator {
     def nextValue() : Value;
+    def rest() : Value;
+    def length() : Option[Int] = {
+      None
+    }
   }
 
   class VectorForIterator(v : VectorValue) extends ForIterator {
     val it = v.tuple.iterator
+    var i = 0
     def nextValue() : Value = {
-      if (it.hasNext)
+      if (it.hasNext) {
+        i = i + 1
         it.next
-      else
+      } else
         null
+    }
+    def rest() : Value = {
+      VectorValue(v.tuple.drop(i))
+    }
+    override def length() : Option[Int] = {
+      Some(v.tuple.length - i)
     }
   }
 
   class SetForIterator(v : SetValue) extends ForIterator {
     val it = v.set.iterator
+    var i = 0
     def nextValue() : Value = {
-      if (it.hasNext)
+      if (it.hasNext) {
+        i = i + 1
         it.next
-      else
+      } else
         null
+    }
+    def rest() : Value = {
+      SetValue(v.set.drop(i))
+    }
+    override def length() : Option[Int] = {
+      Some(v.set.size - i)
     }
   }
 
   class MapForIterator(v : MapValue) extends ForIterator {
     val it = v.map.iterator
+    var i = 0
     def nextValue() : Value = {
       if (it.hasNext) {
         val (key, value) = it.next
+        i = i + 1
         VectorValue(Array(key, value))
       } else
         null
+    }
+    def rest() : Value = {
+      MapValue(v.map.drop(i))
+    }
+    override def length() : Option[Int] = {
+      Some(v.map.size - i)
     }
   }
 
@@ -462,6 +490,9 @@ object Values {
         result
       } else null
     }
+    def rest() : Value = {
+      StringValue(s.drop(i))
+    }
   }
 
   class ListForIterator(v : ListValue) extends ForIterator {
@@ -473,6 +504,9 @@ object Values {
           list = normalizeListTail(tail)
           head
       }
+    }
+    def rest() : Value = {
+      list
     }
   }
 
@@ -488,6 +522,9 @@ object Values {
           e
         case _ => dynamicException(CONSTRUCTOR_INVALIDITERATOR)
       }
+    }
+    def rest() : Value = {
+      return iterator
     }
   }
 
@@ -643,6 +680,8 @@ object Values {
     def reverse : ListValue = {
       reverse(EmptyListValue())
     }
+    def length : Int;
+    def toVectorValue() : VectorValue;
   }
   
   case class EmptyListValue() extends ListValue {    
@@ -663,6 +702,12 @@ object Values {
     }
     override def reverse(r : ListValue) : ListValue = {
       r
+    }
+    override def length : Int = {
+      0
+    }
+    override def toVectorValue() : VectorValue = {
+      VectorValue(Array())
     }
    }
   
@@ -685,8 +730,15 @@ object Values {
     override def toList = {
       head :: (normalizeListTail(tail)).toList
     }
+    override def length = {
+      1 + (normalizeListTail(tail)).length
+    }
+
     override def reverse(r : ListValue) : ListValue = {
       normalizeListTail(tail).reverse(ConsListValue(head, r))
+    }
+    override def toVectorValue() : VectorValue = {
+      VectorValue(toList.toArray)
     }
   }
   
@@ -724,7 +776,16 @@ object Values {
     override def choose() : Value = {
       if (tuple.size == 0) dynamicException(CONSTRUCTOR_EMPTYCHOICE)
       else tuple(0)
-    }    
+    }
+    def toListValue : ListValue = {
+      var size = tuple.size
+      var list : ListValue = EmptyListValue()
+      while (size > 0) {
+        size = size - 1
+        list = ConsListValue(tuple(size), list)
+      }
+      list
+    }
   }
   
   case class SetValue(set : SortedSet[Value]) extends Value {
@@ -944,6 +1005,7 @@ object Values {
   def normalizeListTail(tail : Value) : ListValue = {
     val t = tail.force()
     if (t.isInstanceOf[ListValue]) t.asInstanceOf[ListValue]
+    else if (t.isInstanceOf[VectorValue]) t.asInstanceOf[VectorValue].toListValue
     else ConsListValue(t, EmptyListValue())
   }
   

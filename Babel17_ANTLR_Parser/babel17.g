@@ -360,7 +360,8 @@ bracket_pattern
 	|	(protected_expr NL? QUESTION_MARK) => 
 		protected_expr NL? QUESTION_MARK (NL? pattern)? -> ^(QUESTION_MARK protected_expr pattern?)
 	|	pattern (NL? L_if NL? protected_expr)? -> ^(IF_PATTERN pattern protected_expr?)
-	|	L_val NL? protected_expr -> ^(L_val protected_expr);
+	|	L_val NL? protected_expr -> ^(L_val protected_expr)
+	|       L_for NL? (bracket_pattern ( NL? COMMA NL? bracket_pattern)*  NL?)? L_end -> ^(L_for bracket_pattern*);
 	
 arrow_or_assign
 	:	token_ARROW -> ^(ARROW)

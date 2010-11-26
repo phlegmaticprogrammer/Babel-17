@@ -42,6 +42,20 @@ object Evaluator {
         linear(id).value = v
       this
     }
+    def beginRebinding(ids : SortedSet[Id]) : Environment = {
+      var l = linear
+      for (i <- ids) {
+        l = l + (i -> ValueRef(linear(i).value))
+      }
+      Environment(nonlinear, l)
+    }
+    def endRebinding(env : Environment, ids : SortedSet[Id]) : Environment = {
+      var l = env.linear
+      for (i <- ids) {
+        linear(i).value = l(i).value
+      }
+      this
+    }
     def define (id : Id, e : Value) : Environment = {
       Environment(nonlinear + (id -> e), linear - id)
     }
@@ -61,8 +75,7 @@ object Evaluator {
   abstract class MatchResult  
   case class NoMatch() extends MatchResult 
   case class DoesMatch(env : Environment) extends MatchResult
-  case class MatchException(v : ExceptionValue) extends MatchResult
-  
+
   abstract class StatementResult
   case class StatementException(de : ExceptionValue) extends StatementResult
   case class StatementCollector(env : Environment, c : Collector) extends StatementResult
@@ -410,17 +423,17 @@ class Evaluator {
     st match {
       case SVal(pat, expr) =>
         val e = evalExpression(env, expr)
+        if (e.isDynamicException) return StatementException(e.asDynamicException)
         matchPattern(env, pat, e, false) match {          
           case NoMatch() => StatementException(dynamicException(CONSTRUCTOR_NOMATCH))
           case DoesMatch(newEnv) => StatementCollector(newEnv, coll)
-          case MatchException(x) => StatementException(x)
         }
       case SAssign(pat, expr) =>
         val e = evalExpression(env, expr)
-        matchPattern(env, pat, e, true) match {          
+        if (e.isDynamicException) return StatementException(e.asDynamicException)
+        matchPattern(env, pat, e, true) match {
           case NoMatch() => StatementException(dynamicException(CONSTRUCTOR_NOMATCH))
           case DoesMatch(newEnv) => StatementCollector(newEnv, coll)
-          case MatchException(x) => StatementException(x)
         }
       case SYield(expr) =>
         val e = evalExpression(env, expr)
@@ -511,7 +524,6 @@ class Evaluator {
           matchPattern(env, pat, v, false) match {
             case NoMatch() =>
               // do nothing
-            case MatchException(ex) => return StatementException(ex)
             case DoesMatch(blockEnv) =>
               evalBlock(blockEnv, coll, block) match {
                 case BlockException(ex) => return StatementException(ex)
@@ -527,8 +539,6 @@ class Evaluator {
           matchPattern(env, pat, e, false) match {
             case NoMatch() =>
               // do nothing, go to next branch
-            case MatchException(ex) =>
-              return StatementException(ex)
             case DoesMatch(blockEnv) =>
               evalBlock(blockEnv, coll, block) match {
                 case BlockException(ex) => return StatementException(ex)
@@ -566,14 +576,239 @@ class Evaluator {
     }
     BlockCollector(e, c)
   }
+
+  def logInvisibleException(ex : ExceptionValue) {
+  }
     
+
   def matchPattern(env : Environment, pat : Pattern, v : Value, rebind : Boolean) : MatchResult = {
+    if (rebind) {
+      val rebindEnv = env.beginRebinding(pat.introducedVars)
+      matchPat(rebindEnv, pat, v, true) match {
+        case NoMatch() => NoMatch()
+        case DoesMatch(_) =>
+          DoesMatch(env.endRebinding(rebindEnv, pat.introducedVars))
+      }
+    } else
+      matchPat(env, pat, v, false)
+  }
+
+  def matchForIterator(env : Environment, pats : List[Pattern], delta : Pattern, iterator : ForIterator,
+                       rebind : Boolean, convertRest : (Value) => Value)
+    : MatchResult =
+  {
+    var currentEnv = env
+    var it = iterator
+    var next : Value = null
+    iterator.length match {
+      case None =>
+      case Some(l) =>
+        if (delta == null && l != pats.length) return NoMatch()
+        if (delta != null && l < pats.length) return NoMatch()
+    }
+    for (p <- pats) {
+      next = it.nextValue
+      if (next == null) return NoMatch()
+      if (next.isDynamicException) {
+        logInvisibleException(next.asDynamicException)
+        return NoMatch()
+      }
+      matchPat(currentEnv, p, next, rebind) match {
+        case NoMatch() => return NoMatch()
+        case DoesMatch(env) =>
+          currentEnv = env
+      }
+    }
+    if (delta == null) {
+      if (it.nextValue == null) DoesMatch(currentEnv)
+      else NoMatch()
+    } else {
+      matchPat(currentEnv, delta, convertRest(it.rest), rebind)
+    }
+  }
+
+  def matchPat(env : Environment, pat : Pattern, v : Value, rebind : Boolean) : MatchResult = {
+    if (v.isDynamicException) {
+      pat match {
+        case PException(parg) =>
+          return matchPat(env, parg, v.asDynamicException.v, rebind)
+        case _ => return NoMatch()
+      }
+    }
     pat match {
       case PId(id) =>
-        if (v.isDynamicException) MatchException(v.asInstanceOf[ExceptionValue])
-        else DoesMatch(if (rebind) env.rebind(id, v) else env.bind(id, v))
+        DoesMatch(if (rebind) env.rebind(id, v) else env.bind(id, v))
+      case PAny() =>
+        DoesMatch(env)
+      case PEllipsis() =>
+        DoesMatch(env)
+      case PString(s) =>
+        v.force() match {
+          case StringValue(t) =>
+            if (s == t) DoesMatch(env)
+            else NoMatch()
+          case _ => NoMatch()
+        }
+      case PInt(i) =>
+        v.force() match {
+          case IntegerValue(j) =>
+            if (i == j) DoesMatch(env)
+            else NoMatch()
+          case _ => NoMatch()
+        }
+      case PBool(p) =>
+        v.force() match {
+          case BooleanValue(q) =>
+            if (p == q) DoesMatch(env)
+            else NoMatch()
+          case _ => NoMatch()
+        }
+      case PInfinity(p) =>
+        v.force() match {
+          case InfinityValue(q) =>
+            if (p == q) DoesMatch(env)
+            else NoMatch()
+          case _ => NoMatch()
+        }
+      case PVal(expr) =>
+        val u = evalSE(env.freeze, expr)
+        if (u.isDynamicException) {
+          logInvisibleException(u.asDynamicException)
+          NoMatch()
+        }
+        else {
+          if (compareValues(u, v) == CompareResult.EQUAL) DoesMatch(env)
+          else NoMatch()
+        }
+      case PException(p) =>
+        v.force() match {
+          case ex:ExceptionValue => matchPat(env, p, ex, rebind)
+          case _ => NoMatch()
+        }
+      case PVector(plist, delta) =>
+        v.force() match {
+          case vector : VectorValue =>
+            matchForIterator(env, plist, delta, iteratorOfValue(vector), rebind, identity)
+          case list : ListValue =>
+            matchForIterator(env, plist, delta, iteratorOfValue(list), rebind, _.asInstanceOf[ListValue].toVectorValue)
+          case _ => NoMatch()
+        }
+      case PList(plist, delta) =>
+        v.force() match {
+          case vector : VectorValue =>
+            matchForIterator(env, plist, delta, iteratorOfValue(vector), rebind, _.asInstanceOf[VectorValue].toListValue)
+          case list : ListValue =>
+            matchForIterator(env, plist, delta, iteratorOfValue(list), rebind, identity)
+          case _ => NoMatch()
+        }
+      case PSet(plist, delta) =>
+        v.force() match {
+          case set : SetValue =>
+            matchForIterator(env, plist, delta, iteratorOfValue(set), rebind, identity)
+          case _ => NoMatch()
+        }
+      case PFor(plist, delta) =>
+        matchForIterator(env, plist, delta, iteratorOfValue(v), rebind, identity)
+      case PMap(kvlist, delta) =>
+        v.force() match {
+          case map : MapValue =>
+            val plist = kvlist.map(kv => PVector(List(kv._1, kv._2), null))
+            matchForIterator(env, plist, delta, iteratorOfValue(map), rebind, identity)
+          case _ => NoMatch()
+        }
+      case PAs(id, pat) =>
+        matchPat(env, pat, v, rebind) match {
+          case NoMatch() => NoMatch()
+          case DoesMatch(currentEnv) =>
+            val newEnv = if (rebind) env.rebind(id, v) else env.bind(id, v)
+            DoesMatch(newEnv)
+        }
+      case PConstr(constr, pat) =>
+        v.force() match {
+          case ConstructorValue(c, arg) =>
+            if (c == constr)
+              matchPat(env, pat, arg, rebind)
+            else
+              NoMatch()
+          case _ => NoMatch()
+        }
+      case PCons(head, tail) =>
+        v.force() match {
+          case vector : VectorValue =>
+            matchForIterator(env, List(head), tail, iteratorOfValue(vector), rebind, _.asInstanceOf[VectorValue].toListValue)
+          case list : ListValue =>
+            matchForIterator(env, List(head), tail, iteratorOfValue(list), rebind, identity)
+          case _ => NoMatch()
+        }
+      case PIf(pat, cond) =>
+        matchPat(env, pat, v, rebind) match {
+          case NoMatch() => NoMatch()
+          case DoesMatch(env) =>
+            evalSE(env.freeze, cond).force() match {
+              case BooleanValue(true) =>
+                DoesMatch(env)
+              case x =>
+                if (x.isException) logInvisibleException(x.asInstanceOf[ExceptionValue])
+                NoMatch()
+            }
+        }
+      case PRecord(fields, delta) =>
+        v.force() match {
+          case ObjectValue(messages) =>
+            var map = messages
+            var currentEnv = env
+            for ((m, p) <- fields) {
+              if (!messages.contains(m)) return NoMatch()
+              map = map - m
+              matchPat(currentEnv, p, messages(m), rebind) match {
+                case NoMatch() => return NoMatch()
+                case DoesMatch(env) =>
+                  currentEnv = env
+              }
+            }
+            if (delta == null) {
+              if (map.isEmpty) DoesMatch(currentEnv)
+              else NoMatch()
+            } else {
+              matchPat(currentEnv, delta, ObjectValue(map), rebind)
+            }
+          case x =>
+            if (x.isException) logInvisibleException(x.asInstanceOf[ExceptionValue])
+            NoMatch()
+        }
+      case PPredicate(pred, pat) =>
+        val f = evalSE(env.freeze, pred).force()
+        if (f.isException) {
+          logInvisibleException(f.asInstanceOf[ExceptionValue])
+          return NoMatch()
+        }
+        f match {
+          case f : FunctionValue =>
+            val y = f.apply(v)
+            if (y.isDynamicException) {
+              logInvisibleException(y.asDynamicException())
+              return NoMatch()
+            }
+            matchPat(env, pat, y, rebind)
+          case c =>
+            val y = v.sendMessage(Message(MESSAGE_DECONSTRUCT))
+            if (y == null) return NoMatch()
+            y.force() match {
+              case f: FunctionValue =>
+                val y = f.apply(c)
+                if (y.isDynamicException) {
+                  logInvisibleException(y.asDynamicException())
+                  return NoMatch()
+                }
+                matchPat(env, pat, y, rebind)
+              case ex:ExceptionValue =>
+                logInvisibleException(ex)
+                NoMatch()
+              case _  => NoMatch()
+            }
+        }
       case _ => throw EvalX("incomplete matchPattern: "+pat)
-    }
+   }
   }
 
 

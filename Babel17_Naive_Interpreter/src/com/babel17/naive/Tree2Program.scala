@@ -590,7 +590,7 @@ object Tree2Program {
         id.setLocation(patternNode.location)
         PId(id)
       case p : ConstrPattern =>
-        val arg = if (p.pattern == null) PVector(List(), null) else buildProperPattern(p.pattern)
+        val arg = if (p.pattern == null) PRecord(List(), null) else buildProperPattern(p.pattern)
         val constr = Constr(p.name.toUpperCase)
         constr.setLocation(p.nameLocation)
         PConstr(constr, arg)
@@ -606,6 +606,12 @@ object Tree2Program {
             yield buildPattern(i)
         val (e, d) = splitDelta(elems.toList)
         PSet(e, d)
+      case p : ForPattern =>
+        val elems =
+          for (i <- toList(p.elements))
+            yield buildPattern(i)
+        val (e, d) = splitDelta(elems.toList)
+        PFor(e, d)
       case p : MapPattern =>
         var elems : List[(Pattern, Pattern)] = List();
         var delta : Pattern = null;       
@@ -659,7 +665,7 @@ object Tree2Program {
       case p : ValPattern =>
         PVal(buildSimpleExpression(p.value))
       case p : PredicatePattern => 
-        val pat = if (p.pattern == null) null else buildProperPattern(p.pattern)
+        val pat = if (p.pattern == null) PBool(true) else buildProperPattern(p.pattern)
         val pred = buildSimpleExpression(p.predicate)
         PPredicate(pred, pat)
       case p : IfPattern =>

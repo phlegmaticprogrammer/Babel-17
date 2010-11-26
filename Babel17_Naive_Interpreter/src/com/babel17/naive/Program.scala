@@ -138,9 +138,10 @@ object Program {
   case class PList(elems: List[Pattern], delta : Pattern) extends Pattern
   case class PSet(elems: List[Pattern], delta : Pattern) extends Pattern
   case class PMap(keyValues : List[(Pattern, Pattern)], delta : Pattern) extends Pattern
+  case class PFor(elems : List[Pattern], delta : Pattern) extends Pattern
   case class PRecord(keyValues : List[(Message, Pattern)], delta : Pattern) extends Pattern
-  case class PVal(value:SimpleExpression) extends Pattern
   case class PPredicate(predicate:SimpleExpression, pattern : Pattern) extends Pattern
+  case class PVal(value:SimpleExpression) extends Pattern
   case class PIf(pattern : Pattern, condition : SimpleExpression) extends Pattern
   case class PAs(id:Id, pattern : Pattern) extends Pattern
   case class PCons(head : Pattern, tail : Pattern) extends Pattern

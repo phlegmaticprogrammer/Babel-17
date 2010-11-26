@@ -230,6 +230,7 @@ object CollectVars {
         pattern.freeVars = pat.freeVars ++ (cond.freeVars -- pat.introducedVars)
         pattern.introducedVars = pat.introducedVars
       case PAs(id, pat) =>
+        collectVars(pat)
         pattern.freeVars = pat.freeVars
         pattern.introducedVars = pat.introducedVars + id
       case p =>
@@ -248,7 +249,8 @@ object CollectVars {
       case PVector(ps, delta) => if (delta != null) delta::ps else ps
       case PSet(ps, delta) => if (delta != null) delta::ps else ps
       case PList(ps, delta) => if (delta != null) delta::ps else ps
-      case PMap(kvs, delta) => 
+      case PFor(ps, delta) => if (delta != null) delta::ps else ps
+      case PMap(kvs, delta) =>
         val ps = kvs.map(_._1) ++ kvs.map(_._2)
         if (delta != null) delta::ps else ps
       case PRecord(kvs, delta) =>

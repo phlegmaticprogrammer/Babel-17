@@ -627,6 +627,10 @@ public class Parser {
                     mergeLocation(loc).mergeLocation();
           }
         }
+        case babel17Parser.L_for: {
+          NodeList l = toPatternList(tree);
+          return (PatternNode) new ForPattern(l).mergeLocation(loc).mergeLocation();
+        }
         case babel17Parser.SQUARE_LIST: {
           NodeList l = toPatternList(tree);
           return (PatternNode) new ListPattern(l, false).mergeLocation(loc).mergeLocation();

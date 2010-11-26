@@ -185,7 +185,7 @@ object LinearScope {
           check_simple(env.freeze(), value)
         case PPredicate(predicate, pattern) =>
           check_simple(env.freeze(), predicate) 
-          check_pat(env, pattern)
+          if (pattern != null) check_pat(env, pattern)
         case PIf(pattern, condition) =>
           val new_env = check_p(env, pattern, rebind)
           check_simple(new_env.freeze(), condition)
@@ -193,16 +193,28 @@ object LinearScope {
           check_pat(env, pattern)
           if (pattern.introducedVars.contains(id))
             error(id.location, "pattern variable may be bound only once")
+          else if (pattern.freeVars.contains(id))
+            error(id.location, "pattern variable clashes with free variable")
         case _ =>
           val subps = CollectVars.subPatterns(pat)
           var intros : SortedSet[Id] = SortedSet()
+          var frees : SortedSet[Id] = SortedSet()
           for (p <- subps) {
             check_pat(env, p)
-            val inter = p.introducedVars ** intros
+            var inter = p.introducedVars ** intros
             if (inter.size != 0) {
               error(inter.head.location, "pattern variable may be bound only once")
             }
+            inter = p.freeVars ** intros
+            if (inter.size != 0) {
+              error(inter.head.location, "pattern variable clashes with free variable")
+            }
+            inter = p.introducedVars ** frees
+            if (inter.size != 0) {
+              error(inter.head.location, "pattern variable clashes with free variable")
+            }
             intros = intros ++ p.introducedVars
+            frees = frees ++ p.freeVars
           }
       }
     }
