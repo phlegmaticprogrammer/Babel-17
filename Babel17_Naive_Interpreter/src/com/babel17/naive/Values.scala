@@ -2,6 +2,7 @@ package com.babel17.naive
 
 import scala.collection.immutable.SortedSet
 import scala.collection.immutable.SortedMap
+import java.util.concurrent._
 
 object Values {
 
@@ -1120,19 +1121,6 @@ object Values {
     override def toCodeString() : String = {
       return force().toCodeString;
     }
-    def flatForce() : Value = {
-      if (result != null) result
-      else {
-        var r = evaluator.evalSE(env, se)
-        this.synchronized {
-          result = r
-          evaluator = null
-          env = null
-          se = null
-        }
-        result
-      }
-    }
     override def force() : Value = {
       if (result != null) result
       else {
@@ -1147,9 +1135,6 @@ object Values {
         this.synchronized {
           if (result == null)
             result = r
-          evaluator = null
-          env = null
-          se = null
         }
         result
       }
@@ -1190,7 +1175,6 @@ object Values {
       }
     }
     override def sendMessage(message : Program.Message) : Value = {
-      val o = force()
       return force().sendMessage(message)
     }   
   }
@@ -1286,6 +1270,41 @@ object Values {
         }
         result
       }
+    }
+  }
+
+  case class ConcurrentValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment, se : Program.SimpleExpression)
+    extends Value with Callable[Value]
+  {
+    val futureTask = new FutureTask[Value](this)
+
+    def getTask() : FutureTask[Value] = {
+      futureTask
+    }
+
+    override def toString() : String = {
+      "<Concurrent>"
+    }
+    override def toStringValue() : StringValue = {
+      return force().toStringValue();
+    }
+    override def toCodeString() : String = {
+      return force().toCodeString;
+    }
+
+    def call() : Value = {
+      evaluator.evalSE(env, se)
+    }
+
+    override def force() : Value = {
+      futureTask.get().force()
+    }
+
+    override def forceDeep() : Value = {
+      futureTask.get().forceDeep()
+    }
+    override def sendMessage(message : Program.Message) : Value = {
+      return force().sendMessage(message)
     }
   }
 

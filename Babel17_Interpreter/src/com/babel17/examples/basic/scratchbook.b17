@@ -29,7 +29,7 @@ def k = 1 :: k
 #log head k         */
 
 
-memoize k
+/*memoize k
 def k _ =
 begin
   val r = random 100
@@ -37,11 +37,30 @@ begin
   if r < 50 then
     [r]
   else
-   /* val x = k ()
-    #log (Tail, x)  */
     r :: (k())
   end
 end
 
 #log k ()
-#log k (x => x)
+#log k (x => x)   */
+
+def whileodd n =
+begin
+  val b = false
+  while n > 0 do
+    b = !b
+    n = n - 1
+  end
+  b
+end
+
+def even n = if n == 0 then true else odd(n-1) end
+def odd n = if n == 0 then false else even(n-1) end
+
+#profile begin
+            val x = concurrent(whileodd 10000000)
+            val y = whileodd 10000001
+            force (x, y)
+         end
+
+/*#profile force (concurrent (odd 1501), even 1500)  */

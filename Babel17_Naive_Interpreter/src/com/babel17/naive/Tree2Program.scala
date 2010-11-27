@@ -6,6 +6,7 @@ import com.babel17.syntaxtree._
 import com.babel17.interpreter.parser._
 import scala.collection.immutable.SortedSet
 import scala.collection.immutable.SortedMap
+import java.util.concurrent._
 
 
 object Tree2Program {
@@ -726,6 +727,17 @@ object Tree2Program {
         error(id.location, "identifier '"+id.name+"' is not in scope")
     }
   }      */
+
+  object factory extends ThreadFactory {
+
+    def newThread(r : Runnable) : Thread = {
+      val t = new Thread(r)
+      val prio = Thread.currentThread.getPriority
+      println("creating new thread with prio = "+prio)
+      t.setPriority(prio)
+      t
+    }
+  }
   
   def main(args: Array[String]): Unit = {
     println("Babel-17, (c) 2010 Steven Obua")
@@ -749,7 +761,10 @@ object Tree2Program {
         LinearScope.check(LinearScope.emptyEnv, t.asInstanceOf[Term])
         println("term: "+t)
         try {
-          val evaluator = new Evaluator()
+          val cpus = Runtime.getRuntime().availableProcessors
+          println("number of processors: "+cpus)
+          Thread.currentThread.setPriority(Thread.MAX_PRIORITY)
+          val evaluator = new Evaluator(java.util.concurrent.Executors.newFixedThreadPool(cpus, factory))
           val v = evaluator.evaluate(Evaluator.emptyEnv, t.asInstanceOf[Term])
           println("value of term: "+v)
         } catch {

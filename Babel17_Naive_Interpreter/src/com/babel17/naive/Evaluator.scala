@@ -4,6 +4,8 @@ import Program._
 import Values._
 import scala.collection.immutable.SortedSet
 import scala.collection.immutable.SortedMap
+import java.util.concurrent._
+
 
 object Evaluator {
   case class EvalX(reason : String) extends Exception
@@ -96,10 +98,10 @@ object Evaluator {
 }
 
 
-class Evaluator {
+class Evaluator(val executor : Executor) {
   
   import Evaluator._
-  
+
   val random : java.util.Random = new java.util.Random()
 
   /*def lookup (ids : SortedSet[Id], id : Id, linear : Boolean) {
@@ -389,6 +391,10 @@ class Evaluator {
         evalObj(evalSE(env, parents), env, block, messages)
       case SEObj(block, messages) =>
         evalObj(env, block, messages)
+      case SEConcurrent(se) =>
+        val c = ConcurrentValue(this, env, se)
+        executor.execute(c.getTask)
+        c
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }
