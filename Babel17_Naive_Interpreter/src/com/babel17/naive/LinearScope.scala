@@ -90,11 +90,11 @@ object LinearScope {
       case SAssignRecordUpdate(id, m, e) =>
         check_e(env, e)
         env.rebind(id)
-      case SDef0(id, e) =>
+      case SDef0(_, id, e) =>
         val env2 = env.define(id)
         check_e(env2, e)
         env2
-      case SDef1(m, id, branches) =>
+      case SDef1(_, id, branches) =>
         val env2 = env.define(id)
         for ((pat, e) <- branches) {
           check_e(check_p(env2.freeze().thaw(), pat, false), e)
@@ -104,9 +104,9 @@ object LinearScope {
         var env2 = env
         for (d <- defs) {
           d match {
-            case SDef0(id, _) =>
+            case SDef0(_, id, _) =>
               env2 = env2.define(id)
-            case SDef1(m, id, _) =>
+            case SDef1(_, id, _) =>
               env2 = env2.define(id)
           }
         }
@@ -160,7 +160,7 @@ object LinearScope {
         lookup(env.nonlinear, id, false)
       case SEExpr(e) => 
         check_e(env.thaw, e)
-      case SEFun(branches) =>
+      case SEFun(_, branches) =>
         val tEnv = env.thaw()
         for ((pat, e) <- branches) {
           check_e(check_p(tEnv, pat, false), e)

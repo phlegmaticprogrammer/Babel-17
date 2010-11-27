@@ -1,17 +1,47 @@
-def odd x = x mod 2 == 1
-def even x = x mod 2 == 0
+/*def l n = n :: (lazy (l (n+1)))
 
-match [1,2,3,4]
-case [odd?, even?, odd?, even?] => #log Yes
-case _ => #log No
+def fst (for x, ... end) = x
+def snd (for _, x, ... end) = x
+def head (for x, ... end) = x
+def tail (for _, x as ... end) = x
+
+ #log head (l 0)
+#log head (tail (l 0))
+
+def even n = if n == 0 then true else !odd(n-1) end
+def odd n = if n == 0 then false else !even(n-1) end
+
+def whileodd n =
+begin
+  val b = true
+  while n > 0 do
+    b = !b
+    n = n - 1
+  end
+  b
 end
 
+#profile odd 1501
+#profile whileodd 1501
 
-def complex (x, y) = {x = x, y = y, deconstruct_ = Energy => x*x+y*y}
+def k = 1 :: k
+
+#log head k         */
 
 
-match complex (3, 5)
-case (Energy ? e) => #log Yes e
-case r => #log No r
+memoize k
+def k _ =
+begin
+  val r = random 100
+  #log r
+  if r < 50 then
+    [r]
+  else
+   /* val x = k ()
+    #log (Tail, x)  */
+    r :: (k())
+  end
 end
 
+#log k ()
+#log k (x => x)

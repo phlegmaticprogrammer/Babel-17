@@ -70,7 +70,7 @@ object CollectVars {
         collectVars(e)
         term.freeVars = e.freeVars
         term.assignedVars = e.assignedVars + id
-      case SDef0(id , e) =>
+      case SDef0(_, id , e) =>
         collectVars(e)
         term.freeVars = e.freeVars - id
       case SDef1(_, id, branches) =>
@@ -158,7 +158,14 @@ object CollectVars {
       case SEExpr(e) =>
         collectVars(e)
         term.freeVars = e.freeVars
-      case SEFun(branches) =>
+      case SEFun(_, branches) =>
+        var freeVars = SortedSet[Id]()
+        for ((pat, body) <- branches) {
+          collectVars(pat)
+          collectVars(body)
+          freeVars = freeVars ++ pat.freeVars ++ (body.freeVars -- pat.introducedVars)
+        }
+        term.freeVars = freeVars
       case SEGlueObj(parents, b, _) =>
         collectVars(parents)
         collectVars(b)

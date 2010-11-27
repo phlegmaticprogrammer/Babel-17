@@ -58,6 +58,15 @@ object Values {
       else if (f.isInstanceOf[FunctionValue] || f.isDynamicException()) f
       else dynamicException(CONSTRUCTOR_APPLYERROR)
     }
+
+    override def equals(v : Any) : Boolean = {
+      v match {
+        case v: Value => defaultValueOrdering.compare(this, v) == 0
+        case _ => false
+      }
+    }
+
+
     
     // this returns either an ObjectValue without a "representative" message or something that is
     // a) not an ObjectValue b) forced c) not a persistent exception
@@ -116,7 +125,6 @@ object Values {
         case _ => throw Evaluator.EvalX("this is not an exception, cannot make dynamic")
       }
     }
-
     
  /*   def asDynamicException() : ExceptionValue = {
       if (isDynamicException()) this.asInstanceOf[ExceptionValue]
@@ -266,6 +274,62 @@ object Values {
     }
     override def toString() : String = {
       "<Closure>"
+    }
+  }
+
+  case class ClosureValueMS(evaluator : Evaluator, env : Evaluator.SimpleEnvironment,
+                           branches : List[(Program.Pattern, Program.Expression)]) extends FunctionValue
+  {
+    var cache : SortedMap[Value, Value] = new scala.collection.immutable.TreeMap()(defaultValueOrdering)
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_APPLY => this
+        case _ => null
+      }
+    }
+    def save(key : Value, v : Value) : Value = {
+      this.synchronized {
+        try {
+          cache = cache + (key -> v)
+        } catch {
+          case UnrelatedX() =>
+        }
+      }
+      v
+    }
+    override def apply(key : Value) : Value = {
+      var doCache = true
+      this.synchronized {
+        try {
+          cache.get(key) match {
+            case None =>
+            case Some(u) =>
+              return u
+          }
+        } catch {
+          case UnrelatedX() =>
+          doCache = false
+        }
+      }
+      val e = env.thaw
+      for ((p, body) <- branches) {
+        evaluator.matchPattern(e, p, key, false)  match {
+          case Evaluator.NoMatch() =>
+          case Evaluator.DoesMatch(newEnv) =>
+            val computed = evaluator.evalExpression(newEnv, body)
+            if (doCache)
+              return save(key, computed)
+            else
+              return computed
+        }
+      }
+      if (doCache)
+        return save(key, domainError())
+      else
+        return domainError()
+    }
+    override def toString() : String = {
+      "<ClosureMS>"
     }
   }
   
@@ -594,7 +658,7 @@ object Values {
         set = set + v.force()
         return null
       } catch {
-        case unrelatedX => dynamicException(CONSTRUCTOR_UNRELATED)
+        case UnrelatedX() => dynamicException(CONSTRUCTOR_UNRELATED)
       }
     }
   }
@@ -611,7 +675,7 @@ object Values {
             map = map + (key -> value)
             null
           } catch {
-            case unrelatedX => dynamicException(CONSTRUCTOR_UNRELATED)
+            case UnrelatedX() => dynamicException(CONSTRUCTOR_UNRELATED)
           }
         case _ => domainError()
       }
@@ -1047,7 +1111,8 @@ object Values {
   case class LazyValue(var evaluator : Evaluator, var env : Evaluator.SimpleEnvironment, var se : Program.SimpleExpression, var result : Value) extends Value {
     var deep : Boolean = false
     override def toString() : String = {
-      "<Lazy>"
+      if (result != null) result.toString
+      else "<Lazy>"
     }
     override def toStringValue() : StringValue = {
       return force().toStringValue();
@@ -1055,38 +1120,72 @@ object Values {
     override def toCodeString() : String = {
       return force().toCodeString;
     }
-    override def force() : Value = this.synchronized {
+    def flatForce() : Value = {
       if (result != null) result
       else {
-        result = 
-          evaluator.evalSE(env, se).force() match {
-            case ExceptionValue(true, p) => ExceptionValue(false, p)
-            case x => x
-          }   
-        evaluator = null;
-        env = null;
-        se = null;
+        var r = evaluator.evalSE(env, se)
+        this.synchronized {
+          result = r
+          evaluator = null
+          env = null
+          se = null
+        }
         result
       }
     }
-    override def forceDeep() : Value = this.synchronized {
-      if (result != null) {
-        if (deep) result 
-        else {
-          result = result.forceDeep()
-          deep = true
-          result
+    override def force() : Value = {
+      if (result != null) result
+      else {
+        this.synchronized {
+          if (result != null) return result
         }
-      } else {
-        result = 
-          evaluator.evalSE(env, se).forceDeep() match {
+        var r =
+          evaluator.evalSE(env, se).force() match {
             case ExceptionValue(true, p) => ExceptionValue(false, p)
             case x => x
           }
-        evaluator = null;
-        env = null;
-        se = null;
-        deep = true;
+        this.synchronized {
+          if (result == null)
+            result = r
+          evaluator = null
+          env = null
+          se = null
+        }
+        result
+      }
+    }
+    override def forceDeep() : Value = {
+      if (result != null) {
+        if (deep) result 
+        else {
+          this.synchronized {
+            if (deep) return result
+          }
+          var r  = result.forceDeep()
+          this.synchronized {
+            if (!deep) {
+              result = r
+              deep = true
+            }
+          }
+          result
+        }
+      } else {
+        this.synchronized {
+          if (deep) return result
+        }
+        var r = evaluator.evalSE(env, se).forceDeep() match {
+            case ExceptionValue(true, p) => ExceptionValue(false, p)
+            case x => x
+          }
+        this.synchronized {
+          if (!deep)
+            result = r
+          evaluator = null
+          env = null
+          se = null
+          deep = true
+        }
         result        
       }
     }
@@ -1096,19 +1195,117 @@ object Values {
     }   
   }
 
-  object unrelatedX extends Exception {}
+  // this is a special value that lives only inside environments
+  abstract class EnvironmentValue(var env : Evaluator.SimpleEnvironment) extends Value {
+    def sendMessage(m : Program.Message) : Value = {
+      throw Evaluator.EvalX("EnvironmentValue has been sent a message. How?")
+    }
+    def onLookup(evaluator : Evaluator) : Value;
+  }
+
+  case class EnvironmentValueMN(var se : Program.SimpleExpression)
+  extends EnvironmentValue(null) {
+
+    override def toString() : String = {
+      "<Recursive>"
+    }
+
+    def onLookup(evaluator : Evaluator) : Value = {
+      evaluator.evalSE(env, se)
+    }
+  }
+
+  case class EnvironmentValueMS(var se : Program.SimpleExpression,
+                                var result : Value)
+  extends EnvironmentValue(null) {
+
+    override def toString() : String = {
+      //if (result != null) result.toString
+      /*else*/ "<RecursiveMS>"
+    }
+
+    def onLookup(evaluator : Evaluator) : Value = {
+      if (result != null) result
+      else {
+        var localEnv : Evaluator.SimpleEnvironment = null
+        var localSE : Program.SimpleExpression = null
+        this.synchronized {
+          if (result != null) return result
+          localEnv = env
+          localSE = se
+        }
+        var r = evaluator.evalSE(localEnv, localSE)
+        this.synchronized {
+          //if (result == null) {
+            result = r
+            env = null;
+            se = null;
+          //}
+        }
+        result
+      }
+    }
+  }
+
+  case class EnvironmentValueMW(
+                                    var se : Program.SimpleExpression,
+                                    var cache : java.lang.ref.Reference[Value])
+  extends EnvironmentValue(null) {
+    override def toString() : String = {
+      var result = getResult()
+      if (result != null) result.toString
+      else "<Recursive>"
+    }
+    def getResult () : Value = {
+      var result : Value = null
+      if (cache != null)
+        result = cache.get()
+      return result
+    }
+    def onLookup(evaluator : Evaluator) : Value = {
+      var result = getResult()
+      if (result != null) result
+      else {
+        var localEnv : Evaluator.SimpleEnvironment = null
+        var localSE : Program.SimpleExpression = null
+        this.synchronized {
+          result = getResult()
+          if (result != null) return result
+          localEnv = env
+          localSE = se
+        }
+        var r = evaluator.evalSE(localEnv, localSE)
+        this.synchronized {
+          result = getResult()
+          //if (result == null) {
+            cache = new java.lang.ref.SoftReference(r)
+            result = r
+            env = null;
+            se = null;
+          //}
+        }
+        result
+      }
+    }
+  }
+
+  case class UnrelatedX() extends Exception {}
 
   object defaultValueOrdering extends Ordering[Value] {
     def compare(a : Value, b : Value) : Int = {
       import CompareResult._
-      compareValues(a, b) match {
+      val r = compareValues(a, b) match {
         case LESS => -1
         case EQUAL => 0
         case GREATER => 1
-        case UNRELATED => throw unrelatedX
+        case UNRELATED =>
+          throw UnrelatedX()
       }
+      r
     }
   }
+
+
   
   
 }

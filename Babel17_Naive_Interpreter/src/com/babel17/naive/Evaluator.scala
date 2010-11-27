@@ -109,8 +109,7 @@ class Evaluator {
     }
   }*/
  
-  
-    
+
   def evaluate(env : Environment, term : Term) : Value = {
     term match {
       case block : Block =>
@@ -153,7 +152,7 @@ class Evaluator {
       try {
         s = s + x
       } catch {
-        case unrelatedX => return dynamicException(CONSTRUCTOR_UNRELATED)
+        case UnrelatedX() => return dynamicException(CONSTRUCTOR_UNRELATED)
       }
     }
     SetValue(s)
@@ -169,7 +168,7 @@ class Evaluator {
       try {
         s = s + (k -> v)
       } catch {
-        case unrelatedX => return dynamicException(CONSTRUCTOR_UNRELATED)
+        case UnrelatedX() => return dynamicException(CONSTRUCTOR_UNRELATED)
       }
     }
     MapValue(s)
@@ -241,7 +240,9 @@ class Evaluator {
       case BlockException(de) => de
       case BlockCollector(env, _) =>
         var s : SortedMap[Message, Value] = SortedMap.empty
-        for (m <- messages) s = s + (m -> env.lookup(Id(m.m)))
+        for (m <- messages) {
+          s = s + (m -> env.lookup(Id(m.m)))
+        }
         ObjectValue(s)
     }
   }
@@ -268,7 +269,11 @@ class Evaluator {
   def evalSE(env : SimpleEnvironment, se : SimpleExpression) : Value = 
   {
     se match {
-      case SEId(id) => env.lookup(id)
+      case SEId(id) =>
+        env.lookup(id) match {
+          case ev : EnvironmentValue => ev.onLookup(this)
+          case x => x
+        }
       case SEInt(u) => IntegerValue(u)
       case SEBool(b) => BooleanValue(b)
       case SEString(u) => StringValue(u)
@@ -375,7 +380,11 @@ class Evaluator {
             if (x.isException) x.asDynamicException else domainError()
         }
       case SEExpr(e) => evalExpression(env.thaw, e)
-      case SEFun(branches) => ClosureValue(this, env, branches)
+      case SEFun(m, branches) =>
+        m match {
+          case MemoTypeNone() => ClosureValue(this, env, branches)
+          case _ => ClosureValueMS(this, env, branches)
+        }
       case SEGlueObj(parents, block, messages) =>
         evalObj(evalSE(env, parents), env, block, messages)
       case SEObj(block, messages) =>
@@ -398,24 +407,31 @@ class Evaluator {
   }
 
   def evalDefs(env : Environment, coll : Collector, defs : List[Def]) : StatementResult = {
-    var values : List[LazyValue] = List.empty
+    var values : List[EnvironmentValue] = List.empty
     var e = env
     for (d <- defs) {
       d match {
-        case SDef0(id, expr) =>
-          val v = LazyValue(this, null, SEExpr(expr), null)
+        case SDef0(m, id, expr) =>
+          val v = m match {
+            case MemoTypeNone() => EnvironmentValueMN(SEExpr(expr))
+            case MemoTypeWeak() => EnvironmentValueMW(SEExpr(expr), null)
+            case MemoTypeStrong() => EnvironmentValueMS(SEExpr(expr), null)
+          }
           e = e.define(id, v)
           values = v :: values
-        case SDef1(_, id, branches) =>
-          val v = LazyValue(this, null, SEFun(branches), null)
+        case SDef1(m, id, branches) =>
+          val v = EnvironmentValueMS(SEFun(m, branches), null)
           e = e.define(id, v)
           values = v :: values
-        }
+      }
     }
     val senv = e.freeze()
     for (v <- values) v.env = senv
+    for (v <- values) {
+      val f = v.onLookup(this)
+      if (f.isDynamicException) return StatementException(f.asDynamicException)
+    }
     StatementCollector(e, coll)
-
   }
   
   def evalStatement(env : Environment, coll : Collector, st : Statement) : StatementResult =
