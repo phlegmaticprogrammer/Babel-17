@@ -1,66 +1,7 @@
-/*def l n = n :: (lazy (l (n+1)))
-
-def fst (for x, ... end) = x
-def snd (for _, x, ... end) = x
-def head (for x, ... end) = x
-def tail (for _, x as ... end) = x
-
- #log head (l 0)
-#log head (tail (l 0))
-
-def even n = if n == 0 then true else !odd(n-1) end
-def odd n = if n == 0 then false else !even(n-1) end
-
-def whileodd n =
 begin
-  val b = true
-  while n > 0 do
-    b = !b
-    n = n - 1
-  end
-  b
+"hello \\u world!"
+{1 -> 2, "cool" -> {x=2, u = 5}}
+[1,2,3,4,5]
+1::2
+lazy(5)
 end
-
-#profile odd 1501
-#profile whileodd 1501
-
-def k = 1 :: k
-
-#log head k         */
-
-
-/*memoize k
-def k _ =
-begin
-  val r = random 100
-  #log r
-  if r < 50 then
-    [r]
-  else
-    r :: (k())
-  end
-end
-
-#log k ()
-#log k (x => x)   */
-
-def whileodd n =
-begin
-  val b = false
-  while n > 0 do
-    b = !b
-    n = n - 1
-  end
-  b
-end
-
-def even n = if n == 0 then true else odd(n-1) end
-def odd n = if n == 0 then false else even(n-1) end
-
-#profile begin
-            val x = concurrent(whileodd 10000000)
-            val y = whileodd 10000001
-            force (x, y)
-         end
-
-/*#profile force (concurrent (odd 1501), even 1500)  */

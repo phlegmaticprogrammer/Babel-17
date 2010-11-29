@@ -67,8 +67,6 @@ object Values {
       }
     }
 
-
-    
     // this returns either an ObjectValue without a "representative" message or something that is
     // a) not an ObjectValue b) forced c) not a persistent exception
     def extractRepresentative() : Value = {
@@ -97,15 +95,17 @@ object Values {
     def forceDeep() : Value = {
       this
     }
-        
-    def toStringValue() : StringValue = {
-      return StringValue(toString())
+
+    override def toString() : String = {
+      stringDescr(false)
     }
-    
-    def toCodeString() : String = {
-      return toString()
-    }   
-    
+        
+    def stringValue(nested : Boolean, brackets : Boolean) : String;
+
+    def stringDescr(brackets : Boolean) : String = {
+      stringValue(true, brackets)
+    }
+
     def isDynamicException() : Boolean = {
       this match {
         case ExceptionValue(true, _) => true
@@ -126,17 +126,24 @@ object Values {
         case _ => throw Evaluator.EvalX("this is not an exception, cannot make dynamic")
       }
     }
-    
+
+    def isNil(force : Boolean) : Boolean = {
+      val v = if (force) this.force() else this
+      v match {
+        case ObjectValue(m) => m.size == 0
+        case _ => false
+      }
+    }
+
  /*   def asDynamicException() : ExceptionValue = {
       if (isDynamicException()) this.asInstanceOf[ExceptionValue]
       else null
     }    */
   }
-    
+
   case class IntegerValue(v : BigInt) extends Value {
-    override def toString() : String = {
-      v.toString()
-    }
+    def stringValue(nested : Boolean, brackets : Boolean) : String = v.toString()
+
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_PLUS => NativeFunctionValue(plus _)
@@ -146,7 +153,7 @@ object Values {
         case MESSAGE_POW => NativeFunctionValue(pow _)
         case MESSAGE_DIV => NativeFunctionValue(div _)
         case MESSAGE_MOD => NativeFunctionValue(mod _)
-        case MESSAGE_TOSTRING => toStringValue()
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
@@ -234,34 +241,27 @@ object Values {
   
   abstract class FunctionValue extends Value {
     def apply(v : Value) : Value
-  }
-    
-  case class NativeFunctionValue(native : Function[Value, Value]) extends FunctionValue {    
+    def stringValue(nested : Boolean, brackets : Boolean) : String = "_function"
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_APPLY => this
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
-      }      
+      }
     }
+  }
+    
+  case class NativeFunctionValue(native : Function[Value, Value]) extends FunctionValue {    
     override def apply(v : Value) : Value = {
       val x = native(v.force())
       if (x == null) dynamicException(CONSTRUCTOR_DOMAINERROR)
       else x
-    }
-    override def toString() : String = {
-      "<NativeFunction>"
     }
   }
 
   case class ClosureValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment,
                            branches : List[(Program.Pattern, Program.Expression)]) extends FunctionValue
   {
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
-        case MESSAGE_APPLY => this
-        case _ => null
-      }
-    }
     override def apply(v : Value) : Value = {
       val e = env.thaw
       for ((p, body) <- branches) {
@@ -273,21 +273,12 @@ object Values {
       }
       return domainError()
     }
-    override def toString() : String = {
-      "<Closure>"
-    }
   }
 
   case class ClosureValueMS(evaluator : Evaluator, env : Evaluator.SimpleEnvironment,
                            branches : List[(Program.Pattern, Program.Expression)]) extends FunctionValue
   {
     var cache : SortedMap[Value, Value] = new scala.collection.immutable.TreeMap()(defaultValueOrdering)
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
-        case MESSAGE_APPLY => this
-        case _ => null
-      }
-    }
     def save(key : Value, v : Value) : Value = {
       this.synchronized {
         try {
@@ -329,13 +320,10 @@ object Values {
       else
         return domainError()
     }
-    override def toString() : String = {
-      "<ClosureMS>"
-    }
   }
   
   case class InfinityValue(positive : Boolean) extends Value {
-    override def toString() : String = {
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
       if (positive) "\u221E" else "-\u221E"
     }
     override def sendMessage(message : Program.Message) : Value = {
@@ -345,7 +333,7 @@ object Values {
         case MESSAGE_UMINUS => InfinityValue(!positive)
         case MESSAGE_TIMES => NativeFunctionValue(times _)
         case MESSAGE_POW => NativeFunctionValue(pow _)
-        case MESSAGE_TOSTRING => toStringValue()
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }
       
@@ -390,18 +378,29 @@ object Values {
       }
     }
   }
-  
+
   case class StringValue(v : String) extends Value {
-    override def toString() : String = {
-      return "\""+v+"\"";
+    def escape(s : String) : String = {
+      if (s == "\\") "\\\\"
+      else if (s == "\"") "\\\""
+      else if (s == "\n") "\\n"
+      else if (s == "\r") "\\r"
+      else s
     }
-    override def toStringValue() : StringValue = {
-      return this;
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+      if (nested) {
+        val l = v.grouped(1).toList
+        val l2 =
+          for (i <- l) yield escape(i)
+        val w = l2.mkString
+        "\"" + w + "\""
+      }
+      else v
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_PLUS => NativeFunctionValue(plus _)
-        case MESSAGE_TOSTRING => toStringValue()
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
@@ -411,24 +410,33 @@ object Values {
   }
   
   case class BooleanValue(v : Boolean) extends Value {
-    override def toString() : String = {
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
       if (v) "true" else "false"
-    }        
+    }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => toStringValue()
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
-  }  
+  }
+
+  def mkBrackets(brackets : Boolean, s : String) : String = {
+    if (brackets) "("+s+")" else s
+  }
   
   case class ConstructorValue(constr : Program.Constr, v : Value) extends Value {
-    override def toString() : String = {
-      constr.name + " ("+ v.toString()+")"
-    }    
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+      if (v.isNil(true)) constr.name
+      else mkBrackets(brackets, constr.name + " " +v.stringValue(true, true))
+    }
+    override def stringDescr(brackets : Boolean) : String = {
+      if (v.isNil(false)) constr.name
+      else mkBrackets(brackets, constr.name + " " +v.stringValue(true, true))
+    }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => toStringValue()
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
@@ -439,15 +447,36 @@ object Values {
   }
   
   case class ObjectValue(messages : SortedMap[Program.Message, Value]) extends Value {   
-    override def toString() : String = {
-      if (messages.size == 0) "nil" else "<object: "+messages+">"
-    }    
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+      if (isNil(false)) return "nil"
+      var s = "{"
+      var first : Boolean = true
+      for ((m, v) <- messages) {
+        if (!first) s=s+","
+        first = false
+        s = s + m.m + "=" + v.stringValue(true, false)
+      }
+      s = s + "}"
+      s
+    }
+    override def stringDescr(brackets : Boolean) : String = {
+      if (isNil(false)) return "nil"
+      var s = "{"
+      var first : Boolean = true
+      for ((m, v) <- messages) {
+        if (!first) s=s+","
+        first = false
+        s = s + m.m + "=" + v.stringDescr(false)
+      }
+      s = s + "}"
+      s
+    }
     override def sendMessage(message : Program.Message) : Value = {
       messages.get(message) match {
         case Some(v) => v          
         case None => 
           message.m match {
-            case MESSAGE_TOSTRING => toStringValue()
+            case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
             case _ => null
           }
       }
@@ -462,12 +491,18 @@ object Values {
   }
   
   case class ExceptionValue(dynamic : Boolean, v : Value) extends Value {
-    override def toString() : String = {
-      if (dynamic)
-        "DynamicException ("+v.toString+")"
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+      mkBrackets(brackets, if (dynamic)
+        "_dynamicException "+v.stringValue(true, true)
       else
-        "PersistentException ("+v.toString+")"
-    }        
+        "_persistentException "+v.stringValue(true, true))
+    }
+    override def stringDescr(brackets : Boolean) : String = {
+      mkBrackets(brackets, if (dynamic)
+        "_dynamicException "+v.stringDescr(true)
+      else
+        "_persistentException "+v.stringDescr(true))
+    }
     override def sendMessage(message : Program.Message) : Value = {
       if (dynamic) return this
       else return ExceptionValue(true, v)
@@ -750,12 +785,12 @@ object Values {
   }
   
   case class EmptyListValue() extends ListValue {    
-    override def toString() : String = {
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
       return "[]";
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => toStringValue()
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
@@ -777,12 +812,19 @@ object Values {
    }
   
   case class ConsListValue(head : Value, tail : Value) extends ListValue {
-    override def toString() : String = {
-      return "("+ head + "::" +tail+")";
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+      mkBrackets(brackets,
+        head.stringValue(true, true)+"::" +
+          normalizeListTail(tail).stringValue(true,true))
+    }
+    override def stringDescr(brackets : Boolean) : String = {
+      mkBrackets(brackets,
+        head.stringDescr(true)+"::" +
+          tail.stringDescr(true))
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => toStringValue()
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
@@ -808,23 +850,37 @@ object Values {
   }
   
   case class VectorValue(tuple : Array[Value]) extends Value {
-    override def toString() : String = {
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
       val size = tuple.size
       if (size == 0) "()"
-      else if (size == 1) "("+tuple(0)+",)"
+      else if (size == 1) "("+tuple(0).stringValue(true, false)+",)"
       else {
-        var s = "("+tuple(0)
+        var s = "("+tuple(0).stringValue(true, false)
         var i = 1
         while (i < size) {
-          s = s + ", " + tuple(i)
+          s = s + "," + tuple(i).stringValue(true, false)
           i = i + 1
         }
         s + ")"       
       }
     }
+    override def stringDescr(brackets : Boolean) : String = {
+      val size = tuple.size
+      if (size == 0) "()"
+      else if (size == 1) "("+tuple(0).stringDescr(false)+",)"
+      else {
+        var s = "("+tuple(0).stringDescr(false)
+        var i = 1
+        while (i < size) {
+          s = s + "," + tuple(i).stringDescr(false)
+          i = i + 1
+        }
+        s + ")"
+      }
+    }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => toStringValue()
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
@@ -854,9 +910,37 @@ object Values {
   }
   
   case class SetValue(set : SortedSet[Value]) extends Value {
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+      val tuple = set.toList
+      val size = tuple.size
+      if (size == 0) "{}"
+      else {
+        var s = "{"+tuple(0).stringValue(true, false)
+        var i = 1
+        while (i < size) {
+          s = s + "," + tuple(i).stringValue(true, false)
+          i = i + 1
+        }
+        s + "}"
+      }
+    }
+    override def stringDescr(brackets : Boolean) : String = {
+      val tuple = set.toList
+      val size = tuple.size
+      if (size == 0) "{}"
+      else {
+        var s = "{"+tuple(0).stringDescr(false)
+        var i = 1
+        while (i < size) {
+          s = s + "," + tuple(i).stringDescr(false)
+          i = i + 1
+        }
+        s + "}"
+      }
+    }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => toStringValue()
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
@@ -874,9 +958,43 @@ object Values {
   }
   
   case class MapValue(map : SortedMap[Value, Value]) extends Value {
+    def prV (kv : (Value, Value)) : String = {
+      kv._1.stringValue(true,false)+"->"+kv._2.stringValue(true,false)
+    }
+    def prD (kv : (Value, Value)) : String = {
+      kv._1.stringDescr(false)+"->"+kv._2.stringDescr(false)
+    }
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+      val tuple = map.toList
+      val size = tuple.size
+      if (size == 0) "{}"
+      else {
+        var s = "{"+(prV(tuple(0)))
+        var i = 1
+        while (i < size) {
+          s = s + "," + (prV(tuple(i)))
+          i = i + 1
+        }
+        s + "}"
+      }
+    }
+    override def stringDescr(brackets : Boolean) : String = {
+      val tuple = map.toList
+      val size = tuple.size
+      if (size == 0) "{}"
+      else {
+        var s = "{"+prD(tuple(0))
+        var i = 1
+        while (i < size) {
+          s = s + "," + prD(tuple(i))
+          i = i + 1
+        }
+        s + "}"
+      }
+    }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => toStringValue()
+        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
@@ -1111,15 +1229,11 @@ object Values {
   
   case class LazyValue(var evaluator : Evaluator, var env : Evaluator.SimpleEnvironment, var se : Program.SimpleExpression, var result : Value) extends Value {
     var deep : Boolean = false
-    override def toString() : String = {
-      if (result != null) result.toString
-      else "<Lazy>"
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+      force().stringValue(nested, brackets)
     }
-    override def toStringValue() : StringValue = {
-      return force().toStringValue();
-    }
-    override def toCodeString() : String = {
-      return force().toCodeString;
+    override def stringDescr(brackets : Boolean) : String = {
+      "_lazy"
     }
     override def force() : Value = {
       if (result != null) result
@@ -1184,15 +1298,14 @@ object Values {
     def sendMessage(m : Program.Message) : Value = {
       throw Evaluator.EvalX("EnvironmentValue has been sent a message. How?")
     }
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+      "_recursive"
+    }
     def onLookup(evaluator : Evaluator) : Value;
   }
 
   case class EnvironmentValueMN(var se : Program.SimpleExpression)
   extends EnvironmentValue(null) {
-
-    override def toString() : String = {
-      "<Recursive>"
-    }
 
     def onLookup(evaluator : Evaluator) : Value = {
       evaluator.evalSE(env, se)
@@ -1202,11 +1315,6 @@ object Values {
   case class EnvironmentValueMS(var se : Program.SimpleExpression,
                                 var result : Value)
   extends EnvironmentValue(null) {
-
-    override def toString() : String = {
-      //if (result != null) result.toString
-      /*else*/ "<RecursiveMS>"
-    }
 
     def onLookup(evaluator : Evaluator) : Value = {
       if (result != null) result
@@ -1235,11 +1343,6 @@ object Values {
                                     var se : Program.SimpleExpression,
                                     var cache : java.lang.ref.Reference[Value])
   extends EnvironmentValue(null) {
-    override def toString() : String = {
-      var result = getResult()
-      if (result != null) result.toString
-      else "<Recursive>"
-    }
     def getResult () : Value = {
       var result : Value = null
       if (cache != null)
@@ -1282,20 +1385,15 @@ object Values {
       futureTask
     }
 
-    override def toString() : String = {
-      "<Concurrent>"
+    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+      return force().stringValue(nested, brackets);
     }
-    override def toStringValue() : StringValue = {
-      return force().toStringValue();
+    override def stringDescr(brackets : Boolean) : String = {
+      "_concurrent"
     }
-    override def toCodeString() : String = {
-      return force().toCodeString;
-    }
-
     def call() : Value = {
       evaluator.evalSE(env, se)
     }
-
     override def force() : Value = {
       futureTask.get().force()
     }
