@@ -6,13 +6,16 @@ import com.babel17.syntaxtree._
 import com.babel17.interpreter.parser._
 import scala.collection.immutable.SortedSet
 import scala.collection.immutable.SortedMap
-import java.util.concurrent._
 
+class Tree2Program {
 
-object Tree2Program {
+  var errors : List[ErrorMessage] = List.empty
 
   def error (loc : com.babel17.syntaxtree.Location, msg : String) = {
-    println("at "+loc+": "+msg)
+    var l = loc;
+    if (loc == null) l = new Location(0,0)
+    errors = (new ErrorMessage(l, msg)) :: errors
+    //println("at "+loc+": "+msg)
   }
 
   def throwInternalError (loc : com.babel17.syntaxtree.Location, msg : String) = {
@@ -728,53 +731,48 @@ object Tree2Program {
     }
   }      */
 
-  object factory extends ThreadFactory {
 
-    def newThread(r : Runnable) : Thread = {
-      val t = new Thread(r)
-      val prio = Thread.currentThread.getPriority
-      println("creating new thread with prio = "+prio)
-      t.setPriority(prio)
-      t
+  def  cleanupErrors() {
+    val cleaned : java.util.TreeMap[Location, ErrorMessage] = new java.util.TreeMap(new Location.CascadingComparator());
+    for (m <- errors) {
+      val mloc = m.location();
+      val cleanedm = cleaned.get(mloc);
+      if (cleanedm == null) {
+        cleaned.put(mloc, m);
+      } else {
+        val cleanedloc = cleanedm.location();
+        val l = cleanedloc.add(mloc);
+        if (!l.equals(mloc)) {
+          //cleaned.remove(mloc);
+          while (cleaned.remove(mloc) != null) {
+          }
+          cleaned.put(mloc, m);
+        }
+      }
     }
+    errors = List.empty
+    for (m <- cleaned.values().toArray) errors = m.asInstanceOf[ErrorMessage] ::errors;
+    errors = errors.reverse
   }
-  
-  def main(args: Array[String]): Unit = {
-    println("Babel-17, (c) 2010 Steven Obua")
-    println("");
-    if (args.length == 0) {
-      println("Please specify which file to execute!")
-    } else {
-      val result = Parser.parse(args(0))
-      val node = result.node
-      if (result.hasErrors()) {
-        val e = result.exception()
-        var i : Int = 0
-        while (i < e.countMessages()) {
-          var m = e.getMessage(i)
-          error(m.location(), m.message())
-          i = i+1
-        }
-      }
-      if (node != null) {
-        val t = build(node)
-        LinearScope.check(LinearScope.emptyEnv, t.asInstanceOf[Term])
-        println("term: "+t)
-        try {
-          val cpus = Runtime.getRuntime().availableProcessors
-          println("number of processors: "+cpus)
-          Thread.currentThread.setPriority(Thread.MAX_PRIORITY)
-          val evaluator = new Evaluator(java.util.concurrent.Executors.newFixedThreadPool(cpus, factory))
-          val v = evaluator.evaluate(Evaluator.emptyEnv, t.asInstanceOf[Term])
-          println("value of term: "+v)
-        } catch {
-          case (Evaluator.EvalX(s)) =>
-            println("evaluation of term failed: "+s)
-          case ex => println("evaluation of term failed with exception: "+ex)
-            ex.printStackTrace
-        }
+
+  def makeProgram(result : Parser.ParseResult) : Term =  {
+    val node = result.node
+    if (result.hasErrors()) {
+      val e = result.exception()
+      var i : Int = 0
+      while (i < e.countMessages()) {
+        var m = e.getMessage(i)
+        error(m.location(), m.message())
+        i = i+1
       }
     }
+    var t : Term = null
+    if (node != null) {
+      t = build(node).asInstanceOf[Term]
+      LinearScope.check(LinearScope.emptyEnv, t)
+    }
+    cleanupErrors()
+    t
   }
 
 }
