@@ -1,7 +1,9 @@
-begin
-"hello \\u world!"
-{1 -> 2, "cool" -> {x=2, u = 5}}
-[1,2,3,4,5]
-1::2
-lazy(5)
-end
+
+
+ /*(lazy (1/0)) * 3   */
+
+ def x () = 1/0
+
+ #log "cool"
+
+ 3*x ()

@@ -23,6 +23,7 @@ object Program {
     var freeVars : SortedSet[Id] = null
     var introducedVars : SortedSet[Id] = null  
     var assignedVars : SortedSet[Id] = null
+    var stackTraceElement : Values.StackTraceElement = null
   }
 
   case class Message(m : String) extends Locatable with Ordered[Message] {

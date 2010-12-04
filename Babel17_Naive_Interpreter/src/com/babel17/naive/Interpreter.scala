@@ -7,6 +7,7 @@ import com.babel17.interpreter.parser._
 import scala.collection.immutable.SortedSet
 import scala.collection.immutable.SortedMap
 import java.util.concurrent._
+import com.babel17.naive.Values._
 
 object Interpreter {
 
@@ -35,7 +36,10 @@ object Interpreter {
       val term = checker.makeProgram(result)
       if (checker.errors.length > 0) {
         val errors = checker.errors
-        println("Found "+errors.length+" static errors:")
+        if (errors.length == 1)
+          println("Found "+errors.length+" static error:")
+        else
+          println("Found "+errors.length+" static errors:")
         println("")
         var i = 1;
         for (m <- errors) {
@@ -49,9 +53,31 @@ object Interpreter {
           Thread.currentThread.setPriority(Thread.MAX_PRIORITY)
           val evaluator = new Evaluator(java.util.concurrent.Executors.newFixedThreadPool(cpus, factory))
           val v = evaluator.evaluate(Evaluator.emptyEnv, term)
-          println("The program has been evaluated successfully, its value is: ")
-          println("")
-          println(v.stringDescr(false))
+          v.force() match {
+            case x : ExceptionValue =>
+              println("The program evaluated to a "+(if (x.dynamic) "dynamic" else "persistent")+" exception:")
+              println("")
+              println(x.v.stringDescr(false))
+              println("")
+              if (x.getStackTrace.length == 0)
+                println("There is no stacktrace.")
+              else {
+                if (x.getStackTrace.length == 1)
+                  println("The stacktrace has "+x.getStackTrace.length+" entry:")
+                else
+                  println("The stacktrace has "+x.getStackTrace.length+" entries:")
+                var i = 1;
+                for (m <- x.getStackTrace.reverse) {
+                  println(i+") at "+m.location+":");
+                  println("    "+m.description)
+                  i = i + 1
+                }
+              }
+            case w =>
+              println("The program has been evaluated successfully, its value is: ")
+              println("")
+              println(v.stringDescr(false))
+          }
         } catch {
           case (Evaluator.EvalX(s)) =>
             println("The evaluation of the program has failed: ")
@@ -60,7 +86,10 @@ object Interpreter {
           case ex =>
             println("There was an internal error during the evaluation of the program:")
             println("")
-            ex.printStackTrace
+            if (ex.getMessage != null)
+              println(ex.getClass.getName+": "+ex.getMessage)
+            else
+              println(ex.getClass.getName.toString)
         }
       }
     }

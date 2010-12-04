@@ -12,7 +12,7 @@ object Evaluator {
   
   case class ValueRef(var value : Value);
   
-  
+
   case class SimpleEnvironment(nonlinear : SortedMap[Id, Value]) {
     def thaw () : Environment = {
       Environment(nonlinear, SortedMap())
@@ -267,8 +267,16 @@ class Evaluator(val executor : Executor) {
         }
     }
   }
-  
-  def evalSE(env : SimpleEnvironment, se : SimpleExpression) : Value = 
+
+  def evalSE(env : SimpleEnvironment, se : SimpleExpression) : Value = {
+    val u = evalSE_(env, se)
+    if (u.isDynamicException && se.stackTraceElement != null) {
+      u.asDynamicException.addToStackTrace(se.stackTraceElement)
+    }
+    u
+  }
+
+  def evalSE_(env : SimpleEnvironment, se : SimpleExpression) : Value =
   {
     se match {
       case SEId(id) =>
@@ -337,7 +345,7 @@ class Evaluator(val executor : Executor) {
       case SEVector(l) => evalVector(env, l)
       case SERandom(e) =>
         evalSE(env, e).force() match {
-          case ExceptionValue(_, p) => ExceptionValue(true, p)
+          case x@ExceptionValue(_, p) => x.asDynamicException
           case IntegerValue(n) => 
             if (n <= 0) dynamicException(CONSTRUCTOR_DOMAINERROR)
             else IntegerValue(randomBigInt(n))
@@ -383,10 +391,12 @@ class Evaluator(val executor : Executor) {
         }
       case SEExpr(e) => evalExpression(env.thaw, e)
       case SEFun(m, branches) =>
-        m match {
+        val f = m match {
           case MemoTypeNone() => ClosureValue(this, env, branches)
           case _ => ClosureValueMS(this, env, branches)
         }
+        f.stackTraceElement = se.stackTraceElement
+        f
       case SEGlueObj(parents, block, messages) =>
         evalObj(evalSE(env, parents), env, block, messages)
       case SEObj(block, messages) =>
@@ -418,15 +428,19 @@ class Evaluator(val executor : Executor) {
     for (d <- defs) {
       d match {
         case SDef0(m, id, expr) =>
+          val se = SEExpr(expr)
+          se.stackTraceElement = d.stackTraceElement
           val v = m match {
-            case MemoTypeNone() => EnvironmentValueMN(SEExpr(expr))
-            case MemoTypeWeak() => EnvironmentValueMW(SEExpr(expr), null)
-            case MemoTypeStrong() => EnvironmentValueMS(SEExpr(expr), null)
+            case MemoTypeNone() => EnvironmentValueMN(se)
+            case MemoTypeWeak() => EnvironmentValueMW(se, null)
+            case MemoTypeStrong() => EnvironmentValueMS(se, null)
           }
           e = e.define(id, v)
           values = v :: values
         case SDef1(m, id, branches) =>
-          val v = EnvironmentValueMS(SEFun(m, branches), null)
+          val se = SEFun(m, branches)
+          se.stackTraceElement = d.stackTraceElement
+          val v = EnvironmentValueMS(se, null)
           e = e.define(id, v)
           values = v :: values
       }
@@ -439,8 +453,21 @@ class Evaluator(val executor : Executor) {
     }
     StatementCollector(e, coll)
   }
-  
-  def evalStatement(env : Environment, coll : Collector, st : Statement) : StatementResult =
+
+  def evalStatement(env : Environment, coll : Collector, st : Statement) : StatementResult = {
+    val u = evalStatement_(env, coll, st)
+    u match {
+      case StatementException(ex) =>
+        if (st.stackTraceElement != null)
+          ex.addToStackTrace(st.stackTraceElement)
+        else
+          ex.addToStackTrace(StackTraceElement(st.location, "statement"))
+        u
+      case _ => u
+    }
+  }
+
+  def evalStatement_(env : Environment, coll : Collector, st : Statement) : StatementResult =
   {
     st match {
       case SVal(pat, expr) =>

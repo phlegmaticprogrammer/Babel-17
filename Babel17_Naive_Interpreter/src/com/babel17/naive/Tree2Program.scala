@@ -182,17 +182,21 @@ class Tree2Program {
       msg.setLocation(n.operator().location)
       SEMessageSend(arg, msg)
     }
+    def attachSTE(se : SimpleExpression, name : String) : SimpleExpression = {
+      se.stackTraceElement = Values.StackTraceElement(n.location, name+" expression")
+      se
+    }
     import OperatorNode._
     val result : Locatable = n.operator().operator match {
       case NOT => SENot(arg)
       case UMINUS => mk(Values.MESSAGE_UMINUS)
-      case LAZY => SELazy(arg)
+      case LAZY => SELazy(attachSTE(arg, "lazy"))
       case RANDOM => SERandom(arg)
-      case CONCURRENT => SEConcurrent(arg)
+      case CONCURRENT => SEConcurrent(attachSTE(arg, "random"))
       case CHOOSE => SEChoose(arg)
-      case FORCE => SEForce(arg, true)
-      case EXCEPTION => SEException(arg)
-      case k => throwInternalError(n.location, "unknown unary operator code: "+k)       
+      case FORCE => SEForce(attachSTE(arg, "force"), true)
+      case EXCEPTION => attachSTE(SEException(arg), "exception")
+      case k => throwInternalError(n.location, "unknown unary operator code: "+k)
     }
     result.setLocation(n.location)
     result
@@ -281,6 +285,7 @@ class Tree2Program {
             }
             val sdef0 = SDef0(MemoTypeNone(), id, e)
             sdef0.setLocation(s.location)
+            sdef0.stackTraceElement = Values.StackTraceElement(id.location, "evaluation of def '"+id.name+"'")
             defs = defs + (id -> (sdef0, deps, l))
           }
           if (!defsFirstVal.contains(id)) 
@@ -311,6 +316,7 @@ class Tree2Program {
           }
           branches = branches ++ List((pat, e))
           val sdef1 = SDef1(MemoTypeNone(), id, branches)
+          sdef1.stackTraceElement = Values.StackTraceElement(id.location, "application of def '"+id.name+"'")
           defs = defs + (id -> (sdef1, deps, maxval))    
           if (!defsFirstVal.contains(id)) 
             defsFirstVal = defsFirstVal + (id -> (id, line))
@@ -368,8 +374,16 @@ class Tree2Program {
         var d = sdef
         if (memos.contains(id)) {
           d = sdef match {
-            case SDef0(_, id, e) => SDef0(memos(id), id, e)
-            case SDef1(_, id, branches) => SDef1(memos(id), id, branches)
+            case SDef0(_, id, e) =>
+              val h = SDef0(memos(id), id, e)
+              h.location = sdef.location
+              h.stackTraceElement = sdef.stackTraceElement
+              h
+            case SDef1(_, id, branches) =>
+              val h = SDef1(memos(id), id, branches)
+              h.location = sdef.location
+              h.stackTraceElement = sdef.stackTraceElement
+              h
           }
         }
         val line = maxval+1
@@ -445,7 +459,9 @@ class Tree2Program {
       case n : IfNode =>
         buildIf(n)
       case n : LambdaNode =>
-        SEFun(MemoTypeNone(), mkExpressionBranches(toList(n.patterns), toList(n.blocks)))
+        val f = SEFun(MemoTypeNone(), mkExpressionBranches(toList(n.patterns), toList(n.blocks)))
+        f.stackTraceElement = Values.StackTraceElement(n.location, "application of anonymous function")
+        f
       case n : WhileNode =>
         SWhile(buildSimpleExpression(n.condition), buildBlock(n.block))
       case  n : WithNode => 

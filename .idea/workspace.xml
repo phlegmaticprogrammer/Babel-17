@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Values.scala" line="560" />
+    <bookmark url="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Values.scala" line="588" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90d8c866-d303-4315-84f0-9c442ccbfa6c" name="Default" comment="" />
@@ -62,10 +62,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="scratchbook.b17" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="scratchbook.b17" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/examples/basic/scratchbook.b17">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="3" selection-start="86" selection-end="86" vertical-scroll-proportion="0.0">
+            <state line="8" column="1" selection-start="60" selection-end="60" vertical-scroll-proportion="0.22222222">
               <folding />
             </state>
           </provider>
@@ -74,16 +74,25 @@
       <file leaf-file-name="Values.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Values.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="116" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0">
+            <state line="1308" column="37" selection-start="38442" selection-end="38457" vertical-scroll-proportion="-7.8846154">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Interpreter.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Interpreter.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Interpreter.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="50" selection-start="655" selection-end="655" vertical-scroll-proportion="0.6666667">
+            <state line="72" column="32" selection-start="2701" selection-end="2701" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Evaluator.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Evaluator.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="347" column="29" selection-start="10917" selection-end="10917" vertical-scroll-proportion="-8.038462">
               <folding />
             </state>
           </provider>
@@ -92,7 +101,7 @@
       <file leaf-file-name="Tree2Program.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="776" column="0" selection-start="27097" selection-end="27097" vertical-scroll-proportion="0.0">
+            <state line="193" column="109" selection-start="6641" selection-end="6641" vertical-scroll-proportion="-16.0">
               <folding />
             </state>
           </provider>
@@ -101,7 +110,7 @@
       <file leaf-file-name="Program.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="33" selection-start="4014" selection-end="4014" vertical-scroll-proportion="0.0">
+            <state line="25" column="59" selection-start="770" selection-end="770" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -111,15 +120,6 @@
         <entry file="file://$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/interpreter/parser/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="729" column="22" selection-start="29115" selection-end="29115" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ParseException.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/interpreter/parser/ParseException.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="19" selection-start="121" selection-end="121" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -173,14 +173,14 @@
         <option value="$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/interpreter/parser/ConstParser.java" />
         <option value="$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/syntaxtree/patterns/ForPattern.java" />
         <option value="$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/interpreter/parser/Parser.java" />
-        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala" />
         <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/CollectVars.scala" />
         <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/LinearScope.scala" />
+        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Interpreter.scala" />
+        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala" />
+        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala" />
+        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Values.scala" />
         <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Evaluator.scala" />
         <option value="$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/examples/basic/scratchbook.b17" />
-        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Values.scala" />
-        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala" />
-        <option value="$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Interpreter.scala" />
       </list>
     </option>
   </component>
@@ -278,6 +278,24 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="com.babel17.naive" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="babel-17" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Babel17_Naive_Interpreter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.babel17.naive" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Evaluator.scala" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -521,7 +539,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1902" height="1142" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -535,7 +553,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24932542" sideWeight="0.2784314" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35196078" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35196078" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32851636" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -594,11 +612,6 @@
         <state line="273" column="0" selection-start="9644" selection-end="9644" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Evaluator.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="32" selection-start="26" selection-end="26" vertical-scroll-proportion="0.01920904" />
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/scala/src/scala-library-src.jar!/scala/math/Ordering.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="70" column="0" selection-start="3099" selection-end="3099" vertical-scroll-proportion="0.01878453" />
@@ -626,16 +639,6 @@
         <state line="729" column="22" selection-start="29115" selection-end="29115" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/examples/basic/scratchbook.b17">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="3" selection-start="86" selection-end="86" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Values.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="116" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/interpreter/parser/SemanticAnalysis.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="860" column="0" selection-start="29529" selection-end="30223" vertical-scroll-proportion="0.0">
@@ -648,21 +651,44 @@
         <state line="5" column="13" selection-start="115" selection-end="115" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala">
+    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="776" column="0" selection-start="27097" selection-end="27097" vertical-scroll-proportion="0.0">
+        <state line="25" column="59" selection-start="770" selection-end="770" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala">
+    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="33" selection-start="4014" selection-end="4014" vertical-scroll-proportion="0.0" />
+        <state line="193" column="109" selection-start="6641" selection-end="6641" vertical-scroll-proportion="-16.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Interpreter.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="50" selection-start="655" selection-end="655" vertical-scroll-proportion="0.6666667">
+        <state line="72" column="32" selection-start="2701" selection-end="2701" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Values.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1308" column="37" selection-start="38442" selection-end="38457" vertical-scroll-proportion="-7.8846154">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Evaluator.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="347" column="29" selection-start="10917" selection-end="10917" vertical-scroll-proportion="-8.038462">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Babel17_Interpreter/src/com/babel17/examples/basic/scratchbook.b17">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="1" selection-start="60" selection-end="60" vertical-scroll-proportion="0.22222222">
           <folding />
         </state>
       </provider>
@@ -678,10 +704,15 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.5" />
+                <option value="0.5555556" />
               </list>
             </option>
           </splitter-proportions>
+        </settings>
+      </state>
+      <state key="Copyright.UI">
+        <settings>
+          <splitter-proportions />
         </settings>
       </state>
       <state key="FacetStructureConfigurable.UI">
@@ -722,12 +753,11 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Babel17_Naive_Interpreter</last-edited>
+          <last-edited>Scala|Babel17_Naive_Interpreter</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -743,6 +773,11 @@
               </list>
             </option>
           </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions />
         </settings>
       </state>
     </states>

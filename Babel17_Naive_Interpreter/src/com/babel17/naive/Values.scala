@@ -3,6 +3,7 @@ package com.babel17.naive
 import scala.collection.immutable.SortedSet
 import scala.collection.immutable.SortedMap
 import java.util.concurrent._
+import com.babel17.syntaxtree.Location
 
 object Values {
 
@@ -79,7 +80,7 @@ object Values {
       }
       oldf = oldf.force()
       oldf match {
-        case ExceptionValue(false, p) => ExceptionValue(true, p)
+        case ExceptionValue(false, p) =>  oldf.asDynamicException
         case _ => oldf
       }
     }
@@ -121,10 +122,7 @@ object Values {
     }
     
     def asDynamicException() : ExceptionValue = {
-      this match {
-        case ExceptionValue(b, p) => ExceptionValue(true, p)
-        case _ => throw Evaluator.EvalX("this is not an exception, cannot make dynamic")
-      }
+      throw Evaluator.EvalX("this is not an exception, cannot make dynamic")
     }
 
     def isNil(force : Boolean) : Boolean = {
@@ -240,7 +238,15 @@ object Values {
   }
   
   abstract class FunctionValue extends Value {
-    def apply(v : Value) : Value
+    var stackTraceElement : StackTraceElement = null
+    def apply(v : Value) : Value = {
+      val w = apply_(v)
+      if (w.isDynamicException && stackTraceElement != null) {
+        w.asDynamicException.addToStackTrace(stackTraceElement)
+      }
+      w
+    }
+    protected def apply_(v : Value) : Value
     def stringValue(nested : Boolean, brackets : Boolean) : String = "_function"
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
@@ -252,7 +258,7 @@ object Values {
   }
     
   case class NativeFunctionValue(native : Function[Value, Value]) extends FunctionValue {    
-    override def apply(v : Value) : Value = {
+    override def apply_(v : Value) : Value = {
       val x = native(v.force())
       if (x == null) dynamicException(CONSTRUCTOR_DOMAINERROR)
       else x
@@ -262,7 +268,7 @@ object Values {
   case class ClosureValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment,
                            branches : List[(Program.Pattern, Program.Expression)]) extends FunctionValue
   {
-    override def apply(v : Value) : Value = {
+    override def apply_(v : Value) : Value = {
       val e = env.thaw
       for ((p, body) <- branches) {
         evaluator.matchPattern(e, p, v, false)  match {
@@ -289,7 +295,7 @@ object Values {
       }
       v
     }
-    override def apply(key : Value) : Value = {
+    override def apply_(key : Value) : Value = {
       var doCache = true
       this.synchronized {
         try {
@@ -489,7 +495,9 @@ object Values {
       ObjectValue(s)
     }
   }
-  
+
+  case class StackTraceElement(location : Location, description : String);
+
   case class ExceptionValue(dynamic : Boolean, v : Value) extends Value {
     def stringValue(nested : Boolean, brackets : Boolean) : String = {
       mkBrackets(brackets, if (dynamic)
@@ -505,10 +513,30 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       if (dynamic) return this
-      else return ExceptionValue(true, v)
+      else {
+        val e = ExceptionValue(true, v)
+        e.stackTrace = stackTrace
+        e
+      }
     }
     override def forceDeep() : Value = {
-      ExceptionValue(dynamic, v.forceDeep())
+      val e = ExceptionValue(dynamic, v.forceDeep())
+      e.stackTrace = stackTrace
+      e
+    }
+    var stackTrace : List[StackTraceElement] = List.empty
+    def getStackTrace : List[StackTraceElement] = stackTrace;
+    def addToStackTrace(ste : StackTraceElement) {
+      if (dynamic)
+        stackTrace = ste :: stackTrace
+    }
+    override def asDynamicException() : ExceptionValue = {
+      if (dynamic) this
+      else {
+        val e = ExceptionValue(true, v)
+        e.stackTrace = stackTrace;
+        e
+      }
     }
 
   }
@@ -1243,7 +1271,10 @@ object Values {
         }
         var r =
           evaluator.evalSE(env, se).force() match {
-            case ExceptionValue(true, p) => ExceptionValue(false, p)
+            case x@(ExceptionValue(true, p)) =>
+              val e = ExceptionValue(false, p)
+              e.stackTrace = x.stackTrace
+              e
             case x => x
           }
         this.synchronized {
@@ -1274,7 +1305,10 @@ object Values {
           if (deep) return result
         }
         var r = evaluator.evalSE(env, se).forceDeep() match {
-            case ExceptionValue(true, p) => ExceptionValue(false, p)
+            case x @ ExceptionValue(true, p) =>
+              val e = ExceptionValue(false, p)
+              e.stackTrace = x.stackTrace
+              e
             case x => x
           }
         this.synchronized {
