@@ -4,8 +4,7 @@ import com.babel17.antlr.babel17Lexer;
 
 public enum TokenType {
 
-  COMMENT1(babel17Lexer.COMMENT1, "comment"),
-  COMMENT2(babel17Lexer.COMMENT2, "comment"),
+  COMMENT(babel17Lexer.COMMENT, "comment"),
 
   BEGIN(babel17Lexer.L_begin),
   END(babel17Lexer.L_end),
@@ -29,12 +28,14 @@ public enum TokenType {
   TO(babel17Lexer.L_to),
   DOWNTO(babel17Lexer.L_downto),
   CONCURRENT(babel17Lexer.L_concurrent),
-  AWAIT(babel17Lexer.L_await),
+  CHOOSE(babel17Lexer.L_choose),
   LAZY(babel17Lexer.L_lazy),
   MEMOIZE(babel17Lexer.L_memoize),
   THIS(babel17Lexer.L_this),
   RANDOM(babel17Lexer.L_random),
-  NIL(babel17Lexer.L_nil),
+  FORCE(babel17Lexer.L_force),
+  DIV(babel17Lexer.L_div),
+  MOD(babel17Lexer.L_mod),
 
   A_EQUAL(babel17Lexer.A_EQUAL, "operator"),
   U_EQUAL(babel17Lexer.U_EQUAL, "symbol_equal"),
@@ -46,12 +47,10 @@ public enum TokenType {
   GREATER(babel17Lexer.GREATER, "operator"),
   A_GREATER_EQ(babel17Lexer.A_GREATER_EQ, "operator"),
   U_GREATER_EQ(babel17Lexer.U_GREATER_EQ, "symbol_greater_eq"),
-  UNRELATED(babel17Lexer.UNRELATED, "operator"),
   PLUS(babel17Lexer.PLUS, "operator"),
   MINUS(babel17Lexer.MINUS, "operator"),
   TIMES(babel17Lexer.TIMES, "operator"),
-  DIV(babel17Lexer.DIV, "operator"),
-  MOD(babel17Lexer.MOD, "operator"),
+  QUOT(babel17Lexer.QUOTIENT, "operator"),
   POW(babel17Lexer.POW, "operator"),
   A_OR(babel17Lexer.A_OR, "operator"),
   A_AND(babel17Lexer.A_AND, "operator"),
@@ -62,6 +61,7 @@ public enum TokenType {
   U_NOT(babel17Lexer.U_NOT, "symbol_not"),
   U_DOUBLE_COLON(babel17Lexer.U_DOUBLE_COLON, "symbol_double_colon"),
   TIMESTIMES(babel17Lexer.TIMESTIMES, "operator"),
+  QUOTQUOT(babel17Lexer.QUOTIENTQUOTIENT, "operator"),
   PLUSPLUS(babel17Lexer.PLUSPLUS, "operator"),
   MINUSMINUS(babel17Lexer.MINUSMINUS, "operator"),
   A_DOUBLE_ARROW(babel17Lexer.A_DOUBLE_ARROW, "operator"),
@@ -72,13 +72,11 @@ public enum TokenType {
   U_ELLIPSIS(babel17Lexer.U_ELLIPSIS, "symbol_ellipsis"),
   PERIOD(babel17Lexer.PERIOD, "operator"),
   QUESTION_MARK(babel17Lexer.QUESTION_MARK, "operator"),
-  TILDE(babel17Lexer.TILDE, "keyword_op"),
   UNDERSCORE(babel17Lexer.UNDERSCORE, "operator"),
 
   SC(babel17Lexer.SC, "separator"),
   COMMA(babel17Lexer.COMMA, "separator"),
   ASSIGN(babel17Lexer.ASSIGN, "separator"),
-  COLON(babel17Lexer.COLON, "separator"),
 
   WS(babel17Lexer.WS, "whitespace"),
   NL(babel17Lexer.NL, "whitespace"),
@@ -89,6 +87,7 @@ public enum TokenType {
   STRING(babel17Lexer.String, "string"),
   TRUE(babel17Lexer.L_true, "boolean"),
   FALSE(babel17Lexer.L_false, "boolean"),
+  NIL(babel17Lexer.L_nil, "nil"),
   A_INFINITY(babel17Lexer.A_infinity, "number"),
   U_INFINITY(babel17Lexer.U_infinity, "symbol_infinity"),
 
@@ -97,7 +96,12 @@ public enum TokenType {
   SQUARE_BRACKET_OPEN(babel17Lexer.SQUARE_BRACKET_OPEN, "bracket"),
   SQUARE_BRACKET_CLOSE(babel17Lexer.SQUARE_BRACKET_CLOSE, "bracket"),
   CURLY_BRACKET_OPEN(babel17Lexer.CURLY_BRACKET_OPEN, "bracket"),
-  CURLY_BRACKET_CLOSE(babel17Lexer.CURLY_BRACKET_CLOSE, "bracket");
+  CURLY_BRACKET_CLOSE(babel17Lexer.CURLY_BRACKET_CLOSE, "bracket"),
+  
+  PRAGMA_ASSERT(babel17Lexer.PRAGMA_ASSERT, "pragma"),
+  PRAGMA_LOG(babel17Lexer.PRAGMA_LOG, "pragma"),
+  PRAGMA_PROFILE(babel17Lexer.PRAGMA_PROFILE, "pragma");
+  
   
   public int id;
   public String category;

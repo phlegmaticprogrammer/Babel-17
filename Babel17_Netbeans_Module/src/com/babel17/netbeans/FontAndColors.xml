@@ -15,11 +15,20 @@
       <font style="italic"/>
     </fontcolor>
 
+    <fontcolor name="pragma" default="comment" foreColor="black">
+      <font style="italic"/>
+    </fontcolor>
+
+
     <fontcolor name="operator" default="operator" foreColor="black">
       <font style="plain"/>
     </fontcolor>
 
     <fontcolor name="boolean" default="number" foreColor="blue">
+      <font style="plain"/>
+    </fontcolor>
+
+    <fontcolor name="nil" default="number" foreColor="blue">
       <font style="plain"/>
     </fontcolor>
 

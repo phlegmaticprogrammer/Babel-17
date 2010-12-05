@@ -1,9 +1,4 @@
-def f u = g (0)
-def f v = 2
-val x = 2
-def g u = f (u*u) + x
-
-a => b =>
+val f = a => b =>
   if a == 0 then
     b
   else
@@ -17,3 +12,5 @@ a => b =>
     end
     a
   end
+  
+f 25 105

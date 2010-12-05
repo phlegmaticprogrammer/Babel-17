@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/Users/stevenobua/Programming/babel-17/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala</file>
+        <file>file:/Users/stevenobua/Programming/babel-17/Babel17_Naive_Interpreter/src/com/babel17/naive/Evaluator.scala</file>
+        <file>file:/Users/stevenobua/Programming/babel-17/Babel17_Naive_Interpreter/src/com/babel17/naive/Values.scala</file>
+        <file>file:/Users/stevenobua/Programming/babel-17/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala</file>
+        <file>file:/Users/stevenobua/Programming/babel-17/Babel17_Naive_Interpreter/src/com/babel17/naive/CollectVars.scala</file>
+    </open-files>
 </project-private>

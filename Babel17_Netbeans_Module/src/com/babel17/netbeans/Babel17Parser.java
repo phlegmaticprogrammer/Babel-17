@@ -3,7 +3,7 @@ package com.babel17.netbeans;
 import org.netbeans.modules.parsing.spi.*;
 import org.netbeans.modules.parsing.api.*;
 import com.babel17.interpreter.parser.ErrorMessage;
-import com.babel17.interpreter.parser.SemanticAnalysis;
+import com.babel17.naive.Interpreter;
 import java.util.*;
 import java.io.*;
 import java.util.logging.*;
@@ -37,7 +37,7 @@ public class Babel17Parser extends Parser {
     this.snapshot = snapshot;
     Reader reader = new StringReader(snapshot.getText().toString());
     try {
-      errors = SemanticAnalysis.parseAndAnalyze(reader, false);
+      errors = Interpreter.parseAndAnalyze(reader);
     } catch (IOException ex) {
       Logger.getLogger(Babel17Parser.class.getName()).log(Level.WARNING, null, ex);
     }

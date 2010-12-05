@@ -53,6 +53,7 @@ object Program {
 
   abstract class Pragma extends Locatable
 
+  case class PragmaPrint(e : Expression) extends Pragma
   case class PragmaLog(e : Expression) extends Pragma
   case class PragmaProfile(e : Expression) extends Pragma
   case class PragmaAssert(e : Expression) extends Pragma

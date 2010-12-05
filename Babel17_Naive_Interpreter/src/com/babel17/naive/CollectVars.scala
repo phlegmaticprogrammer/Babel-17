@@ -99,6 +99,9 @@ object CollectVars {
       case SYield(e) =>
         collectVars(e)
         term.freeVars = e.freeVars
+      case SPragma(PragmaPrint(e)) =>
+        collectVars(e)
+        term.freeVars = e.freeVars
       case SPragma(PragmaLog(e)) =>
         collectVars(e)
         term.freeVars = e.freeVars

@@ -1,0 +1,46 @@
+package com.babel17.netbeans;
+
+import com.babel17.naive.Interpreter;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import org.openide.LifecycleManager;
+import org.openide.filesystems.FileObject;
+
+import org.openide.awt.ActionRegistration;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.awt.ActionID;
+import org.openide.filesystems.FileUtil;
+
+@ActionID(category = "Build",
+id = "com.babel17.netbeans.RunBabel17")
+@ActionRegistration(iconBase = "com/babel17/netbeans/Babel17RunIcon.png",
+displayName = "#CTL_RunBabel17")
+@ActionReferences({
+  @ActionReference(path = "Menu/BuildProject", position = -90, separatorBefore = -140, separatorAfter = -40),
+  @ActionReference(path = "Toolbars/Build", position = 0),
+  @ActionReference(path = "Loaders/text/x-babel17/Actions", position = 3333, separatorBefore = 3283, separatorAfter = 3383)
+})
+public final class RunBabel17 implements ActionListener {
+
+  private final Babel17DataObject context;
+
+  public RunBabel17(Babel17DataObject context) {
+    this.context = context;
+  }
+
+  public void actionPerformed(ActionEvent ev) {
+    LifecycleManager.getDefault().saveAll();
+   FileObject f = context.getPrimaryFile();
+/*   String displayName = ;
+   String msg = "I am " + displayName + ". Hear me roar!";
+   NotifyDescriptor nd = new NotifyDescriptor.Message(msg);
+   DialogDisplayer.getDefault().notify(nd); */
+   WriteNetbeansOutput o = new WriteNetbeansOutput("Babel-17", context);
+   try {
+    Interpreter.run(FileUtil.getFileDisplayName(f), o);
+   } finally {
+     o.done();
+   }   
+  }
+}

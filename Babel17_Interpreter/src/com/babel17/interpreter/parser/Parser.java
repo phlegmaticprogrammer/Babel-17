@@ -514,6 +514,8 @@ public class Parser {
           return new MemoizeNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();
         case babel17Parser.YIELD:
           return new YieldNode(toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
+          case babel17Parser.PRAGMA_PRINT:
+              return new PragmaNode(PragmaNode.PRAGMA_PRINT, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
         case babel17Parser.PRAGMA_LOG:
             return new PragmaNode(PragmaNode.PRAGMA_LOG, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
           case babel17Parser.PRAGMA_ASSERT:

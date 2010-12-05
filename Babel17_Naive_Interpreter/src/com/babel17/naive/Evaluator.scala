@@ -103,6 +103,13 @@ class Evaluator(val executor : Executor) {
   import Evaluator._
 
   val random : java.util.Random = new java.util.Random()
+  var writeOutput : WriteOutput = null
+
+  def writeline(s : String) {
+    if (writeOutput != null) {
+      writeOutput.writeLine(s)
+    }
+  }
 
   /*def lookup (ids : SortedSet[Id], id : Id, linear : Boolean) {
     if (!ids.contains(id)) {
@@ -516,18 +523,31 @@ class Evaluator(val executor : Executor) {
       case d : SDef1 => evalDefs(env, coll, List(d))
       case SPragma(pragma) =>
         pragma match {
+          case PragmaPrint(expr) =>
+            if (writeOutput != null) {
+              val s = evalExpression(env,expr).stringValue(true, false)
+              writeOutput.writeLocMsg("print", st.location, s)
+            }
           case PragmaLog(expr) =>
-            println("log (at "+st.location+"): '"+evalExpression(env,expr).force()+"'")
+            if (writeOutput != null) {
+              val s = evalExpression(env,expr).force().stringDescr(false)
+              writeOutput.writeLocMsg("log", st.location, s)
+            }
           case PragmaAssert(expr) =>
             evalExpression(env, expr) match {
               case BooleanValue(true) =>
-              case x => println("assertion failed (at "+st.location+"): '"+x+"'")
+              case x =>
+                if (writeOutput != null) {
+                  writeOutput.writeFailedAssertion(st.location, x.toString)
+                }
             }
           case PragmaProfile(expr) =>
             val t1 = System.currentTimeMillis
             val v = evalExpression(env, expr)
             val t2 = System.currentTimeMillis
-            println("profile (at "+st.location+"): "+(t2-t1)+"ms, result = '"+v+"'")
+            if (writeOutput != null) {
+              writeOutput.writeProfile(st.location, t2-t1, v.toString)
+            }
         }
         StatementCollector(env, coll)
       case SAssignRecordUpdate(id, m, expr) =>

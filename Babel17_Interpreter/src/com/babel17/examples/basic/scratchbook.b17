@@ -1,9 +1,5 @@
+val x = {lazy(4)}
 
-
- /*(lazy (1/0)) * 3   */
-
- def x () = 1/0
-
- #log "cool"
-
- 3*x ()
+#log x
+#print x
+#profile x

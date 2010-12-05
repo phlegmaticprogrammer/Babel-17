@@ -16,6 +16,7 @@ public final class Location {
   private int line1, line2;
   private int column1, column2;
 
+
   public Location(int line, int column) {
     line1 = line2 = line;
     column1 = column2 = column;

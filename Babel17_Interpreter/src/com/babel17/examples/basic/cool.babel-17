@@ -1,0 +1,11 @@
+def fib 0 = 1
+def fib 1 = 1
+def fib n = fib (n-2) + fib (n-1)
+memoize fib
+
+def x = () => fib 5
+
+x ()
+
+4 * (exception Cool)
+ 

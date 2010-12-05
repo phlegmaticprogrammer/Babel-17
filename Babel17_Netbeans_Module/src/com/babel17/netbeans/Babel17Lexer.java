@@ -26,7 +26,7 @@ public class Babel17Lexer implements Lexer<Babel17TokenId> {
         }
         else if (info.input().readLength() > 0)
         {   // we have an incomplete token
-            Babel17TokenId tokenId = Babel17LanguageHierarchy.getToken(babel17Lexer.COMMENT1);
+            Babel17TokenId tokenId = Babel17LanguageHierarchy.getToken(babel17Lexer.COMMENT);
             return info.tokenFactory().createToken(tokenId, info.input().readLength(),
                            PartType.MIDDLE);
         }

@@ -342,6 +342,9 @@ UNDERSCORE
 PRAGMA_LOG
 	:	'#log';
 	
+PRAGMA_PRINT
+	:	'#print';
+	
 PRAGMA_ASSERT
 	:	'#assert';
 	
@@ -407,6 +410,7 @@ statement
 	|	st_memoize
 	|	st_yield
 	|	expr_or_assign
+	| 	PRAGMA_PRINT expr -> ^(PRAGMA_PRINT expr)
 	| 	PRAGMA_LOG expr -> ^(PRAGMA_LOG expr)
 	| 	PRAGMA_PROFILE expr -> ^(PRAGMA_PROFILE expr)
 	| 	PRAGMA_ASSERT expr -> ^(PRAGMA_ASSERT expr);

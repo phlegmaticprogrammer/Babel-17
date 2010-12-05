@@ -8,6 +8,7 @@ and open the template in the editor.
   <file>
     <ext name="babel17"/>
     <ext name="b17"/>
+    <ext name="babel-17" />
     <resolver mime="text/x-babel17"/>
   </file>
 </MIME-resolver>

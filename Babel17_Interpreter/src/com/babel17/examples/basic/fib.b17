@@ -1,4 +1,4 @@
-/*there are statements and expressions
+/*there are statements and expressions for sure
 what about control expressions?
 If control expressions appear in the position of statements
 
@@ -8,7 +8,7 @@ control construct
 not the point*/
 
 
-// This program should compile, but does not:
+/* This program should compile, but does not:*/
 
 val f = a => b => begin
                     b = 2
@@ -16,7 +16,7 @@ val f = a => b => begin
                     a*b
                   end
 val x = 0
-begin x=1; x end * begin x=x+2; x end
+begin val x=1; x end * begin x=x+2; x end
 
 
 /*val (2, exception _) = 0

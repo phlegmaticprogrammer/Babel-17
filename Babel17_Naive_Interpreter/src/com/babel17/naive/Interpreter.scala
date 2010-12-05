@@ -8,91 +8,115 @@ import scala.collection.immutable.SortedSet
 import scala.collection.immutable.SortedMap
 import java.util.concurrent._
 import com.babel17.naive.Values._
+import org.antlr.runtime.CharStream
+import org.antlr.runtime.ANTLRReaderStream
+import java.io.Reader
 
 object Interpreter {
 
   object factory extends ThreadFactory {
 
     def newThread(r : Runnable) : Thread = {
-      val t = new Thread(r)
-      val prio = Thread.currentThread.getPriority
-      println("creating new thread with prio = "+prio)
-      t.setPriority(prio)
-      t
+      new Thread(r)
     }
   }
 
-  def main(args: Array[String]): Unit = {
-    println("Babel-17 v0.21, Copyright \u00a9 2009 Steven Obua")
-    println("")
-    println("This program comes with ABSOLUTELY NO WARRANTY.")
-    println("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")
-    println("")
-    if (args.length == 0) {
-      println("Please specify which file to execute!")
+  @throws(classOf[java.io.IOException])
+  def parseAndAnalyze(reader : java.io.Reader) : java.util.Collection[ErrorMessage] = {
+    var charstream: CharStream = new ANTLRReaderStream(reader)
+    val result = Parser.parse(charstream)
+    val checker = new Tree2Program()
+    val term = checker.makeProgram(result)
+    val errors = checker.errors
+    val a : java.util.ArrayList[ErrorMessage] = new java.util.ArrayList(errors.length)
+    for (e <- errors) {
+      a.add(e)
+    }
+    a
+  }
+
+  def run(filename : String, w : WriteOutput) {
+    w.writeLineCommentary("Babel-17 v0.21, Copyright \u00a9 2009 Steven Obua")
+    w.writeLine("")
+    w.writeLineCommentary("This program comes with ABSOLUTELY NO WARRANTY.")
+    w.writeLineCommentary("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")
+    w.writeLine("")
+    if (filename == null) {
+      w.writeLineError("Please specify which file to execute!")
     } else {
-      val result = Parser.parse(args(0))
+      val result = Parser.parse(filename)
       val checker = new Tree2Program()
       val term = checker.makeProgram(result)
       if (checker.errors.length > 0) {
         val errors = checker.errors
         if (errors.length == 1)
-          println("Found "+errors.length+" static error:")
+          w.writeLineError("Found "+errors.length+" static error:")
         else
-          println("Found "+errors.length+" static errors:")
-        println("")
+          w.writeLineError("Found "+errors.length+" static errors:")
+        w.writeLine("")
         var i = 1;
         for (m <- errors) {
-          println(i+") at "+m.location+":");
-          println("    "+m.message)
+          w.writeLocMsg(i+")", m.location, m.message)
           i = i + 1
         }
       } else {
         try {
           val cpus = Runtime.getRuntime().availableProcessors
-          Thread.currentThread.setPriority(Thread.MAX_PRIORITY)
+          if (cpus > 1) {
+            w.writeLineCommentary("Found "+cpus+" available processors.")
+            w.writeLine("")
+          }
           val evaluator = new Evaluator(java.util.concurrent.Executors.newFixedThreadPool(cpus, factory))
+          evaluator.writeOutput = w
           val v = evaluator.evaluate(Evaluator.emptyEnv, term)
-          v.force() match {
+          val fv = v.force()
+          w.writeLine("")
+          fv match {
             case x : ExceptionValue =>
-              println("The program evaluated to a "+(if (x.dynamic) "dynamic" else "persistent")+" exception:")
-              println("")
-              println(x.v.stringDescr(false))
-              println("")
+              w.writeLineError("The program evaluated to a "+(if (x.dynamic) "dynamic" else "persistent")+" exception:")
+              w.writeLine("")
+              w.writeLine(x.v.stringDescr(false))
+              w.writeLine("")
               if (x.getStackTrace.length == 0)
-                println("There is no stacktrace.")
+                w.writeLine("There is no stacktrace.")
               else {
                 if (x.getStackTrace.length == 1)
-                  println("The stacktrace has "+x.getStackTrace.length+" entry:")
+                  w.writeLine("The stacktrace has "+x.getStackTrace.length+" entry:")
                 else
-                  println("The stacktrace has "+x.getStackTrace.length+" entries:")
+                  w.writeLine("The stacktrace has "+x.getStackTrace.length+" entries:")
                 var i = 1;
                 for (m <- x.getStackTrace.reverse) {
-                  println(i+") at "+m.location+":");
-                  println("    "+m.description)
+                  w.writeLocMsg(i+")", m.location, m.description);
                   i = i + 1
                 }
               }
-            case w =>
-              println("The program has been evaluated successfully, its value is: ")
-              println("")
-              println(v.stringDescr(false))
+            case x =>
+              w.writeLineSuccess("The program has been evaluated successfully, its value is: ")
+              w.writeLine("")
+              w.writeLine(x.stringDescr(false))
           }
         } catch {
           case (Evaluator.EvalX(s)) =>
-            println("The evaluation of the program has failed: ")
-            println("")
-            println(s)
+            w.writeLineError("The evaluation of the program has failed: ")
+            w.writeLine("")
+            w.writeLine(s)
           case ex =>
-            println("There was an internal error during the evaluation of the program:")
-            println("")
+            w.writeLineError("There was an internal error during the evaluation of the program:")
+            w.writeLine("")
             if (ex.getMessage != null)
-              println(ex.getClass.getName+": "+ex.getMessage)
+              w.writeLine(ex.getClass.getName+": "+ex.getMessage)
             else
-              println(ex.getClass.getName.toString)
+              w.writeLine(ex.getClass.getName.toString)
         }
       }
     }
+
+  }
+
+  def main(args: Array[String]): Unit = {
+    var f : String = null
+    if (args.length > 0) f = args(0)
+    run(f, new WriteOutput())
   }
 
 

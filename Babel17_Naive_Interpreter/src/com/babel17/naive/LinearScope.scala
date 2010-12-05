@@ -2,14 +2,21 @@ package com.babel17.naive
 
 import Program._
 import scala.collection.immutable.SortedSet
+import com.babel17.syntaxtree.Location
+import com.babel17.interpreter.parser.ErrorMessage
 
 
-object LinearScope {
+class LinearScope {
+
+  var errors : List[ErrorMessage] = List.empty
 
   def error (loc : com.babel17.syntaxtree.Location, msg : String) = {
-    println("at "+loc+": "+msg)
+    var l = loc;
+    if (loc == null) l = new Location(0,0)
+    errors = (new ErrorMessage(l, msg)) :: errors
+    //println("at "+loc+": "+msg)
   }
-  
+
   def lookup (ids : SortedSet[Id], id : Id, linear : Boolean) {
     if (!ids.contains(id)) {
       if (linear) error(id.location, "identifier is not in linear scope")
@@ -69,6 +76,9 @@ object LinearScope {
   
   def check_st (env : Environment, st : Statement) : Environment = {
     st match {
+      case SPragma(PragmaPrint(e)) =>
+        check_e(env, e)
+        env
       case SPragma(PragmaLog(e)) =>
         check_e(env, e)
         env

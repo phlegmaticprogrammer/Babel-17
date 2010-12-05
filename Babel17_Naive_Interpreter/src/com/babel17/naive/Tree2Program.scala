@@ -472,6 +472,7 @@ class Tree2Program {
         import PragmaNode._
         val e = buildExpression(p.expr)
         val u = p.pragma match {
+          case PRAGMA_PRINT => PragmaPrint(e)
           case PRAGMA_LOG => PragmaLog(e)
           case PRAGMA_ASSERT => PragmaAssert(e)
           case PRAGMA_PROFILE => PragmaProfile(e)
@@ -785,7 +786,10 @@ class Tree2Program {
     var t : Term = null
     if (node != null) {
       t = build(node).asInstanceOf[Term]
-      LinearScope.check(LinearScope.emptyEnv, t)
+      val linear = new LinearScope()
+      linear.errors = errors
+      linear.check(linear.emptyEnv, t)
+      errors = linear.errors
     }
     cleanupErrors()
     t
