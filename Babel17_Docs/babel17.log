@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  22 NOV 2010 12:54
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  7 DEC 2010 11:33
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -256,26 +256,31 @@ File: listings.cfg 2007/02/22 1.4 listings configuration
 ))
 Package: listings 2007/02/22 1.4 (Carsten Heinz)
 
-(./babel17.aux)
+(/usr/local/texlive/2009/texmf-dist/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip11
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+) (./babel17.aux)
 \openout1 = `babel17.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
-LaTeX Font Info:    ... okay on input line 54.
-LaTeX Font Info:    Try loading font information for U+msa on input line 54.
- (/usr/local/texlive/2009/texmf-dist/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Try loading font information for U+msa on input line 55.
+
+(/usr/local/texlive/2009/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 54.
+LaTeX Font Info:    Try loading font information for U+msb on input line 55.
+
 (/usr/local/texlive/2009/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
@@ -341,10 +346,7 @@ File: ucsencs.def 2003/11/29 Fixes to fontencodings LGR, T3
 \openout3 = `babel17.toc'.
 
  [1{/usr/local/texlive/2009/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \vbox (badness 2326) has occurred while \output is active []
-
- [2]
-(/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-34.def
+[2] (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-34.def
 File: uni-34.def 2004/10/17 UCS: Unicode data U+2200..U+22FF
 )
 (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-0.def
@@ -356,70 +358,73 @@ File: uni-33.def 2004/10/17 UCS: Unicode data U+2100..U+21FF
 (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-32.def
 File: uni-32.def 2004/10/17 UCS: Unicode data U+2000..U+20FF
 ) [3] [4]
-Overfull \hbox (19.28464pt too wide) in paragraph at lines 246--253
+Overfull \hbox (3.40291pt too wide) in paragraph at lines 255--264
  [] 
  []
 
 [5] [6]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 323.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 354.
 
  (/usr/local/texlive/2009/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 323.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 360.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 354.
+ [7]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 385.
 
 
 (/usr/local/texlive/2009/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 360.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 385.
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 362.
-
-
-LaTeX Warning: Float too large for page by 92.73993pt on input line 371.
-
-[7] [8] [9] [10]
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 404.
+ [8] [9] [10]
+[11] [12]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 520.
- [11] [12] [13] [14]
-Overfull \hbox (1.35509pt too wide) in paragraph at lines 783--797
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 585.
+ [13]
+Overfull \hbox (29.07874pt too wide) in paragraph at lines 678--731
  [][] 
  []
 
-[15] [16] [17] [18] [19] [20] [21] [22] (./babel17.aux) ) 
+[14] [15] [16]
+Overfull \hbox (1.35509pt too wide) in paragraph at lines 862--876
+ [][] 
+ []
+
+[17] [18] [19] [20] [21] [22] [23] (./babel17.aux) ) 
 Here is how much of TeX's memory you used:
- 6444 strings out of 493848
- 82490 string characters out of 3149207
- 155039 words of memory out of 3000000
- 9470 multiletter control sequences out of 15000+200000
+ 6516 strings out of 493848
+ 83402 string characters out of 3149207
+ 154185 words of memory out of 3000000
+ 9538 multiletter control sequences out of 15000+200000
  15591 words of font info for 59 fonts, out of 3000000 for 9000
  875 hyphenation exceptions out of 8191
- 41i,16n,40p,576b,1665s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/20
-09/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/200
-9/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/200
-9/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2009
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2009/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2009/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2009/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2009/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2009/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2009/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmsl10.pfb></usr/local/texlive/2009/texmf-dist/font
-s/type1/public/amsfonts/cm/cmsltt10.pfb></usr/local/texlive/2009/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2009/texmf-dist/font
-s/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2009/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2009/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2009/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type
-1/public/amsfonts/symbols/msam10.pfb>
-Output written on babel17.pdf (22 pages, 284683 bytes).
+ 41i,16n,40p,851b,1659s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2009/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2009/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2009/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2009/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2009/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2009/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2009/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2009/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2009/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2009/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsl10.pfb></usr/local/texlive/2009/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmsltt10.pfb></usr/local/texlive/2009/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2009/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/pub
+lic/amsfonts/symbols/msam10.pfb>
+Output written on babel17.pdf (23 pages, 289304 bytes).
 PDF statistics:
- 141 PDF objects out of 1000 (max. 8388607)
+ 144 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,5 +1,10 @@
-val x = {lazy(4)}
+def fib 0 = 0
+def fib 1 = 1
+def fib n = (concurrent fib (n-1)) + (concurrent fib (n-2))
 
-#log x
-#print x
-#profile x
+def even 0 = true
+def odd 0 = true
+def even n = odd (n-1)
+def odd n = even (n-1)
+
+fib 100

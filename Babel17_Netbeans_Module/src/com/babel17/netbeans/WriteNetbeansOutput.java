@@ -3,6 +3,8 @@ package com.babel17.netbeans;
 import com.babel17.naive.WriteOutput;
 import com.babel17.syntaxtree.Location;
 import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import org.openide.windows.IOColors;
 import org.openide.windows.IOColors.OutputType;
@@ -10,29 +12,46 @@ import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 import org.openide.windows.OutputEvent;
 import org.openide.windows.OutputListener;
-import org.openide.windows.OutputWriter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.StyledDocument;
-import org.netbeans.modules.editor.NbEditorUtilities;
 import org.openide.cookies.EditorCookie;
-import org.openide.filesystems.FileObject;
-import org.openide.filesystems.URLMapper;
-import org.openide.loaders.DataObject;
-import org.openide.loaders.DataObjectNotFoundException;
-import org.openide.util.Exceptions;
+import org.openide.util.ImageUtilities;
+import org.openide.windows.OutputWriter;
 
 public class WriteNetbeansOutput extends WriteOutput {
 
   InputOutput io;
   OutputWriter writer;
   Babel17DataObject dobj;
+  volatile boolean pleaseCancel = false;
+  AbstractAction cancelAction = null;
+
+  public boolean pleaseCancel() {
+    return pleaseCancel;
+  }
+
+  class CancelAction extends AbstractAction {
+
+    JButton button = null;
+
+    public CancelAction() {
+      super();
+      putValue(NAME, "Run Babel-17 program");
+      String iconfile = "com/babel17/netbeans/stop.png";
+      putValue(SMALL_ICON, new ImageIcon(ImageUtilities.loadImage(iconfile, true)));
+    }
+
+    public void actionPerformed(ActionEvent ev) {
+      pleaseCancel = true;
+    }
+
+  }
 
   void setColor(Color color) {
     IOColors.setColor(io, OutputType.OUTPUT, color);
@@ -41,27 +60,31 @@ public class WriteNetbeansOutput extends WriteOutput {
   void print(String s) {
     //try {
     writer.print(s);
-    /*} catch (IOException e) {
+    //IOColorLines.println(io, s, Color.blue);
+    //} catch (IOException e) {
 
-    }*/
+    //}
   }
 
   void println(String s, boolean important) {
     try {
       writer.println(s, null, important);
+      //IOColorLines.println(io, s, Color.red);
     } catch (IOException e) {
     }
   }
 
   WriteNetbeansOutput(String title, Babel17DataObject dobj) {
     this.dobj = dobj;
-    InputOutput io = IOProvider.getDefault().getIO(title, false);
+    cancelAction = new CancelAction();
+    AbstractAction[] actions = new AbstractAction[]{cancelAction};
+    InputOutput io = IOProvider.getDefault().getIO(title, actions);
     writer = io.getOut();
     //IOColors.setColor(io, OutputType.OUTPUT, Color.blue);
     io.select();
     /*writer.println("IOColorPrint supported: "+IOColorPrint.isSupported(io));
     writer.println("IOColorLines supported: "+IOColorLines.isSupported(io));*/
-    writer.println("----------------------------------------------------------");
+    //writer.println("----------------------------------------------------------");
   }
 
   public void writeLineCommentary(String s) {
@@ -107,11 +130,13 @@ public class WriteNetbeansOutput extends WriteOutput {
       if (prefix != null) {
         print(prefix + " ");
         tab = "";
-        while (tab.length() <= prefix.length()) tab = tab+" ";
+        while (tab.length() <= prefix.length()) {
+          tab = tab + " ";
+        }
       }
-      writer.println("at "+loc, new L(loc), false);
+      writer.println("at " + loc, new L(loc), false);
       setColor(Color.black);
-      writer.println(tab+message, null, false);
+      writer.println(tab + message, null, false);
     } catch (IOException e) {
     }
 
@@ -125,10 +150,16 @@ public class WriteNetbeansOutput extends WriteOutput {
   public void done() {
     writer.close();
     io.closeInputOutput();
+    EventQueue.invokeLater(new Runnable() {
+
+      public void run() {
+        cancelAction.setEnabled(false);
+      }
+    });
   }
 
   public void openAt(final Location loc) {
-    final EditorCookie.Observable ec = (EditorCookie.Observable) dobj.getCookie(EditorCookie.Observable.class);
+    final EditorCookie.Observable ec = dobj.getCookie(EditorCookie.Observable.class);
     if (ec != null) {
 
       org.netbeans.editor.Utilities.runInEventDispatchThread(new Runnable() {
@@ -145,11 +176,11 @@ public class WriteNetbeansOutput extends WriteOutput {
             ec.addPropertyChangeListener(new PropertyChangeListener() {
 
               public void propertyChange(PropertyChangeEvent evt) {
-                  final JEditorPane[] panes = ec.getOpenedPanes();
-                  if ((panes != null) && (panes.length > 0)) {
-                    setPosition(panes[0], loc);
-                    ec.removePropertyChangeListener(this);
-                  }
+                final JEditorPane[] panes = ec.getOpenedPanes();
+                if ((panes != null) && (panes.length > 0)) {
+                  setPosition(panes[0], loc);
+                  ec.removePropertyChangeListener(this);
+                }
               }
             });
             ec.open();
@@ -184,7 +215,7 @@ public class WriteNetbeansOutput extends WriteOutput {
                 index++;
               }
             }
-            pane.setCaretPosition(len-1);
+            pane.setCaretPosition(len - 1);
             pane.requestFocus();
           } catch (BadLocationException ex) {
           }

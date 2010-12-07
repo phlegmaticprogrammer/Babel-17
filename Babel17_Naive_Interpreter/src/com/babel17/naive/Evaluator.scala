@@ -8,7 +8,11 @@ import java.util.concurrent._
 
 
 object Evaluator {
-  case class EvalX(reason : String) extends Exception
+  case class EvalX(reason : String) extends Exception {
+    override def toString() : String = {
+      "EvalX: "+reason
+    }
+  }
   
   case class ValueRef(var value : Value);
   
@@ -98,9 +102,18 @@ object Evaluator {
 }
 
 
-class Evaluator(val executor : Executor) {
+class Evaluator(val maxNumThreads : Int) {
+
   
   import Evaluator._
+
+  var executor : ThreadPoolExecutor = null
+
+  if (maxNumThreads > 1) {
+    executor = new ThreadPoolExecutor(0, maxNumThreads-1, 500L, TimeUnit.MILLISECONDS,
+      new SynchronousQueue())
+    executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy())
+  }
 
   val random : java.util.Random = new java.util.Random()
   var writeOutput : WriteOutput = null
@@ -108,6 +121,12 @@ class Evaluator(val executor : Executor) {
   def writeline(s : String) {
     if (writeOutput != null) {
       writeOutput.writeLine(s)
+    }
+  }
+
+  def checkCancel() {
+    if (writeOutput != null && writeOutput.pleaseCancel) {
+      throw EvalX("program terminated by user")
     }
   }
 
@@ -161,7 +180,7 @@ class Evaluator(val executor : Executor) {
       try {
         s = s + x
       } catch {
-        case UnrelatedX() => return dynamicException(CONSTRUCTOR_UNRELATED)
+        case Values.UnrelatedX => return dynamicException(CONSTRUCTOR_UNRELATED)
       }
     }
     SetValue(s)
@@ -177,7 +196,7 @@ class Evaluator(val executor : Executor) {
       try {
         s = s + (k -> v)
       } catch {
-        case UnrelatedX() => return dynamicException(CONSTRUCTOR_UNRELATED)
+        case Values.UnrelatedX => return dynamicException(CONSTRUCTOR_UNRELATED)
       }
     }
     MapValue(s)
@@ -237,11 +256,16 @@ class Evaluator(val executor : Executor) {
   }
 
   def mergeObjects(objs : List[ObjectValue]) : ObjectValue = {
+    objs match {
+      case h :: t => mergeTwoObjects(mergeObjects(t), h)
+      case _ => ObjectValue(SortedMap.empty)
+    }
+    /*
     var merged = ObjectValue(SortedMap.empty)
     for (o <- objs) {
       merged = mergeTwoObjects(merged, o)
     }
-    merged
+    merged                                             */
   }
 
   def evalObj(env : SimpleEnvironment, block : Block, messages : List[Message]) : Value = {
@@ -276,6 +300,7 @@ class Evaluator(val executor : Executor) {
   }
 
   def evalSE(env : SimpleEnvironment, se : SimpleExpression) : Value = {
+    checkCancel()
     val u = evalSE_(env, se)
     if (u.isDynamicException && se.stackTraceElement != null) {
       u.asDynamicException.addToStackTrace(se.stackTraceElement)
@@ -288,7 +313,7 @@ class Evaluator(val executor : Executor) {
     se match {
       case SEId(id) =>
         env.lookup(id) match {
-          case ev : EnvironmentValue => ev.onLookup(this)
+          case ev : EnvironmentValue => ev.onLookup()
           case x => x
         }
       case SEInt(u) => IntegerValue(u)
@@ -316,13 +341,18 @@ class Evaluator(val executor : Executor) {
         }
         ObjectValue(map)
       case SEApply(fexpr, gexpr) =>
-        var f = evalSE(env, fexpr).extractFunctionValue()
-        if (f.isDynamicException()) f
+        var f = evalSE(env, fexpr)
+        if (f.isDynamicException) f
         else {
-          val fop = f.asInstanceOf[FunctionValue]
           val g = evalSE(env, gexpr)
-          if (g.isDynamicException()) g
-          else fop.apply(g)
+          if (g.isDynamicException) g
+          else {
+            f = f.extractFunctionValue
+            if (f.isDynamicException) f
+            else {
+              f.asInstanceOf[FunctionValue].apply(g)
+            }
+          }
         }
       case SECompare(operands, operators) =>
         var firstOperand = evalSE(env, operands(0)).extractRepresentative()
@@ -409,9 +439,13 @@ class Evaluator(val executor : Executor) {
       case SEObj(block, messages) =>
         evalObj(env, block, messages)
       case SEConcurrent(se) =>
-        val c = ConcurrentValue(this, env, se)
-        executor.execute(c.getTask)
-        c
+        if (executor == null || executor.getActiveCount() >= maxNumThreads-1) {
+          evalSE(env, se)
+        } else {
+          val c = ConcurrentValue(this, env, se)
+          executor.execute(c.getTask)
+          c
+        }
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }
@@ -453,15 +487,19 @@ class Evaluator(val executor : Executor) {
       }
     }
     val senv = e.freeze()
-    for (v <- values) v.env = senv
     for (v <- values) {
+      v.env = senv
+      v.evaluator = this
+    }
+    /*for (v <- values) {
       val f = v.onLookup(this)
       if (f.isDynamicException) return StatementException(f.asDynamicException)
-    }
+    }*/
     StatementCollector(e, coll)
   }
 
   def evalStatement(env : Environment, coll : Collector, st : Statement) : StatementResult = {
+    checkCancel()
     val u = evalStatement_(env, coll, st)
     u match {
       case StatementException(ex) =>
@@ -697,6 +735,7 @@ class Evaluator(val executor : Executor) {
   }
 
   def matchPat(env : Environment, pat : Pattern, v : Value, rebind : Boolean) : MatchResult = {
+    checkCancel()
     if (v.isDynamicException) {
       pat match {
         case PException(parg) =>

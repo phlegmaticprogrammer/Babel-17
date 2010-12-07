@@ -3,16 +3,7 @@
 <filesystem>
   <folder name="Actions">
         <folder name="Build">
-            <file name="com-babel17-netbeans-Run91Babel17.instance">
-                <attr name="delegate" methodvalue="org.openide.awt.Actions.inject"/>
-                <attr name="displayName" bundlevalue="com.babel17.netbeans.Bundle#CTL_Run91Babel17"/>
-                <attr name="iconBase" stringvalue="com/babel17/netbeans/Babel17RunIcon.png"/>
-                <attr name="injectable" stringvalue="com.babel17.netbeans.Run91Babel17"/>
-                <attr name="instanceCreate" methodvalue="org.openide.awt.Actions.context"/>
-                <attr name="noIconInMenu" boolvalue="false"/>
-                <attr name="selectionType" stringvalue="EXACTLY_ONE"/>
-                <attr name="type" stringvalue="com.babel17.netbeans.Babel17DataObject"/>
-            </file>
+            <file name="com-babel17-netbeans-Run91Babel17.instance"/>
         </folder>
     </folder>
     <folder name="Loaders">
@@ -84,14 +75,6 @@
   </folder>
   <folder name="Menu">
         <folder name="BuildProject">
-            <file name="com-babel17-netbeans-Run91Babel17-separatorAfter.instance">
-                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
-                <attr name="position" intvalue="-40"/>
-            </file>
-            <file name="com-babel17-netbeans-Run91Babel17-separatorBefore.instance">
-                <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
-                <attr name="position" intvalue="-190"/>
-            </file>
             <file name="com-babel17-netbeans-Run91Babel17.shadow">
                 <attr name="originalFile" stringvalue="Actions/Build/com-babel17-netbeans-Run91Babel17.instance"/>
                 <attr name="position" intvalue="-90"/>
@@ -167,7 +150,7 @@
         <folder name="Build">
             <file name="com-babel17-netbeans-Run91Babel17.shadow">
                 <attr name="originalFile" stringvalue="Actions/Build/com-babel17-netbeans-Run91Babel17.instance"/>
-                <attr name="position" intvalue="0"/>
+                <attr name="position" intvalue="2000"/>
             </file>
         </folder>
     </folder>

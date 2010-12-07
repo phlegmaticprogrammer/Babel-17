@@ -36,4 +36,8 @@ class WriteOutput {
     println(s)
   }
 
+  def pleaseCancel() : Boolean = {
+    false;
+  }
+
 }

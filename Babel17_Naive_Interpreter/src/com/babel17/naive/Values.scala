@@ -32,7 +32,7 @@ object Values {
   val CONSTRUCTOR_DOMAINERROR = "DOMAINERROR"
   val CONSTRUCTOR_EMPTYCHOICE = "EMPTYCHOICE"  
   val CONSTRUCTOR_INVALIDMESSAGE = "INVALIDMESSAGE"
-  val CONSTRUCTOR_TYPEERROR = "TYPEERROR"
+  /*val CONSTRUCTOR_TYPEERROR = "TYPEERROR" */
   val CONSTRUCTOR_NOMATCH = "NOMATCH"
   val CONSTRUCTOR_APPLYERROR = "APPLYERROR"
   val CONSTRUCTOR_INVALIDLIST = "INVALIDLIST"
@@ -255,6 +255,8 @@ object Values {
         case _ => null
       }
     }
+    override def extractFunctionValue() : Value = this
+
   }
     
   case class NativeFunctionValue(native : Function[Value, Value]) extends FunctionValue {    
@@ -290,7 +292,7 @@ object Values {
         try {
           cache = cache + (key -> v)
         } catch {
-          case UnrelatedX() =>
+          case UnrelatedX =>
         }
       }
       v
@@ -305,7 +307,7 @@ object Values {
               return u
           }
         } catch {
-          case UnrelatedX() =>
+          case UnrelatedX =>
           doCache = false
         }
       }
@@ -479,7 +481,7 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       messages.get(message) match {
-        case Some(v) => v          
+        case Some(v : EnvironmentValue) => v.onLookup()
         case None => 
           message.m match {
             case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
@@ -722,7 +724,7 @@ object Values {
         set = set + v.force()
         return null
       } catch {
-        case UnrelatedX() => dynamicException(CONSTRUCTOR_UNRELATED)
+        case UnrelatedX => dynamicException(CONSTRUCTOR_UNRELATED)
       }
     }
   }
@@ -739,7 +741,7 @@ object Values {
             map = map + (key -> value)
             null
           } catch {
-            case UnrelatedX() => dynamicException(CONSTRUCTOR_UNRELATED)
+            case UnrelatedX => dynamicException(CONSTRUCTOR_UNRELATED)
           }
         case _ => domainError()
       }
@@ -1329,19 +1331,20 @@ object Values {
 
   // this is a special value that lives only inside environments
   abstract class EnvironmentValue(var env : Evaluator.SimpleEnvironment) extends Value {
+    var evaluator : Evaluator = null
     def sendMessage(m : Program.Message) : Value = {
       throw Evaluator.EvalX("EnvironmentValue has been sent a message. How?")
     }
     def stringValue(nested : Boolean, brackets : Boolean) : String = {
       "_recursive"
     }
-    def onLookup(evaluator : Evaluator) : Value;
+    def onLookup() : Value;
   }
 
   case class EnvironmentValueMN(var se : Program.SimpleExpression)
   extends EnvironmentValue(null) {
 
-    def onLookup(evaluator : Evaluator) : Value = {
+    def onLookup() : Value = {
       evaluator.evalSE(env, se)
     }
   }
@@ -1350,7 +1353,7 @@ object Values {
                                 var result : Value)
   extends EnvironmentValue(null) {
 
-    def onLookup(evaluator : Evaluator) : Value = {
+    def onLookup() : Value = {
       if (result != null) result
       else {
         var localEnv : Evaluator.SimpleEnvironment = null
@@ -1383,7 +1386,7 @@ object Values {
         result = cache.get()
       return result
     }
-    def onLookup(evaluator : Evaluator) : Value = {
+    def onLookup() : Value = {
       var result = getResult()
       if (result != null) result
       else {
@@ -1440,7 +1443,7 @@ object Values {
     }
   }
 
-  case class UnrelatedX() extends Exception {}
+  object UnrelatedX extends Exception {}
 
   object defaultValueOrdering extends Ordering[Value] {
     def compare(a : Value, b : Value) : Int = {
@@ -1450,7 +1453,7 @@ object Values {
         case EQUAL => 0
         case GREATER => 1
         case UNRELATED =>
-          throw UnrelatedX()
+          throw UnrelatedX
       }
       r
     }

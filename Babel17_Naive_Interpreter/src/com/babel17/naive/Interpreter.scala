@@ -14,13 +14,6 @@ import java.io.Reader
 
 object Interpreter {
 
-  object factory extends ThreadFactory {
-
-    def newThread(r : Runnable) : Thread = {
-      new Thread(r)
-    }
-  }
-
   @throws(classOf[java.io.IOException])
   def parseAndAnalyze(reader : java.io.Reader) : java.util.Collection[ErrorMessage] = {
     var charstream: CharStream = new ANTLRReaderStream(reader)
@@ -66,7 +59,7 @@ object Interpreter {
             w.writeLineCommentary("Found "+cpus+" available processors.")
             w.writeLine("")
           }
-          val evaluator = new Evaluator(java.util.concurrent.Executors.newFixedThreadPool(cpus, factory))
+          val evaluator = new Evaluator(cpus)
           evaluator.writeOutput = w
           val v = evaluator.evaluate(Evaluator.emptyEnv, term)
           val fv = v.force()

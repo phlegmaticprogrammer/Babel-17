@@ -8,6 +8,7 @@
 \usepackage{amssymb}
 \usepackage{epstopdf}
 \usepackage{listings}
+\usepackage{url}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
 \title{Syntax and Semantics of Babel-17, v0.21 (Draft)}
@@ -30,7 +31,7 @@
 \newenvironment{babelcode}[0]{\begin{center}\tt}{\end{center}}
 
 \lstdefinelanguage{babellanguage} 
-{morekeywords={lazy, concurrent, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil},
+{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod},
 sensitive=true, 
 morecomment=[l]{//}, 
 morecomment=[s]{/*}{*/}, 
@@ -74,17 +75,18 @@ I always wanted a programming language
 \item that supports exceptions,
 \item that has pattern matching,
 \item that has built-in support for laziness and concurrency,
-\item that has lists, vectors, sets and maps,
+\item that has built-in support for purely functional lists, vectors, sets and maps,
 \item that seamlessly marries structured programming constructs like loops with purely functional programming,
 \item that supports objects, modules and data encapsulation,
-\item that has mature implementations for all major modern computing platforms,
+\item that has mature implementations for all major modern computing platforms and can (and should!) be used for real-world programming,
+\item that has a simple mechanized formal semantics,
 \item that is beautiful.
 \end{itemize}
 There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will have been achieved. The version described in this document is Babel-17 v0.21, so there is still some distance to go. 
 
-Babel-17 is not a radically new or revolutionary programming language. It picks those raisins I like out of languages like Standard ML, Alice ML, Java, Javascript, Scala, Erlang, Haskell, Lisp, Clojure and Mathematica, and tries to evolve them into a beautiful new design. Of course, what some regard as beautiful, others might find unremarkable, or even ugly.
+Babel-17 is not a radically new or revolutionary programming language. It picks those raisins I like out of languages like Standard ML, Scala, Alice ML, Java, Javascript, Erlang, Haskell, Lisp, Clojure and Mathematica, and tries to evolve them into a beautiful new design. 
 
-Babel-17 is a functional language. It is not a pure functional language because it contains sources of non-determinism like the ability to pick one of two values randomly. If you take these sources of non-determinism out of the language, it becomes pure. 
+Babel-17 is a functional language. It is not a pure functional language because it contains sources of non-determinism like the ability to pick one of two values randomly. If you take these sources of non-determinism out of the language (there are currently only two such sources, \babelsrc{choose}\ and \babelsrc{random}), it becomes pure. 
 
 In Babel-17, every value has a type. These types are not checked statically, but only dynamically. 
 
@@ -97,6 +99,10 @@ Babel-17 has pattern matching and exception handling. Both are carefully integra
 Furthermore, Babel-17 establishes the paradigm of \emph{purely functional structured programming}  via the notion of linear scope.
 
 In this document  I specify Babel-17 in a mostly informal style: formal notation is sometimes used when it supports clarity.
+
+\section{Reference Implementation and Bug Parade}
+
+At \url{www.babel-17.com} you will find a reference implementation of Babel-17 v0.21 that fully supports the language as described in this document. There you will also find a Netbeans plugin that has syntax and error-highlighting for Babel-17 programs. As you find your way through this document, it might be helpful to directly try out Babel-17 in Netbeans to see if the interpreter behaves as you would guess from this spec. If you find implausible behavior, email your findings to \texttt{bugparade@babel-17.com}. Each proper bug will be listed together with your name (unless you don't wish so; then don't give your name in the email; it's also OK not to give your real name but an alias) and date of your discovery forever at \texttt{bugparade.babel-17.com}. You can also provide a link to your blog or whatever. 
 
 \section{Lexical Matters}
 Babel-17 source code is always written UTF-8 encoded. If it ain't UTF-8, it ain't Babel-17. 
@@ -112,7 +118,7 @@ These are the keywords of Babel-17:
 begin & end & object & with & if & then & else & elseif \\
 while &  for & do & choose & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
-to & downto & true & false & nil & infinity &  force & 
+to & downto & true & false & nil & infinity &  force & this
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
@@ -144,7 +150,7 @@ String consisting only of line feed via 32-bit escaping & \verb+"\U0000000A"+
 \end{tabular}
 \end{center}
 
-Comments in Babel-17 are written between matching pairs of \verb+/*+ and \verb+*/+ and can span several lines.
+Comments in Babel-17 are written between matching pairs of \verb+/*+ and \verb+*/+ and can span several lines. Currently, comments cannot be nested.
 
 Finally, here are all ASCII special symbols that can occur in a Babel-17 program:
 \newcommand{\mapcurlyleft}{\{|}
@@ -205,6 +211,8 @@ Each value in Babel-17 has a unique type. All built-in types are depicted in Tab
 \end{tabular}
 \label{table:builtintypes}
 \end{table}
+There is currently no way to explicitly test the type of a value. There is also currently no way to annotate the type of a variable.
+Future versions of Babel-17 will include such capabilities.
 
 \section{Objects and Functions}
 All values in Babel-17 are objects. This means that you can send messages to them. Many values in Babel-17 are functions. This means that you can apply them to an argument, yielding another value. Note that for a value to be an object, it does not need to have type \metababel{Object}, and for a value to be a function,  it does not need to have type \metababel{Function}. 
@@ -213,7 +221,8 @@ The result of sending message $m$ to object $v$  is written as
 \begin{babellisting}
 $v$.$m$
 \end{babellisting}
-Here $m$ is an identifier. 
+Here $m$ is an identifier. The special object \babelsrc{nil}\ does not respond to any message.
+
 The result of applying function $f$ to value $x$ is written as 
 \begin{babellisting}
 $f$ $x$
@@ -232,29 +241,31 @@ $f$ $x$ $y$
 is equivalent to \babelsrc{($f$\ $x$)\ $y$}.
 
 \section{Exceptions}
-Exception handling in Babel-17 mimicks exception handling mechanisms like those which can be found in Java or Standard ML or Erlang, while adhering at the same time to the functional paradigm .
+Exception handling in Babel-17 mimicks exception handling mechanisms like those which can be found in Java or Standard ML, while adhering at the same time to the functional paradigm.
 
 There are two types of exceptions: \metababel{PersistentException} and  \metababel{DynamicException}.
 The difference is that a \metababel{PersistentException}  can be treated as part of any data structure, and is passed around just like any other value, while a \metababel{DynamicException} can never be part of a data structure and has special evaluation semantics. 
 
 Exceptions in Babel-17 are not that special at all but mostly just another type of value.  Let us write \metababel{PersistentException $v$} for a \metababel{PersistentException} with parameter $v$,
 and  \metababel{DynamicException $v$} for a \metababel{DynamicException} with parameter $v$. 
-We also write \metababel{Exception $v$} for an exception with parameter $v$. The parameter $v$ is a non-exceptional value; this means that $v$ can be any Babel-17 value except one of type \metababel{DynamicException}. Note that $v$ can be non-exceptional and of type \metababel{PersistentException} at the same time.
+We also write \metababel{Exception $v$} for an exception with parameter $v$. The parameter $v$ is a \emph{non-exceptional} value; this means that $v$ can be any Babel-17 value except one of type \metababel{DynamicException}. Note that a value of type \metababel{PersistentException} is therefore non-exceptional.
 
-Then the following deterministic rules govern how exceptions behave with respect to sending of messages, function application, laziness and concurrency:
+The following deterministic rules govern how exceptions behave with respect to sending of messages, function application, laziness and concurrency:
 \begin{babelcode}
-\begin{tabular}{rcll}
-(\metababel{Exception $v$}).$m$ & $\leadsto$ & \metababel{DynamicException $v$}&\\
-(\textsl{Exception} $v$) $x$ & $\leadsto$ & \metababel{DynamicException $v$}&\\
-$f$ (\metababel{DynamicException $v$}) & $\leadsto$ & \metababel{DynamicException $v$}& {\rm where $f$ is non-exceptional}\\
-exception $v$ & $\leadsto$ & \metababel{DynamicException $v$}&\\
-lazy (\metababel{Exception $v$}) & $\leadsto$ & \metababel{PersistentException $v$}&\\
-concurrent (\metababel{Exception $v$}) & $\leadsto$ & \metababel{PersistentException $v$}&\\
+\begin{tabular}{rcl}
+(\metababel{Exception $v$}).$m$ & $\leadsto$ & \metababel{DynamicException $v$}\\
+(\textsl{DynamicException} $v$) $x$ & $\leadsto$ & \metababel{DynamicException $v$}\\
+$f$ (\metababel{DynamicException $v$}) & $\leadsto$ & \metababel{DynamicException $v$}  {\rm where $f$ is non-exceptional}\\
+(\metababel{PersistentException $v$}) $g$ & $\leadsto$ & \metababel{DynamicException $v$}  {\rm where $g$ is non-exceptional}\\
+exception $v$ & $\leadsto$ & \metababel{DynamicException $v$}\\
+lazy (\metababel{Exception $v$}) & $\leadsto$ & \metababel{PersistentException $v$}\\
+concurrent (\metababel{Exception $v$}) & $\leadsto$ & \metababel{PersistentException $v$}\\
+force $v$  & $\leadsto$ & $v$  {\rm for all $v$, including exceptions}
 \end{tabular}\\
 \end{babelcode}
 Exceptions in Babel-17 are created with the expression \babelsrc{exception $\ v$}. Creating exceptions in Babel-17 corresponds to \emph{raising} or \emph{throwing} exceptions in other languages. There is no special construct for catching exceptions in Babel-17. Instead, catching an exception can be done via the \babelsrc{match} expression which will be described later. 
 
-In a later section, we will describe the  \babelsrc{lazy} and \babelsrc{concurrent} expressions of Babel-17. They are the reason why exceptions are divided into dynamic and persistent ones. 
+In the next section, we will describe the  \babelsrc{lazy} and \babelsrc{concurrent} expressions of Babel-17. They are the reason why exceptions are divided into dynamic and persistent ones. 
 
 \section{Laziness and Concurrency}
 The default evaluation mechanism of Babel-17 is strict. This basically means that the arguments of a function are evaluated before the function is applied to them. Babel-17 has two constructs to change this default behaviour. 
@@ -263,17 +274,37 @@ The expression
 \begin{babellisting}
 lazy $e$
 \end{babellisting}
-is not evaluated until it is actually needed. When it is needed, it evaluates to whatever $e$ evaluates to, with the exception of dynamic exceptions, which are converted to persistent ones. It is guaranteed that $e$ is only evaluated once. 
+is not evaluated until it is actually needed. When it is needed, it evaluates to whatever $e$ evaluates to, with the exception of dynamic exceptions, which are converted to persistent ones.  
 
 The expression
 \begin{babellisting}
 concurrent $e$
 \end{babellisting}
 also evaluates to whatever $e$ evaluates to, again with the exception of dynamic exceptions which are converted to persistent ones. This evaluation will happen concurrently.  
-It is guaranteed that $e$ is only evaluated once.
 
 One could think that apart from obvious different performance characteristics, the expressions \babelsrc{lazy $\ e$} and \babelsrc{concurrent $\ e$} are equivalent. This is not so.
 If $e$ is a non-terminating expression then, even if  the value of  \babelsrc{concurrent  $\ e$} is never needed during program execution, it might still lead to a non-terminating program execution. In other words, the behaviour of \babelsrc{concurrent $\ e$}  is unspecified for non-terminating $e$.
+
+Sometimes you do not want to proceed until an expression has been completely evaluated so that it does not contain any lazy or concurrent subcomponents any more. In those situations you use the expression
+\begin{babellisting}
+force $e$
+\end{babellisting}
+which evaluates to $e$. So semantically, \babelsrc{force} is just the identity function. 
+
+We mentioned before that lazy and concurrent expressions are the reason why exceptions are divided into dynamic and persistent ones. To motivate this, look at the expression
+\begin{babellisting}
+fst (0, lazy (1 div 0))
+\end{babellisting}
+Here the function \babelsrc{fst} is supposed to be a function that takes a pair and returns the first element of this pair. So what would above expression evaluate to? Obviously, \babelsrc{fst} does not need to know the value of the second element of the pair as it depends only on the first element, so above expression evaluates just to 0. Now, if \babelsrc{lazy} was semantically just the identity function, then we would have
+\begin{babellisting}
+0 = fst (0, lazy (1 div 0)) = fst (0, 1 div 0) = fst (0, exception DomainError) 
+   = fst (exception DomainError) = exception DomainError
+\end{babellisting}
+Obviously, $0$ should not be the same as an exception, and therefore \babelsrc{lazy} cannot be the identity function, but converts dynamic exceptions into persistent ones. For a dynamic exception $e$ the equation
+\begin{babellisting}
+(0, $e$) = $e$
+\end{babellisting}
+holds. For a persistent exception $e$ this equation does not hold, and therefore the above chain of equalities is broken.
 
 \section{Lists and Vectors}
 For $n \ge 0$, the expression
@@ -306,10 +337,10 @@ Dynamic exceptions cannot be part of a list but are propagated:
 $h$::(\metababel{DynamicException $v$}) & $\leadsto$ & \metababel{DynamicException $v$}& {\rm where $h$ is non-exceptional}\\
 \end{tabular}\\
 \end{babelcode}
-Note that in cases where the tail $t$ is not a list, we identify \babelsrc{$h$::$t$} with  \babelsrc{$h$::$t$::[]} .
+Note that in cases where the tail $t$ is neither a list nor a vector, we identify \babelsrc{$h$::$t$} with  \babelsrc{$h$::$t$::[]} . 
 
 \section{CExprs}
-A \metababel{CExpr} is a constructor $c$ together with a parameter $p$, written $c$ $p$. It is allowed to leave out the parameter $p$, which then defaults to \babelsrc{()}. For example,  \babelsrc{HELLO} is equivalent to \babelsrc{HELLO ()}. A constructor $c$ cannot have a dynamic exception as its parameter, therefore we have:
+A \metababel{CExpr} is a constructor $c$ together with a parameter $p$, written $c$ $p$. It is allowed to leave out the parameter $p$, which then defaults to \babelsrc{nil}. For example,  \babelsrc{HELLO} is equivalent to \babelsrc{HELLO} \babelsrc{nil}. A constructor $c$ cannot have a dynamic exception as its parameter, therefore we have:
 \begin{babelcode}
 \begin{tabular}{rcll}
 $c$ (\metababel{DynamicException $v$}) & $\leadsto$ & \metababel{DynamicException $v$}&\\
@@ -329,15 +360,15 @@ Given a value $e$, Babel-17 tries to match it to the patterns $p_1$, $p_2$, $\ld
 is given by the block expression $b_i$. If none of the pattern matches then there are two possible outcomes:
 \begin{enumerate}
 \item If $e$ is a dynamic exception, then the value of the match is just $e$.
-\item Otherwise the result is a dynamic exception with parameter \babelsrc{NoMatch $\ e$}.
+\item Otherwise the result is a dynamic exception with parameter \babelsrc{NoMatch}.
 \end{enumerate}
-A few of the pattern constructs are capable of raising dynamic exceptions because they incorporate arbitrary value expressions. When during a pattern match such an exception occurs, then the entire match is aborted and the dynamic exception is returned as the result of the \babelsrc{match}-expression. Furthermore note that persistent exceptions in $e$ or any of the patterns also lead to a dynamic exception if the value of the persistent exception is forced for pattern matching.
+A few of the pattern constructs  incorporate arbitrary value expressions. When these expressions raise exceptions, the whole pattern they are contained in is rendered non-matching.
 
-So what does a pattern look like? Table~\ref{table:patterns} lists all ways of building a pattern.
+So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\ref{table:collectionpatterns} list all ways of building a pattern.
 \begin{table}
-\caption{Pattern Constructs in Babel-17}
+\caption{General Patterns}
 \begin{tabular}{c|l}
-\textbf{Syntax} & \textbf{General Description}\\\hline
+\textbf{Syntax} & \textbf{Description}\\\hline
 \babelsrc{_} & \patterndescr{the underscore symbol matches anything but a dynamic exception}\\\hline
 \babelsrc{$x$} & \patterndescr{an identifier $x$ matches anything but a dynamic exception and binds the matched expression to $x$}\\\hline
 \babelsrc{($x\ $ as $\ p$)} & \patterndescr{matches $p$, and binds the successfully matched value to $x$; the match fails if $p$ does not match or if the matched value is a dynamic exception}\\\hline
@@ -345,37 +376,46 @@ So what does a pattern look like? Table~\ref{table:patterns} lists all ways of b
 \babelsrc{infinity} or \babelsrc{-infinity} , matches just that number $z$}\\\hline
 \babelsrc{$c\ $ $p$} & \patterndescr{matches a \metababel{CExpr} with constructor $c$ if the parameter of the \metababel{CExpr} matches $p$}\\\hline
 \babelsrc{$s$} & \patterndescr{a string $s$, like \babelsrc{"hello"}, matches just that string $s$}\\\hline
+\babelsrc{($p$)} & \patterndescr{same as $p$} \\\hline
+\babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches any non-exceptional value that matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
+\babelsrc{(val $\ e$)} & \patterndescr{matches anynon-exceptional  value which is equivalent to $e$}\\\hline
+\babelsrc{($f\ $ ? $\ p$)} & \patterndescr{here $f$ is a function; $f$ is applied to the value to be matched; the match succeeds if the result of the application is not an exception amd matches $p$}\\\hline
+\babelsrc{($d\ $ ? $\ p$)} & \patterndescr{here $d$ is a not a function and not an exception;   short for \babelsrc{((v => v.deconstruct_ $\ d$) ? $\ p$)}}\\\hline
+\babelsrc{($e\ $ ?)} & \patterndescr{short for \babelsrc{($e\ $ ? true)} }\\\hline
+\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches an object that has exactly the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
+\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$, $\ \delta$\}} & \patterndescr{matches an object that has the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
+\babelsrc{nil} & \patterndescr{matches the empty object}\\\hline
+\babelsrc{exception} $p$ & \patterndescr{matches any exception such that its parameter matches $p$}
+\end{tabular}
+\label{table:basicpatterns}
+\end{table}
+\begin{table}
+\caption{Collection Patterns}
+\begin{tabular}{c|l}
+\textbf{Syntax} & \textbf{Description}\\\hline
 \babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$]} &  \patterndescr{matches a list/vector consisting of $n \ge 0$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
 \babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$)} &  \patterndescr{matches a vector/list consisting of $n=0$ or $n \ge 2$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
-\babelsrc{($p$)} & \patterndescr{same as $p$} \\\hline
 \babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$]} &  \patterndescr{matches a list/vector consisting of at least $n \ge 1$ elements, such that the first $n$ elements $e_i$ of the list/vector are matched by the patterns $p_i$}\\\hline
 \babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$)} &  \patterndescr{matches a vector/list consisting of at least $n \ge 1$ elements, such that the first $n$ elements $e_i$ of the vector/list are matched by the patterns $p_i$}\\\hline
 \babelsrc{($p$, )} &  \patterndescr{matches a vector/list consisting of a single element that matches the pattern $p$.} \\\hline
 \babelsrc{($h$::$t$)} & \patterndescr{matches a non-empty list/vector such that $h$ matches the head of the list/vector and $t$ its tail}\\\hline
-\babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
-\babelsrc{(val $\ e$)} & \patterndescr{matches any value which is equivalent to $e$}\\\hline
-\babelsrc{($f\ $ ? $\ p$)} & \patterndescr{here $f$ is a function; $f$ is applied to the value to be matched; the match succeeds if the result of the application is \babelsrc{(Some $\ r$)} and $p$ matches $r$, and fails if the result is  \babelsrc{None}; otherwise the dynamic exception \babelsrc{TypeError} is thrown} \\\hline
-\babelsrc{($d\ $ ? $\ p$)} & \patterndescr{here $d$ is a not a function and non-exceptional;   short for \babelsrc{((v => v.deconstruct $\ d$) ? $\ p$)}}\\\hline
-\babelsrc{($e\ $ ?)} & \patterndescr{similar as the two patterns above but tests for \babelsrc{true / false} instead}\\\hline
-\babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n$\}} & \patterndescr{see section~\ref{sec-setmap-patterns}} \\\hline
-\babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n\ $, $\ \delta$\}} & \patterndescr{see section~\ref{sec-setmap-patterns}} \\\hline
-\babelsrc{\{$q_1\ $ -> $\ p_1$,$\ \ldots\ $,$\ q_n\ $ -> $\ p_n$\}} & \patterndescr{see section~\ref{sec-setmap-patterns}}\\\hline
-\babelsrc{\{$q_1\ $ -> $\ p_1$,$\ \ldots\ $,$\ q_n\ $ -> $\ p_n$, $\ \delta$\}} & \patterndescr{see section~\ref{sec-setmap-patterns}}\\\hline
-\babelsrc{\{->\}} & \patterndescr{matches the empty map}\\\hline
-\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches an object that has exactly the messages $m_1$,.., $m_n$}\\\hline
-\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$, $\ \delta$\}} & \patterndescr{matches an object that has the messages $m_1$,.., $m_n$}\\\hline
-\babelsrc{nil} & \patterndescr{matches the empty object}\\\hline
-\babelsrc{exception} $p$ & \patterndescr{matches any exception such that its parameter matches $p$}
+\babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n$\}} & \patterndescr{see section~\ref{sec:setsandmaps}} \\\hline
+\babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n\ $, $\ \delta$\}} & \patterndescr{see section~\ref{sec:setsandmaps}} \\\hline
+\babelsrc{\{$q_1\ $ -> $\ p_1$,$\ \ldots\ $,$\ q_n\ $ -> $\ p_n$\}} & \patterndescr{see section~\ref{sec:setsandmaps}}\\\hline
+\babelsrc{\{$q_1\ $ -> $\ p_1$,$\ \ldots\ $,$\ q_n\ $ -> $\ p_n$, $\ \delta$\}} & \patterndescr{see section~\ref{sec:setsandmaps}}\\\hline
+\babelsrc{\{->\}} & \patterndescr{matches the empty map (see section~\ref{sec:setsandmaps})}\\\hline
+\babelsrc{\(for $\ p_1$,$\ \ldots\ $, $\ p_n\ $end\)} & \patterndescr{see section~\ref{sec:setsandmaps}}\\\hline
+\babelsrc{\(for $\ p_1$,$\ \ldots\ $, $\ p_n$, $\ \delta\ $end\)} & \patterndescr{see section~\ref{sec:setsandmaps}}
 \end{tabular}
-\label{table:patterns}
+\label{table:collectionpatterns}
 \end{table}
 
-In this table of pattern constructions we use the $\delta$-pattern $\delta$. This pattern stands for "the rest of the collection under consideration" and can be constructed by the following rules:
+In this table of pattern constructions we use the $\delta$-pattern $\delta$. This pattern stands for "the rest of the entity under consideration" and can be constructed by the following rules:
 \begin{enumerate}
-\item The ellipsis \babelsrc{...} is a $\delta$-pattern that matches any collection.
+\item The ellipsis \babelsrc{...} is a $\delta$-pattern that matches any rest.
 \item If $\delta$ is a $\delta$-pattern, and $x$ an identifier, then \babelsrc{($x\ $ as $\ \delta$)} is a $\delta$-pattern.
 \item If $\delta$ is a $\delta$-pattern, and $e$ an expression, then \babelsrc{($\delta\ $ if $\ e$)} is a $\delta$-pattern.
-\item If $\delta$ is a $\delta$-pattern, and $e$ an expression, then \babelsrc{($e\ $ ? $\ \delta$)} is a $\delta$-pattern.\end{enumerate}
+\end{enumerate}
 
 Note that pattern matching does not distinguish between vectors and lists. A pattern that looks like a vector can match a list, and vice versa.
 
@@ -385,7 +425,7 @@ One source of non-determinism in Babel-17 is \emph{probabilistic} non-determism.
 \begin{babellisting}
 random $n$
 \end{babellisting}
-returns for an integer $n > 0$ a number between $0$ and $n-1$ such that each number between $0$ and $n-1$ has equal chance of being returned. If $n$ is a dynamic exception, then this exception is propagated, if $n$ is a non-exceptional value that is not an integer $> 0$ then the result is an exception with parameter \babelsrc{InvalidArgument $\ n$}.
+returns for an integer $n > 0$ a number between $0$ and $n-1$ such that each number between $0$ and $n-1$ has equal chance of being returned. If $n$ is a dynamic exception, then this exception is propagated, if $n$ is a non-exceptional value that is not an integer $> 0$ then the result is an exception with parameter \babelsrc{DomainError}.
 
 The other source of non-determinism is choice. The expression
 \begin{babellisting}
@@ -396,6 +436,8 @@ takes a non-empty collection $l$ and returns a member of the collection. The cho
 choose (concurrent a, concurrent b)
 \end{babellisting}
 the evaluator could choose the member that evaluates quicker.
+
+Babel-17 has been designed such that if you take the above two constructs out of the language, it becomes purely functional. If in your semantics of Babel-17 you replace the concept of value by the concept of a probability distribution over values and a set of values, you might be able to view Babel-17 as a purely functional language even \emph{including} \babelsrc{random} and \babelsrc{choose}.
 
 \section{Block Expressions}
 So far we have only looked at expressions. We briefly mentioned the term \emph{block expressions} in the description of the \babelsrc{match} function, though.  We will now introduce and explain block expressions.
@@ -411,17 +453,16 @@ is a normal expression where $b$ is a block expression. A block expression has t
 $s_1$
 $\vdots$
 $s_n$
-$e$
 \end{babellisting}
-where the $s_i$ are statements and $e$ is the return expression of the block (a return expression is just a normal expression). In a block expression newlines can be used to separate the statements and the return expression from each other. The other means of separation are semicolons. Later on we will see how block expressions can be used to imitate imperative programming; on those occasions there will be no return expression $e$ but only statements.
+where the $s_i$ are \emph{statements}. In a block expression both newlines and semicolons can be used to separate the statements from each other. The other means of separation are semicolons.
 
-Statements are Babel-17's primary tool for introducing identifiers. There are several kinds of statements. Two of them will be introduced in this section.
+Statements are Babel-17's primary tool for introducing identifiers. There are several kinds of statements. Three of them will be introduced in this section.
 
 First, there is the \babelsrc{val}-statement which has the following syntax:
 \begin{babellisting}
 val $p$ = $e$
 \end{babellisting}
-Here $p$ is a pattern and $e$ is an expression. Its meaning is that $e$ gets evaluated and then is matched to $p$. If the match is successful then all identifiers bound by the match can be used in later statements and in the return expression of the block expression. Otherwise, some kind of dynamic exception must have happened which then becomes the value of the entire block expression. 
+Here $p$ is a pattern and $e$ is an expression. Its meaning is that first $e$ gets evaluated. If this results in a dynamic exception, then the result of the block expression that the \babelsrc{val}-statement is part of will be that dynamic exception. Otherwise, the result of evaluating $e$ is matched to $p$. If the match is successful then all identifiers bound by the match can be used in later statements of the block expression. If the match fail, then the value of the containing block expression is the dynamic exception \babelsrc{NoMatch}.
 
 Second, there is the \babelsrc{def}-statement which obeys the following syntax for defining the identifier $id$:
 \begin{babellisting}
@@ -429,9 +470,9 @@ def $id$ $arg$ = $e$
 \end{babellisting}
 The $arg$ part is optional. If $arg$ is present, then it must be a pattern. Let us call those definitions where $arg$ is present a \emph{function definition}, and those definitions where $arg$ is not present a \emph{simple definition}.  
 
-Per block expression and identifier $id$ there can be either a single simple definition, or there can be several function definitions. If there are multiple function definitions for the same identifier, then they must appear sequentially in the block expression, without any other statements interrupting the sequence.
+Per block expression and identifier $id$ there can be either a single simple definition, or there can be several function definitions. If there are multiple function definitions for the same identifier in one block expression, then they are bundled in that order to form a single function.
 
-The defining expressions in  \babelsrc{def}-statements can recursively refer to the other identifiers defined by  \babelsrc{def}-statements in the same block expression. This is the main difference between definitions via \babelsrc{def} and definitions via \babelsrc{val}. Only those \babelsrc{val}-identifiers are in scope that have been defined \emph{previously}. Table~\ref{table:legaldef} exemplifies this rule.
+The defining expressions in  \babelsrc{def}-statements can recursively refer to the other identifiers defined by  \babelsrc{def}-statements in the same block expression. This is the main difference between definitions via \babelsrc{def} and definitions via \babelsrc{val}. Only those \babelsrc{val}-identifiers are in scope that have been defined \emph{previously}, but \babelsrc{def}-identifiers are in scope throughout the whole block expression. Table~\ref{table:legaldef} exemplifies this rule.
 \begin{table}
 \caption{Legal and illegal definitions}
 \begin{tabular}{c@{\hspace{1cm}}c@{\hspace{1cm}}c@{\hspace{1cm}}c}
@@ -465,7 +506,7 @@ def f $p_1$ = $e_1$
    $\vdots$
 def f $p_n$ = $e_n$ 
 \end{babellisting}
-Then this is equivalent to 
+Then this is (almost) equivalent to 
 \begin{babellisting}
 def f x = 
   match x
@@ -474,9 +515,9 @@ def f x =
     case $p_n$ => $e_n$ 
   end
 \end{babellisting}
-where \babelsrc{x} is fresh for the $p_i$ and $e_i$.
+where \babelsrc{x} is fresh for the $p_i$ and $e_i$. The slight difference between the two notations is that arguments that match none of the patterns will result in a \babelsrc{DomainError} exception for the first notation, and in a \babelsrc{NoMatch} exception for the second.
 
-While only one simple definition per block and identifier is allowed, it is ok to have multiple \babelsrc{val}-statements for the same identifier in one block expression, for example like that:
+While definitions only define a single entity per block and identifier, it is OK to have multiple \babelsrc{val}-statements for the same identifier in one block expression, for example like that:
 \begin{babellisting}
 val x = 1
 val x = (x, x)
@@ -505,13 +546,37 @@ will evaluate either to \babelsrc{(0, 0)} or to \babelsrc{(1, 1)}. But
 def x = random 2
 (x, x)
 \end{babellisting}
-can additionally also evaluate to \babelsrc{(0, 1)} or to \babelsrc{(1, 0)}. The reason for this is that above code snippet is syntactic sugar for:
-\begin{babellisting}
-def x () = random 2
-(x(), x())
-\end{babellisting}
+can additionally also evaluate to \babelsrc{(0, 1)} or to \babelsrc{(1, 0)} because $x$ is evaluated each time it is used.
 
-\emph{ToDo: need to explain more about order of vals and defs, especially that vals cannot reference later vals, even not indirectly via defs. This will also clean up the parts about module and object initialization.}
+Let us conclude this section by describing the third kind of statement. It has the form
+\begin{babellisting}
+yield $e$
+\end{babellisting}
+where $e$ is an expression. There is also an abbreviated form of the \babelsrc{yield}-statement which we have already used several times in this section:
+\begin{babellisting}
+$e$
+\end{babellisting}
+The semantics of the \babelsrc{yield}-statement is that it appends a further value to the value of the block expression it is contained in. Block expressions have a value just like all other expressions in Babel-17. It is obtained by "concatenating" all values of the \babelsrc{yield}-statements in a block expression. The value of 
+\begin{babellisting}
+begin
+end
+\end{babellisting}
+is the empty vector \babelsrc{()}. The value of 
+\begin{babellisting}
+begin
+  yield $a$
+end
+\end{babellisting}
+is $a$. The value of 
+\begin{babellisting}
+begin
+  yield $a$
+  yield $b$
+end
+\end{babellisting}
+is the vector \babelsrc{($a$,$\ b$)} of length 2 and so on. 
+
+In this section we have introduced the notions of block expressions and statements. Their full power will be revealed in later sections of this document.
 
 \section{Anonymous Functions}
 So far we have seen how to define named functions in Babel-17. Sometimes we do not need a name for a certain function, for example when the code that implements this function is actually just as easy to understand as any name for the function. We already have the tools for writing such nameless, or anonymous, functions:
@@ -557,7 +622,7 @@ end
 where $\babelsrc{f}$ is fresh for the $p_i$ and $b_i$.
 
 \section{Objects}
-\babelsrc{Object} expressions have the following syntax:
+\emph{Object expressions} have the following syntax:
 \begin{babellisting}
 object 
   $s_1$
@@ -565,7 +630,7 @@ object
   $s_n$
 end
 \end{babellisting}
-The $s_i$ are arbitrary statements.  Those $s_i$ that are  \babelsrc{def} statements define the set of messages that the object responds to.
+The $s_i$ are arbitrary statements, with the exception that no \babelsrc{yield}-statements are allowed.  Those $s_i$ that are  \babelsrc{def} statements define the set of messages that the object responds to.
 
 Often you do not want to create objects from scratch but by modifying other already existing objects:
 \begin{babellisting}
@@ -576,9 +641,9 @@ object + parents
 end
 \end{babellisting}
 The expression \babelsrc{parents} must evaluate to either a list, a vector or a set. The members of  \babelsrc{parents}
-are considered to be the parents of the newly created object, in the order induced by the collection. The idea is that the created object not only understands the messages defined by the $s_i$, but also the messages of the parents. Messages defined via $s_i$ shadow messages of the parents. The messages of an earlier parent shadow the messages of a later one.
+are considered to be the parents of the newly created object, in the order induced by the collection. The idea is that the created object not only understands the messages defined by the $s_i$, but also the messages of the parents. Messages defined via $s_i$ shadow messages of the parents. The messages of an earlier parent shadow the messages of a later one. The parents must have been created via object expressions, too. 
 
-The keyword \babelsrc{this} has currently no meaning in Babel-17.
+The keyword \babelsrc{this} has currently no meaning in Babel-17. This might change in future versions of Babel-17.
 
 \noindent There is one more way to denote record-like objects:
 \begin{babellisting}
@@ -620,7 +685,7 @@ match a
   case false => 
     true
   case _ => 
-    exception TypeError
+    exception DomainError
 end
 \end{babellisting}
  & 
@@ -634,12 +699,12 @@ match a
       case false => 
         false
       case _ => 
-        exception TypeError
+        exception DomainError
     end 
   case false => 
     false
   case _ => 
-    exception TypeError
+    exception DomainError
 end
 \end{babellisting}
  & 
@@ -653,12 +718,12 @@ match a
       case false => 
         false
       case _ => 
-        exception TypeError
+        exception DomainError
     end 
   case true => 
     true
   case _ => 
-    exception TypeError
+    exception DomainError
 end
 \end{babellisting}
 \end{tabular}
@@ -686,9 +751,19 @@ The meaning of above expression is defined to be
 match $b$ 
   case true => $e_1$
   case false => $e_2$
-  case _ => exception TypeError 
+  case _ => exception DomainError 
 end
 \end{babellisting}
+Actually, the  \babelsrc{else} branch is also optional. The notation
+\begin{babellisting}
+if $b$ then $e$  end
+\end{babellisting}
+is shorthand for
+\begin{babellisting}
+if $b$ then $e$  else end
+\end{babellisting}
+
+
 
 \section{Order}
 Babel-17 has a built-in partial order \babelsrc{$\le$}. All other relational operators are defined in terms of this partial order (Table~\ref{tab:relops}).
@@ -746,25 +821,29 @@ The partial order is defined by the following laws:
 \item let $U$ consist of all user-defined objects  (i.e., defined via \babelsrc{object}) that cannot receive the message \texttt{representative}; then we have  \babelsrc{nil} $<= u < -\infty$  for all $u \in U$; furthermore $U$ is partially ordered by considering its elements as sorted lists that consist of (message, value) pairs.
 \item let $a$ be a user-defined object  (i.e., defined via \babelsrc{object}) that has the message \texttt{representative}; let $ra$ be the result of sending  \texttt{representative} to $a$; then $a <= b$ is defined by $ra <= b$, and $b <= a$ is defined via $b <= ra$ for all $b$.
 \end{itemize}
+The order does not distinguish between lists and vectors. For example, we have 
+\begin{babellisting}
+(1, 2, 3) == [1, 2, 3]
+\end{babellisting}
 
-\section{Sets and Maps}
+\section{Sets and Maps}\label{sec:setsandmaps}
 Sets and maps are built into Babel-17. For example, the set consisting of 3, 42 and $\infty$ can be written as
 \begin{babellisting}
 {42, $\infty$, 3}
 \end{babellisting}
-Sets are always sorted. The default order is Babel-17's built-in partial order, but it is also possible to create sets that work with arbitrary partial orders; an arbitrary partial order is represented as a function that takes a pair and returns a boolean. Adding or removing an element $e$ from a set $S$ is only well-defined when the elements of $S$ together with $e$ are totally ordered by the partial order of $S$. The same holds for testing if an element is in a set. Table~\ref{tab:setops} shows the most commonly used notation for sets. 
+Sets are always sorted. The sorting order is Babel-17's built-in partial order, and every set forms a totally ordered subdomain of this partial order. Future versions of Babel-17 might allow the set order to be different from the built-in partial order. Adding or removing an element $e$ from a set $S$ is only well-defined when the elements of $S$ together with $e$ are totally ordered by the partial order of $S$. The same holds for testing if an element is in a set. Table~\ref{tab:setops} shows the built-in operations for sets. 
 \begin{table}
 \caption{Set Operations}
 \begin{tabular}{c|c}
 $S$ \verb!+! $e$ & \tabparbox{set created by inserting the element $e$  into the set $S$} \\\hline
 $S$ \verb!-! $e$ & \tabparbox{set created by removing the element $e$  from the set $S$} \\\hline
-$S$ \verb!++! $T$ & \tabparbox{set created by inserting all elements of the set/list $T$  into the set $S$} \\\hline
-$S$ \verb!--! $T$ & \tabparbox{set created by removing all elements of the set/list $T$ from the set $S$} \\\hline
-$S$ \verb!*! $T$ & \tabparbox{cartesian product of the set $S$ and the set $T$, sorted by lexicographic ordering} \\\hline
-$S$ \verb!**! $T$ & \tabparbox{set created by removing all elements from the set $S$ which are not in the set $T$} \\\hline
+$S$ \verb!++! $T$ & \tabparbox{set created by inserting all elements of $T$  into the set $S$} \\\hline
+$S$ \verb!--! $T$ & \tabparbox{set created by removing all elements of $T$ from the set $S$} \\\hline
+$S$ \verb!*! $T$ & \tabparbox{cartesian product of the set $S$ and the elements of $T$} \\\hline
+$S$ \verb!**! $T$ & \tabparbox{set created by removing all elements from the set $S$ which are not an element of $T$} \\\hline
 $S$ $e$ & \tabparbox{tests wether $e$ is an element of $S$}\\\hline
-$S / f$ & \tabparbox{set created by applying the function $f$ to the elements of $S$}\\\hline
-\babelsrc{$S$.reorder $\ p$} & \tabparbox{set created by reordering $S$ according to the partial order $p$; in case of duplicate elements, the greater of the elements relative to the order of $S$ is kept}
+$S / f$ & \tabparbox{set created by applying the function $f$ to the elements of $S$}
+%\babelsrc{$S$.reorder $\ p$} & \tabparbox{set created by reordering $S$ according to the partial order $p$; in case of duplicate elements, the greater of the elements relative to the order of $S$ is kept}
 \end{tabular}
 \label{tab:setops}
 \end{table}
@@ -777,14 +856,14 @@ The empty map is denoted by
 \begin{babellisting}
 {->}
 \end{babellisting}
-Maps also have always a partial order associated with them, by default this is Babel-17's built-in partial order.  Operations on maps are only well-defined if all keys of the map together with all other involved keys are totally ordered by the associated order. Table~\ref{tab:mapops} shows the most commonly used notation for maps.
+Maps also have always a partial order associated with them, in the current version of Babel-17 this is always Babel-17's built-in partial order.  Operations on maps are only well-defined if all keys of the map together with all other involved keys are totally ordered by the associated order. Table~\ref{tab:mapops} shows the built-in operations for maps.
 \begin{table}
 \caption{Map Operations}
 \begin{tabular}{c|c}
 $M$ \verb!+! $(k, v)$ & \tabparbox{map created from the map $M$ by associating $k$ with $v$}\\\hline
 $M$ \verb!-! $k$ & \tabparbox{map created from the map $M$ by removing the key $k$}\\\hline
-$M$ \verb!++! $N$ &  \tabparbox{map created from the map $M$ by adding the key/value pairs of the map/set/list $N$}\\\hline
-$M$ \verb!--! $S$ & \tabparbox{map created from $M$ by removing all keys that are in the set/list/map $S$}\\\hline
+$M$ \verb!++! $N$ &  \tabparbox{map created from the map $M$ by adding the key/value pairs that are element of $N$}\\\hline
+$M$ \verb!--! $S$ & \tabparbox{map created from $M$ by removing all keys that are elements or keys of $S$}\\\hline
 $M$ \verb!*! $N$ & \tabparbox{map created by using the partial order of $M$; if $(k_M,v_M)$ is contained in $M$ and 
 $(k_N, v_N)$ is contained in $N$ such that $k_M == k_N$, then $(k_M, (v_M, v_N))$ is contained in the new map} \\\hline
 $M$ \verb!**! $T$ & \tabparbox{map created by removing all keys from the map $M$ which are not in the set/map $T$} \\\hline
@@ -795,9 +874,6 @@ $M / f$ & \tabparbox{map created by applying the function $f$ to the values of $
 \end{tabular}
 \label{tab:mapops}
 \end{table}
-
-\section{Patterns for Sets and Maps}\label{sec-setmap-patterns}
-\emph{ToDo} 
 
 \section{API and Runtime Environment}
 Although we have already provided the specification of many operations for the built-in types of Babel-17, this document does not contain the complete API for all types yet. This API will be provided together with the reference implementation for Babel-17. Here is a quick preview of some of its features:
