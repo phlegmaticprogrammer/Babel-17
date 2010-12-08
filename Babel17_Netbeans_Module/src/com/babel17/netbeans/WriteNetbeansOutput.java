@@ -5,9 +5,6 @@ import com.babel17.syntaxtree.Location;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import org.openide.windows.IOColors;
-import org.openide.windows.IOColors.OutputType;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 import org.openide.windows.OutputEvent;
@@ -15,6 +12,7 @@ import org.openide.windows.OutputListener;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,12 +20,12 @@ import javax.swing.JEditorPane;
 import javax.swing.text.BadLocationException;
 import org.openide.cookies.EditorCookie;
 import org.openide.util.ImageUtilities;
-import org.openide.windows.OutputWriter;
+import org.openide.windows.IOColorLines;
+import org.openide.windows.IOColorPrint;
 
 public class WriteNetbeansOutput extends WriteOutput {
 
   InputOutput io;
-  OutputWriter writer;
   Babel17DataObject dobj;
   volatile boolean pleaseCancel = false;
   AbstractAction cancelAction = null;
@@ -53,53 +51,70 @@ public class WriteNetbeansOutput extends WriteOutput {
 
   }
 
-  void setColor(Color color) {
-    IOColors.setColor(io, OutputType.OUTPUT, color);
+  void println(String s, Color c) {
+    println(s, c, null, false);
   }
 
-  void print(String s) {
-    //try {
-    writer.print(s);
-    //IOColorLines.println(io, s, Color.blue);
-    //} catch (IOException e) {
-
-    //}
+  void println(String s, OutputListener l) {
+    println(s, Color.BLUE, l, false);
   }
 
-  void println(String s, boolean important) {
-    try {
-      writer.println(s, null, important);
-      //IOColorLines.println(io, s, Color.red);
-    } catch (IOException e) {
-    }
+  void println(final String s, final Color c, final OutputListener l, final boolean important) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          IOColorLines.println(io, s, l, important, c);
+        } catch (IOException e) {}
+      }
+    });
   }
 
-  WriteNetbeansOutput(String title, Babel17DataObject dobj) {
+  void print(final String s, final Color c, final OutputListener l, final boolean important) {
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          IOColorPrint.print(io, s, l, important, c);
+        } catch (IOException e) {}
+      }
+    });
+  }
+
+
+  WriteNetbeansOutput(final String title, Babel17DataObject dobj) {
     this.dobj = dobj;
-    cancelAction = new CancelAction();
-    AbstractAction[] actions = new AbstractAction[]{cancelAction};
-    InputOutput io = IOProvider.getDefault().getIO(title, actions);
-    writer = io.getOut();
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        cancelAction = new CancelAction();
+        AbstractAction[] actions = new AbstractAction[]{cancelAction};  
+        io = IOProvider.getDefault().getIO(title, actions);
+        io.select();
+      }
+    });
+
+    //OutputWriter writer = io.getOut();
     //IOColors.setColor(io, OutputType.OUTPUT, Color.blue);
-    io.select();
+    //io.select();
     /*writer.println("IOColorPrint supported: "+IOColorPrint.isSupported(io));
     writer.println("IOColorLines supported: "+IOColorLines.isSupported(io));*/
     //writer.println("----------------------------------------------------------");
+    //io.setOutputVisible(true);
   }
 
   public void writeLineCommentary(String s) {
-    setColor(Color.GRAY);
-    println(s, false);
+    println(s, Color.GRAY);
+  }
+
+  Color color(int red, int green, int blue) {
+    return new Color(red / 255.0f, green / 255.0f, blue / 255.0f);
   }
 
   public void writeLineSuccess(String s) {
-    setColor(Color.green);
-    println(s, true);
+    println(s, color(0x2e, 0xab, 0x37), null, true);
   }
 
   public void writeLineError(String s) {
-    setColor(Color.red);
-    println(s, true);
+    //setColor(Color.red);
+    println(s, color(0xb6, 0x0a, 0x0a), null, true);
   }
 
   public class L implements OutputListener {
@@ -123,33 +138,39 @@ public class WriteNetbeansOutput extends WriteOutput {
   }
 
   public void writeLocMsg(String prefix, Location loc, String message) {
-    try {
-      setColor(Color.gray);
+    //try {
       String tab = "    ";
 
       if (prefix != null) {
-        print(prefix + " ");
-        tab = "";
-        while (tab.length() <= prefix.length()) {
+        prefix = prefix + " ";
+        while (tab.length() < prefix.length()) {
           tab = tab + " ";
         }
-      }
-      writer.println("at " + loc, new L(loc), false);
-      setColor(Color.black);
-      writer.println(tab + message, null, false);
-    } catch (IOException e) {
-    }
+      } else prefix = "";
+      //IOColorPrint.print(io, "at "+loc, new L(loc), false, Color.black);
+      print(prefix, Color.black, null, false);
+      print("at "+loc, Color.blue, new L(loc), false);
+      println(": "+message, Color.black);
+      //writer.println("at " + loc, new L(loc), false);
+      //setColor(Color.black);
+      //IOColorPrint.print(io, tab+message, Color.black);
+      //writer.println(tab + message, null, false);
+      //println(tab+message, Color.BLACK);
+      //NBOut.output("Babel-17", tab + message, Color.black);
+    /*} catch (IOException e) {
+      display(e.toString());
+      e.printStackTrace();
+    }*/
 
   }
 
   public void writeLine(String s) {
-    setColor(Color.black);
-    println(s, false);
+    //setColor(Color.black);
+    println(s, Color.black);
   }
 
   public void done() {
-    writer.close();
-    io.closeInputOutput();
+    //writer.close();
     EventQueue.invokeLater(new Runnable() {
 
       public void run() {
