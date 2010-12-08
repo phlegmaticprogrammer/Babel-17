@@ -15,9 +15,8 @@
 \contentsline {section}{\tocsection {}{15}{Boolean Operators}}{14}
 \contentsline {section}{\tocsection {}{16}{Order}}{15}
 \contentsline {section}{\tocsection {}{17}{Sets and Maps}}{17}
-\contentsline {section}{\tocsection {}{18}{API and Runtime Environment}}{18}
-\contentsline {section}{\tocsection {}{19}{Syntactic Sugar}}{19}
-\contentsline {section}{\tocsection {}{20}{Memoization}}{19}
-\contentsline {section}{\tocsection {}{21}{Linear Scope}}{20}
-\contentsline {section}{\tocsection {}{22}{Yield}}{22}
-\contentsline {section}{\tocsection {}{23}{Loops}}{22}
+\contentsline {section}{\tocsection {}{18}{Syntactic Sugar}}{18}
+\contentsline {section}{\tocsection {}{19}{Memoization}}{19}
+\contentsline {section}{\tocsection {}{20}{Linear Scope}}{20}
+\contentsline {section}{\tocsection {}{21}{With}}{22}
+\contentsline {section}{\tocsection {}{22}{Loops}}{22}

@@ -3,4 +3,15 @@ def fib 1 = 1
 def fib n = fib (n-1) + fib (n-2)
 memoize fib
 
-fib 100
+val f = m => x =>
+  with [] do
+    val y = 0
+    val p = 1
+    for a in m do
+      y = y + a*p
+      p = p * x
+      yield y
+    end
+ end
+
+f [4, 2, 7] 10

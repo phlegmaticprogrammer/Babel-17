@@ -403,9 +403,9 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n\ $, $\ \delta$\}} & \patterndescr{see section~\ref{sec:setsandmaps}} \\\hline
 \babelsrc{\{$q_1\ $ -> $\ p_1$,$\ \ldots\ $,$\ q_n\ $ -> $\ p_n$\}} & \patterndescr{see section~\ref{sec:setsandmaps}}\\\hline
 \babelsrc{\{$q_1\ $ -> $\ p_1$,$\ \ldots\ $,$\ q_n\ $ -> $\ p_n$, $\ \delta$\}} & \patterndescr{see section~\ref{sec:setsandmaps}}\\\hline
-\babelsrc{\{->\}} & \patterndescr{matches the empty map (see section~\ref{sec:setsandmaps})}\\\hline
-\babelsrc{\(for $\ p_1$,$\ \ldots\ $, $\ p_n\ $end\)} & \patterndescr{see section~\ref{sec:setsandmaps}}\\\hline
-\babelsrc{\(for $\ p_1$,$\ \ldots\ $, $\ p_n$, $\ \delta\ $end\)} & \patterndescr{see section~\ref{sec:setsandmaps}}
+\babelsrc{\{->\}} & \patterndescr{see section~\ref{sec:setsandmaps}}\\\hline
+\babelsrc{\(for $\ p_1$,$\ \ldots\ $, $\ p_n\ $end\)} & \patterndescr{see section~\ref{sec:loops}}\\\hline
+\babelsrc{\(for $\ p_1$,$\ \ldots\ $, $\ p_n$, $\ \delta\ $end\)} & \patterndescr{see section~\ref{sec:loops}}
 \end{tabular}
 \label{table:collectionpatterns}
 \end{table}
@@ -815,11 +815,11 @@ The partial order is defined by the following laws:
  \item strings are totally ordered via lexicographic ordering
 \item lists and vectors are partially ordered by the lexicographic ordering 
 \item constructed expressions are partially ordered by representing them by the pair consisting of constructor and parameter
-\item $f <> g$ holds for all functions $f$ and $g$
-\item sets are partially ordered by representing them by sorted lists that consist of the elements of the set
-\item maps are partially ordered by representing them by sorted lists that consist of the (key, value) pairs of the map
-\item let $U$ consist of all user-defined objects  (i.e., defined via \babelsrc{object}) that cannot receive the message \texttt{representative}; then we have  \babelsrc{nil} $<= u < -\infty$  for all $u \in U$; furthermore $U$ is partially ordered by considering its elements as sorted lists that consist of (message, value) pairs.
-\item let $a$ be a user-defined object  (i.e., defined via \babelsrc{object}) that has the message \texttt{representative}; let $ra$ be the result of sending  \texttt{representative} to $a$; then $a <= b$ is defined by $ra <= b$, and $b <= a$ is defined via $b <= ra$ for all $b$.
+\item $! (f <= v) \& ! (v <= f)$ holds for all functions $f$ and arbitrary values $v$
+\item sets are partially ordered by first comparing their sizes, and then their elements 
+\item maps are partially ordered by first comparing their sizes, then their keys, and then their corresponding values
+\item let $U$ consist of all user-defined objects  (i.e., defined via \babelsrc{object}) that cannot receive the message \texttt{representative\_}; then we have  \babelsrc{nil} $<= u < -\infty$  for all $u \in U$; furthermore $U$ is partially ordered by considering first the number of its messages, then the messages, and then the corresponding message values
+\item let $a$ be a user-defined object  (i.e., defined via \babelsrc{object}) that has the message \texttt{representative\_}; let $ra$ be the result of sending  \texttt{representative\_} to $a$; then $a <= b$ is defined by $ra <= b$, and $b <= a$ is defined via $b <= ra$ for all $b$.
 \end{itemize}
 The order does not distinguish between lists and vectors. For example, we have 
 \begin{babellisting}
@@ -839,10 +839,10 @@ $S$ \verb!+! $e$ & \tabparbox{set created by inserting the element $e$  into the
 $S$ \verb!-! $e$ & \tabparbox{set created by removing the element $e$  from the set $S$} \\\hline
 $S$ \verb!++! $T$ & \tabparbox{set created by inserting all elements of $T$  into the set $S$} \\\hline
 $S$ \verb!--! $T$ & \tabparbox{set created by removing all elements of $T$ from the set $S$} \\\hline
-$S$ \verb!*! $T$ & \tabparbox{cartesian product of the set $S$ and the elements of $T$} \\\hline
-$S$ \verb!**! $T$ & \tabparbox{set created by removing all elements from the set $S$ which are not an element of $T$} \\\hline
+$S$ \verb!**! $T$ & \tabparbox{cartesian product of the set $S$ and the elements of $T$} \\\hline
+$S$ \verb!*! $T$ & \tabparbox{set created by removing all elements from the set $S$ which are not an element of $T$} \\\hline
 $S$ $e$ & \tabparbox{tests wether $e$ is an element of $S$}\\\hline
-$S / f$ & \tabparbox{set created by applying the function $f$ to the elements of $S$}
+$S / f$  & \tabparbox{map created by applying the function $f$ to the elements of $S$}
 %\babelsrc{$S$.reorder $\ p$} & \tabparbox{set created by reordering $S$ according to the partial order $p$; in case of duplicate elements, the greater of the elements relative to the order of $S$ is kept}
 \end{tabular}
 \label{tab:setops}
@@ -862,36 +862,40 @@ Maps also have always a partial order associated with them, in the current versi
 \begin{tabular}{c|c}
 $M$ \verb!+! $(k, v)$ & \tabparbox{map created from the map $M$ by associating $k$ with $v$}\\\hline
 $M$ \verb!-! $k$ & \tabparbox{map created from the map $M$ by removing the key $k$}\\\hline
-$M$ \verb!++! $N$ &  \tabparbox{map created from the map $M$ by adding the key/value pairs that are element of $N$}\\\hline
-$M$ \verb!--! $S$ & \tabparbox{map created from $M$ by removing all keys that are elements or keys of $S$}\\\hline
-$M$ \verb!*! $N$ & \tabparbox{map created by using the partial order of $M$; if $(k_M,v_M)$ is contained in $M$ and 
-$(k_N, v_N)$ is contained in $N$ such that $k_M == k_N$, then $(k_M, (v_M, v_N))$ is contained in the new map} \\\hline
-$M$ \verb!**! $T$ & \tabparbox{map created by removing all keys from the map $M$ which are not in the set/map $T$} \\\hline
-$M$ $k$ & \tabparbox{returns the value $v$ associated with $k$ in $M$, or returns a dynamic exception with parameter \texttt{OutOfDomain} if no such value exists} \\\hline
-$M \% f$ & \tabparbox{map created by applying the function $f$ to the values of $M$; $f$ takes a key/value pair and returns a value}\\\hline
-$M / f$ & \tabparbox{map created by applying the function $f$ to the values of $M$; $f$ takes a value and returns a value}\\\hline
-\babelsrc{$M$.reorder $\ p$} & \tabparbox{map created by reordering $M$ according to the partial order $p$; in case of duplicate keys, the greater of the keys relative to the order of $M$ is kept}
+$M$ \verb!++! $N$ &  \tabparbox{map created from the map $M$ by adding the key/value pairs that are elements of $N$}\\\hline
+$M$ \verb!--! $S$ & \tabparbox{map created from $M$ by removing all keys that are not elements of $S$}\\\hline
+$M$ \verb!**! $N$ & \tabparbox{if $(k_M,v_M)$ is contained in $M$ and 
+$(k_N, v_N)$ is contained in $N$ such that $k_M == k_N$, then $(k_M, (v_M, v_N))$ is contained in the new map;
+if $k_M$ is a key of $M$ but not of $N$ then $(k_M, \babelsrc{Left}\ k_M)$ is an element of the new map; 
+finally, if $k_N$ is a key of $N$ but not of $M$ then $(k_N, \babelsrc{Right}\ k_N)$ is an element of the new map} \\\hline
+$M$ \verb!*! $T$ & \tabparbox{map created by removing all keys from the map $M$ which are not elements of  $T$} \\\hline
+$M$ $k$ & \tabparbox{returns the value $v$ associated with $k$ in $M$, or returns a dynamic exception with parameter \texttt{DomainError} if no such value exists} \\\hline
+$M \% f$ & \tabparbox{map created by applying the function $f$ to the key/value pairs of $M$; $f$ takes a key/value pair and returns a value}\\\hline
+$M / f$ & \tabparbox{map created by applying the function $f$ to the values of $M$; $f$ takes a value and returns a value}
+%\babelsrc{$M$.reorder $\ p$} & \tabparbox{map created by reordering $M$ according to the partial order $p$; in case of duplicate keys, the greater of the keys relative to the order of $M$ is kept}
 \end{tabular}
 \label{tab:mapops}
 \end{table}
 
-\section{API and Runtime Environment}
-Although we have already provided the specification of many operations for the built-in types of Babel-17, this document does not contain the complete API for all types yet. This API will be provided together with the reference implementation for Babel-17. Here is a quick preview of some of its features:
-\begin{itemize}
-\item Integers are arbitrary precision and support the usual operations, throwing exceptions in cases which are not well-defined. 
-\item Division and modulo of integers are euclidean. 
-\item Strings support the usual operations like concatenation; the basic unit is a code point, not a character. Advanced operations like the Unicode collation algorithm are not part of Babel-17 currently, but might be introduced in later versions of Babel-17.
-\end{itemize}
-This specification also does not contain anything about the runtime environment in which Babel-17 is supposed to run. Depending on the runtime environment, there may be additional libraries available to the programmer. 
-The medium term goal is to have Babel-17 running on and interfacing with the following platforms:
-\begin{itemize}
-\item Java and Android
-\item iOS 
-\item HTML5 / Javascript 
-\end{itemize}
+Pattern matching is available also for sets and maps. The pattern 
+\begin{babellisting}
+{$p_1$, $\ldots$, $p_n$}
+\end{babellisting}
+matches a set that has $n$ elements $e_1$, $\ldots$, $e_n$ such that $p_i$ matches $e_i$ and $e_i < e_j$ for $i < j$. The pattern
+\begin{babellisting}
+{$p_1$, $\ldots$, $p_n$, $\delta$}
+\end{babellisting}
+matches a set that has $m \ge n$ elements such that its first $n$ elements match the patterns $p_i$, and the set consisting of the other $m-n$ elements matches the $\delta$-pattern. 
+
+Similarly, the pattern
+\begin{babellisting}
+{$p_1$ -> $q_1$, $\ldots$, $p_n$ -> $q_n$}
+\end{babellisting}
+matches a map consisting of $n$ key/value pairs such that the key/value pairs match the pattern pairs in order.
+The pattern \babelsrc{\{ -> \}} matches the empty map. Map patterns can have a $\delta$ pattern, too.
 
 \section{Syntactic Sugar}
-One of the goals of Babel-17 is that Babel-17 code is easy to read and understand. I have found that allowing arbitrary user-specific extensions to the syntax of code are definitely not helping to achieve this goal. Nevertheless, a bare minimum of syntactic sugar is necessary to support the most basic conventions known from arithmetic; for example, one should be able to write \texttt{3 + 5} to denote the addition of the integer 3 and the integer 5.
+One of the goals of Babel-17 is that Babel-17 code is easy to read and understand. I have found that allowing arbitrary user-specific extensions to the syntax of code is definitely not helping to achieve this goal. Nevertheless, a bare minimum of syntactic sugar is necessary to support the most basic conventions known from arithmetic; for example, one should be able to write \texttt{3 + 5} to denote the addition of the integer 3 and the integer 5.
 
 The programmer can use some of this syntactic sugar when defining her own objects. For example, \texttt{3 + 5} is just syntactic sugar for 
 \begin{babellisting}
@@ -935,11 +939,19 @@ def fib 0 = 0
 def fib 1 = 1
 def fib n = fib (n-1) + fib (n-2)
 \end{babellisting}
-The difference between weak and strong memoization is that strong memoization guarantees that the memoized function will not be executed twice for the same argument; weak memoization does not make this guarantee, so that garbage collection can reclaim all or part of the memoization cache when it needs to. Note that all arguments to the same memoized function must be totally ordered by the built-in partial order,
-and that memoization can only be requested for definitions that take an argument.
+The difference between weak and strong memoization is that strong memoization always remembers a value once it has been computed; weak memoization instead may choose not to remember computed results in certain situations, for example in order to free memory in low memory situations. Note that all arguments to the same memoized function must be totally ordered by the built-in partial order. 
 
 \section{Linear Scope}
-We extend now the syntax of \babelsrc{val}-statements such that it is actually legal to leave out the keyword \babelsrc{val} if all variables defined by it have already been defined  previously in its surrounding \emph{linear scope}. The following two expressions are equivalent:
+We are now ready to explore the full power of block expressions and statements in Babel-17. 
+
+First, we extend the syntax of \babelsrc{val}-statements such that it is legal to leave out the keyword \babelsrc{val} in certain situations. Whenever the situation is such that it is legal to write
+\begin{babellisting}
+$a$ = $\textit{expr}$
+\end{babellisting}
+for a variable identifier $a$, we say that $a$ is in \emph{linear scope}. We call the above kind of statements \emph{assignments}. A necessary condition for $a$ to be in linear scope is for $a$ to be in scope because of a previous \babelsrc{val}-statement or a pattern match. 
+The idea behind linear scope is that when the program control flow has a linear structure, then we can make assignments to variables in linear scope without leaving the realm of purely functional programming.
+
+The following two expressions are equivalent:
 \begin{center}
 \begin{tabular}{ccc}
 \begin{babellisting}
@@ -961,7 +973,7 @@ end
 \end{babellisting}
 \end{tabular}
 \end{center}
-Furthermore, \babelsrc{begin $\ \hdots\ $ end} can not only be used as an expression, but also as a statement; the following expressions exemplify nested  \babelsrc{begin $\ \hdots\ $ end} statements:
+So far, \babelsrc{val}-statements and assignments have indistinguishable semantics. The differences start to show when we look at nested block expressions:
 \begin{center}
 \begin{tabular}{ccccc}
 \begin{babellisting}
@@ -1005,29 +1017,33 @@ evaluates to $(1, 12)$ & &
 evaluates to $(1, 2)$ \\[0.5cm]
 \end{tabular}
 \end{center}
-The above examples show that the effect of dropping the \babelsrc{val} in a \babelsrc{val} statement is that the binding of an identifier becomes visible at that level within the linear scope where it has last been introduced via a \babelsrc{val} statement that includes the \babelsrc{val} keyword or via a pattern match in a \babelsrc{match} or \babelsrc{def}.
+The above examples show that the effect of dropping the \babelsrc{val} in a \babelsrc{val} statement is that the binding of an identifier becomes visible at that level within the linear scope where it has last been introduced via a \babelsrc{val} statement or via a pattern match.
 
-The linear scope of a statement is defined to be the block expression $b$ that directly contains the statement, together with the linear scope of the expression or statement that contains $b$. 
-The linear scope of an expression $e$ is only defined when $e$ is a \emph{control expression} that appears in another \babelsrc{val} statement of the form
+Linear scope spreads along the statements and nested block expressions of a block expression. It usually does not spread into expressions. An exception are certain expressions that can also be viewed as statements. We call these expressions \emph{control expressions}. For example, in
 \begin{babellisting}
-val $\metababel{pat}$ = $e$
+begin
+  val x = 1 
+  x = 2
+  val y = $a$ * $b$
+ (x, y)
+end
 \end{babellisting}
-or
+the linear scope of $x$ does not extend into the expressions $a$ and $b$, because $a * b$ is not a control expression. Therefore the above expression will always evaluate (assuming there is no exception) to a pair which has $2$ as its first element. But for example in
 \begin{babellisting}
-$\metababel{pat}$ = $e$
+begin
+  val x = 1 
+  x = 2
+  val y = 
+     begin
+        $s_1$
+        $\vdots$
+        $s_n$
+     end
+  (x, y)
+end
 \end{babellisting}
-Then the linear scope of $e$ is defined as the linear scope of that \babelsrc{val} statement.
-These are all \emph{control expressions} of Babel-17:
-\begin{itemize}
-\item \babelsrc{begin ... end}
-\item \babelsrc{if ... end}
-\item \babelsrc{match ... end}
-\item \babelsrc{for ... end}
-\item \babelsrc{while ... end}
-\end{itemize}
-The last two control expressions are loops and explained in the next section.
-
-Here are three example code snippets that illustrate linear scope:
+the linear scope of $x$ extends into $s_1$ and spreads then along the following statements. Therefore the first element of the pair that is the result of evaluating above expression depends on what happens in the $s_i$.
+Here are three example code snippets that further illustrate linear scope:
 \begin{center}
 \begin{tabular}{ccccc}
 \begin{babellisting}
@@ -1071,7 +1087,15 @@ evaluates to $(1, 12)$ \\[0.5cm]
 \end{tabular}
 \end{center}
 
-Just as  the \babelsrc{begin ... end} expression may be used as a statement, 
+These are the control expressions that exist in Babel-17:
+\begin{itemize}
+\item \babelsrc{begin ... end}
+\item \babelsrc{if ... end}
+\item \babelsrc{match ... end}
+\item \babelsrc{for ... end}
+\item \babelsrc{while ... end}
+\end{itemize}
+The last two control expressions are loops and explained in the next section. The first three have already been treated without delving too much into their statement character. We have already seen how  \babelsrc{begin ... end} is responsible for nesting block expressions, when it is used as a statement.  Just as  the \babelsrc{begin ... end} expression may be used as a statement, 
 you can also use all other control expressions as statements, for example:
 \begin{babellisting}
 begin
@@ -1086,39 +1110,25 @@ end
 \end{babellisting}
 This expression will evaluate either to $200$ or to $400$.
 
-For \babelsrc{if}-statements the \babelsrc{else}-branch is optional, and \babelsrc{match}-statements do not throw a \babelsrc{NoMatch} exception if none of the patterns matches. 
+For \babelsrc{if}-statements the \babelsrc{else}-branch is optional, but \babelsrc{match}-statements throw a \babelsrc{NoMatch} exception if none of the patterns matches. 
 
-\section{Yield}
-Control expressions always return a value. With the help of the \babelsrc{yield} statement and, optionally, \emph{collector annotations}, the programmer has flexible control about how this value is computed. The syntax of a \babelsrc{yield} statement is simply
+\section{With}
+By default, all yielded values of a block expression are collected into a list which collapses in the case of a single element. The programmer might want to deviate from this default and collect the yielded values differently, for example to get rid of the collapsing behavior. The \babelsrc{with} expression allows her to do just that. Its syntax is:
 \begin{babellisting}
-yield $e$
-\end{babellisting} 
-where $e$ is an arbitrary expression. The semantics is that the value of the control expression is the collection of all the values that have been issued via \babelsrc{yield}. For example, the expression
-\begin{babellisting}
-begin
-  yield 1
-  val x = 2
-  yield x*x
-  yield 3
-  10
+with $c$ do 
+  $b$
 end
 \end{babellisting}
-evaluates to \texttt{(1, 4, 3, 10)}. Note how the normal return value of \babelsrc{begin ... end} just counts as an additional \babelsrc{yield}. 
-
-By default, all yielded values are collected in a list which collapses in case of only a single element. The programmer might want to deviate from this default and collect the yielded values differently, for example to get rid of the collapsing behavior. \emph{Collector annotations} allow her to do just that. A collector annotation has the following syntax:
-\begin{babellisting}
-with $c$ : $e$
-\end{babellisting}
-where $c$ is a \emph{collector} and $e$ is a control expression. A collector is any object that 
+where $c$ is a \emph{collector} and $b$ is a block expression. A collector $c$ is any object that 
 \begin{itemize}
-\item responds to the message \verb+collector_close+,
-\item and responds to the message \verb+collector_add+ $x$ with another collector.
+\item responds to the message \verb+collector_close_+,
+\item and returns via $c$.\verb+collector_add_+ $x$ another collector.
 \end{itemize}
-Lists, sets and maps are built-in collectors which the programmer can use out-of-the-box; apart from that she can implement her own collectors, of course.
+Lists, vectors, sets, maps and strings are built-in collectors which the programmer can use out-of-the-box; apart from that she can implement her own collectors, of course.
 
 Here is an example where we use a set as a collector:
 \begin{babellisting}
-with {4} : begin
+with {4} do
   yield 1
   yield 2
   yield 1
@@ -1127,16 +1137,14 @@ end
 \end{babellisting}
 Above expression evaluates to \babelsrc{\{1, 2, 4, 10\}}.
 
-\section{Loops}
-Unlike the other control expressions, \emph{loops} become useful only in combination with \emph{linear scope} and \babelsrc{yield}. 
-
+\section{Loops}\label{sec:loops}
 This is the syntax for the \babelsrc{while}-loop:
 \begin{babellisting}
 while $c$ do
   $b$
 end
 \end{babellisting}
-Here $c$ must evaluate to a boolean and $b$ is a control block. For example, here is how you could code the euclidean algorithm for calculating the greatest common divisor using \babelsrc{while}:
+Here $c$ must evaluate to a boolean and $b$ is a block expression. For example, here is how you could code the euclidean algorithm for calculating the greatest common divisor:
 \begin{babellisting}
 def gcd (a,b) = begin
   while b != 0 do
@@ -1152,14 +1160,14 @@ for $p$ in $C$ do
   $b$
 end
 \end{babellisting}
-In the above $p$ is a pattern, $C$ is a \emph{collection} $C$, and $b$ is a control block.
+In the above $p$ is a pattern, $C$ is a \emph{collection} $C$, and $b$ is a block expression.
 The idea is that above expression iterates through those elements of the \emph{collection} $C$ 
 which match $p$; for each successfully matched element, $b$ is executed. 
 
-An object $C$ is a collection if it handles the message \texttt{iterate}
+An object $C$ is a collection if it handles the message \texttt{iterate\_}
 \begin{itemize}
 \item by returning \texttt{()} if it represents the empty collection,
-\item by returning \texttt{($e$, $C'$)} such that $C'$ is also a collection otherwise.
+\item or otherwise by returning \texttt{($e$, $C'$)} such that $C'$ is also a collection.
 \end{itemize}
 
 Here is an example of a simple \babelsrc{for}-loop expression:
@@ -1173,6 +1181,31 @@ end
 \end{babellisting}
 evaluates to \babelsrc{\{8 -> 5, 5 -> 3\}}.
 
-Using \babelsrc{for}-loops it is possible to formulate all of those \emph{fold}-related functionals known from functional programming in a way which is easier to parse for most people. 
+Using \babelsrc{for}-loops in combination with linear scope it is possible to formulate all of those \emph{fold}-related functionals known from functional programming in a way which is easier to parse (and remember) for most people. Let us for example look at a function that takes a list $m$ of integers $[a_0, \ldots, a_n]$ and an integer $x$ as arguments and returns the list
+\begin{displaymath}
+	[q_0, \ldots, q_n] \quad \text{where} \quad q_k = \sum_{i=0}^k a_i\, x^i
+\end{displaymath}
+The implementation in Babel-17 via a loop is straightforward, efficient and even elegant:
+\begin{babellisting}
+m => x => 
+  with [] do 
+    val y = 0
+    val p = 1
+    for a in m do 
+      y = y + a*p
+      p = p * x
+      yield y
+    end
+ end
+\end{babellisting}
 
+The built-in collections that can be used with for-loops are the usual suspects: lists, vectors, sets, maps and strings. Of course you can define your own custom collections. There is even a pattern you can use for matching against an arbitrary collection:
+\begin{babellisting}
+(for $p_1$, $\ldots$, $p_n$ end)
+\end{babellisting}
+and the corresponding $\delta$ pattern
+\begin{babellisting}
+(for $p_1$, $\ldots$, $p_n$, $\delta$ end)
+\end{babellisting}
+match collections with exactly $n$ or at least $n$ elements, respectively. 
 \end{document}  
