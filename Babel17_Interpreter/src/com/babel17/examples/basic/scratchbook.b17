@@ -7,4 +7,4 @@ def odd 0 = true
 def even n = odd (n-1)
 def odd n = even (n-1)
 
-fib 100
+1/0

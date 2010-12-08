@@ -330,7 +330,7 @@ class Evaluator(val maxNumThreads : Int) {
         else ExceptionValue(true, v)
       case SEMessageSend(target, message) =>
         val v = evalSE(env, target).sendMessage(message)
-        if (v == null) dynamicException(CONSTRUCTOR_INVALIDMESSAGE)
+        if (v == null) dynamicException(CONSTRUCTOR_INVALIDMESSAGE, StringValue(message.m))
         else v
       case SERecord(messageValuePairs) =>
         var map : SortedMap[Message, Value] = SortedMap()

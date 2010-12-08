@@ -1046,8 +1046,12 @@ object Values {
   
   val nil : Value = ObjectValue(SortedMap.empty)
   
+  def dynamicException(constructorName : String, arg : Value) : ExceptionValue = {
+    ExceptionValue(true, ConstructorValue(Program.Constr(constructorName), arg))
+  }
+
   def dynamicException(constructorName : String) : ExceptionValue = {
-    ExceptionValue(true, ConstructorValue(Program.Constr(constructorName), nil))
+    dynamicException(constructorName, nil)
   }
   
   def domainError() : ExceptionValue = {
