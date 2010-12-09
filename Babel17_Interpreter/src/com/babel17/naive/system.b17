@@ -1,0 +1,114 @@
+/* Integers */
+
+def to_ n = m => if n <= m then n::(lazy (to_ (n+1) m)) else [] end
+def downto_ n = m => if n >= m then n::(lazy (to_ (n-1) m)) else [] end
+def integer_boolean n = n != 0
+
+/* Collections and collectors */
+
+def collector_close_ c = c
+
+def collector_add_ c = x => with c do x end
+
+def coll_iterate_ (for e, r as ... end) = (e, r)
+def coll_iterate_ _ = ()
+
+def coll_size c =
+begin
+  val s = 0
+  for i in c do s = s + 1 end
+  s
+end
+
+def string_empty c = ""
+def list_empty c = []
+def vector_empty c = ()
+def set_empty c = {}
+def map_empty c = {->}
+
+def coll_isEmpty (for _, ... end) = false
+def coll_isEmpty _ = true
+
+def coll_contains c = x =>
+begin
+  val contains = false
+  for i in c do
+    if i == x then
+      contains = true
+    end
+  end
+  contains
+end
+
+def coll_indexOf c = x =>
+match 
+  begin
+    val pos = 0
+    for y in c do
+      if y == x then
+        exception (Found pos)
+      end
+      pos = pos + 1
+    end
+  end
+  case (exception (Found pos)) => pos
+  case _ => -1
+end
+
+def coll_atIndex c = index =>
+begin
+  val found = false
+  val y = nil
+  for x in c do
+    if index == 0 then
+      found = true
+      y = x
+    end
+    index = index - 1
+  end
+  if found then y else exception DomainError end
+end
+
+def coll_head (for h, ... end) = h
+def coll_tail (for _, t as ... end) = t
+
+def coll_plus_ = collector_add_
+def coll_plus__ c = d => with c do for x in d do yield x end end
+
+def coll_take c = n =>
+begin
+  with c.empty do
+    for x in c do
+      if n > 0 then
+        n = n - 1
+        yield x
+      end
+    end
+  end
+end
+
+def coll_drop c = n =>
+begin
+  with c.empty do
+    for x in c do
+      if n > 0 then
+        n = n - 1
+      else
+        yield x
+      end
+    end
+  end
+end
+
+def collect_ empty = c =>
+with empty do
+  for x in c do
+    yield x
+  end
+end
+
+def coll_list = collect_ []
+def coll_vector = collect_ ()
+def coll_set = collect_ {}
+def coll_map = collect_ {->}
+def coll_string = collect_ ""

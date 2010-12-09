@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  8 DEC 2010 06:29
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  9 DEC 2010 11:58
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -346,7 +346,13 @@ File: ucsencs.def 2003/11/29 Fixes to fontencodings LGR, T3
 \openout3 = `babel17.toc'.
 
  [1{/usr/local/texlive/2009/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-34.def
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2]
+Underfull \vbox (badness 1521) has occurred while \output is active []
+
+ [3]
+(/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-34.def
 File: uni-34.def 2004/10/17 UCS: Unicode data U+2200..U+22FF
 )
 (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-0.def
@@ -357,12 +363,12 @@ File: uni-33.def 2004/10/17 UCS: Unicode data U+2100..U+21FF
 )
 (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-32.def
 File: uni-32.def 2004/10/17 UCS: Unicode data U+2000..U+20FF
-) [3] [4]
+) [4] [5]
 Overfull \hbox (3.40291pt too wide) in paragraph at lines 255--264
  [] 
  []
 
-[5] [6]
+[6] [7]
 LaTeX Font Info:    Try loading font information for OML+cmr on input line 354.
 
  (/usr/local/texlive/2009/texmf-dist/tex/latex/base/omlcmr.fd
@@ -370,7 +376,6 @@ File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 354.
- [7]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 385.
 
 
@@ -385,48 +390,51 @@ LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
 [11] [12]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 585.
- [13]
+ [13] [14]
 Overfull \hbox (29.07874pt too wide) in paragraph at lines 678--731
  [][] 
  []
 
-[14] [15] [16] [17] [18] [19] [20] [21]
-Overfull \hbox (2.77594pt too wide) in paragraph at lines 1113--1114
+[15] [16] [17] [18] [19] [20]
+Overfull \hbox (2.77594pt too wide) in paragraph at lines 1079--1080
 []\OT1/cmr/m/n/10.95 For []-statements the []-branch is op-tional, but []-state
 ments throw a []
  []
 
-[22] [23] [24] (./babel17.aux) ) 
+[21] [22] [23] [24] [25] [26] [27] (./babel17.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 6524 strings out of 493848
- 83480 string characters out of 3149207
- 154195 words of memory out of 3000000
- 9545 multiletter control sequences out of 15000+200000
+ 6538 strings out of 493848
+ 83665 string characters out of 3149207
+ 156232 words of memory out of 3000000
+ 9559 multiletter control sequences out of 15000+200000
  16635 words of font info for 62 fonts, out of 3000000 for 9000
  875 hyphenation exceptions out of 8191
- 41i,17n,40p,851b,1665s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2009/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr7.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmr8.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmr9.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsl10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmsltt10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmsy8.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mti10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-ti9.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt
-10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/symbols/
-msam10.pfb>
-Output written on babel17.pdf (24 pages, 299933 bytes).
+ 41i,17n,40p,851b,1667s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb
+></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
+</usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></u
+sr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
+ocal/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loca
+l/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/t
+exlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texl
+ive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/local/texli
+ve/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmsltt10.pfb></usr/local/texl
+ive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
+ve/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive
+/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/
+2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/20
+09/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/200
+9/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on babel17.pdf (27 pages, 308836 bytes).
 PDF statistics:
- 151 PDF objects out of 1000 (max. 8388607)
+ 161 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -513,7 +513,7 @@ p_lambda_case_expr
 
 protected_lambda_cases 
 	:	pattern NL? token_DOUBLE_ARROW NL? pure_block -> ^(CASES ^(NIL_TOKEN pattern pure_block))
-	|	p_lambda_case_expr+ -> ^(CASES p_lambda_case_expr+);
+	|	p_lambda_case_expr (NL? p_lambda_case_expr)* -> ^(CASES p_lambda_case_expr+);
 
 for_expr:	L_for NL? pattern NL? L_in NL? protected_expr NL? L_do block L_end
 		  -> ^(FOR_EXPR pattern protected_expr block);	

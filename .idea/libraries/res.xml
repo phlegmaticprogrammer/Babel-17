@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="res">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

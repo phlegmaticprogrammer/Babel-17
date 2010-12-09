@@ -621,7 +621,7 @@ end
 \end{babellisting}
 where $\babelsrc{f}$ is fresh for the $p_i$ and $b_i$.
 
-\section{Objects}
+\section{Object Expressions}
 \emph{Object expressions} have the following syntax:
 \begin{babellisting}
 object 
@@ -818,8 +818,8 @@ The partial order is defined by the following laws:
 \item $! (f <= v) \& ! (v <= f)$ holds for all functions $f$ and arbitrary values $v$
 \item sets are partially ordered by first comparing their sizes, and then their elements 
 \item maps are partially ordered by first comparing their sizes, then their keys, and then their corresponding values
-\item let $U$ consist of all user-defined objects  (i.e., defined via \babelsrc{object}) that cannot receive the message \texttt{representative\_}; then we have  \babelsrc{nil} $<= u < -\infty$  for all $u \in U$; furthermore $U$ is partially ordered by considering first the number of its messages, then the messages, and then the corresponding message values
-\item let $a$ be a user-defined object  (i.e., defined via \babelsrc{object}) that has the message \texttt{representative\_}; let $ra$ be the result of sending  \texttt{representative\_} to $a$; then $a <= b$ is defined by $ra <= b$, and $b <= a$ is defined via $b <= ra$ for all $b$.
+\item let $U$ consist of all user-defined objects  (i.e., defined via \babelsrc{object}) that cannot receive the message \texttt{rank\_}; then we have  \babelsrc{nil} $<= u < -\infty$  for all $u \in U$; furthermore $U$ is partially ordered by considering first the number of its messages, then the messages, and then the corresponding message values
+\item let $a$ be a user-defined object  (i.e., defined via \babelsrc{object}) that has the message \texttt{rank\_}; let $ra$ be the result of sending  \texttt{rank\_} to $a$; then $a <= b$ is defined by $ra <= b$, and $b <= a$ is defined via $b <= ra$ for all $b$.
 \end{itemize}
 The order does not distinguish between lists and vectors. For example, we have 
 \begin{babellisting}
@@ -831,22 +831,7 @@ Sets and maps are built into Babel-17. For example, the set consisting of 3, 42 
 \begin{babellisting}
 {42, $\infty$, 3}
 \end{babellisting}
-Sets are always sorted. The sorting order is Babel-17's built-in partial order, and every set forms a totally ordered subdomain of this partial order. Future versions of Babel-17 might allow the set order to be different from the built-in partial order. Adding or removing an element $e$ from a set $S$ is only well-defined when the elements of $S$ together with $e$ are totally ordered by the partial order of $S$. The same holds for testing if an element is in a set. Table~\ref{tab:setops} shows the built-in operations for sets. 
-\begin{table}
-\caption{Set Operations}
-\begin{tabular}{c|c}
-$S$ \verb!+! $e$ & \tabparbox{set created by inserting the element $e$  into the set $S$} \\\hline
-$S$ \verb!-! $e$ & \tabparbox{set created by removing the element $e$  from the set $S$} \\\hline
-$S$ \verb!++! $T$ & \tabparbox{set created by inserting all elements of $T$  into the set $S$} \\\hline
-$S$ \verb!--! $T$ & \tabparbox{set created by removing all elements of $T$ from the set $S$} \\\hline
-$S$ \verb!**! $T$ & \tabparbox{cartesian product of the set $S$ and the elements of $T$} \\\hline
-$S$ \verb!*! $T$ & \tabparbox{set created by removing all elements from the set $S$ which are not an element of $T$} \\\hline
-$S$ $e$ & \tabparbox{tests wether $e$ is an element of $S$}\\\hline
-$S / f$  & \tabparbox{map created by applying the function $f$ to the elements of $S$}
-%\babelsrc{$S$.reorder $\ p$} & \tabparbox{set created by reordering $S$ according to the partial order $p$; in case of duplicate elements, the greater of the elements relative to the order of $S$ is kept}
-\end{tabular}
-\label{tab:setops}
-\end{table}
+Sets are always sorted. The sorting order is Babel-17's built-in partial order, and every set forms a totally ordered subdomain of this partial order. Future versions of Babel-17 might allow the set order to be different from the built-in partial order. Adding or removing an element $e$ from a set $S$ is only well-defined when the elements of $S$ together with $e$ are totally ordered by the partial order of $S$. The same holds for testing if an element is in a set. 
 
 Maps map finitely many keys to values. For example, the map that maps 1 to 2 and 4 to 0 is written as
 \begin{babellisting}
@@ -856,26 +841,7 @@ The empty map is denoted by
 \begin{babellisting}
 {->}
 \end{babellisting}
-Maps also have always a partial order associated with them, in the current version of Babel-17 this is always Babel-17's built-in partial order.  Operations on maps are only well-defined if all keys of the map together with all other involved keys are totally ordered by the associated order. Table~\ref{tab:mapops} shows the built-in operations for maps.
-\begin{table}
-\caption{Map Operations}
-\begin{tabular}{c|c}
-$M$ \verb!+! $(k, v)$ & \tabparbox{map created from the map $M$ by associating $k$ with $v$}\\\hline
-$M$ \verb!-! $k$ & \tabparbox{map created from the map $M$ by removing the key $k$}\\\hline
-$M$ \verb!++! $N$ &  \tabparbox{map created from the map $M$ by adding the key/value pairs that are elements of $N$}\\\hline
-$M$ \verb!--! $S$ & \tabparbox{map created from $M$ by removing all keys that are not elements of $S$}\\\hline
-$M$ \verb!**! $N$ & \tabparbox{if $(k_M,v_M)$ is contained in $M$ and 
-$(k_N, v_N)$ is contained in $N$ such that $k_M == k_N$, then $(k_M, (v_M, v_N))$ is contained in the new map;
-if $k_M$ is a key of $M$ but not of $N$ then $(k_M, \babelsrc{Left}\ k_M)$ is an element of the new map; 
-finally, if $k_N$ is a key of $N$ but not of $M$ then $(k_N, \babelsrc{Right}\ k_N)$ is an element of the new map} \\\hline
-$M$ \verb!*! $T$ & \tabparbox{map created by removing all keys from the map $M$ which are not elements of  $T$} \\\hline
-$M$ $k$ & \tabparbox{returns the value $v$ associated with $k$ in $M$, or returns a dynamic exception with parameter \texttt{DomainError} if no such value exists} \\\hline
-$M \% f$ & \tabparbox{map created by applying the function $f$ to the key/value pairs of $M$; $f$ takes a key/value pair and returns a value}\\\hline
-$M / f$ & \tabparbox{map created by applying the function $f$ to the values of $M$; $f$ takes a value and returns a value}
-%\babelsrc{$M$.reorder $\ p$} & \tabparbox{map created by reordering $M$ according to the partial order $p$; in case of duplicate keys, the greater of the keys relative to the order of $M$ is kept}
-\end{tabular}
-\label{tab:mapops}
-\end{table}
+Maps also have always a partial order associated with them, in the current version of Babel-17 this is always Babel-17's built-in partial order.  Operations on maps are only well-defined if all keys of the map together with all other involved keys are totally ordered by the associated order. 
 
 Pattern matching is available also for sets and maps. The pattern 
 \begin{babellisting}
@@ -1112,7 +1078,7 @@ This expression will evaluate either to $200$ or to $400$.
 
 For \babelsrc{if}-statements the \babelsrc{else}-branch is optional, but \babelsrc{match}-statements throw a \babelsrc{NoMatch} exception if none of the patterns matches. 
 
-\section{With}
+\section{With}\label{sec:collector}
 By default, all yielded values of a block expression are collected into a list which collapses in the case of a single element. The programmer might want to deviate from this default and collect the yielded values differently, for example to get rid of the collapsing behavior. The \babelsrc{with} expression allows her to do just that. Its syntax is:
 \begin{babellisting}
 with $c$ do 
@@ -1124,6 +1090,8 @@ where $c$ is a \emph{collector} and $b$ is a block expression. A collector $c$ i
 \item responds to the message \verb+collector_close_+,
 \item and returns via $c$.\verb+collector_add_+ $x$ another collector.
 \end{itemize}
+It is recommended that collectors also support the message \texttt{empty} to represent the empty collector that has not collected anything yet.
+ 
 Lists, vectors, sets, maps and strings are built-in collectors which the programmer can use out-of-the-box; apart from that she can implement her own collectors, of course.
 
 Here is an example where we use a set as a collector:
@@ -1208,4 +1176,138 @@ and the corresponding $\delta$ pattern
 (for $p_1$, $\ldots$, $p_n$, $\delta$ end)
 \end{babellisting}
 match collections with exactly $n$ or at least $n$ elements, respectively. 
+
+\section{Pragmas}
+Pragmas are statements that are not really part of the program, but inserted in it for pragmatical reasons. They are useful for testing, debugging and profiling a program. There are currently four different kinds of  pragmas available as part of Babel-17 v0.21.
+
+\texttt{\#log $e$} evaluates the expression $e$ and logs it. 
+
+\texttt{\#print $e$} evaluates the expression $e$ such that it has no internal lazy or concurrent computations any more, and then logs it.
+
+\texttt{\#profile $e$} evaluates the expression $e$, gathers profiling information while doing so, and logs both.
+
+\texttt{\#assert $e$} evaluates the expression $e$ and signals an error if $e$ does not evaluate to \babelsrc{true}.
+
+The Babel-17 interpreter / compiler is free to ignore pragmas, typically if instructed so by the user. 
+
+\section{Standard Library}
+The standard library of Babel-17 is just the description of all messages that the built-in types of Babel-17 respond to. The majority of these messages have special syntactic support by the language. The standard library is therefore an important part of the language definition of Babel-17.
+
+The messages of the standard library can be grouped as follows:
+\begin{itemize}
+\item collector related messages (Section~\ref{sec:collector}),
+\item collection related messages (Section~\ref{sec:loops}),
+\item messages that convert between different types,
+\item those messages that are listed as syntactic sugar in Table~\ref{tab:syntacticsugar},
+\item messages specific to the type. 
+\end{itemize}
+
+As a convention, all messages that are normally only used via some sort of syntactic sugar end with an underscore in their name.
+
+\subsection{Collections and Collectors}
+The built-in types that can be used as collectors and collections are: List, Vector, Set, Map and String. In the case of maps,
+the elements of the collection are pairs (vectors of length 2) where the first element of the pair represents the key, and the second element the value the key is mapped to. For strings, the elements of the collection are strings of length 1, consisting of a single Unicode code point. 
+
+All built-in collection/collector types implement the messages described in Table~\ref{tab:generalcollectmessages}.
+\begin{table}
+\caption{Additional messages for collection/collector $c$}
+\begin{tabular}{c|l}
+\textbf{Message} & \textbf{Description} \\\hline
+\babelsrc{$c$.isEmpty} & checks if $c$ is an empty collection \\
+\babelsrc{$c$.empty} & an empty collection that has the same type as $c$ \\
+\babelsrc{$c$.size} & the size of collection $c$ \\
+\babelsrc{$c + x$} & adds $x$ as member to collection $c$ \\
+\babelsrc{$c\ \text{++}\ d$} & adds all member of $d$ as members to $c$ \\
+\babelsrc{$c$.head} & the first element of $c$ \\
+\babelsrc{$c$.tail} & all elements of $c$ except the first one\\
+\babelsrc{$c$.atIndex $\ i$} & the $i$-th element of $c$\\
+\babelsrc{$c$.indexOf $\ x$} & the lowest $i$ such that \babelsrc{$c$.atIndex $\ i\ ==\ x$}  \\
+\babelsrc{$c$.contains $\ x$} & checks if $c$ contains $x$ \\
+\babelsrc{$c$.take $\ n$} & forms a collection out of the first $n$ elements of $c$ \\
+\babelsrc{$c$.drop $\ n$} & forms a collection by dropping the first $n$ elements of $c$
+\end{tabular}
+\label{tab:generalcollectmessages}
+\end{table}
+
+
+\subsection{Type Conversions}
+For many built-in types, there is a message that converts a value into the corresponding value of this type. Not all values can be converted to every type. If a value cannot fulfill a conversion request, it throws an exception with parameter \babelsrc{DomainError}. Table~\ref{tab:typeconversions} lists all type conversion messages and those source types such that at least some of their values can be successfully converted via the given message.
+\begin{table}
+\caption{Type Conversions}
+\begin{tabular}{c|l}
+\textbf{Message} & \textbf{Source Types} \\\hline
+\texttt{integer} & Boolean, String \\
+\texttt{infinity} & String \\
+\texttt{boolean} & Integer, String \\
+\texttt{string} & Integer, Infinity, Boolean, List, Vector \\
+\texttt{list} &  Vector, Set, Map, String \\
+\texttt{vector} & List, Set, Map, String \\
+\texttt{set} & List, Vector, Map \\
+\texttt{map} & List, Vector, Set \\
+\end{tabular}
+\label{tab:typeconversions}
+\end{table}
+Note that Babel-17 does no automatic type conversion except for the conversion between lists and vectors.
+
+In the rest of this section we enumerate for each built-in type all messages that are supported by this type. Collector, collection and type conversion messages are excluded from this enumeration.
+
+\subsection{Integer, Infinity}
+Integers can be arbitrarily large and support the usual operations (\texttt{+}, binary and unary \texttt{-}, \texttt{*}, \texttt{\^}, \babelsrc{div}, \babelsrc{mod}). Division and modulo are Euclidean. Where it makes sense, infinite values can be used. 
+
+The expression $a$ \texttt{to} $b$ denotes the list of values $a$, $a+1$, $\ldots$, $b$. The expression $a$  \texttt{downto} $b$ denotes the list of values  $a$, $a-1$, $\ldots$, $b$. 
+
+\subsection{Boolean} Has no special messages.
+
+\subsection{String} 
+
+\subsection{Sets}
+\begin{table}
+\caption{Set Operations}
+\begin{tabular}{c|c}
+$S$ \verb!+! $e$ & \tabparbox{set created by inserting the element $e$  into the set $S$} \\\hline
+$S$ \verb!-! $e$ & \tabparbox{set created by removing the element $e$  from the set $S$} \\\hline
+$S$ \verb!++! $T$ & \tabparbox{set created by inserting all elements of $T$  into the set $S$} \\\hline
+$S$ \verb!--! $T$ & \tabparbox{set created by removing all elements of $T$ from the set $S$} \\\hline
+$S$ \verb!**! $T$ & \tabparbox{cartesian product of the set $S$ and the elements of $T$} \\\hline
+$S$ \verb!*! $T$ & \tabparbox{set created by removing all elements from the set $S$ which are not an element of $T$} \\\hline
+$S$ $e$ & \tabparbox{tests wether $e$ is an element of $S$}\\\hline
+$S / f$  & \tabparbox{map created by applying the function $f$ to the elements of $S$}
+%\babelsrc{$S$.reorder $\ p$} & \tabparbox{set created by reordering $S$ according to the partial order $p$; in case of duplicate elements, the greater of the elements relative to the order of $S$ is kept}
+\end{tabular}
+\label{tab:setops}
+\end{table}
+
+\subsection{Maps}
+\begin{table}
+\caption{Map Operations}
+\begin{tabular}{c|c}
+$M$ \verb!+! $(k, v)$ & \tabparbox{map created from the map $M$ by associating $k$ with $v$}\\\hline
+$M$ \verb!-! $k$ & \tabparbox{map created from the map $M$ by removing the key $k$}\\\hline
+$M$ \verb!++! $N$ &  \tabparbox{map created from the map $M$ by adding the key/value pairs that are elements of $N$}\\\hline
+$M$ \verb!--! $S$ & \tabparbox{map created from $M$ by removing all keys that are not elements of $S$}\\\hline
+$M$ \verb!**! $N$ & \tabparbox{if $(k_M,v_M)$ is contained in $M$ and 
+$(k_N, v_N)$ is contained in $N$ such that $k_M == k_N$, then $(k_M, (v_M, v_N))$ is contained in the new map;
+if $k_M$ is a key of $M$ but not of $N$ then $(k_M, \babelsrc{Left}\ k_M)$ is an element of the new map; 
+finally, if $k_N$ is a key of $N$ but not of $M$ then $(k_N, \babelsrc{Right}\ k_N)$ is an element of the new map} \\\hline
+$M$ \verb!*! $T$ & \tabparbox{map created by removing all keys from the map $M$ which are not elements of  $T$} \\\hline
+$M$ $k$ & \tabparbox{returns the value $v$ associated with $k$ in $M$, or returns a dynamic exception with parameter \texttt{DomainError} if no such value exists} \\\hline
+$M \% f$ & \tabparbox{map created by applying the function $f$ to the key/value pairs of $M$; $f$ takes a key/value pair and returns a value}\\\hline
+$M / f$ & \tabparbox{map created by applying the function $f$ to the values of $M$; $f$ takes a value and returns a value}
+%\babelsrc{$M$.reorder $\ p$} & \tabparbox{map created by reordering $M$ according to the partial order $p$; in case of duplicate keys, the greater of the keys relative to the order of $M$ is kept}
+\end{tabular}
+\label{tab:mapops}
+\end{table}
+
+\section{What's Next?}
+
+Where will Babel-17 go from here? There are two dimensions along which Babel-17 has to grow in order to find broad adoption.
+
+\subsection{Maturity and breadth of implementations}
+While there will probably always be a reference implementation of Babel-17 that strives for simplicity and clarity and sacrifices performance to achieve this, Babel-17 will need quality implementations on major computing platforms like JavaVM, Android, iOS and HTML 5. A lot of the infrastructure of these implementations can be shared, so once there is a speedy implementation of Babel-17 running for example on the Java Virtual Machine, the other implementations should follow more quickly. 
+
+\subsection{Development of the language} 
+Right now Babel-17 is a purely functional programming language with no static typing and only a handful of built-in types. Modularization of code is possible via objects.
+
+Encapsulation, more powerful types and some way of dealing with state, user interfaces, and communication with the outside world will be added to Babel-17. Programmers will be able to choose which of these future features they would like to employ. Those they don't care about they will be able to just ignore mostly and pretend that Babel-17 v21.0 is still Babel-17 v0.21.  
+
 \end{document}  

@@ -100,7 +100,8 @@ public enum TokenType {
   
   PRAGMA_ASSERT(babel17Lexer.PRAGMA_ASSERT, "pragma"),
   PRAGMA_LOG(babel17Lexer.PRAGMA_LOG, "pragma"),
-  PRAGMA_PROFILE(babel17Lexer.PRAGMA_PROFILE, "pragma");
+  PRAGMA_PROFILE(babel17Lexer.PRAGMA_PROFILE, "pragma"),
+  PRAGMA_PRINT(babel17Lexer.PRAGMA_PRINT, "pragma");
   
   
   public int id;

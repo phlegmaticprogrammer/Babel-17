@@ -99,6 +99,21 @@ object Evaluator {
       c.collect_close()
     }    
   }
+
+  var systemLibrary : Map[String, FunctionValue] = Map.empty
+
+  def systemSendMessage(target : Value, message : String) : Value = {
+    systemLibrary.get(message) match {
+      case Some(v) => v.apply(target)
+      case _ => throw EvalX("system message '"+message+"' not found for value '"+target+"'")
+    }
+  }
+
+  def systemSendMessage(target : Value, typ : String , message : String) : Value = {
+    systemSendMessage(target, typ+"_"+message)
+  }
+
+
 }
 
 
@@ -512,6 +527,9 @@ class Evaluator(val maxNumThreads : Int) {
     }
   }
 
+
+
+
   def evalStatement_(env : Environment, coll : Collector, st : Statement) : StatementResult =
   {
     st match {
@@ -917,6 +935,47 @@ class Evaluator(val maxNumThreads : Int) {
         }
       case _ => throw EvalX("incomplete matchPattern: "+pat)
    }
+  }
+
+
+  def loadSystemLibrary() : Map[String, FunctionValue] = {
+    import java.io.InputStream
+    import java.io.InputStreamReader
+
+    import org.antlr.runtime.ANTLRReaderStream
+    import org.antlr.runtime.CharStream
+    import com.babel17.interpreter.parser.Parser
+
+    // get a reader for
+    val inputStream = Interpreter.getClass.getResourceAsStream("system.b17")
+    val inputReader = new InputStreamReader(inputStream, "UTF-8")
+    val charstream = new ANTLRReaderStream(inputReader)
+    val result = Parser.parse(charstream)
+    val checker = new Tree2Program()
+    val term = checker.makeProgram(result)
+    val errors = checker.errors
+    if (errors.length > 0) throw EvalX("static errors in system library")
+    var sys : Map[String, FunctionValue] = Map.empty
+    evalBlock(Evaluator.emptyEnv, new DefaultCollector(), term.asInstanceOf[Program.Block]) match {
+      case BlockException(de) => throw EvalX("dynamic error in system library")
+      case BlockCollector(env, _) =>
+        for ((id, v) <- env.freeze.nonlinear) {
+          v match {
+            case ev: EnvironmentValue =>
+              ev.onLookup.force() match {
+                case f: FunctionValue =>
+                  sys = sys + (id.name -> f)
+                  /*if (writeOutput != null) {
+                    writeOutput.writeLineCommentary("loaded function '"+id.name+"' into system library")
+                  }  */
+                case _ =>
+              }
+            case _ =>
+          }
+        }
+    }
+    inputReader.close()
+    return sys
   }
 
 

@@ -61,6 +61,7 @@ object Interpreter {
           }
           val evaluator = new Evaluator(cpus)
           evaluator.writeOutput = w
+          Evaluator.systemLibrary = evaluator.loadSystemLibrary
           val v = evaluator.evaluate(Evaluator.emptyEnv, term)
           val fv = v.force()
           w.writeLine("")
@@ -94,6 +95,7 @@ object Interpreter {
             w.writeLine("")
             w.writeLine(s)
           case ex =>
+            ex.printStackTrace
             w.writeLineError("There was an internal error during the evaluation of the program:")
             w.writeLine("")
             if (ex.getMessage != null)

@@ -17,6 +17,9 @@
       <entry name="?*.dtd" />
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
+      <entry name="?*.b17" />
+      <entry name="?*.babel17" />
+      <entry name="?*.babel-17" />
     </wildcardResourcePatterns>
     <annotationProcessing enabled="false" useClasspath="true" />
   </component>

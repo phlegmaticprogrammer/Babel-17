@@ -1,22 +1,34 @@
-\contentsline {section}{\tocsection {}{1}{Introduction}}{1}
-\contentsline {section}{\tocsection {}{2}{Reference Implementation and Bug Parade}}{2}
+\contentsline {section}{\tocsection {}{1}{Introduction}}{2}
+\contentsline {section}{\tocsection {}{2}{Reference Implementation and Bug Parade}}{3}
 \contentsline {section}{\tocsection {}{3}{Lexical Matters}}{3}
 \contentsline {section}{\tocsection {}{4}{Overview of Built-in Types}}{4}
 \contentsline {section}{\tocsection {}{5}{Objects and Functions}}{4}
 \contentsline {section}{\tocsection {}{6}{Exceptions}}{5}
 \contentsline {section}{\tocsection {}{7}{Laziness and Concurrency}}{6}
 \contentsline {section}{\tocsection {}{8}{Lists and Vectors}}{7}
-\contentsline {section}{\tocsection {}{9}{CExprs}}{7}
-\contentsline {section}{\tocsection {}{10}{Pattern Matching}}{7}
-\contentsline {section}{\tocsection {}{11}{Non-Determinism in Babel-17}}{9}
+\contentsline {section}{\tocsection {}{9}{CExprs}}{8}
+\contentsline {section}{\tocsection {}{10}{Pattern Matching}}{8}
+\contentsline {section}{\tocsection {}{11}{Non-Determinism in Babel-17}}{8}
 \contentsline {section}{\tocsection {}{12}{Block Expressions}}{10}
 \contentsline {section}{\tocsection {}{13}{Anonymous Functions}}{13}
-\contentsline {section}{\tocsection {}{14}{Objects}}{13}
-\contentsline {section}{\tocsection {}{15}{Boolean Operators}}{14}
-\contentsline {section}{\tocsection {}{16}{Order}}{15}
+\contentsline {section}{\tocsection {}{14}{Object Expressions}}{14}
+\contentsline {section}{\tocsection {}{15}{Boolean Operators}}{15}
+\contentsline {section}{\tocsection {}{16}{Order}}{16}
 \contentsline {section}{\tocsection {}{17}{Sets and Maps}}{17}
 \contentsline {section}{\tocsection {}{18}{Syntactic Sugar}}{18}
-\contentsline {section}{\tocsection {}{19}{Memoization}}{19}
-\contentsline {section}{\tocsection {}{20}{Linear Scope}}{20}
+\contentsline {section}{\tocsection {}{19}{Memoization}}{18}
+\contentsline {section}{\tocsection {}{20}{Linear Scope}}{19}
 \contentsline {section}{\tocsection {}{21}{With}}{22}
 \contentsline {section}{\tocsection {}{22}{Loops}}{22}
+\contentsline {section}{\tocsection {}{23}{Pragmas}}{24}
+\contentsline {section}{\tocsection {}{24}{Standard Library}}{24}
+\contentsline {subsection}{\tocsubsection {}{24.1}{Collections and Collectors}}{24}
+\contentsline {subsection}{\tocsubsection {}{24.2}{Type Conversions}}{24}
+\contentsline {subsection}{\tocsubsection {}{24.3}{Integer, Infinity}}{25}
+\contentsline {subsection}{\tocsubsection {}{24.4}{Boolean}}{25}
+\contentsline {subsection}{\tocsubsection {}{24.5}{String}}{25}
+\contentsline {subsection}{\tocsubsection {}{24.6}{Sets}}{25}
+\contentsline {subsection}{\tocsubsection {}{24.7}{Maps}}{25}
+\contentsline {section}{\tocsection {}{25}{What's Next?}}{26}
+\contentsline {subsection}{\tocsubsection {}{25.1}{Maturity and breadth of implementations}}{26}
+\contentsline {subsection}{\tocsubsection {}{25.2}{Development of the language}}{27}

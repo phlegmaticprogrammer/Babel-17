@@ -9,7 +9,6 @@ object Values {
 
   val MESSAGE_APPLY = "apply_"
   val MESSAGE_REPRESENTATIVE = "rank_"
-  val MESSAGE_ITERATE = "iterate_"
   val MESSAGE_PLUS = "plus_"
   val MESSAGE_MINUS = "minus_"
   val MESSAGE_UMINUS = "uminus_"
@@ -24,11 +23,31 @@ object Values {
   val MESSAGE_QUOTIENTQUOTIENT = "quotient__"
   val MESSAGE_TO = "to_"
   val MESSAGE_DOWNTO = "downto_"
-  val MESSAGE_TOSTRING = "tostring_"
-  val MESSAGE_COLLECT_ADD = "collect_add_"
-  val MESSAGE_COLLECT_CLOSE = "collect_close_"
   val MESSAGE_DECONSTRUCT = "deconstruct_"
-  
+
+  val MESSAGE_ITERATE = "iterate_"
+  val MESSAGE_COLLECT_ADD = "collector_add_"
+  val MESSAGE_COLLECT_CLOSE = "collector_close_"
+  val MESSAGE_EMPTY = "empty"
+  val MESSAGE_ISEMPTY = "isempty"
+  val MESSAGE_SIZE = "size"
+  val MESSAGE_TAKE = "take"
+  val MESSAGE_DROP = "drop"
+  val MESSAGE_CONTAINS = "contains"
+  val MESSAGE_INDEXOF = "indexof"
+  val MESSAGE_ATINDEX = "atindex"
+  val MESSAGE_HEAD = "head"
+  val MESSAGE_TAIL = "tail"
+
+  val MESSAGE_STRING = "string"
+  val MESSAGE_BOOLEAN = "boolean"
+  val MESSAGE_INFINITY = "infinity"
+  val MESSAGE_INTEGER = "integer"
+  val MESSAGE_LIST = "list"
+  val MESSAGE_VECTOR = "vector"
+  val MESSAGE_SET = "set"
+  val MESSAGE_MAP = "map"
+
   val CONSTRUCTOR_DOMAINERROR = "DOMAINERROR"
   val CONSTRUCTOR_EMPTYCHOICE = "EMPTYCHOICE"  
   val CONSTRUCTOR_INVALIDMESSAGE = "INVALIDMESSAGE"
@@ -151,7 +170,10 @@ object Values {
         case MESSAGE_POW => NativeFunctionValue(pow _)
         case MESSAGE_DIV => NativeFunctionValue(div _)
         case MESSAGE_MOD => NativeFunctionValue(mod _)
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
+        case MESSAGE_STRING => StringValue(stringValue(false, false))
+        case MESSAGE_TO => Evaluator.systemSendMessage(this, message.m)
+        case MESSAGE_DOWNTO => Evaluator.systemSendMessage(this, message.m)
+        case MESSAGE_BOOLEAN => Evaluator.systemSendMessage(this, "integer", message.m)
         case _ => null
       }      
     }
@@ -251,7 +273,7 @@ object Values {
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_APPLY => this
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
+        //case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }
     }
@@ -341,7 +363,7 @@ object Values {
         case MESSAGE_UMINUS => InfinityValue(!positive)
         case MESSAGE_TIMES => NativeFunctionValue(times _)
         case MESSAGE_POW => NativeFunctionValue(pow _)
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
+        case MESSAGE_STRING => StringValue(stringValue(false, false))
         case _ => null
       }
       
@@ -387,6 +409,35 @@ object Values {
     }
   }
 
+  def sendCollectionMessage(target : Value, message : String) : Value = {
+    var m = "coll_"+message;
+    message match {
+      case MESSAGE_COLLECT_CLOSE =>
+        m = message
+      case MESSAGE_COLLECT_ADD =>
+        m = message
+      case MESSAGE_ITERATE =>
+      case MESSAGE_PLUS =>
+      case MESSAGE_PLUSPLUS =>
+      case MESSAGE_SIZE =>
+      case MESSAGE_ISEMPTY =>
+      case MESSAGE_TAKE =>
+      case MESSAGE_DROP =>
+      case MESSAGE_CONTAINS =>
+      case MESSAGE_INDEXOF =>
+      case MESSAGE_ATINDEX =>
+      case MESSAGE_HEAD =>
+      case MESSAGE_TAIL =>
+      case MESSAGE_LIST =>
+      case MESSAGE_VECTOR =>
+      case MESSAGE_SET =>
+      case MESSAGE_STRING =>
+      case MESSAGE_MAP =>
+      case _ => return null
+    }
+    Evaluator.systemSendMessage(target, m)
+  }
+
   case class StringValue(v : String) extends Value {
     def escape(s : String) : String = {
       if (s == "\\") "\\\\"
@@ -407,14 +458,13 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_PLUS => NativeFunctionValue(plus _)
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
-        case _ => null
+        case MESSAGE_STRING => this
+        case MESSAGE_MAP => null
+        case MESSAGE_SET => null
+        case MESSAGE_EMPTY => Evaluator.systemSendMessage(this, "string", MESSAGE_EMPTY)
+        case m => sendCollectionMessage(this, m)
       }      
     }
-    def plus(w : Value) : Value = {
-      StringValue(v + w.toString())
-    }    
   }
   
   case class BooleanValue(v : Boolean) extends Value {
@@ -423,7 +473,7 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
+        case MESSAGE_STRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
@@ -444,7 +494,7 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
+        //case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
     }
@@ -484,7 +534,7 @@ object Values {
         case Some(v : EnvironmentValue) => v.onLookup()
         case None => 
           message.m match {
-            case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
+            //case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
             case _ => null
           }
       }
@@ -767,7 +817,7 @@ object Values {
       StringValue(builder.toString)
     }
     override def collect_add(v : Value) : ExceptionValue =  {
-      v.sendMessage(Program.Message(MESSAGE_TOSTRING)) match {
+      v.sendMessage(Program.Message(MESSAGE_STRING)) match {
         case StringValue(s) =>
           builder.append(s)
           null
@@ -812,17 +862,17 @@ object Values {
     }
     def length : Int;
     def toVectorValue() : VectorValue;
+    override def sendMessage(message : Program.Message) : Value = {
+      message.m match {
+        case MESSAGE_LIST => this
+        case m => sendCollectionMessage(this, m)
+      }
+    }
   }
   
   case class EmptyListValue() extends ListValue {    
     def stringValue(nested : Boolean, brackets : Boolean) : String = {
       return "[]";
-    }
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
-        case _ => null
-      }      
     }
     override def choose() : Value = {
       dynamicException(CONSTRUCTOR_EMPTYCHOICE)
@@ -851,12 +901,6 @@ object Values {
       mkBrackets(brackets,
         head.stringDescr(true)+"::" +
           tail.stringDescr(true))
-    }
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
-        case _ => null
-      }      
     }
     override def forceDeep() : Value = {
       ConsListValue(head.forceDeep(), tail.forceDeep())
@@ -910,9 +954,9 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
-        case _ => null
-      }      
+        case MESSAGE_VECTOR => this
+        case m => sendCollectionMessage(this, m)
+      }
     }
     override def forceDeep() : Value = {
       val size = tuple.size
@@ -970,9 +1014,10 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
-        case _ => null
-      }      
+        case MESSAGE_STRING => null
+        case MESSAGE_SET => this
+        case m => sendCollectionMessage(this, m)
+      }
     }
     override def choose() : Value = {
       if (set.size == 0) dynamicException(CONSTRUCTOR_EMPTYCHOICE)
@@ -1024,9 +1069,10 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
-        case _ => null
-      }      
+        case MESSAGE_STRING => null
+        case MESSAGE_MAP => this
+        case m => sendCollectionMessage(this, m)
+      }
     }
     override def choose() : Value = {
       val it = map.iterator

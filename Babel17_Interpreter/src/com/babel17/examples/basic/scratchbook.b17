@@ -7,4 +7,12 @@ def odd 0 = true
 def even n = odd (n-1)
 def odd n = even (n-1)
 
-1/0
+/* collector_close_
+   collector_add_ */
+
+
+/*[].collector_close_*/
+
+val u = "hello world"
+
+[(1, 0), (13,-24)].set
