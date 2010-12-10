@@ -3,16 +3,19 @@ package com.babel17.naive
 import Program._
 import scala.collection.immutable.SortedSet
 import com.babel17.syntaxtree.Location
+import com.babel17.syntaxtree.Source
 import com.babel17.interpreter.parser.ErrorMessage
+
 
 
 class LinearScope {
 
   var errors : List[ErrorMessage] = List.empty
+  var source : Source = null
 
   def error (loc : com.babel17.syntaxtree.Location, msg : String) = {
     var l = loc;
-    if (loc == null) l = new Location(0,0)
+    if (loc == null) l = new Location(source, 0,0)
     errors = (new ErrorMessage(l, msg)) :: errors
     //println("at "+loc+": "+msg)
   }

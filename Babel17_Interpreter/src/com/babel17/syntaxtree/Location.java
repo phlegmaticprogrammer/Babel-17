@@ -6,24 +6,31 @@ public final class Location {
 
   public static class CascadingComparator implements Comparator<Location> {
     public int compare(Location a, Location b) {
+      int c = a.source.compareTo(b.source);
+      if (c != 0) return c;
       Location l = a.add(b);
       if (a.equals(l) || b.equals(l)) return 0;
-      int c = a.locate(b.line1, b.column1);
+      c = a.locate(b.line1, b.column1);
       if (c < 0) return 1; else return -1;
     }
   }
 
   private int line1, line2;
   private int column1, column2;
+  private final Source source;
 
 
-  public Location(int line, int column) {
-    line1 = line2 = line;
-    column1 = column2 = column;
+  public Location(Source s, int line, int column) {
+      this(s, line, column, line, column);
   }
 
-  private Location(int l1, int c1, int l2, int c2) {
+  public Source getSource() {
+      return source;
+  }
+
+  private Location(Source s, int l1, int c1, int l2, int c2) {
     line1 = l1; column1 = c1; line2 = l2; column2 = c2;
+    source = s;
   }
 
   public static boolean invalid(Location location) {
@@ -38,12 +45,12 @@ public final class Location {
     int l1 = line1; int c1 = column1;
     if (l1 <= 0) l1 = 1;
     if (c1 <= 0) c1 = 1;
-    Location l = new Location(l1, c1);
+    Location l = new Location(source, l1, c1);
     int w = l.locate(line2, column2);
     if (w < 0)
       return l;
     else
-      return new Location(l1, c1, line2, column2 <= 0 ? 1 : column2);
+      return new Location(source, l1, c1, line2, column2 <= 0 ? 1 : column2);
   }
 
   public boolean isPoint() {
@@ -84,7 +91,8 @@ public final class Location {
   public boolean equals(Object o) {
     if (!(o instanceof Location)) return false;
     Location l = (Location) o;
-    if (l.line1 == line1 && l.line2 == line2 && l.column1 == column1 && l.column2 == column2)
+    if (l.line1 == line1 && l.line2 == line2 && l.column1 == column1 && l.column2 == column2
+           && l.source.compareTo(source) == 0)
       return true;
     else
       return false;
@@ -106,18 +114,19 @@ public final class Location {
     } else {
       l2 = line2; c2 = column2;
     }
-    return new Location(l1, c1, l2, c2);
+    return new Location(source, l1, c1, l2, c2);
   }
 
   public Location shift(int deltal, int deltac) {
     if (deltac + column1 < 1) deltac = 1-column1;
     if (deltal + line1 < 1) deltal = 1-line1;
-    return new Location(line1+deltal, column1+deltac,
+    return new Location(source, line1+deltal, column1+deltac,
             line2+deltal, column2+deltac);
   }
 
   public String toString() {
-    return ""+line1+":"+column1+"-"+line2+":"+column2;
+      String s = source.toString();
+      return s+" ("+line1+":"+column1+"-"+line2+":"+column2+")";
   }
 
 }

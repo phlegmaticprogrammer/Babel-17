@@ -15,6 +15,7 @@ import javax.swing.event.ChangeListener;
 
 import com.babel17.interpreter.parser.ErrorMessage;
 import com.babel17.syntaxtree.Location;
+import com.babel17.syntaxtree.Source;
 import javax.swing.text.Document;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.BadLocationException;
@@ -37,7 +38,7 @@ public class Babel17Parser extends Parser {
     this.snapshot = snapshot;
     Reader reader = new StringReader(snapshot.getText().toString());
     try {
-      errors = Interpreter.parseAndAnalyze(reader);
+      errors = Interpreter.parseAndAnalyze(new Source("editor"), reader);
     } catch (IOException ex) {
       Logger.getLogger(Babel17Parser.class.getName()).log(Level.WARNING, null, ex);
     }

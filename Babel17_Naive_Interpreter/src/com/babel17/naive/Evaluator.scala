@@ -5,6 +5,7 @@ import Values._
 import scala.collection.immutable.SortedSet
 import scala.collection.immutable.SortedMap
 import java.util.concurrent._
+import com.babel17.syntaxtree.Source
 
 
 object Evaluator {
@@ -949,10 +950,11 @@ class Evaluator(val maxNumThreads : Int) {
     import com.babel17.interpreter.parser.Parser
 
     // get a reader for
+    val systemFilename = Interpreter.getClass.getResource("system.b17").toString
     val inputStream = Interpreter.getClass.getResourceAsStream("system.b17")
     val inputReader = new InputStreamReader(inputStream, "UTF-8")
     val charstream = new ANTLRReaderStream(inputReader)
-    val result = Parser.parse(charstream)
+    val result = Parser.parse(new Source(systemFilename), charstream)
     val checker = new Tree2Program()
     val term = checker.makeProgram(result)
     val errors = checker.errors

@@ -2,6 +2,7 @@ package com.babel17.interpreter.parser;
 
 import java.math.*;
 import com.babel17.syntaxtree.Location;
+import com.babel17.syntaxtree.Source;
 
 final class ConstParser {
 
@@ -48,12 +49,14 @@ final class ConstParser {
     boolean empty;
     int index;
     int pos;
+    Source source;
 
-    public StringParser(String s) {
+    public StringParser(Source source, String s) {
       v = new String(s);  // do this to protect against the Java 1.5 offsetByCodePoints bug
       empty = v.length() <= 2;
       index = 1;
       pos = 1;
+        this.source = source;
     }
 
     int nextCodePoint() {
@@ -76,12 +79,12 @@ final class ConstParser {
     void addCodePoint(BigInteger _codePoint, int cpos) {
       long codePoint = _codePoint.longValue();
       if (codePoint < 0 || codePoint > 0x10FFFF) {
-        throw new ParseException(new Location(1, cpos + 1).
-                add(new Location(1, pos)),
+        throw new ParseException(new Location(source, 1, cpos + 1).
+                add(new Location(source, 1, pos)),
                 "invalid code point " + codePoint);
       } else if (codePoint >= 0xD800 && codePoint < 0xE000) {
-        throw new ParseException(new Location(1, cpos + 1).
-                add(new Location(1, pos)),
+        throw new ParseException(new Location(source, 1, cpos + 1).
+                add(new Location(source, 1, pos)),
                 "invalid code point (surrogate char) " + codePoint);
       } else {
         buffer.appendCodePoint((int) codePoint);
@@ -117,8 +120,8 @@ final class ConstParser {
               addCodePoint(13, cpos);
               break;
             default:
-              throw new ParseException(new Location(1, pos - 1).
-                      add(new Location(1, pos + 1)),
+              throw new ParseException(new Location(source, 1, pos - 1).
+                      add(new Location(source, 1, pos + 1)),
                       "unknown escape character (codepoint = " + codePoint + ")");
           }
         } else {
@@ -130,8 +133,8 @@ final class ConstParser {
     }
   }
 
-  public static String string(String s) {
-    StringParser p = new StringParser(s);
+  public static String string(Source source, String s) {
+    StringParser p = new StringParser(source, s);
     return p.parse();
   }
 }

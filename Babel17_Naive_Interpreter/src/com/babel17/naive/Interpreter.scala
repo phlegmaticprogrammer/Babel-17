@@ -15,9 +15,9 @@ import java.io.Reader
 object Interpreter {
 
   @throws(classOf[java.io.IOException])
-  def parseAndAnalyze(reader : java.io.Reader) : java.util.Collection[ErrorMessage] = {
+  def parseAndAnalyze(source : Source, reader : java.io.Reader) : java.util.Collection[ErrorMessage] = {
     var charstream: CharStream = new ANTLRReaderStream(reader)
-    val result = Parser.parse(charstream)
+    val result = Parser.parse(source, charstream)
     val checker = new Tree2Program()
     val term = checker.makeProgram(result)
     val errors = checker.errors
@@ -39,6 +39,7 @@ object Interpreter {
     } else {
       val result = Parser.parse(filename)
       val checker = new Tree2Program()
+      checker.source = new Source(filename)
       val term = checker.makeProgram(result)
       if (checker.errors.length > 0) {
         val errors = checker.errors

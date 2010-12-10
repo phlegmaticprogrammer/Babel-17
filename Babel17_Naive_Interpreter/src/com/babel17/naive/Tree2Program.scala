@@ -10,10 +10,11 @@ import scala.collection.immutable.SortedMap
 class Tree2Program {
 
   var errors : List[ErrorMessage] = List.empty
+  var source : Source = null
 
   def error (loc : com.babel17.syntaxtree.Location, msg : String) = {
     var l = loc;
-    if (loc == null) l = new Location(0,0)
+    if (loc == null) l = new Location(source, 0,0)
     errors = (new ErrorMessage(l, msg)) :: errors
     //println("at "+loc+": "+msg)
   }
@@ -787,6 +788,7 @@ class Tree2Program {
     if (node != null) {
       t = build(node).asInstanceOf[Term]
       val linear = new LinearScope()
+      linear.source = source
       linear.errors = errors
       linear.check(linear.emptyEnv, t)
       errors = linear.errors

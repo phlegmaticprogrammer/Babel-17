@@ -17,8 +17,8 @@ val u = "hello world"
 
 def f x = x mod 2 == 0
 
+val m = lazy((1 to 1000).vector ^ 4)
 
-val m = lazy((1 to 1000).vector // (x => x^2))
 
 /*#profile (m * (((k,v),acc) => k*v+acc)) 0    */
 
@@ -35,3 +35,5 @@ u = object+(u,)
       def x = 9
     end
 u.x
+
+((1 to 10) * ((x,y)=>x+y)) 0

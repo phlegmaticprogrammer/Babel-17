@@ -91,11 +91,12 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
   public void performAction(Babel17DataObject context) {
     LifecycleManager.getDefault().saveAll();
     final FileObject f = context.getPrimaryFile();
-    final WriteNetbeansOutput o = new WriteNetbeansOutput("Babel-17", context);
+    final String filename = FileUtil.getFileDisplayName(f);
+    final WriteNetbeansOutput o = new WriteNetbeansOutput("Babel-17", context, filename);
     final Runnable runnable = new Runnable() {
       public void run() {
         try {
-          Interpreter.run(FileUtil.getFileDisplayName(f), o);
+          Interpreter.run(filename, o);
         } finally {
           o.done();
         }        

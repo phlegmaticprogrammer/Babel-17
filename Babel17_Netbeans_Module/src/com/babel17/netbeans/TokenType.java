@@ -51,7 +51,7 @@ public enum TokenType {
   MINUS(babel17Lexer.MINUS, "operator"),
   TIMES(babel17Lexer.TIMES, "operator"),
   QUOT(babel17Lexer.QUOTIENT, "operator"),
-  POW(babel17Lexer.POW, "operator"),
+  POW(babel17Lexer.POW_tok, "operator"),
   A_OR(babel17Lexer.A_OR, "operator"),
   A_AND(babel17Lexer.A_AND, "operator"),
   A_NOT(babel17Lexer.A_NOT, "operator"),

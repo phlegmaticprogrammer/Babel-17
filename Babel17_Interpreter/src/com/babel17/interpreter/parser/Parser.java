@@ -150,18 +150,13 @@ public class Parser {
     } catch (Exception e) {
       return lastKnownLocations.peek();
     }
-    Location l1 = new Location(t1.getLine(), t1.getCharPositionInLine() + 1);
-    Location l2 = new Location(t2.getLine(), t2.getCharPositionInLine() + 1 + t2.getText().length() - 1);
+    Location l1 = new Location(source, t1.getLine(), t1.getCharPositionInLine() + 1);
+    Location l2 = new Location(source, t2.getLine(), t2.getCharPositionInLine() + 1 + t2.getText().length() - 1);
     Location l = l1.add(l2);
     if (Location.invalid(l)) return lastKnownLocations.peek();
     return l;
   }
 
-  /**
-   * Converts an ANTLR tree into a syntaxtree.Node .
-   * @param the antlr tree
-   * @return the node
-   */
   private Node toNode(Tree tree) {
     Location loc = getLocation(tree);
     lastKnownLocations.push(loc);
@@ -316,7 +311,7 @@ public class Parser {
           return new IntegerNode(ConstParser.num(tree.getText())).mergeLocation(loc);
         case babel17Parser.String: {
           try {
-            return new StringNode(ConstParser.string(tree.getText())).mergeLocation(loc);
+            return new StringNode(ConstParser.string(source, tree.getText())).mergeLocation(loc);
           } catch (ParseException e) {
             Location l = e.location();
             if (l != null) {
@@ -541,11 +536,6 @@ public class Parser {
     }
   }
 
-  /**
-   * Converts an ANTLR tree into a syntaxtree.PatternNode .
-   * @param the antlr tree
-   * @return the node
-   */
   private PatternNode toPattern(Tree tree) {
     Location loc = getLocation(tree);
     lastKnownLocations.push(loc);
@@ -562,7 +552,7 @@ public class Parser {
         case babel17Parser.String:
           try {
             return (PatternNode) new StringPattern(ConstParser.string(
-                    tree.getText())).mergeLocation(loc);
+                    source, tree.getText())).mergeLocation(loc);
           } catch (ParseException e) {
             Location l = e.location();
             if (l != null) {
@@ -719,14 +709,16 @@ public class Parser {
     }
   }
   private CommonTokenStream tokens;
+  private Source source;
   private ParseException pe;
   private java.util.Stack<Location> lastKnownLocations;
 
-  private Parser(CommonTokenStream tokens, ParseException pe) {
+  private Parser(Source source, CommonTokenStream tokens, ParseException pe) {
     this.tokens = tokens;
     this.pe = pe;
+    this.source = source;
     lastKnownLocations = new java.util.Stack();
-    lastKnownLocations.push(new Location(1, 1));
+    lastKnownLocations.push(new Location(source, 1, 1));
   }
 
   public static class ParseResult {
@@ -768,10 +760,10 @@ public class Parser {
 
   public static ParseResult parse(String filename) throws java.io.IOException {
     ANTLRFileStream stream = new ANTLRFileStream(filename, "UTF-8");
-    return parse(stream);
+    return parse(new Source(filename), stream);
   }
 
-  public static ParseResult parse(CharStream stream) throws java.io.IOException {
+  public static ParseResult parse(Source source,  CharStream stream) throws java.io.IOException {
     babel17Lexer lexer = new babel17Lexer(stream);
     CommonTokenStream tokens = new CommonTokenStream(lexer);
     babel17Parser parser = new babel17Parser(tokens);
@@ -782,7 +774,7 @@ public class Parser {
     } catch (RecognitionException e) {
       int line = e.line;
       int pos = e.charPositionInLine;
-      pe.addMessage(new Location(line, pos + 1), "syntax error");
+      pe.addMessage(new Location(source, line, pos + 1), "syntax error");
     }
     if (lexer.errorDuringLexing) {
       int numErrors = lexer.lexingErrors.size();
@@ -790,7 +782,7 @@ public class Parser {
         RecognitionException e = lexer.lexingErrors.get(i);
         int line = e.line;
         int pos = e.charPositionInLine;
-        pe.addMessage(new Location(line, pos + 1), "lexical error");
+        pe.addMessage(new Location(source, line, pos + 1), "lexical error");
       }
     }
     if (parser.errorDuringParsing) {
@@ -799,13 +791,13 @@ public class Parser {
         RecognitionException e = parser.parsingErrors.get(i);
         int line = e.line;
         int pos = e.charPositionInLine;
-        pe.addMessage(new Location(line, pos + 1), "syntax error");
+        pe.addMessage(new Location(source, line, pos + 1), "syntax error");
       }
     }
     if (tree != null) {
-      Parser p = new Parser(tokens, pe);
+      Parser p = new Parser(source, tokens, pe);
       Node n = p.toNode(tree);
-      n.mergeLocation(new Location(1, 1)).distributeLocation();
+      n.mergeLocation(new Location(source, 1, 1)).distributeLocation();
       return new ParseResult(n, pe.countMessages() == 0 ? null : pe);
     }
     return new ParseResult(null, pe);

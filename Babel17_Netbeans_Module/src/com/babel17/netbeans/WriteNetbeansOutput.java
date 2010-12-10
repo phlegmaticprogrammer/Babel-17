@@ -29,6 +29,7 @@ public class WriteNetbeansOutput extends WriteOutput {
   Babel17DataObject dobj;
   volatile boolean pleaseCancel = false;
   AbstractAction cancelAction = null;
+  String filename;
 
   public boolean pleaseCancel() {
     return pleaseCancel;
@@ -80,8 +81,9 @@ public class WriteNetbeansOutput extends WriteOutput {
   }
 
 
-  WriteNetbeansOutput(final String title, Babel17DataObject dobj) {
+  WriteNetbeansOutput(final String title, Babel17DataObject dobj, String filename) {
     this.dobj = dobj;
+    this.filename = filename;
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         cancelAction = new CancelAction();
@@ -149,7 +151,11 @@ public class WriteNetbeansOutput extends WriteOutput {
       } else prefix = "";
       //IOColorPrint.print(io, "at "+loc, new L(loc), false, Color.black);
       print(prefix, Color.black, null, false);
-      print("at "+loc, Color.blue, new L(loc), false);
+      if (loc.getSource().getFilename().equals(filename))
+        print("at "+loc, Color.blue, new L(loc), false);
+      else
+        print("at "+loc, Color.black, null, false);
+
       println(": "+message, Color.black);
       //writer.println("at " + loc, new L(loc), false);
       //setColor(Color.black);

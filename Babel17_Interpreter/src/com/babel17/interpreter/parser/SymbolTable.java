@@ -98,7 +98,7 @@ public final class SymbolTable {
       return new SymbolTable(table.set(name, id), linearscope.delete(name));
     }
 
-    public SymbolTable addLinearPatternVals(SemanticAnalysis.PatternIds ids) {
+   /* public SymbolTable addLinearPatternVals(SemanticAnalysis.PatternIds ids) {
       TreeMap<String, ValId> lin = linearscope;
       TreeMap<String, Id> t = table;
       for (IdentifierPattern id : ids.collect()) {
@@ -121,7 +121,7 @@ public final class SymbolTable {
         t = t.set(id.name().toLowerCase(), vid);
       }
       return new SymbolTable(t, linearscope);
-    }
+    }      */
 
     public SymbolTable clearLinearScope() {
       if (linearscope.isEmpty()) return this;
