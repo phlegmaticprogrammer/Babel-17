@@ -18,17 +18,17 @@
 \contentsline {section}{\tocsection {}{18}{Syntactic Sugar}}{18}
 \contentsline {section}{\tocsection {}{19}{Memoization}}{18}
 \contentsline {section}{\tocsection {}{20}{Linear Scope}}{19}
-\contentsline {section}{\tocsection {}{21}{With}}{22}
-\contentsline {section}{\tocsection {}{22}{Loops}}{22}
-\contentsline {section}{\tocsection {}{23}{Pragmas}}{24}
-\contentsline {section}{\tocsection {}{24}{Standard Library}}{24}
-\contentsline {subsection}{\tocsubsection {}{24.1}{Collections and Collectors}}{24}
-\contentsline {subsection}{\tocsubsection {}{24.2}{Type Conversions}}{24}
-\contentsline {subsection}{\tocsubsection {}{24.3}{Integer, Infinity}}{25}
-\contentsline {subsection}{\tocsubsection {}{24.4}{Boolean}}{25}
-\contentsline {subsection}{\tocsubsection {}{24.5}{String}}{25}
-\contentsline {subsection}{\tocsubsection {}{24.6}{Sets}}{25}
-\contentsline {subsection}{\tocsubsection {}{24.7}{Maps}}{25}
-\contentsline {section}{\tocsection {}{25}{What's Next?}}{26}
-\contentsline {subsection}{\tocsubsection {}{25.1}{Maturity and breadth of implementations}}{26}
-\contentsline {subsection}{\tocsubsection {}{25.2}{Development of the language}}{27}
+\contentsline {section}{\tocsection {}{21}{Record Updates}}{22}
+\contentsline {section}{\tocsection {}{22}{With}}{22}
+\contentsline {section}{\tocsection {}{23}{Loops}}{23}
+\contentsline {section}{\tocsection {}{24}{Pragmas}}{24}
+\contentsline {section}{\tocsection {}{25}{Standard Library}}{25}
+\contentsline {subsection}{\tocsubsection {}{25.1}{Collections and Collectors}}{25}
+\contentsline {subsection}{\tocsubsection {}{25.2}{Type Conversions}}{25}
+\contentsline {subsection}{\tocsubsection {}{25.3}{Integer, Infinity}}{25}
+\contentsline {subsection}{\tocsubsection {}{25.4}{String}}{25}
+\contentsline {subsection}{\tocsubsection {}{25.5}{List and Vector}}{25}
+\contentsline {subsection}{\tocsubsection {}{25.6}{Set}}{27}
+\contentsline {subsection}{\tocsubsection {}{25.7}{Map}}{27}
+\contentsline {subsection}{\tocsubsection {}{25.8}{Object}}{27}
+\contentsline {section}{\tocsection {}{26}{What's Next?}}{27}

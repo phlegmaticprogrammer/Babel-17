@@ -76,7 +76,6 @@ def coll_plus_ = collector_add_
 def coll_plus__ c = d => with c do for x in d do yield x end end
 
 def coll_take c = n =>
-begin
   with c.empty do
     for x in c do
       if n > 0 then
@@ -85,10 +84,8 @@ begin
       end
     end
   end
-end
 
 def coll_drop c = n =>
-begin
   with c.empty do
     for x in c do
       if n > 0 then
@@ -98,7 +95,6 @@ begin
       end
     end
   end
-end
 
 def collect_ empty = c =>
 with empty do
@@ -112,3 +108,85 @@ def coll_vector = collect_ ()
 def coll_set = collect_ {}
 def coll_map = collect_ {->}
 def coll_string = collect_ ""
+
+def seq_uminus_ (for h, t as ... end) = with seq_uminus_ t do yield h end
+def seq_uminus_ c = c
+
+def coll_minus_ c = e =>
+with c.empty do
+  for (i if i != e) in c do yield i end
+end
+
+def coll_minus__ c = d =>
+begin
+  val r = c
+  for x in d do
+    r = r - x
+  end
+  r
+end
+
+def coll_times__ c = d =>
+with c.empty do
+  for (x if d.contains x) in c do
+    yield x
+  end
+end
+
+def map_times__ c = d =>
+with c.empty do
+  for (x as ((k, _) if d.contains k)) in c do
+    yield x
+  end
+end
+
+
+def coll_slash_ c = f =>
+with c.empty do
+  for x in c do
+    yield f x
+  end
+end
+
+def coll_slash__ c = f =>
+with {->} do
+  for x in c do
+    yield (x, f x)
+  end
+end
+
+def map_slash__ c = f =>
+with {->} do
+  for (x as (k, v)) in c do
+    yield (k, f x)
+  end
+end
+
+def coll_times_ c = f => acc =>
+begin
+  for x in c do
+    acc = f (x, acc)
+  end
+  acc
+end
+
+def coll_pow_ c = f =>
+with c.empty do
+  for (x if f x) in c do
+    yield x
+  end
+end
+
+def map_contains c = x =>
+match x
+  case (k,v) =>
+    match c k == v
+      case (exception (DomainError _)) => false
+      case b => b
+    end
+  case _ => false
+end
+
+
+
+

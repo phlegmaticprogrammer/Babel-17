@@ -682,8 +682,10 @@ class Evaluator(val maxNumThreads : Int) {
       case ESimple(se) => evalSE(env.freeze(), se)
       case EBlock(block) => evalBlock(env, new DefaultCollector(), block).collect_close()
       case EWith(se, block) =>
-        val v = collectorOfValue(evalSE(env.freeze(), se))
-        evalBlock(env, v, block).collect_close()        
+        val c = evalSE(env.freeze(), se).force()
+        if (c.isException) return c.asDynamicException
+        val v = collectorOfValue(c)
+        evalBlock(env, v, block).collect_close()
     }
   }
   
@@ -845,7 +847,7 @@ class Evaluator(val maxNumThreads : Int) {
       case PAs(id, pat) =>
         matchPat(env, pat, v, rebind) match {
           case NoMatch() => NoMatch()
-          case DoesMatch(currentEnv) =>
+          case DoesMatch(env) =>
             val newEnv = if (rebind) env.rebind(id, v) else env.bind(id, v)
             DoesMatch(newEnv)
         }

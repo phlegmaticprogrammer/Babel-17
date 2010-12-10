@@ -11,7 +11,7 @@
 \usepackage{url}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
-\title{Syntax and Semantics of Babel-17, v0.21 (Draft)}
+\title{Syntax and Semantics of Babel-17}
 \author{Steven Obua}
 \date{\today}                                          
 \newcommand{\metababel}[1] {\textsl{#1}}
@@ -102,7 +102,7 @@ In this document  I specify Babel-17 in a mostly informal style: formal notation
 
 \section{Reference Implementation and Bug Parade}
 
-At \url{www.babel-17.com} you will find a reference implementation of Babel-17 v0.21 that fully supports the language as described in this document. There you will also find a Netbeans plugin that has syntax and error-highlighting for Babel-17 programs. As you find your way through this document, it might be helpful to directly try out Babel-17 in Netbeans to see if the interpreter behaves as you would guess from this spec. If you find implausible behavior, email your findings to \texttt{bugparade@babel-17.com}. Each proper bug will be listed together with your name (unless you don't wish so; then don't give your name in the email; it's also OK not to give your real name but an alias) and date of your discovery forever at \texttt{bugparade.babel-17.com}. You can also provide a link to your blog or whatever. 
+At \url{www.babel-17.com} you will find a reference implementation of Babel-17 v0.21 that fully supports the language as described in this document. There you will also find a Netbeans plugin that has syntax and error-highlighting for Babel-17 programs. As you find your way through this document, it might be helpful to directly try out Babel-17 in Netbeans to see if the interpreter behaves as you would guess from this spec. If you find implausible behavior, email your findings to \texttt{bugparade@babel-17.com}. Each proper bug will be listed together with your name (unless you don't wish so; then don't give your name in the email; it's also OK not to give your real name but an alias) and date of your discovery forever at \texttt{bugparade.babel-17.com}. You can also provide a link to your blog or whatever. There will also be a high-score of who submitted the most bugs.
 
 \section{Lexical Matters}
 Babel-17 source code is always written UTF-8 encoded. If it ain't UTF-8, it ain't Babel-17. 
@@ -803,12 +803,13 @@ begin
   end
 end
 \end{babellisting}
-In the above, \babelsrc{t}, \babelsrc{u}, \babelsrc{v} and \babelsrc{w} are supposed to be fresh identifiers.  Also note that if there are operands that are exceptions, then the result of a comparison is a dynamic exception with the same parameter as the first such operand (from left to right).
+In the above, \babelsrc{t}, \babelsrc{u}, \babelsrc{v} and \babelsrc{w} are supposed to be fresh identifiers.  Also note that if there are operands that are dynamic exceptions, then the result of a comparison is a dynamic exception with the same parameter as the first such operand (from left to right).
 
 The partial order is defined by the following laws:
 \begin{itemize}
-\item  \babelsrc{nil} $< -\infty <  z  < \infty < s <  lv < cexpr < set < map < b$ holds for all
+\item  $e$ $<$ \babelsrc{nil} $< -\infty <  z  < \infty < s <  lv < cexpr < set < map < b$ holds for all persistent exceptions $e$, 
  integers $z$, strings $s$,  lists and vectors $lv$,  constructed expressions $cexpr$, sets $set$, maps $map$ and booleans $b$
+ \item exceptions are totally ordered by the order their parameter induces
  \item booleans are totally ordered and \babelsrc{false} $<$ \babelsrc{true} holds
  \item integers are totally ordered in the obvious way
  \item $-\infty == -\infty$ and $\infty == \infty$ both hold 
@@ -876,16 +877,16 @@ $a$ \verb!+! $b$ & \babelsrc{$a$.plus_ $\ b$} \\\hline
 $a$ \verb!-! $b$ & \babelsrc{$a$.minus_ $\ b$} \\\hline
 \verb!-! $a$ & \babelsrc{$a$.uminus_} \\\hline
 $a$ \verb!*! $b$ & \babelsrc{$a$.times_  $\ b$} \\\hline
-$a$ \verb!/! $b$ & \babelsrc{$a$.quotient_  $\ b$} \\\hline
+$a$ \verb!/! $b$ & \babelsrc{$a$.slash_  $\ b$} \\\hline
 $a$ \verb!div! $b$ & \babelsrc{$a$.div_  $\ b$} \\\hline
 $a$ \verb!mod! $b$ & \babelsrc{$a$.mod_  $\ b$} \\\hline
 $a$ \verb+^+ $b$ & \babelsrc{$a$.pow_  $\ b$} \\\hline
 $a$ \verb!++! $b$ & \babelsrc{$a$.plus__ $\ b$} \\\hline
 $a$ \verb!--! $b$ & \babelsrc{$a$.minus__ $\ b$} \\\hline
 $a$ \verb!**! $b$ & \babelsrc{$a$.times__  $\ b$}\\\hline
-$a$ \verb!//! $b$ & \babelsrc{$a$.quotient__  $\ b$}\\\hline
+$a$ \verb!//! $b$ & \babelsrc{$a$.slash__  $\ b$}\\\hline
 $a$ \verb!to! $b$ & \babelsrc{$a$.to_ $\ b$}\\\hline
-$a$ \verb!downto! $b$ & \babelsrc{$a$.downto_  $\ b$}\\\hline
+$a$ \verb!downto! $b$ & \babelsrc{$a$.downto_  $\ b$}\\\hline 
 $f$ $x$ &  \babelsrc{$f$.apply_  $\ x$}
 \end{tabular}
 \label{tab:syntacticsugar}
@@ -908,7 +909,7 @@ def fib n = fib (n-1) + fib (n-2)
 The difference between weak and strong memoization is that strong memoization always remembers a value once it has been computed; weak memoization instead may choose not to remember computed results in certain situations, for example in order to free memory in low memory situations. Note that all arguments to the same memoized function must be totally ordered by the built-in partial order. 
 
 \section{Linear Scope}
-We are now ready to explore the full power of block expressions and statements in Babel-17. 
+We are now ready to explore the full power of block expressions and statements in Babel-17. We approach the topic of this and the following sections, \emph{linear scope}, in an example-oriented way. A more in-depth treatment can be found in my paper \emph{Purely Functional Structured Programming}, also available at \url{www.babel-17.com}.
 
 First, we extend the syntax of \babelsrc{val}-statements such that it is legal to leave out the keyword \babelsrc{val} in certain situations. Whenever the situation is such that it is legal to write
 \begin{babellisting}
@@ -1078,6 +1079,49 @@ This expression will evaluate either to $200$ or to $400$.
 
 For \babelsrc{if}-statements the \babelsrc{else}-branch is optional, but \babelsrc{match}-statements throw a \babelsrc{NoMatch} exception if none of the patterns matches. 
 
+\section{Record Updates}
+Linear scope makes it possible to have purely functional record updates in Babel-17. Let us assume you have defined $u$ via
+\begin{babellisting}
+val u = {x = 10, y = 20, z = -4}
+\end{babellisting}
+and now you want to bind $u$ to another record that differs only in the $x$-component. You could proceed as follows:
+\begin{babellisting}
+u = {x = 9, y = u.y, z = u.z}
+\end{babellisting}
+but this clearly does not scale with the number of components of $u$. A more scalable alternative would be to write
+\begin{babellisting}
+u = 
+  object + [u]
+    def x = 9
+  end      
+\end{babellisting}
+Babel-17 allows to write down the above statement in a more concise form:
+\begin{babellisting}
+u.x = 9   
+\end{babellisting}
+In general, 
+\begin{babellisting}
+u.m = $t$   
+\end{babellisting}
+is shorthand notation for 
+\begin{babellisting}
+u = 
+  begin
+    val evaluated_t = $t$
+    object + [u]
+      def m = evaluated_t
+    end
+  end      
+\end{babellisting}
+For the sake of completeness, there is also the much less useful notation
+\begin{babellisting}
+val u.m = $t$   
+\end{babellisting}
+which is short for 
+\begin{babellisting}
+val u = { m = $t$ }  
+\end{babellisting}
+
 \section{With}\label{sec:collector}
 By default, all yielded values of a block expression are collected into a list which collapses in the case of a single element. The programmer might want to deviate from this default and collect the yielded values differently, for example to get rid of the collapsing behavior. The \babelsrc{with} expression allows her to do just that. Its syntax is:
 \begin{babellisting}
@@ -1128,7 +1172,7 @@ for $p$ in $C$ do
   $b$
 end
 \end{babellisting}
-In the above $p$ is a pattern, $C$ is a \emph{collection} $C$, and $b$ is a block expression.
+In the above $p$ is a pattern, $C$ is a \emph{collection}, and $b$ is a block expression.
 The idea is that above expression iterates through those elements of the \emph{collection} $C$ 
 which match $p$; for each successfully matched element, $b$ is executed. 
 
@@ -1213,18 +1257,25 @@ All built-in collection/collector types implement the messages described in Tabl
 \caption{Additional messages for collection/collector $c$}
 \begin{tabular}{c|l}
 \textbf{Message} & \textbf{Description} \\\hline
-\babelsrc{$c$.isEmpty} & checks if $c$ is an empty collection \\
-\babelsrc{$c$.empty} & an empty collection that has the same type as $c$ \\
-\babelsrc{$c$.size} & the size of collection $c$ \\
-\babelsrc{$c + x$} & adds $x$ as member to collection $c$ \\
-\babelsrc{$c\ \text{++}\ d$} & adds all member of $d$ as members to $c$ \\
-\babelsrc{$c$.head} & the first element of $c$ \\
-\babelsrc{$c$.tail} & all elements of $c$ except the first one\\
-\babelsrc{$c$.atIndex $\ i$} & the $i$-th element of $c$\\
-\babelsrc{$c$.indexOf $\ x$} & the lowest $i$ such that \babelsrc{$c$.atIndex $\ i\ ==\ x$}  \\
-\babelsrc{$c$.contains $\ x$} & checks if $c$ contains $x$ \\
-\babelsrc{$c$.take $\ n$} & forms a collection out of the first $n$ elements of $c$ \\
-\babelsrc{$c$.drop $\ n$} & forms a collection by dropping the first $n$ elements of $c$
+\babelsrc{$c$.isEmpty} & \tabparbox{checks if $c$ is an empty collection} \\\hline
+\babelsrc{$c$.empty} & \tabparbox{an empty collection that has the same type as $c$} \\\hline
+\babelsrc{$c$.size} & \tabparbox{the size of collection $c$} \\\hline
+\babelsrc{$c + x$} & \tabparbox{adds $x$ as member to collection $c$} \\\hline
+\babelsrc{$c\ \text{++}\ d$} & \tabparbox{adds all members of $d$ as members to $c$} \\\hline
+$c$ \verb!-! $x$ & \tabparbox{removes from $c$ all members that are equal to $x$} \\\hline
+$c$ \verb!--! $d$ & \tabparbox{removes from $c$ all members that are equal to an element in $d$} \\\hline
+$c$ \verb!**! $d$ & \tabparbox{removes from $c$ all members that are not equal to an element in $d$} \\\hline
+\babelsrc{$c$.head} & \tabparbox{the first element of $c$} \\\hline
+\babelsrc{$c$.tail} & \tabparbox{all elements of $c$ except the first one} \\\hline
+\babelsrc{$c$.atIndex $\ i$} & \tabparbox{the $i$-th element of $c$} \\\hline
+\babelsrc{$c$.indexOf $\ x$} &\tabparbox{ the lowest $i$ such that \babelsrc{$c$.atIndex $\ i\ ==\ x$} } \\\hline
+\babelsrc{$c$.contains $\ x$} & \tabparbox{checks if $c$ contains $x$} \\\hline
+\babelsrc{$c$.take $\ n$} & \tabparbox{forms a collection out of the first $n$ elements of $c$} \\\hline
+\babelsrc{$c$.drop $\ n$} &\tabparbox{ forms a collection by dropping the first $n$ elements of $c$} \\\hline
+$c / f$  & \tabparbox{maps the function $f$ over all elements of $c$} \\\hline
+$(c * f)\ a_0$ & \tabparbox{folds $f$ over $c$ via $a_{i+1}$ = $f\ (c_i,\ a_i)$} \\\hline
+$c\ \text{\textasciicircum}\ f$  & \tabparbox{filters $c$ by boolean-valued function $f$} \\\hline
+$c$ \verb+//+ $f$  & \tabparbox{map created by all key/value pairs $(x,\ f(x))$ where $x$ runs through the elements of $c$; later pairs overwrite earlier pairs} 
 \end{tabular}
 \label{tab:generalcollectmessages}
 \end{table}
@@ -1236,14 +1287,14 @@ For many built-in types, there is a message that converts a value into the corre
 \caption{Type Conversions}
 \begin{tabular}{c|l}
 \textbf{Message} & \textbf{Source Types} \\\hline
-\texttt{integer} & Boolean, String \\
-\texttt{infinity} & String \\
-\texttt{boolean} & Integer, String \\
-\texttt{string} & Integer, Infinity, Boolean, List, Vector \\
-\texttt{list} &  Vector, Set, Map, String \\
-\texttt{vector} & List, Set, Map, String \\
-\texttt{set} & List, Vector, Map \\
-\texttt{map} & List, Vector, Set \\
+\babelsrc{integer} & Boolean, String \\
+infinity & String \\
+\babelsrc{boolean} & Integer, String \\
+\babelsrc{string} & Integer, Infinity, Boolean, List, Vector \\
+\babelsrc{list} &  Vector, Set, Map, String \\
+\babelsrc{vector} & List, Set, Map, String \\
+\babelsrc{set} & List, Vector, Map \\
+\babelsrc{map} & List, Vector, Set \\
 \end{tabular}
 \label{tab:typeconversions}
 \end{table}
@@ -1256,58 +1307,60 @@ Integers can be arbitrarily large and support the usual operations (\texttt{+}, 
 
 The expression $a$ \texttt{to} $b$ denotes the list of values $a$, $a+1$, $\ldots$, $b$. The expression $a$  \texttt{downto} $b$ denotes the list of values  $a$, $a-1$, $\ldots$, $b$. 
 
-\subsection{Boolean} Has no special messages.
+\subsection{String} Implements no messages specific for strings. The semantics of the \babelsrc{indexOf} and \babelsrc{contains} messages is extended with respect to the usual collection semantics to not only search for strings of length 1, but arbitrarily long strings.
 
-\subsection{String} 
-
-\subsection{Sets}
+\subsection{List and Vector} Those messages specific for lists and vectors are listed in Table~\ref{tab:listvectorops}.  
 \begin{table}
-\caption{Set Operations}
+\caption{List/Vector-specific messages}
 \begin{tabular}{c|c}
-$S$ \verb!+! $e$ & \tabparbox{set created by inserting the element $e$  into the set $S$} \\\hline
-$S$ \verb!-! $e$ & \tabparbox{set created by removing the element $e$  from the set $S$} \\\hline
-$S$ \verb!++! $T$ & \tabparbox{set created by inserting all elements of $T$  into the set $S$} \\\hline
-$S$ \verb!--! $T$ & \tabparbox{set created by removing all elements of $T$ from the set $S$} \\\hline
-$S$ \verb!**! $T$ & \tabparbox{cartesian product of the set $S$ and the elements of $T$} \\\hline
-$S$ \verb!*! $T$ & \tabparbox{set created by removing all elements from the set $S$ which are not an element of $T$} \\\hline
-$S$ $e$ & \tabparbox{tests wether $e$ is an element of $S$}\\\hline
-$S / f$  & \tabparbox{map created by applying the function $f$ to the elements of $S$}
-%\babelsrc{$S$.reorder $\ p$} & \tabparbox{set created by reordering $S$ according to the partial order $p$; in case of duplicate elements, the greater of the elements relative to the order of $S$ is kept}
+$l$ $i$ & \tabparbox{same as \babelsrc{$l$.atIndex $\ i$}}\\\hline
+$-l$ & \tabparbox{reverses $l$}
 \end{tabular}
-\label{tab:setops}
+\label{tab:listvectorops}
 \end{table}
 
-\subsection{Maps}
+\subsection{Set}
+There are no messages specific for sets except that for a set $s$ the expression $s\ x$ is equivalent to 
+$s.\babelsrc{contains}\ x$ and therefore tests if $x$ is an element of $s$. 
+
+\subsection{Map}The messages specific to maps are listed in Table~\ref{tab:mapops}. Note that the operators \texttt{-}, \texttt{--}, \texttt{**} and \texttt{//} deviate in their semantics from the usual collection semantics, but that the operators  \texttt{+} and \texttt{++} \emph{do} behave according to the usual collection semantics. 
 \begin{table}
-\caption{Map Operations}
+\caption{Map-specific Messages}
 \begin{tabular}{c|c}
-$M$ \verb!+! $(k, v)$ & \tabparbox{map created from the map $M$ by associating $k$ with $v$}\\\hline
-$M$ \verb!-! $k$ & \tabparbox{map created from the map $M$ by removing the key $k$}\\\hline
-$M$ \verb!++! $N$ &  \tabparbox{map created from the map $M$ by adding the key/value pairs that are elements of $N$}\\\hline
-$M$ \verb!--! $S$ & \tabparbox{map created from $M$ by removing all keys that are not elements of $S$}\\\hline
-$M$ \verb!**! $N$ & \tabparbox{if $(k_M,v_M)$ is contained in $M$ and 
-$(k_N, v_N)$ is contained in $N$ such that $k_M == k_N$, then $(k_M, (v_M, v_N))$ is contained in the new map;
-if $k_M$ is a key of $M$ but not of $N$ then $(k_M, \babelsrc{Left}\ k_M)$ is an element of the new map; 
-finally, if $k_N$ is a key of $N$ but not of $M$ then $(k_N, \babelsrc{Right}\ k_N)$ is an element of the new map} \\\hline
-$M$ \verb!*! $T$ & \tabparbox{map created by removing all keys from the map $M$ which are not elements of  $T$} \\\hline
-$M$ $k$ & \tabparbox{returns the value $v$ associated with $k$ in $M$, or returns a dynamic exception with parameter \texttt{DomainError} if no such value exists} \\\hline
-$M \% f$ & \tabparbox{map created by applying the function $f$ to the key/value pairs of $M$; $f$ takes a key/value pair and returns a value}\\\hline
-$M / f$ & \tabparbox{map created by applying the function $f$ to the values of $M$; $f$ takes a value and returns a value}
-%\babelsrc{$M$.reorder $\ p$} & \tabparbox{map created by reordering $M$ according to the partial order $p$; in case of duplicate keys, the greater of the keys relative to the order of $M$ is kept}
+\babelsrc{$c$.contains $\ x$} & \tabparbox{checks if $c$ contains $x$} \\\hline
+\babelsrc{$c$.containsKey $\ k$} & \tabparbox{checks if $c$ contains $(k, v)$ for some $v$} \\\hline
+$m$ \verb!+! $(k, v)$ & \tabparbox{map created from the map $m$ by associating $k$ with $v$}\\\hline
+$m$ \verb!-! $k$ & \tabparbox{map created from the map $m$ by removing the key $k$}\\\hline
+$m$ \verb!++! $n$ &  \tabparbox{map created from the map $m$ by adding the key/value pairs that are elements of $n$}\\\hline
+$m$ \verb!--! $n$ & \tabparbox{map created from $m$ by removing all keys that are elements of $n$}\\\hline
+$m$ \verb!**! $n$ & \tabparbox{map created from $m$ by removing all keys that are not elements of $n$} \\\hline
+$m$ $k$ & \tabparbox{returns the value $v$ associated with $k$ in $m$, or returns a dynamic exception with parameter \texttt{DomainError} if no such value exists} \\\hline
+$m$ \verb!//! $f$ & \tabparbox{map created by applying the function $f$ to the key/value pairs $(k,\ v)$ of $m$, yielding key/value pairs 
+$(k, \ f(k,\ v))$}
 \end{tabular}
 \label{tab:mapops}
 \end{table}
 
+\subsection{Object}
+Custom objects respond exactly to the set of messages defined in their body, with one exception: if the custom object implements all four of these messages:
+\begin{itemize}
+\item \babelsrc{collector_add_}
+\item \babelsrc{collector_close_}
+\item \babelsrc{empty}
+\item \babelsrc{collector_iterate_}
+\end{itemize}
+then the custom object automatically inherits standard implementations for all messages listed in Table~\ref{tab:generalcollectmessages} and for the three type conversion messages \babelsrc{list},\babelsrc{vector} and \babelsrc{set}. These standard implementations are shadowed by actual implementations the custom object might provide.
+
 \section{What's Next?}
 
-Where will Babel-17 go from here? There are two dimensions along which Babel-17 has to grow in order to find broad adoption.
+Where will Babel-17 go from here? There are two dimensions along which Babel-17 has to grow in order to find adoption.
 
-\subsection{Maturity and breadth of implementations}
-While there will probably always be a reference implementation of Babel-17 that strives for simplicity and clarity and sacrifices performance to achieve this, Babel-17 will need quality implementations on major computing platforms like JavaVM, Android, iOS and HTML 5. A lot of the infrastructure of these implementations can be shared, so once there is a speedy implementation of Babel-17 running for example on the Java Virtual Machine, the other implementations should follow more quickly. 
+\vspace{0.2cm}
+\noindent\textbf{Maturity and breadth of implementations}
+While there will probably always be a reference implementation of Babel-17 that strives for simplicity and clarity and sacrifices performance to achieve this, Babel-17 will need quality implementations on major computing platforms like JavaVM, Android, iOS and HTML 5. A lot of the infrastructure of these implementations can be shared, so once there is a speedy implementation of Babel-17 running for example on the Java Virtual Machine, the other implementations should follow more quickly. For example, there are many many opportunities for both static and particularly dynamic optimizations of the standard library implementation.
 
-\subsection{Development of the language} 
-Right now Babel-17 is a purely functional programming language with no static typing and only a handful of built-in types. Modularization of code is possible via objects.
-
-Encapsulation, more powerful types and some way of dealing with state, user interfaces, and communication with the outside world will be added to Babel-17. Programmers will be able to choose which of these future features they would like to employ. Those they don't care about they will be able to just ignore mostly and pretend that Babel-17 v21.0 is still Babel-17 v0.21.  
+\vspace{0.2cm}
+\noindent\textbf{Development of the language} 
+Right now Babel-17 is a purely functional programming language with no static typing and only a handful of built-in types. Modularization and limited encapsulation of code is already possible via objects. More powerful encapsulation, more powerful types and some way of dealing with state, user interfaces, and communication with the outside world will be added to future versions of Babel-17. Programmers will be able to choose which of these future features they would like to employ. Those they don't care about they will be able to just ignore mostly and pretend that Babel-17 v21.0 is still Babel-17 v0.21.  
 
 \end{document}  

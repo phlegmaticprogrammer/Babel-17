@@ -13,14 +13,14 @@ object Values {
   val MESSAGE_MINUS = "minus_"
   val MESSAGE_UMINUS = "uminus_"
   val MESSAGE_TIMES = "times_"
-  val MESSAGE_QUOTIENT = "quotient_"
+  val MESSAGE_SLASH = "slash_"
   val MESSAGE_DIV = "div_"
   val MESSAGE_MOD = "mod_"
   val MESSAGE_POW = "pow_"
   val MESSAGE_PLUSPLUS = "plus__"
   val MESSAGE_MINUSMINUS = "minus__"
   val MESSAGE_TIMESTIMES = "times__"
-  val MESSAGE_QUOTIENTQUOTIENT = "quotient__"
+  val MESSAGE_SLASHSLASH = "slash__"
   val MESSAGE_TO = "to_"
   val MESSAGE_DOWNTO = "downto_"
   val MESSAGE_DECONSTRUCT = "deconstruct_"
@@ -34,6 +34,7 @@ object Values {
   val MESSAGE_TAKE = "take"
   val MESSAGE_DROP = "drop"
   val MESSAGE_CONTAINS = "contains"
+  val MESSAGE_CONTAINSKEY = "containskey"
   val MESSAGE_INDEXOF = "indexof"
   val MESSAGE_ATINDEX = "atindex"
   val MESSAGE_HEAD = "head"
@@ -88,20 +89,17 @@ object Values {
     }
 
     // this returns either an ObjectValue without a "representative" message or something that is
-    // a) not an ObjectValue b) forced c) not a persistent exception
+    // a) not an ObjectValue b) forced
     def extractRepresentative() : Value = {
       var f = this
       var oldf = f
       while (f != null) {
-        if  (f.isDynamicException()) return f
+        f = f.force()
+        if  (f.isException()) return f
         oldf = f
         f = f.sendMessage(Program.Message(MESSAGE_REPRESENTATIVE))
       }
-      oldf = oldf.force()
-      oldf match {
-        case ExceptionValue(false, p) =>  oldf.asDynamicException
-        case _ => oldf
-      }
+      oldf
     }
     
     def choose() : Value = {
@@ -163,6 +161,7 @@ object Values {
 
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
+        case MESSAGE_INTEGER => this
         case MESSAGE_PLUS => NativeFunctionValue(plus _)
         case MESSAGE_MINUS => NativeFunctionValue(minus _)
         case MESSAGE_UMINUS => IntegerValue(-v)
@@ -433,6 +432,13 @@ object Values {
       case MESSAGE_SET =>
       case MESSAGE_STRING =>
       case MESSAGE_MAP =>
+      case MESSAGE_SLASH =>
+      case MESSAGE_SLASHSLASH =>
+      case MESSAGE_TIMES =>
+      case MESSAGE_POW =>
+      case MESSAGE_MINUS =>
+      case MESSAGE_MINUSMINUS =>
+      case MESSAGE_TIMESTIMES =>
       case _ => return null
     }
     Evaluator.systemSendMessage(target, m)
@@ -461,9 +467,31 @@ object Values {
         case MESSAGE_STRING => this
         case MESSAGE_MAP => null
         case MESSAGE_SET => null
+        case MESSAGE_INDEXOF => NativeFunctionValue(indexOf _)
+        case MESSAGE_CONTAINS => NativeFunctionValue(contains _)
         case MESSAGE_EMPTY => Evaluator.systemSendMessage(this, "string", MESSAGE_EMPTY)
         case m => sendCollectionMessage(this, m)
       }      
+    }
+
+    def indexOf(w : Value) : Value = {
+      w match {
+        case StringValue(w) =>
+          var i = v.indexOf(w)
+          if (i >= 0) {
+            i = v.codePointCount(0, i)
+          }
+          IntegerValue(i)
+        case _ => null
+      }
+    }
+
+    def contains(w : Value) : Value = {
+      w match {
+        case StringValue(w) =>
+          BooleanValue(v.indexOf(w) >= 0)
+        case _ => null
+      }
     }
   }
   
@@ -474,6 +502,7 @@ object Values {
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_STRING => StringValue(stringValue(false, false))
+        case MESSAGE_BOOLEAN => this
         case _ => null
       }      
     }
@@ -505,6 +534,12 @@ object Values {
   }
   
   case class ObjectValue(messages : SortedMap[Program.Message, Value]) extends Value {   
+    import Program.Message
+    val collection = messages.contains(Message(MESSAGE_EMPTY)) &&
+       messages.contains(Message(MESSAGE_COLLECT_ADD)) &&
+       messages.contains(Message(MESSAGE_COLLECT_CLOSE)) &&
+       messages.contains(Message(MESSAGE_ITERATE))
+
     def stringValue(nested : Boolean, brackets : Boolean) : String = {
       if (isNil(false)) return "nil"
       var s = "{"
@@ -532,10 +567,13 @@ object Values {
     override def sendMessage(message : Program.Message) : Value = {
       messages.get(message) match {
         case Some(v : EnvironmentValue) => v.onLookup()
-        case None => 
+        case Some(v) => v
+        case None =>
+          if (!collection) return null
           message.m match {
-            //case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
-            case _ => null
+            case MESSAGE_STRING => null
+            case MESSAGE_MAP => null
+            case m => sendCollectionMessage(this, m)
           }
       }
     }
@@ -801,7 +839,7 @@ object Values {
   class VectorCollector(v : VectorValue) extends Collector {
     import scala.collection.mutable.ArrayBuffer
     val buffer : ArrayBuffer[Value] = new ArrayBuffer(v.tuple.length*2+15)
-    buffer ++ v.tuple
+    for (x <- v.tuple) buffer + x
     override def collect_close () : Value = {
       VectorValue(buffer.toArray)
     }
@@ -833,20 +871,22 @@ object Values {
     override def collect_close () : Value = {
       val closed = collector.sendMessage(Program.Message(MESSAGE_COLLECT_CLOSE))
       if (closed == null)
-        dynamicException(CONSTRUCTOR_INVALIDMESSAGE)
+        dynamicException(CONSTRUCTOR_INVALIDMESSAGE, StringValue(MESSAGE_COLLECT_CLOSE))
       else
         closed
     }
     override def collect_add(v : Value) : ExceptionValue =  {
       collector = collector.sendMessage(Program.Message(MESSAGE_COLLECT_ADD))
       if (collector == null)
-        dynamicException(CONSTRUCTOR_INVALIDMESSAGE)
+        dynamicException(CONSTRUCTOR_INVALIDMESSAGE, StringValue(MESSAGE_COLLECT_ADD))
       else {
         collector.force() match {
           case f : FunctionValue =>
             collector = f.apply(v)
             if (collector.isException) collector.asDynamicException
             else null
+          case e : ExceptionValue =>
+            e.asDynamicException
           case _ => dynamicException(CONSTRUCTOR_APPLYERROR)
         }
       }
@@ -865,6 +905,12 @@ object Values {
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_LIST => this
+        case MESSAGE_UMINUS =>
+          Evaluator.systemSendMessage(this, "seq", message.m)
+        case MESSAGE_APPLY =>
+          Evaluator.systemSendMessage(this, "coll", MESSAGE_ATINDEX)
+        case MESSAGE_EMPTY =>
+          Evaluator.systemSendMessage(this, "list", MESSAGE_EMPTY)
         case m => sendCollectionMessage(this, m)
       }
     }
@@ -955,9 +1001,29 @@ object Values {
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_VECTOR => this
+        case MESSAGE_UMINUS =>
+          Evaluator.systemSendMessage(this, "seq", message.m)
+        case MESSAGE_EMPTY =>
+          Evaluator.systemSendMessage(this, "vector", MESSAGE_EMPTY)
+        case MESSAGE_APPLY =>
+          NativeFunctionValue(atIndex _)
+        case MESSAGE_ATINDEX =>
+          NativeFunctionValue(atIndex _)
         case m => sendCollectionMessage(this, m)
       }
     }
+
+    def atIndex(i : Value) : Value = {
+      i match {
+        case IntegerValue(i) =>
+          if (i < 0 || i >= tuple.length)
+            domainError()
+          else
+            tuple(i.toInt)
+        case _ => null
+      }
+    }
+
     override def forceDeep() : Value = {
       val size = tuple.size
       val tuple2 : Array[Value] = new Array(size)
@@ -1016,7 +1082,29 @@ object Values {
       message.m match {
         case MESSAGE_STRING => null
         case MESSAGE_SET => this
+        case MESSAGE_EMPTY =>
+          Evaluator.systemSendMessage(this, "set", MESSAGE_EMPTY)
+        case MESSAGE_CONTAINS =>
+          NativeFunctionValue(contains _)
+        case MESSAGE_APPLY =>
+          NativeFunctionValue(contains _)
+        case MESSAGE_MINUS =>
+          NativeFunctionValue(remove _)
         case m => sendCollectionMessage(this, m)
+      }
+    }
+    def contains(w : Value) : Value = {
+      try {
+        BooleanValue(set.contains(w))
+      } catch {
+        case UnrelatedX => BooleanValue(false)
+      }
+    }
+    def remove(w : Value) : Value = {
+      try {
+        SetValue(set - w)
+      } catch {
+        case UnrelatedX => this
       }
     }
     override def choose() : Value = {
@@ -1071,7 +1159,45 @@ object Values {
       message.m match {
         case MESSAGE_STRING => null
         case MESSAGE_MAP => this
+        case MESSAGE_SLASHSLASH =>
+          Evaluator.systemSendMessage(this, "map", MESSAGE_SLASHSLASH)
+        case MESSAGE_CONTAINS =>
+          Evaluator.systemSendMessage(this, "map", MESSAGE_CONTAINS)
+        case MESSAGE_TIMESTIMES =>
+          Evaluator.systemSendMessage(this, "map", MESSAGE_TIMESTIMES)
+        case MESSAGE_CONTAINSKEY =>
+          NativeFunctionValue(containsKey _)
+        case MESSAGE_APPLY =>
+          NativeFunctionValue(lookup _)
+        case MESSAGE_MINUS =>
+          NativeFunctionValue(remove _)
+        case MESSAGE_EMPTY =>
+          Evaluator.systemSendMessage(this, "map", MESSAGE_EMPTY)
         case m => sendCollectionMessage(this, m)
+      }
+    }
+    def containsKey(w : Value) : Value = {
+      try {
+        BooleanValue(map.contains(w))
+      } catch {
+        case UnrelatedX => BooleanValue(false)
+      }
+    }
+    def lookup(w : Value) : Value = {
+      try {
+        map.get(w) match {
+          case Some(v) => v
+          case _ => null
+        }
+      } catch {
+        case UnrelatedX => null
+      }
+    }
+    def remove(w : Value) : Value = {
+      try {
+        MapValue(map - w)
+      } catch {
+        case UnrelatedX => this
       }
     }
     override def choose() : Value = {
@@ -1121,8 +1247,9 @@ object Values {
     
   def orderRank(f : Value) : Int = {
     f match {
-      case _ : ExceptionValue => -1
+      case ExceptionValue(true, _) => -1
       case _ : FunctionValue => -1
+      case ExceptionValue(false, _) => 0
       case _ : ObjectValue => 1
       case InfinityValue(false) => 2
       case _ : IntegerValue => 3
@@ -1133,8 +1260,8 @@ object Values {
       case _ : ConstructorValue => 7
       case _ : SetValue => 8
       case _ : MapValue => 9
-      case BooleanValue(false) => 10
-      case BooleanValue(true) => 11
+      case BooleanValue(false) => 11
+      case BooleanValue(true) => 12
     }
   }
   
@@ -1148,6 +1275,8 @@ object Values {
     if (r1 < r2) return LESS
     if (r1 > r2) return GREATER
     (f1, f2) match {
+      case (ExceptionValue(_, x), ExceptionValue(_, y)) =>
+        compareValues(x, y)
       case (x : ObjectValue, y : ObjectValue) => compareObjects(x, y)
       case (x : MapValue, y : MapValue) => compareMaps(x, y)
       case (x : SetValue, y : SetValue) => compareSets(x, y)

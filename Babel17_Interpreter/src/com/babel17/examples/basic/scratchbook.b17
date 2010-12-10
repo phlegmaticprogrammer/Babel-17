@@ -15,4 +15,23 @@ def odd n = even (n-1)
 
 val u = "hello world"
 
-[(1, 0), (13,-24)].set
+def f x = x mod 2 == 0
+
+
+val m = lazy((1 to 1000).vector // (x => x^2))
+
+/*#profile (m * (((k,v),acc) => k*v+acc)) 0    */
+
+val u = object def x = 2 end
+
+u.x = begin
+   u = nil
+   end
+
+val u = {x = 10, y = 20, z = -4}
+val u = {x = 9, y = u.y, z = u.z}
+#print u
+u = object+(u,)
+      def x = 9
+    end
+u.x
