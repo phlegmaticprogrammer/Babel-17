@@ -480,8 +480,11 @@ class Tree2Program {
         }
         SPragma(u)
       case n : MatchNode =>
-        SMatch(buildSimpleExpression(n.value), 
+        SMatch(buildSimpleExpression(n.value),
                mkBlockBranches(toList(n.patterns), toList(n.blocks)))    
+      case n : TryNode =>
+        STry(buildBlock(n.block),
+               mkBlockBranches(toList(n.patterns), toList(n.blocks)))
       case n : MemoizeNode =>
         def buildMemo(memoNode : Node) : (MemoType, Id) = {
           memoNode match {

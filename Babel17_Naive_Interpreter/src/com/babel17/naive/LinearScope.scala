@@ -151,6 +151,12 @@ class LinearScope {
           check_b(check_p(env, pat, false), b)
         }
         env
+      case STry(block, branches) =>
+        check_b(env, block)
+        for ((pat, b) <- branches) {
+          check_b(check_p(env, pat, false), b)
+        }
+        env
     }
   }
   

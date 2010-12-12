@@ -71,6 +71,7 @@ object Program {
   case class SWhile(cond:SimpleExpression,body:Block) extends Statement
   case class SFor(pat:Pattern,list:SimpleExpression,body:Block) extends Statement
   case class SMatch(se : SimpleExpression, branches : List[(Pattern, Block)]) extends Statement
+  case class STry(block : Block, branches : List[(Pattern, Block)]) extends Statement
   case class SPragma(pragma : Pragma) extends Statement
 
   case class TemporaryStatement extends Statement

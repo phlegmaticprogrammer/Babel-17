@@ -144,6 +144,18 @@ object CollectVars {
         }
         term.freeVars = freeVars
         term.assignedVars = assignedVars
+      case STry(block, branches) =>
+        collectVars(block)
+        var freeVars = block.freeVars
+        var assignedVars = block.assignedVars
+        for (b <- branches) {
+          collectVars(b._1)
+          collectVars(b._2)
+          freeVars = freeVars ++ b._1.freeVars ++ (b._2.freeVars -- b._1.introducedVars)
+          assignedVars = b._2.assignedVars -- b._1.introducedVars
+        }
+        term.freeVars = freeVars
+        term.assignedVars = assignedVars
       case ESimple(se) =>
         collectVars(se)
         term.freeVars = se.freeVars

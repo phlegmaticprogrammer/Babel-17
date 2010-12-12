@@ -50,6 +50,8 @@ public class Parser {
     k.add("nil");
     k.add("div");
     k.add("mod");
+    k.add("try");
+    k.add("catch");
     return k;
   }
 
@@ -477,6 +479,21 @@ public class Parser {
             blocks = blocks.cons(block);
           }
           return new MatchNode(value, patterns.reverse(), blocks.reverse()).mergeLocation(loc).mergeLocation();
+        }
+        case babel17Parser.TRY: {
+            Node mainblock = toNode(tree.getChild(0));
+            Tree t = tree.getChild(1);
+            int count = t.getChildCount();
+            NodeList patterns = new NodeList();
+            NodeList blocks = new NodeList();
+            for (int i = 0; i < count; i++) {
+              Tree s = t.getChild(i);
+              PatternNode pattern = toPattern(s.getChild(0));
+              BlockNode block = toNode(s.getChild(1)).toBlock();
+              patterns = patterns.cons(pattern);
+              blocks = blocks.cons(block);
+            }
+            return new TryNode(mainblock, patterns.reverse(), blocks.reverse()).mergeLocation(loc).mergeLocation();
         }
         case babel17Parser.LAMBDA: {
           Tree t = tree.getChild(0);

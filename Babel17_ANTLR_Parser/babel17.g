@@ -43,6 +43,7 @@ MAP_OR_SET_OR_OBJ;
 EMPTY_MAP;
 EXCEPTION;
 MATCH;
+TRY;
 CASES;
 OBJ;
 FOR_EXPR;
@@ -161,6 +162,8 @@ L_exception
 L_to 	:	 'to';
 L_downto 	
 	:	'downto';
+L_try	:	'try';
+L_catch	:	'catch';
 	
 A_infinity 
 	:	'infinity';	
@@ -352,10 +355,10 @@ PRAGMA_PROFILE
 	:	'#profile';
 
 
-pattern :	Constr (NL? primitive_pattern)? -> ^(Constr primitive_pattern?)
+pattern :	Constr (NL? pattern)? -> ^(Constr pattern?)
 	|	primitive_pattern (NL? token_DOUBLE_COLON NL? primitive_pattern)* 
 		-> ^(LIST_CONS primitive_pattern*)
-	|	L_exception primitive_pattern -> ^(L_exception primitive_pattern)
+	|	L_exception pattern -> ^(L_exception pattern)
 	|	token_ELLIPSIS;
 	
 bracket_pattern
@@ -446,6 +449,7 @@ control_expr
 	|	while_do_expr
 	|	match_expr
 	|	for_expr
+	| 	try_expr
 	|	begin_end;
 	
 with_control_expr
@@ -498,6 +502,9 @@ case_expr
 match_expr
 	:	L_match NL? p_op_expr NL? full_cases L_end 
 		  -> ^(MATCH p_op_expr full_cases);
+		  
+try_expr:	L_try NL? pure_block NL? L_catch NL? full_cases L_end
+		  -> ^(TRY pure_block full_cases);
 	
 lambda_expr 
 	:	lambda_cases -> ^(LAMBDA lambda_cases);

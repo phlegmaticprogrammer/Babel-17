@@ -36,6 +36,8 @@ public enum TokenType {
   FORCE(babel17Lexer.L_force),
   DIV(babel17Lexer.L_div),
   MOD(babel17Lexer.L_mod),
+  TRY(babel17Lexer.L_try),
+  CATCH(babel17Lexer.L_catch),
 
   A_EQUAL(babel17Lexer.A_EQUAL, "operator"),
   U_EQUAL(babel17Lexer.U_EQUAL, "symbol_equal"),

@@ -674,6 +674,27 @@ class Evaluator(val maxNumThreads : Int) {
         }
         StatementException(dynamicException(CONSTRUCTOR_NOMATCH))
       }
+      case STry(mainblock, branches) => {
+        var ex : ExceptionValue = null
+        evalBlock(env, coll, mainblock) match {
+          case BlockCollector(_,_) =>
+            return StatementCollector(env, coll)
+          case BlockException(x) =>
+            ex = x
+        }
+        for ((pat, block) <- branches) {
+          matchPattern(env, pat, ex.v, false) match {
+            case NoMatch() =>
+              // do nothing, go to next branch
+            case DoesMatch(blockEnv) =>
+              evalBlock(blockEnv, coll, block) match {
+                case BlockException(ex) => return StatementException(ex)
+                case BlockCollector(_,_) => return StatementCollector(env, coll)
+              }
+          }
+        }
+        StatementException(ex)
+      }
       case _ => throw EvalX("incomplete evalStatement: "+st) // dummy expression
     }
   }
