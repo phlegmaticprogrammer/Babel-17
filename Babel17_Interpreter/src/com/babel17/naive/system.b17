@@ -30,15 +30,19 @@ def coll_isEmpty (for _, ... end) = false
 def coll_isEmpty _ = true
 
 def coll_contains c = x =>
-begin
-  val contains = false
-  for i in c do
-    if i == x then
-      contains = true
+match
+  begin
+    for i in c do
+      if i == x then
+        exception Found
+      end
     end
   end
-  contains
+  case (exception (Found)) => true
+  case () => false
 end
+
+coll_contains {3, 7, 23, 19} 7
 
 def coll_indexOf c = x =>
 match 
