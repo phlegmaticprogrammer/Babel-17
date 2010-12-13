@@ -41,35 +41,33 @@ catch
   case Found => true
 end
 
-coll_contains {3, 7, 23, 19} 23
-
 def coll_indexOf c = x =>
-match 
-  begin
-    val pos = 0
-    for y in c do
-      if y == x then
-        exception (Found pos)
-      end
-      pos = pos + 1
+try
+  val pos = 0
+  for y in c do
+    if y == x then
+      exception (Found pos)
     end
+    pos = pos + 1
   end
-  case (exception (Found pos)) => pos
-  case _ => -1
+  -1
+catch
+  case Found pos => pos
 end
 
 def coll_atIndex c = index =>
-begin
-  val found = false
-  val y = nil
+try
   for x in c do
     if index == 0 then
-      found = true
-      y = x
+      exception Found x
+    elseif index < 0 then
+      exception DomainError
     end
     index = index - 1
   end
-  if found then y else exception DomainError end
+  exception DomainError
+catch
+  case Found x => x
 end
 
 def coll_head (for h, ... end) = h
@@ -79,25 +77,31 @@ def coll_plus_ = collector_add_
 def coll_plus__ c = d => with c do for x in d do yield x end end
 
 def coll_take c = n =>
-  with c.empty do
+with c.empty do
+  try
     for x in c do
       if n > 0 then
-        n = n - 1
         yield x
+        n = n - 1
+      end
+      if (n <= 0) then
+        exception Done
       end
     end
+  catch
+    case Done =>
   end
+end
 
 def coll_drop c = n =>
-  with c.empty do
-    for x in c do
-      if n > 0 then
-        n = n - 1
-      else
-        yield x
-      end
-    end
+begin
+  val c = c
+  while n > 0 do
+    n = n - 1
+    (for _, c as ... end) = c
   end
+  c
+end
 
 def collect_ empty = c =>
 with empty do
@@ -131,18 +135,17 @@ end
 
 def coll_times__ c = d =>
 with c.empty do
-  for (x if d.contains x) in c do
+  for (x if c.contains x) in d do
     yield x
   end
 end
 
 def map_times__ c = d =>
 with c.empty do
-  for (x as ((k, _) if d.contains k)) in c do
-    yield x
+  for (k if c.containsKey k) in d do
+    yield (k, c k)
   end
 end
-
 
 def coll_slash_ c = f =>
 with c.empty do
