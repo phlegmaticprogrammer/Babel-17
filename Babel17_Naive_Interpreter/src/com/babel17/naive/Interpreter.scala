@@ -37,7 +37,11 @@ object Interpreter {
     if (filename == null) {
       w.writeLineError("Please specify which file to execute!")
     } else {
+      val t1 = System.currentTimeMillis
       val result = Parser.parse(filename)
+      val t2 = System.currentTimeMillis
+      w.writeLineCommentary("Parsed in "+(t2-t1)+" milliseconds.")
+      w.writeLine("")
       val checker = new Tree2Program()
       checker.source = new Source(filename)
       val term = checker.makeProgram(result)

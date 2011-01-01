@@ -99,10 +99,10 @@ public final class SymbolTable {
     }
 
    /* public SymbolTable addLinearPatternVals(SemanticAnalysis.PatternIds ids) {
-      TreeMap<String, ValId> lin = linearscope;
+      TreeMap<String, Var> lin = linearscope;
       TreeMap<String, Id> t = table;
       for (IdentifierPattern id : ids.collect()) {
-        ValId vid = new ValId();
+        Var vid = new Var();
         vid.id = id.toNode();
         String name = id.name().toLowerCase();
         lin = lin.set(name, vid);
@@ -116,7 +116,7 @@ public final class SymbolTable {
         throw new RuntimeException("linearscope must be empty");
       TreeMap<String, Id> t = table;
       for (IdentifierPattern id : ids.collect()) {
-        ValId vid = new ValId();
+        Var vid = new Var();
         vid.id = id.toNode();
         t = t.set(id.name().toLowerCase(), vid);
       }

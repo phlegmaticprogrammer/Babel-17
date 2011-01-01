@@ -23,14 +23,13 @@ class Tree2Program {
     throw new RuntimeException("at "+loc+": "+msg)
   }
 
-  def toList(nl : NodeList) : List[Node] = {
-      val len = nl.length()
-      var i = 0
+  def toList(_nl : NodeList) : List[Node] = {
       var l = List[Node]()
-      while (i < len) {
-        val m = nl.get(i)
-        i = i + 1
+      var nl = _nl
+      while (!nl.empty) {
+        val m = nl.head
         l = m::l
+        nl = nl.tail
       }
       return l.reverse
   }

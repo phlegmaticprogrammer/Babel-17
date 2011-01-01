@@ -84,7 +84,7 @@ with c.empty do
         yield x
         n = n - 1
       end
-      if (n <= 0) then
+      if n <= 0 then
         exception Done
       end
     end
@@ -98,7 +98,7 @@ begin
   val c = c
   while n > 0 do
     n = n - 1
-    (for _, c as ... end) = c
+    c = c.tail
   end
   c
 end

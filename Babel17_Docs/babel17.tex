@@ -809,7 +809,7 @@ The partial order is defined by the following laws:
 \begin{itemize}
 \item  $e$ $<$ \babelsrc{nil} $< -\infty <  z  < \infty < s <  lv < cexpr < set < map < b$ holds for all persistent exceptions $e$, 
  integers $z$, strings $s$,  lists and vectors $lv$,  constructed expressions $cexpr$, sets $set$, maps $map$ and booleans $b$
- \item exceptions are totally ordered by the order their parameter induces
+ \item exceptions are partially ordered by the order their parameter induces
  \item booleans are totally ordered and \babelsrc{false} $<$ \babelsrc{true} holds
  \item integers are totally ordered in the obvious way
  \item $-\infty == -\infty$ and $\infty == \infty$ both hold 

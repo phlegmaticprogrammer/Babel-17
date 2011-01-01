@@ -29,19 +29,23 @@ class LinearScope {
   
   case class SimpleEnvironment(nonlinear : SortedSet[Id]) {
     def thaw () : Environment = {
-      Environment(nonlinear, SortedSet())
+      Environment(nonlinear, SortedSet(), 0)
     }
   }
+
+  val FLOWFLAG_BREAK = 1
+  val FLOWFLAG_CONTINUE = 2
+  val FLOWFLAG_RETURN = 4
   
-  case class Environment(nonlinear : SortedSet[Id], linear : SortedSet[Id]) {
+  case class Environment(nonlinear : SortedSet[Id], linear : SortedSet[Id], flowflags : Int) {
     def freeze () : SimpleEnvironment = {
       SimpleEnvironment(nonlinear ++ linear)
     }
     def bind (id : Id) : Environment = {
-      Environment(nonlinear - id, linear + id)
+      Environment(nonlinear - id, linear + id, flowflags)
     }
     def bind (ids : SortedSet[Id]) : Environment = {
-      Environment(nonlinear -- ids, linear ++ ids)
+      Environment(nonlinear -- ids, linear ++ ids, flowflags)
     }
     def rebind (id : Id) : Environment = {
       lookup(linear, id, true)
@@ -53,11 +57,11 @@ class LinearScope {
       this
     }
     def define (id : Id) : Environment = {
-      Environment(nonlinear + id, linear - id)
+      Environment(nonlinear + id, linear - id, flowflags)
     }
   }
   
-  def emptyEnv () : Environment = Environment(SortedSet(), SortedSet())
+  def emptyEnv () : Environment = Environment(SortedSet(), SortedSet(), 0)
   
   def check (env : Environment, t : Term) {
     t match {
