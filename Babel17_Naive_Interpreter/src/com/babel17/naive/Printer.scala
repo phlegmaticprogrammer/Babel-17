@@ -16,6 +16,9 @@ class Printer {
    def break() {
      if (!newline) println("")
    }
+   def space() {
+     if (!newline) print(" ")
+   }
    def println(s : String) {
      printIndent
      builder.append(s)

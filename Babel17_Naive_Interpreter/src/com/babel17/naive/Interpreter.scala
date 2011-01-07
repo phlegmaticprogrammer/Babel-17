@@ -29,7 +29,7 @@ object Interpreter {
   }
 
   def run(filename : String, w : WriteOutput) {
-    w.writeLineCommentary("Babel-17 v0.21, Copyright \u00a9 2009 Steven Obua")
+    w.writeLineCommentary("Babel-17 v0.21.1, Copyright \u00a9 2009 Steven Obua")
     w.writeLine("")
     w.writeLineCommentary("This program comes with ABSOLUTELY NO WARRANTY.")
     w.writeLineCommentary("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")
@@ -37,11 +37,11 @@ object Interpreter {
     if (filename == null) {
       w.writeLineError("Please specify which file to execute!")
     } else {
-      val t1 = System.currentTimeMillis
+      /*val t1 = System.currentTimeMillis */
       val result = Parser.parse(filename)
-      val t2 = System.currentTimeMillis
+      /*val t2 = System.currentTimeMillis
       w.writeLineCommentary("Parsed in "+(t2-t1)+" milliseconds.")
-      w.writeLine("")
+      w.writeLine("") */
       val checker = new Tree2Program()
       checker.source = new Source(filename)
       val term = checker.makeProgram(result)

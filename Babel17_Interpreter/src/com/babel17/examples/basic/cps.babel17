@@ -1,17 +1,1 @@
-val u = 10
-val v = 5
-if false then
-  u = 3
-else
-  v = 6
-end
-u * v
-/*val u = 10
-if false then
-  u = 4
-else
-  u = u+7
-  val v = u*u
-  u = u*v
-end
-u*/
+4

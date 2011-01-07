@@ -59,7 +59,9 @@ object CPS {
   case class WithEnd(coll : Var, closedColl : Var, cexp : ContExp) extends ContExp
   case class Yield(coll : Var, p : PrimExp, cexp : ContExp) extends ContExp
   case class If(cond : PrimExp, a : ContExp, b : ContExp) extends ContExp
-  case class Switch(index : PrimExp, cont : List[ContExp]) extends ContExp
+  //case class While() extends ContExp
+  //case class For() extends ContExp
+  //case class Switch(index : PrimExp, cont : List[ContExp]) extends ContExp
 
   def print(printer : Printer, d : Def) {
     d match {
