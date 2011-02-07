@@ -1,0 +1,33 @@
+def sqrsum1 v =
+begin
+  val sum = 0
+  for x in v do
+    sum = sum + x*x
+  end
+  sum
+end
+
+sqrsum1(1, 3, 7)
+
+def intsum (acc) = object
+  def collector_add_ u = intsum(acc + u)
+  def collector_close_ = acc
+end
+
+def sqrsum2 v =
+with intsum(0) do
+  for x in v do
+    yield x*x
+  end
+end
+
+sqrsum2 (1, 3, 7)
+
+try
+  (concurrent exception First) + (concurrent exception Second)
+catch
+  case First => 1
+  case Second => 2
+end
+
+3 div 0

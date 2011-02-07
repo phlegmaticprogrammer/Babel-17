@@ -31,7 +31,7 @@
 \newenvironment{babelcode}[0]{\begin{center}\tt}{\end{center}}
 
 \lstdefinelanguage{babellanguage} 
-{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod},
+{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch},
 sensitive=true, 
 morecomment=[l]{//}, 
 morecomment=[s]{/*}{*/}, 
@@ -82,7 +82,7 @@ I always wanted a programming language
 \item that has a simple mechanized formal semantics,
 \item that is beautiful.
 \end{itemize}
-There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will have been achieved. The version described in this document is Babel-17 v0.21, so there is still some distance to go. 
+There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will have been achieved. The version described in this document is Babel-17 v0.21.1, so there is still some distance to go. 
 
 Babel-17 is not a radically new or revolutionary programming language. It picks those raisins I like out of languages like Standard ML, Scala, Alice ML, Java, Javascript, Erlang, Haskell, Lisp, Clojure and Mathematica, and tries to evolve them into a beautiful new design. 
 
@@ -102,7 +102,8 @@ In this document  I specify Babel-17 in a mostly informal style: formal notation
 
 \section{Reference Implementation and Bug Parade}
 
-At \url{www.babel-17.com} you will find a reference implementation of Babel-17 v0.21 that fully supports the language as described in this document. There you will also find a Netbeans plugin that has syntax and error-highlighting for Babel-17 programs. As you find your way through this document, it might be helpful to directly try out Babel-17 in Netbeans to see if the interpreter behaves as you would guess from this spec. If you find implausible behavior, email your findings to \texttt{bugparade@babel-17.com}. Each proper bug will be listed together with your name (unless you don't wish so; then don't give your name in the email; it's also OK not to give your real name but an alias) and date of your discovery forever at \texttt{bugparade.babel-17.com}. You can also provide a link to your blog or whatever. There will also be a high-score of who submitted the most bugs.
+At \url{http://github.com/phlegmaticprogrammer/Babel-17/wiki} you will find a reference implementation of Babel-17 v0.21 that fully supports the language as described in this document. There you will also find a Netbeans plugin that has syntax and error-highlighting for Babel-17 programs. As you find your way through this document, it might be helpful to directly try out Babel-17 in Netbeans to see if the interpreter behaves as you would guess from this spec. 
+%If you find implausible behavior, email your findings to \texttt{bugparade@babel-17.com}. Each proper bug will be listed together with your name (unless you don't wish so; then don't give your name in the email; it's also OK not to give your real name but an alias) and date of your discovery forever at \texttt{babel-17.com}. You can also provide a link to your blog or whatever. There will also be a high-score of who submitted the most bugs.
 
 \section{Lexical Matters}
 Babel-17 source code is always written UTF-8 encoded. If it ain't UTF-8, it ain't Babel-17. 
@@ -118,7 +119,8 @@ These are the keywords of Babel-17:
 begin & end & object & with & if & then & else & elseif \\
 while &  for & do & choose & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
-to & downto & true & false & nil & infinity &  force & this
+to & downto & true & false & nil & infinity &  force & this \\
+try & catch &  &  &  &  &   & 
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
@@ -418,6 +420,34 @@ In this table of pattern constructions we use the $\delta$-pattern $\delta$. Thi
 \end{enumerate}
 
 Note that pattern matching does not distinguish between vectors and lists. A pattern that looks like a vector can match a list, and vice versa.
+
+Besides the \babelsrc{match} construct, there is also the \babelsrc{try} construct. While \babelsrc{match} can handle exceptions, most of the time  it is more convenient to use \babelsrc{try} for this purpose. The syntax is 
+\begin{babellisting}
+try 
+  $s_1$
+  $\ldots$
+  $s_m$
+catch 
+  case $p_1$ => $b_1$
+  $\vdots$
+  case $p_n$ => $b_n$
+end  
+\end{babellisting}
+The meaning of the above is identical to the meaning of
+\begin{babellisting}
+match 
+  begin 
+    $s_1$
+    $\ldots$
+    $s_m$
+  end
+case (exception $p_1$) => $b_1$
+  $\vdots$
+case (exception $p_n$) => $b_n$
+case x => x
+end  
+\end{babellisting}
+except for the fact that the latter expression might not be legal Babel-17 because of linear scoping violations.
 
 \section{Non-Determinism in Babel-17}
 

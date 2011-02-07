@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  18 DEC 2010 05:25
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  7 FEB 2011 02:27
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -349,10 +349,7 @@ File: ucsencs.def 2003/11/29 Fixes to fontencodings LGR, T3
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [2]
-Underfull \vbox (badness 1521) has occurred while \output is active []
-
- [3]
-(/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-34.def
+[3] (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-34.def
 File: uni-34.def 2004/10/17 UCS: Unicode data U+2200..U+22FF
 )
 (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-0.def
@@ -363,58 +360,62 @@ File: uni-33.def 2004/10/17 UCS: Unicode data U+2100..U+21FF
 )
 (/usr/local/texlive/2009/texmf-dist/tex/latex/ucs/data/uni-32.def
 File: uni-32.def 2004/10/17 UCS: Unicode data U+2000..U+20FF
-) [4] [5]
-Overfull \hbox (3.40291pt too wide) in paragraph at lines 255--264
+) [4]
+Overfull \hbox (3.40291pt too wide) in paragraph at lines 257--266
  [] 
  []
 
-[6] [7]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 354.
+[5] [6] [7]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 356.
 
  (/usr/local/texlive/2009/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 354.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 385.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 356.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 387.
 
 
 (/usr/local/texlive/2009/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 385.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 387.
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 404.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 406.
  [8] [9] [10]
-[11] [12]
+[11] [12] [13]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 585.
- [13] [14]
-Overfull \hbox (29.07874pt too wide) in paragraph at lines 678--731
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 615.
+ [14]
+Overfull \hbox (29.07874pt too wide) in paragraph at lines 708--761
  [][] 
  []
 
-[15] [16] [17] [18] [19] [20]
-Overfull \hbox (2.77594pt too wide) in paragraph at lines 1080--1081
+[15] [16] [17] [18] [19]
+Underfull \vbox (badness 3354) has occurred while \output is active []
+
+ [20]
+[21]
+Overfull \hbox (2.77594pt too wide) in paragraph at lines 1110--1111
 []\OT1/cmr/m/n/10.95 For []-statements the []-branch is op-tional, but []-state
 ments throw a []
  []
 
-[21] [22] [23] [24] [25] [26]
-Overfull \hbox (19.11597pt too wide) in paragraph at lines 1329--1342
+[22] [23] [24] [25] [26]
+Overfull \hbox (19.11597pt too wide) in paragraph at lines 1359--1372
  [][] 
  []
 
 [27] [28] (./babel17.aux) ) 
 Here is how much of TeX's memory you used:
- 6551 strings out of 493848
- 83852 string characters out of 3149207
- 156203 words of memory out of 3000000
- 9572 multiletter control sequences out of 15000+200000
+ 6553 strings out of 493848
+ 83870 string characters out of 3149207
+ 159223 words of memory out of 3000000
+ 9574 multiletter control sequences out of 15000+200000
  16635 words of font info for 62 fonts, out of 3000000 for 9000
  875 hyphenation exceptions out of 8191
- 41i,17n,40p,915b,1667s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,17n,40p,648b,1663s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local/texlive/2009/texmf-dist/fonts/type1/publ
 ic/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/publi
@@ -434,7 +435,7 @@ y10.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 fb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pf
 b></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/symbols/msam1
 0.pfb>
-Output written on babel17.pdf (28 pages, 309389 bytes).
+Output written on babel17.pdf (28 pages, 310298 bytes).
 PDF statistics:
  164 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
