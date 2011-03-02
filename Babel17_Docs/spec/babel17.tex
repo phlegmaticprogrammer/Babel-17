@@ -380,8 +380,8 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{$s$} & \patterndescr{a string $s$, like \babelsrc{"hello"}, matches just that string $s$}\\\hline
 \babelsrc{($p$)} & \patterndescr{same as $p$} \\\hline
 \babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches any non-exceptional value that matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
-\babelsrc{(val $\ e$)} & \patterndescr{matches anynon-exceptional  value which is equivalent to $e$}\\\hline
-\babelsrc{($f\ $ ? $\ p$)} & \patterndescr{here $f$ is a function; $f$ is applied to the value to be matched; the match succeeds if the result of the application is not an exception amd matches $p$}\\\hline
+\babelsrc{(val $\ e$)} & \patterndescr{matches any non-exceptional  value which is equivalent to $e$}\\\hline
+\babelsrc{($f\ $ ? $\ p$)} & \patterndescr{here $f$ is a function; $f$ is applied to the value to be matched; the match succeeds if the result of the application is not an exception and matches $p$}\\\hline
 \babelsrc{($d\ $ ? $\ p$)} & \patterndescr{here $d$ is a not a function and not an exception;   short for \babelsrc{((v => v.deconstruct_ $\ d$) ? $\ p$)}}\\\hline
 \babelsrc{($e\ $ ?)} & \patterndescr{short for \babelsrc{($e\ $ ? true)} }\\\hline
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches an object that has exactly the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
