@@ -116,6 +116,7 @@ object Interpreter {
   def main(args: Array[String]): Unit = {
     var f : String = null
     if (args.length > 0) f = args(0)
+    //f = "/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/build/classes/com/babel17/naive/system.b17"
     run(f, new WriteOutput())
   }
 

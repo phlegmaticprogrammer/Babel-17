@@ -52,6 +52,12 @@ public class Parser {
     k.add("mod");
     k.add("try");
     k.add("catch");
+    k.add("module");
+    k.add("typedef");
+    k.add("typeof");
+    k.add("private");
+    k.add("import");
+
     return k;
   }
 
@@ -516,10 +522,10 @@ public class Parser {
                   l.get(0),
                   (ControlNode) l.get(1)).mergeLocation(loc).mergeLocation();
         }
-        case babel17Parser.MEM_STRONG:
+        case babel17Parser.ID_STRONG:
           return new MemoizeNode.MemoId(true,
                   (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
-        case babel17Parser.MEM_WEAK:
+        case babel17Parser.ID_WEAK:
           return new MemoizeNode.MemoId(false,
                   (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
         case babel17Parser.MEMOIZE:

@@ -64,12 +64,24 @@ ASSIGN;
 ARROW;
 DEF;
 YIELD;
+PRIVATE;
+TYPEDEF;
+TYPEDEF_CLAUSE;
+GETTYPE;
+
 
 MEMOIZE;
-MEM_STRONG;
-MEM_WEAK;
+ID_STRONG;
+ID_WEAK;
 
 IF_PATTERN;
+TYPE_PATTERN;
+INNERVALUE_PATTERN;
+TYPEID;
+IMPORTID;
+TYPE_EXPR;
+TYPEOF;
+CONVERSION;
 }
 
 @lexer::header {
@@ -105,6 +117,8 @@ public void reportError(RecognitionException e) {
   lexingErrors.add(e);
 }
 }
+
+prog 	:	block EOF -> ^(PROG block);
 
 fragment
 Newline	:	('\u000A' | '\u000D' | '\u0085' | '\u000C' | '\u2028' | '\u2029'); 
@@ -195,6 +209,16 @@ L_nil	:	'nil';
 L_div 	:	 'div';
 
 L_mod 	:	'mod';
+
+/* New reserved words for Babel-17 v0.3 */
+L_module:	'module';
+L_typedef
+	:	'typedef';
+L_typeof	
+	:	'typeof';
+L_private
+	:	'private';
+L_import:	'import';
 
 /* Symbolic Tokens */
 
@@ -288,9 +312,9 @@ U_ELLIPSIS
 token_ELLIPSIS
 	:	A_ELLIPSIS | U_ELLIPSIS;
 
-PERIOD	:	'.';
-
 COMMA	:	',';
+
+PERIOD	:	'.';
 
 QUESTION_MARK	:	'?';
 	
@@ -342,6 +366,8 @@ ASSIGN	:	'=';
 UNDERSCORE
 	:	'_';	
 	
+COLON	:	':';
+	
 PRAGMA_LOG
 	:	'#log';
 	
@@ -353,21 +379,30 @@ PRAGMA_ASSERT
 	
 PRAGMA_PROFILE
 	:	'#profile';
+	
+typeid 	:	Id (NL? PERIOD NL? Id)* -> ^(TYPEID Id*);
+
+typeannotation
+	:	typeid
+	|	L_val NL? protected_expr_nc -> ^(L_val protected_expr_nc);
 
 
 pattern :	Constr (NL? pattern)? -> ^(Constr pattern?)
 	|	primitive_pattern (NL? token_DOUBLE_COLON NL? primitive_pattern)* 
 		-> ^(LIST_CONS primitive_pattern*)
-	|	L_exception pattern -> ^(L_exception pattern)
+	|	L_exception NL? pattern -> ^(L_exception pattern)
 	|	token_ELLIPSIS;
 	
 bracket_pattern
 	:       (Id NL? L_as) => Id NL? L_as NL? pattern -> ^(L_as Id pattern)
 	|	(protected_expr NL? QUESTION_MARK) => 
 		protected_expr NL? QUESTION_MARK (NL? pattern)? -> ^(QUESTION_MARK protected_expr pattern?)
-	|	pattern (NL? L_if NL? protected_expr)? -> ^(IF_PATTERN pattern protected_expr?)
-	|	L_val NL? protected_expr -> ^(L_val protected_expr)
-	|       L_for NL? (bracket_pattern ( NL? COMMA NL? bracket_pattern)*  NL?)? L_end -> ^(L_for bracket_pattern*);
+	|	(Id pattern) => Id pattern -> ^(INNERVALUE_PATTERN Id pattern)
+	|	L_val NL? protected_expr_nc -> ^(L_val protected_expr_nc)
+	|       L_for NL? (bracket_pattern ( NL? COMMA NL? bracket_pattern)*  NL?)? L_end -> ^(L_for bracket_pattern*)
+	|	(pattern NL? L_if) => pattern NL? L_if NL? protected_expr_nc -> ^(IF_PATTERN pattern protected_expr_nc)
+	|	(pattern NL? ':') => pattern NL? ':' NL? typeannotation -> ^(TYPE_PATTERN typeannotation pattern)
+	|	pattern;
 	
 arrow_or_assign
 	:	token_ARROW -> ^(ARROW)
@@ -396,8 +431,6 @@ primitive_pattern
 		  -> ^(MAP_OR_SET_OR_OBJ mselem_pattern*)
 	|	'{' NL? token_ARROW NL? '}' -> ^(EMPTY_MAP);
 	
-		  
-
 
 sep	:	(NL | SC)+;
 
@@ -408,10 +441,14 @@ pure_block
 	:	statement (sep statement)* -> ^(BLOCK statement*); 
 
 statement
-	:	st_val
+	:	st_typedef
+	|       st_val
 	|	st_def
-	|	st_memoize
 	|	st_yield
+	|	st_memoize
+	|	st_private
+	|	st_module
+	|	st_import
 	|	expr_or_assign
 	| 	PRAGMA_PRINT expr -> ^(PRAGMA_PRINT expr)
 	| 	PRAGMA_LOG expr -> ^(PRAGMA_LOG expr)
@@ -423,18 +460,41 @@ objelem_assign
 	
 st_val	:	L_val NL? (pattern | objelem_assign) NL? '=' NL? expr -> ^(VAL pattern* objelem_assign* expr);
 		
-st_def	:	L_def NL? Id NL? (primitive_pattern NL?)? '=' NL? expr 
-		  -> ^(DEF Id primitive_pattern? expr);
+st_def	:	L_def NL? Id NL? (primitive_pattern NL?)? (':' NL? typeid NL?)? '=' NL? expr 
+		  -> ^(DEF Id typeid? primitive_pattern? expr)
+	|	L_def NL? L_this NL? ':' NL? typeid NL? '=' NL? expr -> ^(CONVERSION typeid expr);
+		  
+st_typedef
+	:	L_typedef NL? Id NL? typedef_clause (NL? COMMA NL? typedef_clause)* -> ^(TYPEDEF Id typedef_clause*);
+	
+typedef_clause
+	:	(primitive_pattern NL? '=') => primitive_pattern NL? '=' NL? expr -> ^(TYPEDEF_CLAUSE primitive_pattern expr)
+	|	primitive_pattern -> ^(TYPEDEF_CLAUSE primitive_pattern);
 		  
 st_yield:	L_yield expr -> ^(YIELD expr);
-	
+		  
 st_memoize
-	:	L_memoize memid+
-		  -> ^(MEMOIZE memid*);
+	:	L_memoize sw_id (NL? COMMA NL? sw_id)*
+		  -> ^(MEMOIZE sw_id*);		  
 		
-memid	:	Id -> ^(MEM_STRONG Id)
-	|	'(' Id ')' -> ^(MEM_WEAK Id);	
-		
+sw_id	:	Id -> ^(ID_STRONG Id)
+	|	'(' Id ')' -> ^(ID_WEAK Id);
+
+st_private
+	:	L_private sw_id (NL? COMMA NL? sw_id)*
+		  -> ^(PRIVATE sw_id*);	
+
+st_module
+	:	L_module NL? typeid block L_end -> ^(L_module typeid block);
+	
+importid
+	:	Id (NL? PERIOD NL? Id)* importall? -> ^(IMPORTID Id* importall?);
+	
+importall
+	:	PERIOD UNDERSCORE -> ^(UNDERSCORE);
+
+st_import
+	:	L_import NL ? importid -> ^(L_import importid);
 	
 expr_or_assign
 	:	((pattern | objelem_assign) NL? '=') => (pattern | objelem_assign) NL? '=' NL? expr -> ^(ASSIGN pattern* objelem_assign* expr)
@@ -461,6 +521,8 @@ protected_expr
 	:	p_lop_expr
 	|	obj_expr;
 	
+protected_expr_nc // protected expr, no commas allowed
+	:	protected_expr;
 	
 begin_end
 	:	L_begin block L_end -> ^(BEGIN block);	
@@ -475,12 +537,14 @@ obj_expr:	(L_obj NL? parents) => L_obj NL? parents block L_end -> ^(OBJ block pa
 				
 lop_expr	
 	:	(lambda_expr) => lambda_expr
+	|	(lambda_expr_nobrackets) => lambda_expr_nobrackets
 	|	op_expr;
 
 p_lop_expr	
-	:	(protected_lambda_expr) => protected_lambda_expr
+	:	(lambda_expr) => lambda_expr
+	|	(lambda_expr_nobrackets) => lambda_expr_nobrackets
 	|	p_op_expr;		
-	
+
 if_expr	:	L_if NL? protected_expr NL? L_then block 
 		(L_elseif NL? protected_expr NL? L_then block)* 
 		(L_else block)? L_end  -> ^(IF protected_expr* block*);
@@ -505,22 +569,22 @@ match_expr
 		  
 try_expr:	L_try NL? pure_block NL? L_catch NL? full_cases L_end
 		  -> ^(TRY pure_block full_cases);
-	
-lambda_expr 
-	:	lambda_cases -> ^(LAMBDA lambda_cases);
 
-lambda_cases 
+lambda_expr 
+	:	'(' NL? lambda_cases NL? ')' -> ^(LAMBDA lambda_cases);
+	
+lambda_expr_nobrackets 
+	:	lambda_cases_nobrackets -> ^(LAMBDA lambda_cases_nobrackets);
+
+lambda_cases_nobrackets 
 	:	pattern NL? token_DOUBLE_ARROW NL? lop_expr -> ^(CASES ^(NIL_TOKEN pattern ^(BLOCK lop_expr)));
 
-protected_lambda_expr 
-	:	protected_lambda_cases -> ^(LAMBDA protected_lambda_cases);
-
-p_lambda_case_expr
+lambda_case_expr
 	:	(L_case NL? pattern NL? token_DOUBLE_ARROW NL? pure_block) -> ^(NIL_TOKEN pattern pure_block);
 
-protected_lambda_cases 
+lambda_cases 
 	:	pattern NL? token_DOUBLE_ARROW NL? pure_block -> ^(CASES ^(NIL_TOKEN pattern pure_block))
-	|	p_lambda_case_expr (NL? p_lambda_case_expr)* -> ^(CASES p_lambda_case_expr+);
+	|	lambda_case_expr (NL? lambda_case_expr)* -> ^(CASES lambda_case_expr+);
 
 for_expr:	L_for NL? pattern NL? L_in NL? protected_expr NL? L_do block L_end
 		  -> ^(FOR_EXPR pattern protected_expr block);	
@@ -534,7 +598,7 @@ p_op_expr
 
 
 builtin_primitive
-	:	L_random | L_exception | L_lazy | L_choose | L_concurrent | L_force;
+	:	L_random | L_exception | L_lazy | L_choose | L_concurrent | L_force | L_typeof;
 
 bool_expr 
 	:	bool_or_expr;
@@ -652,15 +716,18 @@ message_send_expr
 	:	primitive_expr (NL? PERIOD NL? Id)* -> ^(MESSAGE_SEND primitive_expr Id*);
 	
 list_expr 
-	:	'[' NL? (protected_expr (NL? COMMA NL? protected_expr)* NL?)? ']' -> ^(SQUARE_LIST protected_expr*)
-	|	'(' NL? (protected_expr (NL? COMMA NL? protected_expr)* NL? (COMMA NL?)?)? ')' -> ^(ROUND_LIST ^(NIL_TOKEN COMMA*) ^(NIL_TOKEN protected_expr*));
+	:	'[' NL? (protected_expr_nc (NL? COMMA NL? protected_expr_nc)* NL?)? ']' -> ^(SQUARE_LIST protected_expr_nc*)
+	|	'(' NL? (protected_expr_nc (NL? COMMA NL? protected_expr_nc)* NL? (COMMA NL?)?)? ')' -> ^(ROUND_LIST ^(NIL_TOKEN COMMA*) ^(NIL_TOKEN protected_expr_nc*));
 
 map_or_set_expr
 	:	'{' NL? (map_or_set_elem_expr NL? (COMMA NL? map_or_set_elem_expr NL?)*)? '}' -> ^(MAP_OR_SET_OR_OBJ map_or_set_elem_expr*)
 	|       '{' NL? token_ARROW NL? '}' -> ^(EMPTY_MAP);
 		
 map_or_set_elem_expr
-	:	protected_expr (NL? arrow_or_assign NL? protected_expr)? -> ^(NIL_TOKEN ^(NIL_TOKEN protected_expr*) arrow_or_assign*);
+	:	protected_expr_nc (NL? arrow_or_assign NL? protected_expr_nc)? -> ^(NIL_TOKEN ^(NIL_TOKEN protected_expr_nc*) arrow_or_assign*);
+
+type_expr
+	:	'(' NL? ':' NL? typeid NL? ')' -> ^(TYPE_EXPR typeid);
 
 primitive_expr
 	:	Num
@@ -671,9 +738,8 @@ primitive_expr
 	|	L_false
 	|	L_this	
 	|	L_nil
+	|	type_expr
 	|	token_infinity
 	| 	list_expr
 	|	with_control_expr
 	|	map_or_set_expr;
-	
-prog 	:	block EOF -> ^(PROG block);

@@ -38,6 +38,13 @@ public enum TokenType {
   MOD(babel17Lexer.L_mod),
   TRY(babel17Lexer.L_try),
   CATCH(babel17Lexer.L_catch),
+  MODULE(babel17Lexer.L_module),
+  TYPEDEF(babel17Lexer.L_typedef),
+  TYPEOF(babel17Lexer.L_typeof),
+  PRIVATE(babel17Lexer.L_private),
+  IMPORT(babel17Lexer.L_import),
+
+  COLON(babel17Lexer.COLON, "keyword"),
 
   A_EQUAL(babel17Lexer.A_EQUAL, "operator"),
   U_EQUAL(babel17Lexer.U_EQUAL, "symbol_equal"),
