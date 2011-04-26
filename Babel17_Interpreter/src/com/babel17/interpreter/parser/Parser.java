@@ -552,6 +552,25 @@ public class Parser {
         }
         case babel17Parser.TYPE_EXPR:
           return new TypeExprNode((TypeIdNode) toNode(tree.getChild(0))).mergeLocation(loc);
+        case babel17Parser.TYPEDEF_CLAUSE: {
+            int count = tree.getChildCount();
+            PatternNode p = toPattern(tree.getChild(0));
+            Node expr = null;
+            if (count == 1) {
+                return new TypedefClauseNode(p).mergeLocation(loc);
+            } else if (count == 2) {
+                expr = toNode(tree.getChild(1));
+                return new TypedefClauseNode(p, expr).mergeLocation(loc);
+            } else {
+                pe.addMessage(loc, "invalid typedef clause");
+                return BeginNode.empty();
+            }
+        }
+        case babel17Parser.TYPEDEF: {
+            IdentifierNode id = (IdentifierNode) toNode(tree.getChild(0));
+            NodeList clauses = toNodeList(tree.getChild(1));
+            return new TypedefNode(id, clauses).mergeLocation(loc);
+        }
         case babel17Parser.MEMOID_STRONG:
           return new MemoizeNode.MemoId(true,
                   (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();

@@ -397,6 +397,11 @@ pattern :	Constr (NL? pattern)? -> ^(Constr pattern?)
 	|	L_exception NL? pattern -> ^(L_exception pattern)
 	|	token_ELLIPSIS;
 	
+defpattern
+	:	primitive_pattern (NL? token_DOUBLE_COLON NL? primitive_pattern)*
+		-> ^(LIST_CONS primitive_pattern*)
+	|	Constr defpattern? -> ^(Constr defpattern?);
+	
 bracket_pattern
 	:       (Id NL? L_as) => Id NL? L_as NL? pattern -> ^(L_as Id pattern)
 	|	(protected_expr NL? QUESTION_MARK) => 
@@ -464,16 +469,16 @@ objelem_assign
 	
 st_val	:	L_val NL? (pattern | objelem_assign) NL? '=' NL? expr -> ^(VAL pattern* objelem_assign* expr);
 		
-st_def	:	L_def NL? Id NL? (primitive_pattern NL?)? (':' NL? typeid NL?)? '=' NL? expr 
-		  -> ^(DEF Id typeid? primitive_pattern? expr)
+st_def	:	L_def NL? Id NL? (defpattern NL?)? (':' NL? typeid NL?)? '=' NL? expr 
+		  -> ^(DEF Id typeid? defpattern? expr)
 	|	L_def NL? L_this NL? ':' NL? typeid NL? '=' NL? expr -> ^(CONVERSION typeid expr);
 		  
 st_typedef
 	:	L_typedef NL? Id NL? typedef_clause (NL? COMMA NL? typedef_clause)* -> ^(TYPEDEF Id ^(NIL_TOKEN typedef_clause*));
 	
 typedef_clause
-	:	(primitive_pattern NL? '=') => primitive_pattern NL? '=' NL? expr -> ^(TYPEDEF_CLAUSE primitive_pattern expr)
-	|	primitive_pattern -> ^(TYPEDEF_CLAUSE primitive_pattern);
+	:	(defpattern NL? '=') => defpattern NL? '=' NL? expr -> ^(TYPEDEF_CLAUSE defpattern expr)
+	|	defpattern -> ^(TYPEDEF_CLAUSE defpattern);
 		  
 st_yield:	L_yield expr -> ^(YIELD expr);
 		  

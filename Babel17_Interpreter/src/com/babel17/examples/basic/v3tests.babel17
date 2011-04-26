@@ -1,2 +1,6 @@
-(:
-x)
+typedef orderedSet Ace, Hearts
+
+/*match Ace
+  case Ace => 10
+  case _ => 12
+end*/
