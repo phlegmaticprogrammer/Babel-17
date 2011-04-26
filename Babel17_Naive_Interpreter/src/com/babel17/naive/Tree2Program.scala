@@ -320,7 +320,7 @@ class Tree2Program {
           defs = defs + (id -> (sdef1, deps, maxval))    
           if (!defsFirstVal.contains(id)) 
             defsFirstVal = defsFirstVal + (id -> (id, line))
-        case statement => 
+        case statement =>
           CollectVars.collectVars(statement)
           val vs = statement.introducedVars ++ statement.assignedVars
           val invalidVs = vs ** defIds
@@ -555,6 +555,7 @@ class Tree2Program {
           }
         } else SEObj(block, messages)
       case n : ParseErrorNode =>
+        error(node.location(), "invalid Babel-17 term encountered: "+node)
         SEVector(List())
       case _ =>
         error(node.location(), "invalid Babel-17 term encountered: "+node)
@@ -701,6 +702,7 @@ class Tree2Program {
       case p : ExceptionPattern =>
         PException(buildProperPattern(p.param))
       case p : ParseErrorNode =>
+        error(patternNode.location(), "invalid Babel-17 pattern encountered")   
         PAny()
       case _ =>
         error(patternNode.location(), "invalid Babel-17 pattern encountered: "+patternNode)

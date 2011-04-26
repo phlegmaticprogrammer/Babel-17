@@ -1,3 +1,2 @@
-match 10
-  case (orderedSet x) => 5
-end
+(:
+x)

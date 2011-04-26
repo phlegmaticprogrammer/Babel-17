@@ -50,6 +50,8 @@ public final class OperatorNode extends Node {
 
   public final static int INFINITY = 37;
 
+  public final static int TYPEOF = 40;
+
 
   public OperatorNode(int operator) {
     this.operator = operator;

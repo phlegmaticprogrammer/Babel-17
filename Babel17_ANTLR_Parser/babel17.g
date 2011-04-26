@@ -71,13 +71,17 @@ GETTYPE;
 
 
 MEMOIZE;
-ID_STRONG;
-ID_WEAK;
+MEMOID_STRONG;
+MEMOID_WEAK;
+
+PRIVATEID_STRONG;
+PRIVATEID_WEAK;
 
 IF_PATTERN;
 TYPE_PATTERN;
 INNERVALUE_PATTERN;
 TYPEID;
+MODULEID;
 IMPORTID;
 TYPE_EXPR;
 TYPEOF;
@@ -465,7 +469,7 @@ st_def	:	L_def NL? Id NL? (primitive_pattern NL?)? (':' NL? typeid NL?)? '=' NL?
 	|	L_def NL? L_this NL? ':' NL? typeid NL? '=' NL? expr -> ^(CONVERSION typeid expr);
 		  
 st_typedef
-	:	L_typedef NL? Id NL? typedef_clause (NL? COMMA NL? typedef_clause)* -> ^(TYPEDEF Id typedef_clause*);
+	:	L_typedef NL? Id NL? typedef_clause (NL? COMMA NL? typedef_clause)* -> ^(TYPEDEF Id ^(NIL_TOKEN typedef_clause*));
 	
 typedef_clause
 	:	(primitive_pattern NL? '=') => primitive_pattern NL? '=' NL? expr -> ^(TYPEDEF_CLAUSE primitive_pattern expr)
@@ -474,21 +478,29 @@ typedef_clause
 st_yield:	L_yield expr -> ^(YIELD expr);
 		  
 st_memoize
-	:	L_memoize sw_id (NL? COMMA NL? sw_id)*
-		  -> ^(MEMOIZE sw_id*);		  
+	:	L_memoize memo_id (NL? COMMA NL? memo_id)*
+		  -> ^(MEMOIZE memo_id*);		  
 		
-sw_id	:	Id -> ^(ID_STRONG Id)
-	|	'(' Id ')' -> ^(ID_WEAK Id);
+memo_id	:	Id -> ^(MEMOID_STRONG Id)
+	|	'(' Id ')' -> ^(MEMOID_WEAK Id);
 
 st_private
-	:	L_private sw_id (NL? COMMA NL? sw_id)*
-		  -> ^(PRIVATE sw_id*);	
+	:	L_private private_id (NL? COMMA NL? private_id)*
+		  -> ^(PRIVATE private_id*);	
+
+private_id	
+	:	Id -> ^(PRIVATEID_STRONG Id)
+	|	'(' Id ')' -> ^(PRIVATEID_WEAK Id);
+
+
+
+moduleid 	:	Id (NL? PERIOD NL? Id)* -> ^(MODULEID Id*);
 
 st_module
-	:	L_module NL? typeid block L_end -> ^(L_module typeid block);
+	:	L_module NL? moduleid block L_end -> ^(L_module moduleid block);
 	
 importid
-	:	Id (NL? PERIOD NL? Id)* importall? -> ^(IMPORTID Id* importall?);
+	:	Id (NL? PERIOD NL? Id)* importall? -> ^(IMPORTID importall? ^(NIL_TOKEN Id*));
 	
 importall
 	:	PERIOD UNDERSCORE -> ^(UNDERSCORE);

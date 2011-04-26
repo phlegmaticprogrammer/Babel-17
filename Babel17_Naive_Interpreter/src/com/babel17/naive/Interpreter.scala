@@ -39,12 +39,14 @@ object Interpreter {
     } else {
       /*val t1 = System.currentTimeMillis */
       val result = Parser.parse(filename)
+      //w.writeLine("java: "+result.node)
       /*val t2 = System.currentTimeMillis
       w.writeLineCommentary("Parsed in "+(t2-t1)+" milliseconds.")
       w.writeLine("") */
       val checker = new Tree2Program()
       checker.source = new Source(filename)
       val term = checker.makeProgram(result)
+      w.writeLine("program:\n"+term+"\n")
       if (checker.errors.length > 0) {
         val errors = checker.errors
         if (errors.length == 1)
@@ -118,6 +120,10 @@ object Interpreter {
     if (args.length > 0) f = args(0)
     //f = "/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/build/classes/com/babel17/naive/system.b17"
     run(f, new WriteOutput())
+  }
+
+  def test {
+    main(Array("/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/src/com/babel17/examples/basic/v3tests.babel17"));
   }
 
 

@@ -352,6 +352,8 @@ public class Parser {
           return toUnaryNode(tree, OperatorNode.CONCURRENT);
         case babel17Parser.L_force:
           return toUnaryNode(tree, OperatorNode.FORCE);
+        case babel17Parser.L_typeof:
+          return toUnaryNode(tree, OperatorNode.TYPEOF);
         case babel17Parser.EMPTY_MAP:
           return new MapNode(new NodeList()).mergeLocation(loc);
         case babel17Parser.L_nil:
@@ -428,6 +430,32 @@ public class Parser {
           } else {
             return new SetNode(l.reverse()).mergeLocation(loc).mergeLocation();
           }
+        }
+        case babel17Parser.TYPEID: {
+            NodeList children = toNodeList(tree);
+            return new TypeIdNode(children).mergeLocation(loc);
+        }
+        case babel17Parser.MODULEID: {
+            NodeList children = toNodeList(tree);
+            return new ModuleIdNode(children).mergeLocation(loc);
+        }
+        case babel17Parser.L_import: {
+            int count = tree.getChildCount();
+            boolean importAll;
+            Tree ids;
+            if (count == 1) {
+                importAll = false;
+                ids = tree.getChild(0);
+            } else {
+                importAll = true;
+                ids = tree.getChild(1);
+            }
+            return new ImportNode(importAll, toNodeList(ids));
+        }
+        case babel17Parser.L_module: {
+            ModuleIdNode m = (ModuleIdNode) toNode(tree.getChild(0));
+            BlockNode b = toNode(tree.getChild(1)).toBlock();
+            return (new ModuleNode(m, b)).mergeLocation(loc);
         }
         case babel17Parser.IF: {
           NodeList children = toNodeList(tree);
@@ -522,26 +550,36 @@ public class Parser {
                   l.get(0),
                   (ControlNode) l.get(1)).mergeLocation(loc).mergeLocation();
         }
-        case babel17Parser.ID_STRONG:
+        case babel17Parser.TYPE_EXPR:
+          return new TypeExprNode((TypeIdNode) toNode(tree.getChild(0))).mergeLocation(loc);
+        case babel17Parser.MEMOID_STRONG:
           return new MemoizeNode.MemoId(true,
                   (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
-        case babel17Parser.ID_WEAK:
+        case babel17Parser.MEMOID_WEAK:
           return new MemoizeNode.MemoId(false,
                   (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
         case babel17Parser.MEMOIZE:
           return new MemoizeNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();
+        case babel17Parser.PRIVATEID_STRONG:
+          return new PrivateNode.PrivateId(true,
+                  (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
+        case babel17Parser.PRIVATEID_WEAK:
+          return new PrivateNode.PrivateId(false,
+                  (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
+        case babel17Parser.PRIVATE:
+          return new PrivateNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();
         case babel17Parser.YIELD:
           return new YieldNode(toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
           case babel17Parser.PRAGMA_PRINT:
               return new PragmaNode(PragmaNode.PRAGMA_PRINT, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
         case babel17Parser.PRAGMA_LOG:
             return new PragmaNode(PragmaNode.PRAGMA_LOG, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
-          case babel17Parser.PRAGMA_ASSERT:
+        case babel17Parser.PRAGMA_ASSERT:
               return new PragmaNode(PragmaNode.PRAGMA_ASSERT, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
-          case babel17Parser.PRAGMA_PROFILE:
+        case babel17Parser.PRAGMA_PROFILE:
               return new PragmaNode(PragmaNode.PRAGMA_PROFILE, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
-
         default:
+          pe.addMessage(loc, "parse error");
           return new ParseErrorNode().mergeLocation(loc);
       }
     } finally {
@@ -621,6 +659,19 @@ public class Parser {
           } else {
             return toPattern(tree.getChild(0));
           }
+        case babel17Parser.TYPE_PATTERN: {
+          Tree ann = tree.getChild(1);
+          Node typeAnnotation = null;
+          if (ann.getType() == babel17Parser.L_val)
+              typeAnnotation = toNode(ann.getChild(0));
+          else
+              typeAnnotation = toNode(ann);
+          return (PatternNode) new TypePattern(toPattern(tree.getChild(0)),
+                  typeAnnotation).mergeLocation(loc);
+        }
+        case babel17Parser.INNERVALUE_PATTERN:
+          return (PatternNode) new InnerValuePattern((IdentifierNode)toNode(tree.getChild(0)),
+                  (PatternNode)toPattern(tree.getChild(1))).mergeLocation(loc);
         case babel17Parser.L_val:
           return (PatternNode) new ValPattern(toNode(tree.getChild(0))).mergeLocation(loc);
         case babel17Parser.L_exception:
@@ -724,6 +775,7 @@ public class Parser {
             return (PatternNode) new ConstrPattern(tree.getText(), l, toPattern(tree.getChild(0))).mergeLocation(loc).mergeLocation();
           }
         default: {
+          pe.addMessage(loc, "pattern parse error");
           return (PatternNode) new ParseErrorNode().mergeLocation(loc);
         }
       }
