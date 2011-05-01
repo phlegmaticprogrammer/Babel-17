@@ -14,12 +14,28 @@ object CollectVars {
         case d : SDef1 => defVars = defVars + d.id
         case d : TempDef0 => defVars = defVars + d.id
         case d : TempDef1 => defVars = defVars + d.id
+        case d : TempTypeDef => defVars = defVars + d.id
+        case d : STypeDef => defVars = defVars + d.id
         case SDefs(ds) =>
             defVars = defVars ++ collectDefIds(ds)
         case _ => 
       } 
     }
     defVars
+  }
+
+  def collectTypeIds(statements : List[Statement]) : SortedSet[Id] = {
+    var ids = SortedSet[Id]()
+    for (s <- statements) {
+      s match {
+        case d : STypeDef => ids = ids + d.id
+        case d : TempTypeDef => ids = ids + d.id
+        case SDefs(ds) =>
+            ids = ids ++ collectTypeIds(ds)
+        case _ =>
+      }
+    }
+    ids
   }
   
   /*
@@ -81,6 +97,37 @@ object CollectVars {
           freeVars = freeVars  ++ b._1.freeVars ++ (b._2.freeVars -- b._1.introducedVars)
         }
         term.freeVars = freeVars - id
+      case STypeDef(_, _, id, branches) =>
+        var freeVars = SortedSet[Id]()
+        for (b <- branches) {
+          b match {
+            case (p, Some(e)) =>
+              collectVars(p)
+              collectVars(e)
+              freeVars = freeVars ++ p.freeVars ++ (e.freeVars -- p.introducedVars)
+            case (p, None) =>
+              collectVars(p)
+              freeVars = freeVars ++ p.freeVars
+          }
+        }
+        term.freeVars = freeVars - id
+      case TempTypeDef(id, branches) =>
+        var freeVars = SortedSet[Id]()
+        for (b <- branches) {
+          b match {
+            case (p, Some(e)) =>
+              collectVars(p)
+              collectVars(e)
+              freeVars = freeVars ++ p.freeVars ++ (e.freeVars -- p.introducedVars)
+            case (p, None) =>
+              collectVars(p)
+              freeVars = freeVars ++ p.freeVars
+          }
+        }
+        term.freeVars = freeVars - id
+      case SConversion(_, e) =>
+        collectVars(e)
+        term.freeVars = e.freeVars
       case SDefs(defs) =>
         val defIds = collectDefIds(defs)
         var freeVars = SortedSet[Id]()

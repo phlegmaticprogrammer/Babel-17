@@ -165,6 +165,14 @@ public class Parser {
     return l;
   }
 
+  private Node emptyStatement(Location loc) {
+      BlockNode b = new BlockNode(new NodeList());
+      b.mergeLocation(loc);
+      BeginNode be = new BeginNode(b);
+      be.mergeLocation(loc);
+      return be;
+  }
+
   private Node toNode(Tree tree) {
     Location loc = getLocation(tree);
     lastKnownLocations.push(loc);
@@ -209,23 +217,25 @@ public class Parser {
           id = (IdentifierNode) n;
           PatternNode pattern = null;
           Node rightSide = null;
-          TypeIdNode returnType = null;
+          Node returnType = null;
           int count = tree.getChildCount();
           if (count == 2) {
             rightSide = toNode(tree.getChild(1));
           } if (count == 4) {
-            returnType = (TypeIdNode) toNode(tree.getChild(1));
+            returnType = toNode(tree.getChild(1));
             pattern = toPattern(tree.getChild(2));
             rightSide = toNode(tree.getChild(3));
           } else if (count == 3) {          
             int k = tree.getChild(1).getType();
             if (k == babel17Parser.TYPEID)
-                returnType = (TypeIdNode) toNode(tree.getChild(1));
+                returnType = toNode(tree.getChild(1));
             else
                 pattern = toPattern(tree.getChild(1));
             rightSide = toNode(tree.getChild(2));
           }
-          return new DefNode(id, pattern, rightSide, returnType).mergeLocation(loc).
+          if (returnType != null && !(returnType instanceof TypeIdNode))
+              returnType = null;
+          return new DefNode(id, pattern, rightSide, (TypeIdNode) returnType).mergeLocation(loc).
                   mergeLocation();
         }
         case babel17Parser.COMPARE: {
@@ -579,27 +589,43 @@ public class Parser {
         case babel17Parser.TYPEDEF: {
             IdentifierNode id = (IdentifierNode) toNode(tree.getChild(0));
             NodeList clauses = toNodeList(tree.getChild(1));
-            return new TypedefNode(id, clauses).mergeLocation(loc);
+            return new TypedefNode(id, clauses.suppressErrors()).mergeLocation(loc);
         }
         case babel17Parser.CONVERSION: {
-            TypeIdNode returnType = (TypeIdNode) toNode(tree.getChild(0));
-            Node e = toNode(tree.getChild(1));
-            return new ConversionNode(returnType, e).mergeLocation(loc).mergeLocation();
+            Node returnType = toNode(tree.getChild(0));
+            if (returnType instanceof TypeIdNode) {
+                Node e = toNode(tree.getChild(1));
+                return new ConversionNode((TypeIdNode) returnType, e).mergeLocation(loc).mergeLocation();
+            } else {
+                emptyStatement(loc);
+            }
         }
-        case babel17Parser.MEMOID_STRONG:
-          return new MemoizeNode.MemoId(true,
-                  (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
-        case babel17Parser.MEMOID_WEAK:
-          return new MemoizeNode.MemoId(false,
-                  (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
+        case babel17Parser.MEMOID_STRONG: {
+            Node n = toNode(tree.getChild(0));
+            if (n instanceof ParseErrorNode) return n;
+            else return new MemoizeNode.MemoId(true,
+                  (IdentifierNode) n).mergeLocation(loc).mergeLocation();
+        }
+        case babel17Parser.MEMOID_WEAK:{
+            Node n = toNode(tree.getChild(0));
+            if (n instanceof ParseErrorNode) return n;
+            else return new MemoizeNode.MemoId(false,
+                  (IdentifierNode) n).mergeLocation(loc).mergeLocation();
+        }
         case babel17Parser.MEMOIZE:
           return new MemoizeNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();
-        case babel17Parser.PRIVATEID_STRONG:
-          return new PrivateNode.PrivateId(true,
-                  (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
-        case babel17Parser.PRIVATEID_WEAK:
-          return new PrivateNode.PrivateId(false,
-                  (IdentifierNode) toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
+        case babel17Parser.PRIVATEID_STRONG: {
+            Node n = toNode(tree.getChild(0));
+            if (n instanceof ParseErrorNode) return n;
+            else return new PrivateNode.PrivateId(true,
+                  (IdentifierNode) n).mergeLocation(loc).mergeLocation();
+        }
+        case babel17Parser.PRIVATEID_WEAK: {
+            Node n = toNode(tree.getChild(0));
+            if (n instanceof ParseErrorNode) return n;
+            else return new PrivateNode.PrivateId(false,
+                  (IdentifierNode) n).mergeLocation(loc).mergeLocation();
+        }
         case babel17Parser.PRIVATE:
           return new PrivateNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();
         case babel17Parser.YIELD:

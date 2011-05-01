@@ -511,7 +511,7 @@ importall
 	:	PERIOD UNDERSCORE -> ^(UNDERSCORE);
 
 st_import
-	:	L_import NL ? importid -> ^(L_import importid);
+	:	L_import NL? importid -> ^(L_import importid);
 	
 expr_or_assign
 	:	((pattern | objelem_assign) NL? '=') => (pattern | objelem_assign) NL? '=' NL? expr -> ^(ASSIGN pattern* objelem_assign* expr)

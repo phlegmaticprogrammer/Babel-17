@@ -1,6 +1,15 @@
-typedef orderedSet Ace = 10, King = 11
+/*typedef orderedSet Ace = 10, King = 11*/
 
-import com.babel17.hello._
+/*val a = object
+  val u = 20+this
+  def this : val 9 = this
+end*/
+
+typedef val x = 20
+
+
+
+/*import com.babel17.hello._
 
 private (orderedSet)
 
@@ -12,13 +21,17 @@ match Ace
 end
 
 module com.babel17.util
+
+val x = this
+
 end
 
 begin
 end
 
 val a = object
-  def this : int = 10
+  val u = 20+this
+  def this : val 9 = this
 end
 
 val a = 0
@@ -27,6 +40,4 @@ def b = begin
   a
 end
 b
-a
-
-
+a*/

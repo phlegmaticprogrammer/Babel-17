@@ -176,9 +176,7 @@ class Tree2Program {
       case INFINITY => SEInfinity(true)
       case TRUE => SEBool(true)
       case FALSE => SEBool(false)
-      case THIS => 
-        error(n.location, "'this' is a reserved keyword without meaning")
-        SEBool(false)
+      case THIS => SEThis()
       case k => throwInternalError(n.location, "unknown nullary operator code: "+k)
     }
     result.setLocation(n.location)
@@ -265,7 +263,9 @@ class Tree2Program {
   
   def removeTemporaries(statements : List[Statement]) : List[Statement] = {
     var memos : SortedMap[Id, MemoType] = SortedMap()
+    var privates : SortedMap[Id, Visibility] = SortedMap()
     val defIds = CollectVars.collectDefIds(statements)
+    val typeIds = CollectVars.collectTypeIds(statements)
     var defs : SortedMap[Id, (Def, SortedSet[Id], Int)] = SortedMap()
     var defsFirstVal : SortedMap[Id, (Id, Int)] = SortedMap()
     var vals : SortedMap[Id, Int] = SortedMap()
@@ -280,6 +280,17 @@ class Tree2Program {
               error(id.location, "duplicate memoization specification")
             else
               memos = memos + (id -> m)
+          }
+        case TempPrivate(ps) =>
+          for ((vis, id) <- ps) {
+            if (!defIds.contains(id)) {
+              error(id.location, "no such definition found: "+id.name)
+            } else if (vis == VisibilityTypeOnly() && !typeIds.contains(id)) {
+              error(id.location, "no such type definition found")
+            } else if (privates.contains(id))
+              error(id.location, "duplicate privacy specification")
+            else
+              privates = privates + (id -> vis)
           }
         case TempDef0(id, e, rt) =>
           if (defs.contains(id))
@@ -311,6 +322,8 @@ class Tree2Program {
             defs(id) match {
               case (_ : SDef0, _, _) =>
                 error(id.location, "duplicate definition (there is already one without a parameter)")
+              case (_ : STypeDef, _, _) =>
+                error(id.location, "duplicate definition (there is already a type definition with this name)")
               case (SDef1(_, _, _, _branches), _deps, _maxval) =>
                 branches = _branches
                 deps = _deps
@@ -331,6 +344,42 @@ class Tree2Program {
           defs = defs + (id -> (sdef1, deps, maxval))    
           if (!defsFirstVal.contains(id)) 
             defsFirstVal = defsFirstVal + (id -> (id, line))
+        case TempTypeDef(id, branches) =>
+          def handleTempTypeDef(pat : Pattern, e : Option[Expression]) {
+            var branches : List[(Pattern, Option[Expression])] = List()
+            var deps : SortedSet[Id] = SortedSet()
+            var first : Int = -1
+            var maxval : Int = -1
+            if (defs.contains(id)) {
+              defs(id) match {
+                case (_ : SDef0, _, _) =>
+                  error(id.location, "duplicate definition (there is already a definition with this name)")
+                case (_ : SDef1, _, _) =>
+                  error(id.location, "duplicate definition (there is already a definition with this name)")
+                case (STypeDef(_, _, _, _branches), _deps, _maxval) =>
+                  branches = _branches
+                  deps = _deps
+                  maxval = _maxval
+              }
+            }
+            if (first == -1) first = line
+            deps = deps ++ (defIds ** s.freeVars)
+            for (v <- s.freeVars) {
+              if (vals.contains(v)) {
+                val x = vals(v)
+                if (x > maxval) maxval = x
+              }
+            }
+            branches = branches ++ List((pat, e))
+            val stypedef = STypeDef(MemoTypeNone(), VisibilityAll(), id, branches)
+            stypedef.stackTraceElement = Values.StackTraceElement(id.location, "application of typedef '"+id.name+"'")
+            defs = defs + (id -> (stypedef, deps, maxval))
+            if (!defsFirstVal.contains(id))
+              defsFirstVal = defsFirstVal + (id -> (id, line))
+          }
+          CollectVars.collectVars(s)
+          for ((pat, e) <- branches)
+            handleTempTypeDef(pat, e)
         case statement =>
           CollectVars.collectVars(statement)
           val vs = statement.introducedVars ++ statement.assignedVars
@@ -380,18 +429,29 @@ class Tree2Program {
       if (!defsFirstVal.contains(id))
         throwInternalError(id.location, "definition is in nowhere land")
       if (defsFirstVal(id)._2 <= maxval) {
-        error(defsFirstVal(id)._1.location, "definition of '"+id.name+"' depends on  later val")
+        error(defsFirstVal(id)._1.location, "definition of '"+id.name+"' depends on later val")
       } else {
         var d = sdef
-        if (memos.contains(id)) {
+        if (memos.contains(id) || privates.contains(id)) {
+          var memo : MemoType = MemoTypeNone()
+          var vis : Visibility = VisibilityAll()
+          if (memos.contains(id))
+            memo = memos(id)
+          if (privates.contains(id))
+            vis = privates(id)
           d = sdef match {
-            case SDef0(_, vis, id, e, rt) =>
-              val h = SDef0(memos(id), vis, id, e, rt)
+            case SDef0(_, _, id, e, rt) =>
+              val h = SDef0(memo, vis, id, e, rt)
               h.location = sdef.location
               h.stackTraceElement = sdef.stackTraceElement
               h
-            case SDef1(_, vis, id, branches) =>
-              val h = SDef1(memos(id), vis, id, branches)
+            case SDef1(_, _, id, branches) =>
+              val h = SDef1(memo, vis, id, branches)
+              h.location = sdef.location
+              h.stackTraceElement = sdef.stackTraceElement
+              h
+            case STypeDef(_, _, id, branches) =>
+              val h = STypeDef(memo, vis, id, branches)
               h.location = sdef.location
               h.stackTraceElement = sdef.stackTraceElement
               h
@@ -536,10 +596,11 @@ class Tree2Program {
           TempDef0(id, rightSide, returnType)
         }
       case n : TypedefNode =>
-        def buildClause(_tc : Node) : (Pattern, Expression) = {
+        def buildClause(_tc : Node) : (Pattern, Option[Expression]) = {
           val tc = _tc.asInstanceOf[TypedefClauseNode]
           val p = buildPattern(tc.pattern)
-          val e = buildExpression(tc.expr)
+          var e : Option[Expression] = None
+          if (tc.expr != null) e = Some(buildExpression(tc.expr))
           (p, e)
         }
         val id = Id(n.id.name.toLowerCase)
@@ -549,7 +610,7 @@ class Tree2Program {
       case n : ConversionNode =>
         val ty = buildType(n.returnType)
         val e = buildExpression(n.expr)
-        SConversionDef(ty, e)
+        SConversion(ty, e)
       case n : ListNode =>
         val ses = toList(n.elements).map(buildSimpleExpression _)
         if (n.isVector)

@@ -74,13 +74,13 @@ object Program {
   case class SValRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
   case class SAssignRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
   case class SImport(path : Path, importAll : Boolean) extends Statement
+  case class SConversion(returnType : Type, e : Expression) extends Statement
   case class SDef0(memoize : MemoType, visibility : Visibility,
                    id : Id, e : Expression, returnType : Type) extends Def
   case class SDef1(memoize : MemoType, visibility : Visibility,
                    id : Id, branches : List[(Pattern, Expression, Type)]) extends Def
-  case class STypeDef(visibility : Visibility,
-                      id : Id, branches : List[(Pattern, Expression)]) extends Def
-  case class SConversionDef(returnType : Type, e : Expression) extends Def
+  case class STypeDef(memoize : MemoType, visibility : Visibility,
+                      id : Id, branches : List[(Pattern, Option[Expression])]) extends Def
   case class SDefs(defs : List[Def]) extends Statement
   case class SModule(path : Path, b : Block) extends Statement
   case class SYield(e : Expression) extends Statement
@@ -95,7 +95,7 @@ object Program {
   case class TemporaryStatement extends Statement
   case class TempDef0(id : Id, e : Expression, returnType: Type) extends TemporaryStatement
   case class TempDef1(id : Id, pat : Pattern, e : Expression, returnType: Type) extends TemporaryStatement
-  case class TempTypeDef(id : Id, branches: List[(Pattern, Expression)]) extends TemporaryStatement
+  case class TempTypeDef(id : Id, branches: List[(Pattern, Option[Expression])]) extends TemporaryStatement
   case class TempMemoize(memos : List[(MemoType, Id)]) extends TemporaryStatement
   case class TempPrivate(visibilities : List[(Visibility, Id)]) extends TemporaryStatement
     
