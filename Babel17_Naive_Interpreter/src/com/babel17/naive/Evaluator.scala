@@ -484,7 +484,7 @@ class Evaluator(val maxNumThreads : Int) {
     var e = env
     for (d <- defs) {
       d match {
-        case SDef0(m, id, expr) =>
+        case SDef0(m, _, id, expr, _) =>
           val se = SEExpr(expr)
           se.stackTraceElement = d.stackTraceElement
           val v = m match {
@@ -494,7 +494,7 @@ class Evaluator(val maxNumThreads : Int) {
           }
           e = e.define(id, v)
           values = v :: values
-        case SDef1(m, id, branches) =>
+        case SDef1(m, _, id, branches) =>
           val se = SEFun(m, branches)
           se.stackTraceElement = d.stackTraceElement
           val v = EnvironmentValueMS(se, null)

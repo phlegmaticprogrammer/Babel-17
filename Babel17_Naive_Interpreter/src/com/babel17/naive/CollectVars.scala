@@ -70,10 +70,10 @@ object CollectVars {
         collectVars(e)
         term.freeVars = e.freeVars
         term.assignedVars = e.assignedVars + id
-      case SDef0(_, id , e) =>
+      case SDef0(_, _, id , e, _) =>
         collectVars(e)
         term.freeVars = e.freeVars - id
-      case SDef1(_, id, branches) =>
+      case SDef1(_, _, id, branches) =>
         var freeVars = SortedSet[Id]()
         for (b <- branches) {
           collectVars(b._1)
@@ -89,10 +89,10 @@ object CollectVars {
           freeVars = freeVars ++ d.freeVars
         }
         term.freeVars = freeVars -- defIds
-      case TempDef0(id, e) =>
+      case TempDef0(id, e, _) =>
         collectVars(e)
         term.freeVars = e.freeVars - id
-      case TempDef1(id, pat, e) =>
+      case TempDef1(id, pat, e, _) =>
         collectVars(pat)
         collectVars(e)
         term.freeVars = (pat.freeVars ++ (e.freeVars -- pat.introducedVars)) - id
@@ -175,7 +175,7 @@ object CollectVars {
         term.freeVars = e.freeVars
       case SEFun(_, branches) =>
         var freeVars = SortedSet[Id]()
-        for ((pat, body) <- branches) {
+        for ((pat, body, _) <- branches) {
           collectVars(pat)
           collectVars(body)
           freeVars = freeVars ++ pat.freeVars ++ (body.freeVars -- pat.introducedVars)
@@ -220,6 +220,7 @@ object CollectVars {
       case SECompare(operands, _) => operands
       case SELazy(se) => List(se)
       case SERandom(se) => List(se)
+      case SETypeOf(se) => List(se)
       case SEChoose(se) => List(se)
       case SEForce(se, _) => List(se)
       case SEConcurrent(se) => List(se)

@@ -207,16 +207,25 @@ public class Parser {
           Node n = toNode(tree.getChild(0));
           IdentifierNode id = (IdentifierNode) n;
           id = (IdentifierNode) n;
-          PatternNode pattern;
-          Node rightSide;
-          if (2 == tree.getChildCount()) {
-            pattern = null;
+          PatternNode pattern = null;
+          Node rightSide = null;
+          TypeIdNode returnType = null;
+          int count = tree.getChildCount();
+          if (count == 2) {
             rightSide = toNode(tree.getChild(1));
-          } else {
-            pattern = toPattern(tree.getChild(1));
+          } if (count == 4) {
+            returnType = (TypeIdNode) toNode(tree.getChild(1));
+            pattern = toPattern(tree.getChild(2));
+            rightSide = toNode(tree.getChild(3));
+          } else if (count == 3) {          
+            int k = tree.getChild(1).getType();
+            if (k == babel17Parser.TYPEID)
+                returnType = (TypeIdNode) toNode(tree.getChild(1));
+            else
+                pattern = toPattern(tree.getChild(1));
             rightSide = toNode(tree.getChild(2));
           }
-          return new DefNode(id, pattern, rightSide).mergeLocation(loc).
+          return new DefNode(id, pattern, rightSide, returnType).mergeLocation(loc).
                   mergeLocation();
         }
         case babel17Parser.COMPARE: {
@@ -440,15 +449,16 @@ public class Parser {
             return new ModuleIdNode(children).mergeLocation(loc);
         }
         case babel17Parser.L_import: {
-            int count = tree.getChildCount();
+            Tree t = tree.getChild(0);
+            int count = t.getChildCount();
             boolean importAll;
             Tree ids;
             if (count == 1) {
                 importAll = false;
-                ids = tree.getChild(0);
+                ids = t.getChild(0);
             } else {
                 importAll = true;
-                ids = tree.getChild(1);
+                ids = t.getChild(1);
             }
             return new ImportNode(importAll, toNodeList(ids));
         }
@@ -570,6 +580,11 @@ public class Parser {
             IdentifierNode id = (IdentifierNode) toNode(tree.getChild(0));
             NodeList clauses = toNodeList(tree.getChild(1));
             return new TypedefNode(id, clauses).mergeLocation(loc);
+        }
+        case babel17Parser.CONVERSION: {
+            TypeIdNode returnType = (TypeIdNode) toNode(tree.getChild(0));
+            Node e = toNode(tree.getChild(1));
+            return new ConversionNode(returnType, e).mergeLocation(loc).mergeLocation();
         }
         case babel17Parser.MEMOID_STRONG:
           return new MemoizeNode.MemoId(true,

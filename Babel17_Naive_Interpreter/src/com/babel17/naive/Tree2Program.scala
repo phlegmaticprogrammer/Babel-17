@@ -126,6 +126,16 @@ class Tree2Program {
     }
   }
 
+  def buildType(n : Node) : Type = {
+    val tn : TypeIdNode = n.asInstanceOf[TypeIdNode]
+    val ids = toList(tn.ids).map(x => build(x).asInstanceOf[Id])
+    val p = Path(ids)
+    p.setLocation(n.location)
+    val t = TypeSome(p)
+    t.setLocation(n.location)
+    t
+  }
+
   def buildConstr(n : ConstrNode) : SimpleExpression = {
     val c = Constr(n.name.toUpperCase)
     c.setLocation(n.nameLoc)
@@ -196,6 +206,7 @@ class Tree2Program {
       case CHOOSE => SEChoose(arg)
       case FORCE => SEForce(attachSTE(arg, "force"), true)
       case EXCEPTION => attachSTE(SEException(arg), "exception")
+      case TYPEOF => SETypeOf(arg)
       case k => throwInternalError(n.location, "unknown unary operator code: "+k)
     }
     result.setLocation(n.location)
@@ -234,10 +245,10 @@ class Tree2Program {
     mkif(conds, blocks)
   }
   
-  def mkExpressionBranches(ps : List[Node], bs : List[Node]) : List[(Pattern, Expression)] = {
+  def mkExpressionBranches(ps : List[Node], bs : List[Node]) : List[(Pattern, Expression, Type)] = {
     (ps, bs) match {
       case (p::prest, b::brest) =>
-        (buildProperPattern(p), buildExpression(b)) :: (mkExpressionBranches(prest, brest))
+        (buildProperPattern(p), buildExpression(b), TypeNone()) :: (mkExpressionBranches(prest, brest))
       case (List(), List()) => List()
       case _ => throwInternalError(null, "invalid expression branches")
     }
@@ -270,7 +281,7 @@ class Tree2Program {
             else
               memos = memos + (id -> m)
           }
-        case TempDef0(id, e) =>
+        case TempDef0(id, e, rt) =>
           if (defs.contains(id))
             error(id.location, "duplicate definition")
           else {
@@ -283,16 +294,16 @@ class Tree2Program {
                 if (x > l) l = x;
               }
             }
-            val sdef0 = SDef0(MemoTypeNone(), id, e)
+            val sdef0 = SDef0(MemoTypeNone(), VisibilityAll(), id, e, rt)
             sdef0.setLocation(s.location)
             sdef0.stackTraceElement = Values.StackTraceElement(id.location, "evaluation of def '"+id.name+"'")
             defs = defs + (id -> (sdef0, deps, l))
           }
           if (!defsFirstVal.contains(id)) 
             defsFirstVal = defsFirstVal + (id -> (id, line))
-        case TempDef1(id, pat, e) =>
+        case TempDef1(id, pat, e, rt) =>
           CollectVars.collectVars(s)
-          var branches : List[(Pattern, Expression)] = List()
+          var branches : List[(Pattern, Expression, Type)] = List()
           var deps : SortedSet[Id] = SortedSet()
           var first : Int = -1
           var maxval : Int = -1
@@ -300,7 +311,7 @@ class Tree2Program {
             defs(id) match {
               case (_ : SDef0, _, _) =>
                 error(id.location, "duplicate definition (there is already one without a parameter)")
-              case (SDef1(_, _, _branches), _deps, _maxval) =>
+              case (SDef1(_, _, _, _branches), _deps, _maxval) =>
                 branches = _branches
                 deps = _deps
                 maxval = _maxval                
@@ -314,8 +325,8 @@ class Tree2Program {
               if (x > maxval) maxval = x
             }
           }
-          branches = branches ++ List((pat, e))
-          val sdef1 = SDef1(MemoTypeNone(), id, branches)
+          branches = branches ++ List((pat, e, rt))
+          val sdef1 = SDef1(MemoTypeNone(), VisibilityAll(), id, branches)
           sdef1.stackTraceElement = Values.StackTraceElement(id.location, "application of def '"+id.name+"'")
           defs = defs + (id -> (sdef1, deps, maxval))    
           if (!defsFirstVal.contains(id)) 
@@ -374,13 +385,13 @@ class Tree2Program {
         var d = sdef
         if (memos.contains(id)) {
           d = sdef match {
-            case SDef0(_, id, e) =>
-              val h = SDef0(memos(id), id, e)
+            case SDef0(_, vis, id, e, rt) =>
+              val h = SDef0(memos(id), vis, id, e, rt)
               h.location = sdef.location
               h.stackTraceElement = sdef.stackTraceElement
               h
-            case SDef1(_, id, branches) =>
-              val h = SDef1(memos(id), id, branches)
+            case SDef1(_, vis, id, branches) =>
+              val h = SDef1(memos(id), vis, id, branches)
               h.location = sdef.location
               h.stackTraceElement = sdef.stackTraceElement
               h
@@ -453,6 +464,18 @@ class Tree2Program {
           SAssignRecordUpdate(id, m, e)
         else
           SValRecordUpdate(id, m, e)
+      case n : ImportNode => {
+          val nodes = n.ids
+          val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
+          path.location = nodes.location
+          SImport(path, n.importAll)
+      }
+      case n : ModuleNode => {
+          val nodes = n.moduleId.ids
+          val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
+          path.location = nodes.location
+          SModule(path, buildBlock(n.block))
+      }
       case n : ForNode =>
         SFor(buildProperPattern(n.pattern), buildSimpleExpression(n.collection),
              buildBlock(n.block))
@@ -504,12 +527,29 @@ class Tree2Program {
         val id = Id(n.id.name.toLowerCase)
         id.setLocation(n.id.location)
         val rightSide = buildExpression(n.rightSide)
+        var returnType : Program.Type = TypeNone()
+        if (n.returnType != null) returnType = buildType(n.returnType);
         if (n.pattern != null) {
           val pat = buildProperPattern(n.pattern)
-          TempDef1(id, pat, rightSide)
+          TempDef1(id, pat, rightSide, returnType)
         } else {
-          TempDef0(id, rightSide)
+          TempDef0(id, rightSide, returnType)
         }
+      case n : TypedefNode =>
+        def buildClause(_tc : Node) : (Pattern, Expression) = {
+          val tc = _tc.asInstanceOf[TypedefClauseNode]
+          val p = buildPattern(tc.pattern)
+          val e = buildExpression(tc.expr)
+          (p, e)
+        }
+        val id = Id(n.id.name.toLowerCase)
+        id.setLocation(n.id.location)
+        val clauses = toList(n.clauses).map(buildClause _)
+        TempTypeDef(id, clauses)
+      case n : ConversionNode =>
+        val ty = buildType(n.returnType)
+        val e = buildExpression(n.expr)
+        SConversionDef(ty, e)
       case n : ListNode =>
         val ses = toList(n.elements).map(buildSimpleExpression _)
         if (n.isVector)
@@ -554,6 +594,23 @@ class Tree2Program {
             SEGlueObj(parents, block, messages)
           }
         } else SEObj(block, messages)
+      case n : PrivateNode => {
+        def buildVisibility(vNode : Node) : (Visibility, Id) = {
+          vNode match {
+            case vid : PrivateNode.PrivateId =>
+              val id = Id(vid.id.name.toLowerCase)
+              id.setLocation(vid.id.location)
+              val v =
+                if (vid.strong)
+                  VisibilityNone()
+                 else
+                  VisibilityTypeOnly()
+              v.setLocation(vid.location)
+              (v, id)
+          }
+        }
+        TempPrivate(toList(n.privateIds).map(buildVisibility _))
+      }
       case n : ParseErrorNode =>
         error(node.location(), "invalid Babel-17 term encountered: "+node)
         SEVector(List())

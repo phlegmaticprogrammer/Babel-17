@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g 2011-04-26 16:46:13
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g 2011-04-30 18:20:23
 
 package com.babel17.antlr;
 
@@ -1257,7 +1257,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: protected_expr_nc, L_val
+                    // elements: L_val, protected_expr_nc
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -1932,7 +1932,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: Constr, defpattern
+                    // elements: defpattern, Constr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2263,7 +2263,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: QUESTION_MARK, protected_expr, pattern
+                    // elements: protected_expr, QUESTION_MARK, pattern
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2312,7 +2312,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: Id, pattern
+                    // elements: pattern, Id
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2376,7 +2376,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: L_val, protected_expr_nc
+                    // elements: protected_expr_nc, L_val
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -2745,7 +2745,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: typeannotation, pattern
+                    // elements: pattern, typeannotation
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -3060,7 +3060,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: arrow_or_assign, bracket_pattern
+            // elements: bracket_pattern, arrow_or_assign
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3885,7 +3885,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: COMMA, bracket_pattern
+                    // elements: bracket_pattern, COMMA
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -4921,7 +4921,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expr, PRAGMA_LOG
+                    // elements: PRAGMA_LOG, expr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -5319,7 +5319,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: expr, pattern, objelem_assign
+            // elements: expr, objelem_assign, pattern
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5693,7 +5693,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expr, typeid, defpattern, Id
+                    // elements: typeid, defpattern, expr, Id
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -7326,7 +7326,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: moduleid, L_module, block
+            // elements: moduleid, block, L_module
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -7729,7 +7729,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: L_import, importid
+            // elements: importid, L_import
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -7929,7 +7929,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: expr, objelem_assign, pattern
+                    // elements: objelem_assign, pattern, expr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -8405,7 +8405,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: block, protected_expr
+                    // elements: protected_expr, block
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -9644,7 +9644,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: protected_expr, block
+            // elements: block, protected_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -10077,7 +10077,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: block, pattern
+            // elements: pattern, block
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -10222,7 +10222,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: full_cases, p_op_expr
+            // elements: p_op_expr, full_cases
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -10942,7 +10942,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: pure_block, pattern
+            // elements: pattern, pure_block
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -11109,7 +11109,7 @@ public class babel17Parser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: pure_block, pattern
+                    // elements: pattern, pure_block
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -11435,7 +11435,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: pattern, block, protected_expr
+            // elements: block, protected_expr, pattern
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -12780,7 +12780,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: arith_expr, arith_expr, rel_op
+            // elements: arith_expr, rel_op, arith_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -12800,13 +12800,13 @@ public class babel17Parser extends Parser {
 
                 adaptor.addChild(root_1, stream_arith_expr.nextTree());
                 // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:648:68: ( rel_op arith_expr )*
-                while ( stream_arith_expr.hasNext()||stream_rel_op.hasNext() ) {
+                while ( stream_rel_op.hasNext()||stream_arith_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_rel_op.nextTree());
                     adaptor.addChild(root_1, stream_arith_expr.nextTree());
 
                 }
-                stream_arith_expr.reset();
                 stream_rel_op.reset();
+                stream_arith_expr.reset();
 
                 adaptor.addChild(root_0, root_1);
                 }
@@ -12961,7 +12961,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: p_arith_expr, rel_op, p_arith_expr
+            // elements: rel_op, p_arith_expr, p_arith_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -12981,13 +12981,13 @@ public class babel17Parser extends Parser {
 
                 adaptor.addChild(root_1, stream_p_arith_expr.nextTree());
                 // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:651:74: ( rel_op p_arith_expr )*
-                while ( stream_p_arith_expr.hasNext()||stream_rel_op.hasNext() ) {
+                while ( stream_rel_op.hasNext()||stream_p_arith_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_rel_op.nextTree());
                     adaptor.addChild(root_1, stream_p_arith_expr.nextTree());
 
                 }
-                stream_p_arith_expr.reset();
                 stream_rel_op.reset();
+                stream_p_arith_expr.reset();
 
                 adaptor.addChild(root_0, root_1);
                 }
@@ -16565,7 +16565,7 @@ public class babel17Parser extends Parser {
 
 
             // AST REWRITE
-            // elements: Id, primitive_expr
+            // elements: primitive_expr, Id
             // token labels: 
             // rule labels: retval
             // token list labels: 

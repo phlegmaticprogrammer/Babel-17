@@ -18,6 +18,11 @@ object Program {
   case class MemoTypeWeak extends MemoType
   case class MemoTypeStrong extends MemoType  
   case class MemoTypeNone extends MemoType
+
+  abstract class Visibility extends Locatable
+  case class VisibilityAll extends Visibility
+  case class VisibilityTypeOnly extends Visibility
+  case class VisibilityNone extends Visibility
     
   abstract class Term extends Locatable {
     var freeVars : SortedSet[Id] = null
@@ -45,6 +50,12 @@ object Program {
   
   case class Constr(name : String) extends Locatable
 
+  case class Path(ids : List[Id]) extends Locatable
+
+  case class Type extends Locatable
+  case class TypeSome(path : Path) extends Type
+  case class TypeNone() extends Type
+
   case class Block(statements : List[Statement]) extends Term
     
   abstract class Statement extends Term
@@ -56,15 +67,22 @@ object Program {
   case class PragmaPrint(e : Expression) extends Pragma
   case class PragmaLog(e : Expression) extends Pragma
   case class PragmaProfile(e : Expression) extends Pragma
-  case class PragmaAssert(e : Expression) extends Pragma
-    
+  case class PragmaAssert(e : Expression) extends Pragma   
+
   case class SVal(pat : Pattern, e : Expression) extends Statement
   case class SAssign(pat : Pattern, e : Expression) extends Statement
   case class SValRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
   case class SAssignRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
-  case class SDef0(memoize : MemoType, id : Id, e : Expression) extends Def
-  case class SDef1(memoize : MemoType, id : Id, branches : List[(Pattern, Expression)]) extends Def
+  case class SImport(path : Path, importAll : Boolean) extends Statement
+  case class SDef0(memoize : MemoType, visibility : Visibility,
+                   id : Id, e : Expression, returnType : Type) extends Def
+  case class SDef1(memoize : MemoType, visibility : Visibility,
+                   id : Id, branches : List[(Pattern, Expression, Type)]) extends Def
+  case class STypeDef(visibility : Visibility,
+                      id : Id, branches : List[(Pattern, Expression)]) extends Def
+  case class SConversionDef(returnType : Type, e : Expression) extends Def
   case class SDefs(defs : List[Def]) extends Statement
+  case class SModule(path : Path, b : Block) extends Statement
   case class SYield(e : Expression) extends Statement
   case class SBlock(b : Block) extends Statement
   case class SIf(cond:SimpleExpression,yes:Block,no:Block) extends Statement
@@ -75,9 +93,11 @@ object Program {
   case class SPragma(pragma : Pragma) extends Statement
 
   case class TemporaryStatement extends Statement
-  case class TempDef0(id : Id, e : Expression) extends TemporaryStatement
-  case class TempDef1(id : Id, pat : Pattern, e : Expression) extends TemporaryStatement
+  case class TempDef0(id : Id, e : Expression, returnType: Type) extends TemporaryStatement
+  case class TempDef1(id : Id, pat : Pattern, e : Expression, returnType: Type) extends TemporaryStatement
+  case class TempTypeDef(id : Id, branches: List[(Pattern, Expression)]) extends TemporaryStatement
   case class TempMemoize(memos : List[(MemoType, Id)]) extends TemporaryStatement
+  case class TempPrivate(visibilities : List[(Visibility, Id)]) extends TemporaryStatement
     
   abstract class Expression extends Term
   case class ESimple (se:SimpleExpression) extends Expression
@@ -91,13 +111,13 @@ object Program {
   case class SEId(id: Id) extends SimpleExpression
   case class SEConstr(c: Constr, param: SimpleExpression) extends SimpleExpression
   case class SEInfinity(positive: Boolean) extends SimpleExpression
-  //case class SEThis() extends SimpleExpression
+  case class SEThis() extends SimpleExpression
   case class SEExpr(se: Expression) extends SimpleExpression
   case class SEOr(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SEAnd(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SENot(u : SimpleExpression) extends SimpleExpression
   case class SECons(head : SimpleExpression, tail : SimpleExpression) extends SimpleExpression
-  case class SEFun(m : MemoType, branches: List[(Pattern, Expression)]) extends SimpleExpression
+  case class SEFun(m : MemoType, branches: List[(Pattern, Expression, Type)]) extends SimpleExpression
   case class SESet(elems: List[SimpleExpression]) extends SimpleExpression
   case class SEMap(elems: List[(SimpleExpression, SimpleExpression)]) extends SimpleExpression
   case class SERecord(elems: List[(Message, SimpleExpression)]) extends SimpleExpression
@@ -115,6 +135,8 @@ object Program {
   case class SEChoose(u : SimpleExpression) extends SimpleExpression
   case class SEForce(u : SimpleExpression, deep : Boolean) extends SimpleExpression
   case class SEException(u : SimpleExpression) extends SimpleExpression
+  case class SETypeOf(u : SimpleExpression) extends SimpleExpression
+  case class SETypeExpr(path : Path) extends SimpleExpression
 
   abstract class CompareOp extends Locatable
   case class EQUAL() extends CompareOp
@@ -149,6 +171,9 @@ object Program {
   case class PAs(id:Id, pattern : Pattern) extends Pattern
   case class PCons(head : Pattern, tail : Pattern) extends Pattern
   case class PException(arg : Pattern) extends Pattern
+  case class PType(pattern : Pattern, ty : Type) extends Pattern
+  case class PTypeVal(pattern : Pattern, ty : SimpleExpression) extends Pattern
+  case class PInnerValue(ty : Path, pattern : Pattern) extends Pattern
 
   /* val y = 1
    * def f x = if x == 0 then y else g(x-1) end

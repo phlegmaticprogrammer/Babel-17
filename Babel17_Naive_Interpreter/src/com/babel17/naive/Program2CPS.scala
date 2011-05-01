@@ -100,12 +100,12 @@ object Program2CPS {
 
   def translateDef(env : Env, d: Program.Def) : CPS.Def = {
     d match {
-      case Program.SDef0(mt, id, expr) =>
+      case Program.SDef0(mt, _, id, expr, _) =>
         val k = freshVar
         val cexp = translateExpr(env, expr, (env, pexp) =>
           CPS.Apply(CPS.PrimVar(k), None, List(pexp)))
         CPS.Suspension(env.lookup(id), mt, k, cexp)
-      case Program.SDef1(mt, id, List((Program.PId(arg), body))) =>
+      case Program.SDef1(mt, _, id, List((Program.PId(arg), body, _))) =>
         val k = freshVar
         val x = freshVar
         val cexp = translateExpr(env.bind(arg, x),

@@ -1,6 +1,32 @@
-typedef orderedSet Ace, Hearts
+typedef orderedSet Ace = 10, King = 11
 
-/*match Ace
+import com.babel17.hello._
+
+private (orderedSet)
+
+typeof 10
+
+match Ace
   case Ace => 10
   case _ => 12
-end*/
+end
+
+module com.babel17.util
+end
+
+begin
+end
+
+val a = object
+  def this : int = 10
+end
+
+val a = 0
+def b = begin
+  val a = a + 1
+  a
+end
+b
+a
+
+

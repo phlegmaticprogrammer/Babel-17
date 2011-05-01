@@ -289,11 +289,11 @@ object Values {
   }
 
   case class ClosureValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment,
-                           branches : List[(Program.Pattern, Program.Expression)]) extends FunctionValue
+                           branches : List[(Program.Pattern, Program.Expression, Program.Type)]) extends FunctionValue
   {
     override def apply_(v : Value) : Value = {
       val e = env.thaw
-      for ((p, body) <- branches) {
+      for ((p, body, _) <- branches) {
         evaluator.matchPattern(e, p, v, false)  match {
           case Evaluator.NoMatch() =>
           case Evaluator.DoesMatch(newEnv) =>
@@ -305,7 +305,7 @@ object Values {
   }
 
   case class ClosureValueMS(evaluator : Evaluator, env : Evaluator.SimpleEnvironment,
-                           branches : List[(Program.Pattern, Program.Expression)]) extends FunctionValue
+                           branches : List[(Program.Pattern, Program.Expression, Program.Type)]) extends FunctionValue
   {
     var cache : SortedMap[Value, Value] = new scala.collection.immutable.TreeMap()(defaultValueOrdering)
     def save(key : Value, v : Value) : Value = {
@@ -333,7 +333,7 @@ object Values {
         }
       }
       val e = env.thaw
-      for ((p, body) <- branches) {
+      for ((p, body, _) <- branches) {
         evaluator.matchPattern(e, p, key, false)  match {
           case Evaluator.NoMatch() =>
           case Evaluator.DoesMatch(newEnv) =>

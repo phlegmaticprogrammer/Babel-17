@@ -6,8 +6,6 @@ import com.babel17.syntaxtree.Location
 import com.babel17.syntaxtree.Source
 import com.babel17.interpreter.parser.ErrorMessage
 
-
-
 class LinearScope {
 
   var errors : List[ErrorMessage] = List.empty
@@ -29,23 +27,26 @@ class LinearScope {
   
   case class SimpleEnvironment(nonlinear : SortedSet[Id]) {
     def thaw () : Environment = {
-      Environment(nonlinear, SortedSet(), 0)
+      Environment(nonlinear, SortedSet())
     }
   }
 
-  val FLOWFLAG_BREAK = 1
+ /* val FLOWFLAG_BREAK = 1
   val FLOWFLAG_CONTINUE = 2
-  val FLOWFLAG_RETURN = 4
+  val FLOWFLAG_RETURN = 4*/
   
-  case class Environment(nonlinear : SortedSet[Id], linear : SortedSet[Id], flowflags : Int) {
+  case class Environment(nonlinear : SortedSet[Id], linear : SortedSet[Id]) {
     def freeze () : SimpleEnvironment = {
       SimpleEnvironment(nonlinear ++ linear)
     }
+    def freezeThaw () : Environment = {
+      Environment(nonlinear ++ linear, SortedSet())
+    }
     def bind (id : Id) : Environment = {
-      Environment(nonlinear - id, linear + id, flowflags)
+      Environment(nonlinear - id, linear + id)
     }
     def bind (ids : SortedSet[Id]) : Environment = {
-      Environment(nonlinear -- ids, linear ++ ids, flowflags)
+      Environment(nonlinear -- ids, linear ++ ids)
     }
     def rebind (id : Id) : Environment = {
       lookup(linear, id, true)
@@ -57,11 +58,11 @@ class LinearScope {
       this
     }
     def define (id : Id) : Environment = {
-      Environment(nonlinear + id, linear - id, flowflags)
+      Environment(nonlinear + id, linear - id)
     }
   }
   
-  def emptyEnv () : Environment = Environment(SortedSet(), SortedSet(), 0)
+  def emptyEnv () : Environment = Environment(SortedSet(), SortedSet())
   
   def check (env : Environment, t : Term) {
     t match {
@@ -107,24 +108,38 @@ class LinearScope {
       case SAssignRecordUpdate(id, m, e) =>
         check_e(env, e)
         env.rebind(id)
-      case SDef0(_, id, e) =>
+      case SImport(path, importAll) =>
+        env
+      case SDef0(_, _, id, e, _) =>
         val env2 = env.define(id)
-        check_e(env2, e)
+        check_e(env2.freezeThaw(), e)
         env2
-      case SDef1(_, id, branches) =>
+      case SDef1(_, _, id, branches) =>
         val env2 = env.define(id)
-        for ((pat, e) <- branches) {
-          check_e(check_p(env2.freeze().thaw(), pat, false), e)
+        for ((pat, e, _) <- branches) {
+          check_e(check_p(env2.freezeThaw(), pat, false), e)
         }
         env2
+      case STypeDef(_, id, branches) =>
+        val env2 = env.define(id)
+        for ((pat, e) <- branches) {
+          check_e(check_p(env2.freezeThaw(), pat, false), e)
+        }
+        env2
+      case SConversionDef(_, e) =>
+        check_e(env.freezeThaw(), e)
+        env
       case SDefs(defs) =>
         var env2 = env
         for (d <- defs) {
           d match {
-            case SDef0(_, id, _) =>
-              env2 = env2.define(id)
-            case SDef1(_, id, _) =>
-              env2 = env2.define(id)
+            case d: SDef0 =>
+              env2 = env2.define(d.id)
+            case d: SDef1 =>
+              env2 = env2.define(d.id)
+            case d: SConversionDef =>
+            case d: STypeDef =>
+              env2 = env2.define(d.id)
           }
         }
         defs.foreach(check_st (env2, _))
@@ -134,6 +149,9 @@ class LinearScope {
         env
       case SBlock(b) => 
         check_b(env, b)
+        env
+      case SModule(path, b) =>
+        check_b(emptyEnv(), b)
         env
       case SIf(cond, yes, no) =>
         check_simple(env.freeze(), cond)
@@ -185,7 +203,7 @@ class LinearScope {
         check_e(env.thaw, e)
       case SEFun(_, branches) =>
         val tEnv = env.thaw()
-        for ((pat, e) <- branches) {
+        for ((pat, e, _) <- branches) {
           check_e(check_p(tEnv, pat, false), e)
         }
       case SEObj(b, _) =>
