@@ -4,8 +4,14 @@
   val u = 20+this
   def this : val 9 = this
 end*/
+module com.cool
 
-typedef val x = 20
+typedef x 20
+
+private (x)
+
+
+
 
 
 

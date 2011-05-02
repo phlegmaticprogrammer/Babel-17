@@ -673,7 +673,7 @@ class Tree2Program {
         TempPrivate(toList(n.privateIds).map(buildVisibility _))
       }
       case n : ParseErrorNode =>
-        error(node.location(), "invalid Babel-17 term encountered: "+node)
+        error(node.location(), "syntax error")
         SEVector(List())
       case _ =>
         error(node.location(), "invalid Babel-17 term encountered: "+node)

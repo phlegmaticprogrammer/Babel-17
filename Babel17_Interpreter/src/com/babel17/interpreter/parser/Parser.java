@@ -181,7 +181,7 @@ public class Parser {
         case babel17Parser.PROG:
           return toNode(tree.getChild(0));
         case babel17Parser.BLOCK:
-          return new BlockNode(toNodeList(tree)).mergeLocation(loc).mergeLocation();
+          return new BlockNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();
         case babel17Parser.ASSIGN:
         case babel17Parser.VAL: {
           boolean assign = tree.getType() == babel17Parser.ASSIGN;
@@ -639,7 +639,7 @@ public class Parser {
         case babel17Parser.PRAGMA_PROFILE:
               return new PragmaNode(PragmaNode.PRAGMA_PROFILE, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
         default:
-          pe.addMessage(loc, "parse error");
+          pe.addMessage(loc, "syntax error");
           return new ParseErrorNode().mergeLocation(loc);
       }
     } finally {
@@ -907,9 +907,9 @@ public class Parser {
     try {
       tree = (CommonTree) parser.prog().getTree();
     } catch (RecognitionException e) {
-      int line = e.line;
-      int pos = e.charPositionInLine;
-      pe.addMessage(new Location(source, line, pos + 1), "syntax error");
+            int line = e.line;
+            int pos = e.charPositionInLine;
+            pe.addMessage(new Location(source, line, pos + 1), "syntax error");
     }
     if (lexer.errorDuringLexing) {
       int numErrors = lexer.lexingErrors.size();
@@ -926,6 +926,7 @@ public class Parser {
         RecognitionException e = parser.parsingErrors.get(i);
         int line = e.line;
         int pos = e.charPositionInLine;
+        if (pos < 0 && pe.countMessages() > 0) continue;
         pe.addMessage(new Location(source, line, pos + 1), "syntax error");
       }
     }

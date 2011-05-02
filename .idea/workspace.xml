@@ -65,7 +65,7 @@
       <file leaf-file-name="Interpreter.scala" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Interpreter.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="100" column="74" selection-start="3957" selection-end="3957" vertical-scroll-proportion="0.3952569">
+            <state line="85" column="20" selection-start="3320" selection-end="3320" vertical-scroll-proportion="0.14328063">
               <folding />
             </state>
           </provider>
@@ -698,7 +698,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Interpreter.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="74" selection-start="3957" selection-end="3957" vertical-scroll-proportion="0.3952569">
+        <state line="85" column="20" selection-start="3320" selection-end="3320" vertical-scroll-proportion="0.14328063">
           <folding />
         </state>
       </provider>

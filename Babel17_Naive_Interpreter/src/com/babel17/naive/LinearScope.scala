@@ -169,11 +169,10 @@ class LinearScope {
               env2 = env2.define(d.id)
               vis = d.visibility
           }
-          println("flags = "+st_flags+", vis = "+vis)
           if ((vis != VisibilityAll()) && ((st_flags & (OBJECT_STATEMENT + MODULE_STATEMENT)) == 0))
             error(vis.location, "no relevant object or module in scope")
         }
-        defs.foreach(check_st (env2, _, 0))
+        defs.foreach(check_st (env2, _, st_flags))
         env2
       case SYield(e) =>
         check_e(env, e)

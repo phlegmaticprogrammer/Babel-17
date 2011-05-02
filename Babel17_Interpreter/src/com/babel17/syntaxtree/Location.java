@@ -29,6 +29,10 @@ public final class Location {
   }
 
   private Location(Source s, int l1, int c1, int l2, int c2) {
+      if (c1 < 1) c1 = 1;
+      if (c2 < 1) c2 = 1;
+      if (l1 < 1) l1 = 1;
+      if (l2 < 1) l2 = 1;
     line1 = l1; column1 = c1; line2 = l2; column2 = c2;
     source = s;
   }
