@@ -5,6 +5,7 @@ import com.babel17.antlr.babel17Lexer;
 public enum TokenType {
 
   COMMENT(babel17Lexer.COMMENT, "comment"),
+  LINECOMMENT(babel17Lexer.LINECOMMENT, "comment"),
 
   BEGIN(babel17Lexer.L_begin),
   END(babel17Lexer.L_end),

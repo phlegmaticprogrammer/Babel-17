@@ -1,21 +1,58 @@
-/*typedef orderedSet Ace = 10, King = 11*/
+## typedef orderedSet Ace = 10, King = 11
 
-/*val a = object
+#( val a = object
   val u = 20+this
   def this : val 9 = this
-end*/
-module com.cool
+end )#
+
+val x = d
+
+val y = x
+
+def d = 10
+
+
+
+
+#(*module wow
+
+import cool.x
+
+def y = x
+
+
+end
+
+module cool
+def x = 20
+end
+
+module wow.cool
+
+def x = 10
+end*)#
+
+#(def wow = object
+  def x = 10
+end
+
+def x = 20
+
+wow.x
 
 typedef x 20
 
 private (x)
 
+end
+
+import com.x
+val y = x)#
 
 
 
 
-
-/*import com.babel17.hello._
+#(import com.babel17.hello._
 
 private (orderedSet)
 
@@ -46,4 +83,4 @@ def b = begin
   a
 end
 b
-a*/
+a)#

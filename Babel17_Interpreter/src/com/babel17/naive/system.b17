@@ -1,10 +1,10 @@
-/* Integers */
+## Integers
 
 def to_ n = m => if n <= m then n::(lazy (to_ (n+1) m)) else [] end
 def downto_ n = m => if n >= m then n::(lazy (to_ (n-1) m)) else [] end
 def integer_boolean n = n != 0
 
-/* Collections and collectors */
+## Collections and collectors 
 
 def collector_close_ c = c
 

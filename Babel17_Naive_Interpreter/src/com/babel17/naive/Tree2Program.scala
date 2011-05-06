@@ -7,9 +7,9 @@ import com.babel17.interpreter.parser._
 import scala.collection.immutable.SortedSet
 import scala.collection.immutable.SortedMap
 
-class Tree2Program {
+class Tree2Program extends ErrorProducer {
 
-  var errors : List[ErrorMessage] = List.empty
+/*  var errors : List[ErrorMessage] = List.empty
   var source : Source = null
 
   def error (loc : com.babel17.syntaxtree.Location, msg : String) = {
@@ -21,7 +21,7 @@ class Tree2Program {
 
   def throwInternalError (loc : com.babel17.syntaxtree.Location, msg : String) = {
     throw new RuntimeException("at "+loc+": "+msg)
-  }
+  }*/
 
   def toList(_nl : NodeList) : List[Node] = {
       var l = List[Node]()
@@ -261,7 +261,7 @@ class Tree2Program {
     }
   }
   
-  def removeTemporaries(statements : List[Statement]) : List[Statement] = {
+/*  def removeTemporaries(statements : List[Statement]) : List[Statement] = {
     var memos : SortedMap[Id, MemoType] = SortedMap()
     var privates : SortedMap[Id, Visibility] = SortedMap()
     val defIds = CollectVars.collectDefIds(statements)
@@ -312,6 +312,17 @@ class Tree2Program {
           }
           if (!defsFirstVal.contains(id)) 
             defsFirstVal = defsFirstVal + (id -> (id, line))
+        case SImport(path, importAll) =>
+          if (!importAll) {
+            val id = path.last
+            if (defs.contains(id)) error(path.location, "clash with definition of same name")
+            val deps : SortedSet[Id] = SortedSet()
+            val sdef = s.asInstanceOf[Def]
+            defs = defs + (id -> (sdef, deps, -1))
+          //sdef.stackTraceElement = Values.StackTraceElement(id.location, "import of '"+id.name+"'")
+            if (!defsFirstVal.contains(id))
+              defsFirstVal = defsFirstVal + (id -> (id, line))
+          }
         case TempDef1(id, pat, e, rt) =>
           CollectVars.collectVars(s)
           var branches : List[(Pattern, Expression, Type)] = List()
@@ -455,6 +466,12 @@ class Tree2Program {
               h.location = sdef.location
               h.stackTraceElement = sdef.stackTraceElement
               h
+            case SImport(_, _) =>
+              if (memo != MemoTypeNone())
+                error(memo.location, "memoization is not applicable to imports")
+              if (vis != VisibilityAll())
+                error(vis.location, "imports cannot be public anyways")
+              sdef
           }
         }
         val line = maxval+1
@@ -476,14 +493,15 @@ class Tree2Program {
         newStatements = sds :: newStatements
       }
       s match {
-        case _ : TemporaryStatement => 
+        case _ : TemporaryStatement =>
+        case _ : SImport =>
         case _ =>
           newStatements = s :: newStatements
       }
       line = line + 1
     }
     newStatements.reverse   
-  }
+  }*/
     
   def build(node : Node) : Locatable = {
     val result : Locatable = node match {
@@ -491,7 +509,7 @@ class Tree2Program {
         SBlock(build(n.block()).asInstanceOf[Block])
       case n : BlockNode =>
         val l = toList(n.statements())
-        Block(removeTemporaries(l.map(buildStatement).toList))
+        Block(l.map(buildStatement).toList)
       case n : IntegerNode =>
         SEInt(new BigInt(n.value()))
       case n : StringNode =>
@@ -528,11 +546,40 @@ class Tree2Program {
           val nodes = n.ids
           val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
           path.location = nodes.location
-          SImport(path, n.importAll)
+          /*if (n.importAll)
+            error(path.location, "no wildcard imports allowed")*/
+          if (nodes.length < 1)
+            error(path.location, "import path must contain at least one dot")
+          if (n.importAll)
+            TempImport(path, List(), List())
+          else {
+            def mkid(n : Node) = build(n).asInstanceOf[Id]
+            val entries = toList(n.entries).map(x => x.asInstanceOf[ImportNode.Entry])
+            var plus : List[(Id, Id)] = List()
+            var minus : List[Id] = List();
+            for (e <- entries) {
+              e.entryType match {
+                case ImportNode.ENTRY_MAP =>
+                  plus = (mkid(e.id1), mkid(e.id2)) :: plus
+                case ImportNode.ENTRY_PLUS =>
+                  val i = mkid(e.id1)
+                  plus = (i, i) :: plus
+                case ImportNode.ENTRY_MINUS =>
+                  minus = (mkid(e.id1)) :: minus
+              }
+            }
+            TempImport(path, plus.reverse, minus.reverse)
+          }
       }
       case n : ModuleNode => {
           val nodes = n.moduleId.ids
           val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
+          var ids : SortedSet[Id] = SortedSet()
+          for (i <- path.ids) {
+            if (ids.contains(i))
+              error(i.location, "module path must not contain repetitions")
+            ids = ids + i
+          }
           path.location = nodes.location
           SModule(path, buildBlock(n.block))
       }
@@ -820,7 +867,7 @@ class Tree2Program {
       case p : ExceptionPattern =>
         PException(buildProperPattern(p.param))
       case p : ParseErrorNode =>
-        error(patternNode.location(), "invalid Babel-17 pattern encountered")   
+        error(patternNode.location(), "pattern syntax error")
         PAny()
       case _ =>
         error(patternNode.location(), "invalid Babel-17 pattern encountered: "+patternNode)
@@ -872,30 +919,17 @@ class Tree2Program {
   }      */
 
 
-  def  cleanupErrors() {
-    val cleaned : java.util.TreeMap[Location, ErrorMessage] = new java.util.TreeMap(new Location.CascadingComparator());
-    for (m <- errors) {
-      val mloc = m.location();
-      val cleanedm = cleaned.get(mloc);
-      if (cleanedm == null) {
-        cleaned.put(mloc, m);
-      } else {
-        val cleanedloc = cleanedm.location();
-        val l = cleanedloc.add(mloc);
-        if (!l.equals(mloc)) {
-          //cleaned.remove(mloc);
-          while (cleaned.remove(mloc) != null) {
-          }
-          cleaned.put(mloc, m);
-        }
-      }
-    }
-    errors = List.empty
-    for (m <- cleaned.values().toArray) errors = m.asInstanceOf[ErrorMessage] ::errors;
-    errors = errors.reverse
+  //private var moduleSystem : ModuleSystem = null
+
+  def makeProgram(result : Parser.ParseResult) : Term = {
+    val node = result.node
+    if (node != null)
+      build(node).asInstanceOf[Term]
+    else
+      Block(List())
   }
 
-  def makeProgram(result : Parser.ParseResult) : Term =  {
+  /*def makeProgram(_moduleSystem : ModuleSystem, result : Parser.ParseResult) : Term =  {
     val node = result.node
     if (result.hasErrors()) {
       val e = result.exception()
@@ -908,15 +942,15 @@ class Tree2Program {
     }
     var t : Term = null
     if (node != null) {
+      moduleSystem = _moduleSystem
       t = build(node).asInstanceOf[Term]
-      val linear = new LinearScope()
+      val linear = new LinearScope(moduleSystem)
       linear.source = source
       linear.errors = errors
       linear.check(linear.emptyEnv, t)
       errors = linear.errors
     }
-    cleanupErrors()
     t
-  }
+  }*/
 
 }

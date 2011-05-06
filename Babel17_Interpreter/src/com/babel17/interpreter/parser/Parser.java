@@ -458,19 +458,45 @@ public class Parser {
             NodeList children = toNodeList(tree);
             return new ModuleIdNode(children).mergeLocation(loc);
         }
-        case babel17Parser.L_import: {
-            Tree t = tree.getChild(0);
-            int count = t.getChildCount();
-            boolean importAll;
-            Tree ids;
-            if (count == 1) {
-                importAll = false;
-                ids = t.getChild(0);
-            } else {
-                importAll = true;
-                ids = t.getChild(1);
+        case babel17Parser.IMPORT_PLUS: {
+            NodeList ids = toNodeList(tree);
+            if (ids.hasErrors()) {
+                return new ParseErrorNode().mergeLocation(loc);
             }
-            return new ImportNode(importAll, toNodeList(ids));
+            IdentifierNode id1 = (IdentifierNode) ids.head();
+            IdentifierNode id2 = null;
+            if (ids.length() == 2) id2 = (IdentifierNode) ids.tail().head();
+            int kind = id2 == null ? ImportNode.ENTRY_PLUS : ImportNode.ENTRY_MAP;
+            return new ImportNode.Entry(kind, id1, id2).mergeLocation(loc);
+        }
+        case babel17Parser.IMPORT_MINUS: {
+            NodeList ids = toNodeList(tree);
+            if (ids.hasErrors()) {
+                return new ParseErrorNode().mergeLocation(loc);
+            }
+            IdentifierNode id = (IdentifierNode) ids.head();
+            return new ImportNode.Entry(ImportNode.ENTRY_MINUS, id, null);
+        }
+        case babel17Parser.L_import: {
+            NodeList prefix = toNodeList(tree.getChild(0)).suppressErrors();
+            if (tree.getChildCount() == 1)
+                return ImportNode.simple(prefix).mergeLocation(loc);
+            Tree arg = tree.getChild(1);
+            ImportNode result = null;
+            switch (arg.getType()) {
+                case babel17Parser.IMPORT_ALL:
+                    result = ImportNode.wildcard(prefix);
+                    break;
+                case babel17Parser.Id:
+                    result = ImportNode.rename(prefix, (IdentifierNode) toNode(arg));
+                    break;
+                case babel17Parser.IMPORT_SET:
+                    NodeList entries = toNodeList(arg).suppressErrors();
+                    result = ImportNode.set(prefix, entries);
+                    break;                   
+            }
+            result.mergeLocation(loc);
+            return result;
         }
         case babel17Parser.L_module: {
             ModuleIdNode m = (ModuleIdNode) toNode(tree.getChild(0));

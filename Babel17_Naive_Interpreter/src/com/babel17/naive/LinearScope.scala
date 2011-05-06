@@ -6,9 +6,9 @@ import com.babel17.syntaxtree.Location
 import com.babel17.syntaxtree.Source
 import com.babel17.interpreter.parser.ErrorMessage
 
-class LinearScope {
+class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
 
-  var errors : List[ErrorMessage] = List.empty
+ /* var errors : List[ErrorMessage] = List.empty
   var source : Source = null
 
   def error (loc : com.babel17.syntaxtree.Location, msg : String) = {
@@ -16,7 +16,7 @@ class LinearScope {
     if (loc == null) l = new Location(source, 0,0)
     errors = (new ErrorMessage(l, msg)) :: errors
     //println("at "+loc+": "+msg)
-  }
+  }*/
 
   def lookup (ids : SortedSet[Id], id : Id, linear : Boolean) {
     if (!ids.contains(id)) {
@@ -124,8 +124,8 @@ class LinearScope {
       case SAssignRecordUpdate(id, m, e) =>
         check_e(env, e)
         env.rebind(id)
-      case SImport(path, importAll) =>
-        env
+      case SImport(path, id) =>
+        env.define(id)
       case SDef0(_, _, id, e, _) =>
         val env2 = env.define(id)
         check_e(env2.freezeThaw(), e)
@@ -137,7 +137,7 @@ class LinearScope {
         }
         env2
       case STypeDef(_, _, id, branches) =>
-        if ((st_flags & MODULE_STATEMENT) == 0) error(id.location, "typedefs live in modules only")
+        if ((st_flags & MODULE_STATEMENT) == 0) error(st.location, "typedefs live in modules only")
         val env2 = env.define(id)
         for ((pat, e) <- branches) {
           var env3 = check_p(env2.freezeThaw(), pat, false)
@@ -157,7 +157,7 @@ class LinearScope {
       case SDefs(defs) =>
         var env2 = env
         for (d <- defs) {
-          var vis : Visibility = null
+          var vis : Visibility = VisibilityAll()
           d match {
             case d: SDef0 =>
               env2 = env2.define(d.id)
@@ -168,6 +168,8 @@ class LinearScope {
             case d: STypeDef =>
               env2 = env2.define(d.id)
               vis = d.visibility
+            case d: SImport =>
+              env2 = env2.define(d.id)
           }
           if ((vis != VisibilityAll()) && ((st_flags & (OBJECT_STATEMENT + MODULE_STATEMENT)) == 0))
             error(vis.location, "no relevant object or module in scope")

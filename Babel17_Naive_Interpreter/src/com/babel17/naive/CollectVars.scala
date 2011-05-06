@@ -16,6 +16,7 @@ object CollectVars {
         case d : TempDef1 => defVars = defVars + d.id
         case d : TempTypeDef => defVars = defVars + d.id
         case d : STypeDef => defVars = defVars + d.id
+        case d : SImport => defVars = defVars + d.id
         case SDefs(ds) =>
             defVars = defVars ++ collectDefIds(ds)
         case _ => 
@@ -37,16 +38,53 @@ object CollectVars {
     }
     ids
   }
+
+  def filterPublicIds(statements : List[Statement], defIds : SortedSet[Id], typeIds : SortedSet[Id]) : (SortedSet[Id], SortedSet[Id]) = {
+    var ds = defIds
+    var ts = typeIds
+    def handle(v: Visibility, id: Id) {
+          v match {
+            case VisibilityTypeOnly() =>
+              ds = ds - id
+            case VisibilityNone() =>
+              ds = ds - id
+              ts = ts - id
+            case VisibilityAll() =>
+          }
+    }
+    for (s <- statements) {
+      s match {
+        case SDefs(defs) =>
+          val r = filterPublicIds(defs, ds, ts)
+          ds = r._1
+          ts = r._2
+        case d: SDef0 => handle(d.visibility, d.id)
+        case d: SDef1 => handle(d.visibility, d.id)
+        case d: STypeDef => handle(d.visibility, d.id)
+        case d: TempPrivate =>
+          for ((v, id) <- d.visibilities)
+            handle (v, id)
+        case _ =>
+      }
+    }
+    (ds, ts)
+  }
+
+  def isExecutable(statements : List[Statement]) : Boolean = {
+    for (s <- statements) {
+      s match {
+        case _ : Def =>
+        case _ : SDefs =>
+        case _ : SConversion =>
+        case _ : SModule =>
+        case _ =>
+          return true
+      }
+    }
+    false
+  }
   
-  /*
-   * How do I deal with this kind of stuff ?
-   * 1. Find out what the defIds of the block are (easy)
-   * 2. Find out on what other defIds of this block the defs depend on (intersect free vars of defs with defIds)
-   * 3. For each statement and a given variable, find out the highest index of the statement where that variable has been assigned or introduced
-   *    (for introduced this is easy and can be read off statements flatly; for assigned this is more difficult as we might need to look
-   *     deeply into statements)
-   */ 
-  
+  // should be called only on terms with removed temporaries
   def collectVars(term : Term) {
     if (term.freeVars != null && term.introducedVars != null && term.assignedVars != null) return;
     term.freeVars = SortedSet()
@@ -111,7 +149,7 @@ object CollectVars {
           }
         }
         term.freeVars = freeVars - id
-      case TempTypeDef(id, branches) =>
+/*      case TempTypeDef(id, branches) =>
         var freeVars = SortedSet[Id]()
         for (b <- branches) {
           b match {
@@ -124,7 +162,7 @@ object CollectVars {
               freeVars = freeVars ++ p.freeVars
           }
         }
-        term.freeVars = freeVars - id
+        term.freeVars = freeVars - id*/
       case SConversion(_, e) =>
         collectVars(e)
         term.freeVars = e.freeVars
@@ -136,13 +174,13 @@ object CollectVars {
           freeVars = freeVars ++ d.freeVars
         }
         term.freeVars = freeVars -- defIds
-      case TempDef0(id, e, _) =>
+ /*     case TempDef0(id, e, _) =>
         collectVars(e)
         term.freeVars = e.freeVars - id
       case TempDef1(id, pat, e, _) =>
         collectVars(pat)
         collectVars(e)
-        term.freeVars = (pat.freeVars ++ (e.freeVars -- pat.introducedVars)) - id
+        term.freeVars = (pat.freeVars ++ (e.freeVars -- pat.introducedVars)) - id*/
       case SYield(e) =>
         collectVars(e)
         term.freeVars = e.freeVars
@@ -239,6 +277,9 @@ object CollectVars {
       case SEObj(b, _) =>
         collectVars(b)
         term.freeVars = b.freeVars
+      case SModule(path, b) =>
+        collectVars(b)
+      case SImport(path, id) =>
       case se : SimpleExpression =>
         val ses = subSimpleExpressions(se)
         for (s <- ses) {
@@ -303,6 +344,11 @@ object CollectVars {
         collectVars(pat)
         pattern.freeVars = pat.freeVars
         pattern.introducedVars = pat.introducedVars + id
+      case PTypeVal(pat, e) =>
+        collectVars(pat)
+        collectVars(e)
+        pattern.freeVars = pat.freeVars ++ e.freeVars
+        pattern.introducedVars = pat.introducedVars
       case p =>
         val sps = subPatterns(p)
         for (pat <- sps) {
@@ -328,6 +374,8 @@ object CollectVars {
         if (delta != null) delta::ps else ps
       case PCons(h, t) => List(h,t)
       case PException(e) => List(e)
+      case PInnerValue(_, p) => List(p)
+      case PType(p, _) => List(p)
       case _ => List()
     }
   }

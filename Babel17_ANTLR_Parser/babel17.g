@@ -82,10 +82,15 @@ TYPE_PATTERN;
 INNERVALUE_PATTERN;
 TYPEID;
 MODULEID;
-IMPORTID;
 TYPE_EXPR;
 TYPEOF;
 CONVERSION;
+
+IMPORT_PREFIX;
+IMPORT_ALL;
+IMPORT_SET;
+IMPORT_PLUS;
+IMPORT_MINUS;
 }
 
 @lexer::header {
@@ -131,7 +136,10 @@ fragment
 NotNewline
 	:	~('\u000A' | '\u000D' | '\u0085' | '\u000C' | '\u2028' | '\u2029');
 
-COMMENT:	'/*' ((options {greedy=false;} : .)* '*/') {$channel=HIDDEN;};
+COMMENT:	'#(' ((options {greedy=false;} : .)* ')#') {$channel=HIDDEN;};
+
+LINECOMMENT
+	:	'##' NotNewline* {$channel=HIDDEN;};
 
 
 fragment
@@ -504,14 +512,21 @@ moduleid 	:	Id (NL? PERIOD NL? Id)* -> ^(MODULEID Id*);
 st_module
 	:	L_module NL? moduleid block L_end -> ^(L_module moduleid block);
 	
-importid
-	:	Id (NL? PERIOD NL? Id)* importall? -> ^(IMPORTID importall? ^(NIL_TOKEN Id*));
+importprefix
+	:	Id (NL? PERIOD NL? Id)* -> ^(IMPORT_PREFIX Id*);	
 	
 importall
-	:	PERIOD UNDERSCORE -> ^(UNDERSCORE);
+	:	UNDERSCORE -> ^(IMPORT_ALL);
+	
+importsetclause
+	:	Id (NL? token_DOUBLE_ARROW (NL? Id)?)? -> ^(IMPORT_PLUS Id*)
+	|	'-' NL? Id -> ^(IMPORT_MINUS Id*);
+	
+importset
+	:	'{' NL? importsetclause (NL? ',' NL? importsetclause)* NL? '}' -> ^(IMPORT_SET importsetclause*);
 
 st_import
-	:	L_import NL? importid -> ^(L_import importid);
+	:	L_import NL? importprefix (NL? (PERIOD NL? importall | PERIOD NL? importset | token_DOUBLE_ARROW NL? Id))? -> ^(L_import importprefix importall? importset? Id?);
 	
 expr_or_assign
 	:	((pattern | objelem_assign) NL? '=') => (pattern | objelem_assign) NL? '=' NL? expr -> ^(ASSIGN pattern* objelem_assign* expr)
