@@ -102,59 +102,70 @@ object ModuleSystem extends ErrorProducer {
             case None =>
               ResultSuccess(PackageDescr(branches, Some(md)))
             case Some(oldMd) =>
-              if (oldMd.executable && md.executable) {
-                error(md.path.location, "there are at least two module definitions with initialization code and path '"+md.path+"'")                
-              } 
-              val typeIds = md.typeIds ** oldMd.typeIds
-              if (!typeIds.isEmpty) {     
-                val typeId = typeIds.firstKey
-                error(typeId.location, "type '"+typeId.name+"' is already defined in another module definition")
-              }
-              val messages = md.messages ** oldMd.messages
-              if (!messages.isEmpty) {
-                val message = messages.firstKey
-                error(message.location, "there is already a definition for '"+message.name+"' in another module definition")
-              }
-              if (errors.length > 0)
-                none
-              else {
-                val executable = oldMd.executable || md.executable
-                val path = if (md.executable) md.path else oldMd.path
-                val d = ModuleDescr(path, oldMd.typeIds ++ md.typeIds, oldMd.messages ++ md.messages, executable)
-                ResultSuccess(PackageDescr(branches, Some(d)))
-              }
+              error(md.path.location, "there are two module definitions for '"+md.path+"'")
+              none
           }
       }
     }
   }
 
   def scanForModules(term : Term) : List[ModuleDescr] = {
+    scanForModules(Path(List()), term)
+  }
+
+  def scanForModules(currentPath:Path, term : Term) : List[ModuleDescr] = {
     term match {
       case prog: Block =>
         var l : List[ModuleDescr] = List()
         for (st <- prog.statements) {
-          l = l ++ scanForModules(st)
+          l = l ++ scanForModules(currentPath, st)
         }
         l
-      case SModule(modPath, block) =>
+      case SDefs(defs) =>
+        var l : List[ModuleDescr] = List()
+        for (st <- defs) {
+          l = l ++ scanForModules(currentPath, st)
+        }
+        l
+      case TempModuleDef(modPath, block) =>
         val defIds = CollectVars.collectDefIds(block.statements)
-        val typeIds = CollectVars.collectTypeIds(block.statements)
-        val (publicDefIds, publicTypeIds) =
-          CollectVars.filterPublicIds(block.statements, defIds, typeIds)
+        val publicTypeIds = CollectVars.collectTypeIds(block.statements)
+        val publicDefIds = CollectVars.filterPublicIds(block.statements, defIds)
         val executable = CollectVars.isExecutable(block.statements)
-        List(ModuleDescr(modPath, publicTypeIds, publicDefIds, executable))
+        val path = currentPath.append(modPath)
+        path.location = modPath.location
+        (ModuleDescr(path, publicTypeIds, publicDefIds, executable))::
+        (scanForModules(path, block))
       case _ =>
-        List()
-        
+        List()       
     }
-  }  
+  }
+
+  def empty : ModuleSystem = {
+    new ModuleSystem(PackageDescr(SortedMap(), None))
+  }
   
 }
 
-class ModuleSystem(_root : ModuleSystem.PackageDescr) extends ErrorProducer {
+class ModuleSystem(var _root : ModuleSystem.PackageDescr) extends ErrorProducer {
+
+  import ModuleSystem._
 
   def root = _root
   def find (p : Path) = root.find(p)
+
+  def add(md : ModuleDescr) : Boolean = {
+    _root.add(md) match {
+      case ResultSuccess(pd) =>
+        _root = pd
+        true
+      case ResultError(errors) =>
+        for (e <- errors) {
+          error(e.location, e.message)
+        }
+        false
+    }
+  }
 
 }
 

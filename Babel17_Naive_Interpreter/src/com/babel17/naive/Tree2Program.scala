@@ -9,7 +9,7 @@ import scala.collection.immutable.SortedMap
 
 class Tree2Program extends ErrorProducer {
 
-/*  var errors : List[ErrorMessage] = List.empty
+  /*  var errors : List[ErrorMessage] = List.empty
   var source : Source = null
 
   def error (loc : com.babel17.syntaxtree.Location, msg : String) = {
@@ -24,14 +24,14 @@ class Tree2Program extends ErrorProducer {
   }*/
 
   def toList(_nl : NodeList) : List[Node] = {
-      var l = List[Node]()
-      var nl = _nl
-      while (!nl.empty) {
-        val m = nl.head
-        l = m::l
-        nl = nl.tail
-      }
-      return l.reverse
+    var l = List[Node]()
+    var nl = _nl
+    while (!nl.empty) {
+      val m = nl.head
+      l = m::l
+      nl = nl.tail
+    }
+    return l.reverse
   }
 
   def buildStatement (node : Node) : Statement = {
@@ -60,7 +60,7 @@ class Tree2Program extends ErrorProducer {
     e.setLocation(node.location())
     return e
   }
-  
+
   def buildBlock (node : Node) : Block = {
     val e = build(node) match {
       case b: Block => b
@@ -89,7 +89,7 @@ class Tree2Program extends ErrorProducer {
   }
 
   def buildBinaryOperation(leftNode:Node, rightNode:Node,
-                          op : OperatorNode) : SimpleExpression =
+                           op : OperatorNode) : SimpleExpression =
   {
     def left() : SimpleExpression = buildSimpleExpression(leftNode)
     def right() : SimpleExpression = buildSimpleExpression(rightNode)
@@ -182,7 +182,7 @@ class Tree2Program extends ErrorProducer {
     result.setLocation(n.location)
     result
   }
-  
+
   def buildUnary(n : UnaryNode) : Locatable = {
     val arg = buildSimpleExpression(n.operand)
     def mk(m : String) : SimpleExpression = {
@@ -210,24 +210,24 @@ class Tree2Program extends ErrorProducer {
     result.setLocation(n.location)
     result
   }
-  
+
   def mergeLoc(l1 : Location, l2 : Location) : Location = {
     if (l1 == null) l2
     else if (l2 == null) l1
     else l1.add(l2)
   }
-  
+
   def buildIf(n : IfNode) : Locatable = {
     val conds = toList(n.conditions)
     val blocks = toList(n.blocks)
     def mkif (cs : List[Node], bs : List[Node]) : Statement = {
       (cs, bs) match {
-        case (c::crest, b::brest) => 
+        case (c::crest, b::brest) =>
           val cond = buildSimpleExpression(c)
           val yes = buildBlock(b)
           val no = mkif(crest, brest) match {
             case SBlock(b) => b
-            case x => 
+            case x =>
               val q = Block(List(x))
               q.setLocation(x.location)
               q
@@ -242,7 +242,7 @@ class Tree2Program extends ErrorProducer {
     }
     mkif(conds, blocks)
   }
-  
+
   def mkExpressionBranches(ps : List[Node], bs : List[Node]) : List[(Pattern, Expression, Type)] = {
     (ps, bs) match {
       case (p::prest, b::brest) =>
@@ -251,7 +251,7 @@ class Tree2Program extends ErrorProducer {
       case _ => throwInternalError(null, "invalid expression branches")
     }
   }
-  
+
   def mkBlockBranches(ps : List[Node], bs : List[Node]) : List[(Pattern, Block)] = {
     (ps, bs) match {
       case (p::prest, b::brest) =>
@@ -260,8 +260,8 @@ class Tree2Program extends ErrorProducer {
       case _ => throwInternalError(null, "invalid block branches")
     }
   }
-  
-/*  def removeTemporaries(statements : List[Statement]) : List[Statement] = {
+
+  /*  def removeTemporaries(statements : List[Statement]) : List[Statement] = {
     var memos : SortedMap[Id, MemoType] = SortedMap()
     var privates : SortedMap[Id, Visibility] = SortedMap()
     val defIds = CollectVars.collectDefIds(statements)
@@ -502,7 +502,7 @@ class Tree2Program extends ErrorProducer {
     }
     newStatements.reverse   
   }*/
-    
+
   def build(node : Node) : Locatable = {
     val result : Locatable = node match {
       case n : BeginNode =>
@@ -520,7 +520,7 @@ class Tree2Program extends ErrorProducer {
         buildNullary(n)
       case n : BinaryNode =>
         buildBinaryOperation(n.leftOperand, n.rightOperand, n.operator);
-      case n : UnaryNode => 
+      case n : UnaryNode =>
         buildUnary(n)
       case n : IdentifierNode =>
         Id(n.name.toLowerCase)
@@ -543,49 +543,50 @@ class Tree2Program extends ErrorProducer {
         else
           SValRecordUpdate(id, m, e)
       case n : ImportNode => {
-          val nodes = n.ids
-          val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
-          path.location = nodes.location
-          /*if (n.importAll)
-            error(path.location, "no wildcard imports allowed")*/
-          if (nodes.length < 1)
-            error(path.location, "import path must contain at least one dot")
-          if (n.importAll)
-            TempImport(path, List(), List())
-          else {
-            def mkid(n : Node) = build(n).asInstanceOf[Id]
-            val entries = toList(n.entries).map(x => x.asInstanceOf[ImportNode.Entry])
-            var plus : List[(Id, Id)] = List()
-            var minus : List[Id] = List();
-            for (e <- entries) {
-              e.entryType match {
-                case ImportNode.ENTRY_MAP =>
-                  plus = (mkid(e.id1), mkid(e.id2)) :: plus
-                case ImportNode.ENTRY_PLUS =>
-                  val i = mkid(e.id1)
-                  plus = (i, i) :: plus
-                case ImportNode.ENTRY_MINUS =>
-                  minus = (mkid(e.id1)) :: minus
-              }
-            }
-            TempImport(path, plus.reverse, minus.reverse)
+        val nodes = n.ids
+        val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
+        path.location = nodes.location
+        /*if (n.importAll)
+    error(path.location, "no wildcard imports allowed")*/
+        if (nodes.length < 1)
+          error(path.location, "import path must contain at least one dot")
+        def mkid(n : Node) = build(n).asInstanceOf[Id]
+        val entries = toList(n.entries).map(x => x.asInstanceOf[ImportNode.Entry])
+        var plus : List[(Id, Id)] = List()
+        var minus : List[Id] = List();
+        var all : Boolean = false
+        for (e <- entries) {
+          e.entryType match {
+            case ImportNode.ENTRY_MAP =>
+              plus = (mkid(e.id1), mkid(e.id2)) :: plus
+            case ImportNode.ENTRY_PLUS =>
+              val i = mkid(e.id1)
+              plus = (i, i) :: plus
+            case ImportNode.ENTRY_MINUS =>
+              minus = (mkid(e.id1)) :: minus
+            case ImportNode.ENTRY_ALL =>
+              if (all) error(e.location, "duplicate wildcard")
+              all = true
           }
+        }
+        TempImport(path, all, plus.reverse, minus.reverse)
+
       }
       case n : ModuleNode => {
-          val nodes = n.moduleId.ids
-          val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
-          var ids : SortedSet[Id] = SortedSet()
-          for (i <- path.ids) {
-            if (ids.contains(i))
-              error(i.location, "module path must not contain repetitions")
-            ids = ids + i
-          }
-          path.location = nodes.location
-          SModule(path, buildBlock(n.block))
+        val nodes = n.moduleId.ids
+        val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
+        var ids : SortedSet[Id] = SortedSet()
+        for (i <- path.ids) {
+          if (ids.contains(i))
+            error(i.location, "module path must not contain repetitions")
+          ids = ids + i
+        }
+        path.location = nodes.location
+        TempModuleDef(path, buildBlock(n.block))
       }
       case n : ForNode =>
         SFor(buildProperPattern(n.pattern), buildSimpleExpression(n.collection),
-             buildBlock(n.block))
+          buildBlock(n.block))
       case n : IfNode =>
         buildIf(n)
       case n : LambdaNode =>
@@ -594,7 +595,7 @@ class Tree2Program extends ErrorProducer {
         f
       case n : WhileNode =>
         SWhile(buildSimpleExpression(n.condition), buildBlock(n.block))
-      case  n : WithNode => 
+      case  n : WithNode =>
         EWith(buildSimpleExpression(n.collector), buildBlock(n.control))
       case n : YieldNode =>
         SYield(buildExpression(n.expr))
@@ -610,27 +611,27 @@ class Tree2Program extends ErrorProducer {
         SPragma(u)
       case n : MatchNode =>
         SMatch(buildSimpleExpression(n.value),
-               mkBlockBranches(toList(n.patterns), toList(n.blocks)))    
+          mkBlockBranches(toList(n.patterns), toList(n.blocks)))
       case n : TryNode =>
         STry(buildBlock(n.block),
-               mkBlockBranches(toList(n.patterns), toList(n.blocks)))
+          mkBlockBranches(toList(n.patterns), toList(n.blocks)))
       case n : MemoizeNode =>
         def buildMemo(memoNode : Node) : (MemoType, Id) = {
           memoNode match {
             case mid : MemoizeNode.MemoId =>
               val id = Id(mid.id.name.toLowerCase)
               id.setLocation(mid.id.location)
-              val m = 
+              val m =
                 if (mid.strong)
                   MemoTypeStrong()
-                 else
+                else
                   MemoTypeWeak()
               m.setLocation(mid.location)
               (m, id)
           }
         }
         TempMemoize(toList(n.memoIds).map(buildMemo _))
-      case n : DefNode => 
+      case n : DefNode =>
         val id = Id(n.id.name.toLowerCase)
         id.setLocation(n.id.location)
         val rightSide = buildExpression(n.rightSide)
@@ -657,14 +658,20 @@ class Tree2Program extends ErrorProducer {
       case n : ConversionNode =>
         val ty = buildType(n.returnType)
         val e = buildExpression(n.expr)
-        SConversion(ty, e)
+        ty match {
+          case TypeNone() =>
+            error(n.location, "invalid conversion type")
+            SBlock(Block(List()))
+          case TypeSome(t) =>
+            TempConversionDef(t, e)
+        }
       case n : ListNode =>
         val ses = toList(n.elements).map(buildSimpleExpression _)
         if (n.isVector)
           SEVector(ses)
         else
           SEList(ses)
-      case n : MapNode => 
+      case n : MapNode =>
         def buildKeyValue(node : Node) : (SimpleExpression, SimpleExpression) = {
           node match {
             case kv : MapNode.KeyValue =>
@@ -688,12 +695,12 @@ class Tree2Program extends ErrorProducer {
             case _ => throwInternalError(n.location, "invalid RecordNode")
           }
         }
-        SERecord(toList(n.elements).map(buildRecordValue _))   
-      case n : ObjectNode => 
+        SERecord(toList(n.elements).map(buildRecordValue _))
+      case n : ObjectNode =>
         val block = buildBlock(n.block)
         countYields(block)
         val messages = CollectVars.collectDefIds(block.statements).toList.map(_.toMessage)
-         if (n.parents != null) {
+        if (n.parents != null) {
           val parents = buildSimpleExpression(n.parents)
           if (n.combineMethod == ObjectNode.COMBINE_GLUE)
             SEGlueObj(parents, block, messages)
@@ -708,11 +715,7 @@ class Tree2Program extends ErrorProducer {
             case vid : PrivateNode.PrivateId =>
               val id = Id(vid.id.name.toLowerCase)
               id.setLocation(vid.id.location)
-              val v =
-                if (vid.strong)
-                  VisibilityNone()
-                 else
-                  VisibilityTypeOnly()
+              val v = VisibilityNo()
               v.setLocation(vid.location)
               (v, id)
           }
@@ -729,48 +732,48 @@ class Tree2Program extends ErrorProducer {
     result.setLocation(node.location())
     return result
   }
-  
+
   def isDeltaPattern(pattern : Pattern) : Boolean = {
     pattern match {
       case PEllipsis() => true
       case PIf (pat, _) => if (pat == null) false else isDeltaPattern(pat)
       case PAs (_, pat) => isDeltaPattern(pat)
       case _ => false
-    }    
-  }
-  
-  def splitDelta(list : List[Pattern]) : (List[Pattern], Pattern) = {
-    val (u, v) = 
-    if (list.isEmpty) (list, null)
-    else {
-      val last = list.last
-      if (isDeltaPattern(last)) {
-        val len = list.length
-        if (len == 1) {
-          error(last.getLocation(), "element before delta pattern expected")
-          (List(), null)
-        } else {
-          (list.take(len-1), last)
-        }
-      } else (list, null)
     }
+  }
+
+  def splitDelta(list : List[Pattern]) : (List[Pattern], Pattern) = {
+    val (u, v) =
+      if (list.isEmpty) (list, null)
+      else {
+        val last = list.last
+        if (isDeltaPattern(last)) {
+          val len = list.length
+          if (len == 1) {
+            error(last.getLocation(), "element before delta pattern expected")
+            (List(), null)
+          } else {
+            (list.take(len-1), last)
+          }
+        } else (list, null)
+      }
     u.find(isDeltaPattern) match {
-      case Some(delta) => 
+      case Some(delta) =>
         error(delta.getLocation, "misplaced delta-pattern");
         (List(), null)
       case None =>
         (u, v)
-    }   
+    }
   }
-  
+
   def buildProperPattern(patternNode : Node) : Pattern = {
     val p = buildPattern(patternNode)
     if (isDeltaPattern(p)) {
       error(patternNode.location, "misplaced delta-pattern")
       PAny()
-    } else p    
+    } else p
   }
-  
+
   def buildPattern(patternNode : Node) : Pattern = {
     val result : Pattern = patternNode match {
       case p : IdentifierPattern =>
@@ -785,56 +788,56 @@ class Tree2Program extends ErrorProducer {
       case p : ListPattern =>
         val elems =
           for (i <- toList(p.elements))
-            yield buildPattern(i)
+          yield buildPattern(i)
         val (e, d) = splitDelta(elems.toList)
         if (p.isVector) PVector(e,d) else PList(e,d)
       case p : SetPattern =>
         val elems =
           for (i <- toList(p.elements))
-            yield buildPattern(i)
+          yield buildPattern(i)
         val (e, d) = splitDelta(elems.toList)
         PSet(e, d)
       case p : ForPattern =>
         val elems =
           for (i <- toList(p.elements))
-            yield buildPattern(i)
+          yield buildPattern(i)
         val (e, d) = splitDelta(elems.toList)
         PFor(e, d)
       case p : MapPattern =>
         var elems : List[(Pattern, Pattern)] = List();
-        var delta : Pattern = null;       
-        for (e <- toList(p.elements)) 
+        var delta : Pattern = null;
+        for (e <- toList(p.elements))
           e match {
-              case kv : MapPattern.KeyValue =>
-                elems = (buildProperPattern(kv.key), buildProperPattern(kv.value))::elems
-              case d : PatternNode =>
-                delta = buildPattern(d)
-                if (!isDeltaPattern(delta)) {
-                  error(d.location, "key/value or delta pattern expected");
-                  delta = null;
-                }
-              case _ => throwInternalError(e.location, "invalid key/value pattern")  
+            case kv : MapPattern.KeyValue =>
+              elems = (buildProperPattern(kv.key), buildProperPattern(kv.value))::elems
+            case d : PatternNode =>
+              delta = buildPattern(d)
+              if (!isDeltaPattern(delta)) {
+                error(d.location, "key/value or delta pattern expected");
+                delta = null;
+              }
+            case _ => throwInternalError(e.location, "invalid key/value pattern")
           }
         PMap(elems.reverse, delta)
       case p : RecordPattern =>
         var elems : List[(Message, Pattern)] = List();
-        var delta : Pattern = null;       
-        for (e <- toList(p.elements)) 
+        var delta : Pattern = null;
+        for (e <- toList(p.elements))
           e match {
-              case mv : RecordPattern.MessageValue =>
-                val idpat = mv.message
-                val m = Message(idpat.name.toLowerCase)
-                m.setLocation(idpat.location);
-                elems = (m, buildProperPattern(mv.value))::elems
-              case d : PatternNode =>
-                delta = buildPattern(d)
-                if (!isDeltaPattern(delta)) {
-                  error(d.location, "message/value or delta pattern expected");
-                  delta = null;
-                }
-              case _ => throwInternalError(e.location, "invalid key/value pattern")  
+            case mv : RecordPattern.MessageValue =>
+              val idpat = mv.message
+              val m = Message(idpat.name.toLowerCase)
+              m.setLocation(idpat.location);
+              elems = (m, buildProperPattern(mv.value))::elems
+            case d : PatternNode =>
+              delta = buildPattern(d)
+              if (!isDeltaPattern(delta)) {
+                error(d.location, "message/value or delta pattern expected");
+                delta = null;
+              }
+            case _ => throwInternalError(e.location, "invalid key/value pattern")
           }
-        PRecord(elems.reverse, delta)        
+        PRecord(elems.reverse, delta)
       case p : NullaryPattern =>
         import NullaryPattern._
         p.kind match {
@@ -852,7 +855,7 @@ class Tree2Program extends ErrorProducer {
         PInt(new BigInt(p.value))
       case p : ValPattern =>
         PVal(buildSimpleExpression(p.value))
-      case p : PredicatePattern => 
+      case p : PredicatePattern =>
         val pat = if (p.pattern == null) PBool(true) else buildProperPattern(p.pattern)
         val pred = buildSimpleExpression(p.predicate)
         PPredicate(pred, pat)
@@ -862,10 +865,20 @@ class Tree2Program extends ErrorProducer {
         val id = Id(p.identifier.name.toLowerCase)
         id.setLocation(p.identifier.location)
         PAs(id, buildPattern(p.pattern))
-      case p : ConsPattern => 
+      case p : ConsPattern =>
         PCons(buildProperPattern(p.head), buildProperPattern(p.tail))
       case p : ExceptionPattern =>
         PException(buildProperPattern(p.param))
+      case p : TypePattern =>
+        val typeIdNode : TypeIdNode = p.typeId
+        if (typeIdNode != null) {
+          PType(buildProperPattern(p.pattern), buildType(typeIdNode))
+        } else {
+          PTypeVal(buildProperPattern(p.pattern), buildSimpleExpression(p.typeValue))
+        }
+      case p : InnerValuePattern =>
+        val id = build(p.typeId).asInstanceOf[Id]
+        PInnerValue(Path(List()).append(id), buildProperPattern(p.pattern))
       case p : ParseErrorNode =>
         error(patternNode.location(), "pattern syntax error")
         PAny()
@@ -900,23 +913,23 @@ class Tree2Program extends ErrorProducer {
       case _ => 0
     }
   }
-  
-/*  case class ScopeEnv(nonlinear : SortedSet[Id], linear : SortedSet[Id]) {
-    def freeze() : ScopeEnv = {
-      ScopeEnv(nonlinear ++ linear, SortedSet())
-    }
-    def bind(id : Id) : ScopeEnv = {
-      ScopeEnv(nonlinear - id, linear + id)
-    }
-    def rebind(id : Id) {
-      if (!linear.contains(id))
-        error(id.location, "identifier '"+id.name+"' is not in linear scope")
-    }
-    def lookup(id : Id) {
-      if (!nonlinear.contains(id) && !linear.contains(id))
-        error(id.location, "identifier '"+id.name+"' is not in scope")
-    }
-  }      */
+
+  /*  case class ScopeEnv(nonlinear : SortedSet[Id], linear : SortedSet[Id]) {
+def freeze() : ScopeEnv = {
+ScopeEnv(nonlinear ++ linear, SortedSet())
+}
+def bind(id : Id) : ScopeEnv = {
+ScopeEnv(nonlinear - id, linear + id)
+}
+def rebind(id : Id) {
+if (!linear.contains(id))
+  error(id.location, "identifier '"+id.name+"' is not in linear scope")
+}
+def lookup(id : Id) {
+if (!nonlinear.contains(id) && !linear.contains(id))
+  error(id.location, "identifier '"+id.name+"' is not in scope")
+}
+}      */
 
 
   //private var moduleSystem : ModuleSystem = null
@@ -927,6 +940,25 @@ class Tree2Program extends ErrorProducer {
       build(node).asInstanceOf[Term]
     else
       Block(List())
+  }
+
+  def buildProgram(result : Parser.ParseResult) : Term = {
+    val term = makeProgram(result)
+    val mds = ModuleSystem.scanForModules(term)
+    val moduleSystem = ModuleSystem.empty
+    moduleSystem.source = source
+    for (md <- mds) {
+      moduleSystem.add(md)
+    }
+    val rt = new RemoveTemporaries(moduleSystem)
+    rt.source = source
+    val rterm = rt.transform(rt.emptyModuleEnv, term)
+    val linearScope = new LinearScope(moduleSystem)
+    linearScope.source = source
+    linearScope.check(linearScope.emptyEnv, rterm)
+    errors = Errors.cleanupErrors(Errors.fromParseResult(result) ++ errors ++
+      moduleSystem.errors ++ rt.errors ++ linearScope.errors)
+    rterm
   }
 
   /*def makeProgram(_moduleSystem : ModuleSystem, result : Parser.ParseResult) : Term =  {

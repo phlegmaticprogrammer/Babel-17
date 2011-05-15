@@ -1,6 +1,7 @@
 package com.babel17.naive
 
 import com.babel17.interpreter.parser.ErrorMessage
+import com.babel17.interpreter.parser.Parser
 import com.babel17.syntaxtree.Location
 import com.babel17.syntaxtree.Source
 
@@ -29,6 +30,21 @@ object Errors {
     for (m <- cleaned.values().toArray) errors = m.asInstanceOf[ErrorMessage] :: errors;
     errors = errors.reverse
     errors
+  }
+
+  def fromParseResult(result : Parser.ParseResult) : List[ErrorMessage] = {
+    if (result.hasErrors) {
+      var errors : List[ErrorMessage] = List()
+      val ex = result.exception
+      val count = ex.countMessages
+      var i : Int = 0
+      while (i < count) {
+        val m = ex.getMessage(i)
+        errors = (new ErrorMessage(m.location, m.message())) :: errors
+        i = i+1
+      }
+      errors
+    } else List()
   }
 
 

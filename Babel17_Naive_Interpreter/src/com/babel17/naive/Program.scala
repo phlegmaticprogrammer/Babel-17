@@ -21,9 +21,8 @@ object Program {
   case class MemoTypeNone extends MemoType
 
   abstract class Visibility extends Locatable
-  case class VisibilityAll extends Visibility
-  case class VisibilityTypeOnly extends Visibility
-  case class VisibilityNone extends Visibility
+  case class VisibilityYes extends Visibility
+  case class VisibilityNo extends Visibility
     
   abstract class Term extends Locatable {
     var freeVars : SortedSet[Id] = null
@@ -47,25 +46,31 @@ object Program {
       m.location = this.location
       m
     }
+    override def toString : String = name
   }
   
   case class Constr(name : String) extends Locatable
 
-  case class Path(ids : List[Id]) extends Locatable {
+  case class Path(ids : List[Id]) extends Locatable with Ordered[Path]{
     def last : Id = {
       ids.last
+    }
+    def unittest:Boolean = {
+      for (id <- ids)
+        if (id.name == "unittest") return true
+      return false
     }
     def prefix(l : Int) : Path = {
       Path(ids.take(l))
     }
     def append(p : Path) : Path = {
       val path : Path = Path(ids ++ p.ids)
-      path.location = Location.merge(this.location, p.location)
+      path.location = if (p.location == null) this.location else p.location
       path
     }
     def append(id : Id) : Path = {
       val path : Path = Path(ids ++ List(id))
-      path.location = Location.merge(this.location, id.location)
+      path.location = if (id.location == null) this.location else id.location
       path
     }
     def length : Int = ids.length
@@ -86,11 +91,18 @@ object Program {
       }
       s
     }
+    def compare(that : Path) : Int = {
+      this.toString.compare(that.toString)
+    }
   }
 
   case class Type extends Locatable
-  case class TypeSome(path : Path) extends Type
-  case class TypeNone() extends Type
+  case class TypeSome(path : Path) extends Type{
+    override def toString : String = path.toString
+  }
+  case class TypeNone() extends Type {
+    override def toString : String = "no type"
+  }
 
   case class Block(statements : List[Statement]) extends Term
     
@@ -109,16 +121,16 @@ object Program {
   case class SAssign(pat : Pattern, e : Expression) extends Statement
   case class SValRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
   case class SAssignRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
-  case class SConversion(returnType : Type, e : Expression) extends Statement
   case class SDef0(memoize : MemoType, visibility : Visibility,
                    id : Id, e : Expression, returnType : Type) extends Def
   case class SDef1(memoize : MemoType, visibility : Visibility,
                    id : Id, branches : List[(Pattern, Expression, Type)]) extends Def
   case class STypeDef(memoize : MemoType, visibility : Visibility,
                       id : Id, branches : List[(Pattern, Option[Expression])]) extends Def
+  case class SModuleDef(path : Path, b : Block) extends Def
+  case class SConversionDef(returnType : Path, e : Expression) extends Def
   case class SImport(path : Path, id : Id) extends Statement
   case class SDefs(defs : List[Def]) extends Statement
-  case class SModule(path : Path, b : Block) extends Statement
   case class SYield(e : Expression) extends Statement
   case class SBlock(b : Block) extends Statement
   case class SIf(cond:SimpleExpression,yes:Block,no:Block) extends Statement
@@ -134,7 +146,9 @@ object Program {
   case class TempTypeDef(id : Id, branches: List[(Pattern, Option[Expression])]) extends TemporaryStatement
   case class TempMemoize(memos : List[(MemoType, Id)]) extends TemporaryStatement
   case class TempPrivate(visibilities : List[(Visibility, Id)]) extends TemporaryStatement
-  case class TempImport(prefix : Path, plus:List[(Id, Id)], minus:List[Id]) extends TemporaryStatement
+  case class TempImport(prefix : Path, plusAll: Boolean, plus:List[(Id, Id)], minus:List[Id]) extends TemporaryStatement
+  case class TempModuleDef(path : Path, b : Block) extends TemporaryStatement
+  case class TempConversionDef(returnType : Path, e : Expression) extends TemporaryStatement
    
   abstract class Expression extends Term
   case class ESimple (se:SimpleExpression) extends Expression

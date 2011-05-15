@@ -41,6 +41,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
 
   val OBJECT_STATEMENT = 1
   val MODULE_STATEMENT = 2
+  val TOPLEVEL_STATEMENT = 4
   
   case class Environment(nonlinear : SortedSet[Id], linear : SortedSet[Id]) {
     def freeze () : SimpleEnvironment = {
@@ -70,25 +71,25 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
     def defineThis () : Environment = {
       this.define(Id("this"))
     }
-    def defineModule() : Environment = {
+    /*def defineModule() : Environment = {
       this.define(Id("$module"))
     }
     def inModule : Boolean = {
       nonlinear.contains(Id("$module"))
-    }
+    }*/
   }
   
   def emptyEnv () : Environment = Environment(SortedSet(), SortedSet())
   
   def check (env : Environment, t : Term) {
+    val st_flags = TOPLEVEL_STATEMENT
     t match {
-      case b : Block => check_b(env, b, 0)
-      case st : Statement => check_st(env, st, 0)
+      case b : Block => check_b(env, b, st_flags)
+      case st : Statement => check_st(env, st, st_flags)
       case e : Expression => check_e(env, e)
       case se : SimpleExpression => check_simple(env.freeze(), se)
     }
-  }
-  
+  }  
      
   def check_b (env : Environment, b : Block, st_flags : Int) {
     var e = env
@@ -124,8 +125,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SAssignRecordUpdate(id, m, e) =>
         check_e(env, e)
         env.rebind(id)
-      case SImport(path, id) =>
-        env.define(id)
+      case d: SImport => env.define(d.id)
       case SDef0(_, _, id, e, _) =>
         val env2 = env.define(id)
         check_e(env2.freezeThaw(), e)
@@ -148,7 +148,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
           }
         }
         env2
-      case SConversion(_, e) =>
+      case SConversionDef(_, e) =>
         val env2 = env.defineThis()
         if ((st_flags & OBJECT_STATEMENT) == 0)
           error(st.location, "conversions live in objects only")
@@ -157,7 +157,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SDefs(defs) =>
         var env2 = env
         for (d <- defs) {
-          var vis : Visibility = VisibilityAll()
+          var vis : Visibility = VisibilityYes()
           d match {
             case d: SDef0 =>
               env2 = env2.define(d.id)
@@ -168,11 +168,10 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
             case d: STypeDef =>
               env2 = env2.define(d.id)
               vis = d.visibility
-            case d: SImport =>
-              env2 = env2.define(d.id)
+            case _ =>
           }
-          if ((vis != VisibilityAll()) && ((st_flags & (OBJECT_STATEMENT + MODULE_STATEMENT)) == 0))
-            error(vis.location, "no relevant object or module in scope")
+          if ((vis != VisibilityYes()) && ((st_flags & (OBJECT_STATEMENT + MODULE_STATEMENT)) == 0))
+            error(vis.location, "no private statement allowed here")
         }
         defs.foreach(check_st (env2, _, st_flags))
         env2
@@ -182,10 +181,10 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SBlock(b) => 
         check_b(env, b, 0)
         env
-      case SModule(path, b) =>
-        if (env.inModule)
-          error(st.location, "module statement must not appear within another module statement")
-        check_b(emptyEnv().defineModule, b, MODULE_STATEMENT)
+      case SModuleDef(path, b) =>
+        if ((st_flags & (TOPLEVEL_STATEMENT + MODULE_STATEMENT)) == 0)
+          error(st.location, "module statement must appear at toplevel or directly as a statement in another module definition")
+        check_b(env.freezeThaw, b, MODULE_STATEMENT)
         env
       case SIf(cond, yes, no) =>
         check_simple(env.freeze(), cond)

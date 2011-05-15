@@ -57,6 +57,7 @@ public class Parser {
     k.add("typeof");
     k.add("private");
     k.add("import");
+    k.add("unittest");
 
     return k;
   }
@@ -207,6 +208,9 @@ public class Parser {
           if (KEYWORDS.contains(name.toLowerCase()))
             pe.addMessage(loc, "cannot use keyword as identifier");
           return new IdentifierNode(name).mergeLocation(loc);
+        }
+        case babel17Parser.L_unittest: {
+          return new IdentifierNode("unittest").mergeLocation(loc);
         }
         case babel17Parser.Constr: {
           return new ConstrNode(tree.getText(), loc, null).mergeLocation(loc);
@@ -477,6 +481,11 @@ public class Parser {
             IdentifierNode id = (IdentifierNode) ids.head();
             return new ImportNode.Entry(ImportNode.ENTRY_MINUS, id, null);
         }
+        case babel17Parser.IMPORT_ALL: {
+            Node e = new ImportNode.Entry(ImportNode.ENTRY_ALL, null, null);
+            e.mergeLocation(loc);
+            return e;
+        }
         case babel17Parser.L_import: {
             NodeList prefix = toNodeList(tree.getChild(0)).suppressErrors();
             if (tree.getChildCount() == 1)
@@ -640,17 +649,16 @@ public class Parser {
         }
         case babel17Parser.MEMOIZE:
           return new MemoizeNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();
-        case babel17Parser.PRIVATEID_STRONG: {
+        /*case babel17Parser.PRIVATEID_STRONG: {
             Node n = toNode(tree.getChild(0));
             if (n instanceof ParseErrorNode) return n;
             else return new PrivateNode.PrivateId(true,
                   (IdentifierNode) n).mergeLocation(loc).mergeLocation();
-        }
-        case babel17Parser.PRIVATEID_WEAK: {
+        } */
+        case babel17Parser.PRIVATEID: {
             Node n = toNode(tree.getChild(0));
             if (n instanceof ParseErrorNode) return n;
-            else return new PrivateNode.PrivateId(false,
-                  (IdentifierNode) n).mergeLocation(loc).mergeLocation();
+            else return new PrivateNode.PrivateId((IdentifierNode) n).mergeLocation(loc).mergeLocation();
         }
         case babel17Parser.PRIVATE:
           return new PrivateNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();
@@ -746,13 +754,13 @@ public class Parser {
             return toPattern(tree.getChild(0));
           }
         case babel17Parser.TYPE_PATTERN: {
-          Tree ann = tree.getChild(1);
+          Tree ann = tree.getChild(0);
           Node typeAnnotation = null;
           if (ann.getType() == babel17Parser.L_val)
               typeAnnotation = toNode(ann.getChild(0));
           else
               typeAnnotation = toNode(ann);
-          return (PatternNode) new TypePattern(toPattern(tree.getChild(0)),
+          return (PatternNode) new TypePattern(toPattern(tree.getChild(1)),
                   typeAnnotation).mergeLocation(loc);
         }
         case babel17Parser.INNERVALUE_PATTERN:
@@ -861,7 +869,7 @@ public class Parser {
             return (PatternNode) new ConstrPattern(tree.getText(), l, toPattern(tree.getChild(0))).mergeLocation(loc).mergeLocation();
           }
         default: {
-          pe.addMessage(loc, "pattern parse error");
+          pe.addMessage(loc, "pattern parse error: type="+tree.getType());
           return (PatternNode) new ParseErrorNode().mergeLocation(loc);
         }
       }

@@ -977,7 +977,7 @@ class Evaluator(val maxNumThreads : Int) {
     val charstream = new ANTLRReaderStream(inputReader)
     val result = Parser.parse(new Source(systemFilename), charstream)
     val checker = new Tree2Program()
-    val term = checker.makeProgram(result)
+    val term = checker.buildProgram(result)
     val errors = checker.errors
     if (errors.length > 0) throw EvalX("static errors in system library")
     var sys : Map[String, FunctionValue] = Map.empty

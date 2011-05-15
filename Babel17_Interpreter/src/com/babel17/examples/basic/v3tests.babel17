@@ -1,86 +1,29 @@
-## typedef orderedSet Ace = 10, King = 11
+module com.obua.util
 
-#( val a = object
-  val u = 20+this
-  def this : val 9 = this
-end )#
+private orderedSet
+typedef orderedSet l = nil
 
-val x = d
+def x : orderedSet = orderedSet 10
+def y = 10
 
-val y = x
+def cool(orderedSet i) = i
 
-def d = 10
+val a = 20
 
+module unittest
 
-
-
-#(*module wow
-
-import cool.x
-
-def y = x
-
+def supercool(orderedSet i) = i*a
+end
 
 end
 
-module cool
-def x = 20
+module com.obua.great
+
+import com.obua.util.unittest
+import com.obua.util.orderedset => wow
+
+match 12
+case (u : wow) => 10
 end
 
-module wow.cool
-
-def x = 10
-end*)#
-
-#(def wow = object
-  def x = 10
 end
-
-def x = 20
-
-wow.x
-
-typedef x 20
-
-private (x)
-
-end
-
-import com.x
-val y = x)#
-
-
-
-
-#(import com.babel17.hello._
-
-private (orderedSet)
-
-typeof 10
-
-match Ace
-  case Ace => 10
-  case _ => 12
-end
-
-module com.babel17.util
-
-val x = this
-
-end
-
-begin
-end
-
-val a = object
-  val u = 20+this
-  def this : val 9 = this
-end
-
-val a = 0
-def b = begin
-  val a = a + 1
-  a
-end
-b
-a)#

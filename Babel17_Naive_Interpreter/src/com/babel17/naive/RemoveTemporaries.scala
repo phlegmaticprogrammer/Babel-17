@@ -20,7 +20,13 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     }
   }
 
+  def emptyModuleEnv : ModuleEnv = {
+    ModuleEnv(Path(List()), Imports(SortedMap(), SortedMap(), SortedMap()))
+  }
+
   case class ModuleEnv(local : Path, imports : Imports) {
+
+    def inModule : Boolean = local.length != 0
 
     def addImports(newImports : Imports) : ModuleEnv = {
       ModuleEnv(local, imports.add(newImports))
@@ -84,22 +90,37 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     var typeIds : SortedMap[Id, Path] = SortedMap()
     var packageIds : SortedMap[Id, Path] = SortedMap()
     var currentEnv = env
+    val isTest = env.local.unittest
+    def checkUnittest(loc:Location, path:Path) : Boolean = {
+      if (!isTest && path.unittest) {
+        error(loc, "cannot import unit tests from '"+path+"' into production code")
+        false
+      } else true
+    }
     def addTypeId(id : Id, path : Path) {
-      if (typeIds.contains(id))
-        error(id.location, "there is already an import for type '"+id.name+"'")
+      if (typeIds.contains(id)) {
+        val p = path.normalizeTypePath
+        if (typeIds(id).compare(p) != 0)
+          error(id.location, "there is already a different import for type '"+id.name+"'")
+      }
       else
         typeIds = typeIds + (id -> path.normalizeTypePath)
     }
     def addDefId(id : Id, path : Path) {
       if (defIds.contains(id) || packageIds.contains(id))
-        error(id.location, "there is already an import for '"+id.name+"'")
+        if (defIds.contains(id) && defIds(id).compare(path) == 0)
+          () // no error
+        else
+          error(id.location, "there is already a different import for '"+id.name+"'")
       else {
         defIds = defIds + (id -> path)
       }
     }
     def addPackageId(id : Id, path : Path) {
       if (defIds.contains(id) || packageIds.contains(id))
-        error(id.location, "there is already an import for '"+id.name+"'")
+        if (packageIds.contains(id) && packageIds(id).compare(path) == 0)
+          () // no error
+        else error(id.location, "there is already a different import for '"+id.name+"'")
       else {
         packageIds = packageIds + (id -> path)
       }
@@ -109,9 +130,16 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         addTypeId(id, path)
       addPackageId(id, path)
     }
+    def checkImport(pd : PackageDescr, x : Id) {
+      pd.find(Path(List(x))) match {
+        case None =>
+          error(x.location, "invalid import, '"+x+"' not found")
+        case _ =>
+      }
+    }
     for (s <- statements) {
       s match {
-        case TempImport(path, plus, minus) =>
+        case TempImport(path, plusAll, plus, minus) =>
           var plusmap : SortedMap[Id, Id] = SortedMap()
           plusmap = plusmap ++ plus
           var minusset : SortedSet[Id] = SortedSet()
@@ -127,15 +155,25 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
             case Some((resolvedPath, pd, flags)) =>
               if ((flags & FoundPackage) == 0)
                   error(path.location, "invalid import, module not found: '"+path+"'")
-              else {
-                  val importAll = plus.isEmpty || !minus.isEmpty
+              else if (checkUnittest(s.location, resolvedPath)) {
+                  for ((x,_) <- plus) checkImport(pd, x)
+                  for (x <- minus) checkImport(pd, x)
+                  val importAll = !minus.isEmpty || plusAll
+                  if (!importAll && plus.isEmpty) error(path.location, "nothing to import")
                 
                   // first, import all submodules  
                   for ((b, bpd) <- pd.branches) {
-                    if (plusmap.contains(b))
-                      addModuleId(bpd, plusmap(b), resolvedPath.append(b))
-                    else if (importAll && !minusset.contains(b))
-                      addModuleId(bpd, b, resolvedPath.append(b))
+                    val p = resolvedPath.append(b)
+                    if (plusmap.contains(b)) {
+                      if (checkUnittest(s.location, p)) {
+                        if (plusmap(b).name == "unittest")
+                          error(s.location, "cannot introduce identifier 'unittest' because it is a keyword")
+                        else addModuleId(bpd, plusmap(b), p)
+                      }
+                    } else if (importAll && !minusset.contains(b)) {
+                      if ((isTest || !p.unittest) && !(b.name == "unittest"))
+                        addModuleId(bpd, b, p)
+                    }
                   }
 
                   // then, messages and types
@@ -149,7 +187,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
                     }
                     for (t <- mod.typeIds) {
                       if (plusmap.contains(t))
-                        addTypeId(t, resolvedPath.append(t))
+                        addTypeId(plusmap(t), resolvedPath.append(t))
                       else if (importAll && !minusset.contains(t))
                         addTypeId(t, resolvedPath.append(t))
                     }
@@ -157,19 +195,69 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
               }
           }
           currentEnv = currentEnv.addImports(Imports(packageIds, defIds, typeIds))
+        case TempModuleDef(path, b) =>
+          val id = path.ids.head
+          val p = currentEnv.local.append(id)
+          moduleSystem.find(p) match {
+            case None =>
+              error(path.location, "module not found: '"+p+"'")
+            case Some(Found(pd, flags)) =>
+              if ((flags & FoundPackage) == 0)
+                error(path.location, "module not found: '"+p+"'")
+              else {
+                addModuleId(pd, id, p)
+              }
+          }
         case _ =>
       }
     }
     Imports(packageIds, defIds, typeIds)
   }
 
+  class ConversionId(ty : Path) extends Id("this:"+ty) {
+    def typePath:Path = ty
+  }
+
+  /*def collectConversionIds(statements : List[Statement]) : List[Id] = {
+    var ids : List[Id] = List()
+    for (s <- statements) {
+      s match {
+       case TempConversionDef(ty, e) =>
+          val id : Id = new ConversionId(ty)
+          id.location = ty.location
+          ids = id :: ids
+       case _ =>
+      }
+    }
+    ids
+  }*/
+
+  class ModuleId(path : Path) extends Id("module:"+path) {
+    location = path.location
+  }
+
+  /*def collectModuleIds(statements : List[Statement]) : List[Id] = {
+    var ids : List[Id] = List()
+    for (s <- statements) {
+      s match {
+       case TempModuleDef(path, b) =>
+          val id : Id = new ModuleId(path)
+          id.location = path.location
+          ids = id :: ids
+       case _ =>
+      }
+    }
+    ids
+  }*/
+
+
   def transform_sts(env: ModuleEnv, _statements : List[Statement]) : List[Statement] = {
     val imports = collectImportedIds(env, _statements)
     val newEnv = env.addImports(imports)
-    val statements = _statements.map(s => transform_st(newEnv, s))
+    val statements : List[Statement] = (_statements.map(s => transform_st(newEnv, s))).toList
     var memos : SortedMap[Id, MemoType] = SortedMap()
     var privates : SortedMap[Id, Visibility] = SortedMap()
-    val defIds = CollectVars.collectDefIds(statements)
+    val defIds = CollectVars.collectDefIds(statements) //++ collectConversionIds(statements) ++ collectModuleIds(statements)
     val typeIds = CollectVars.collectTypeIds(statements)
     val conflictDefs = defIds ** (imports.pi.keySet ++ imports.di.keySet)
     if (!conflictDefs.isEmpty) {
@@ -199,11 +287,9 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
           }
         case TempPrivate(ps) =>
           for ((vis, id) <- ps) {
-            if (!defIds.contains(id)) {
+            if (!defIds.contains(id))
               error(id.location, "no such definition found: "+id.name)
-            } else if (vis == VisibilityTypeOnly() && !typeIds.contains(id)) {
-              error(id.location, "no such type definition found")
-            } else if (privates.contains(id))
+            else if (privates.contains(id))
               error(id.location, "duplicate privacy specification")
             else
               privates = privates + (id -> vis)
@@ -221,10 +307,54 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
                 if (x > l) l = x;
               }
             }
-            val sdef0 = SDef0(MemoTypeNone(), VisibilityAll(), id, e, rt)
+            val sdef0 = SDef0(MemoTypeNone(), VisibilityYes(), id, e, rt)
             sdef0.setLocation(s.location)
             sdef0.stackTraceElement = Values.StackTraceElement(id.location, "evaluation of def '"+id.name+"'")
             defs = defs + (id -> (sdef0, deps, l))
+          }
+          if (!defsFirstVal.contains(id))
+            defsFirstVal = defsFirstVal + (id -> (id, line))
+        case TempConversionDef(ty, e) =>
+          val id : Id = new ConversionId(ty)
+          id.location = ty.location
+          if (defs.contains(id))
+            error(id.location, "duplicate conversion for type '"+ty+"'")
+          else {
+            CollectVars.collectVars(s)
+            val deps = defIds ** s.freeVars
+            var l : Int = -1
+            for (v <- s.freeVars) {
+              if (vals.contains(v)) {
+                val x = vals(v)
+                if (x > l) l = x;
+              }
+            }
+            val sconv = SConversionDef(ty, e)
+            sconv.location = s.location
+            sconv.stackTraceElement = Values.StackTraceElement(id.location, "type conversion to '"+ty+"'")
+            defs = defs + (id -> (sconv, deps, l))
+          }
+          if (!defsFirstVal.contains(id))
+            defsFirstVal = defsFirstVal + (id -> (id, line))
+        case TempModuleDef(path, b) =>
+          val id : Id = new ModuleId(path)
+          if (defs.contains(id))
+            error(id.location, "name for submodule clashes with some definition")
+          else {
+            CollectVars.collectVars(s)
+            val deps = defIds ** s.freeVars
+            var l : Int = -1
+            for (v <- s.freeVars) {
+              if (vals.contains(v)) {
+                val x = vals(v)
+                if (x > l) l = x;
+              }
+            }
+            val p = env.local.append(path)
+            p.location = path.location
+            val smod = SModuleDef(p, b)
+            smod.location = s.location
+            defs = defs + (id -> (smod, deps, l))
           }
           if (!defsFirstVal.contains(id))
             defsFirstVal = defsFirstVal + (id -> (id, line))
@@ -255,7 +385,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
             }
           }
           branches = branches ++ List((pat, e, rt))
-          val sdef1 = SDef1(MemoTypeNone(), VisibilityAll(), id, branches)
+          val sdef1 = SDef1(MemoTypeNone(), VisibilityYes(), id, branches)
           sdef1.stackTraceElement = Values.StackTraceElement(id.location, "application of def '"+id.name+"'")
           defs = defs + (id -> (sdef1, deps, maxval))
           if (!defsFirstVal.contains(id))
@@ -287,7 +417,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
               }
             }
             branches = branches ++ List((pat, e))
-            val stypedef = STypeDef(MemoTypeNone(), VisibilityAll(), id, branches)
+            val stypedef = STypeDef(MemoTypeNone(), VisibilityYes(), id, branches)
             stypedef.stackTraceElement = Values.StackTraceElement(id.location, "application of typedef '"+id.name+"'")
             defs = defs + (id -> (stypedef, deps, maxval))
             if (!defsFirstVal.contains(id))
@@ -350,7 +480,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         var d = sdef
         if (memos.contains(id) || privates.contains(id)) {
           var memo : MemoType = MemoTypeNone()
-          var vis : Visibility = VisibilityAll()
+          var vis : Visibility = VisibilityYes()
           if (memos.contains(id))
             memo = memos(id)
           if (privates.contains(id))
@@ -399,6 +529,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       line = line + 1
     }
     newStatements = newStatements.reverse
+    val isTest = env.local.unittest
     for ((id, path) <- imports.pi) {
       val s = SImport(path, id)
       s.location = Location.merge(path.location, id.location)
@@ -422,8 +553,18 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         SValRecordUpdate(id, m, transform_expr(env, e))
       case SAssignRecordUpdate(id, m, e) =>
         SAssignRecordUpdate(id, m, transform_expr(env, e))
-      case SConversion(rt, e) =>
-        SConversion(transform_type(env, rt), transform_expr(env, e))
+      case SConversionDef(rt, e) =>
+        val rt2 = transform_type(env, TypeSome(rt)) match {
+          case TypeNone() => Path(List())
+          case TypeSome(p) => p
+        }
+        SConversionDef(rt2, transform_expr(env, e))
+      case TempConversionDef(rt, e) =>
+        val rt2 = transform_type(env, TypeSome(rt)) match {
+          case TypeNone() => Path(List())
+          case TypeSome(p) => p
+        }
+        TempConversionDef(rt2, transform_expr(env, e))
       case SDef0(memo, vis, id, e, rt) =>
         SDef0(memo, vis, id, transform_expr(env, e), transform_type(env, rt))
       case SDef1(memo, vis, id, branches) =>
@@ -448,9 +589,12 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case _ : SImport => term
       case SDefs(defs) =>
         SDefs(defs.map(x => transform_st(env, x).asInstanceOf[Def]))
-      case SModule(p : Path, b : Block) =>
+      case SModuleDef(p : Path, b : Block) =>
         val newEnv = env.addPath(p)
-        SModule(p, transform_block(newEnv, b))
+        SModuleDef(p, transform_block(newEnv, b))
+      case TempModuleDef(p : Path, b : Block) =>
+        val newEnv = env.addPath(p)
+        TempModuleDef(p, transform_block(newEnv, b))
       case SYield(e) =>
         SYield(transform_expr(env, e))
       case SBlock(b) =>
@@ -544,6 +688,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
   }
 
   def transform_pat(env : ModuleEnv, pattern : Pattern) : Pattern = {
+    if (pattern == null) return null
     def tr(pat : Pattern) = transform_pat(env, pat)
     val result = pattern match {
       case PConstr(c, p) => PConstr(c, tr(p))
@@ -571,7 +716,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
             err = ((flags & ModuleSystem.FoundType) == 0)
         }
         if (err)
-          error(ty.location, "no such typedefinition in local scope: '"+ty+"'")
+          error(ty.location, "no local type definition for: '"+ty+"'")
         PInnerValue(localType, tr(pattern))
       case _ => pattern
     }
@@ -630,6 +775,15 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     }
     result.location = pragma.location
     result
+  }
+
+  def transform(env : ModuleEnv, term : Term) : Term = {
+    term match {
+      case b : Block => transform_block(env, b)
+      case e : Expression => transform_expr(env, e)
+      case st : Statement => transform_st(env, st)
+      case se : SimpleExpression => transform_se(env, se)
+    }
   }
 
 }

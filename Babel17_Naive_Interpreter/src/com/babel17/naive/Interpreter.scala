@@ -19,7 +19,7 @@ object Interpreter {
     var charstream: CharStream = new ANTLRReaderStream(reader)
     val result = Parser.parse(source, charstream)
     val checker = new Tree2Program()
-    val term = checker.makeProgram(result)
+    val term = checker.buildProgram(result)
     val errors = checker.errors
     val a : java.util.ArrayList[ErrorMessage] = new java.util.ArrayList(errors.length)
     for (e <- errors) {
@@ -27,6 +27,7 @@ object Interpreter {
     }
     a
   }
+
 
   def run(filename : String, w : WriteOutput) {
     w.writeLineCommentary("Babel-17 v0.21.1, Copyright \u00a9 2009 Steven Obua")
@@ -43,12 +44,16 @@ object Interpreter {
       /*val t2 = System.currentTimeMillis
       w.writeLineCommentary("Parsed in "+(t2-t1)+" milliseconds.")
       w.writeLine("") */
+      val source = new Source(filename)
       val checker = new Tree2Program()
-      checker.source = new Source(filename)
-      val term = checker.makeProgram(result)
+      checker.source = source
+      val term = checker.buildProgram(result)
+
       w.writeLine("program:\n"+term+"\n")
-      if (checker.errors.length > 0) {
-        val errors = checker.errors
+
+      val errors = checker.errors
+
+      if (errors.length > 0) {
         if (errors.length == 1)
           w.writeLineError("Found "+errors.length+" static error:")
         else
@@ -129,3 +134,4 @@ object Interpreter {
 
 
 }
+

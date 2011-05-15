@@ -39,25 +39,18 @@ object CollectVars {
     ids
   }
 
-  def filterPublicIds(statements : List[Statement], defIds : SortedSet[Id], typeIds : SortedSet[Id]) : (SortedSet[Id], SortedSet[Id]) = {
+  def filterPublicIds(statements : List[Statement], defIds : SortedSet[Id]) : SortedSet[Id] = {
     var ds = defIds
-    var ts = typeIds
     def handle(v: Visibility, id: Id) {
           v match {
-            case VisibilityTypeOnly() =>
+            case VisibilityNo() =>
               ds = ds - id
-            case VisibilityNone() =>
-              ds = ds - id
-              ts = ts - id
-            case VisibilityAll() =>
+            case VisibilityYes() =>
           }
     }
     for (s <- statements) {
       s match {
-        case SDefs(defs) =>
-          val r = filterPublicIds(defs, ds, ts)
-          ds = r._1
-          ts = r._2
+        case SDefs(defs) => ds = filterPublicIds(defs, ds)
         case d: SDef0 => handle(d.visibility, d.id)
         case d: SDef1 => handle(d.visibility, d.id)
         case d: STypeDef => handle(d.visibility, d.id)
@@ -67,7 +60,7 @@ object CollectVars {
         case _ =>
       }
     }
-    (ds, ts)
+    ds
   }
 
   def isExecutable(statements : List[Statement]) : Boolean = {
@@ -75,8 +68,6 @@ object CollectVars {
       s match {
         case _ : Def =>
         case _ : SDefs =>
-        case _ : SConversion =>
-        case _ : SModule =>
         case _ =>
           return true
       }
@@ -84,7 +75,7 @@ object CollectVars {
     false
   }
   
-  // should be called only on terms with removed temporaries
+  // must also work for temporaries !!!
   def collectVars(term : Term) {
     if (term.freeVars != null && term.introducedVars != null && term.assignedVars != null) return;
     term.freeVars = SortedSet()
@@ -149,7 +140,7 @@ object CollectVars {
           }
         }
         term.freeVars = freeVars - id
-/*      case TempTypeDef(id, branches) =>
+      case TempTypeDef(id, branches) =>
         var freeVars = SortedSet[Id]()
         for (b <- branches) {
           b match {
@@ -162,8 +153,11 @@ object CollectVars {
               freeVars = freeVars ++ p.freeVars
           }
         }
-        term.freeVars = freeVars - id*/
-      case SConversion(_, e) =>
+        term.freeVars = freeVars - id
+      case SConversionDef(_, e) =>
+        collectVars(e)
+        term.freeVars = e.freeVars
+      case TempConversionDef(_, e) =>
         collectVars(e)
         term.freeVars = e.freeVars
       case SDefs(defs) =>
@@ -174,13 +168,13 @@ object CollectVars {
           freeVars = freeVars ++ d.freeVars
         }
         term.freeVars = freeVars -- defIds
- /*     case TempDef0(id, e, _) =>
+     case TempDef0(id, e, _) =>
         collectVars(e)
         term.freeVars = e.freeVars - id
       case TempDef1(id, pat, e, _) =>
         collectVars(pat)
         collectVars(e)
-        term.freeVars = (pat.freeVars ++ (e.freeVars -- pat.introducedVars)) - id*/
+        term.freeVars = (pat.freeVars ++ (e.freeVars -- pat.introducedVars)) - id
       case SYield(e) =>
         collectVars(e)
         term.freeVars = e.freeVars
@@ -277,8 +271,12 @@ object CollectVars {
       case SEObj(b, _) =>
         collectVars(b)
         term.freeVars = b.freeVars
-      case SModule(path, b) =>
+      case SModuleDef(path, b) =>
         collectVars(b)
+        term.freeVars = b.freeVars
+      case TempModuleDef(path, b) =>
+        collectVars(b)
+        term.freeVars = b.freeVars
       case SImport(path, id) =>
       case se : SimpleExpression =>
         val ses = subSimpleExpressions(se)

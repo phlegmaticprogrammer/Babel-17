@@ -2,7 +2,7 @@ package com.babel17.syntaxtree;
 
 public class ImportNode extends Node {
 
-    public final static int ENTRY_PLUS = 1, ENTRY_MINUS = 2, ENTRY_MAP = 3;
+    public final static int ENTRY_PLUS = 1, ENTRY_MINUS = 2, ENTRY_MAP = 3, ENTRY_ALL = 4;
 
     public static class Entry extends Node {
         private int entryType;
@@ -19,7 +19,7 @@ public class ImportNode extends Node {
         public NodeList children() {
             NodeList l = new NodeList();
             if (id2 != null) l = l.cons(id2);
-            l = l.cons(id1);
+            if (id1 != null) l = l.cons(id1);
             return l;
         }
         public int entryType() { return entryType; }
@@ -35,7 +35,10 @@ public class ImportNode extends Node {
     }
 
     public static ImportNode wildcard(NodeList ids) {
-        return new ImportNode(ids, null);
+        Entry e = new Entry(ENTRY_ALL, null, null);
+        e.mergeLocation(ids.location());
+        NodeList entries = new NodeList().cons(e);
+        return new ImportNode(ids, entries);
     }
 
     public static ImportNode set(NodeList ids, NodeList entries) {

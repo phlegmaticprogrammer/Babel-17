@@ -44,6 +44,7 @@ public enum TokenType {
   TYPEOF(babel17Lexer.L_typeof),
   PRIVATE(babel17Lexer.L_private),
   IMPORT(babel17Lexer.L_import),
+  UNITTEST(babel17Lexer.L_unittest),
 
   COLON(babel17Lexer.COLON, "keyword"),
 

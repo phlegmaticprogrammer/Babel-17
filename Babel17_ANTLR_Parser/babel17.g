@@ -74,8 +74,7 @@ MEMOIZE;
 MEMOID_STRONG;
 MEMOID_WEAK;
 
-PRIVATEID_STRONG;
-PRIVATEID_WEAK;
+PRIVATEID;
 
 IF_PATTERN;
 TYPE_PATTERN;
@@ -231,6 +230,9 @@ L_typeof
 L_private
 	:	'private';
 L_import:	'import';
+
+L_unittest
+	:	'unittest';
 
 /* Symbolic Tokens */
 
@@ -409,6 +411,11 @@ defpattern
 	:	primitive_pattern (NL? token_DOUBLE_COLON NL? primitive_pattern)*
 		-> ^(LIST_CONS primitive_pattern*)
 	|	Constr defpattern? -> ^(Constr defpattern?);
+
+casepattern
+	: 	(pattern NL? ':') => pattern NL? ':' NL? typeannotation -> ^(TYPE_PATTERN typeannotation pattern)
+	|	pattern;
+
 	
 bracket_pattern
 	:       (Id NL? L_as) => Id NL? L_as NL? pattern -> ^(L_as Id pattern)
@@ -502,25 +509,27 @@ st_private
 		  -> ^(PRIVATE private_id*);	
 
 private_id	
-	:	Id -> ^(PRIVATEID_STRONG Id)
-	|	'(' Id ')' -> ^(PRIVATEID_WEAK Id);
+	:	Id -> ^(PRIVATEID Id);
+	
+testid	:	Id
+	|	L_unittest;
 
-
-
-moduleid 	:	Id (NL? PERIOD NL? Id)* -> ^(MODULEID Id*);
+moduleid 	
+	:	testid (NL? PERIOD NL? testid)* -> ^(MODULEID testid*);
 
 st_module
 	:	L_module NL? moduleid block L_end -> ^(L_module moduleid block);
 	
 importprefix
-	:	Id (NL? PERIOD NL? Id)* -> ^(IMPORT_PREFIX Id*);	
+	:	testid (NL? PERIOD NL? testid)* -> ^(IMPORT_PREFIX testid*);	
 	
 importall
 	:	UNDERSCORE -> ^(IMPORT_ALL);
 	
 importsetclause
-	:	Id (NL? token_DOUBLE_ARROW (NL? Id)?)? -> ^(IMPORT_PLUS Id*)
-	|	'-' NL? Id -> ^(IMPORT_MINUS Id*);
+	:	testid (NL? token_DOUBLE_ARROW (NL? Id)?)? -> ^(IMPORT_PLUS testid Id?)
+	|	'-' NL? testid -> ^(IMPORT_MINUS testid)
+	|	importall;
 	
 importset
 	:	'{' NL? importsetclause (NL? ',' NL? importsetclause)* NL? '}' -> ^(IMPORT_SET importsetclause*);
@@ -593,7 +602,7 @@ full_cases
 	:	case_expr+ -> ^(CASES case_expr+);	
 
 case_expr
-	:	(L_case NL? pattern NL? token_DOUBLE_ARROW block) -> ^(NIL_TOKEN pattern block);
+	:	(L_case NL? casepattern NL? token_DOUBLE_ARROW block) -> ^(NIL_TOKEN casepattern block);
 	
 match_expr
 	:	L_match NL? p_op_expr NL? full_cases L_end 
@@ -612,7 +621,7 @@ lambda_cases_nobrackets
 	:	pattern NL? token_DOUBLE_ARROW NL? lop_expr -> ^(CASES ^(NIL_TOKEN pattern ^(BLOCK lop_expr)));
 
 lambda_case_expr
-	:	(L_case NL? pattern NL? token_DOUBLE_ARROW NL? pure_block) -> ^(NIL_TOKEN pattern pure_block);
+	:	(L_case NL? casepattern NL? token_DOUBLE_ARROW NL? pure_block) -> ^(NIL_TOKEN casepattern pure_block);
 
 lambda_cases 
 	:	pattern NL? token_DOUBLE_ARROW NL? pure_block -> ^(CASES ^(NIL_TOKEN pattern pure_block))
