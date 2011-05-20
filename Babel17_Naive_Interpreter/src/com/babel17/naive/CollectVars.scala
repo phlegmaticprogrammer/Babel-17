@@ -271,10 +271,7 @@ object CollectVars {
       case SEObj(b, _) =>
         collectVars(b)
         term.freeVars = b.freeVars
-      case SModuleDef(path, b) =>
-        collectVars(b)
-        term.freeVars = b.freeVars
-      case TempModuleDef(path, b) =>
+      case SModule(path, b) =>
         collectVars(b)
         term.freeVars = b.freeVars
       case SImport(path, id) =>
@@ -311,6 +308,9 @@ object CollectVars {
       case SEForce(se, _) => List(se)
       case SEConcurrent(se) => List(se)
       case SEException(se) => List(se)
+      case SERelate(u, v) => List(u, v)
+      case SEConvert(u, Right(v)) => List(u, v)
+      case SEConvert(u, _) => List(u)
       case _ => List()
     }
   }

@@ -121,13 +121,13 @@ object Program {
   case class SAssign(pat : Pattern, e : Expression) extends Statement
   case class SValRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
   case class SAssignRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
+  case class SModule(path : Path, b : Block) extends Statement
   case class SDef0(memoize : MemoType, visibility : Visibility,
                    id : Id, e : Expression, returnType : Type) extends Def
   case class SDef1(memoize : MemoType, visibility : Visibility,
                    id : Id, branches : List[(Pattern, Expression, Type)]) extends Def
   case class STypeDef(memoize : MemoType, visibility : Visibility,
                       id : Id, branches : List[(Pattern, Option[Expression])]) extends Def
-  case class SModuleDef(path : Path, b : Block) extends Def
   case class SConversionDef(returnType : Path, e : Expression) extends Def
   case class SImport(path : Path, id : Id) extends Statement
   case class SDefs(defs : List[Def]) extends Statement
@@ -147,7 +147,6 @@ object Program {
   case class TempMemoize(memos : List[(MemoType, Id)]) extends TemporaryStatement
   case class TempPrivate(visibilities : List[(Visibility, Id)]) extends TemporaryStatement
   case class TempImport(prefix : Path, plusAll: Boolean, plus:List[(Id, Id)], minus:List[Id]) extends TemporaryStatement
-  case class TempModuleDef(path : Path, b : Block) extends TemporaryStatement
   case class TempConversionDef(returnType : Path, e : Expression) extends TemporaryStatement
    
   abstract class Expression extends Term
@@ -157,11 +156,11 @@ object Program {
 
   abstract class SimpleExpression extends Term
   case class SEInt(value: BigInt) extends SimpleExpression
+  case class SEFloat(mantissa: BigInt, exponent: BigInt) extends SimpleExpression
   case class SEBool(value: Boolean) extends SimpleExpression
   case class SEString(value: String) extends SimpleExpression
   case class SEId(id: Id) extends SimpleExpression
   case class SEConstr(c: Constr, param: SimpleExpression) extends SimpleExpression
-  case class SEInfinity(positive: Boolean) extends SimpleExpression
   case class SEThis() extends SimpleExpression
   case class SEExpr(se: Expression) extends SimpleExpression
   case class SEOr(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
@@ -180,6 +179,8 @@ object Program {
   case class SEMessageSend(target: SimpleExpression, m : Message) extends SimpleExpression
   case class SEApply(f : SimpleExpression, x : SimpleExpression) extends SimpleExpression
   case class SECompare(operands : List[SimpleExpression], operators : List[CompareOp]) extends SimpleExpression
+  case class SERelate(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
+  case class SEConvert(u : SimpleExpression, ty: Either[Path, SimpleExpression]) extends SimpleExpression
   case class SELazy(u : SimpleExpression) extends SimpleExpression
   case class SERandom(u : SimpleExpression) extends SimpleExpression
   case class SEConcurrent(u : SimpleExpression) extends SimpleExpression

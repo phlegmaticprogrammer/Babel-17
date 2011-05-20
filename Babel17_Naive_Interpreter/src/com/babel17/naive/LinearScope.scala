@@ -137,7 +137,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
         }
         env2
       case STypeDef(_, _, id, branches) =>
-        if ((st_flags & MODULE_STATEMENT) == 0) error(st.location, "typedefs live in modules only")
+        if ((st_flags & MODULE_STATEMENT) == 0) error(id.location, "typedefs live in modules only")
         val env2 = env.define(id)
         for ((pat, e) <- branches) {
           var env3 = check_p(env2.freezeThaw(), pat, false)
@@ -181,10 +181,11 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SBlock(b) => 
         check_b(env, b, 0)
         env
-      case SModuleDef(path, b) =>
-        if ((st_flags & (TOPLEVEL_STATEMENT + MODULE_STATEMENT)) == 0)
-          error(st.location, "module statement must appear at toplevel or directly as a statement in another module definition")
-        check_b(env.freezeThaw, b, MODULE_STATEMENT)
+      case SModule(path, b) =>
+        val toplevel = st_flags & TOPLEVEL_STATEMENT
+        if (toplevel == 0)
+          error(path.location, "module statement must appear only at toplevel")
+        check_b(emptyEnv(), b, MODULE_STATEMENT)
         env
       case SIf(cond, yes, no) =>
         check_simple(env.freeze(), cond)

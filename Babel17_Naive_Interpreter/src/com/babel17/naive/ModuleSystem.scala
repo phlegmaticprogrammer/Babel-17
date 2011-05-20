@@ -121,21 +121,14 @@ object ModuleSystem extends ErrorProducer {
           l = l ++ scanForModules(currentPath, st)
         }
         l
-      case SDefs(defs) =>
-        var l : List[ModuleDescr] = List()
-        for (st <- defs) {
-          l = l ++ scanForModules(currentPath, st)
-        }
-        l
-      case TempModuleDef(modPath, block) =>
+      case SModule(modPath, block) =>
         val defIds = CollectVars.collectDefIds(block.statements)
         val publicTypeIds = CollectVars.collectTypeIds(block.statements)
         val publicDefIds = CollectVars.filterPublicIds(block.statements, defIds)
         val executable = CollectVars.isExecutable(block.statements)
         val path = currentPath.append(modPath)
         path.location = modPath.location
-        (ModuleDescr(path, publicTypeIds, publicDefIds, executable))::
-        (scanForModules(path, block))
+        List(ModuleDescr(path, publicTypeIds, publicDefIds, executable))
       case _ =>
         List()       
     }

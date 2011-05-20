@@ -335,7 +335,6 @@ class Evaluator(val maxNumThreads : Int) {
       case SEInt(u) => IntegerValue(u)
       case SEBool(b) => BooleanValue(b)
       case SEString(u) => StringValue(u)
-      case SEInfinity(p) => InfinityValue(p)
       case SEConstr(constr, se) => 
         val v = evalSE(env, se)
         if (v.isDynamicException) v

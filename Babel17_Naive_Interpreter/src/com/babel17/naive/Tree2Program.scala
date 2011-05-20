@@ -122,15 +122,29 @@ class Tree2Program extends ErrorProducer {
       case OR => SEOr(left(), right())
       case AND => SEAnd(left(), right())
       case CONS => SECons(left(), right())
+      case RELATE => SERelate(left(), right())
+      case CONVERT =>
+        rightNode match {
+          case t: TypeIdNode =>
+            SEConvert(left(), Left(buildTypePath(t)))
+          case t =>
+            SEConvert(left(), Right(right()))
+        }
       case x => throwInternalError(op.location, "buildBinaryOperation: "+x)
     }
   }
 
-  def buildType(n : Node) : Type = {
+  def buildTypePath(n : Node) : Path = {
     val tn : TypeIdNode = n.asInstanceOf[TypeIdNode]
     val ids = toList(tn.ids).map(x => build(x).asInstanceOf[Id])
     val p = Path(ids)
     p.setLocation(n.location)
+    p
+  }
+
+
+  def buildType(n : Node) : Type = {
+    val p = buildTypePath(n)
     val t = TypeSome(p)
     t.setLocation(n.location)
     t
@@ -173,7 +187,6 @@ class Tree2Program extends ErrorProducer {
   def buildNullary(n : NullaryNode) : Locatable = {
     import OperatorNode._
     val result : Locatable = n.operator().operator match {
-      case INFINITY => SEInfinity(true)
       case TRUE => SEBool(true)
       case FALSE => SEBool(false)
       case THIS => SEThis()
@@ -512,6 +525,8 @@ class Tree2Program extends ErrorProducer {
         Block(l.map(buildStatement).toList)
       case n : IntegerNode =>
         SEInt(new BigInt(n.value()))
+      case n : FloatNode =>
+        SEFloat(new BigInt(n.mantissa()), new BigInt(n.exponent()))
       case n : StringNode =>
         SEString(n.value)
       case n : MessageNode =>
@@ -582,7 +597,7 @@ class Tree2Program extends ErrorProducer {
           ids = ids + i
         }
         path.location = nodes.location
-        TempModuleDef(path, buildBlock(n.block))
+        SModule(path, buildBlock(n.block))
       }
       case n : ForNode =>
         SFor(buildProperPattern(n.pattern), buildSimpleExpression(n.collection),
@@ -656,15 +671,10 @@ class Tree2Program extends ErrorProducer {
         val clauses = toList(n.clauses).map(buildClause _)
         TempTypeDef(id, clauses)
       case n : ConversionNode =>
-        val ty = buildType(n.returnType)
         val e = buildExpression(n.expr)
-        ty match {
-          case TypeNone() =>
-            error(n.location, "invalid conversion type")
-            SBlock(Block(List()))
-          case TypeSome(t) =>
-            TempConversionDef(t, e)
-        }
+        TempConversionDef(buildTypePath(n.returnType), e)
+      case n : TypeExprNode =>
+        SETypeExpr(buildTypePath(n.typeId))
       case n : ListNode =>
         val ses = toList(n.elements).map(buildSimpleExpression _)
         if (n.isVector)

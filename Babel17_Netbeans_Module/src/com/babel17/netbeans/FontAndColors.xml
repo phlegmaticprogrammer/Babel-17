@@ -19,9 +19,13 @@
       <font style="italic"/>
     </fontcolor>
 
+    <fontcolor name="unittest" default="keyword" foreColor="black" underline="black">
+        <font style="plain"/>
+    </fontcolor>
 
-    <fontcolor name="operator" default="operator" foreColor="black">
-      <font style="plain"/>
+
+    <fontcolor name="operator" default="operator" foreColor="99034E">
+      <font style="bold"/>
     </fontcolor>
 
     <fontcolor name="boolean" default="number" foreColor="blue">
@@ -58,7 +62,6 @@
     <fontcolor name="symbol_not_equal" default="math"/>
     <fontcolor name="symbol_less_eq" default="math"/>
     <fontcolor name="symbol_greater_eq" default="math"/>
-    <fontcolor name="symbol_infinity" default="math" foreColor="blue"/>
     <fontcolor name="symbol_and" default="math"/>
     <fontcolor name="symbol_or" default="math"/>
     <fontcolor name="symbol_not" default="math"/>

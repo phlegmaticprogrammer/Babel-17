@@ -19,6 +19,7 @@ object Interpreter {
     var charstream: CharStream = new ANTLRReaderStream(reader)
     val result = Parser.parse(source, charstream)
     val checker = new Tree2Program()
+    checker.source = source
     val term = checker.buildProgram(result)
     val errors = checker.errors
     val a : java.util.ArrayList[ErrorMessage] = new java.util.ArrayList(errors.length)

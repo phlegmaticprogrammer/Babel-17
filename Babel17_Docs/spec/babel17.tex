@@ -31,7 +31,7 @@
 \newenvironment{babelcode}[0]{\begin{center}\tt}{\end{center}}
 
 \lstdefinelanguage{babellanguage} 
-{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch},
+{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch,private,import,module,unittest,typedef,typeof},
 sensitive=true, 
 morecomment=[l]{//}, 
 morecomment=[s]{/*}{*/}, 
@@ -82,7 +82,7 @@ I always wanted a programming language
 \item that has a simple mechanized formal semantics,
 \item that is beautiful.
 \end{itemize}
-There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will have been achieved. The version described in this document is Babel-17 v0.21.1, so there is still some distance to go. 
+There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will (mostly) have been achieved. The version described in this document is Babel-17 v0.3, so there is still some distance to go. 
 
 Babel-17 is not a radically new or revolutionary programming language. It picks those raisins I like out of languages like Standard ML, Scala, Alice ML, Java, Javascript, Erlang, Haskell, Lisp, Clojure and Mathematica, and tries to evolve them into a beautiful new design. 
 
@@ -100,9 +100,9 @@ Furthermore, Babel-17 establishes the paradigm of \emph{purely functional struct
 
 In this document  I specify Babel-17 in a mostly informal style: formal notation is sometimes used when it supports clarity.
 
-\section{Reference Implementation and Bug Parade}
+\section{Reference Implementation}
 
-At \url{http://github.com/phlegmaticprogrammer/Babel-17/wiki} you will find a reference implementation of Babel-17 v0.21 that fully supports the language as described in this document. There you will also find a Netbeans plugin that has syntax and error-highlighting for Babel-17 programs. As you find your way through this document, it might be helpful to directly try out Babel-17 in Netbeans to see if the interpreter behaves as you would guess from this spec. 
+At \url{http://babel-17.com} you will find a reference implementation of Babel-17 v0.3 that fully supports the language as described in this document. There you will also find a Netbeans plugin that has syntax and error-highlighting for Babel-17 programs. As you find your way through this document, it might be helpful to directly try out Babel-17 in Netbeans to see if the interpreter behaves as you would guess from this spec. 
 %If you find implausible behavior, email your findings to \texttt{bugparade@babel-17.com}. Each proper bug will be listed together with your name (unless you don't wish so; then don't give your name in the email; it's also OK not to give your real name but an alias) and date of your discovery forever at \texttt{babel-17.com}. You can also provide a link to your blog or whatever. There will also be a high-score of who submitted the most bugs.
 
 \section{Lexical Matters}
@@ -120,19 +120,26 @@ begin & end & object & with & if & then & else & elseif \\
 while &  for & do & choose & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
 to & downto & true & false & nil & infinity &  force & this \\
-try & catch &  &  &  &  &   & 
+try & catch &  typedef &  typeof &  module &  private &  import & unittest  
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
 
-You can write down decimal, hexadecimal, binary and octal numbers in Babel-17. The following notations all denote the same number:
+You can write down decimal, hexadecimal, binary and octal integers in Babel-17. The following notations all denote the same integer:
 \begin{center}
 \tt
 \begin{tabular}{cccc}
 15 & 0xF & 0b1111 &  0o17
 \end{tabular}
 \end{center}
-Babel-17 also knows the number \babelsrc{infinity}.
+
+There is also a decimal syntax for floating point numbers in Babel-17:
+\begin{center}
+\tt
+\begin{tabular}{ccccc}
+15.0 & 1.5E1 & 1.5E+1 &  150E-1 & 15e0
+\end{tabular}
+\end{center}
 
 Strings start and end with a quotation mark. Between the quotation mark, any valid UTF-8 string is allowed that does not contain newline, backslash or quotation mark characters, for example:
 \begin{center}
@@ -152,7 +159,10 @@ String consisting only of line feed via 32-bit escaping & \verb+"\U0000000A"+
 \end{tabular}
 \end{center}
 
-Comments in Babel-17 are written between matching pairs of \verb+/*+ and \verb+*/+ and can span several lines. Currently, comments cannot be nested.
+Multi-line comments in Babel-17 are written between matching pairs of \verb+#(+ and \verb+)#+ and can span several lines. 
+Single-line comments start with \verb+##+. 
+
+\emph{Pragmas} start with \verb+#+, just like comments. There are the following pragmas: \verb+#assert+, \verb+#log+, \verb+#print+, \verb+#profile+. 
 
 Finally, here are all ASCII special symbols that can occur in a Babel-17 program:
 \newcommand{\mapcurlyleft}{\{|}
@@ -163,7 +173,7 @@ Finally, here are all ASCII special symbols that can occur in a Babel-17 program
 \verb-+- & \verb+-+ & \verb+*+ & \verb+/+ & \verb+^+ & \verb+;+  \\
 \verb-|- & \verb+&+ & \verb+!+ & \verb-++- & \verb+--+& \verb+**+  &
 \verb-//- & \verb+,+ & \verb+::+ & \verb+->+ & \verb+=>+& \verb+?+  & \verb+...+  \\
-\verb-(- & \verb+)+ & \verb+[+ & \verb+]+ & \verb+{+& \verb+}+  & \verb+.+ &   &
+\verb-(- & \verb+)+ & \verb+[+ & \verb+]+ & \verb+{+& \verb+}+  & \verb+.+ &  \verb+:+ &
 & & & 
 \end{tabular}
 \end{center}
@@ -178,7 +188,7 @@ Table~\ref{table:furthersymbols} lists all other Unicode symbols that have a mea
 2262 & ≢ & \verb+!=+\\
 2264 & ≤ & \verb+<=+\\
 2265 &  ≥ & \verb+>=+\\
-221E & ∞ & \babelsrc{infinity}\\ 
+%221E & ∞ & \babelsrc{infinity}\\ 
 2227 & ∧ & \verb+&+\\
 2228 & ∨ & \verb+|+\\
 00AC & ¬ & \verb+!+\\
@@ -195,26 +205,31 @@ Table~\ref{table:furthersymbols} lists all other Unicode symbols that have a mea
 Each value in Babel-17 has a unique type. All built-in types are depicted in Table~\ref{table:builtintypes}.
 \begin{table}
 \caption{Built-in Types of Babel-17}
-\begin{tabular}{c|c}
-\textbf{Type} & \textbf{Description}\\\hline
-\metababel {Integer} & the type of arbitrary size integer numbers\\
-\metababel{Infinity} & the type consisting of the values \babelsrc{infinity} and \babelsrc{-infinity}\\
-\metababel{Boolean} & the type consisting of the values \babelsrc{true} and \babelsrc{false}\\
-\metababel{String} & the type of valid Unicode strings\\
-\metababel{List} & the type of lists\\
-\metababel{Vector} & the type of vectors / tuples\\
-\metababel{Set} & the type of sets \\
-\metababel{Map}& the type of maps \\
-\metababel{CExpr} & the type of constructed expressions\\
-\metababel{Object} & the type of user-defined objects\\
-\metababel{Function} & the type of  functions\\
-\metababel{PersistentException} & the type of persistent exceptions\\
-\metababel{DynamicException} & the type of dynamic exceptions\\
+\begin{tabular}{c|c|c}
+\textbf{Name} & \textbf{Type} & \textbf{Description}\\\hline
+\metababel {Integer} & \verb+int+ & the type of arbitrary size integer numbers\\
+\metababel {Real} & \verb+real+ & the type of real numbers\\
+\metababel{Infinity} &\verb+inf+ & the type consisting of the values \babelsrc{infinity} and \babelsrc{-infinity}\\
+\metababel{Boolean} & \verb+bool+ &  the type consisting of the values \babelsrc{true} and \babelsrc{false}\\
+\metababel{String} & \verb+string+ &  the type of valid Unicode strings\\
+\metababel{List} & \verb+list+&  the type of lists\\
+\metababel{Vector} & \verb+vect+ &  the type of vectors / tuples\\
+\metababel{Set} & \verb+set+ &  the type of sets \\
+\metababel{Map}& \verb+map+ &  the type of maps \\
+\metababel{CExpr} & \verb+cexpr+ &  the type of constructed expressions\\
+\metababel{Object} & \verb+obj+ &  the type of user-defined objects\\
+\metababel{Function} & \verb+fun+ &  the type of  functions\\
+\metababel{PersistentException} & \verb+exc+ &  the type of persistent exceptions\\
+\metababel{DynamicException} & &  the type of dynamic exceptions\\
+\metababel{Type} &  \verb+type+ &  the type of types\\
 \end{tabular}
 \label{table:builtintypes}
 \end{table}
-There is currently no way to explicitly test the type of a value. There is also currently no way to annotate the type of a variable.
-Future versions of Babel-17 will include such capabilities.
+Often we use the name of a type to refer to this type in this specification, but the representation of it in actual Babel-17 is given in the type column. You can obtain the type for any value except for \metababel{DynamicExceptions} via \babelsrc{typeof}, for example will
+\begin{babellisting}
+typeof "hello"
+\end{babellisting}
+return the result \verb+string+.
 
 \section{Objects and Functions}
 All values in Babel-17 are objects. This means that you can send messages to them. Many values in Babel-17 are functions. This means that you can apply them to an argument, yielding another value. Note that for a value to be an object, it does not need to have type \metababel{Object}, and for a value to be a function,  it does not need to have type \metababel{Function}. 
@@ -265,7 +280,7 @@ concurrent (\metababel{Exception $v$}) & $\leadsto$ & \metababel{PersistentExcep
 force $v$  & $\leadsto$ & $v$  {\rm for all $v$, including exceptions}
 \end{tabular}\\
 \end{babelcode}
-Exceptions in Babel-17 are created with the expression \babelsrc{exception $\ v$}. Creating exceptions in Babel-17 corresponds to \emph{raising} or \emph{throwing} exceptions in other languages. There is no special construct for catching exceptions in Babel-17. Instead, catching an exception can be done via the \babelsrc{match} expression which will be described later. 
+Exceptions in Babel-17 are created with the expression \babelsrc{exception $\ v$}. Creating exceptions in Babel-17 corresponds to \emph{raising} or \emph{throwing} exceptions in other languages. Catching an exception can be done via \babelsrc{match} or via \babelsrc{try-catch}. Both constructs will be described later.
 
 In the next section, we will describe the  \babelsrc{lazy} and \babelsrc{concurrent} expressions of Babel-17. They are the reason why exceptions are divided into dynamic and persistent ones. 
 
@@ -322,7 +337,7 @@ The expression
 denotes a  \emph{vector} of $n$ elements, at least for $n \neq 1$. 
 For $n=1$, there is a problem with notation, though, because \babelsrc{($e$)}  is equivalent to $e$. Therefore there is the special notation \babelsrc{($e$,)} for vectors which consist of only one element.
 
-The only difference between lists and vectors is that they have different performance characteristics for the possible operations on them. Lists behave like simply linked lists, and vectors behave like arrays. Note that all data structures in Babel-17 are immutable. Apart from performance characteristics, anywhere you can use a list, you can use a vector, and vice versa. 
+The difference between lists and vectors is that they have different performance characteristics for the possible operations on them. Lists behave like simply linked lists, and vectors behave like arrays. Note that all data structures in Babel-17 are immutable. 
 
 Another way of writing down lists is via the right-associative \babelsrc{::} constructor:
 \begin{babellisting}
@@ -381,11 +396,10 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{($p$)} & \patterndescr{same as $p$} \\\hline
 \babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches any non-exceptional value that matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
 \babelsrc{(val $\ e$)} & \patterndescr{matches any non-exceptional  value which is equivalent to $e$}\\\hline
-\babelsrc{($f\ $ ? $\ p$)} & \patterndescr{here $f$ is a function; $f$ is applied to the value to be matched; the match succeeds if the result of the application is not an exception and matches $p$}\\\hline
-\babelsrc{($d\ $ ? $\ p$)} & \patterndescr{here $d$ is a not a function and not an exception;   short for \babelsrc{((v => v.deconstruct_ $\ d$) ? $\ p$)}}\\\hline
+\babelsrc{($f\ $ ? $\ p$)} & \patterndescr{$f$ is applied to the value to be matched; the match succeeds if the result of the application matches $p$}\\\hline
 \babelsrc{($e\ $ ?)} & \patterndescr{short for \babelsrc{($e\ $ ? true)} }\\\hline
-\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches an object that has exactly the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
-\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$, $\ \delta$\}} & \patterndescr{matches an object that has the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
+\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches a value of type \texttt{obj} that has exactly the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
+\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$, $\ \delta$\}} & \patterndescr{matches a value of type \texttt{obj} that has the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
 \babelsrc{nil} & \patterndescr{matches the empty object}\\\hline
 \babelsrc{exception} $p$ & \patterndescr{matches any exception such that its parameter matches $p$}
 \end{tabular}

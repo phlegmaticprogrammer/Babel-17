@@ -105,6 +105,7 @@ public class Parser {
   }
 
   private Node leftassocBinary(NodeList l, int op) {
+    if (l.empty()) return BeginNode.empty();
     Node result = l.head();
     for (Node n : l.tail()) {
       result = new BinaryNode(new OperatorNode(op),
@@ -318,6 +319,10 @@ public class Parser {
           return toBinaryNode(tree, OperatorNode.DIV);
         case babel17Parser.L_mod:
           return toBinaryNode(tree, OperatorNode.MOD);
+        case babel17Parser.RELATE:
+          return leftassocBinary(toNodeList(tree).suppressErrors(), OperatorNode.RELATE);
+        case babel17Parser.CONVERT:
+          return leftassocBinary(toNodeList(tree).suppressErrors(), OperatorNode.CONVERT);
         case babel17Parser.A_EQUAL:
         case babel17Parser.U_EQUAL:
           return new OperatorNode(OperatorNode.EQUAL);
@@ -334,10 +339,10 @@ public class Parser {
         case babel17Parser.A_LESS_EQ:
         case babel17Parser.U_LESS_EQ:
           return new OperatorNode(OperatorNode.LESS_EQ);
-        case babel17Parser.A_infinity:
-        case babel17Parser.U_infinity:
-          return new NullaryNode(new OperatorNode(
-                  OperatorNode.INFINITY));
+        case babel17Parser.Float: {
+          java.math.BigInteger[] r = ConstParser.decimalFloat(tree.getText());
+          return new FloatNode(r[0], r[1]).mergeLocation(loc);
+        }
         case babel17Parser.Num:
           return new IntegerNode(ConstParser.num(tree.getText())).mergeLocation(loc);
         case babel17Parser.String: {
@@ -458,6 +463,9 @@ public class Parser {
             NodeList children = toNodeList(tree);
             return new TypeIdNode(children).mergeLocation(loc);
         }
+        case babel17Parser.TYPEVAL: {
+            return toNode(tree.getChild(0)).mergeLocation(loc);
+        }
         case babel17Parser.MODULEID: {
             NodeList children = toNodeList(tree);
             return new ModuleIdNode(children).mergeLocation(loc);
@@ -510,6 +518,13 @@ public class Parser {
         case babel17Parser.L_module: {
             ModuleIdNode m = (ModuleIdNode) toNode(tree.getChild(0));
             BlockNode b = toNode(tree.getChild(1)).toBlock();
+            if (tree.getChildCount() > 2) {
+                IdentifierNode id = new IdentifierNode("unittest");
+                id.mergeLocation(getLocation(tree.getChild(2)));
+                BlockNode rightSide = toNode(tree.getChild(3)).toBlock();
+                Node u = new DefNode(id, null, rightSide, null).mergeLocation(loc).mergeLocation();
+                b = (BlockNode) new BlockNode(b.statements().reverse().cons(u).reverse()).mergeLocation().mergeLocation(b.location());
+            }
             return (new ModuleNode(m, b)).mergeLocation(loc);
         }
         case babel17Parser.IF: {
@@ -729,9 +744,6 @@ public class Parser {
           return (PatternNode) new RecordPattern(new NodeList()).mergeLocation(loc);
         case babel17Parser.L_false:
           return (PatternNode) new NullaryPattern(NullaryPattern.FALSE).mergeLocation(loc);
-        case babel17Parser.A_infinity:
-        case babel17Parser.U_infinity:
-          return (PatternNode) new NullaryPattern(NullaryPattern.INFINITY).mergeLocation(loc);
         case babel17Parser.UMINUS: {
           PatternNode p = toPattern(tree.getChild(0));
           if (p instanceof IntegerPattern) {
@@ -756,7 +768,7 @@ public class Parser {
         case babel17Parser.TYPE_PATTERN: {
           Tree ann = tree.getChild(0);
           Node typeAnnotation = null;
-          if (ann.getType() == babel17Parser.L_val)
+          if (ann.getType() == babel17Parser.TYPEVAL)
               typeAnnotation = toNode(ann.getChild(0));
           else
               typeAnnotation = toNode(ann);

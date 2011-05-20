@@ -48,9 +48,10 @@ public final class OperatorNode extends Node {
   public final static int LAZY = 33;
   public final static int CONCURRENT = 34;
 
-  public final static int INFINITY = 37;
-
   public final static int TYPEOF = 40;
+
+  public final static int CONVERT = 41;
+  public final static int RELATE = 42;
 
 
   public OperatorNode(int operator) {

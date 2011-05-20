@@ -44,7 +44,7 @@ public enum TokenType {
   TYPEOF(babel17Lexer.L_typeof),
   PRIVATE(babel17Lexer.L_private),
   IMPORT(babel17Lexer.L_import),
-  UNITTEST(babel17Lexer.L_unittest),
+  UNITTEST(babel17Lexer.L_unittest, "unittest"),
 
   COLON(babel17Lexer.COLON, "keyword"),
 
@@ -84,6 +84,8 @@ public enum TokenType {
   PERIOD(babel17Lexer.PERIOD, "operator"),
   QUESTION_MARK(babel17Lexer.QUESTION_MARK, "operator"),
   UNDERSCORE(babel17Lexer.UNDERSCORE, "operator"),
+  RELATE(babel17Lexer.TOK_RELATE, "operator"),
+  CONVERT(babel17Lexer.TOK_CONVERT, "operator"),
 
   SC(babel17Lexer.SC, "separator"),
   COMMA(babel17Lexer.COMMA, "separator"),
@@ -95,12 +97,11 @@ public enum TokenType {
   CONSTR(babel17Lexer.Constr, "constructor"),
   ID(babel17Lexer.Id, "identifier"),
   NUM(babel17Lexer.Num, "number"),
+  FLOAT(babel17Lexer.Float, "number"),
   STRING(babel17Lexer.String, "string"),
   TRUE(babel17Lexer.L_true, "boolean"),
   FALSE(babel17Lexer.L_false, "boolean"),
   NIL(babel17Lexer.L_nil, "nil"),
-  A_INFINITY(babel17Lexer.A_infinity, "number"),
-  U_INFINITY(babel17Lexer.U_infinity, "symbol_infinity"),
 
   ROUND_BRACKET_OPEN(babel17Lexer.ROUND_BRACKET_OPEN, "bracket"),
   ROUND_BRACKET_CLOSE(babel17Lexer.ROUND_BRACKET_CLOSE, "bracket"),

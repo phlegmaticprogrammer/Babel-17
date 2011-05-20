@@ -80,10 +80,13 @@ IF_PATTERN;
 TYPE_PATTERN;
 INNERVALUE_PATTERN;
 TYPEID;
+TYPEVAL;
 MODULEID;
 TYPE_EXPR;
 TYPEOF;
 CONVERSION;
+CONVERT;
+RELATE;
 
 IMPORT_PREFIX;
 IMPORT_ALL;
@@ -190,12 +193,12 @@ L_downto
 L_try	:	'try';
 L_catch	:	'catch';
 	
-A_infinity 
+/*A_infinity 
 	:	'infinity';	
 U_infinity
 	:	'\u221E';	
 token_infinity
-	:	A_infinity | U_infinity;
+	:	A_infinity | U_infinity;*/
 	
 L_concurrent
 	:	'concurrent';
@@ -277,6 +280,11 @@ MINUS	:	'-';
 TIMES	:	'*';
 QUOTIENT:	'/' ;
 POW_tok	:	'^';
+
+TOK_RELATE	
+	:	'~';
+TOK_CONVERT	
+	:	':>';
 	
 A_OR	:	'|';
 A_AND	:	'&';
@@ -345,6 +353,11 @@ Constr 	:	BigLetter (Letter | Digit | '_')*;
 
 Id	: 	SmallLetter (Letter | Digit | '_')*;
 
+fragment
+Exponent:	('E' | 'e') ('+' | '-')? Digit+;
+
+Float	:	(Digit+ '.' Digit+ Exponent?) | (Digit+ Exponent);
+
 Num	:	Digit+ 
 	|	'0x' Hex+
 	|       '0b' ('0' | '1')+
@@ -398,7 +411,7 @@ typeid 	:	Id (NL? PERIOD NL? Id)* -> ^(TYPEID Id*);
 
 typeannotation
 	:	typeid
-	|	L_val NL? protected_expr_nc -> ^(L_val protected_expr_nc);
+	|	'(' protected_expr ')' -> ^(TYPEVAL protected_expr);
 
 
 pattern :	Constr (NL? pattern)? -> ^(Constr pattern?)
@@ -444,8 +457,8 @@ primitive_pattern
 	|	L_true
 	|	L_false
 	|	L_nil
-	|	token_infinity
-	|	'-' NL? token_infinity -> ^(UMINUS token_infinity)
+	/*|	token_infinity
+	|	'-' NL? token_infinity -> ^(UMINUS token_infinity)*/
 	|	'-' NL? Num -> ^(UMINUS Num)
 	|	'['  NL? (bracket_pattern NL? ( COMMA NL? bracket_pattern NL?)* )? ']' 
 	 	  -> ^(SQUARE_LIST bracket_pattern*)
@@ -518,7 +531,7 @@ moduleid
 	:	testid (NL? PERIOD NL? testid)* -> ^(MODULEID testid*);
 
 st_module
-	:	L_module NL? moduleid block L_end -> ^(L_module moduleid block);
+	:	L_module NL? moduleid block (L_unittest block)? L_end -> ^(L_module moduleid block L_unittest? block?);
 	
 importprefix
 	:	testid (NL? PERIOD NL? testid)* -> ^(IMPORT_PREFIX testid*);	
@@ -668,19 +681,28 @@ p_bool_not_expr
 	:	token_NOT^ NL!? p_bool_not_expr
 	|	p_rel_expr;
 
+
 rel_expr
-	:	arith_expr (NL? rel_op NL? arith_expr)* -> ^(COMPARE arith_expr (rel_op arith_expr)*);
+	:	relate_expr (NL? rel_op NL? relate_expr)* -> ^(COMPARE relate_expr (rel_op relate_expr)*);
 	
 p_rel_expr
-	:	p_arith_expr (NL? rel_op NL? p_arith_expr)* -> ^(COMPARE p_arith_expr (rel_op p_arith_expr)*);
+	:	p_relate_expr (NL? rel_op NL? p_relate_expr)* -> ^(COMPARE p_relate_expr (rel_op p_relate_expr)*);
 
 
 rel_op	:	token_EQUAL | token_NOT_EQUAL | GREATER | token_GREATER_EQ | LESS | token_LESS_EQ;
 	 
+relate_expr:	convert_expr (NL? TOK_RELATE NL? convert_expr)? -> ^(RELATE convert_expr*);	
+
+p_relate_expr:	p_convert_expr (NL? TOK_RELATE NL? p_convert_expr)? -> ^(RELATE p_convert_expr*);	
+
+convert_expr
+	:	arith_expr (NL? TOK_CONVERT NL? typeannotation)? -> ^(CONVERT arith_expr typeannotation?);
+
+p_convert_expr
+	:	p_arith_expr (NL? TOK_CONVERT NL? typeannotation)? -> ^(CONVERT p_arith_expr typeannotation?);
 
 arith_expr
 	:	plusplus_expr;
-
 
 p_arith_expr
 	:	p_plusplus_expr;
@@ -772,6 +794,7 @@ type_expr
 
 primitive_expr
 	:	Num
+	|	Float
 	|	String
 	|	Id
 	|	Constr
@@ -780,7 +803,6 @@ primitive_expr
 	|	L_this	
 	|	L_nil
 	|	type_expr
-	|	token_infinity
 	| 	list_expr
 	|	with_control_expr
 	|	map_or_set_expr;

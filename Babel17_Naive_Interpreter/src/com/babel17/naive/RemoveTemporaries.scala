@@ -21,19 +21,28 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
   }
 
   def emptyModuleEnv : ModuleEnv = {
-    ModuleEnv(Path(List()), Imports(SortedMap(), SortedMap(), SortedMap()))
+    ModuleEnv(Path(List()), Imports(SortedMap(), SortedMap(), SortedMap()), false)
   }
 
-  case class ModuleEnv(local : Path, imports : Imports) {
+  case class ModuleEnv(local : Path, imports : Imports, inUnitTestDef : Boolean) {
+
+
+    def unittest : Boolean = {
+      local.unittest || inUnitTestDef;
+    }
 
     def inModule : Boolean = local.length != 0
 
     def addImports(newImports : Imports) : ModuleEnv = {
-      ModuleEnv(local, imports.add(newImports))
+      ModuleEnv(local, imports.add(newImports), inUnitTestDef)
     }
 
     def addPath(path : Path) : ModuleEnv = {
-      ModuleEnv(local.append(path), imports)
+      ModuleEnv(local.append(path), imports, inUnitTestDef)
+    }
+
+    def enterUnitTestDef : ModuleEnv = {
+      if (inUnitTestDef) this else ModuleEnv(local, imports, true)
     }
 
     def resolvePath(path : Path) : Option[(Path, PackageDescr, Int)] = {
@@ -90,7 +99,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     var typeIds : SortedMap[Id, Path] = SortedMap()
     var packageIds : SortedMap[Id, Path] = SortedMap()
     var currentEnv = env
-    val isTest = env.local.unittest
+    val isTest = env.unittest
     def checkUnittest(loc:Location, path:Path) : Boolean = {
       if (!isTest && path.unittest) {
         error(loc, "cannot import unit tests from '"+path+"' into production code")
@@ -128,7 +137,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     def addModuleId(pd : PackageDescr, id : Id, path : Path) {
       if (pd.module.isDefined && pd.module.get.isType)
         addTypeId(id, path)
-      addPackageId(id, path)
+      if (id.name != "unittest") addPackageId(id, path)
     }
     def checkImport(pd : PackageDescr, x : Id) {
       pd.find(Path(List(x))) match {
@@ -180,10 +189,18 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
                   if (pd.module.isDefined) {
                     val mod = pd.module.get
                     for (m <- mod.messages) {
-                      if (plusmap.contains(m))
-                        addDefId(plusmap(m), resolvedPath.append(m))
-                      else if (importAll && !minusset.contains(m))
-                        addDefId(m, resolvedPath.append(m))
+                      val p = resolvedPath.append(m)
+                      if (plusmap.contains(m)) {
+                        if (checkUnittest(s.location, p)) {
+                          if (plusmap(m).name == "unittest")
+                            error(s.location, "cannot introduce identifier 'unittest' because it is a keyword")
+                          else
+                            addDefId(plusmap(m), resolvedPath.append(m))
+                        }
+                      } else if (importAll && !minusset.contains(m)) {
+                        if ((isTest || !p.unittest) && !(m.name == "unittest"))
+                          addDefId(m, resolvedPath.append(m))
+                      }
                     }
                     for (t <- mod.typeIds) {
                       if (plusmap.contains(t))
@@ -195,19 +212,6 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
               }
           }
           currentEnv = currentEnv.addImports(Imports(packageIds, defIds, typeIds))
-        case TempModuleDef(path, b) =>
-          val id = path.ids.head
-          val p = currentEnv.local.append(id)
-          moduleSystem.find(p) match {
-            case None =>
-              error(path.location, "module not found: '"+p+"'")
-            case Some(Found(pd, flags)) =>
-              if ((flags & FoundPackage) == 0)
-                error(path.location, "module not found: '"+p+"'")
-              else {
-                addModuleId(pd, id, p)
-              }
-          }
         case _ =>
       }
     }
@@ -295,6 +299,8 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
               privates = privates + (id -> vis)
           }
         case TempDef0(id, e, rt) =>
+          if (id.name == "unittest" && env.unittest)
+            error(id.location, "already part of a unittest module")
           if (defs.contains(id))
             error(id.location, "duplicate definition")
           else {
@@ -333,28 +339,6 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
             sconv.location = s.location
             sconv.stackTraceElement = Values.StackTraceElement(id.location, "type conversion to '"+ty+"'")
             defs = defs + (id -> (sconv, deps, l))
-          }
-          if (!defsFirstVal.contains(id))
-            defsFirstVal = defsFirstVal + (id -> (id, line))
-        case TempModuleDef(path, b) =>
-          val id : Id = new ModuleId(path)
-          if (defs.contains(id))
-            error(id.location, "name for submodule clashes with some definition")
-          else {
-            CollectVars.collectVars(s)
-            val deps = defIds ** s.freeVars
-            var l : Int = -1
-            for (v <- s.freeVars) {
-              if (vals.contains(v)) {
-                val x = vals(v)
-                if (x > l) l = x;
-              }
-            }
-            val p = env.local.append(path)
-            p.location = path.location
-            val smod = SModuleDef(p, b)
-            smod.location = s.location
-            defs = defs + (id -> (smod, deps, l))
           }
           if (!defsFirstVal.contains(id))
             defsFirstVal = defsFirstVal + (id -> (id, line))
@@ -553,19 +537,20 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         SValRecordUpdate(id, m, transform_expr(env, e))
       case SAssignRecordUpdate(id, m, e) =>
         SAssignRecordUpdate(id, m, transform_expr(env, e))
-      case SConversionDef(rt, e) =>
+      /*
+        case SConversionDef(rt, e) =>
         val rt2 = transform_type(env, TypeSome(rt)) match {
           case TypeNone() => Path(List())
           case TypeSome(p) => p
         }
-        SConversionDef(rt2, transform_expr(env, e))
+        SConversionDef(rt2, transform_expr(env, e)) */
       case TempConversionDef(rt, e) =>
         val rt2 = transform_type(env, TypeSome(rt)) match {
           case TypeNone() => Path(List())
           case TypeSome(p) => p
         }
         TempConversionDef(rt2, transform_expr(env, e))
-      case SDef0(memo, vis, id, e, rt) =>
+      /*case SDef0(memo, vis, id, e, rt) =>
         SDef0(memo, vis, id, transform_expr(env, e), transform_type(env, rt))
       case SDef1(memo, vis, id, branches) =>
         def f(x : (Pattern, Expression, Type)) = {
@@ -585,16 +570,13 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
               (transform_pat(env, p), Some(transform_expr(env, e)))
           }
         }
-        STypeDef(memo, vis, id, branches.map(f))
+        STypeDef(memo, vis, id, branches.map(f))  */
       case _ : SImport => term
-      case SDefs(defs) =>
-        SDefs(defs.map(x => transform_st(env, x).asInstanceOf[Def]))
-      case SModuleDef(p : Path, b : Block) =>
+      /*case SDefs(defs) =>
+        SDefs(defs.map(x => transform_st(env, x).asInstanceOf[Def]))    */
+      case SModule(p : Path, b : Block) =>
         val newEnv = env.addPath(p)
-        SModuleDef(p, transform_block(newEnv, b))
-      case TempModuleDef(p : Path, b : Block) =>
-        val newEnv = env.addPath(p)
-        TempModuleDef(p, transform_block(newEnv, b))
+        SModule(p, transform_block(newEnv, b))
       case SYield(e) =>
         SYield(transform_expr(env, e))
       case SBlock(b) =>
@@ -616,7 +598,8 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SPragma(pragma : Pragma) =>
         SPragma(transform_pragma(env, pragma))
       case TempDef0(id, e, rt) =>
-        TempDef0(id, transform_expr(env, e), transform_type(env, rt))
+        val newEnv = if (id.name == "unittest") env.enterUnitTestDef else env
+        TempDef0(id, transform_expr(newEnv, e), transform_type(newEnv, rt))
       case TempDef1(id, pat, e, rt) =>
         TempDef1(id, transform_pat(env, pat), transform_expr(env, e),
           transform_type(env, rt))
@@ -647,6 +630,13 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SEOr(u, v) => SEOr(tr(u), tr(v))
       case SEAnd(u, v) => SEAnd(tr(u), tr(v))
       case SENot(u) => SENot(tr(u))
+      case SERelate(u, v) => SERelate(tr(u), tr(v))
+      case SEConvert(u, Right(v)) => SEConvert(tr(u), Right(tr(v)))
+      case SEConvert(u, Left(p)) =>
+        transform_type(env, TypeSome(p)) match {
+          case TypeSome(q) => SEConvert(tr(u), Left(q))
+          case TypeNone() => tr(u)
+        }
       case SECons(h, t) => SECons(tr(h), tr(t))
       case SEFun(m, branches) =>
         def f(x : (Pattern, Expression, Type)) =
@@ -745,7 +735,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case TypeSome(path) =>
         env.resolveTypeAnnotation(path) match {
           case None =>
-            error(ty.location, "cannot resolve type '"+ty+"'")
+            error(path.location, "cannot resolve type '"+ty+"'")
             TypeNone()
           case Some(path) =>
             TypeSome(path)

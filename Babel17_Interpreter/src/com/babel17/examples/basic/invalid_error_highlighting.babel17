@@ -1,4 +1,6 @@
-#(module com.obua.util.unittest
+module com.obua.util
+
+[1;2]
 
 private orderedSet
 typedef orderedSet l = nil
@@ -7,35 +9,23 @@ def x : orderedSet = orderedSet 10
 def y = 10
 
 def cool(orderedSet i) = i
-
+h
 val a = 20
 
-unittest
+module unittest
 
 def supercool(orderedSet i) = i*a
-
-#assert 2 == 3
+end
 
 end
 
-module com.obua.util.unittest.ok
+module com.obua.util.unittest
 
+import com.obua.util.unittest.please
 import com.obua.util.orderedset => wow
 
 match 12
 case (u : wow) => 10
 end
 
-end)#
-
-(: int)
-
-34 ++ 
-
- :> int
-
-0.567800000000e40
-
-12
-
-10
+end

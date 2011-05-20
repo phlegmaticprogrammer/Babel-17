@@ -26,6 +26,9 @@ and simple_expression =
 and identifier =
   Id of string
 
+exception Illformed
+exception TypeError
+
 type 'a idmap = (string*'a) list
 
 type environment = value idmap * (value ref) idmap
@@ -42,9 +45,6 @@ fun deref [] = []
   | deref ((s, vr)::m) = ((s,!vr)::(deref m))
 
 fun freeze (nonlinear, linear) = (nonlinear@(deref linear), [])
-
-exception Illformed
-exception TypeError
 
 fun bind (nonlinear, linear) (id,value) =
   (remove nonlinear id, insert linear (id, ref value))
