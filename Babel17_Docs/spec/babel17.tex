@@ -63,7 +63,6 @@ morestring=[b]",
 
 \tableofcontents
 
-
 \section{Introduction}
 The first question that someone who creates a new programming language will  hear from others inevitably is: Why another programming language? Are there not already enough programming languages out there that you can pick from?
 
@@ -889,9 +888,9 @@ end
 \end{itemize}
 
 \section{Sets and Maps}\label{sec:setsandmaps}
-Sets and maps are built into Babel-17. For example, the set consisting of 3, 42 and $\infty$ can be written as
+Sets and maps are built into Babel-17. For example, the set consisting of 3, 42 and 15 can be written as
 \begin{babellisting}
-{42, $\infty$, 3}
+{42, 15, 3}
 \end{babellisting}
 Sets are always sorted. The sorting order is Babel-17's built-in partial order, and every set forms a totally ordered subdomain of this partial order. Future versions of Babel-17 might allow the set order to be different from the built-in partial order. Adding or removing an element $e$ from a set $S$ is only well-defined when the elements of $S$ together with $e$ are totally ordered by the partial order of $S$. The same holds for testing if an element is in a set. 
 
@@ -923,7 +922,23 @@ matches a map consisting of $n$ key/value pairs such that the key/value pairs ma
 The pattern \babelsrc{\{ -> \}} matches the empty map. Map patterns can have a $\delta$ pattern, too.
 
 \section{Reals and Interval Arithmetic}
+Babel-17 is radical in its treatment of floating point arithmetic: there is \emph{only} interval arithmetic. What that means is that reals are represented in Babel-17 as closed real intervals, i.e. as pairs $[a; b]$ where $a$ and $b$ are floating point numbers and $a \leq b$. The usual floating point numbers can then be viewed as that subset of reals for which $a = b$ holds. For example, the notation $1.2$ is just short for $[1.2; 1.2]$.
 
+The general form of this interval notation is
+\begin{babellisting}
+[$a$; $b$]
+\end{babellisting}
+Its value is formed by evaluating $a$ and $b$, resulting in \texttt{real}s $[a_1; a_2]$ and $[b_1; b_2]$, respectively, and then forming the interval $[a_1; b_2]$ if $a_2 \leq b_1$. In case the evaluation does not yield reals, a \emph{DomainError}-exception is thrown. In case $a_2 > b_1$, an \emph{EmptyReal}-exception is raised.
+
+The general rule of interval arithmetic in Babel-17 is as follows: If $f$ is a mapping from $\mathbb{R}^n$ to $\mathbb{R}$, then for its interval arithmetic implementation $F$ the following must hold for all $x_i \in \mathbb{R}$ and all \texttt{real}s $y_i = [u_i; v_i]$ such that $u_i \le x_i \le v_i$:
+\[
+f(x_1, \ldots, x_n) \in F(y_1, \ldots, y_n) 
+\]
+The built-in order on \texttt{real}s is defined such that
+\[
+[a_1; a_2] \leq [b_1; b_2] \quad\text{iff}\quad a_2 < b_1 \vee (a_1 = b_1 \wedge a_2 = b_2)
+\]
+Note that certain seemingly obvious inequalities like $[1.0; 2.0] \leq 2.0$ do \emph{not} hold! Also note that while $[1.0; 2.0] < 3.0$ is true, the seemingly identical inequality $[1.0; 2.0] < 3$ is false! This is because \emph{Integers} and \emph{Reals} are unrelated with respect to the built-in order. 
 
 \section{Syntactic Sugar}
 One of the goals of Babel-17 is that Babel-17 code is easy to read and understand. I have found that allowing arbitrary user-specific extensions to the syntax of code is definitely not helping to achieve this goal. Nevertheless, a bare minimum of syntactic sugar is necessary to support the most basic conventions known from arithmetic; for example, one should be able to write \texttt{3 + 5} to denote the addition of the integer 3 and the integer 5.
@@ -1285,8 +1300,10 @@ and the corresponding $\delta$ pattern
 \end{babellisting}
 match collections with exactly $n$ or at least $n$ elements, respectively. 
 
+\section{Modules and Types}
+
 \section{Pragmas}
-Pragmas are statements that are not really part of the program, but inserted in it for pragmatical reasons. They are useful for testing, debugging and profiling a program. There are currently four different kinds of  pragmas available as part of Babel-17 v0.21.
+Pragmas are statements that are not really part of the program, but inserted in it for pragmatical reasons. They are useful for testing, debugging and profiling a program. There are currently four different kinds of  pragmas available:
 
 \texttt{\#log $e$} evaluates the expression $e$ and logs it. 
 
@@ -1297,6 +1314,9 @@ Pragmas are statements that are not really part of the program, but inserted in 
 \texttt{\#assert $e$} evaluates the expression $e$ and signals an error if $e$ does not evaluate to \babelsrc{true}.
 
 The Babel-17 interpreter / compiler is free to ignore pragmas, typically if instructed so by the user. 
+
+\section{Unit Tests}
+
 
 \section{Standard Library (To Be Updated for v0.3)}
 The standard library of Babel-17 is just the description of all messages that the built-in types of Babel-17 respond to. The majority of these messages have special syntactic support by the language. The standard library is therefore an important part of the language definition of Babel-17.
