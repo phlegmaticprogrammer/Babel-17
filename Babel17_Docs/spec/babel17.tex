@@ -174,7 +174,7 @@ Finally, here are all ASCII special symbols that can occur in a Babel-17 program
 \verb-|- & \verb+&+ & \verb+!+ & \verb-++- & \verb+--+& \verb+**+  &
 \verb-//- & \verb+,+ & \verb+::+ & \verb+->+ & \verb+=>+& \verb+?+  & \verb+...+  \\
 \verb-(- & \verb+)+ & \verb+[+ & \verb+]+ & \verb+{+& \verb+}+  & \verb+.+ &  \verb+:+ &
-& & & 
+ \verb+~+ &\verb+:>+ & &
 \end{tabular}
 \end{center}
 Table~\ref{table:furthersymbols} lists all other Unicode symbols that have a meaning in Babel-17.
@@ -209,7 +209,6 @@ Each value in Babel-17 has a unique type. All built-in types are depicted in Tab
 \textbf{Name} & \textbf{Type} & \textbf{Description}\\\hline
 \metababel {Integer} & \verb+int+ & the type of arbitrary size integer numbers\\
 \metababel {Real} & \verb+real+ & the type of real numbers\\
-\metababel{Infinity} &\verb+inf+ & the type consisting of the values \babelsrc{infinity} and \babelsrc{-infinity}\\
 \metababel{Boolean} & \verb+bool+ &  the type consisting of the values \babelsrc{true} and \babelsrc{false}\\
 \metababel{String} & \verb+string+ &  the type of valid Unicode strings\\
 \metababel{List} & \verb+list+&  the type of lists\\
@@ -225,20 +224,20 @@ Each value in Babel-17 has a unique type. All built-in types are depicted in Tab
 \end{tabular}
 \label{table:builtintypes}
 \end{table}
-Often we use the name of a type to refer to this type in this specification, but the representation of it in actual Babel-17 is given in the type column. You can obtain the type for any value except for \metababel{DynamicExceptions} via \babelsrc{typeof}, for example will
+Often we use the name of a type to refer to this type in this specification, but the representation of it in actual Babel-17 is given in the type column. 
+The type of a value $v$ can be obtained via 
 \begin{babellisting}
-typeof "hello"
+typeof $v$
 \end{babellisting}
-return the result \verb+string+.
 
 \section{Objects and Functions}
-All values in Babel-17 are objects. This means that you can send messages to them. Many values in Babel-17 are functions. This means that you can apply them to an argument, yielding another value. Note that for a value to be an object, it does not need to have type \metababel{Object}, and for a value to be a function,  it does not need to have type \metababel{Function}. 
+All values in Babel-17 are objects. This means that you can send messages to them. Many values in Babel-17 are functions. This means that you can apply them to an argument, yielding another value. Note that for a value to be an object, it does not need to have type \texttt{obj}, and for a value to be a function,  it does not need to have type \texttt{fun}. 
 
 The result of sending message $m$ to object $v$  is written as
 \begin{babellisting}
-$v$.$m$
+$v$ . $m$
 \end{babellisting}
-Here $m$ is an identifier. The special object \babelsrc{nil}\ does not respond to any message.
+Here $m$ is an identifier.
 
 The result of applying function $f$ to value $x$ is written as 
 \begin{babellisting}
@@ -255,7 +254,7 @@ Repeated function application associates to the left, therefore
 \begin{babellisting}
 $f$ $x$ $y$ 
 \end{babellisting} 
-is equivalent to \babelsrc{($f$\ $x$)\ $y$}.
+is equivalent to \babelsrc{($f\ x$)\ $y$}.
 
 \section{Exceptions}
 Exception handling in Babel-17 mimicks exception handling mechanisms like those which can be found in Java or Standard ML, while adhering at the same time to the functional paradigm.
@@ -354,7 +353,7 @@ Dynamic exceptions cannot be part of a list but are propagated:
 $h$::(\metababel{DynamicException $v$}) & $\leadsto$ & \metababel{DynamicException $v$}& {\rm where $h$ is non-exceptional}\\
 \end{tabular}\\
 \end{babelcode}
-Note that in cases where the tail $t$ is neither a list nor a vector, we identify \babelsrc{$h$::$t$} with  \babelsrc{$h$::$t$::[]} . 
+Note that when the tail $t$ is not a list, we identify \babelsrc{$h$::$t$} with  \babelsrc{$h$::$t$::[]} . 
 
 \section{CExprs}
 A \metababel{CExpr} is a constructor $c$ together with a parameter $p$, written $c$ $p$. It is allowed to leave out the parameter $p$, which then defaults to \babelsrc{nil}. For example,  \babelsrc{HELLO} is equivalent to \babelsrc{HELLO} \babelsrc{nil}. A constructor $c$ cannot have a dynamic exception as its parameter, therefore we have:
@@ -391,7 +390,7 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{($x\ $ as $\ p$)} & \patterndescr{matches $p$, and binds the successfully matched value to $x$; the match fails if $p$ does not match or if the matched value is a dynamic exception}\\\hline
 \babelsrc{$z$} & \patterndescr{a number $z$, like \babelsrc{0} or \babelsrc{42} or \babelsrc{-10} or 
 \babelsrc{infinity} or \babelsrc{-infinity} , matches just that number $z$}\\\hline
-\babelsrc{$c\ $ $p$} & \patterndescr{matches a \metababel{CExpr} with constructor $c$ if the parameter of the \metababel{CExpr} matches $p$}\\\hline
+\babelsrc{$c\ $ $p$} & \patterndescr{matches a \metababel{CExpr} with constructor $c$ if the parameter of the \metababel{CExpr} matches $p$; instead of \babelsrc{$c\ $ $\_$} you can just write \babelsrc{$c$}}\\\hline
 \babelsrc{$s$} & \patterndescr{a string $s$, like \babelsrc{"hello"}, matches just that string $s$}\\\hline
 \babelsrc{($p$)} & \patterndescr{same as $p$} \\\hline
 \babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches any non-exceptional value that matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
@@ -401,7 +400,9 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches a value of type \texttt{obj} that has exactly the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$, $\ \delta$\}} & \patterndescr{matches a value of type \texttt{obj} that has the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
 \babelsrc{nil} & \patterndescr{matches the empty object}\\\hline
-\babelsrc{exception} $p$ & \patterndescr{matches any exception such that its parameter matches $p$}
+\babelsrc{exception} $p$ & \patterndescr{matches any exception such that its parameter matches $p$}\\\hline
+\babelsrc{$(p : t)$} & \patterndescr{matches anything that has type $t$ and matches $p$}\\\hline
+\babelsrc{$(p : (e))$} & \patterndescr{matches anything that matches $p$ and has the type that $e$ evaluates to}
 \end{tabular}
 \label{table:basicpatterns}
 \end{table}
@@ -498,7 +499,7 @@ $s_1$
 $\vdots$
 $s_n$
 \end{babellisting}
-where the $s_i$ are \emph{statements}. In a block expression both newlines and semicolons can be used to separate the statements from each other. The other means of separation are semicolons.
+where the $s_i$ are \emph{statements}. In a block expression both newlines and semicolons can be used to separate the statements from each other.
 
 Statements are Babel-17's primary tool for introducing identifiers. There are several kinds of statements. Three of them will be introduced in this section.
 
@@ -506,7 +507,7 @@ First, there is the \babelsrc{val}-statement which has the following syntax:
 \begin{babellisting}
 val $p$ = $e$
 \end{babellisting}
-Here $p$ is a pattern and $e$ is an expression. Its meaning is that first $e$ gets evaluated. If this results in a dynamic exception, then the result of the block expression that the \babelsrc{val}-statement is part of will be that dynamic exception. Otherwise, the result of evaluating $e$ is matched to $p$. If the match is successful then all identifiers bound by the match can be used in later statements of the block expression. If the match fail, then the value of the containing block expression is the dynamic exception \babelsrc{NoMatch}.
+Here $p$ is a pattern and $e$ is an expression. Its meaning is that first $e$ gets evaluated. If this results in a dynamic exception, then the result of the block expression that the \babelsrc{val}-statement is part of will be that dynamic exception. Otherwise, the result of evaluating $e$ is matched to $p$. If the match is successful then all identifiers bound by the match can be used in later statements of the block expression. If the match fails, then the value of the containing block expression is the dynamic exception \babelsrc{NoMatch}.
 
 Second, there is the \babelsrc{def}-statement which obeys the following syntax for defining the identifier $id$:
 \begin{babellisting}
@@ -674,7 +675,7 @@ object
   $s_n$
 end
 \end{babellisting}
-The $s_i$ are arbitrary statements, with the exception that no \babelsrc{yield}-statements are allowed.  Those $s_i$ that are  \babelsrc{def} statements define the set of messages that the object responds to.
+The $s_i$ are statements.  Those $s_i$ that are  \babelsrc{def} statements define the set of messages that the object responds to.
 
 Often you do not want to create objects from scratch but by modifying other already existing objects:
 \begin{babellisting}
@@ -685,11 +686,11 @@ object + parents
 end
 \end{babellisting}
 The expression \babelsrc{parents} must evaluate to either a list, a vector or a set. The members of  \babelsrc{parents}
-are considered to be the parents of the newly created object, in the order induced by the collection. The idea is that the created object not only understands the messages defined by the $s_i$, but also the messages of the parents. Messages defined via $s_i$ shadow messages of the parents. The messages of an earlier parent shadow the messages of a later one. The parents must have been created via object expressions, too. 
+are considered to be the parents of the newly created object, in the order induced by the collection. The idea is that the created object not only understands the messages defined by the $s_i$, but also the messages of the parents. Messages defined via $s_i$ shadow messages of the parents. The messages of an earlier parent shadow the messages of a later one. 
 
-The keyword \babelsrc{this} has currently no meaning in Babel-17. This might change in future versions of Babel-17.
+The keyword \babelsrc{this} can be used only in \babelsrc{def}-statements of an object and points to the object that the original message has been sent too.
 
-\noindent There is one more way to denote record-like objects:
+\noindent There is also a way to denote record-like objects:
 \begin{babellisting}
 { $m_1$ = $v_1$, $\ldots$, $m_n$ = $v_n$ }
 \end{babellisting}
@@ -786,7 +787,7 @@ else
   $e_{n+1}$
 end
 \end{babellisting}
-The \babelsrc{elseif}-branches are  optional. Also, they can be eliminated in the obvious manner via nesting, so that we only need to give the semantics for the expression
+The \babelsrc{elseif}-branches are  optional. They can be eliminated in the obvious manner via nesting, so that we only need to give the semantics for the expression 
 \begin{babellisting}
 if $b$ then $e_1$ else $e_2$ end
 \end{babellisting}
@@ -810,19 +811,22 @@ if $b$ then $e$  else end
 
 
 \section{Order}
-Babel-17 has a built-in partial order \babelsrc{$\le$}. All other relational operators are defined in terms of this partial order (Table~\ref{tab:relops}).
+Babel-17 has a built-in partial order which is defined in terms of the operator $\sim$. The expression $a \sim b$ returns an \metababel{Integer}; the usual relational  operators are defined in Table~\ref{tab:relops}.
 \begin{table}
 \caption{Relational Operators}
 \begin{tabular}{c|c}
 \textbf{Syntax} & \textbf{Semantics} \\\hline
-$a >= b$ & $b <= a$ \\
-$a == b$ & $a <= b\ \&\ b <= a$ \\
-$a < b$ & $a <= b\ \&\ !(a >= b)$ \\
-$a > b$ & $a >= b\ \&\ !(a <= b)$ \\
-$a$ $!=$ $b$ & $! (a == b)$ \\
+$a < b$ & $(a \sim b) < 0$\\
+$a == b$ & $(a \sim b) == 0$\\
+$a > b$ & $(a \sim b) > 0$ \\
+$a <= b$ &  $(a \sim b) <= 0$ \\
+$a >= b$ & $(a \sim b) >= 0$ \\
+$a$ $!=$ $b$ & $(a \sim b)$ $!=$ $0$ \\
 \end{tabular}
 \label{tab:relops}
 \end{table}
+Note that $a$ and $b$ are unrelated iff $a \sim b$ is less than $-1$ or greater than $1$.
+
 It is possible to chain relational operators like this:
 \begin{babellisting}
 $a$ <= $b$ <= $c$ > $d$ != $e$ 
@@ -849,27 +853,40 @@ end
 \end{babellisting}
 In the above, \babelsrc{t}, \babelsrc{u}, \babelsrc{v} and \babelsrc{w} are supposed to be fresh identifiers.  Also note that if there are operands that are dynamic exceptions, then the result of a comparison is a dynamic exception with the same parameter as the first such operand (from left to right).
 
-The partial order is defined by the following laws:
+It is possible that two values $a$ and $b$ are not related with respect to the built-in order. In this case, $a \sim b$ throws an \emph{Unrelated}-exception. Taking this into account, the definition of $a$ $op$ $b$ for $op$ $\in \{<, >, <=, >=, ==\}$ is
+\begin{babellisting}
+match a $\sim$ b 
+  case (u if u $op$ 0) => true
+  case _ : int => false
+  case (exception Unrelated) => false
+end
+\end{babellisting}
+
+The built-in partial order has the following properties:
 \begin{itemize}
-\item  $e$ $<$ \babelsrc{nil} $< -\infty <  z  < \infty < s <  lv < cexpr < set < map < b$ holds for all persistent exceptions $e$, 
- integers $z$, strings $s$,  lists and vectors $lv$,  constructed expressions $cexpr$, sets $set$, maps $map$ and booleans $b$
- \item exceptions are partially ordered by the order their parameter induces
+\item values of type \texttt{type} are totally ordered by their name
+\item $a \sim b$ is equivalent to
+\begin{babellisting}
+match (typeof a) $\sim$ (typeof b)
+  case 0 => 
+    match a.compare_ b
+      case u : int => u
+      case e => exception CompareError e
+    end
+  case _ => exception Unrelated
+end
+\end{babellisting}
+\item persistent exceptions are partially ordered by their parameter 
  \item booleans are totally ordered and \babelsrc{false} $<$ \babelsrc{true} holds
  \item integers are totally ordered in the obvious way
- \item $-\infty == -\infty$ and $\infty == \infty$ both hold 
  \item strings are totally ordered via lexicographic ordering
-\item lists and vectors are partially ordered by the lexicographic ordering 
+\item lists are partially ordered by the lexicographic ordering 
+\item vectors are partially ordered by the lexicographic ordering 
 \item constructed expressions are partially ordered by representing them by the pair consisting of constructor and parameter
-\item $! (f <= v) \& ! (v <= f)$ holds for all functions $f$ and arbitrary values $v$
+\item $f \neq g$ for all values $f$ and $g$ of type \texttt{fun}
 \item sets are partially ordered by first comparing their sizes, and then their elements 
 \item maps are partially ordered by first comparing their sizes, then their keys, and then their corresponding values
-\item let $U$ consist of all user-defined objects  (i.e., defined via \babelsrc{object}) that cannot receive the message \texttt{rank\_}; then we have  \babelsrc{nil} $<= u < -\infty$  for all $u \in U$; furthermore $U$ is partially ordered by considering first the number of its messages, then the messages, and then the corresponding message values
-\item let $a$ be a user-defined object  (i.e., defined via \babelsrc{object}) that has the message \texttt{rank\_}; let $ra$ be the result of sending  \texttt{rank\_} to $a$; then $a <= b$ is defined by $ra <= b$, and $b <= a$ is defined via $b <= ra$ for all $b$.
 \end{itemize}
-The order does not distinguish between lists and vectors. For example, we have 
-\begin{babellisting}
-(1, 2, 3) == [1, 2, 3]
-\end{babellisting}
 
 \section{Sets and Maps}\label{sec:setsandmaps}
 Sets and maps are built into Babel-17. For example, the set consisting of 3, 42 and $\infty$ can be written as
@@ -905,12 +922,15 @@ Similarly, the pattern
 matches a map consisting of $n$ key/value pairs such that the key/value pairs match the pattern pairs in order.
 The pattern \babelsrc{\{ -> \}} matches the empty map. Map patterns can have a $\delta$ pattern, too.
 
+\section{Reals and Interval Arithmetic}
+
+
 \section{Syntactic Sugar}
 One of the goals of Babel-17 is that Babel-17 code is easy to read and understand. I have found that allowing arbitrary user-specific extensions to the syntax of code is definitely not helping to achieve this goal. Nevertheless, a bare minimum of syntactic sugar is necessary to support the most basic conventions known from arithmetic; for example, one should be able to write \texttt{3 + 5} to denote the addition of the integer 3 and the integer 5.
 
 The programmer can use some of this syntactic sugar when defining her own objects. For example, \texttt{3 + 5} is just syntactic sugar for 
 \begin{babellisting}
-3.plus 5
+3.plus_ 5
 \end{babellisting} 
 Table~\ref{tab:syntacticsugar} lists all syntactic sugar of Babel-17 that is also available to the programmer. 
 \begin{table}
@@ -1278,7 +1298,7 @@ Pragmas are statements that are not really part of the program, but inserted in 
 
 The Babel-17 interpreter / compiler is free to ignore pragmas, typically if instructed so by the user. 
 
-\section{Standard Library}
+\section{Standard Library (To Be Updated for v0.3)}
 The standard library of Babel-17 is just the description of all messages that the built-in types of Babel-17 respond to. The majority of these messages have special syntactic support by the language. The standard library is therefore an important part of the language definition of Babel-17.
 
 The messages of the standard library can be grouped as follows:

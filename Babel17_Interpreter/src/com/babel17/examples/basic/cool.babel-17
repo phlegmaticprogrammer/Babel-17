@@ -1,11 +1,29 @@
-def fib 0 = 1
-def fib 1 = 1
-def fib n = fib (n-2) + fib (n-1)
-memoize fib
+def a = 10
+def b = 12
 
-def x = () => fib 5
+## a ~ b
+match (typeof a) ~ (typeof b)
+  case 0 => 
+    match a.compare_ b
+      case u : int => u
+      case e => exception CompareError e
+    end
+  case _ => exception Unrelated
+end
 
-x ()
+## a OP b
+match a ~ b
+  case 0 => true
+  case _ : int => false
+  case (exception Unrelated) => false
+end
 
-4 * (exception Cool)
- 
+## a OP b
+match a ~ b
+  case (u if u OP 0) => true
+  case _ : int => false
+  case (exception Unrelated) => false
+  case _ => exception TypeError
+end
+
+

@@ -1,4 +1,19 @@
-#(module com.obua.util.unittest
+module com.obua.util
+
+
+match 12
+case (u : wow) => 10
+end
+
+unittest
+
+
+
+end
+
+module com.obua.util.ok.unittest
+
+import com.obua.util.unittest => mytest
 
 private orderedSet
 typedef orderedSet l = nil
@@ -8,9 +23,7 @@ def y = 10
 
 def cool(orderedSet i) = i
 
-val a = 20
-
-unittest
+val a = 20 :> orderedSet
 
 def supercool(orderedSet i) = i*a
 
@@ -18,17 +31,10 @@ def supercool(orderedSet i) = i*a
 
 end
 
-module com.obua.util.unittest.ok
 
-import com.obua.util.orderedset => wow
 
-match 12
-case (u : wow) => 10
-end
 
-end)#
 
-(: int)
 
 34 ++ 
 
