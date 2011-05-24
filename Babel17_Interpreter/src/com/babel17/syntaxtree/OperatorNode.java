@@ -53,6 +53,8 @@ public final class OperatorNode extends Node {
   public final static int CONVERT = 41;
   public final static int RELATE = 42;
 
+  public final static int INTERVAL = 43;
+
 
   public OperatorNode(int operator) {
     this.operator = operator;

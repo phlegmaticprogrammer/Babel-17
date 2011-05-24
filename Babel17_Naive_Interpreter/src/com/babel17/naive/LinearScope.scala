@@ -2,6 +2,7 @@ package com.babel17.naive
 
 import Program._
 import scala.collection.immutable.SortedSet
+import scala.collection.immutable.SortedMap
 import com.babel17.syntaxtree.Location
 import com.babel17.syntaxtree.Source
 import com.babel17.interpreter.parser.ErrorMessage
@@ -29,14 +30,14 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
     def thaw () : Environment = {
       Environment(nonlinear, SortedSet())
     }
-    def removeThis() : SimpleEnvironment = {
+/*    def removeThis() : SimpleEnvironment = {
       val t = Id("this")
       SimpleEnvironment(nonlinear - t)
     }
     def hasThis : Boolean = {
       val t = Id("this")
       nonlinear.contains(t)
-    }
+    }*/
   }
 
   val OBJECT_STATEMENT = 1
@@ -68,9 +69,9 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
     def define (id : Id) : Environment = {
       Environment(nonlinear + id, linear - id)
     }
-    def defineThis () : Environment = {
+    /*def defineThis () : Environment = {
       this.define(Id("this"))
-    }
+    }*/
     /*def defineModule() : Environment = {
       this.define(Id("$module"))
     }
@@ -83,6 +84,8 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
   
   def check (env : Environment, t : Term) {
     val st_flags = TOPLEVEL_STATEMENT
+    CollectVars.collectVars(t)
+    checkNoThis(t.freeVars)
     t match {
       case b : Block => check_b(env, b, st_flags)
       case st : Statement => check_st(env, st, st_flags)
@@ -141,7 +144,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
         val env2 = env.define(id)
         for ((pat, e) <- branches) {
           var env3 = check_p(env2.freezeThaw(), pat, false)
-          if ((st_flags & OBJECT_STATEMENT) != 0) env3 = env3.defineThis()
+          //if ((st_flags & OBJECT_STATEMENT) != 0) env3 = env3.defineThis()
           e match {
             case Some(e) => check_e(env3, e)
             case None =>
@@ -149,7 +152,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
         }
         env2
       case SConversionDef(_, e) =>
-        val env2 = env.defineThis()
+        val env2 = env //env.defineThis()
         if ((st_flags & OBJECT_STATEMENT) == 0)
           error(st.location, "conversions live in objects only")
         check_e(env2.freezeThaw(), e)
@@ -229,6 +232,83 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
     
   }
 
+  def calcDefDeps(b : Block) : (SortedSet[Id], SortedMap[Id, (Def, SortedSet[Id])]) = {
+    CollectVars.collectVars(b)
+    val defIds = CollectVars.collectDefIds(b.statements)
+    var deps : SortedMap[Id, (Def, SortedSet[Id])] = SortedMap()
+    def idOfDef(d : Def) : Id = {
+      d match {
+        case d : SDef0 => d.id
+        case d : SDef1 => d.id
+        case d : STypeDef => d.id
+        case _ => null
+      }
+    }
+    def addDef(d : Def) {
+      val frees = d.freeVars
+      val id = idOfDef(d)
+      if (id != null) {
+        deps = deps + (id -> (d, frees ** defIds))
+      }
+    }
+    for (st <- b.statements) {
+      st match {
+        case d : Def => addDef(d)
+        case SDefs(defs) =>
+          for (d <- defs) addDef(d)
+        case _ =>
+      }
+    }
+    (defIds, deps)
+  }
+
+  def checkNoThis(f : SortedSet[Id]) : Boolean = {
+    val g = f ** SortedSet(Id("this"))
+    if (!g.isEmpty) {
+      val id = g.head
+      error(id.location, "'this' is not in scope")
+      false
+    } else true
+  }
+
+  def checkObjForThis(b : Block) {
+    val (defIds, deps) = calcDefDeps(b)
+    val _this = Id("this");
+    var thisDefs : SortedSet[Id] = SortedSet()
+    for ((id, (d, ds)) <- deps) {
+      if (d.freeVars.contains(_this)) thisDefs = thisDefs + id
+    }
+    if (thisDefs.isEmpty) return
+    var rest = defIds -- thisDefs
+    var changed = true
+    while (changed) {
+      changed = false
+      for (r <- rest) {
+        deps.get(r) match {
+          case Some((_, ds)) => {
+            if (!(ds ** thisDefs).isEmpty) {
+              changed = true
+              rest = rest - r
+              thisDefs = thisDefs + r
+            }
+          }
+          case _ =>
+        }
+      }
+    }
+    for (st <- b.statements) {
+      if (statementIsExecutable(st)) {      
+        if (checkNoThis(st.freeVars)) {
+          val t = st.freeVars ** thisDefs
+          if (!t.isEmpty) {
+            val id = t.head
+            error(id.location, "statement depends indirectly (via '"+id+"') on 'this'")
+          }
+        }
+      }
+    }
+  }
+
   def check_simple (env : SimpleEnvironment, simple : SimpleExpression) {
     simple match {
       case SEId(id) =>
@@ -241,14 +321,20 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
           check_e(check_p(tEnv, pat, false), e)
         }
       case SEObj(b, _) =>
-        check_b(env.removeThis().thaw(), b, OBJECT_STATEMENT)
+        checkObjForThis(b)
+        check_b(env/*.removeThis()*/.thaw(), b, OBJECT_STATEMENT)
       case SEGlueObj(parents, b, _) =>
-        val env2 = env.removeThis()
+        CollectVars.collectVars(parents)
+        if (parents.freeVars.contains(Id("this"))) {
+          error(parents.location, "'this' is not in scope")
+        }
+        checkObjForThis(b)
+        val env2 = env //env.removeThis()
         check_simple(env2, parents)
         check_b(env2.thaw(), b, OBJECT_STATEMENT)
       case SEThis() =>
-        if (!env.hasThis)
-          error (simple.location, "no 'this' allowed here")
+        /*if (!env.hasThis)
+          error (simple.location, "no 'this' allowed here")*/
       case se : SimpleExpression =>
         for (s <- CollectVars.subSimpleExpressions(se)) {
           check_simple(env, s)
@@ -264,7 +350,10 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
           check_simple(env.freeze(), value)
         case PPredicate(predicate, pattern) =>
           check_simple(env.freeze(), predicate) 
-          if (pattern != null) check_pat(env, pattern)
+          check_pat(env, pattern)
+        case PDestruct(constructor, pattern) =>
+          check_simple(env.freeze(), constructor)
+          check_pat(env, pattern)
         case PIf(pattern, condition) =>
           val new_env = check_p(env, pattern, rebind)
           check_simple(new_env.freeze(), condition)

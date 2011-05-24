@@ -68,6 +68,7 @@ object CollectVars {
       s match {
         case _ : Def =>
         case _ : SDefs =>
+        case _ : SImport =>
         case _ =>
           return true
       }
@@ -247,6 +248,10 @@ object CollectVars {
         collectVars(b)
         term.freeVars = se.freeVars ++ b.freeVars
         term.assignedVars = b.assignedVars
+      case SEThis() =>
+        val id = Id("this")
+        id.location = term.location
+        term.freeVars = SortedSet(id)
       case SEId(id) =>
         term.freeVars = SortedSet(id)
       case SEExpr(e) =>
@@ -263,14 +268,14 @@ object CollectVars {
       case SEGlueObj(parents, b, _) =>
         collectVars(parents)
         collectVars(b)
-        term.freeVars = parents.freeVars ++ b.freeVars
+        term.freeVars = (parents.freeVars ++ b.freeVars) - Id("this")
       /*case SEMergeObj(parents, b) =>
         collectVars(parents)
         collectVars(b)
         term.freeVars = parents.freeVars ++ (b.freeVars - Id("this"))*/
       case SEObj(b, _) =>
         collectVars(b)
-        term.freeVars = b.freeVars
+        term.freeVars = b.freeVars - Id("this")
       case SModule(path, b) =>
         collectVars(b)
         term.freeVars = b.freeVars
@@ -292,6 +297,7 @@ object CollectVars {
       case SEOr(u,v) => List(u,v)
       case SEAnd(u,v) => List(u,v)
       case SENot(u) => List(u)
+      case SEInterval(u, v) => List(u, v)
       case SECons(h, t) => List(h, t)
       case SESet(elems) => elems
       case SEMap(elems) => elems.map(_._1) ++ elems.map(_._2)
@@ -327,12 +333,14 @@ object CollectVars {
         pattern.freeVars = v.freeVars
       case PPredicate(pred, pat) =>
         collectVars(pred)
-        if (pat != null) {
-          collectVars(pat)
-          pattern.freeVars = pred.freeVars ++ pat.freeVars
-          pattern.introducedVars = pat.introducedVars
-        } else 
-          pattern.freeVars = pred.freeVars
+        collectVars(pat)
+        pattern.freeVars = pred.freeVars ++ pat.freeVars
+        pattern.introducedVars = pat.introducedVars
+      case PDestruct(pred, pat) =>
+        collectVars(pred)
+        collectVars(pat)
+        pattern.freeVars = pred.freeVars ++ pat.freeVars
+        pattern.introducedVars = pat.introducedVars
       case PIf(pat, cond) =>
         collectVars(pat)
         collectVars(cond)

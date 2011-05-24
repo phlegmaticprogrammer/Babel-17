@@ -87,6 +87,7 @@ TYPEOF;
 CONVERSION;
 CONVERT;
 RELATE;
+INTERVAL;
 
 IMPORT_PREFIX;
 IMPORT_ALL;
@@ -236,6 +237,12 @@ L_import:	'import';
 
 L_unittest
 	:	'unittest';
+	
+L_and	:	'and';
+
+L_not	:	'not';
+
+L_or	:	'or';
 
 /* Symbolic Tokens */
 
@@ -247,7 +254,7 @@ token_EQUAL
 	:	A_EQUAL | U_EQUAL;
 
 A_NOT_EQUAL
-	:	'!=';
+	:	'<>';
 U_NOT_EQUAL
 	:	'\u2262';
 	
@@ -285,19 +292,12 @@ TOK_RELATE
 	:	'~';
 TOK_CONVERT	
 	:	':>';
-	
-A_OR	:	'|';
-A_AND	:	'&';
-A_NOT	:	'!';
-U_OR	:	'\u2228';
-U_AND	:	'\u2227';
-U_NOT	:	'\u00AC';
 
-token_OR:	A_OR | U_OR;
+token_OR:	L_or;
 token_AND
-	:	A_AND | U_AND;
+	:	L_and;
 token_NOT
-	:	A_NOT | U_NOT;
+	:	L_not;
 
 A_DOUBLE_COLON
 	:	'::';
@@ -338,7 +338,11 @@ COMMA	:	',';
 
 PERIOD	:	'.';
 
-QUESTION_MARK	:	'?';
+QUESTION_MARK	
+	:	'?';
+
+EXCLAMATION_MARK
+	:	'!';
 	
 L_force	:	'force';
 	
@@ -434,6 +438,8 @@ bracket_pattern
 	:       (Id NL? L_as) => Id NL? L_as NL? pattern -> ^(L_as Id pattern)
 	|	(protected_expr NL? QUESTION_MARK) => 
 		protected_expr NL? QUESTION_MARK (NL? pattern)? -> ^(QUESTION_MARK protected_expr pattern?)
+	|	(protected_expr NL? EXCLAMATION_MARK) => 
+		protected_expr NL? EXCLAMATION_MARK (NL? pattern)? -> ^(EXCLAMATION_MARK protected_expr pattern?)
 	|	(Id pattern) => Id pattern -> ^(INNERVALUE_PATTERN Id pattern)
 	|	L_val NL? protected_expr_nc -> ^(L_val protected_expr_nc)
 	|       L_for NL? (bracket_pattern ( NL? COMMA NL? bracket_pattern)*  NL?)? L_end -> ^(L_for bracket_pattern*)
@@ -643,16 +649,17 @@ lambda_cases
 for_expr:	L_for NL? pattern NL? L_in NL? protected_expr NL? L_do block L_end
 		  -> ^(FOR_EXPR pattern protected_expr block);	
 
-op_expr	:	builtin_primitive^ op_expr
+	
+op_expr	
+	:	builtin_primitive^ op_expr
 	|	bool_expr;
 	
 p_op_expr
 	:	builtin_primitive^ NL!? p_op_expr
 	|	p_bool_expr;
 
-
 builtin_primitive
-	:	L_random | L_exception | L_lazy | L_choose | L_concurrent | L_force | L_typeof;
+	:	L_exception | L_lazy | L_concurrent | L_force;
 
 bool_expr 
 	:	bool_or_expr;
@@ -696,10 +703,21 @@ relate_expr:	convert_expr (NL? TOK_RELATE NL? convert_expr)? -> ^(RELATE convert
 p_relate_expr:	p_convert_expr (NL? TOK_RELATE NL? p_convert_expr)? -> ^(RELATE p_convert_expr*);	
 
 convert_expr
-	:	arith_expr (NL? TOK_CONVERT NL? typeannotation)? -> ^(CONVERT arith_expr typeannotation?);
+	:	term_expr (NL? TOK_CONVERT NL? typeannotation)? -> ^(CONVERT term_expr typeannotation?);
 
 p_convert_expr
-	:	p_arith_expr (NL? TOK_CONVERT NL? typeannotation)? -> ^(CONVERT p_arith_expr typeannotation?);
+	:	p_term_expr (NL? TOK_CONVERT NL? typeannotation)? -> ^(CONVERT p_term_expr typeannotation?);
+
+term_expr	
+	:	builtin_fun^ term_expr
+	|	arith_expr;
+	
+p_term_expr
+	:	builtin_fun^ NL!? p_term_expr
+	|	p_arith_expr;
+
+builtin_fun
+	:	L_random | L_choose | L_typeof;
 
 arith_expr
 	:	plusplus_expr;
@@ -779,7 +797,8 @@ message_send_expr
 	:	primitive_expr (NL? PERIOD NL? Id)* -> ^(MESSAGE_SEND primitive_expr Id*);
 	
 list_expr 
-	:	'[' NL? (protected_expr_nc (NL? COMMA NL? protected_expr_nc)* NL?)? ']' -> ^(SQUARE_LIST protected_expr_nc*)
+	:	('[' NL? protected_expr_nc NL? ';') => '[' NL? protected_expr_nc NL? ';' NL? protected_expr_nc NL? ']' -> ^(INTERVAL protected_expr_nc*)
+	|	'[' NL? (protected_expr_nc (NL? COMMA NL? protected_expr_nc)* NL?)? ']' -> ^(SQUARE_LIST protected_expr_nc*)
 	|	'(' NL? (protected_expr_nc (NL? COMMA NL? protected_expr_nc)* NL? (COMMA NL?)?)? ')' -> ^(ROUND_LIST ^(NIL_TOKEN COMMA*) ^(NIL_TOKEN protected_expr_nc*));
 
 map_or_set_expr

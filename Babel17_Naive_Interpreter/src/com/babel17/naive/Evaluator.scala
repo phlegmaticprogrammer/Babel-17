@@ -940,7 +940,7 @@ class Evaluator(val maxNumThreads : Int) {
             }
             matchPat(env, pat, y, rebind)
           case c =>
-            val y = v.sendMessage(Message(MESSAGE_DECONSTRUCT))
+            val y = v.sendMessage(Message(MESSAGE_DESTRUCT))
             if (y == null) return NoMatch()
             y.force() match {
               case f: FunctionValue =>

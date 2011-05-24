@@ -2,7 +2,7 @@
 
 def to_ n = m => if n <= m then n::(lazy (to_ (n+1) m)) else [] end
 def downto_ n = m => if n >= m then n::(lazy (to_ (n-1) m)) else [] end
-def integer_boolean n = n != 0
+def integer_boolean n = n <> 0
 
 ## Collections and collectors 
 
@@ -121,7 +121,7 @@ def seq_uminus_ c = c
 
 def coll_minus_ c = e =>
 with c.empty do
-  for (i if i != e) in c do yield i end
+  for (i if i <> e) in c do yield i end
 end
 
 def coll_minus__ c = d =>

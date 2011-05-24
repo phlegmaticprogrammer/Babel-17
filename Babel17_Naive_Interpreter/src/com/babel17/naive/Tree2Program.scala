@@ -122,6 +122,7 @@ class Tree2Program extends ErrorProducer {
       case OR => SEOr(left(), right())
       case AND => SEAnd(left(), right())
       case CONS => SECons(left(), right())
+      case INTERVAL => SEInterval(left(), right())
       case RELATE => SERelate(left(), right())
       case CONVERT =>
         rightNode match {
@@ -866,9 +867,15 @@ class Tree2Program extends ErrorProducer {
       case p : ValPattern =>
         PVal(buildSimpleExpression(p.value))
       case p : PredicatePattern =>
-        val pat = if (p.pattern == null) PBool(true) else buildProperPattern(p.pattern)
-        val pred = buildSimpleExpression(p.predicate)
-        PPredicate(pred, pat)
+        if (!p.deconstruct) {
+          val pat = if (p.pattern == null) PBool(true) else buildProperPattern(p.pattern)
+          val pred = buildSimpleExpression(p.predicate)
+          PPredicate(pred, pat)
+        } else {
+          val pat = if (p.pattern == null) PAny() else buildProperPattern(p.pattern)
+          val c = buildSimpleExpression(p.predicate)
+          PDestruct(c, pat)
+        }
       case p : IfPattern =>
         PIf(buildPattern(p.pattern), buildSimpleExpression(p.condition))
       case p : AsPattern =>

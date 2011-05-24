@@ -31,7 +31,7 @@
 \newenvironment{babelcode}[0]{\begin{center}\tt}{\end{center}}
 
 \lstdefinelanguage{babellanguage} 
-{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch,private,import,module,unittest,typedef,typeof},
+{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch,private,import,module,unittest,typedef,typeof,and, or, not},
 sensitive=true, 
 morecomment=[l]{//}, 
 morecomment=[s]{/*}{*/}, 
@@ -39,6 +39,7 @@ morestring=[b]",
 } 
 
 \lstset{language=babellanguage,mathescape=true,float, xleftmargin=1.5cm,columns=flexible}
+\lstset{emph={unittest},emphstyle=\underbar}
 
 \lstnewenvironment{babellisting} 
 {\small} 
@@ -81,11 +82,11 @@ I always wanted a programming language
 \item that has a simple mechanized formal semantics,
 \item that is beautiful.
 \end{itemize}
-There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will (mostly) have been achieved. The version described in this document is Babel-17 v0.3, so there is still some distance to go. 
+There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will have been achieved. The version described in this document is Babel-17 v0.3, so there is still some distance to go. 
 
 Babel-17 is not a radically new or revolutionary programming language. It picks those raisins I like out of languages like Standard ML, Scala, Alice ML, Java, Javascript, Erlang, Haskell, Lisp, Clojure and Mathematica, and tries to evolve them into a beautiful new design. 
 
-Babel-17 is a functional language. It is not a pure functional language because it contains sources of non-determinism like the ability to pick one of two values randomly. If you take these sources of non-determinism out of the language (there are currently only two such sources, \babelsrc{choose}\ and \babelsrc{random}), it becomes pure. 
+Babel-17 is a functional language. It is not a pure functional language because it contains sources of non-determinism like the ability to pick one of two values randomly. If you take these few sources of non-determinism out of the language, it becomes pure. 
 
 In Babel-17, every value has a type. These types are not checked statically, but only dynamically. 
 
@@ -119,7 +120,8 @@ begin & end & object & with & if & then & else & elseif \\
 while &  for & do & choose & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
 to & downto & true & false & nil & infinity &  force & this \\
-try & catch &  typedef &  typeof &  module &  private &  import & unittest  
+try & catch &  typedef &  typeof &  module &  private &  import & unittest  \\
+and & or &  not &  &  &   &  & 
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
@@ -168,7 +170,7 @@ Finally, here are all ASCII special symbols that can occur in a Babel-17 program
 \begin{center}
 \tt
 \begin{tabular}{ccccccccccccc}
-\verb+=+ & \verb+==+ & \verb+!=+ & \verb+<+ & \verb+<=+ & \verb+>+& \verb+>=+  &
+\verb+=+ & \verb+==+ & \verb+<>+ & \verb+<+ & \verb+<=+ & \verb+>+& \verb+>=+  &
 \verb-+- & \verb+-+ & \verb+*+ & \verb+/+ & \verb+^+ & \verb+;+  \\
 \verb-|- & \verb+&+ & \verb+!+ & \verb-++- & \verb+--+& \verb+**+  &
 \verb-//- & \verb+,+ & \verb+::+ & \verb+->+ & \verb+=>+& \verb+?+  & \verb+...+  \\
@@ -184,13 +186,9 @@ Table~\ref{table:furthersymbols} lists all other Unicode symbols that have a mea
 %\parbox{0cm}{\vspace{0.7cm}}2983 & \texttt{\{\hspace{-0.089cm}∣} & \verb+{|+\\
 %2984 & \texttt{∣\hspace{-0.089cm}\}} & \verb+|}+\\
 2261 & ≡ & \verb+==+\\
-2262 & ≢ & \verb+!=+\\
+2262 & ≢ & \verb+<>+\\
 2264 & ≤ & \verb+<=+\\
 2265 &  ≥ & \verb+>=+\\
-%221E & ∞ & \babelsrc{infinity}\\ 
-2227 & ∧ & \verb+&+\\
-2228 & ∨ & \verb+|+\\
-00AC & ¬ & \verb+!+\\
 2237 & :: & \verb+::+\\
 2192 & → & \verb+->+\\
 21D2 & ⇒ & \verb+=>+\\
@@ -300,7 +298,7 @@ also evaluates to whatever $e$ evaluates to, again with the exception of dynamic
 One could think that apart from obvious different performance characteristics, the expressions \babelsrc{lazy $\ e$} and \babelsrc{concurrent $\ e$} are equivalent. This is not so.
 If $e$ is a non-terminating expression then, even if  the value of  \babelsrc{concurrent  $\ e$} is never needed during program execution, it might still lead to a non-terminating program execution. In other words, the behaviour of \babelsrc{concurrent $\ e$}  is unspecified for non-terminating $e$.
 
-Sometimes you do not want to proceed until an expression has been completely evaluated so that it does not contain any lazy or concurrent subcomponents any more. In those situations you use the expression
+Sometimes you want to explicitly force the evaluation of an expression. In those situations you use the expression
 \begin{babellisting}
 force $e$
 \end{babellisting}
@@ -387,15 +385,16 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{_} & \patterndescr{the underscore symbol matches anything but a dynamic exception}\\\hline
 \babelsrc{$x$} & \patterndescr{an identifier $x$ matches anything but a dynamic exception and binds the matched expression to $x$}\\\hline
 \babelsrc{($x\ $ as $\ p$)} & \patterndescr{matches $p$, and binds the successfully matched value to $x$; the match fails if $p$ does not match or if the matched value is a dynamic exception}\\\hline
-\babelsrc{$z$} & \patterndescr{a number $z$, like \babelsrc{0} or \babelsrc{42} or \babelsrc{-10} or 
-\babelsrc{infinity} or \babelsrc{-infinity} , matches just that number $z$}\\\hline
+\babelsrc{$z$} & \patterndescr{an integer number $z$, like \babelsrc{0} or \babelsrc{42} or \babelsrc{-10}, matches just that number $z$}\\\hline
 \babelsrc{$c\ $ $p$} & \patterndescr{matches a \metababel{CExpr} with constructor $c$ if the parameter of the \metababel{CExpr} matches $p$; instead of \babelsrc{$c\ $ $\_$} you can just write \babelsrc{$c$}}\\\hline
 \babelsrc{$s$} & \patterndescr{a string $s$, like \babelsrc{"hello"}, matches just that string $s$}\\\hline
 \babelsrc{($p$)} & \patterndescr{same as $p$} \\\hline
 \babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches any non-exceptional value that matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
 \babelsrc{(val $\ e$)} & \patterndescr{matches any non-exceptional  value which is equivalent to $e$}\\\hline
+\babelsrc{($c\ $ \! $\ p$)} & \patterndescr{let $v$ be the value to be matched; then the match succeeds if the result $v$.\babelsrc{destruct\_}  $c$ matches $p$}\\\hline
+\babelsrc{($c\ $ \!)} & \patterndescr{short for \babelsrc{($c\ $ \! \_)} }\\\hline
 \babelsrc{($f\ $ ? $\ p$)} & \patterndescr{$f$ is applied to the value to be matched; the match succeeds if the result of the application matches $p$}\\\hline
-\babelsrc{($e\ $ ?)} & \patterndescr{short for \babelsrc{($e\ $ ? true)} }\\\hline
+\babelsrc{($f\ $ ?)} & \patterndescr{short for \babelsrc{($f\ $ ? true)} }\\\hline
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches a value of type \texttt{obj} that has exactly the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$, $\ \delta$\}} & \patterndescr{matches a value of type \texttt{obj} that has the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
 \babelsrc{nil} & \patterndescr{matches the empty object}\\\hline
@@ -471,7 +470,7 @@ random $n$
 \end{babellisting}
 returns for an integer $n > 0$ a number between $0$ and $n-1$ such that each number between $0$ and $n-1$ has equal chance of being returned. If $n$ is a dynamic exception, then this exception is propagated, if $n$ is a non-exceptional value that is not an integer $> 0$ then the result is an exception with parameter \babelsrc{DomainError}.
 
-The other source of non-determinism is choice. The expression
+Another source of non-determinism is choice. The expression
 \begin{babellisting}
 choose $l$
 \end{babellisting}
@@ -481,7 +480,9 @@ choose (concurrent a, concurrent b)
 \end{babellisting}
 the evaluator could choose the member that evaluates quicker.
 
-Babel-17 has been designed such that if you take the above two constructs out of the language, it becomes purely functional. If in your semantics of Babel-17 you replace the concept of value by the concept of a probability distribution over values and a set of values, you might be able to view Babel-17 as a purely functional language even \emph{including} \babelsrc{random} and \babelsrc{choose}.
+There is a third source of non-determinism which has its roots in the module loading mechanism (see Section~\ref{modules}). 
+
+Babel-17 has been designed such that if you take the above sources of non-determinism out of the language, it becomes purely functional. If in your semantics of Babel-17 you replace the concept of value by the concept of a probability distribution over values and a set of values, you might be able to view Babel-17 as a purely functional language even \emph{including} \babelsrc{random} and \babelsrc{choose}.
 
 \section{Block Expressions}
 So far we have only looked at expressions. We briefly mentioned the term \emph{block expressions} in the description of the \babelsrc{match} function, though.  We will now introduce and explain block expressions.
@@ -674,7 +675,16 @@ object
   $s_n$
 end
 \end{babellisting}
-The $s_i$ are statements.  Those $s_i$ that are  \babelsrc{def} statements define the set of messages that the object responds to.
+The $s_i$ are statements.  Those $s_i$ that are  \babelsrc{def} statements define the set of messages that the object responds to. If you want a def not to become a message, you state this using a \babelsrc{private} statement:
+\begin{babellisting}
+object 
+  private x, y
+  def x = 1
+  def y = 2
+  def z = 3
+end
+\end{babellisting}
+The above object responds to the message $z$ only.
 
 Often you do not want to create objects from scratch but by modifying other already existing objects:
 \begin{babellisting}
@@ -720,7 +730,7 @@ Babel-17 provides the usual boolean operators. They are just syntactic sugar for
 \begin{table}
 \caption{Boolean Operators}
 \begin{tabular}{c|c|c}
-\babelsrc{\! a} & \babelsrc{a \& b} &\babelsrc{a | b} \\\hline
+\babelsrc{not a} & \babelsrc{a and b} &\babelsrc{a or b} \\\hline
  \small
 \begin{babellisting}
 match a 
@@ -820,7 +830,7 @@ $a == b$ & $(a \sim b) == 0$\\
 $a > b$ & $(a \sim b) > 0$ \\
 $a <= b$ &  $(a \sim b) <= 0$ \\
 $a >= b$ & $(a \sim b) >= 0$ \\
-$a$ $!=$ $b$ & $(a \sim b)$ $!=$ $0$ \\
+$a$ $<>$ $b$ & $(a \sim b)$ $<>$ $0$ \\
 \end{tabular}
 \label{tab:relops}
 \end{table}
@@ -828,11 +838,11 @@ Note that $a$ and $b$ are unrelated iff $a \sim b$ is less than $-1$ or greater 
 
 It is possible to chain relational operators like this:
 \begin{babellisting}
-$a$ <= $b$ <= $c$ > $d$ != $e$ 
+$a$ <= $b$ <= $c$ > $d$ <> $e$ 
 \end{babellisting}
 Intuitively, the above means 
 \begin{babellisting}
-$a$ <= $b$ & $b$ <= $c$  & $c$ > $d$  & $d$ != $e$ .
+$a$ <= $b$ & $b$ <= $c$  & $c$ > $d$  & $d$ <> $e$ .
 \end{babellisting}
 Note that  we always evaluate the operands  of relational operators, even chained ones, only once. For example, the precise semantics of $a <= b <= c <= d <= e$ is 
 \begin{babellisting}
@@ -852,11 +862,11 @@ end
 \end{babellisting}
 In the above, \babelsrc{t}, \babelsrc{u}, \babelsrc{v} and \babelsrc{w} are supposed to be fresh identifiers.  Also note that if there are operands that are dynamic exceptions, then the result of a comparison is a dynamic exception with the same parameter as the first such operand (from left to right).
 
-It is possible that two values $a$ and $b$ are not related with respect to the built-in order. In this case, $a \sim b$ throws an \emph{Unrelated}-exception. Taking this into account, the definition of $a$ $op$ $b$ for $op$ $\in \{<, >, <=, >=, ==\}$ is
+It is possible that two values $a$ and $b$ are not related with respect to the built-in order. In this case, $a \sim b$ throws an \emph{Unrelated}-exception. Taking this into account, the definition of $a$ $op$ $b$ for $op$ $\in \{<, >, <=, >=, ==, <>\}$ is
 \begin{babellisting}
 match a $\sim$ b 
   case (u if u $op$ 0) => true
-  case _ : int => false
+  case _ => false
   case (exception Unrelated) => false
 end
 \end{babellisting}
@@ -976,7 +986,7 @@ The availability of syntactic sugar for function application means that you can 
 Babel-17 supports \emph{memoization}. 
 In those places where \babelsrc{def}-statements can be used, \babelsrc{memoize}-statements can be used, also. A \babelsrc{memoize}-statement must always refer to \babelsrc{def}-statements in the same scope. Babel-17 differentiates two kinds of memoization, \emph{strong} and \emph{weak}. A \babelsrc{memoize}-statement has the following syntax:
 \begin{babellisting}
-memoize $\metababel{ref}_1 \hdots \metababel{ref}_n$
+memoize $\metababel{ref}_1, \hdots, \metababel{ref}_n$
 \end{babellisting}
 The $\metababel{ref}_i$ are either of the form $\metababel{id}$ to indicate strong memoization, or of the form $(\metababel{id})$ to signal weak memoization. In both cases $\metababel{id}$ refers to the \babelsrc{def}-statement being memoized. As an example, here is the definition of the weakly memoized fibonacci-sequence:
 \begin{babellisting}
@@ -1138,10 +1148,11 @@ These are the control expressions that exist in Babel-17:
 \item \babelsrc{begin ... end}
 \item \babelsrc{if ... end}
 \item \babelsrc{match ... end}
-\item \babelsrc{for ... end}
+\item \babelsrc{match ... end}
+\item \babelsrc{try ... catch ... end}
 \item \babelsrc{while ... end}
 \end{itemize}
-The last two control expressions are loops and explained in the next section. The first three have already been treated without delving too much into their statement character. We have already seen how  \babelsrc{begin ... end} is responsible for nesting block expressions, when it is used as a statement.  Just as  the \babelsrc{begin ... end} expression may be used as a statement, 
+The last two control expressions are loops and explained in the next section. The first four have already been treated without delving too much into their statement character. We have already seen how  \babelsrc{begin ... end} is responsible for nesting block expressions, when it is used as a statement.  Just as  the \babelsrc{begin ... end} expression may be used as a statement, 
 you can also use all other control expressions as statements, for example:
 \begin{babellisting}
 begin
@@ -1238,7 +1249,7 @@ end
 Here $c$ must evaluate to a boolean and $b$ is a block expression. For example, here is how you could code the euclidean algorithm for calculating the greatest common divisor:
 \begin{babellisting}
 def gcd (a,b) = begin
-  while b != 0 do
+  while b <> 0 do
     (a, b) = (b, a mod b)
   end
   a
@@ -1300,7 +1311,104 @@ and the corresponding $\delta$ pattern
 \end{babellisting}
 match collections with exactly $n$ or at least $n$ elements, respectively. 
 
-\section{Modules and Types}
+\section{Modules and Types}\label{modules}
+Modules allow to give Babel-17 code a static structure. Modules are introduced with the syntax
+\begin{babellisting}
+module $p_1.p_2.\ldots.p_n$
+  $s_1$
+  $\vdots$
+  $s_n$  
+end
+\end{babellisting}
+where $p = p_1.p_2.\ldots.p_n$ is the \emph{module path}. A condition on module paths is that all elements of a module path must be different, i.e. $p_i \neq p_j$ for $i \neq j$. 
+
+The statements $s_i$ that may appear in modules are basically those that may also appear in object expressions. Additionally, modules can contain \emph{type definitions}; this is the topic of the next section. The statements of a module are interpreted in a new empty namespace. With the exception of other modules, none of the values or definitions outside of a module are accessible inside a module.
+
+Identifiers introduced via definitions become the messages that this module responds to except when hidden via \babelsrc{private}. 
+
+\subsection{Loading Modules}
+Before a module can respond to messages, it must be loaded. 
+A module is in one of the following three states: DOWN, LOADING or UP. There are four things that one might  suspect to change the state of the module: 
+\begin{description}
+\item[A] the module can be forced via \babelsrc{force\ $p$}.
+\item[B] the module receives a message $m$ that corresponds to a definition inside of it,
+\item[C] the module receives a message $m$ that corresponds to a submodule $p.m$,
+\item[D] the module receives an invalid message $m$.
+\end{description}
+Of these four things, neither C nor D change the state of the module.
+
+In the following we distinguish modules which need initialization from modules which don't. A module does not need initialization iff it consists only of \babelsrc{def}-, \babelsrc{typedef}-, \babelsrc{import}-statements.
+
+If module $p$ needs initialization and is in state DOWN, then A and B cause $p$ to go to state LOADING; after $p$ has been loaded, that is all statements of the module have been executed, $p$ goes from state LOADING into state UP. If the module needs no initialization, the state goes directly from DOWN to UP.
+
+If $p$ is in state LOADING, then A and B do not change the state of the module, but throw exceptions with parameter \babelsrc{BusyModule}. If $p$ is already in state UP, then A and B also do not change the state of the module. 
+
+Note that the state of a module is not directly accessible and only indirectly observable via the \babelsrc{BusyModule}-exception.
+
+Modules that need initialization can lead to nondeterministic behavior:
+\begin{babellisting}
+module needsInit
+  val a = 10
+  def x = a
+end
+(concurrent needsInit.x) * (concurrent needsInit.x)
+\end{babellisting}
+may yield the result $100$ or the exception \emph{BusyModule}. On the other hand,
+\begin{babellisting}
+module needsNoInit
+  def x = 10
+end
+(concurrent needsNoInit.x) * (concurrent needsNoInit.x)
+\end{babellisting}
+will always yield $100$.
+
+\subsection{Type Definitions}
+A module may contain type definition statements. A new type $t$ is introduced via
+\begin{babellisting}
+typedef $t$ $pat$ = $expr$
+\end{babellisting}
+where $t$ is an identifier, $pat_i$ a pattern and $expr_i$ an expression. Like a \babelsrc{def} statement, the above introduces a new function $t$. This new function $t$ has the property that all values $v$ it returns will have type $t$ and will consist of two components: an \emph{inner value}, and an \emph{outer value}. The inner value $i$ is just the argument that was passed to $t$. The outer value $o$ is the result of evaluating $expr$. 
+
+The point of all this is that the value $v$ behaves just like its outer value $o$, except 
+
+An example will help to illustrate this:
+\begin{babellisting}
+module cards
+  typedef rank i = 
+    match i 
+      case 14 => Ace
+      case 13 => King
+      case 12 => Queen
+      case 11 => Jack
+      case x if 2 <= x <= 10 => x
+    end
+end
+\end{babellisting}
+
+
+
+
+\begin{babellisting}
+typedef $t$ $pat_1$ = $expr_1$
+  $\vdots$
+typedef $t$ $pat_n$ = $expr_n$
+\end{babellisting}
+
+\subsection{Import}
+A module can be accessed from anywhere via its module path. For example will 
+\begin{babellisting}
+module hello.world
+  def x = 2
+end
+hello.world.x
+\end{babellisting}
+result in the value $2$.
+
+To avoid typing long module paths you can \emph{import} 
+
+
+\section{
+TODO: this in object checken and explainen}
 
 \section{Pragmas}
 Pragmas are statements that are not really part of the program, but inserted in it for pragmatical reasons. They are useful for testing, debugging and profiling a program. There are currently four different kinds of  pragmas available:
@@ -1316,6 +1424,8 @@ Pragmas are statements that are not really part of the program, but inserted in 
 The Babel-17 interpreter / compiler is free to ignore pragmas, typically if instructed so by the user. 
 
 \section{Unit Tests}
+
+
 
 
 \section{Standard Library (To Be Updated for v0.3)}

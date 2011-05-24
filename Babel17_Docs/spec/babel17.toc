@@ -11,27 +11,31 @@
 \contentsline {section}{\tocsection {}{11}{Non-Determinism in Babel-17}}{10}
 \contentsline {section}{\tocsection {}{12}{Block Expressions}}{11}
 \contentsline {section}{\tocsection {}{13}{Anonymous Functions}}{14}
-\contentsline {section}{\tocsection {}{14}{Object Expressions}}{14}
-\contentsline {section}{\tocsection {}{15}{Boolean Operators}}{15}
-\contentsline {section}{\tocsection {}{16}{Order}}{16}
+\contentsline {section}{\tocsection {}{14}{Object Expressions}}{15}
+\contentsline {section}{\tocsection {}{15}{Boolean Operators}}{16}
+\contentsline {section}{\tocsection {}{16}{Order}}{17}
 \contentsline {section}{\tocsection {}{17}{Sets and Maps}}{18}
 \contentsline {section}{\tocsection {}{18}{Reals and Interval Arithmetic}}{19}
-\contentsline {section}{\tocsection {}{19}{Syntactic Sugar}}{19}
+\contentsline {section}{\tocsection {}{19}{Syntactic Sugar}}{20}
 \contentsline {section}{\tocsection {}{20}{Memoization}}{20}
 \contentsline {section}{\tocsection {}{21}{Linear Scope}}{21}
 \contentsline {section}{\tocsection {}{22}{Record Updates}}{23}
 \contentsline {section}{\tocsection {}{23}{With}}{24}
-\contentsline {section}{\tocsection {}{24}{Loops}}{24}
+\contentsline {section}{\tocsection {}{24}{Loops}}{25}
 \contentsline {section}{\tocsection {}{25}{Modules and Types}}{26}
-\contentsline {section}{\tocsection {}{26}{Pragmas}}{26}
-\contentsline {section}{\tocsection {}{27}{Unit Tests}}{26}
-\contentsline {section}{\tocsection {}{28}{Standard Library (To Be Updated for v0.3)}}{26}
-\contentsline {subsection}{\tocsubsection {}{28.1}{Collections and Collectors}}{26}
-\contentsline {subsection}{\tocsubsection {}{28.2}{Type Conversions}}{26}
-\contentsline {subsection}{\tocsubsection {}{28.3}{Integer, Infinity}}{28}
-\contentsline {subsection}{\tocsubsection {}{28.4}{String}}{28}
-\contentsline {subsection}{\tocsubsection {}{28.5}{List and Vector}}{28}
-\contentsline {subsection}{\tocsubsection {}{28.6}{Set}}{28}
-\contentsline {subsection}{\tocsubsection {}{28.7}{Map}}{28}
-\contentsline {subsection}{\tocsubsection {}{28.8}{Object}}{28}
-\contentsline {section}{\tocsection {}{29}{What's Next?}}{29}
+\contentsline {subsection}{\tocsubsection {}{25.1}{Loading Modules}}{27}
+\contentsline {subsection}{\tocsubsection {}{25.2}{Type Definitions}}{27}
+\contentsline {subsection}{\tocsubsection {}{25.3}{Import}}{28}
+\contentsline {section}{\tocsection {}{26}{ TODO: this in object checken and explainen}}{28}
+\contentsline {section}{\tocsection {}{27}{Pragmas}}{28}
+\contentsline {section}{\tocsection {}{28}{Unit Tests}}{28}
+\contentsline {section}{\tocsection {}{29}{Standard Library (To Be Updated for v0.3)}}{28}
+\contentsline {subsection}{\tocsubsection {}{29.1}{Collections and Collectors}}{29}
+\contentsline {subsection}{\tocsubsection {}{29.2}{Type Conversions}}{30}
+\contentsline {subsection}{\tocsubsection {}{29.3}{Integer, Infinity}}{30}
+\contentsline {subsection}{\tocsubsection {}{29.4}{String}}{30}
+\contentsline {subsection}{\tocsubsection {}{29.5}{List and Vector}}{30}
+\contentsline {subsection}{\tocsubsection {}{29.6}{Set}}{30}
+\contentsline {subsection}{\tocsubsection {}{29.7}{Map}}{30}
+\contentsline {subsection}{\tocsubsection {}{29.8}{Object}}{31}
+\contentsline {section}{\tocsection {}{30}{What's Next?}}{31}

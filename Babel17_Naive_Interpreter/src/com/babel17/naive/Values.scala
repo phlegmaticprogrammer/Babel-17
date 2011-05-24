@@ -23,7 +23,7 @@ object Values {
   val MESSAGE_SLASHSLASH = "slash__"
   val MESSAGE_TO = "to_"
   val MESSAGE_DOWNTO = "downto_"
-  val MESSAGE_DECONSTRUCT = "deconstruct_"
+  val MESSAGE_DESTRUCT = "destruct_"
 
   val MESSAGE_ITERATE = "iterate_"
   val MESSAGE_COLLECT_ADD = "collector_add_"

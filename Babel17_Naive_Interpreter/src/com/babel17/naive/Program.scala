@@ -107,6 +107,16 @@ object Program {
   case class Block(statements : List[Statement]) extends Term
     
   abstract class Statement extends Term
+
+  def statementIsExecutable(st : Statement) : Boolean = {
+    st match {
+      case _ : Def => false
+      case _ : SDefs => false
+      case _ : SImport => false
+      case _ : TemporaryStatement => false
+      case _ => true
+    }
+  }
   
   abstract class Def extends Statement
 
@@ -166,6 +176,7 @@ object Program {
   case class SEOr(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SEAnd(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SENot(u : SimpleExpression) extends SimpleExpression
+  case class SEInterval(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SECons(head : SimpleExpression, tail : SimpleExpression) extends SimpleExpression
   case class SEFun(m : MemoType, branches: List[(Pattern, Expression, Type)]) extends SimpleExpression
   case class SESet(elems: List[SimpleExpression]) extends SimpleExpression
@@ -218,6 +229,7 @@ object Program {
   case class PFor(elems : List[Pattern], delta : Pattern) extends Pattern
   case class PRecord(keyValues : List[(Message, Pattern)], delta : Pattern) extends Pattern
   case class PPredicate(predicate:SimpleExpression, pattern : Pattern) extends Pattern
+  case class PDestruct(constructor:SimpleExpression, pattern : Pattern) extends Pattern
   case class PVal(value:SimpleExpression) extends Pattern
   case class PIf(pattern : Pattern, condition : SimpleExpression) extends Pattern
   case class PAs(id:Id, pattern : Pattern) extends Pattern

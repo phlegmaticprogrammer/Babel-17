@@ -1,7 +1,23 @@
+val f = object + this
+
+val x = h
+
+def u = this
+
+def h = u
+
+
+def a 0 = this
+
+
+end
+
+this
+#(
 module com.obua.util
 
 
-match 12
+match 12 <> 23
 case (u : wow) => 10
 end
 
@@ -31,17 +47,7 @@ def supercool(orderedSet i) = i*a
 
 end
 
+module hello
+end
 
-
-
-
-
-34 ++ 
-
- :> int
-
-0.567800000000e40
-
-12
-
-10
+hello)#

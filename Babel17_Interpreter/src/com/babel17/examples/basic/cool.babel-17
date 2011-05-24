@@ -1,29 +1,12 @@
-def a = 10
-def b = 12
+val f = object
 
-## a ~ b
-match (typeof a) ~ (typeof b)
-  case 0 => 
-    match a.compare_ b
-      case u : int => u
-      case e => exception CompareError e
-    end
-  case _ => exception Unrelated
+val x = 2
+def a 0 = this
+
+
 end
 
-## a OP b
-match a ~ b
-  case 0 => true
-  case _ : int => false
-  case (exception Unrelated) => false
-end
-
-## a OP b
-match a ~ b
-  case (u if u OP 0) => true
-  case _ : int => false
-  case (exception Unrelated) => false
-  case _ => exception TypeError
-end
-
-
+val a = b
+val c = 2
+def b = c
+  2 == 3

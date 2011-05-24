@@ -58,6 +58,9 @@ public class Parser {
     k.add("private");
     k.add("import");
     k.add("unittest");
+    k.add("not");
+    k.add("or");
+    k.add("and");
 
     return k;
   }
@@ -284,14 +287,11 @@ public class Parser {
           }
           return result.mergeLocation(loc);
         }
-        case babel17Parser.A_OR:
-        case babel17Parser.U_OR:
+        case babel17Parser.L_or:
           return toBinaryNode(tree, OperatorNode.OR);
-        case babel17Parser.A_AND:
-        case babel17Parser.U_AND:
+        case babel17Parser.L_and:
           return toBinaryNode(tree, OperatorNode.AND);
-        case babel17Parser.A_NOT:
-        case babel17Parser.U_NOT:
+        case babel17Parser.L_not:
           return toUnaryNode(tree, OperatorNode.NOT);
         case babel17Parser.PLUSPLUS:
           return toBinaryNode(tree, OperatorNode.PLUSPLUS);
@@ -323,6 +323,8 @@ public class Parser {
           return leftassocBinary(toNodeList(tree).suppressErrors(), OperatorNode.RELATE);
         case babel17Parser.CONVERT:
           return leftassocBinary(toNodeList(tree).suppressErrors(), OperatorNode.CONVERT);
+        case babel17Parser.INTERVAL:
+          return toBinaryNode(tree, OperatorNode.INTERVAL);
         case babel17Parser.A_EQUAL:
         case babel17Parser.U_EQUAL:
           return new OperatorNode(OperatorNode.EQUAL);
@@ -496,6 +498,7 @@ public class Parser {
         }
         case babel17Parser.L_import: {
             NodeList prefix = toNodeList(tree.getChild(0)).suppressErrors();
+            if (prefix.empty()) return BeginNode.empty();
             if (tree.getChildCount() == 1)
                 return ImportNode.simple(prefix).mergeLocation(loc);
             Tree arg = tree.getChild(1);
@@ -782,9 +785,12 @@ public class Parser {
           return (PatternNode) new ValPattern(toNode(tree.getChild(0))).mergeLocation(loc);
         case babel17Parser.L_exception:
           return (PatternNode) new ExceptionPattern(toPattern(tree.getChild(0))).mergeLocation(loc);
+        case babel17Parser.EXCLAMATION_MARK:
+          return (PatternNode) new PredicatePattern(toNode(tree.getChild(0)),
+                  tree.getChildCount() == 2 ? toPattern(tree.getChild(1)) : null, true);
         case babel17Parser.QUESTION_MARK:
           return (PatternNode) new PredicatePattern(toNode(tree.getChild(0)),
-                  tree.getChildCount() == 2 ? toPattern(tree.getChild(1)) : null);
+                  tree.getChildCount() == 2 ? toPattern(tree.getChild(1)) : null, false);
         case babel17Parser.ROUND_LIST: {
           int commas = tree.getChild(0).getChildCount();
           NodeList l = toPatternList(tree.getChild(1));

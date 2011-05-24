@@ -4,9 +4,16 @@ import com.babel17.syntaxtree.*;
 
 public final class PredicatePattern extends PatternNode {
 
-  public PredicatePattern(Node predicate, PatternNode pattern) {
+  public PredicatePattern(Node predicate, PatternNode pattern, boolean deconstruct) {
     this.predicate = predicate;
     this.pattern = pattern;
+    this.deconstruct = deconstruct;
+  }
+
+  private boolean deconstruct;
+
+  public boolean deconstruct() {
+      return deconstruct;
   }
 
   private Node predicate;

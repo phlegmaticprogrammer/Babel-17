@@ -3,7 +3,7 @@ val f = a => b =>
     b
   else
     val a = a
-    while b != 0 do
+    while b <> 0 do
       if a > b then
         a = a - b
       else

@@ -24,8 +24,8 @@
     </fontcolor>
 
 
-    <fontcolor name="operator" default="operator" foreColor="99034E">
-      <font style="bold"/>
+    <fontcolor name="operator" default="operator" foreColor="black">
+      <font style="plain"/>
     </fontcolor>
 
     <fontcolor name="boolean" default="number" foreColor="blue">
@@ -62,14 +62,13 @@
     <fontcolor name="symbol_not_equal" default="math"/>
     <fontcolor name="symbol_less_eq" default="math"/>
     <fontcolor name="symbol_greater_eq" default="math"/>
-    <fontcolor name="symbol_and" default="math"/>
-    <fontcolor name="symbol_or" default="math"/>
-    <fontcolor name="symbol_not" default="math"/>
     <fontcolor name="symbol_double_colon" default="math"/>
     <fontcolor name="symbol_double_arrow" default="math"/>
     <fontcolor name="symbol_arrow" default="math"/>
     <fontcolor name="symbol_ellipsis" default="math"/>
 
-    <fontcolor name="keyword_op" default="keyword"/>
+    <fontcolor name="keyword_operator" default="operator">
+        <font style="italic"/>
+    </fontcolor>
 
 </fontscolors>
