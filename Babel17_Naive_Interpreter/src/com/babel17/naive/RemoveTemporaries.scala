@@ -255,7 +255,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
   }*/
 
 
-  def transform_sts(env: ModuleEnv, _statements : List[Statement], isObj : Boolean) : List[Statement] = {
+  def transform_sts(env: ModuleEnv, _statements : List[Statement]) : List[Statement] = {
     val imports = collectImportedIds(env, _statements)
     val newEnv = env.addImports(imports)
     val statements : List[Statement] = (_statements.map(s => transform_st(newEnv, s))).toList
@@ -650,8 +650,8 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SEList(l) => SEList(l.map(tr _))
       case SEVector(l) => SEVector(l.map(tr _))
       case SEGlueObj(p, b, m) =>
-        SEGlueObj(tr(p), transform_objblock(env, b), m)
-      case SEObj(b, m) => SEObj(transform_objblock(env, b), m)
+        SEGlueObj(tr(p), transform_block(env, b), m)
+      case SEObj(b, m) => SEObj(transform_block(env, b), m)
       case SEMessageSend(t, m) => SEMessageSend(tr(t), m)
       case SEApply(f, x) => SEApply(tr(f), tr(x))
       case SECompare(operands, operators) =>
@@ -748,19 +748,11 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
   }
 
   def transform_block(env : ModuleEnv, b : Block) : Block = {
-    val result = Block(transform_sts(env, b.statements, false))
+    val result = Block(transform_sts(env, b.statements))
     result.location = b.location
     result.stackTraceElement = b.stackTraceElement
     result
   }
-
-  def transform_objblock(env : ModuleEnv, b : Block) : Block = {
-    val result = Block(transform_sts(env, b.statements, true))
-    result.location = b.location
-    result.stackTraceElement = b.stackTraceElement
-    result
-  }
-
 
   def transform_pragma(env : ModuleEnv, pragma : Pragma) : Pragma = {
     val result = pragma match {

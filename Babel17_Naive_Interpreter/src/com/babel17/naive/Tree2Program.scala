@@ -709,7 +709,10 @@ class Tree2Program extends ErrorProducer {
         SERecord(toList(n.elements).map(buildRecordValue _))
       case n : ObjectNode =>
         val block = buildBlock(n.block)
-        countYields(block)
+        for (st <- block.statements) {
+          if (!isAllowedInObject(st))
+            error(st.location, "this statement is not allowed in an object definition")
+        }
         val messages = CollectVars.collectDefIds(block.statements).toList.map(_.toMessage)
         if (n.parents != null) {
           val parents = buildSimpleExpression(n.parents)
@@ -907,7 +910,7 @@ class Tree2Program extends ErrorProducer {
     result
   }
 
-  def countYields(term : Object) : Int = {
+  /*def countYields(term : Object) : Int = {
     term match {
       case Block(b) => countYields(b)
       case l : List[Statement] =>
@@ -929,7 +932,7 @@ class Tree2Program extends ErrorProducer {
         i
       case _ => 0
     }
-  }
+  }*/
 
   /*  case class ScopeEnv(nonlinear : SortedSet[Id], linear : SortedSet[Id]) {
 def freeze() : ScopeEnv = {

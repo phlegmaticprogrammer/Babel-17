@@ -117,6 +117,21 @@ object Program {
       case _ => true
     }
   }
+
+  def isAllowedInObject(st : Statement) : Boolean = {
+    st match {
+      case _ : Def => true
+      case _ : SDefs => true
+      case _ : SImport => true
+      case _ : TemporaryStatement => true
+      case _ : SPragma => true
+      case _ : SVal => true
+      case _ : SAssign => true
+      case _ : SAssignRecordUpdate => true
+      case _ : SValRecordUpdate => true
+      case _ => false
+    }
+  }
   
   abstract class Def extends Statement
 
