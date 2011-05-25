@@ -31,7 +31,7 @@
 \newenvironment{babelcode}[0]{\begin{center}\tt}{\end{center}}
 
 \lstdefinelanguage{babellanguage} 
-{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this, object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch,private,import,module,unittest,typedef,typeof,and, or, not},
+{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this,as,object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch,private,import,module,unittest,typedef,typeof,and, or, not},
 sensitive=true, 
 morecomment=[l]{//}, 
 morecomment=[s]{/*}{*/}, 
@@ -400,7 +400,8 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{nil} & \patterndescr{matches the empty object}\\\hline
 \babelsrc{exception} $p$ & \patterndescr{matches any exception such that its parameter matches $p$}\\\hline
 \babelsrc{$(p : t)$} & \patterndescr{matches anything that has type $t$ and matches $p$}\\\hline
-\babelsrc{$(p : (e))$} & \patterndescr{matches anything that matches $p$ and has the type that $e$ evaluates to}
+\babelsrc{$(p : (e))$} & \patterndescr{matches anything that matches $p$ and has the type that $e$ evaluates to}\\\hline
+\babelsrc{$(t\ p)$} & \patterndescr{inner-value pattern; see Section~\ref{sec:typedefs}}
 \end{tabular}
 \label{table:basicpatterns}
 \end{table}
@@ -819,7 +820,7 @@ if $b$ then $e$  else end
 
 
 
-\section{Order}
+\section{Order}\label{sec:order}
 Babel-17 has a built-in partial order which is defined in terms of the operator $\sim$. The expression $a \sim b$ returns an \metababel{Integer}; the usual relational  operators are defined in Table~\ref{tab:relops}.
 \begin{table}
 \caption{Relational Operators}
@@ -888,7 +889,8 @@ end
 \item persistent exceptions are partially ordered by their parameter 
  \item booleans are totally ordered and \babelsrc{false} $<$ \babelsrc{true} holds
  \item integers are totally ordered in the obvious way
- \item strings are totally ordered via lexicographic ordering
+  \item reals are partially ordered as described in Section~\ref{sec:reals}
+\item strings are totally ordered via lexicographic ordering
 \item lists are partially ordered by the lexicographic ordering 
 \item vectors are partially ordered by the lexicographic ordering 
 \item constructed expressions are partially ordered by representing them by the pair consisting of constructor and parameter
@@ -931,7 +933,7 @@ Similarly, the pattern
 matches a map consisting of $n$ key/value pairs such that the key/value pairs match the pattern pairs in order.
 The pattern \babelsrc{\{ -> \}} matches the empty map. Map patterns can have a $\delta$ pattern, too.
 
-\section{Reals and Interval Arithmetic}
+\section{Reals and Interval Arithmetic}\label{sec:reals}
 Babel-17 is radical in its treatment of floating point arithmetic: there is \emph{only} interval arithmetic. What that means is that reals are represented in Babel-17 as closed real intervals, i.e. as pairs $[a; b]$ where $a$ and $b$ are floating point numbers and $a \leq b$. The usual floating point numbers can then be viewed as that subset of reals for which $a = b$ holds. For example, the notation $1.2$ is just short for $[1.2; 1.2]$.
 
 The general form of this interval notation is
@@ -1311,105 +1313,6 @@ and the corresponding $\delta$ pattern
 \end{babellisting}
 match collections with exactly $n$ or at least $n$ elements, respectively. 
 
-\section{Modules and Types}\label{modules}
-Modules allow to give Babel-17 code a static structure. Modules are introduced with the syntax
-\begin{babellisting}
-module $p_1.p_2.\ldots.p_n$
-  $s_1$
-  $\vdots$
-  $s_n$  
-end
-\end{babellisting}
-where $p = p_1.p_2.\ldots.p_n$ is the \emph{module path}. A condition on module paths is that all elements of a module path must be different, i.e. $p_i \neq p_j$ for $i \neq j$. 
-
-The statements $s_i$ that may appear in modules are basically those that may also appear in object expressions. Additionally, modules can contain \emph{type definitions}; this is the topic of the next section. The statements of a module are interpreted in a new empty namespace. With the exception of other modules, none of the values or definitions outside of a module are accessible inside a module.
-
-Identifiers introduced via definitions become the messages that this module responds to except when hidden via \babelsrc{private}. 
-
-\subsection{Loading Modules}
-Before a module can respond to messages, it must be loaded. 
-A module is in one of the following three states: DOWN, LOADING or UP. There are four things that one might  suspect to change the state of the module: 
-\begin{description}
-\item[A] the module can be forced via \babelsrc{force\ $p$}.
-\item[B] the module receives a message $m$ that corresponds to a definition inside of it,
-\item[C] the module receives a message $m$ that corresponds to a submodule $p.m$,
-\item[D] the module receives an invalid message $m$.
-\end{description}
-Of these four things, neither C nor D change the state of the module.
-
-In the following we distinguish modules which need initialization from modules which don't. A module does not need initialization iff it consists only of \babelsrc{def}-, \babelsrc{typedef}-, \babelsrc{import}-statements.
-
-If module $p$ needs initialization and is in state DOWN, then A and B cause $p$ to go to state LOADING; after $p$ has been loaded, that is all statements of the module have been executed, $p$ goes from state LOADING into state UP. If the module needs no initialization, the state goes directly from DOWN to UP.
-
-If $p$ is in state LOADING, then A and B do not change the state of the module, but throw exceptions with parameter \babelsrc{BusyModule}. If $p$ is already in state UP, then A and B also do not change the state of the module. 
-
-Note that the state of a module is not directly accessible and only indirectly observable via the \babelsrc{BusyModule}-exception.
-
-Modules that need initialization can lead to nondeterministic behavior:
-\begin{babellisting}
-module needsInit
-  val a = 10
-  def x = a
-end
-(concurrent needsInit.x) * (concurrent needsInit.x)
-\end{babellisting}
-may yield the result $100$ or the exception \emph{BusyModule}. On the other hand,
-\begin{babellisting}
-module needsNoInit
-  def x = 10
-end
-(concurrent needsNoInit.x) * (concurrent needsNoInit.x)
-\end{babellisting}
-will always yield $100$.
-
-\subsection{Type Definitions}
-A module may contain type definition statements. A new type $t$ is introduced via
-\begin{babellisting}
-typedef $t$ $pat$ = $expr$
-\end{babellisting}
-where $t$ is an identifier, $pat_i$ a pattern and $expr_i$ an expression. Like a \babelsrc{def} statement, the above introduces a new function $t$. This new function $t$ has the property that all values $v$ it returns will have type $t$ and will consist of two components: an \emph{inner value}, and an \emph{outer value}. The inner value $i$ is just the argument that was passed to $t$. The outer value $o$ is the result of evaluating $expr$. 
-
-The point of all this is that the value $v$ behaves just like its outer value $o$, except 
-
-An example will help to illustrate this:
-\begin{babellisting}
-module cards
-  typedef rank i = 
-    match i 
-      case 14 => Ace
-      case 13 => King
-      case 12 => Queen
-      case 11 => Jack
-      case x if 2 <= x <= 10 => x
-    end
-end
-\end{babellisting}
-
-
-
-
-\begin{babellisting}
-typedef $t$ $pat_1$ = $expr_1$
-  $\vdots$
-typedef $t$ $pat_n$ = $expr_n$
-\end{babellisting}
-
-\subsection{Import}
-A module can be accessed from anywhere via its module path. For example will 
-\begin{babellisting}
-module hello.world
-  def x = 2
-end
-hello.world.x
-\end{babellisting}
-result in the value $2$.
-
-To avoid typing long module paths you can \emph{import} 
-
-
-\section{
-TODO: this in object checken and explainen}
-
 \section{Pragmas}
 Pragmas are statements that are not really part of the program, but inserted in it for pragmatical reasons. They are useful for testing, debugging and profiling a program. There are currently four different kinds of  pragmas available:
 
@@ -1423,16 +1326,435 @@ Pragmas are statements that are not really part of the program, but inserted in 
 
 The Babel-17 interpreter / compiler is free to ignore pragmas, typically if instructed so by the user. 
 
+\section{Modules and Types}\label{modules}
+Modules give Babel-17 code a static structure and improve on object expressions by providing more sophisticated encapsulation mechanisms via types. Modules are introduced with the syntax
+\begin{babellisting}
+module $p_1.p_2.\ldots.p_n$
+  $s_1$
+  $\vdots$
+  $s_n$  
+end
+\end{babellisting}
+where $p = p_1.p_2.\ldots.p_n$ is the \emph{module path}. A condition on module paths is that all elements of a module path must be different, i.e. $p_i \neq p_j$ for $i \neq j$. 
+
+The statements $s_i$ that may appear in modules are basically those that may also appear in object expressions. Additionally, modules can contain \emph{type definitions}; this is the topic of the next section. 
+
+Identifiers introduced via definitions become the messages that this module responds to except when hidden via \babelsrc{private}. 
+
+\subsection{Loading Modules}
+Before a module can respond to messages, it must be loaded. 
+A module is in one of the following three states: DOWN, LOADING or UP. There are three things that one might  suspect to change the state of the module: 
+\begin{description}
+\item[A] the module receives a message $m$ that corresponds to a definition inside of it,
+\item[B] the module receives a message $m$ that corresponds to a submodule $p.m$,
+\item[C] the module receives an invalid message $m$.
+\end{description}
+Of these three things, neither B nor C change the state of the module, so we are looking now only at case A.
+
+In the following we distinguish modules which need initialization from modules which don't. A module does not need initialization iff it consists only of the following types of statements: \babelsrc{def}, \babelsrc{typedef}, \babelsrc{import}, \babelsrc{private}, \babelsrc{memoize}. 
+
+If module $p$ needs initialization and is in state DOWN, then sending it a message causes it to go to state LOADING; after $p$ has been loaded, that is all statements of the module have been executed, $p$ goes from state LOADING to state UP. If the module needs no initialization, the state goes directly from DOWN to UP.
+
+If $p$ is in state LOADING, then sending it a message will make the sender wait until $p$ is in state UP. Note that this can lead to a deadlock situation. In case the Babel-17 runtime can detect this deadlock, a \emph{DeadLock}-exception is thrown. 
+
+If $p$ is already in state UP, then A does not change the state of the module. 
+
+Note that the state of a module is not directly accessible and only sometimes indirectly observable via the \emph{DeadLock}-exception.
+
+Here is an example that leads to a deadlock:
+\begin{babellisting}
+module deadlock
+  def x = 10
+  val a = deadlock.x + 1
+  def y = a * a
+end
+deadlock.y
+\end{babellisting}
+Note that the following example does \emph{not} lead to a deadlock:
+\begin{babellisting}
+module noDeadlock
+  def x  = 10
+  val a = x + 1
+  def y = a * a
+end
+noDeadlock.y
+\end{babellisting}
+The most straightforward way to avoid deadlock problems is to write modules which need no initialization. 
+
+\subsection{Type Definitions}\label{sec:typedefs}
+A module may contain type definition statements. A new type $t$ is introduced via
+\begin{babellisting}
+typedef $t$ $pat$ = $expr$
+\end{babellisting}
+where $t$ is an identifier, $pat$ a pattern and $expr$ an expression. Like a \babelsrc{def} statement, the above introduces a new function $t$. Unlike a \babelsrc{def} statement, it also introduces a new type $t$. The new function $t$ has the property that all non-exceptional values $v$ it returns will have type $t$ and will consist of two components: an \emph{inner value}, and an \emph{outer value}. The inner value $i$ is just the argument that was passed to $t$. The outer value $o$ is the result of evaluating $expr$ in case this evaluation does not lead to an exception. If this evaluation leads to an exception or if $pat$ does not match, then a \emph{TypeError}-exception is thrown. 
+
+The point of all this is that the value $v$ behaves just like its outer value $o$, i.e. $v$ responds to the same messages as $o$, and does so in the same way. Nevertheless, the type of $v$ is $t$, whatever the type of $o$ might be. This means that you can implement the behavior of $v$ by choosing an appropriate $o$ which accesses the hidden encapsulated state $i$. This hidden state can also be accessed in the module in which the type has been defined via the \emph{inner-value pattern} ($t$\ $p$) which matches $v$ if it has type $t$ and its inner value $i$ matches $p$.
+
+Let's look at a first type definition example:
+\begin{babellisting}
+module cards
+  typedef rank i = 
+    match i 
+      case 14 => Ace
+      case 13 => King
+      case 12 => Queen
+      case 11 => Jack
+      case x if 2 <= x <= 10 => Number x
+    end
+end
+\end{babellisting}
+In the above we define the type \emph{cards.rank}. We can create a value of this type like this:
+\begin{babellisting}
+val k = cards.rank 13
+\end{babellisting}
+The expression \babelsrc{(:cards.rank)}\ evaluates to the type \emph{cards.rank}, therefore 
+\begin{babellisting}
+(typeof k) == (:cards.rank)
+\end{babellisting}
+evaluates to \babelsrc{true}. 
+
+Note that there is no other way to create a value of type \emph{cards.rank} than via the \emph{rank} function in the module \emph{cards}.  If you want to access the inner value of a value of type \emph{cards.rank}, you can do so \emph{within} the module \emph{cards} via the inner-value pattern:
+\begin{babellisting}
+module cards
+  typedef rank ...
+  ...
+  def rank2num(rank n) = n
+  ...
+end
+\end{babellisting}
+Now you can access the inner value of a rank even outside of the \emph{cards} module by calling the \emph{rank2num} function we just defined. The following evaluates to \babelsrc{true}:
+\begin{babellisting}
+cards.rank2num (cards.rank 14) == 14
+\end{babellisting}
+You can use the fact that a rank value behaves like its outer value to do pattern matching on rank values:
+\begin{babellisting}
+def rank2str(r : rank) = 
+  match r
+    case (Ace !) => "ace"
+    case (King !) => "king"
+    case (Queen !) => "queen"
+    case (Number ! n) => "number"+n
+  end
+\end{babellisting}
+It is possible to distribute the definition of a type $t$ over several statements:
+\begin{babellisting}
+typedef $t$ $pat_1$ = $expr_1$
+  $\vdots$
+typedef $t$ $pat_n$ = $expr_n$
+\end{babellisting}
+So an alternative way of defining the rank type would have been:
+\begin{babellisting}
+module cards
+  typedef rank 14 = Ace
+  typedef rank 13 = King
+  typedef rank 12 = Queen
+  typedef rank 11 = Jack
+  typedef rank (n if 2 <= n <= 10) = Number n
+end
+\end{babellisting}
+As a shortcut notation, several typedef clauses belonging to the same type $t$ can be combined into a single one by separating the different cases by commas:
+\begin{babellisting}
+module cards
+  typedef rank 14 = Ace, 13 = King, 12 = Queen, 11 = Jack, 
+                (n if 2 <=n <= 10) = Number n
+end
+\end{babellisting}
+Another shortcut notation allows you to write instead of
+\begin{babellisting}
+typedef $t$ (x as $p$) = x
+\end{babellisting}
+just 
+\begin{babellisting}
+typedef $t$ $p$
+\end{babellisting}
+
+Finally, it is possible to identify a type with the module it is defined in by using the same name for the type and the module. For example:
+\begin{babellisting}
+module util.orderedSet
+  typedef orderedSet ...
+...
+end
+\end{babellisting}
+This defines the module \emph{util.orderedSet} and the type \emph{util.orderedSet.orderedSet}. Because of our convention of identifying modules and types that have the same name, you can refer to the type \emph{util.orderedSet.orderedSet} also just by \emph{util.orderedSet}. In particular, the following evaluates to \babelsrc{true}:
+\begin{babellisting}
+(:util.orderedSet.orderedSet) == (:util.orderedSet)
+\end{babellisting}
+
+This is all there is to defining your own types in Babel-17. In the following we list a few common type definition patterns: \emph{simple enumerations}, \emph{algebraic datatypes}, and \emph{abstract datatypes}.
+
+\subsection{Simple Enumerations}
+It is easy to define a type that is just an enumeration:
+\begin{babellisting}
+module cards
+  typedef suit Spades, Clubs, Diamonds, Hearts
+end
+\end{babellisting}
+We may choose to represent our rank type rather as an enumeration, too:
+\begin{babellisting}
+module cards
+  typedef rank Ace, King, Queen, Jack, Number (n if 2 <= n <= 10)
+end
+\end{babellisting}
+
+\subsection{Algebraic Datatypes}
+For enumeration types, the inner value is always equal to the outer value. This property is also shared by the more complex algebraic datatypes which are typically recursively defined: 
+\begin{babellisting}
+module cards
+  typedef bintree Leaf _, Branch ( _ : bintree, _ : bintree)
+end
+\end{babellisting}
+
+\subsection{Abstract Datatypes}
+The type definition facility of Babel-17 is powerful enough to allow you to define your own abstract datatypes. Currently there is no type in Babel-17 for representing sets that are ordered by a given (i.e., not necessarily the built-in) order. So let's define our own. To keep it simple, we use lists to internally represent sets:
+\begin{babellisting}
+module util.orderedSet
+
+  private orderedSet, ins
+  
+  typedef orderedSet (leq, list) = nil
+  
+  def insert (orderedSet (leq, list), y) = (orderedSet (leq, ins (leq, list, y))
+  
+  def toList (orderedSet (leq, list)) = list
+  
+  def ins (leq, [], y) = [y]
+  def ins (leq, x::xs, y) =
+    if leq (y, x) then
+        if leq (x, y) then x::xs else y::x::xs end
+    else
+        x::(ins (leq, xs, y))
+    end  
+end
+\end{babellisting}
+From outside the module, the only way to create values of type \emph{orderedSet}  is by calling \emph{empty} and \emph{insert}. The only way to inspect the elements of an \emph{orderedSet} is via \emph{toList}.
+
+\subsection{Type Conversions}
+It often makes sense to convert a value of one type into a value of another type. Probably the most prominent example of this is converting an \emph{Integer} to a \emph{Real} and rounding a \emph{Real} to an \emph{Integer}.
+
+Because type conversions are so ubiquitous, there is special notation for it in Babel-17. To convert a value $v$ canonically to a value of type $t$, the notation
+\begin{babellisting}
+$v$ :> $t$
+\end{babellisting}
+is used. If $t$ is a value of type \texttt{type}, you can write
+\begin{babellisting}
+$v$ :> ($t$)
+\end{babellisting}
+to express the conversion operation.
+
+Your own object can implement conversion to a type $t$ via 
+\begin{babellisting}
+object 
+  ...
+  def this : $t$ = ...
+  ....
+end
+\end{babellisting}
+In case your object cannot convert to $t$, it should throw a \emph{CannotConvert}-exception.
+
+You can annotate your \emph{def}-statements with a \emph{return type} $t$, for example:
+\begin{babellisting}
+def myfun $pat$ : $t$ = $expr$
+\end{babellisting}
+This is just another notation for
+\begin{babellisting}
+def myfun $pat$ = ($expr$ :> $t$)
+\end{babellisting}
+
+\subsection{Import}
+A module can be accessed from anywhere via its module path. For example will 
+\begin{babellisting}
+module hello.world
+  def x = 2
+end
+hello.world.x
+\end{babellisting}
+result in the value $2$.
+
+To avoid typing long module paths you can \emph{import} them:
+\begin{babellisting}
+import hello.world.x
+(x, x, x)
+\end{babellisting}
+will evaluate to $(2, 2, 2)$. 
+
+You can also import types this way:
+\begin{babellisting}
+import util.orderedSet.orderedSet
+def e : orderedSet = util.orderedSet.empty
+\end{babellisting}
+Alternatively, to make the above statement even shorter, import \emph{both} the type and its enclosing module:
+\begin{babellisting}
+import util.orderedSet
+def e : orderedSet = orderedSet.empty
+\end{babellisting}
+Of course, you can also just import all members of the module instead:
+\begin{babellisting}
+import util.orderedSet._
+def e : orderedSet = empty
+\end{babellisting}
+You can also rename imports, for example:
+\begin{babellisting}
+import util.orderedSet => set
+def e : set = set.empty
+\end{babellisting}
+You can combine several imports into a single one:
+\begin{babellisting}
+import util.orderedSet.{empty, insert => orderedInsert} 
+def e : set = set.empty
+\end{babellisting}
+or import everything from a module \emph{except} certain names:
+\begin{babellisting}
+import util.orderedSet.{-empty}
+def e : set = set.empty
+\end{babellisting}
+All imports must be grouped together at the beginning of a block, and later \babelsrc{import}-statements in this group take earlier \babelsrc{import}-statements in this group (and outside this group, of course) into account.
+
+\subsection{Abstract Datatypes, Continued}
+We have seen previously how to define our own abstract datatype \emph{orderedSet}. This is already fine, but we would like orderedSet to integrate more tightly with how things work in Babel-17. In particular,
+\begin{enumerate}
+\item ordered sets should be comparable in a way that makes sense; right now, the expression
+\begin{babellisting}
+insert (empty leq, 1) == insert (empty leq, 2)
+\end{babellisting}
+evaluates to \babelsrc{true} because both values have outer value \babelsrc{nil},
+\item instead of \babelsrc{insert (r, x)} we just want to write \babelsrc{r + x},
+\item instead of \babelsrc{toList r} we want to write \babelsrc{r :> list},
+\item we want to be able to traverse the set via
+\begin{babellisting}
+for x in r do ... end
+\end{babellisting}
+\item and we want to be able to write 
+\begin{babellisting}
+with empty leq do
+  yield a
+  yield b
+  yield c
+end
+\end{babellisting}
+for the set consisting of the elements $a$, $b$ and $c$.
+\end{enumerate}
+We can achieve all that by replacing the line 
+\begin{babellisting}
+typedef orderedSet (leq, list) = nil
+\end{babellisting}
+with the following code:
+\begin{babellisting}
+typedef orderedSet (leq, list) = 
+  object
+
+    ## (1)
+    def compare_ (orderedSet (leq2, list2)) = list $\sim$ list2
+
+    ## (2)
+    def plus_ x = insert (this, x)
+
+    ## (3)
+    def this : list = list
+
+    ## (4)
+    def iterate_ =
+        match list
+            case [] => ()
+            case (x::xs) => (x, orderedSet (leq, xs))
+        end
+
+    ## (5)
+    def collector_close_ = this
+    def collector_add_ x = this + x
+    def empty = orderedSet (leq, [])
+
+  end
+\end{babellisting}
+
 \section{Unit Tests}
+Unit testing has become a corner stone of most popular software development methodologies. Therefore Babel-17 provides language support for unit testing in form of the \babelsrc{unittest} keyword. This keyword can be used in two forms. 
 
+First, it can be used as part of the name of a module, for example like in
+\begin{babellisting}
+module util.orderedSet.unittest
 
+import util.orderedSet._
 
+def leq (a, b) = a <= b
+def geq (a, b) = a >= b
 
-\section{Standard Library (To Be Updated for v0.3)}
-The standard library of Babel-17 is just the description of all messages that the built-in types of Babel-17 respond to. The majority of these messages have special syntactic support by the language. The standard library is therefore an important part of the language definition of Babel-17.
+#assert insert (insert (empty leq, 3), 1) :> list == [1, 3]
+#assert insert (insert (empty geq, 3), 1) :> list == [3, 1]
 
-The messages of the standard library can be grouped as follows:
+end
+\end{babellisting}
+Second, it can be used to separate a module definition into two parts:
+\begin{babellisting}
+module util.orderedSet
+
+typedef orderedSet ...
+
+...
+
+unittest
+
+def leq (a, b) = a <= b
+def geq (a, b) = a >= b
+
+#assert insert (insert (empty leq, 3), 1) :> list == [1, 3]
+#assert insert (insert (empty geq, 3), 1) :> list == [3, 1]
+
+end
+\end{babellisting}
+The meaning of the above is
+\begin{babellisting}
+module util.orderedSet
+
+typedef orderedSet ...
+
+...
+
+def unittest = 
+  begin
+
+    def leq (a, b) = a <= b 
+    def geq (a, b) = a >= b
+
+    #assert insert (insert (empty leq, 3), 1) :> list == [1, 3]
+    #assert insert (insert (empty geq, 3), 1) :> list == [3, 1]
+
+  end
+
+end
+\end{babellisting}
+except for the fact that this is not legal Babel-17.
+
+The idea is that Babel-17 can run in two modes. In \emph{production mode}, all unit tests are ignored. In \emph{unit testing mode}, you can run your unit tests. Usually in production mode, you would switch off assertions, and in unit testing mode you would turn them on, but that is up to you.
+
+An important detail is that production code is separated from unit testing code, i.e. while unit testing code can import other unit testing code and production code, production code can only import other production code. For example,
+\begin{babellisting}
+module mystuff
+
+import util.orderSet.unittest => test
+
+test ()
+
+end
+\end{babellisting}
+is not legal Babel-17, because the production code module \emph{mystuff} cannot import the unit testing function \emph{util.orderSet.unittest}. On the other hand, the following is valid Babel-17:
+\begin{babellisting}
+module mystuff.unittest
+
+import util.orderSet.unittest => test
+
+test ()
+
+end
+\end{babellisting}
+
+\section{Standard Library}
+The standard library is an important part of the language definition of Babel-17.
+
+The standard library of Babel-17 lives in the module \emph{babel17.standard}. All public elements of this module are automatically and implicitly imported.
+
+The messages implemented by the built-in types of the standard library can be grouped as follows:
 \begin{itemize}
+\item \babelsrc{compare\_},
 \item collector related messages (Section~\ref{sec:collector}),
 \item collection related messages (Section~\ref{sec:loops}),
 \item messages that convert between different types,
@@ -1441,6 +1763,9 @@ The messages of the standard library can be grouped as follows:
 \end{itemize}
 
 As a convention, all messages that are normally only used via some sort of syntactic sugar end with an underscore in their name.
+
+\subsection{compare\_}
+The role of the \babelsrc{compare\_} message has been explained in Section~\ref{sec:order}. There we have also described the canonical orderings of the built-in types.
 
 \subsection{Collections and Collectors}
 The built-in types that can be used as collectors and collections are: List, Vector, Set, Map and String. In the case of maps,
@@ -1476,34 +1801,37 @@ $c$ \verb+//+ $f$  & \tabparbox{map created by all key/value pairs $(x,\ f(x))$ 
 
 
 \subsection{Type Conversions}
-For many built-in types, there is a message that converts a value into the corresponding value of this type. Not all values can be converted to every type. If a value cannot fulfill a conversion request, it throws an exception with parameter \babelsrc{DomainError}. Table~\ref{tab:typeconversions} lists all type conversion messages and those source types such that at least some of their values can be successfully converted via the given message.
+Many built-in types have conversions defined between them. Table~\ref{tab:typeconversions} lists all of them.
 \begin{table}
 \caption{Type Conversions}
 \begin{tabular}{c|l}
-\textbf{Message} & \textbf{Source Types} \\\hline
-\babelsrc{integer} & Boolean, String \\
-infinity & String \\
-\babelsrc{boolean} & Integer, String \\
-\babelsrc{string} & Integer, Infinity, Boolean, List, Vector \\
-\babelsrc{list} &  Vector, Set, Map, String \\
-\babelsrc{vector} & List, Set, Map, String \\
-\babelsrc{set} & List, Vector, Map \\
-\babelsrc{map} & List, Vector, Set \\
+\textbf{Destination Type} & \textbf{Source Types} \\\hline
+\babelsrc{Integer} & Boolean, String, Real \\
+\babelsrc{Real} & Integer, String \\
+\babelsrc{Boolean} & Integer, String \\
+\babelsrc{String} & Integer, Real, Boolean \\
+\babelsrc{List} &  Vector, Set, Map \\
+\babelsrc{Vector} & List, Set, Map \\
+\babelsrc{Set} & List, Vector, Map \\
+\babelsrc{Map} & List, Vector, Set \\
 \end{tabular}
 \label{tab:typeconversions}
 \end{table}
-Note that Babel-17 does no automatic type conversion except for the conversion between lists and vectors.
+Note that Babel-17 does no automatic type conversion.
 
-In the rest of this section we enumerate for each built-in type all messages that are supported by this type. Collector, collection and type conversion messages are excluded from this enumeration.
+In the rest of this section we enumerate for each built-in type all messages that are supported by this type. Collector and collection messages are excluded from this enumeration.
 
-\subsection{Integer, Infinity}
-Integers can be arbitrarily large and support the usual operations (\texttt{+}, binary and unary \texttt{-}, \texttt{*}, \texttt{\^}, \babelsrc{div}, \babelsrc{mod}). Division and modulo are Euclidean. Where it makes sense, infinite values can be used. 
+\subsection{Integer}
+Integers can be arbitrarily large and support the usual operations (\texttt{+}, binary and unary \texttt{-}, \texttt{*}, \texttt{\^}, \babelsrc{div}, \babelsrc{mod}). Division and modulo are Euclidean.
 
 The expression $a$ \texttt{to} $b$ denotes the list of values $a$, $a+1$, $\ldots$, $b$. The expression $a$  \texttt{downto} $b$ denotes the list of values  $a$, $a-1$, $\ldots$, $b$. 
 
+\subsection{Reals}
+Reals are intervals bounded by floating point numbers. For more information on them see Section~\ref{sec:reals}.
+
 \subsection{String} Implements no messages specific for strings. The semantics of the \babelsrc{indexOf} and \babelsrc{contains} messages is extended with respect to the usual collection semantics to not only search for strings of length 1, but arbitrarily long strings.
 
-\subsection{List and Vector} Those messages specific for lists and vectors are listed in Table~\ref{tab:listvectorops}.  
+\subsection{List and Vector} Those messages specific to lists and vectors are listed in Table~\ref{tab:listvectorops}.  
 \begin{table}
 \caption{List/Vector-specific messages}
 \begin{tabular}{c|c}
@@ -1514,7 +1842,7 @@ $-l$ & \tabparbox{reverses $l$}
 \end{table}
 
 \subsection{Set}
-There are no messages specific for sets except that for a set $s$ the expression $s\ x$ is equivalent to 
+There are no messages specific to sets except that for a set $s$ the expression $s\ x$ is equivalent to 
 $s.\babelsrc{contains}\ x$ and therefore tests if $x$ is an element of $s$. 
 
 \subsection{Map}The messages specific to maps are listed in Table~\ref{tab:mapops}. Note that the operators \texttt{-}, \texttt{--}, \texttt{**} and \texttt{//} deviate in their semantics from the usual collection semantics, but that the operators  \texttt{+} and \texttt{++} \emph{do} behave according to the usual collection semantics. 
@@ -1543,7 +1871,7 @@ Custom objects respond exactly to the set of messages defined in their body, wit
 \item \babelsrc{empty}
 \item \babelsrc{collector_iterate_}
 \end{itemize}
-then the custom object automatically inherits standard implementations for all messages listed in Table~\ref{tab:generalcollectmessages} and for the three type conversion messages \babelsrc{list},\babelsrc{vector} and \babelsrc{set}. These standard implementations are shadowed by actual implementations the custom object might provide.
+then the custom object automatically inherits standard implementations for all messages listed in Table~\ref{tab:generalcollectmessages} and for the three type conversions to \texttt{list},\texttt{vector} and \texttt{set}. These standard implementations are shadowed by actual implementations the custom object might provide.
 
 \section{What's Next?}
 
@@ -1555,6 +1883,7 @@ While there will probably always be a reference implementation of Babel-17 that 
 
 \vspace{0.2cm}
 \noindent\textbf{Development of the language} 
-Right now Babel-17 is a purely functional programming language with no static typing and only a handful of built-in types. Modularization and limited encapsulation of code is already possible via objects. More powerful encapsulation, more powerful types and some way of dealing with state, user interfaces, and communication with the outside world will be added to future versions of Babel-17. Programmers will be able to choose which of these future features they would like to employ. Those they don't care about they will be able to just ignore mostly and pretend that Babel-17 v21.0 is still Babel-17 v0.21.  
+Babel-17 is a dynamically typed purely functional programming language with a module system that has powerful encapsulation mechanisms.
+Some way of dealing with state, user interfaces, and communication with the outside world will be added to future versions of Babel-17. 
 
 \end{document}  

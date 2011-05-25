@@ -65,7 +65,7 @@
       <file leaf-file-name="RemoveTemporaries.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/RemoveTemporaries.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="699" column="42" selection-start="27458" selection-end="27458" vertical-scroll-proportion="-8.576923">
+            <state line="692" column="42" selection-start="27033" selection-end="27033" vertical-scroll-proportion="-8.576923">
               <folding />
             </state>
           </provider>
@@ -92,7 +92,7 @@
       <file leaf-file-name="Program.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="230" column="13" selection-start="10105" selection-end="10105" vertical-scroll-proportion="-27.461538">
+            <state line="245" column="13" selection-start="10509" selection-end="10509" vertical-scroll-proportion="-27.461538">
               <folding />
             </state>
           </provider>
@@ -119,10 +119,9 @@
       <file leaf-file-name="Tree2Program.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="876" column="21" selection-start="32653" selection-end="32653" vertical-scroll-proportion="-8.192307">
+            <state line="879" column="21" selection-start="32801" selection-end="32801" vertical-scroll-proportion="-8.192307">
               <folding>
-                <marker date="1306105378000" expanded="true" signature="287:33814" placeholder="{...}" />
-                <marker date="1306105378000" expanded="true" signature="29090:32669" placeholder="{...}" />
+                <marker date="1306228196000" expanded="true" signature="287:26647" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -910,14 +909,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/RemoveTemporaries.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="699" column="42" selection-start="27458" selection-end="27458" vertical-scroll-proportion="-8.576923">
+        <state line="692" column="42" selection-start="27033" selection-end="27033" vertical-scroll-proportion="-8.576923">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="230" column="13" selection-start="10105" selection-end="10105" vertical-scroll-proportion="-27.461538">
+        <state line="245" column="13" selection-start="10509" selection-end="10509" vertical-scroll-proportion="-27.461538">
           <folding />
         </state>
       </provider>
@@ -938,10 +937,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="876" column="21" selection-start="32653" selection-end="32653" vertical-scroll-proportion="-8.192307">
+        <state line="879" column="21" selection-start="32801" selection-end="32801" vertical-scroll-proportion="-8.192307">
           <folding>
-            <marker date="1306105378000" expanded="true" signature="287:33814" placeholder="{...}" />
-            <marker date="1306105378000" expanded="true" signature="29090:32669" placeholder="{...}" />
+            <marker date="1306228196000" expanded="true" signature="287:26647" placeholder="{...}" />
           </folding>
         </state>
       </provider>
