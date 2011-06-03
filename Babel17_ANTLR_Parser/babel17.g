@@ -244,6 +244,10 @@ L_not	:	'not';
 
 L_or	:	'or';
 
+L_root	:	'root';
+
+L_native:	'native';
+
 /* Symbolic Tokens */
 
 A_EQUAL	:	'==';
@@ -534,13 +538,13 @@ testid	:	Id
 	|	L_unittest;
 
 moduleid 	
-	:	testid (NL? PERIOD NL? testid)* -> ^(MODULEID testid*);
+	:	Id (NL? PERIOD NL? testid)* -> ^(MODULEID Id? testid*);
 
 st_module
 	:	L_module NL? moduleid block (L_unittest block)? L_end -> ^(L_module moduleid block L_unittest? block?);
 	
 importprefix
-	:	testid (NL? PERIOD NL? testid)* -> ^(IMPORT_PREFIX testid*);	
+	:	(L_root | testid) (NL? PERIOD NL? testid)* -> ^(IMPORT_PREFIX L_root? testid*);	
 	
 importall
 	:	UNDERSCORE -> ^(IMPORT_ALL);
@@ -717,7 +721,7 @@ p_term_expr
 	|	p_arith_expr;
 
 builtin_fun
-	:	L_random | L_choose | L_typeof;
+	:	L_random | L_choose | L_typeof | L_native;
 
 arith_expr
 	:	plusplus_expr;
@@ -810,7 +814,7 @@ map_or_set_elem_expr
 
 type_expr
 	:	'(' NL? ':' NL? typeid NL? ')' -> ^(TYPE_EXPR typeid);
-
+	
 primitive_expr
 	:	Num
 	|	Float
@@ -821,6 +825,7 @@ primitive_expr
 	|	L_false
 	|	L_this	
 	|	L_nil
+	|	L_root
 	|	type_expr
 	| 	list_expr
 	|	with_control_expr

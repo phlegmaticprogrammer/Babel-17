@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 OpenIDE-Module: com.babel17.netbeans
-OpenIDE-Module-Implementation-Version: 28
+OpenIDE-Module-Implementation-Version: 31
 OpenIDE-Module-Layer: com/babel17/netbeans/layer.xml
 OpenIDE-Module-Localizing-Bundle: com/babel17/netbeans/Bundle.properties

@@ -32,7 +32,7 @@ public enum TokenType {
   CHOOSE(babel17Lexer.L_choose, "keyword_operator"),
   LAZY(babel17Lexer.L_lazy),
   MEMOIZE(babel17Lexer.L_memoize),
-  THIS(babel17Lexer.L_this),
+  THIS(babel17Lexer.L_this, "keyword_operator"),
   RANDOM(babel17Lexer.L_random, "keyword_operator"),
   FORCE(babel17Lexer.L_force),
   DIV(babel17Lexer.L_div, "keyword_operator"),
@@ -48,6 +48,8 @@ public enum TokenType {
   AND(babel17Lexer.L_and, "keyword_operator"),
   OR(babel17Lexer.L_or, "keyword_operator"),
   NOT(babel17Lexer.L_not, "keyword_operator"),
+  ROOT(babel17Lexer.L_root, "keyword_operator"),
+  NATIVE(babel17Lexer.L_native, "keyword_operator"),
 
 
   COLON(babel17Lexer.COLON, "operator"),

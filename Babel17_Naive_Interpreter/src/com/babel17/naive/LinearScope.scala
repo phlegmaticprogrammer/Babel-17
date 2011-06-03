@@ -335,6 +335,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SEThis() =>
         /*if (!env.hasThis)
           error (simple.location, "no 'this' allowed here")*/
+      case SERoot() =>
       case se : SimpleExpression =>
         for (s <- CollectVars.subSimpleExpressions(se)) {
           check_simple(env, s)

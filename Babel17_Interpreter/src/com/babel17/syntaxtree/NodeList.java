@@ -105,4 +105,13 @@ public class NodeList implements Iterable<Node> {
       return this;
   }
 
+  public String toString() {
+      String s = "";
+      for (Node n : this) {
+        s = s + n;
+        s = s + ",";
+      }
+      return "NodeList("+s+")";
+  }
+
 }

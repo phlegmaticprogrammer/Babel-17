@@ -55,6 +55,10 @@ public final class OperatorNode extends Node {
 
   public final static int INTERVAL = 43;
 
+  public final static int ROOT = 44;
+
+  public final static int NATIVE = 45;
+
 
   public OperatorNode(int operator) {
     this.operator = operator;

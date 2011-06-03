@@ -187,6 +187,8 @@ object Program {
   case class SEId(id: Id) extends SimpleExpression
   case class SEConstr(c: Constr, param: SimpleExpression) extends SimpleExpression
   case class SEThis() extends SimpleExpression
+  case class SERoot() extends SimpleExpression
+  case class SENative(u : SimpleExpression) extends SimpleExpression
   case class SEExpr(se: Expression) extends SimpleExpression
   case class SEOr(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SEAnd(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression

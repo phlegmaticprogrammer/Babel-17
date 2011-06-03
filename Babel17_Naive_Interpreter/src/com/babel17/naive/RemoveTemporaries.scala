@@ -46,12 +46,17 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     }
 
     def resolvePath(path : Path) : Option[(Path, PackageDescr, Int)] = {
-      val first = path.ids.head
       var p : Path = path
-      if (imports.pi.contains(first))
+      if (!path.ids.isEmpty) {
+      val first = path.ids.head
+      val root = new Id("root")
+      if (root == first)
+        p = Path(path.ids.tail)
+      else if (imports.pi.contains(first))
         p = imports.pi(first).append(Path(path.ids.tail))
       else if (imports.di.contains(first))
         p = imports.di(first).append(Path(path.ids.tail))
+      }
       moduleSystem.find(p) match {
         case None =>
           None
@@ -65,9 +70,13 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     }
 
     def resolveTypePath(path : Path) : Option[Path] = {
+      if (path.ids.isEmpty) return None
       val first = path.ids.head
       var p : Path = path
-      if (imports.pi.contains(first))
+      val root = new Id("root")
+      if (root == first)
+        p = Path(path.ids.tail)
+      else if (imports.pi.contains(first))
         p = imports.pi(first).append(Path(path.ids.tail))
       else if (imports.ti.contains(first))
         p = imports.ti(first).append(Path(path.ids.tail))
@@ -146,9 +155,14 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         case _ =>
       }
     }
+    var stCounter = 0;
     for (s <- statements) {
       s match {
+        case _ : SModule =>
         case TempImport(path, plusAll, plus, minus) =>
+          if (stCounter > 0) {
+            error(path.location, "import statements must appear only at the beginning of a block")
+          }
           var plusmap : SortedMap[Id, Id] = SortedMap()
           plusmap = plusmap ++ plus
           var minusset : SortedSet[Id] = SortedSet()
@@ -213,6 +227,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
           }
           currentEnv = currentEnv.addImports(Imports(packageIds, defIds, typeIds))
         case _ =>
+          stCounter = stCounter + 1;
       }
     }
     Imports(packageIds, defIds, typeIds)

@@ -37,7 +37,6 @@ public class Parser {
     k.add("exception");
     k.add("to");
     k.add("downto");
-    k.add("infinity");
     k.add("concurrent");
     k.add("choose");
     k.add("lazy");
@@ -61,6 +60,8 @@ public class Parser {
     k.add("not");
     k.add("or");
     k.add("and");
+    k.add("root");
+    k.add("native");
 
     return k;
   }
@@ -176,6 +177,17 @@ public class Parser {
       BeginNode be = new BeginNode(b);
       be.mergeLocation(loc);
       return be;
+  }
+
+  private NodeList convertRootPrefix(NodeList ids) {
+      if (!ids.empty() && ids.head() instanceof NullaryNode) {
+          OperatorNode op = ((NullaryNode) ids.head()).operator();
+          if (op.operator() == OperatorNode.ROOT) {
+            Node id = new IdentifierNode("root").mergeLocation(op.location());
+            return ids.tail().cons(id);
+          } else
+            throw new RuntimeException("invalid import prefix, code = "+op.operator());
+      } else return ids;
   }
 
   private Node toNode(Tree tree) {
@@ -370,6 +382,11 @@ public class Parser {
         case babel17Parser.L_this:
           return toNullaryNode(OperatorNode.THIS).
                   mergeLocation(loc);
+        case babel17Parser.L_root:
+          return toNullaryNode(OperatorNode.ROOT).
+                  mergeLocation(loc);
+        case babel17Parser.L_native:
+          return toUnaryNode(tree, OperatorNode.NATIVE);
         case babel17Parser.L_random:
           return toUnaryNode(tree, OperatorNode.RANDOM);
         case babel17Parser.L_choose:
@@ -499,6 +516,7 @@ public class Parser {
         case babel17Parser.L_import: {
             NodeList prefix = toNodeList(tree.getChild(0)).suppressErrors();
             if (prefix.empty()) return BeginNode.empty();
+            prefix = convertRootPrefix(prefix);
             if (tree.getChildCount() == 1)
                 return ImportNode.simple(prefix).mergeLocation(loc);
             Tree arg = tree.getChild(1);

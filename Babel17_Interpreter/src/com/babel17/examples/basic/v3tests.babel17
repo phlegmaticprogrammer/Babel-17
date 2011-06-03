@@ -1,20 +1,27 @@
-val f = object + this
-
-val x = h
-
-def u = this
-
-def h = u
 
 
-def a 0 = this
-
-
-for i in 1 to 4 do
+#(module unittest
 end
 
+module test
 
+import root
+import unittest
+
+for i in [1, 2, 3] do
+  #log(i*i)
 end
+
+def test = root.cool
+
+typedef bintree Leaf _, Branch (_ : bintree, _ : bintree)
+
+def myfun (x : bintree) = 2
+
+2
+
+
+end)#
 
 
 #(

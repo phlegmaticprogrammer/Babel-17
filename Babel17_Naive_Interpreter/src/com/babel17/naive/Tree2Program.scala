@@ -191,6 +191,7 @@ class Tree2Program extends ErrorProducer {
       case TRUE => SEBool(true)
       case FALSE => SEBool(false)
       case THIS => SEThis()
+      case ROOT => SERoot()
       case k => throwInternalError(n.location, "unknown nullary operator code: "+k)
     }
     result.setLocation(n.location)
@@ -214,6 +215,7 @@ class Tree2Program extends ErrorProducer {
       case UMINUS => mk(Values.MESSAGE_UMINUS)
       case LAZY => SELazy(attachSTE(arg, "lazy"))
       case RANDOM => SERandom(arg)
+      case NATIVE => SENative(arg)
       case CONCURRENT => SEConcurrent(attachSTE(arg, "random"))
       case CHOOSE => SEChoose(arg)
       case FORCE => SEForce(attachSTE(arg, "force"), true)
@@ -565,7 +567,7 @@ class Tree2Program extends ErrorProducer {
         /*if (n.importAll)
     error(path.location, "no wildcard imports allowed")*/
         if (nodes.length < 1)
-          error(path.location, "import path must contain at least one dot")
+          error(n.location, "import path must contain at least one dot")
         def mkid(n : Node) = build(n).asInstanceOf[Id]
         val entries = toList(n.entries).map(x => x.asInstanceOf[ImportNode.Entry])
         var plus : List[(Id, Id)] = List()
@@ -586,17 +588,22 @@ class Tree2Program extends ErrorProducer {
           }
         }
         TempImport(path, all, plus.reverse, minus.reverse)
-
       }
       case n : ModuleNode => {
         val nodes = n.moduleId.ids
         val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
         var ids : SortedSet[Id] = SortedSet()
+        val u = Id("unittest")
+        var ucount = 0
+        var loc : Location = null
         for (i <- path.ids) {
-          if (ids.contains(i))
-            error(i.location, "module path must not contain repetitions")
-          ids = ids + i
+          if (i == u) {
+            ucount = ucount + 1
+            loc = i.location
+          }
         }
+        if (ucount > 1)
+            error(loc, "'unittest' keyword appears more than once in module path");
         path.location = nodes.location
         SModule(path, buildBlock(n.block))
       }

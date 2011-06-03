@@ -31,7 +31,7 @@
 \newenvironment{babelcode}[0]{\begin{center}\tt}{\end{center}}
 
 \lstdefinelanguage{babellanguage} 
-{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this,as,object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch,private,import,module,unittest,typedef,typeof,and, or, not},
+{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this,as,object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch,private,import,module,unittest,typedef,typeof,and,or,not, root,native},
 sensitive=true, 
 morecomment=[l]{//}, 
 morecomment=[s]{/*}{*/}, 
@@ -119,9 +119,9 @@ These are the keywords of Babel-17:
 begin & end & object & with & if & then & else & elseif \\
 while &  for & do & choose & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
-to & downto & true & false & nil & infinity &  force & this \\
-try & catch &  typedef &  typeof &  module &  private &  import & unittest  \\
-and & or &  not &  &  &   &  & 
+to & downto & true & false & nil & unittest &  force & this \\
+try & catch &  typedef &  typeof &  module &  private &  import & not  \\
+and & or &  &  &  &   &  & 
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
@@ -835,7 +835,6 @@ $a$ $<>$ $b$ & $(a \sim b)$ $<>$ $0$ \\
 \end{tabular}
 \label{tab:relops}
 \end{table}
-Note that $a$ and $b$ are unrelated iff $a \sim b$ is less than $-1$ or greater than $1$.
 
 It is possible to chain relational operators like this:
 \begin{babellisting}
@@ -1150,8 +1149,8 @@ These are the control expressions that exist in Babel-17:
 \item \babelsrc{begin ... end}
 \item \babelsrc{if ... end}
 \item \babelsrc{match ... end}
-\item \babelsrc{match ... end}
 \item \babelsrc{try ... catch ... end}
+\item \babelsrc{for ... do ... end}
 \item \babelsrc{while ... end}
 \end{itemize}
 The last two control expressions are loops and explained in the next section. The first four have already been treated without delving too much into their statement character. We have already seen how  \babelsrc{begin ... end} is responsible for nesting block expressions, when it is used as a statement.  Just as  the \babelsrc{begin ... end} expression may be used as a statement, 
@@ -1335,7 +1334,7 @@ module $p_1.p_2.\ldots.p_n$
   $s_n$  
 end
 \end{babellisting}
-where $p = p_1.p_2.\ldots.p_n$ is the \emph{module path}. A condition on module paths is that all elements of a module path must be different, i.e. $p_i \neq p_j$ for $i \neq j$. 
+where $p = p_1.p_2.\ldots.p_n$ is the \emph{module path}. 
 
 The statements $s_i$ that may appear in modules are basically those that may also appear in object expressions. Additionally, modules can contain \emph{type definitions}; this is the topic of the next section. 
 
@@ -1513,6 +1512,8 @@ module util.orderedSet
   
   typedef orderedSet (leq, list) = nil
   
+  def empty (leq : fun) = orderedSet (leq, [])
+  
   def insert (orderedSet (leq, list), y) = (orderedSet (leq, ins (leq, list, y))
   
   def toList (orderedSet (leq, list)) = list
@@ -1608,6 +1609,26 @@ import util.orderedSet.{-empty}
 def e : set = set.empty
 \end{babellisting}
 All imports must be grouped together at the beginning of a block, and later \babelsrc{import}-statements in this group take earlier \babelsrc{import}-statements in this group (and outside this group, of course) into account.
+
+There is the \babelsrc{root}-keyword that denotes the module root.  Instead of \babelsrc{import util.orderedSet} you could just as well say
+\begin{babellisting}
+import root.util.orderedSet
+\end{babellisting}
+You can also use it in expressions, like in
+\begin{babellisting}
+val e = root.util.orderedSet.empty
+\end{babellisting}
+The \babelsrc{root}-keyword comes in handy in situations when you want to explicitly make sure that there is no name aliasing going on:
+\begin{babellisting}
+import com.util
+import util.orderedSet
+\end{babellisting}
+here the second import actually imports \babelsrc{com.util.orderedSet}. If you want to import \babelsrc{util.orderedSet} instead, write
+\begin{babellisting}
+import com.util
+import root.util.orderedSet
+\end{babellisting}
+
 
 \subsection{Abstract Datatypes, Continued}
 We have seen previously how to define our own abstract datatype \emph{orderedSet}. This is already fine, but we would like orderedSet to integrate more tightly with how things work in Babel-17. In particular,
@@ -1746,6 +1767,13 @@ test ()
 
 end
 \end{babellisting}
+
+\section{Native Interface}
+Babel-17 exposes the platform it is running on through its \emph{native interface}. To query which platform you are running on, use the expression
+\begin{babellisting}
+	native Platform
+\end{babellisting}
+If there is no underlying platform you can access, the value \babelsrc{nil} is returned. In Babel-17 v0.3, this is the only value that is returned.
 
 \section{Standard Library}
 The standard library is an important part of the language definition of Babel-17.

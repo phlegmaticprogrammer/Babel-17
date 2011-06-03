@@ -252,6 +252,7 @@ object CollectVars {
         val id = Id("this")
         id.location = term.location
         term.freeVars = SortedSet(id)
+      case SERoot() =>
       case SEId(id) =>
         term.freeVars = SortedSet(id)
       case SEExpr(e) =>
@@ -309,6 +310,7 @@ object CollectVars {
       case SECompare(operands, _) => operands
       case SELazy(se) => List(se)
       case SERandom(se) => List(se)
+      case SENative(se) => List(se)
       case SETypeOf(se) => List(se)
       case SEChoose(se) => List(se)
       case SEForce(se, _) => List(se)
