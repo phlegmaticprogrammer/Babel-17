@@ -1,4 +1,13 @@
+module int.unittest
 
+typedef int 10
+
+end
+
+
+def gcd (x : int) = x * root
+
+gcd 12
 
 #(module unittest
 end

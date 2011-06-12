@@ -159,19 +159,12 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     for (s <- statements) {
       s match {
         case _ : SModule =>
-        case TempImport(path, plusAll, plus, minus) =>
+        case TempImport(path, plus) =>
           if (stCounter > 0) {
             error(path.location, "import statements must appear only at the beginning of a block")
           }
           var plusmap : SortedMap[Id, Id] = SortedMap()
           plusmap = plusmap ++ plus
-          var minusset : SortedSet[Id] = SortedSet()
-          minusset = minusset ++ minus
-          val conflicts = plusmap.keySet ** minusset
-          if (!conflicts.isEmpty) {
-            val id = conflicts.firstKey
-            error(id.location, "conflicting import")
-          }
           currentEnv.resolvePath(path) match {
             case None =>
               error(path.location, "invalid import, module not found: '"+path+"'")
@@ -180,9 +173,8 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
                   error(path.location, "invalid import, module not found: '"+path+"'")
               else if (checkUnittest(s.location, resolvedPath)) {
                   for ((x,_) <- plus) checkImport(pd, x)
-                  for (x <- minus) checkImport(pd, x)
-                  val importAll = !minus.isEmpty || plusAll
-                  if (!importAll && plus.isEmpty) error(path.location, "nothing to import")
+ 
+                  if (plus.isEmpty) error(path.location, "nothing to import")
                 
                   // first, import all submodules  
                   for ((b, bpd) <- pd.branches) {
@@ -193,9 +185,6 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
                           error(s.location, "cannot introduce identifier 'unittest' because it is a keyword")
                         else addModuleId(bpd, plusmap(b), p)
                       }
-                    } else if (importAll && !minusset.contains(b)) {
-                      if ((isTest || !p.unittest) && !(b.name == "unittest"))
-                        addModuleId(bpd, b, p)
                     }
                   }
 
@@ -211,16 +200,11 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
                           else
                             addDefId(plusmap(m), resolvedPath.append(m))
                         }
-                      } else if (importAll && !minusset.contains(m)) {
-                        if ((isTest || !p.unittest) && !(m.name == "unittest"))
-                          addDefId(m, resolvedPath.append(m))
                       }
                     }
                     for (t <- mod.typeIds) {
                       if (plusmap.contains(t))
                         addTypeId(plusmap(t), resolvedPath.append(t))
-                      else if (importAll && !minusset.contains(t))
-                        addTypeId(t, resolvedPath.append(t))
                     }
                   }
               }

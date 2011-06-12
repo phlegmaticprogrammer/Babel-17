@@ -171,7 +171,7 @@ object Program {
   case class TempTypeDef(id : Id, branches: List[(Pattern, Option[Expression])]) extends TemporaryStatement
   case class TempMemoize(memos : List[(MemoType, Id)]) extends TemporaryStatement
   case class TempPrivate(visibilities : List[(Visibility, Id)]) extends TemporaryStatement
-  case class TempImport(prefix : Path, plusAll: Boolean, plus:List[(Id, Id)], minus:List[Id]) extends TemporaryStatement
+  case class TempImport(prefix : Path, plus:List[(Id, Id)]) extends TemporaryStatement
   case class TempConversionDef(returnType : Path, e : Expression) extends TemporaryStatement
    
   abstract class Expression extends Term

@@ -571,8 +571,6 @@ class Tree2Program extends ErrorProducer {
         def mkid(n : Node) = build(n).asInstanceOf[Id]
         val entries = toList(n.entries).map(x => x.asInstanceOf[ImportNode.Entry])
         var plus : List[(Id, Id)] = List()
-        var minus : List[Id] = List();
-        var all : Boolean = false
         for (e <- entries) {
           e.entryType match {
             case ImportNode.ENTRY_MAP =>
@@ -581,13 +579,12 @@ class Tree2Program extends ErrorProducer {
               val i = mkid(e.id1)
               plus = (i, i) :: plus
             case ImportNode.ENTRY_MINUS =>
-              minus = (mkid(e.id1)) :: minus
+              error(e.location, "negative imports are not allowed")
             case ImportNode.ENTRY_ALL =>
-              if (all) error(e.location, "duplicate wildcard")
-              all = true
+              error(e.location, "wildcard imports are not allowed")
           }
         }
-        TempImport(path, all, plus.reverse, minus.reverse)
+        TempImport(path, plus.reverse)
       }
       case n : ModuleNode => {
         val nodes = n.moduleId.ids
@@ -972,7 +969,7 @@ if (!nonlinear.contains(id) && !linear.contains(id))
   def buildProgram(result : Parser.ParseResult) : Term = {
     val term = makeProgram(result)
     val mds = ModuleSystem.scanForModules(term)
-    val moduleSystem = ModuleSystem.empty
+    val moduleSystem = ModuleSystem.root
     moduleSystem.source = source
     for (md <- mds) {
       moduleSystem.add(md)

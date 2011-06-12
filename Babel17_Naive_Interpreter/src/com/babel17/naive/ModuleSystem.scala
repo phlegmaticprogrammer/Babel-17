@@ -9,7 +9,9 @@ import com.babel17.interpreter.parser.ErrorMessage
 
 object ModuleSystem extends ErrorProducer {
 
-  case class ModuleDescr(path : Path, typeIds : SortedSet[Id], messages : SortedSet[Id], executable : Boolean) {
+  case class Code(block : Block)
+
+  case class ModuleDescr(path : Path, typeIds : SortedSet[Id], messages : SortedSet[Id], code : Code) {
     def isType : Boolean = {
       typeIds.contains(path.last)
     }
@@ -81,9 +83,18 @@ object ModuleSystem extends ErrorProducer {
             case None =>
             case Some (m) =>
               if (m.messages.contains(id)) {
-                error(id.location, "path element clashes with definition '"+id.name+"' in module '"+md.path.prefix(depth)+"'")
+                var m = "" + md.path.prefix(depth)
+                if (m == "") m = "root"
+                error(id.location, "path element clashes with definition '"+id.name+"' in module '"+m+"'")
                 return none
               }
+              if (m.typeIds.contains(id)) {
+                var m = "" + md.path.prefix(depth)
+                if (m == "") m = "root"
+                error(id.location, "path element clashes with type '"+id.name+"' in module '"+m+"'")
+                return none
+              }
+
           }
           pd.add(depth + 1, Path(ids), md) match {
             case e: ResultError => 
@@ -125,17 +136,46 @@ object ModuleSystem extends ErrorProducer {
         val defIds = CollectVars.collectDefIds(block.statements)
         val publicTypeIds = CollectVars.collectTypeIds(block.statements)
         val publicDefIds = CollectVars.filterPublicIds(block.statements, defIds)
-        val executable = CollectVars.isExecutable(block.statements)
+        //val executable = CollectVars.isExecutable(block.statements)
         val path = currentPath.append(modPath)
         path.location = modPath.location
-        List(ModuleDescr(path, publicTypeIds, publicDefIds, executable))
+        List(ModuleDescr(path, publicTypeIds, publicDefIds, Code(block)))
       case _ =>
         List()       
     }
   }
 
-  def empty : ModuleSystem = {
+/*  def empty : ModuleSystem = {
     new ModuleSystem(PackageDescr(SortedMap(), None))
+  }*/
+
+  def root : ModuleSystem = {
+    new ModuleSystem(PackageDescr(SortedMap(), Some(rootModule)))
+  }
+
+
+  def rootModule : ModuleDescr = {
+
+    var typeIds : SortedSet[Id] = SortedSet()
+    def ty(s : String) {
+      typeIds = typeIds + Id(s)
+    }
+    ty("int")
+    ty("real")
+    ty("bool")
+    ty("string")
+    ty("list")
+    ty("vect")
+    ty("set")
+    ty("map")
+    ty("cexp")
+    ty("obj")
+    ty("fun")
+    ty("exc")
+    ty("type")
+
+    ModuleDescr(Path(List()), typeIds, SortedSet(), Code(Block(List())))
+
   }
   
 }

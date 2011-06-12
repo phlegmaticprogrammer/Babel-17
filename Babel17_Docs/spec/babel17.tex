@@ -121,7 +121,7 @@ while &  for & do & choose & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
 to & downto & true & false & nil & unittest &  force & this \\
 try & catch &  typedef &  typeof &  module &  private &  import & not  \\
-and & or &  &  &  &   &  & 
+and & or & native &  root &  &   &  & 
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
@@ -212,7 +212,7 @@ Each value in Babel-17 has a unique type. All built-in types are depicted in Tab
 \metababel{Vector} & \verb+vect+ &  the type of vectors / tuples\\
 \metababel{Set} & \verb+set+ &  the type of sets \\
 \metababel{Map}& \verb+map+ &  the type of maps \\
-\metababel{CExpr} & \verb+cexpr+ &  the type of constructed expressions\\
+\metababel{CExpr} & \verb+cexp+ &  the type of constructed expressions\\
 \metababel{Object} & \verb+obj+ &  the type of user-defined objects\\
 \metababel{Function} & \verb+fun+ &  the type of  functions\\
 \metababel{PersistentException} & \verb+exc+ &  the type of persistent exceptions\\
