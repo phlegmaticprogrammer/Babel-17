@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  11 JUN 2011 18:37
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  17 JUN 2011 11:05
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -393,7 +393,14 @@ Overfull \hbox (2.77594pt too wide) in paragraph at lines 1171--1172
 ments throw a []
  []
 
-[23] [24] [25] [26] [27] [28] [29] [30] [31]
+[23] [24] [25] [26] [27] [28] [29] [30]
+Overfull \hbox (2.8936pt too wide) in paragraph at lines 1553--1554
+\OT1/cmr/m/n/10.95 In case your ob-ject can-not con-vert to $\OML/cmm/m/it/10.9
+5 t$\OT1/cmr/m/n/10.95 , it should throw a \OT1/cmr/m/it/10.95 Type-Con-ver-sio
+n-Error\OT1/cmr/m/n/10.95 -exception. 
+ []
+
+[31]
 Overfull \hbox (24.28415pt too wide) in paragraph at lines 1613--1614
 []\OT1/cmr/m/n/10.95 There is the []-keyword that de-notes the mod-ule root. In
 -stead of [][][][][]
@@ -433,7 +440,7 @@ fb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pf
 b></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/symbols/msam1
 0.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/symbols/m
 sbm10.pfb>
-Output written on babel17.pdf (39 pages, 341457 bytes).
+Output written on babel17.pdf (39 pages, 341619 bytes).
 PDF statistics:
  205 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

@@ -213,7 +213,7 @@ object Program {
   case class SERandom(u : SimpleExpression) extends SimpleExpression
   case class SEConcurrent(u : SimpleExpression) extends SimpleExpression
   case class SEChoose(u : SimpleExpression) extends SimpleExpression
-  case class SEForce(u : SimpleExpression, deep : Boolean) extends SimpleExpression
+  case class SEForce(u : SimpleExpression) extends SimpleExpression
   case class SEException(u : SimpleExpression) extends SimpleExpression
   case class SETypeOf(u : SimpleExpression) extends SimpleExpression
   case class SETypeExpr(path : Path) extends SimpleExpression
@@ -234,7 +234,6 @@ object Program {
   case class PInt(value:BigInt) extends Pattern
   case class PBool(value:Boolean) extends Pattern
   case class PString(value:String) extends Pattern
-  case class PInfinity(positive:Boolean) extends Pattern
   case class PId(id:Id) extends Pattern
   case class PAny() extends Pattern
   case class PEllipsis() extends Pattern

@@ -370,12 +370,12 @@ class Evaluator(val maxNumThreads : Int) {
           }
         }
       case SECompare(operands, operators) =>
-        var firstOperand = evalSE(env, operands(0)).extractRepresentative()
+        var firstOperand = evalSE(env, operands(0))
         if (firstOperand.isDynamicException) return firstOperand
         var operandsList = operands.tail
         var operatorsList = operators
         while (!operatorsList.isEmpty) {
-          var secondOperand = evalSE(env, operandsList(0)).extractRepresentative()
+          var secondOperand = evalSE(env, operandsList(0))
           if (secondOperand.isDynamicException) return secondOperand
           var operator = operatorsList(0)
           if (!compareValuesByOp(operator, firstOperand, secondOperand)) 
@@ -408,12 +408,8 @@ class Evaluator(val maxNumThreads : Int) {
         val v = evalSE(env, e)
         if (v.isDynamicException) v
         else v.choose()
-      case SEForce(e, deep) =>
-        val v = evalSE(env, e)
-        if (deep)
-          v.forceDeep()
-        else
-          v.force()
+      case SEForce(e) =>
+        evalSE(env, e).force()
       case SENot(e) =>
         evalSE(env, e) match {
           case BooleanValue(b) => BooleanValue (!b)
@@ -581,12 +577,12 @@ class Evaluator(val maxNumThreads : Int) {
         pragma match {
           case PragmaPrint(expr) =>
             if (writeOutput != null) {
-              val s = evalExpression(env,expr).stringValue(true, false)
+              val s = evalExpression(env,expr).toString
               writeOutput.writeLocMsg("print", st.location, s)
             }
           case PragmaLog(expr) =>
             if (writeOutput != null) {
-              val s = evalExpression(env,expr).force().stringDescr(false)
+              val s = evalExpression(env,expr).force().toString
               writeOutput.writeLocMsg("log", st.location, s)
             }
           case PragmaAssert(expr) =>
@@ -808,13 +804,6 @@ class Evaluator(val maxNumThreads : Int) {
       case PBool(p) =>
         v.force() match {
           case BooleanValue(q) =>
-            if (p == q) DoesMatch(env)
-            else NoMatch()
-          case _ => NoMatch()
-        }
-      case PInfinity(p) =>
-        v.force() match {
-          case InfinityValue(q) =>
             if (p == q) DoesMatch(env)
             else NoMatch()
           case _ => NoMatch()

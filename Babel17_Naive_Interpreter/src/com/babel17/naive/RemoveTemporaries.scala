@@ -659,7 +659,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SERandom(se) => SERandom(tr(se))
       case SEConcurrent(se) => SEConcurrent(tr(se))
       case SEChoose(u) => SEChoose(tr(u))
-      case SEForce(u, d) => SEForce(tr(u), d)
+      case SEForce(u) => SEForce(tr(u))
       case SEException(u) => SEException(tr(u))
       case SETypeOf(u) => SETypeOf(tr(u))
       case SETypeExpr(path) =>

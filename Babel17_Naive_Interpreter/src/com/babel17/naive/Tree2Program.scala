@@ -218,7 +218,7 @@ class Tree2Program extends ErrorProducer {
       case NATIVE => SENative(arg)
       case CONCURRENT => SEConcurrent(attachSTE(arg, "random"))
       case CHOOSE => SEChoose(arg)
-      case FORCE => SEForce(attachSTE(arg, "force"), true)
+      case FORCE => SEForce(attachSTE(arg, "force"))
       case EXCEPTION => attachSTE(SEException(arg), "exception")
       case TYPEOF => SETypeOf(arg)
       case k => throwInternalError(n.location, "unknown unary operator code: "+k)
@@ -863,8 +863,6 @@ class Tree2Program extends ErrorProducer {
           case ELLIPSIS => PEllipsis()
           case TRUE => PBool(true)
           case FALSE => PBool(false)
-          case INFINITY => PInfinity(true)
-          case NEGATIVE_INFINITY => PInfinity(false)
           case k => throwInternalError(patternNode.location, "invalid kind of NullaryPattern: "+k)
         }
       case p : StringPattern =>

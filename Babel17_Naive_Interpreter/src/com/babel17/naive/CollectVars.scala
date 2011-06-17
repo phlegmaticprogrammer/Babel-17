@@ -313,7 +313,7 @@ object CollectVars {
       case SENative(se) => List(se)
       case SETypeOf(se) => List(se)
       case SEChoose(se) => List(se)
-      case SEForce(se, _) => List(se)
+      case SEForce(se) => List(se)
       case SEConcurrent(se) => List(se)
       case SEException(se) => List(se)
       case SERelate(u, v) => List(u, v)

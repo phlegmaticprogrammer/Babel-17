@@ -40,19 +40,18 @@ object Values {
   val MESSAGE_HEAD = "head"
   val MESSAGE_TAIL = "tail"
 
-  val MESSAGE_STRING = "string"
+ /* val MESSAGE_STRING = "string"
   val MESSAGE_BOOLEAN = "boolean"
-  val MESSAGE_INFINITY = "infinity"
   val MESSAGE_INTEGER = "integer"
   val MESSAGE_LIST = "list"
   val MESSAGE_VECTOR = "vector"
   val MESSAGE_SET = "set"
-  val MESSAGE_MAP = "map"
+  val MESSAGE_MAP = "map"*/
 
   val CONSTRUCTOR_DOMAINERROR = "DOMAINERROR"
   val CONSTRUCTOR_EMPTYCHOICE = "EMPTYCHOICE"  
   val CONSTRUCTOR_INVALIDMESSAGE = "INVALIDMESSAGE"
-  /*val CONSTRUCTOR_TYPEERROR = "TYPEERROR" */
+  val CONSTRUCTOR_TYPECONVERSIONERROR = "TYPECONVERSIONERROR"
   val CONSTRUCTOR_NOMATCH = "NOMATCH"
   val CONSTRUCTOR_APPLYERROR = "APPLYERROR"
   val CONSTRUCTOR_INVALIDLIST = "INVALIDLIST"
@@ -62,6 +61,20 @@ object Values {
   val CONSTRUCTOR_UPDATEERROR = "UPDATEERROR"
   val CONSTRUCTOR_INVALIDWHILECONDITION = "INVALIDWHILECONDITION"
   val CONSTRUCTOR_INVALIDITERATOR = "INVALIDITERATOR"
+
+  val TYPE_INT = TypeValue("int")
+  val TYPE_REAL = TypeValue("real")
+  val TYPE_BOOL = TypeValue("bool")
+  val TYPE_STRING = TypeValue("string")
+  val TYPE_LIST = TypeValue("list")
+  val TYPE_VECT = TypeValue("vect")
+  val TYPE_SET = TypeValue("set")
+  val TYPE_MAP = TypeValue("map")
+  val TYPE_CEXP = TypeValue("cexp")
+  val TYPE_OBJ = TypeValue("obj")
+  val TYPE_FUN = TypeValue("fun")
+  val TYPE_EXC = TypeValue("exc")
+  val TYPE_TYPE = TypeValue("type")
 
 
   abstract class Value {
@@ -87,20 +100,6 @@ object Values {
         case _ => false
       }
     }
-
-    // this returns either an ObjectValue without a "representative" message or something that is
-    // a) not an ObjectValue b) forced
-    def extractRepresentative() : Value = {
-      var f = this
-      var oldf = f
-      while (f != null) {
-        f = f.force()
-        if  (f.isException()) return f
-        oldf = f
-        f = f.sendMessage(Program.Message(MESSAGE_REPRESENTATIVE))
-      }
-      oldf
-    }
     
     def choose() : Value = {
       dynamicException(CONSTRUCTOR_DOMAINERROR)
@@ -110,19 +109,11 @@ object Values {
       this
     }
     
-    def forceDeep() : Value = {
-      this
-    }
-
     override def toString() : String = {
       stringDescr(false)
     }
         
-    def stringValue(nested : Boolean, brackets : Boolean) : String;
-
-    def stringDescr(brackets : Boolean) : String = {
-      stringValue(true, brackets)
-    }
+    def stringDescr(brackets : Boolean) : String;
 
     def isDynamicException() : Boolean = {
       this match {
@@ -150,18 +141,41 @@ object Values {
       }
     }
 
- /*   def asDynamicException() : ExceptionValue = {
-      if (isDynamicException()) this.asInstanceOf[ExceptionValue]
-      else null
-    }    */
+    def typeof : Value;
+    
+    def typeConversionError = dynamicException(CONSTRUCTOR_TYPECONVERSIONERROR)
+
+    def typeConvert(t : TypeValue) : Value = {
+      val v = force()
+      if (v.isException) v.asDynamicException
+      else {
+        v.typeof match {
+          case s : TypeValue =>
+            if (s.name == t.name) this
+            else typeConversionError
+          case _ => typeConversionError
+        }
+      }
+    }
+  }
+
+  case class TypeValue(name : String) extends Value {
+    override def typeof : TypeValue = TYPE_TYPE
+    def stringDescr(brackets : Boolean) : String = "(:"+name+")"
+    def sendMessage(message : Program.Message) : Value = {
+      null
+    }
   }
 
   case class IntegerValue(v : BigInt) extends Value {
-    def stringValue(nested : Boolean, brackets : Boolean) : String = v.toString()
+    def stringDescr(brackets : Boolean) : String = v.toString()
+
+    def typeof : TypeValue = TYPE_INT
+
 
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_INTEGER => this
+        //case MESSAGE_INTEGER => this
         case MESSAGE_PLUS => NativeFunctionValue(plus _)
         case MESSAGE_MINUS => NativeFunctionValue(minus _)
         case MESSAGE_UMINUS => IntegerValue(-v)
@@ -169,10 +183,9 @@ object Values {
         case MESSAGE_POW => NativeFunctionValue(pow _)
         case MESSAGE_DIV => NativeFunctionValue(div _)
         case MESSAGE_MOD => NativeFunctionValue(mod _)
-        case MESSAGE_STRING => StringValue(stringValue(false, false))
         case MESSAGE_TO => Evaluator.systemSendMessage(this, message.m)
         case MESSAGE_DOWNTO => Evaluator.systemSendMessage(this, message.m)
-        case MESSAGE_BOOLEAN => Evaluator.systemSendMessage(this, "integer", message.m)
+        //case MESSAGE_BOOLEAN => Evaluator.systemSendMessage(this, "integer", message.m)
         case _ => null
       }      
     }
@@ -180,24 +193,18 @@ object Values {
       w match {
         case IntegerValue(w) =>
           IntegerValue(v + w)
-        case InfinityValue(positive) => InfinityValue(positive)
         case _ => null
       }
     }
     def minus(w : Value) : Value = {
       w match {
         case IntegerValue(w) => IntegerValue(v - w)
-        case InfinityValue(positive) => InfinityValue(!positive)
         case _ => null
       }
     }
     def times(w : Value) : Value = {
       w match {
         case IntegerValue(w) => IntegerValue(v * w)
-        case InfinityValue(positive) =>
-          if (v == 0) null
-          else if (v > 0) InfinityValue(positive)
-          else InfinityValue(!positive)
         case _ => null
       }
     }
@@ -209,10 +216,6 @@ object Values {
             if (w == 0) null
             else IntegerValue(1)
           } else IntegerValue(intpow(w))
-        case InfinityValue(positive) =>
-          if (positive && v > 1) InfinityValue(positive)
-          else if (positive && v == 1) IntegerValue(1)
-          else null          
         case _ => null
       }
     }
@@ -268,15 +271,17 @@ object Values {
       w
     }
     protected def apply_(v : Value) : Value
-    def stringValue(nested : Boolean, brackets : Boolean) : String = "_function"
+    def stringDescr(brackets : Boolean) : String = "_function"
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
         case MESSAGE_APPLY => this
-        //case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }
     }
     override def extractFunctionValue() : Value = this
+
+    def typeof : TypeValue = TYPE_FUN
+
 
   }
     
@@ -351,62 +356,6 @@ object Values {
     }
   }
   
-  case class InfinityValue(positive : Boolean) extends Value {
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      if (positive) "\u221E" else "-\u221E"
-    }
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
-        case MESSAGE_PLUS => NativeFunctionValue(plus _)
-        case MESSAGE_MINUS => NativeFunctionValue(minus _)
-        case MESSAGE_UMINUS => InfinityValue(!positive)
-        case MESSAGE_TIMES => NativeFunctionValue(times _)
-        case MESSAGE_POW => NativeFunctionValue(pow _)
-        case MESSAGE_STRING => StringValue(stringValue(false, false))
-        case _ => null
-      }
-      
-    }
-    def plus(w : Value) : Value = {
-      w match {
-        case InfinityValue(positive2) =>
-          if (positive == positive2) InfinityValue(positive)
-          else null
-        case _ : IntegerValue => InfinityValue(positive)
-        case _ => null
-      }
-    }
-    def minus(w : Value) : Value = {
-      w match {
-        case InfinityValue(positive2) => 
-          if (positive != positive2) InfinityValue(positive)
-          else null
-        case _ : IntegerValue => InfinityValue(positive)
-        case _ => null
-      }
-    }
-    def times(w : Value) : Value = {
-      w match {
-        case IntegerValue(w) => 
-          if (w == 0) null
-          else InfinityValue(positive == (w > 0))
-        case InfinityValue(positive2) => InfinityValue(positive == positive2)
-        case _ => null
-      }
-    }
-    def pow(w : Value) : Value = {
-      w match {
-        case IntegerValue(w) => 
-          if (w <= 0) null 
-          else if (positive) InfinityValue(positive)
-          else InfinityValue(w % 2 == 0)
-        case InfinityValue(positive2) =>
-          if (positive && positive2) InfinityValue(positive)
-          else null
-        case _ => null
-      }
-    }
-  }
 
   def sendCollectionMessage(target : Value, message : String) : Value = {
     var m = "coll_"+message;
@@ -427,11 +376,10 @@ object Values {
       case MESSAGE_ATINDEX =>
       case MESSAGE_HEAD =>
       case MESSAGE_TAIL =>
-      case MESSAGE_LIST =>
+ /*     case MESSAGE_LIST =>
       case MESSAGE_VECTOR =>
       case MESSAGE_SET =>
-      case MESSAGE_STRING =>
-      case MESSAGE_MAP =>
+      case MESSAGE_MAP =>*/
       case MESSAGE_SLASH =>
       case MESSAGE_SLASHSLASH =>
       case MESSAGE_TIMES =>
@@ -452,21 +400,17 @@ object Values {
       else if (s == "\r") "\\r"
       else s
     }
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      if (nested) {
-        val l = v.grouped(1).toList
-        val l2 =
-          for (i <- l) yield escape(i)
-        val w = l2.mkString
-        "\"" + w + "\""
-      }
-      else v
+    def stringDescr(brackets : Boolean) : String = {
+      val l = v.grouped(1).toList
+      val l2 =
+        for (i <- l) yield escape(i)
+      val w = l2.mkString
+      "\"" + w + "\""
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_STRING => this
-        case MESSAGE_MAP => null
-        case MESSAGE_SET => null
+        //case MESSAGE_MAP => null
+        //case MESSAGE_SET => null
         case MESSAGE_INDEXOF => NativeFunctionValue(indexOf _)
         case MESSAGE_CONTAINS => NativeFunctionValue(contains _)
         case MESSAGE_EMPTY => Evaluator.systemSendMessage(this, "string", MESSAGE_EMPTY)
@@ -493,19 +437,20 @@ object Values {
         case _ => null
       }
     }
+    def typeof : TypeValue = TYPE_STRING
+
   }
   
   case class BooleanValue(v : Boolean) extends Value {
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+    def stringDescr(brackets : Boolean) : String = {
       if (v) "true" else "false"
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_STRING => StringValue(stringValue(false, false))
-        case MESSAGE_BOOLEAN => this
         case _ => null
       }      
     }
+    def typeof : TypeValue = TYPE_BOOL
   }
 
   def mkBrackets(brackets : Boolean, s : String) : String = {
@@ -513,13 +458,9 @@ object Values {
   }
   
   case class ConstructorValue(constr : Program.Constr, v : Value) extends Value {
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      if (v.isNil(true)) constr.name
-      else mkBrackets(brackets, constr.name + " " +v.stringValue(true, true))
-    }
     override def stringDescr(brackets : Boolean) : String = {
       if (v.isNil(false)) constr.name
-      else mkBrackets(brackets, constr.name + " " +v.stringValue(true, true))
+      else mkBrackets(brackets, constr.name + " " +v.stringDescr(true))
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
@@ -527,9 +468,7 @@ object Values {
         case _ => null
       }      
     }
-    override def forceDeep() : Value = {
-      ConstructorValue(constr, v.forceDeep())
-    }
+    def typeof : TypeValue = TYPE_CEXP
 
   }
   
@@ -540,18 +479,6 @@ object Values {
        messages.contains(Message(MESSAGE_COLLECT_CLOSE)) &&
        messages.contains(Message(MESSAGE_ITERATE))
 
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      if (isNil(false)) return "nil"
-      var s = "{"
-      var first : Boolean = true
-      for ((m, v) <- messages) {
-        if (!first) s=s+","
-        first = false
-        s = s + m.m + "=" + v.stringValue(true, false)
-      }
-      s = s + "}"
-      s
-    }
     override def stringDescr(brackets : Boolean) : String = {
       if (isNil(false)) return "nil"
       var s = "{"
@@ -571,35 +498,23 @@ object Values {
         case None =>
           if (!collection) return null
           message.m match {
-            case MESSAGE_STRING => null
-            case MESSAGE_MAP => null
+            //case MESSAGE_STRING => null
+            //case MESSAGE_MAP => null
             case m => sendCollectionMessage(this, m)
           }
       }
     }
-    override def forceDeep() : Value = {
-      var s : SortedMap[Program.Message, Value] = SortedMap.empty
-      for ((k,v) <- messages) {
-        s = s + (k -> v.forceDeep())
-      }
-      ObjectValue(s)
-    }
+    def typeof : TypeValue = TYPE_OBJ
   }
 
   case class StackTraceElement(location : Location, description : String);
 
   case class ExceptionValue(dynamic : Boolean, v : Value) extends Value {
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      mkBrackets(brackets, if (dynamic)
-        "_dynamicException "+v.stringValue(true, true)
-      else
-        "_persistentException "+v.stringValue(true, true))
-    }
     override def stringDescr(brackets : Boolean) : String = {
       mkBrackets(brackets, if (dynamic)
-        "_dynamicException "+v.stringDescr(true)
+        "_dynamicException "+v.toString
       else
-        "_persistentException "+v.stringDescr(true))
+        "_persistentException "+v.toString)
     }
     override def sendMessage(message : Program.Message) : Value = {
       if (dynamic) return this
@@ -608,11 +523,6 @@ object Values {
         e.stackTrace = stackTrace
         e
       }
-    }
-    override def forceDeep() : Value = {
-      val e = ExceptionValue(dynamic, v.forceDeep())
-      e.stackTrace = stackTrace
-      e
     }
     var stackTrace : List[StackTraceElement] = List.empty
     def getStackTrace : List[StackTraceElement] = stackTrace;
@@ -628,7 +538,7 @@ object Values {
         e
       }
     }
-
+    def typeof : TypeValue = TYPE_EXC
   }
 
   abstract class ForIterator {
@@ -855,7 +765,7 @@ object Values {
       StringValue(builder.toString)
     }
     override def collect_add(v : Value) : ExceptionValue =  {
-      v.sendMessage(Program.Message(MESSAGE_STRING)) match {
+      v.typeConvert(TYPE_STRING) match {
         case StringValue(s) =>
           builder.append(s)
           null
@@ -904,7 +814,7 @@ object Values {
     def toVectorValue() : VectorValue;
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_LIST => this
+        //case MESSAGE_LIST => this
         case MESSAGE_UMINUS =>
           Evaluator.systemSendMessage(this, "seq", message.m)
         case MESSAGE_APPLY =>
@@ -914,10 +824,11 @@ object Values {
         case m => sendCollectionMessage(this, m)
       }
     }
+    def typeof : TypeValue = TYPE_LIST
   }
   
   case class EmptyListValue() extends ListValue {    
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+    def stringDescr(brackets : Boolean) : String = {
       return "[]";
     }
     override def choose() : Value = {
@@ -935,21 +846,13 @@ object Values {
     override def toVectorValue() : VectorValue = {
       VectorValue(Array())
     }
-   }
+  }
   
   case class ConsListValue(head : Value, tail : Value) extends ListValue {
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      mkBrackets(brackets,
-        head.stringValue(true, true)+"::" +
-          normalizeListTail(tail).stringValue(true,true))
-    }
     override def stringDescr(brackets : Boolean) : String = {
       mkBrackets(brackets,
         head.stringDescr(true)+"::" +
           tail.stringDescr(true))
-    }
-    override def forceDeep() : Value = {
-      ConsListValue(head.forceDeep(), tail.forceDeep())
     }
     override def choose() : Value = {
       head
@@ -970,20 +873,8 @@ object Values {
   }
   
   case class VectorValue(tuple : Array[Value]) extends Value {
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      val size = tuple.size
-      if (size == 0) "()"
-      else if (size == 1) "("+tuple(0).stringValue(true, false)+",)"
-      else {
-        var s = "("+tuple(0).stringValue(true, false)
-        var i = 1
-        while (i < size) {
-          s = s + "," + tuple(i).stringValue(true, false)
-          i = i + 1
-        }
-        s + ")"       
-      }
-    }
+    def typeof : TypeValue = TYPE_VECT
+
     override def stringDescr(brackets : Boolean) : String = {
       val size = tuple.size
       if (size == 0) "()"
@@ -1000,7 +891,7 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_VECTOR => this
+        //case MESSAGE_VECTOR => this
         case MESSAGE_UMINUS =>
           Evaluator.systemSendMessage(this, "seq", message.m)
         case MESSAGE_EMPTY =>
@@ -1024,16 +915,6 @@ object Values {
       }
     }
 
-    override def forceDeep() : Value = {
-      val size = tuple.size
-      val tuple2 : Array[Value] = new Array(size)
-      var i = 0
-      while (i < size) {
-        tuple2(i) = tuple(i).forceDeep()
-        i = i + 1
-      }
-      VectorValue(tuple2)      
-    }
     override def choose() : Value = {
       if (tuple.size == 0) dynamicException(CONSTRUCTOR_EMPTYCHOICE)
       else tuple(0)
@@ -1050,20 +931,7 @@ object Values {
   }
   
   case class SetValue(set : SortedSet[Value]) extends Value {
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      val tuple = set.toList
-      val size = tuple.size
-      if (size == 0) "{}"
-      else {
-        var s = "{"+tuple(0).stringValue(true, false)
-        var i = 1
-        while (i < size) {
-          s = s + "," + tuple(i).stringValue(true, false)
-          i = i + 1
-        }
-        s + "}"
-      }
-    }
+    def typeof : TypeValue = TYPE_SET
     override def stringDescr(brackets : Boolean) : String = {
       val tuple = set.toList
       val size = tuple.size
@@ -1080,8 +948,8 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_STRING => null
-        case MESSAGE_SET => this
+        //case MESSAGE_STRING => null
+        //case MESSAGE_SET => this
         case MESSAGE_EMPTY =>
           Evaluator.systemSendMessage(this, "set", MESSAGE_EMPTY)
         case MESSAGE_CONTAINS =>
@@ -1111,35 +979,12 @@ object Values {
       if (set.size == 0) dynamicException(CONSTRUCTOR_EMPTYCHOICE)
       else set.firstKey
     }    
-    override def forceDeep() : Value = {
-      var s : SortedSet[Value] = SortedSet.empty(set.ordering)
-      for (v <- set) {
-        s = s + v.forceDeep()
-      }
-      SetValue(s)
-    }
   }
   
   case class MapValue(map : SortedMap[Value, Value]) extends Value {
-    def prV (kv : (Value, Value)) : String = {
-      kv._1.stringValue(true,false)+"->"+kv._2.stringValue(true,false)
-    }
+    def typeof : TypeValue = TYPE_MAP
     def prD (kv : (Value, Value)) : String = {
       kv._1.stringDescr(false)+"->"+kv._2.stringDescr(false)
-    }
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      val tuple = map.toList
-      val size = tuple.size
-      if (size == 0) "{}"
-      else {
-        var s = "{"+(prV(tuple(0)))
-        var i = 1
-        while (i < size) {
-          s = s + "," + (prV(tuple(i)))
-          i = i + 1
-        }
-        s + "}"
-      }
     }
     override def stringDescr(brackets : Boolean) : String = {
       val tuple = map.toList
@@ -1157,8 +1002,8 @@ object Values {
     }
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        case MESSAGE_STRING => null
-        case MESSAGE_MAP => this
+        //case MESSAGE_STRING => null
+        //case MESSAGE_MAP => this
         case MESSAGE_SLASHSLASH =>
           Evaluator.systemSendMessage(this, "map", MESSAGE_SLASHSLASH)
         case MESSAGE_CONTAINS =>
@@ -1207,13 +1052,6 @@ object Values {
         VectorValue(Array(x._1, x._2))
       } else dynamicException(CONSTRUCTOR_EMPTYCHOICE)
     }
-    override def forceDeep() : Value = {
-      var s : SortedMap[Value, Value] = SortedMap.empty(map.ordering)
-      for ((k,v) <- map) {
-        s = s + (k.forceDeep() -> v.forceDeep())
-      }
-      MapValue(s)
-    }
   }
   
   val nil : Value = ObjectValue(SortedMap.empty)
@@ -1244,36 +1082,11 @@ object Values {
       }
     }
   }
-    
-  def orderRank(f : Value) : Int = {
-    f match {
-      case ExceptionValue(true, _) => -1
-      case _ : FunctionValue => -1
-      case ExceptionValue(false, _) => 0
-      case _ : ObjectValue => 1
-      case InfinityValue(false) => 2
-      case _ : IntegerValue => 3
-      case InfinityValue(true) => 4
-      case _ : StringValue => 5
-      case _ : ListValue => 6
-      case _ : VectorValue => 6
-      case _ : ConstructorValue => 7
-      case _ : SetValue => 8
-      case _ : MapValue => 9
-      case BooleanValue(false) => 11
-      case BooleanValue(true) => 12
-    }
-  }
-  
+      
   def compareValues(v1 : Value, v2 : Value) : Int = {
+    val f1 = v1.force()
+    val f2 = v2.force()
     import CompareResult._
-    val f1 = v1.extractRepresentative()
-    val f2 = v2.extractRepresentative()
-    val r1 = orderRank(f1)
-    val r2 = orderRank(f2)
-    if (r1 < 0 || r2 < 0) return UNRELATED
-    if (r1 < r2) return LESS
-    if (r1 > r2) return GREATER
     (f1, f2) match {
       case (ExceptionValue(_, x), ExceptionValue(_, y)) =>
         compareValues(x, y)
@@ -1282,23 +1095,20 @@ object Values {
       case (x : SetValue, y : SetValue) => compareSets(x, y)
       case (x : VectorValue, y : VectorValue) => compareVectors(x, y)
       case (x : ListValue, y : ListValue) => compareLists(x, y)
-      case (x : ListValue, y : VectorValue) => compareListWithVector(x, y)
-      case (x : VectorValue, y : ListValue) => negate(compareListWithVector(y, x))
       case (x : ConstructorValue, y : ConstructorValue) => compareCExprs(x, y)
-      case (InfinityValue(x), InfinityValue(y)) => 
-        if (x == y) EQUAL else if (x) GREATER else LESS
-      case (InfinityValue(x), _ : IntegerValue) => 
-        if (x) GREATER else LESS
-      case (_ : IntegerValue, InfinityValue(x)) => 
-        if (x) LESS else GREATER
       case (IntegerValue(x), IntegerValue(y)) => 
+        if (x < y) LESS else if (x > y) GREATER else EQUAL
+      case (BooleanValue(a), BooleanValue(b)) =>
+        val x = if (a) 1 else 0
+        val y = if (b) 1 else 0
         if (x < y) LESS else if (x > y) GREATER else EQUAL
       case (StringValue(x), StringValue(y)) => 
         val c = x.compare(y)
         if (c < 0) LESS else if (c > 0) GREATER else EQUAL
-      case (_ : ListValue, _) => throw Evaluator.EvalX("ListValue comparison")
-      case (_ : VectorValue, _) => throw Evaluator.EvalX("VectorValue comparison")
-      case _ => throw Evaluator.EvalX("cannot compare "+f1+" and "+f2)       
+      case (TypeValue(x), TypeValue(y)) =>
+        val c = x.compare(y)
+        if (c < 0) LESS else if (c > 0) GREATER else EQUAL
+      case _ => UNRELATED
     }
   }
   
@@ -1397,7 +1207,6 @@ object Values {
   def normalizeListTail(tail : Value) : ListValue = {
     val t = tail.force()
     if (t.isInstanceOf[ListValue]) t.asInstanceOf[ListValue]
-    else if (t.isInstanceOf[VectorValue]) t.asInstanceOf[VectorValue].toListValue
     else ConsListValue(t, EmptyListValue())
   }
   
@@ -1413,36 +1222,14 @@ object Values {
         return compareLists(normalizeListTail(t1), normalizeListTail(t2))
     }
   }
-  
-  def compareListWithVector(v1 : ListValue, v2 : VectorValue) : Int = {
-    import CompareResult._
-    val tuple = v2.tuple
-    val count = tuple.size
-    var i = 0;
-    var l = v1;
-    while (i < count) {
-      l match {
-        case (EmptyListValue()) => return LESS
-        case (ConsListValue(h, t)) =>
-          val c = compareValues(h, tuple(i))
-          if (c != EQUAL) return c
-          l = normalizeListTail(t)
-      }
-      i = i + 1
-    }
-    l match {
-      case (EmptyListValue()) => EQUAL
-      case _ => GREATER
-    }    
-  }
-  
+   
   case class LazyValue(var evaluator : Evaluator, var env : Evaluator.SimpleEnvironment, var se : Program.SimpleExpression, var result : Value) extends Value {
     var deep : Boolean = false
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      force().stringValue(nested, brackets)
-    }
     override def stringDescr(brackets : Boolean) : String = {
       "_lazy"
+    }
+    def typeof : Value = {
+      force().typeof
     }
     override def force() : Value = {
       if (result != null) result
@@ -1465,44 +1252,6 @@ object Values {
         result
       }
     }
-    override def forceDeep() : Value = {
-      if (result != null) {
-        if (deep) result 
-        else {
-          this.synchronized {
-            if (deep) return result
-          }
-          var r  = result.forceDeep()
-          this.synchronized {
-            if (!deep) {
-              result = r
-              deep = true
-            }
-          }
-          result
-        }
-      } else {
-        this.synchronized {
-          if (deep) return result
-        }
-        var r = evaluator.evalSE(env, se).forceDeep() match {
-            case x @ ExceptionValue(true, p) =>
-              val e = ExceptionValue(false, p)
-              e.stackTrace = x.stackTrace
-              e
-            case x => x
-          }
-        this.synchronized {
-          if (!deep)
-            result = r
-          evaluator = null
-          env = null
-          se = null
-          deep = true
-        }
-        result        
-      }
-    }
     override def sendMessage(message : Program.Message) : Value = {
       return force().sendMessage(message)
     }   
@@ -1514,10 +1263,11 @@ object Values {
     def sendMessage(m : Program.Message) : Value = {
       throw Evaluator.EvalX("EnvironmentValue has been sent a message. How?")
     }
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
+    def stringDescr(brackets : Boolean) : String = {
       "_recursive"
     }
     def onLookup() : Value;
+    def typeof = throw Evaluator.EvalX("environment value has no type")
   }
 
   case class EnvironmentValueMN(var se : Program.SimpleExpression)
@@ -1597,13 +1347,15 @@ object Values {
   {
     val futureTask = new FutureTask[Value](this)
 
+    def typeof : Value = {
+      force().typeof
+    }
+
+
     def getTask() : FutureTask[Value] = {
       futureTask
     }
 
-    def stringValue(nested : Boolean, brackets : Boolean) : String = {
-      return force().stringValue(nested, brackets);
-    }
     override def stringDescr(brackets : Boolean) : String = {
       "_concurrent"
     }
@@ -1612,10 +1364,6 @@ object Values {
     }
     override def force() : Value = {
       futureTask.get().force()
-    }
-
-    override def forceDeep() : Value = {
-      futureTask.get().forceDeep()
     }
     override def sendMessage(message : Program.Message) : Value = {
       return force().sendMessage(message)

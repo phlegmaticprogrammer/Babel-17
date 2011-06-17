@@ -65,7 +65,7 @@
       <file leaf-file-name="RemoveTemporaries.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/RemoveTemporaries.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="695" column="42" selection-start="26815" selection-end="26815" vertical-scroll-proportion="0.0">
+            <state line="679" column="42" selection-start="25852" selection-end="25852" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -92,7 +92,7 @@
       <file leaf-file-name="Program.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="247" column="13" selection-start="10625" selection-end="10625" vertical-scroll-proportion="0.0">
+            <state line="247" column="13" selection-start="10591" selection-end="10591" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -119,7 +119,7 @@
       <file leaf-file-name="Tree2Program.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="885" column="21" selection-start="32971" selection-end="32971" vertical-scroll-proportion="0.0">
+            <state line="882" column="21" selection-start="32881" selection-end="32881" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -658,7 +658,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="18" y="22" width="1528" height="1173" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -670,7 +670,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3116971" sideWeight="0.48243114" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3116971" sideWeight="0.5099715" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3116971" sideWeight="0.5099715" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34283" sideWeight="0.9992515" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -749,7 +749,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/RemoveTemporaries.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="695" column="42" selection-start="26815" selection-end="26815" vertical-scroll-proportion="0.0">
+        <state line="679" column="42" selection-start="25852" selection-end="25852" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -768,7 +768,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Program.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="247" column="13" selection-start="10625" selection-end="10625" vertical-scroll-proportion="0.0">
+        <state line="247" column="13" selection-start="10591" selection-end="10591" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -785,7 +785,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Babel17_Naive_Interpreter/src/com/babel17/naive/Tree2Program.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="885" column="21" selection-start="32971" selection-end="32971" vertical-scroll-proportion="0.0">
+        <state line="882" column="21" selection-start="32881" selection-end="32881" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
