@@ -7,11 +7,9 @@ import com.babel17.syntaxtree.Location
 import com.babel17.syntaxtree.Source
 import com.babel17.interpreter.parser.ErrorMessage
 
-object ModuleSystem extends ErrorProducer {
+object ModuleSystem {
 
-  case class Code(block : Block)
-
-  case class ModuleDescr(path : Path, typeIds : SortedSet[Id], messages : SortedSet[Id], code : Code) {
+  case class ModuleDescr(path : Path, typeIds : SortedSet[Id], messages : SortedSet[Id], code : Block) {
     def isType : Boolean = {
       typeIds.contains(path.last)
     }
@@ -139,9 +137,28 @@ object ModuleSystem extends ErrorProducer {
         //val executable = CollectVars.isExecutable(block.statements)
         val path = currentPath.append(modPath)
         path.location = modPath.location
-        List(ModuleDescr(path, publicTypeIds, publicDefIds, Code(block)))
+        List(ModuleDescr(path, publicTypeIds, publicDefIds, block))
       case _ =>
         List()       
+    }
+  }
+
+  def scanScript(term : Term) : Option[(Boolean, Block)] = {
+    term match {
+      case prog : Block =>
+        var executable = false
+        var statements : List[Statement] = List()
+        for (st <- prog.statements) {
+          st match {
+            case _ : SModule =>
+            case _ =>
+              statements = st::statements
+              if (!executable)
+                executable = Program.statementIsExecutable(st)
+          }
+        }
+        Some(executable, Block(statements.reverse))
+      case _ => None
     }
   }
 
@@ -174,7 +191,7 @@ object ModuleSystem extends ErrorProducer {
     ty("exc")
     ty("type")
 
-    ModuleDescr(Path(List()), typeIds, SortedSet(), Code(Block(List())))
+    ModuleDescr(Path(List()), typeIds, SortedSet(), Block(List()))
 
   }
   

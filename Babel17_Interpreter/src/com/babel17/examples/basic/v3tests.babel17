@@ -1,75 +1,8 @@
-
-
-#(module int.unittest
-
-typedef int 10
-
-end
-
-
-def gcd (x : int) = x * root
-
-gcd 12)#
-
-#(module unittest
-end
-
-module test
-
-import root
-import unittest
-
-for i in [1, 2, 3] do
-  #log(i*i)
-end
-
-def test = root.cool
-
-typedef bintree Leaf _, Branch (_ : bintree, _ : bintree)
-
-def myfun (x : bintree) = 2
-
-2
-
-
-end)#
-
-
-#(
-module com.obua.util
-
-
-match 12 <> 23
-case (u : wow) => 10
-end
-
-unittest
-
-
-
-end
-
-module com.obua.util.ok.unittest
-
-import com.obua.util.unittest => mytest
-
-private orderedSet
-typedef orderedSet l = nil
-
-def x : orderedSet = orderedSet 10
-def y = 10
-
-def cool(orderedSet i) = i
-
-val a = 20 :> orderedSet
-
-def supercool(orderedSet i) = i*a
-
-#assert 2 == 3
-
-end
-
 module hello
+
+def world = "hello world"
+
 end
 
-hello)#
+2 * 10
+

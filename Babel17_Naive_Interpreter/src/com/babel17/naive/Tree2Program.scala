@@ -964,10 +964,10 @@ if (!nonlinear.contains(id) && !linear.contains(id))
       Block(List())
   }
 
-  def buildProgram(result : Parser.ParseResult) : Term = {
+  def buildProgram(moduleSystem : ModuleSystem, errors : List[ErrorMessage],
+                   result : Parser.ParseResult) : (Term, List[ErrorMessage]) = {
     val term = makeProgram(result)
     val mds = ModuleSystem.scanForModules(term)
-    val moduleSystem = ModuleSystem.root
     moduleSystem.source = source
     for (md <- mds) {
       moduleSystem.add(md)
@@ -978,9 +978,9 @@ if (!nonlinear.contains(id) && !linear.contains(id))
     val linearScope = new LinearScope(moduleSystem)
     linearScope.source = source
     linearScope.check(linearScope.emptyEnv, rterm)
-    errors = Errors.cleanupErrors(Errors.fromParseResult(result) ++ errors ++
-      moduleSystem.errors ++ rt.errors ++ linearScope.errors)
-    rterm
+    val es = errors ++ Errors.fromParseResult(result) ++
+      moduleSystem.errors ++ rt.errors ++ linearScope.errors
+    (rterm, es)
   }
 
   /*def makeProgram(_moduleSystem : ModuleSystem, result : Parser.ParseResult) : Term =  {

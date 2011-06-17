@@ -118,9 +118,8 @@ object Evaluator {
 }
 
 
-class Evaluator(val maxNumThreads : Int) {
-
-  
+class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
+ 
   import Evaluator._
 
   var executor : ThreadPoolExecutor = null
@@ -951,11 +950,9 @@ class Evaluator(val maxNumThreads : Int) {
 
 
   def loadSystemLibrary() : Map[String, FunctionValue] = {
-    import java.io.InputStream
     import java.io.InputStreamReader
 
     import org.antlr.runtime.ANTLRReaderStream
-    import org.antlr.runtime.CharStream
     import com.babel17.interpreter.parser.Parser
 
     // get a reader for
@@ -964,9 +961,10 @@ class Evaluator(val maxNumThreads : Int) {
     val inputReader = new InputStreamReader(inputStream, "UTF-8")
     val charstream = new ANTLRReaderStream(inputReader)
     val result = Parser.parse(new Source(systemFilename), charstream)
-    val checker = new Tree2Program()
-    val term = checker.buildProgram(result)
-    val errors = checker.errors
+    val fc = new FileCentral()
+    fc.updateB17File(systemFilename, result)
+    val (term, termErrors) = fc.getScript(systemFilename).get //checker.buildProgram(result)
+    val errors = fc.getErrors ++ termErrors
     if (errors.length > 0) throw EvalX("static errors in system library")
     var sys : Map[String, FunctionValue] = Map.empty
     evalBlock(Evaluator.emptyEnv, new DefaultCollector(), term.asInstanceOf[Program.Block]) match {

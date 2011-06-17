@@ -175,7 +175,6 @@ object Values {
 
     override def sendMessage(message : Program.Message) : Value = {
       message.m match {
-        //case MESSAGE_INTEGER => this
         case MESSAGE_PLUS => NativeFunctionValue(plus _)
         case MESSAGE_MINUS => NativeFunctionValue(minus _)
         case MESSAGE_UMINUS => IntegerValue(-v)
@@ -185,7 +184,6 @@ object Values {
         case MESSAGE_MOD => NativeFunctionValue(mod _)
         case MESSAGE_TO => Evaluator.systemSendMessage(this, message.m)
         case MESSAGE_DOWNTO => Evaluator.systemSendMessage(this, message.m)
-        //case MESSAGE_BOOLEAN => Evaluator.systemSendMessage(this, "integer", message.m)
         case _ => null
       }      
     }

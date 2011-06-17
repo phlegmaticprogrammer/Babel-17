@@ -20,7 +20,7 @@ object Interpreter {
     val result = Parser.parse(source, charstream)
     val checker = new Tree2Program()
     checker.source = source
-    val term = checker.buildProgram(result)
+    //val term = checker.buildProgram(result)
     val errors = checker.errors
     val a : java.util.ArrayList[ErrorMessage] = new java.util.ArrayList(errors.length)
     for (e <- errors) {
@@ -29,31 +29,22 @@ object Interpreter {
     a
   }
 
-
-  def run(filename : String, w : WriteOutput) {
-    w.writeLineCommentary("Babel-17 v0.21.1, Copyright \u00a9 2009 Steven Obua")
+  def run(progIndex:Int, filenames : Array[String], w : WriteOutput) {
+    w.writeLineCommentary("Babel-17 v0.3alpha, Copyright \u00a9 2009 Steven Obua")
     w.writeLine("")
     w.writeLineCommentary("This program comes with ABSOLUTELY NO WARRANTY.")
     w.writeLineCommentary("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")
     w.writeLine("")
-    if (filename == null) {
+    if (filenames == null || filenames.length == 0) {
       w.writeLineError("Please specify which file to execute!")
     } else {
+      val fc = new FileCentral()
       /*val t1 = System.currentTimeMillis */
-      val result = Parser.parse(filename)
-      //w.writeLine("java: "+result.node)
-      /*val t2 = System.currentTimeMillis
-      w.writeLineCommentary("Parsed in "+(t2-t1)+" milliseconds.")
-      w.writeLine("") */
-      val source = new Source(filename)
-      val checker = new Tree2Program()
-      checker.source = source
-      val term = checker.buildProgram(result)
-
-      w.writeLine("program:\n"+term+"\n")
-
-      val errors = checker.errors
-
+      for (filename <- filenames) {
+        fc.updateB17File(filename)
+      }
+      val (term, termErrors) = fc.getScript(filenames(progIndex)).get
+      val errors = Errors.cleanupErrors(fc.getErrors ++ termErrors)
       if (errors.length > 0) {
         if (errors.length == 1)
           w.writeLineError("Found "+errors.length+" static error:")
@@ -72,7 +63,7 @@ object Interpreter {
             w.writeLineCommentary("Found "+cpus+" available processors.")
             w.writeLine("")
           }
-          val evaluator = new Evaluator(cpus)
+          val evaluator = new Evaluator(cpus, fc)
           evaluator.writeOutput = w
           Evaluator.systemLibrary = evaluator.loadSystemLibrary
           val v = evaluator.evaluate(Evaluator.emptyEnv, term)
@@ -122,10 +113,20 @@ object Interpreter {
   }
 
   def main(args: Array[String]): Unit = {
-    var f : String = null
-    if (args.length > 0) f = args(0)
-    //f = "/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/build/classes/com/babel17/naive/system.b17"
-    run(f, new WriteOutput())
+    var arguments = args
+    var progIndex = 0
+    if (args.length > 0) {
+      val filename = args(0)
+      var names : SortedSet[String] = SortedSet()
+      for (n <- args) names = names + n
+      arguments = names.toArray
+      var i = 0
+      for (n <- arguments) {
+        if (n == filename) progIndex = i
+        i = i + 1
+      }
+    }
+    run(progIndex, arguments, new WriteOutput())
   }
 
   def test {
