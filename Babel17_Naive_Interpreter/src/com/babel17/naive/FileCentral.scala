@@ -17,8 +17,8 @@ class FileCentral {
   private var moduleSystem : Option[ModuleSystem] = None
   private val sync = "sync"
 
-  def updateB17File(filename : String, result : Parser.ParseResult) {
-    val source = new Source(filename)
+  def updateB17File(source : Source, result : Parser.ParseResult) {
+    val filename = source.getFilename
     val checker = new Tree2Program()
     checker.source = source
     val term = checker.makeProgram(result)
@@ -39,18 +39,18 @@ class FileCentral {
 
   def updateB17File(filename : String) {
     val result = Parser.parse(filename)
-    updateB17File(filename, result)
+    updateB17File(new Source(filename), result)
   }
 
-  private def transformBlock(source : Source, block : Block) : (Block, List[ErrorMessage]) = {
+  private def transformTerm(source : Source, term : Term) : (Term, List[ErrorMessage]) = {
     val ms = moduleSystem.get
     val rt = new RemoveTemporaries(ms)
     rt.source = source
-    val rterm = rt.transform(rt.emptyModuleEnv, block)
+    val rterm = rt.transform(rt.emptyModuleEnv, term)
     val linearScope = new LinearScope(moduleSystem.get)
     linearScope.source = source
     linearScope.check(linearScope.emptyEnv, rterm)
-    (rterm.asInstanceOf[Block], rt.errors ++ linearScope.errors)
+    (rterm, rt.errors ++ linearScope.errors)
   }
 
   private def updateModules {
@@ -64,7 +64,8 @@ class FileCentral {
         for ((filename, B17File(source, mds, _, fileErrs)) <- b17files) {
           errors = errors ++ fileErrs
           for (md <- mds) {
-            val (block, errs) = transformBlock(source, md.code)
+            val (code, errs) = transformTerm(source, SModule(md.path, md.code))
+            val block = code.asInstanceOf[SModule].b
             errors = errors ++ errs
             newModules += (md.path -> (md, block))
           }
@@ -116,7 +117,27 @@ class FileCentral {
       b17files.get(filename) match {
         case None => None
         case Some(b17file) =>
-          Some(transformBlock(b17file.source, b17file.script))
+          val (t, errors) = transformTerm(b17file.source, b17file.script)
+          Some((t.asInstanceOf[Block], errors))
+      }
+    }
+  }
+
+  def getErrorsOf(filename : String) : List[ErrorMessage] = {
+    sync.synchronized {
+      updateModuleSystem
+      val ms = moduleSystem.get
+      b17files.get(filename) match {
+        case None => List()
+        case Some(B17File(src, mds, script, errors)) =>
+          var es = errors
+          val (_, e1) = transformTerm(src, script)
+          es = es ++ e1
+          for (md <- mds) {
+            val (_, e) = transformTerm(src, SModule(md.path, md.code))
+            es = es ++ e
+          }
+          es
       }
     }
   }

@@ -11,7 +11,9 @@ object ModuleSystem {
 
   case class ModuleDescr(path : Path, typeIds : SortedSet[Id], messages : SortedSet[Id], code : Block) {
     def isType : Boolean = {
-      typeIds.contains(path.last)
+      if (path.length > 0)
+        typeIds.contains(path.last)
+      else false
     }
   }
   
@@ -190,6 +192,7 @@ object ModuleSystem {
     ty("fun")
     ty("exc")
     ty("type")
+    ty("module")
 
     ModuleDescr(Path(List()), typeIds, SortedSet(), Block(List()))
 

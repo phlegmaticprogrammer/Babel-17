@@ -1,8 +1,16 @@
 module hello
 
-def world = "hello world"
+val s = 2
+
+def world = s
 
 end
 
-2 * 10
+module hello.lock
 
+def s = "hello world"
+
+end
+
+hello.world
+root

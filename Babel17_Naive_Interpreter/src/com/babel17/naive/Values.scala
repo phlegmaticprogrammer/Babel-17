@@ -61,6 +61,8 @@ object Values {
   val CONSTRUCTOR_UPDATEERROR = "UPDATEERROR"
   val CONSTRUCTOR_INVALIDWHILECONDITION = "INVALIDWHILECONDITION"
   val CONSTRUCTOR_INVALIDITERATOR = "INVALIDITERATOR"
+  val CONSTRUCTOR_MODULENOTFOUND = "MODULENOTFOUND"
+  val CONSTRUCTOR_DEADLOCK = "DEADLOCK"
 
   val TYPE_INT = TypeValue("int")
   val TYPE_REAL = TypeValue("real")
@@ -75,6 +77,7 @@ object Values {
   val TYPE_FUN = TypeValue("fun")
   val TYPE_EXC = TypeValue("exc")
   val TYPE_TYPE = TypeValue("type")
+  val TYPE_MODULE = TypeValue("module")
 
 
   abstract class Value {
@@ -504,6 +507,11 @@ object Values {
     }
     def typeof : TypeValue = TYPE_OBJ
   }
+
+
+ /* class ModuleValue(path : Program.Path, evaluator : Evaluator) extends Value {
+
+  }*/
 
   case class StackTraceElement(location : Location, description : String);
 

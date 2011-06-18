@@ -22,7 +22,15 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
   def lookup (ids : SortedSet[Id], id : Id, linear : Boolean) {
     if (!ids.contains(id)) {
       if (linear) error(id.location, "identifier is not in linear scope")
-      else error(id.location, "unknown identifier")
+      else {
+        moduleSystem.find(Path(List(id))) match {
+          case Some(ModuleSystem.Found(pd, flags)) =>
+            if ((flags & (ModuleSystem.FoundDef + ModuleSystem.FoundPackage)) != 0) {
+              // ok
+            } else error(id.location, "unknown identifier")
+          case _ => error(id.location, "unknowsn identifier")
+        }
+      }
     }
   }
   

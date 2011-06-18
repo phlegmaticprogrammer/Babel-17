@@ -1,4 +1,6 @@
-val f = a => b =>
+module tools
+
+def f = a => b =>
   if a == 0 then
     b
   else
@@ -13,4 +15,4 @@ val f = a => b =>
     a
   end
   
-f 25 105
+end

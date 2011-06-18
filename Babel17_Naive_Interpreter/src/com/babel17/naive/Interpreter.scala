@@ -15,13 +15,11 @@ import java.io.Reader
 object Interpreter {
 
   @throws(classOf[java.io.IOException])
-  def parseAndAnalyze(source : Source, reader : java.io.Reader) : java.util.Collection[ErrorMessage] = {
+  def parseAndAnalyze(fc : FileCentral, source : Source, reader : java.io.Reader) : java.util.Collection[ErrorMessage] = {
     var charstream: CharStream = new ANTLRReaderStream(reader)
     val result = Parser.parse(source, charstream)
-    val checker = new Tree2Program()
-    checker.source = source
-    //val term = checker.buildProgram(result)
-    val errors = checker.errors
+    fc.updateB17File(source, result)
+    val errors = Errors.cleanupErrors(fc.getErrorsOf(source.getFilename))
     val a : java.util.ArrayList[ErrorMessage] = new java.util.ArrayList(errors.length)
     for (e <- errors) {
       a.add(e)
@@ -99,7 +97,6 @@ object Interpreter {
             w.writeLine("")
             w.writeLine(s)
           case ex =>
-            ex.printStackTrace
             w.writeLineError("There was an internal error during the evaluation of the program:")
             w.writeLine("")
             if (ex.getMessage != null)
@@ -112,7 +109,7 @@ object Interpreter {
 
   }
 
-  def main(args: Array[String]): Unit = {
+  def mainProc(args: Array[String]): Unit = {
     var arguments = args
     var progIndex = 0
     if (args.length > 0) {
@@ -129,8 +126,13 @@ object Interpreter {
     run(progIndex, arguments, new WriteOutput())
   }
 
+  def main(args : Array[String]): Unit = {
+    def f(name : String) : String = ("/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/src/com/babel17/examples/basic/"+name)
+    mainProc(Array(f("v3tests.babel17"), f("cool.babel-17"), f("test.b17")))
+  }
+
   def test {
-    main(Array("/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/src/com/babel17/examples/basic/v3tests.babel17"));
+    mainProc(Array("/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/src/com/babel17/examples/basic/v3tests.babel17"));
   }
 
 

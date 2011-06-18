@@ -124,6 +124,8 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
 
   var executor : ThreadPoolExecutor = null
 
+  val moduleValues = new ModuleValues(this, fileCentral)
+
   if (maxNumThreads > 1) {
     executor = new ThreadPoolExecutor(0, maxNumThreads-1, 500L, TimeUnit.MILLISECONDS,
       new SynchronousQueue())
@@ -323,14 +325,25 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     u
   }
 
+  def evalModule(path : Path) : Value = {
+    moduleValues.findModuleValue(path)
+  }
+
   def evalSE_(env : SimpleEnvironment, se : SimpleExpression) : Value =
   {
     se match {
       case SEId(id) =>
-        env.lookup(id) match {
-          case ev : EnvironmentValue => ev.onLookup()
-          case x => x
+        try {
+          env.lookup(id) match {
+            case ev : EnvironmentValue => ev.onLookup()
+            case x => x
+          }
+        } catch {
+          case x : java.util.NoSuchElementException =>
+            val path = Path(List(id))
+            evalModule(path)
         }
+      case SERoot() => evalModule(Path(List()))
       case SEInt(u) => IntegerValue(u)
       case SEBool(b) => BooleanValue(b)
       case SEString(u) => StringValue(u)
@@ -960,9 +973,10 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     val inputStream = Interpreter.getClass.getResourceAsStream("system.b17")
     val inputReader = new InputStreamReader(inputStream, "UTF-8")
     val charstream = new ANTLRReaderStream(inputReader)
-    val result = Parser.parse(new Source(systemFilename), charstream)
+    val source = new Source(systemFilename)
+    val result = Parser.parse(source, charstream)
     val fc = new FileCentral()
-    fc.updateB17File(systemFilename, result)
+    fc.updateB17File(source, result)
     val (term, termErrors) = fc.getScript(systemFilename).get //checker.buildProgram(result)
     val errors = fc.getErrors ++ termErrors
     if (errors.length > 0) throw EvalX("static errors in system library")
