@@ -65,20 +65,23 @@ object Values {
   val CONSTRUCTOR_MODULENOTFOUND = "MODULENOTFOUND"
   val CONSTRUCTOR_DEADLOCK = "DEADLOCK"
 
-  val TYPE_INT = TypeValue("int")
-  val TYPE_REAL = TypeValue("real")
-  val TYPE_BOOL = TypeValue("bool")
-  val TYPE_STRING = TypeValue("string")
-  val TYPE_LIST = TypeValue("list")
-  val TYPE_VECT = TypeValue("vect")
-  val TYPE_SET = TypeValue("set")
-  val TYPE_MAP = TypeValue("map")
-  val TYPE_CEXP = TypeValue("cexp")
-  val TYPE_OBJ = TypeValue("obj")
-  val TYPE_FUN = TypeValue("fun")
-  val TYPE_EXC = TypeValue("exc")
-  val TYPE_TYPE = TypeValue("type")
-  val TYPE_MODULE = TypeValue("module")
+  private def makeTypeValue(s : String) : TypeValue =
+    TypeValue(Program.Path(List(Program.Id(s))));
+  
+  val TYPE_INT = makeTypeValue("int")
+  val TYPE_REAL = makeTypeValue("real")
+  val TYPE_BOOL = makeTypeValue("bool")
+  val TYPE_STRING = makeTypeValue("string")
+  val TYPE_LIST = makeTypeValue("list")
+  val TYPE_VECT = makeTypeValue("vect")
+  val TYPE_SET = makeTypeValue("set")
+  val TYPE_MAP = makeTypeValue("map")
+  val TYPE_CEXP = makeTypeValue("cexp")
+  val TYPE_OBJ = makeTypeValue("obj")
+  val TYPE_FUN = makeTypeValue("fun")
+  val TYPE_EXC = makeTypeValue("exc")
+  val TYPE_TYPE = makeTypeValue("type")
+  val TYPE_MODULE = makeTypeValue("module")
 
 
   abstract class Value {
@@ -155,7 +158,7 @@ object Values {
       else {
         v.typeof match {
           case s : TypeValue =>
-            if (s.name == t.name) this
+            if (s.path == t.path) this
             else typeConversionError
           case _ => typeConversionError
         }
@@ -163,9 +166,9 @@ object Values {
     }
   }
 
-  case class TypeValue(name : String) extends Value {
+  case class TypeValue(path : Program.Path) extends Value {
     override def typeof : TypeValue = TYPE_TYPE
-    def stringDescr(brackets : Boolean) : String = "(:"+name+")"
+    def stringDescr(brackets : Boolean) : String = "(:"+path+")"
     def sendMessage(message : Program.Message) : Value = {
       null
     }
@@ -1428,7 +1431,7 @@ object Values {
     }
 
     override def stringDescr(brackets : Boolean) : String = {
-      mkBrackets(brackets, outerValue.stringDescr(true)+":"+typeValue.name)
+      mkBrackets(brackets, outerValue.stringDescr(true)+":"+typeValue.path)
     }
 
     override def sendMessage(message : Program.Message) : Value = {

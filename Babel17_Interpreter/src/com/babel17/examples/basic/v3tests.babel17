@@ -18,9 +18,10 @@ def s = "hello world"
 end
 
 val s = hello.suit 1
-s
-hello.inner s
-typeof s
-typeof 1
-typeof "1"
-typeof (x => x)
+
+(: int)
+val q = (: hello.suit)
+match 3
+  case s : int => "integer"
+  case s : (q) => "ssjfhsjfh"
+end

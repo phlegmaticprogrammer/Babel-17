@@ -458,7 +458,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
         f.stackTraceElement = se.stackTraceElement
         f
       case SETypeIntro(m, ty, branches) =>
-        val f = TypeIntroValue(this, env, TypeValue(ty.toString), branches)
+        val f = TypeIntroValue(this, env, TypeValue(ty), branches)
         f.stackTraceElement = se.stackTraceElement
         f
       case SEGlueObj(parents, block, messages) =>
@@ -475,6 +475,8 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
         }
       case SETypeOf(se) =>
         evalSE(env, se).typeof
+      case SETypeExpr(path : Path) =>
+        TypeValue(path)
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }
@@ -974,7 +976,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
       case PInnerValue(ty, pat) =>
         v.force() match {
           case TypedValue(inner, _, vty) =>
-            if (vty.name == ty.toString)
+            if (vty.path == ty)
               matchPat(env, pat, inner, rebind)
             else
               NoMatch()
@@ -982,6 +984,27 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
             logInvisibleException(ex)
             NoMatch()
           case _ => NoMatch()
+        }
+      case PType(pat, TypeNone()) =>
+        matchPat(env, pat, v, rebind)
+      case PType(pat, TypeSome(ty)) =>
+        v.typeof match {
+          case TypeValue(vty) =>
+            if (vty == ty)
+              matchPat(env, pat, v, rebind)
+            else
+              NoMatch()
+          case ex:ExceptionValue =>
+            logInvisibleException(ex)
+            NoMatch()
+          case _ => NoMatch()
+        }
+      case PTypeVal(pat, tyExpr) =>
+        evalSE(env.freeze(), tyExpr) match {
+          case TypeValue(ty) =>
+            matchPat(env, PType(pat, TypeSome(ty)), v, rebind)
+          case _ =>
+            NoMatch()
         }
       case _ => throw EvalX("incomplete matchPattern: "+pat)
    }
