@@ -457,6 +457,10 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
         }
         f.stackTraceElement = se.stackTraceElement
         f
+      case SETypeIntro(m, ty, branches) =>
+        val f = TypeIntroValue(this, env, TypeValue(ty.toString), branches)
+        f.stackTraceElement = se.stackTraceElement
+        f
       case SEGlueObj(parents, block, messages) =>
         evalObj(evalSE(env, parents), env, block, messages)
       case SEObj(block, messages) =>
@@ -503,6 +507,12 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
           values = v :: values
         case SDef1(m, _, id, branches) =>
           val se = SEFun(m, branches)
+          se.stackTraceElement = d.stackTraceElement
+          val v = EnvironmentValueMS(se, null)
+          e = e.define(id, v)
+          values = v :: values
+        case STypeDef(m, _, id, ty, branches) =>
+          val se = SETypeIntro(m, ty, branches)
           se.stackTraceElement = d.stackTraceElement
           val v = EnvironmentValueMS(se, null)
           e = e.define(id, v)
@@ -585,6 +595,8 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
       case SDefs(defs) => evalDefs(env, coll, defs)
       case d : SDef0 => evalDefs(env, coll, List(d))
       case d : SDef1 => evalDefs(env, coll, List(d))
+      case d : STypeDef => evalDefs(env, coll, List(d))
+      case d : SConversionDef => evalDefs(env, coll, List(d))
       case SPragma(pragma) =>
         pragma match {
           case PragmaPrint(expr) =>

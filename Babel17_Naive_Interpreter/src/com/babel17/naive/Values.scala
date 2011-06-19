@@ -52,6 +52,7 @@ object Values {
   val CONSTRUCTOR_EMPTYCHOICE = "EMPTYCHOICE"  
   val CONSTRUCTOR_INVALIDMESSAGE = "INVALIDMESSAGE"
   val CONSTRUCTOR_TYPECONVERSIONERROR = "TYPECONVERSIONERROR"
+  val CONSTRUCTOR_TYPEERROR = "TYPEERROR"
   val CONSTRUCTOR_NOMATCH = "NOMATCH"
   val CONSTRUCTOR_APPLYERROR = "APPLYERROR"
   val CONSTRUCTOR_INVALIDLIST = "INVALIDLIST"
@@ -293,6 +294,32 @@ object Values {
       else x
     }
   }
+
+  case class TypeIntroValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment, ty : TypeValue,
+                           branches : List[(Program.Pattern, Option[Program.Expression])]) extends FunctionValue
+  {
+    private def typed(inner : Value, outer : Value) : TypedValue = {
+      TypedValue(inner, outer, ty)
+    }
+    override def apply_(v : Value) : Value = {
+      val e = env.thaw
+      for ((p, body) <- branches) {
+        evaluator.matchPattern(e, p, v, false)  match {
+          case Evaluator.NoMatch() =>
+          case Evaluator.DoesMatch(newEnv) =>
+            body match {
+              case None => return typed(v, v)
+              case Some(b) =>
+                val x = evaluator.evalExpression(newEnv, b)
+                if (x.isException) return x.asDynamicException
+                else return typed(v, x)
+            }
+        }
+      }
+      return dynamicException(CONSTRUCTOR_TYPEERROR)
+    }
+  }
+
 
   case class ClosureValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment,
                            branches : List[(Program.Pattern, Program.Expression, Program.Type)]) extends FunctionValue
@@ -1089,6 +1116,22 @@ object Values {
     }
   }
       
+  object UnrelatedX extends Exception {}
+
+  object defaultValueOrdering extends Ordering[Value] {
+    def compare(a : Value, b : Value) : Int = {
+      import CompareResult._
+      val r = compareValues(a, b) match {
+        case LESS => -1
+        case EQUAL => 0
+        case GREATER => 1
+        case UNRELATED =>
+          throw UnrelatedX
+      }
+      r
+    }
+  }
+
   def compareValues(v1 : Value, v2 : Value) : Int = {
     val f1 = v1.force()
     val f2 = v2.force()
@@ -1114,6 +1157,8 @@ object Values {
       case (TypeValue(x), TypeValue(y)) =>
         val c = x.compare(y)
         if (c < 0) LESS else if (c > 0) GREATER else EQUAL
+      case (TypedValue(_, x, tx), TypedValue(_, y, ty)) =>
+        if (tx == ty) compareValues(x, y) else UNRELATED
       case _ => UNRELATED
     }
   }
@@ -1300,11 +1345,9 @@ object Values {
         }
         var r = evaluator.evalSE(localEnv, localSE)
         this.synchronized {
-          //if (result == null) {
-            result = r
-            env = null;
-            se = null;
-          //}
+          result = r
+          env = null;
+          se = null;
         }
         result
       }
@@ -1376,20 +1419,23 @@ object Values {
     }
   }
 
-  object UnrelatedX extends Exception {}
+  case class TypedValue(innerValue : Value, outerValue : Value, typeValue : TypeValue)
+    extends Value
+  {
 
-  object defaultValueOrdering extends Ordering[Value] {
-    def compare(a : Value, b : Value) : Int = {
-      import CompareResult._
-      val r = compareValues(a, b) match {
-        case LESS => -1
-        case EQUAL => 0
-        case GREATER => 1
-        case UNRELATED =>
-          throw UnrelatedX
-      }
-      r
+    def typeof : Value = {
+      typeValue
     }
+
+    override def stringDescr(brackets : Boolean) : String = {
+      mkBrackets(brackets, outerValue.stringDescr(true)+":"+typeValue.name)
+    }
+
+    override def sendMessage(message : Program.Message) : Value = {
+      return outerValue.sendMessage(message)
+    }
+  
   }
+
 
 }

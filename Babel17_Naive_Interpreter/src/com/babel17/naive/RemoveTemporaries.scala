@@ -281,7 +281,9 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       s match {
         case TempMemoize(ms) =>
           for ((m, id) <- ms) {
-            if (!defIds.contains(id)) {
+            if (typeIds.contains(id))
+              error(id.location, "cannot memoize type definitions")
+            else if (!defIds.contains(id)) {
               error(id.location, "no such definition found")
             } else if (memos.contains(id))
               error(id.location, "duplicate memoization specification")
@@ -345,7 +347,6 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
           CollectVars.collectVars(s)
           var branches : List[(Pattern, Expression, Type)] = List()
           var deps : SortedSet[Id] = SortedSet()
-          var first : Int = -1
           var maxval : Int = -1
           if (defs.contains(id)) {
             defs(id) match {
@@ -359,7 +360,6 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
                 maxval = _maxval
             }
           }
-          if (first == -1) first = line
           deps = deps ++ (defIds ** s.freeVars)
           for (v <- s.freeVars) {
             if (vals.contains(v)) {
@@ -377,7 +377,6 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
           def handleTempTypeDef(pat : Pattern, e : Option[Expression]) {
             var branches : List[(Pattern, Option[Expression])] = List()
             var deps : SortedSet[Id] = SortedSet()
-            var first : Int = -1
             var maxval : Int = -1
             if (defs.contains(id)) {
               defs(id) match {
@@ -385,13 +384,12 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
                   error(id.location, "duplicate definition (there is already a definition with this name)")
                 case (_ : SDef1, _, _) =>
                   error(id.location, "duplicate definition (there is already a definition with this name)")
-                case (STypeDef(_, _, _, _branches), _deps, _maxval) =>
+                case (STypeDef(_, _, _, _, _branches), _deps, _maxval) =>
                   branches = _branches
                   deps = _deps
                   maxval = _maxval
               }
             }
-            if (first == -1) first = line
             deps = deps ++ (defIds ** s.freeVars)
             for (v <- s.freeVars) {
               if (vals.contains(v)) {
@@ -400,7 +398,8 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
               }
             }
             branches = branches ++ List((pat, e))
-            val stypedef = STypeDef(MemoTypeNone(), VisibilityYes(), id, branches)
+            val ty = env.local.append(id)
+            val stypedef = STypeDef(MemoTypeNone(), VisibilityYes(), id, ty, branches)
             stypedef.stackTraceElement = Values.StackTraceElement(id.location, "application of typedef '"+id.name+"'")
             defs = defs + (id -> (stypedef, deps, maxval))
             if (!defsFirstVal.contains(id))
@@ -479,8 +478,8 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
               h.location = sdef.location
               h.stackTraceElement = sdef.stackTraceElement
               h
-            case STypeDef(_, _, id, branches) =>
-              val h = STypeDef(memo, vis, id, branches)
+            case STypeDef(_, _, id, ty, branches) =>
+              val h = STypeDef(memo, vis, id, ty, branches)
               h.location = sdef.location
               h.stackTraceElement = sdef.stackTraceElement
               h
@@ -643,6 +642,16 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
           (transform_pat(env, x._1), transform_expr(env, x._2),
           transform_type(env, x._3))
         SEFun(m, branches.map(f))
+      case SETypeIntro(m, ty, branches) =>
+        def g(e : Option[Expression]) =
+          e match {
+            case None => None
+            case Some(e) => Some(transform_expr(env, e))
+          }
+        def f(x : (Pattern, Option[Expression])) =
+          (transform_pat(env, x._1), g(x._2))
+        val (TypeSome(transformedTy)) = transform_type(env, TypeSome(ty))
+        SETypeIntro(m, ty, branches.map(f))
       case SESet(l) => SESet(l.map(tr _))
       case SEMap(l) => SEMap(l.map(x => (tr(x._1), tr(x._2))))
       case SERecord(l) => SERecord(l.map(x => (x._1, tr(x._2))))

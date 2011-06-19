@@ -127,7 +127,7 @@ object CollectVars {
           freeVars = freeVars  ++ b._1.freeVars ++ (b._2.freeVars -- b._1.introducedVars)
         }
         term.freeVars = freeVars - id
-      case STypeDef(_, _, id, branches) =>
+      case STypeDef(_, _, id, _, branches) =>
         var freeVars = SortedSet[Id]()
         for (b <- branches) {
           b match {
@@ -264,6 +264,18 @@ object CollectVars {
           collectVars(pat)
           collectVars(body)
           freeVars = freeVars ++ pat.freeVars ++ (body.freeVars -- pat.introducedVars)
+        }
+        term.freeVars = freeVars
+      case SETypeIntro(_, _, branches) =>
+        var freeVars = SortedSet[Id]()
+        for ((pat, body) <- branches) {
+          collectVars(pat)
+          if (body != None) {
+            collectVars(body.get)
+            freeVars = freeVars ++ pat.freeVars ++ (body.get.freeVars -- pat.introducedVars)
+          } else {
+            freeVars = freeVars ++ pat.freeVars
+          }
         }
         term.freeVars = freeVars
       case SEGlueObj(parents, b, _) =>

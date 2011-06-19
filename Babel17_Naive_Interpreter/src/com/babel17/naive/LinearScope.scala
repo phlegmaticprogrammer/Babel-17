@@ -147,7 +147,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
           check_e(check_p(env2.freezeThaw(), pat, false), e)
         }
         env2
-      case STypeDef(_, _, id, branches) =>
+      case STypeDef(_, _, id, _,branches) =>
         if ((st_flags & MODULE_STATEMENT) == 0) error(id.location, "typedefs live in modules only")
         val env2 = env.define(id)
         for ((pat, e) <- branches) {
@@ -327,6 +327,14 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
         val tEnv = env.thaw()
         for ((pat, e, _) <- branches) {
           check_e(check_p(tEnv, pat, false), e)
+        }
+      case SETypeIntro(_, _, branches) =>
+        val tEnv = env.thaw()
+        for ((pat, e) <- branches) {
+          if (e != None)
+            check_e(check_p(tEnv, pat, false), e.get)
+          else
+            check_p(tEnv, pat, false)
         }
       case SEObj(b, _) =>
         checkObjForThis(b)
