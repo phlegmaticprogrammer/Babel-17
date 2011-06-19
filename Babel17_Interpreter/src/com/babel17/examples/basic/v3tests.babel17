@@ -20,3 +20,7 @@ end
 val s = hello.suit 1
 s
 hello.inner s
+typeof s
+typeof 1
+typeof "1"
+typeof (x => x)

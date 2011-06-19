@@ -473,6 +473,8 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
           executor.execute(c.getTask)
           c
         }
+      case SETypeOf(se) =>
+        evalSE(env, se).typeof
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }

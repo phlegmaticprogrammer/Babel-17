@@ -571,7 +571,7 @@ object Values {
         e
       }
     }
-    def typeof : TypeValue = TYPE_EXC
+    def typeof : Value = if (dynamic) this else TYPE_EXC
   }
 
   abstract class ForIterator {
