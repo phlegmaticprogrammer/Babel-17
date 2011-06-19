@@ -969,6 +969,18 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
               case _  => NoMatch()
             }
         }
+      case PInnerValue(ty, pat) =>
+        v.force() match {
+          case TypedValue(inner, _, vty) =>
+            if (vty.name == ty.toString)
+              matchPat(env, pat, inner, rebind)
+            else
+              NoMatch()
+          case ex:ExceptionValue =>
+            logInvisibleException(ex)
+            NoMatch()
+          case _ => NoMatch()
+        }
       case _ => throw EvalX("incomplete matchPattern: "+pat)
    }
   }
