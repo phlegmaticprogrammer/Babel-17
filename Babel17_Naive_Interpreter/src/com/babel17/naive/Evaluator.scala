@@ -18,12 +18,20 @@ object Evaluator {
   case class ValueRef(var value : Value);
   
 
+  val ID_THIS = Id("this")
+
   case class SimpleEnvironment(nonlinear : SortedMap[Id, Value]) {
     def thaw () : Environment = {
       Environment(nonlinear, SortedMap())
     }
     def lookup(id : Id) : Value = {
       nonlinear(id)
+    }
+    def setThis(_this : Value) : SimpleEnvironment = {
+      if (_this != null)
+        SimpleEnvironment(nonlinear + (ID_THIS -> _this))
+      else
+        this
     }
   }
   
@@ -333,16 +341,23 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
   {
     se match {
       case SEId(id) =>
+        var v : Value = null
         try {
-          env.lookup(id) match {
-            case ev : EnvironmentValue => ev.onLookup()
-            case x => x
-          }
+          v = env.lookup(id)
         } catch {
           case x : java.util.NoSuchElementException =>
             val path = Path(List(id))
-            evalModule(path)
+            return evalModule(path)
         }
+        v match {
+          case ev : EnvironmentValue => ev.onLookup()
+          case x => x
+        }
+      case SEThis() =>
+          env.lookup(ID_THIS) match {
+            case ev : EnvironmentValue => ev.onLookup()
+            case x => x
+          }
       case SERoot() => evalModule(Path(List()))
       case SEInt(u) => IntegerValue(u)
       case SEBool(b) => BooleanValue(b)
@@ -374,7 +389,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
           val g = evalSE(env, gexpr)
           if (g.isDynamicException) g
           else {
-            f = f.extractFunctionValue
+            f = f.extractFunctionValue(f)
             if (f.isDynamicException) f
             else {
               f.asInstanceOf[FunctionValue].apply(g)

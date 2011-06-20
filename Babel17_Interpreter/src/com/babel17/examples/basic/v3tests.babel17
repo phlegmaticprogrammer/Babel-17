@@ -1,4 +1,4 @@
-module hello
+#(module hello
 
 val s = 2
 
@@ -9,19 +9,35 @@ typedef suit 1 = Spades, 2 = Hearts, 3 = Clubs, 4 = Diamonds
 
 def inner(suit v) = v
 
+typedef wow _ = lazy (object
+                  def inner =
+                    match this
+                        case (wow i) => inner
+                        case x => #print x
+                    end
+                end)
+
 end
 
-module hello.lock
 
-def s = "hello world"
+val v = hello.wow 23
+(v, v.inner)
+)#
+
+val r = object
+
+def outer = this
+
+def name = "r"
+
+def u =
+  object
+    def test = (inner, outer)
+    def inner = this
+    def name = "u"
+  end
 
 end
 
-val s = hello.suit 1
-
-(: int)
-val q = (: hello.suit)
-match 3
-  case s : int => "integer"
-  case s : (q) => "ssjfhsjfh"
-end
+val (i, o) = r.u.test
+(i.name, o.name)

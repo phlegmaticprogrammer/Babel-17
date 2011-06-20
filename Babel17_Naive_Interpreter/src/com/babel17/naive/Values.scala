@@ -87,15 +87,14 @@ object Values {
   abstract class Value {
     // sending an object a message always forces it
     def sendMessage(message : Program.Message) : Value;
-
-    def hasMessage(message : Program.Message) : Boolean = {
-      sendMessage(message) != null     
+    def sendMessage(message : Program.Message, _this : Value) : Value = {
+      sendMessage(message)
     }
     
     // this returns either a dynamic exception or a FunctionValue
-    def extractFunctionValue() : Value = {
+    def extractFunctionValue(_this : Value) : Value = {
       if (isDynamicException()) return this
-      val f = sendMessage(Program.Message(MESSAGE_APPLY))
+      val f = sendMessage(Program.Message(MESSAGE_APPLY), _this)
       if (f == null) dynamicException(CONSTRUCTOR_APPLYERROR)
       else if (f.isInstanceOf[FunctionValue] || f.isDynamicException()) f
       else dynamicException(CONSTRUCTOR_APPLYERROR)
@@ -283,7 +282,7 @@ object Values {
         case _ => null
       }
     }
-    override def extractFunctionValue() : Value = this
+    override def extractFunctionValue(_this:Value) : Value = this
 
     def typeof : TypeValue = TYPE_FUN
 
@@ -301,7 +300,7 @@ object Values {
   case class TypeIntroValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment, ty : TypeValue,
                            branches : List[(Program.Pattern, Option[Program.Expression])]) extends FunctionValue
   {
-    private def typed(inner : Value, outer : Value) : TypedValue = {
+    private def typed(inner : Value, outer : Value) : Value = {
       TypedValue(inner, outer, ty)
     }
     override def apply_(v : Value) : Value = {
@@ -522,9 +521,14 @@ object Values {
       s = s + "}"
       s
     }
-    override def sendMessage(message : Program.Message) : Value = {
+
+    def sendMessage(message : Program.Message) : Value = {
+      sendMessage(message, this)
+    }
+
+    override def sendMessage(message : Program.Message, _this:Value) : Value = {
       messages.get(message) match {
-        case Some(v : EnvironmentValue) => v.onLookup()
+        case Some(v : EnvironmentValue) => v.onLookup(_this)
         case Some(v) => v
         case None =>
           if (!collection) return null
@@ -1307,7 +1311,10 @@ object Values {
       }
     }
     override def sendMessage(message : Program.Message) : Value = {
-      return force().sendMessage(message)
+      sendMessage(message, this)
+    }
+    override def sendMessage(message : Program.Message, _this : Value) : Value = {
+      return force().sendMessage(message, _this)
     }   
   }
 
@@ -1320,15 +1327,18 @@ object Values {
     def stringDescr(brackets : Boolean) : String = {
       "_recursive"
     }
-    def onLookup() : Value;
+    def onLookup() : Value = {
+      onLookup(null)
+    }
+    def onLookup(_this : Value) : Value;
     def typeof = throw Evaluator.EvalX("environment value has no type")
   }
 
   case class EnvironmentValueMN(var se : Program.SimpleExpression)
   extends EnvironmentValue(null) {
 
-    def onLookup() : Value = {
-      evaluator.evalSE(env, se)
+    def onLookup(_this : Value) : Value = {
+      evaluator.evalSE(env.setThis(_this), se)
     }
   }
 
@@ -1336,14 +1346,14 @@ object Values {
                                 var result : Value)
   extends EnvironmentValue(null) {
 
-    def onLookup() : Value = {
+    def onLookup(_this : Value) : Value = {
       if (result != null) result
       else {
         var localEnv : Evaluator.SimpleEnvironment = null
         var localSE : Program.SimpleExpression = null
         this.synchronized {
           if (result != null) return result
-          localEnv = env
+          localEnv = env.setThis(_this)
           localSE = se
         }
         var r = evaluator.evalSE(localEnv, localSE)
@@ -1367,7 +1377,7 @@ object Values {
         result = cache.get()
       return result
     }
-    def onLookup() : Value = {
+    def onLookup(_this : Value) : Value = {
       var result = getResult()
       if (result != null) result
       else {
@@ -1376,7 +1386,7 @@ object Values {
         this.synchronized {
           result = getResult()
           if (result != null) return result
-          localEnv = env
+          localEnv = env.setThis(_this)
           localSE = se
         }
         var r = evaluator.evalSE(localEnv, localSE)
@@ -1417,8 +1427,12 @@ object Values {
     override def force() : Value = {
       futureTask.get().force()
     }
+
     override def sendMessage(message : Program.Message) : Value = {
-      return force().sendMessage(message)
+      sendMessage(message, this)
+    }
+    override def sendMessage(message : Program.Message, _this : Value) : Value = {
+      return force().sendMessage(message, _this)
     }
   }
 
@@ -1435,7 +1449,7 @@ object Values {
     }
 
     override def sendMessage(message : Program.Message) : Value = {
-      return outerValue.sendMessage(message)
+      return outerValue.sendMessage(message, this)
     }
   
   }
