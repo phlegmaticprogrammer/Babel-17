@@ -23,8 +23,8 @@ class ModuleValues(evaluator : Evaluator, fileCentral : FileCentral) {
       return s
     }
 
-    override def sendMessage(message : Program.Message) : Value = {
-      if (messages.contains(Id(message.m))) {
+    override def sendMessage(message : Program.Id) : Value = {
+      if (messages.contains(message)) {
          if (loading.threadId == Thread.currentThread.getId)
            Values.dynamicException(CONSTRUCTOR_DEADLOCK)
          else
@@ -36,7 +36,7 @@ class ModuleValues(evaluator : Evaluator, fileCentral : FileCentral) {
              }
            }
       } else {
-        getModuleValue(path.append(Id(message.m))) match {
+        getModuleValue(path.append(message)) match {
           case None => null
           case Some(v) => v
         }
@@ -47,7 +47,7 @@ class ModuleValues(evaluator : Evaluator, fileCentral : FileCentral) {
 
   }
 
-  case class ModuleValue(path : Path, messages : SortedMap[Message, Value]) extends Value {
+  case class ModuleValue(path : Path, messages : SortedMap[Id, Value]) extends Value {
 
     override def stringDescr(brackets : Boolean) : String = {
       if (path.ids.isEmpty) return "_root"
@@ -56,12 +56,12 @@ class ModuleValues(evaluator : Evaluator, fileCentral : FileCentral) {
       return s
     }
 
-    override def sendMessage(message : Program.Message) : Value = {
+    override def sendMessage(message : Program.Id) : Value = {
       messages.get(message) match {
         case Some(v : EnvironmentValue) => v.onLookup()
         case Some(v) => v
         case None =>
-          getModuleValue(path.append(Id(message.m))) match {
+          getModuleValue(path.append(message)) match {
             case None => null
             case Some(v) => v
           }
@@ -86,9 +86,9 @@ class ModuleValues(evaluator : Evaluator, fileCentral : FileCentral) {
     evaluator.evalBlock(emptyEnv, new DefaultCollector(), block) match {
       case BlockException(de) => de
       case BlockCollector(env, _) =>
-        var s : SortedMap[Message, Value] = SortedMap.empty
+        var s : SortedMap[Id, Value] = SortedMap.empty
         for (m <- md.messages) {
-          s = s + (Message(m.name) -> env.lookup(m))
+          s = s + (Id(m.name) -> env.lookup(m))
         }
         ModuleValue(md.path, s)
     }

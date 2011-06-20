@@ -94,7 +94,7 @@ class Tree2Program extends ErrorProducer {
     def left() : SimpleExpression = buildSimpleExpression(leftNode)
     def right() : SimpleExpression = buildSimpleExpression(rightNode)
     def mk(m : String) : SimpleExpression = {
-      val msg = Message(m.toLowerCase)
+      val msg = Id(m.toLowerCase)
       msg.setLocation(op.location)
       SEApply(SEMessageSend(left(), msg), right())
     }
@@ -116,7 +116,7 @@ class Tree2Program extends ErrorProducer {
       case APPLY => SEApply(left(), right())
       case MESSAGE_SEND =>
         build(rightNode) match {
-          case msg : Message => SEMessageSend(left(), msg)
+          case msg : Id => SEMessageSend(left(), msg)
           case x => throwInternalError(op.location, "buildBinaryOperation, no message: "+x)
         }
       case OR => SEOr(left(), right())
@@ -201,7 +201,7 @@ class Tree2Program extends ErrorProducer {
   def buildUnary(n : UnaryNode) : Locatable = {
     val arg = buildSimpleExpression(n.operand)
     def mk(m : String) : SimpleExpression = {
-      val msg = Message(m.toLowerCase)
+      val msg = Id(m.toLowerCase)
       msg.setLocation(n.operator().location)
       SEMessageSend(arg, msg)
     }
@@ -533,7 +533,7 @@ class Tree2Program extends ErrorProducer {
       case n : StringNode =>
         SEString(n.value)
       case n : MessageNode =>
-        Message(n.name().toLowerCase)
+        Id(n.name().toLowerCase)
       case n : NullaryNode =>
         buildNullary(n)
       case n : BinaryNode =>
@@ -554,7 +554,7 @@ class Tree2Program extends ErrorProducer {
         val e = buildExpression(n.rightSide)
         val id = Id(n.id.name.toLowerCase)
         id.setLocation(n.id.location)
-        val m = Message(n.message.name)
+        val m = Id(n.message.name)
         m.setLocation(n.message.location)
         if (n.assign)
           SAssignRecordUpdate(id, m, e)
@@ -700,10 +700,10 @@ class Tree2Program extends ErrorProducer {
       case n : SetNode =>
         SESet(toList(n.elements).map(buildSimpleExpression _))
       case n : RecordNode =>
-        def buildRecordValue(node : Node) : (Message, SimpleExpression) = {
+        def buildRecordValue(node : Node) : (Id, SimpleExpression) = {
           node match {
             case kv : RecordNode.MessageValue =>
-              val m = Message(kv.message.name.toLowerCase)
+              val m = Id(kv.message.name.toLowerCase)
               m.setLocation(kv.message.location)
               val v = buildSimpleExpression(kv.value)
               (m, v)
@@ -717,7 +717,7 @@ class Tree2Program extends ErrorProducer {
           if (!isAllowedInObject(st))
             error(st.location, "this statement is not allowed in an object definition")
         }
-        val messages = CollectVars.collectDefIds(block.statements).toList.map(_.toMessage)
+        val messages = CollectVars.collectDefIds(block.statements).toList
         if (n.parents != null) {
           val parents = buildSimpleExpression(n.parents)
           if (n.combineMethod == ObjectNode.COMBINE_GLUE)
@@ -838,13 +838,13 @@ class Tree2Program extends ErrorProducer {
           }
         PMap(elems.reverse, delta)
       case p : RecordPattern =>
-        var elems : List[(Message, Pattern)] = List();
+        var elems : List[(Id, Pattern)] = List();
         var delta : Pattern = null;
         for (e <- toList(p.elements))
           e match {
             case mv : RecordPattern.MessageValue =>
               val idpat = mv.message
-              val m = Message(idpat.name.toLowerCase)
+              val m = Id(idpat.name.toLowerCase)
               m.setLocation(idpat.location);
               elems = (m, buildProperPattern(mv.value))::elems
             case d : PatternNode =>

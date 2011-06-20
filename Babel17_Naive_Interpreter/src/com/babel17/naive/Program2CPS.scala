@@ -74,7 +74,7 @@ object Program2CPS {
         CPS.Defs(List(CPS.Continuation(r, List(x), k(CPS.PrimVar(x)))),
         translateSE(env, u,
           u => translateSE(env, g,
-          g => CPS.Apply(u, Some(CPS.Message(m.m)), List(g, CPS.PrimVar(r))))))
+          g => CPS.Apply(u, Some(CPS.Message(m.name)), List(g, CPS.PrimVar(r))))))
       case Program.SEApply(f, g) =>
         val r = freshVar
         val x = freshVar
@@ -87,7 +87,7 @@ object Program2CPS {
         val x = freshVar
         CPS.Defs(List(CPS.Continuation(r, List(x), k(CPS.PrimVar(x)))),
         translateSE(env, u,
-          u => CPS.Apply(u, Some(CPS.Message(m.m)), List(CPS.PrimVar(r)))))
+          u => CPS.Apply(u, Some(CPS.Message(m.name)), List(CPS.PrimVar(r)))))
       case Program.SECompare(List(a, b), List(c)) =>
         translateSE(env, a,
           a => translateSE(env, b,

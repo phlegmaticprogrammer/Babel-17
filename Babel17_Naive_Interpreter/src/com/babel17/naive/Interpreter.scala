@@ -97,6 +97,7 @@ object Interpreter {
             w.writeLine("")
             w.writeLine(s)
           case ex =>
+            ex.printStackTrace
             w.writeLineError("There was an internal error during the evaluation of the program:")
             w.writeLine("")
             if (ex.getMessage != null)

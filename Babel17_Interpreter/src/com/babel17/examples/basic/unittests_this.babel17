@@ -1,0 +1,36 @@
+module standard.unittest.this_keyword.test1
+
+val r =
+  object
+    def outer = this
+    def name = "r"
+    def u =
+      object
+        def test = (inner, outer)
+        def inner = this
+        def name = "u"
+      end
+
+  end
+
+val (i, o) = r.u.test
+
+#assert (i.name, o.name) == ("u", "r")
+
+end
+
+
+module standard.unittest.this_keyword.test2
+
+typedef wow _ = lazy (object
+                  def inner =
+                    match this
+                        case (wow i) => i
+                    end
+                end)
+
+val v = wow 23
+
+#assert typeof v == (: wow)
+#assert v.inner == 23
+end

@@ -33,6 +33,9 @@ object Evaluator {
       else
         this
     }
+    def replace(r : SortedMap[Id, Value]) : SimpleEnvironment = {
+      SimpleEnvironment(nonlinear ++ r)
+    }
   }
   
   case class Environment(nonlinear : SortedMap[Id, Value], linear : SortedMap[Id, ValueRef]) {
@@ -280,9 +283,12 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     ObjectValue(o1.messages ++ o2.messages)
   }
 
-  def mergeObjects(objs : List[ObjectValue]) : ObjectValue = {
+  def mergeObjects(objs : List[ObjectValue], _this : Value) : ObjectValue = {
     objs match {
-      case h :: t => mergeTwoObjects(mergeObjects(t), h)
+      case h :: t => 
+        val g = h.copy()
+        g.setThis(_this)
+        mergeTwoObjects(mergeObjects(t, _this), g)
       case _ => ObjectValue(SortedMap.empty)
     }
     /*
@@ -293,19 +299,20 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     merged                                             */
   }
 
-  def evalObj(env : SimpleEnvironment, block : Block, messages : List[Message]) : Value = {
+  def evalObj(env : SimpleEnvironment, block : Block, messages : List[Id]) : Value = {
     evalBlock(env.thaw, new DefaultCollector(), block) match {
       case BlockException(de) => de
       case BlockCollector(env, _) =>
-        var s : SortedMap[Message, Value] = SortedMap.empty
-        for (m <- messages) {
-          s = s + (m -> env.lookup(Id(m.m)))
-        }
-        ObjectValue(s)
+        var s : SortedMap[Id, Value] = SortedMap.empty
+        for (m <- messages) 
+          s = s + (m -> env.lookup(m))
+        val x = ObjectValue(s)
+        x.setThis(x)
+        x
     }
   }
 
-  def evalObj(parents : Value, env : SimpleEnvironment, block : Block, messages : List[Message]) : Value = {
+  def evalObj(parents : Value, env : SimpleEnvironment, block : Block, messages : List[Id]) : Value = {
     var result : Object = null
     parents.force() match {
       case ex : ExceptionValue => return ex.asDynamicException
@@ -319,7 +326,8 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
       case plist : List[ObjectValue] =>
         evalObj(env, block, messages) match {
           case ex : ExceptionValue => ex.asDynamicException
-          case o : ObjectValue => mergeTwoObjects(mergeObjects(plist), o)
+          case o : ObjectValue =>
+            mergeTwoObjects(mergeObjects(plist, o), o)
         }
     }
   }
@@ -372,10 +380,10 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
         else ExceptionValue(true, v)
       case SEMessageSend(target, message) =>
         val v = evalSE(env, target).sendMessage(message)
-        if (v == null) dynamicException(CONSTRUCTOR_INVALIDMESSAGE, StringValue(message.m))
+        if (v == null) dynamicException(CONSTRUCTOR_INVALIDMESSAGE, StringValue(message.name))
         else v
       case SERecord(messageValuePairs) =>
-        var map : SortedMap[Message, Value] = SortedMap()
+        var map : SortedMap[Id, Value] = SortedMap()
         for ((m, se) <- messageValuePairs) {
           val v = evalSE(env, se)
           if (v.isDynamicException) return v
@@ -389,7 +397,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
           val g = evalSE(env, gexpr)
           if (g.isDynamicException) g
           else {
-            f = f.extractFunctionValue(f)
+            f = f.extractFunctionValue()
             if (f.isDynamicException) f
             else {
               f.asInstanceOf[FunctionValue].apply(g)
@@ -972,7 +980,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
             }
             matchPat(env, pat, y, rebind)
           case c =>
-            val y = v.sendMessage(Message(MESSAGE_DESTRUCT))
+            val y = v.sendMessage(Id(MESSAGE_DESTRUCT))
             if (y == null) return NoMatch()
             y.force() match {
               case f: FunctionValue =>

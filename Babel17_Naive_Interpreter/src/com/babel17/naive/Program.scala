@@ -30,21 +30,10 @@ object Program {
     var assignedVars : SortedSet[Id] = null
     var stackTraceElement : Values.StackTraceElement = null
   }
-
-  case class Message(m : String) extends Locatable with Ordered[Message] {
-    def compare(that : Message) : Int = {
-      m.compare(that.m)
-    }    
-  }
   
   case class Id(name : String) extends Locatable with Ordered[Id] {
     def compare(that : Id) : Int = {
       name.compare(that.name)
-    }
-    def toMessage() : Message = {
-      val m = Message(name)
-      m.location = this.location
-      m
     }
     override def toString : String = name
   }
@@ -144,8 +133,8 @@ object Program {
 
   case class SVal(pat : Pattern, e : Expression) extends Statement
   case class SAssign(pat : Pattern, e : Expression) extends Statement
-  case class SValRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
-  case class SAssignRecordUpdate(id : Id, m : Message, e : Expression) extends Statement
+  case class SValRecordUpdate(id : Id, m : Id, e : Expression) extends Statement
+  case class SAssignRecordUpdate(id : Id, m : Id, e : Expression) extends Statement
   case class SModule(path : Path, b : Block) extends Statement
   case class SDef0(memoize : MemoType, visibility : Visibility,
                    id : Id, e : Expression, returnType : Type) extends Def
@@ -186,7 +175,7 @@ object Program {
   case class SEString(value: String) extends SimpleExpression
   case class SEId(id: Id) extends SimpleExpression
   case class SEConstr(c: Constr, param: SimpleExpression) extends SimpleExpression
-  case class SEThis() extends SimpleExpression
+  case class SEThis() extends SimpleExpression 
   case class SERoot() extends SimpleExpression
   case class SENative(u : SimpleExpression) extends SimpleExpression
   case class SEExpr(se: Expression) extends SimpleExpression
@@ -199,13 +188,13 @@ object Program {
   case class SETypeIntro(m : MemoType, ty: Path, branches: List[(Pattern, Option[Expression])]) extends SimpleExpression
   case class SESet(elems: List[SimpleExpression]) extends SimpleExpression
   case class SEMap(elems: List[(SimpleExpression, SimpleExpression)]) extends SimpleExpression
-  case class SERecord(elems: List[(Message, SimpleExpression)]) extends SimpleExpression
+  case class SERecord(elems: List[(Id, SimpleExpression)]) extends SimpleExpression
   case class SEList(elems: List[SimpleExpression]) extends SimpleExpression
   case class SEVector(elems: List[SimpleExpression]) extends SimpleExpression
-  case class SEGlueObj(parents: SimpleExpression, b : Block, messages : List[Message]) extends SimpleExpression
+  case class SEGlueObj(parents: SimpleExpression, b : Block, messages : List[Id]) extends SimpleExpression
   //case class SEMergeObj(parents: SimpleExpression, b : Block) extends SimpleExpression
-  case class SEObj(b : Block, messages : List[Message]) extends SimpleExpression
-  case class SEMessageSend(target: SimpleExpression, m : Message) extends SimpleExpression
+  case class SEObj(b : Block, messages : List[Id]) extends SimpleExpression
+  case class SEMessageSend(target: SimpleExpression, m : Id) extends SimpleExpression
   case class SEApply(f : SimpleExpression, x : SimpleExpression) extends SimpleExpression
   case class SECompare(operands : List[SimpleExpression], operators : List[CompareOp]) extends SimpleExpression
   case class SERelate(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
@@ -244,7 +233,7 @@ object Program {
   case class PSet(elems: List[Pattern], delta : Pattern) extends Pattern
   case class PMap(keyValues : List[(Pattern, Pattern)], delta : Pattern) extends Pattern
   case class PFor(elems : List[Pattern], delta : Pattern) extends Pattern
-  case class PRecord(keyValues : List[(Message, Pattern)], delta : Pattern) extends Pattern
+  case class PRecord(keyValues : List[(Id, Pattern)], delta : Pattern) extends Pattern
   case class PPredicate(predicate:SimpleExpression, pattern : Pattern) extends Pattern
   case class PDestruct(constructor:SimpleExpression, pattern : Pattern) extends Pattern
   case class PVal(value:SimpleExpression) extends Pattern

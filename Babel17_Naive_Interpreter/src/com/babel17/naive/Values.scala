@@ -86,15 +86,12 @@ object Values {
 
   abstract class Value {
     // sending an object a message always forces it
-    def sendMessage(message : Program.Message) : Value;
-    def sendMessage(message : Program.Message, _this : Value) : Value = {
-      sendMessage(message)
-    }
+    def sendMessage(message : Program.Id) : Value;
     
     // this returns either a dynamic exception or a FunctionValue
-    def extractFunctionValue(_this : Value) : Value = {
+    def extractFunctionValue() : Value = {
       if (isDynamicException()) return this
-      val f = sendMessage(Program.Message(MESSAGE_APPLY), _this)
+      val f = sendMessage(Program.Id(MESSAGE_APPLY))
       if (f == null) dynamicException(CONSTRUCTOR_APPLYERROR)
       else if (f.isInstanceOf[FunctionValue] || f.isDynamicException()) f
       else dynamicException(CONSTRUCTOR_APPLYERROR)
@@ -168,7 +165,7 @@ object Values {
   case class TypeValue(path : Program.Path) extends Value {
     override def typeof : TypeValue = TYPE_TYPE
     def stringDescr(brackets : Boolean) : String = "(:"+path+")"
-    def sendMessage(message : Program.Message) : Value = {
+    def sendMessage(message : Program.Id) : Value = {
       null
     }
   }
@@ -179,8 +176,8 @@ object Values {
     def typeof : TypeValue = TYPE_INT
 
 
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
+    override def sendMessage(message : Program.Id) : Value = {
+      message.name match {
         case MESSAGE_PLUS => NativeFunctionValue(plus _)
         case MESSAGE_MINUS => NativeFunctionValue(minus _)
         case MESSAGE_UMINUS => IntegerValue(-v)
@@ -188,8 +185,8 @@ object Values {
         case MESSAGE_POW => NativeFunctionValue(pow _)
         case MESSAGE_DIV => NativeFunctionValue(div _)
         case MESSAGE_MOD => NativeFunctionValue(mod _)
-        case MESSAGE_TO => Evaluator.systemSendMessage(this, message.m)
-        case MESSAGE_DOWNTO => Evaluator.systemSendMessage(this, message.m)
+        case MESSAGE_TO => Evaluator.systemSendMessage(this, message.name)
+        case MESSAGE_DOWNTO => Evaluator.systemSendMessage(this, message.name)
         case _ => null
       }      
     }
@@ -276,13 +273,13 @@ object Values {
     }
     protected def apply_(v : Value) : Value
     def stringDescr(brackets : Boolean) : String = "_function"
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
+    override def sendMessage(message : Program.Id) : Value = {
+      message.name match {
         case MESSAGE_APPLY => this
         case _ => null
       }
     }
-    override def extractFunctionValue(_this:Value) : Value = this
+    override def extractFunctionValue() : Value = this
 
     def typeof : TypeValue = TYPE_FUN
 
@@ -301,7 +298,16 @@ object Values {
                            branches : List[(Program.Pattern, Option[Program.Expression])]) extends FunctionValue
   {
     private def typed(inner : Value, outer : Value) : Value = {
-      TypedValue(inner, outer, ty)
+      outer.force() match {
+        case v: ExceptionValue => v
+        case v: ObjectValue =>
+          val u = v.copy()
+          val r = TypedValue(inner, u, ty)
+          u.setThis(r)
+          r
+        case v =>
+          TypedValue(inner, v, ty)
+      }
     }
     override def apply_(v : Value) : Value = {
       val e = env.thaw
@@ -312,9 +318,7 @@ object Values {
             body match {
               case None => return typed(v, v)
               case Some(b) =>
-                val x = evaluator.evalExpression(newEnv, b)
-                if (x.isException) return x.asDynamicException
-                else return typed(v, x)
+                return typed(v, evaluator.evalExpression(newEnv, b))
             }
         }
       }
@@ -437,8 +441,8 @@ object Values {
       val w = l2.mkString
       "\"" + w + "\""
     }
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
+    override def sendMessage(message : Program.Id) : Value = {
+      message.name match {
         //case MESSAGE_MAP => null
         //case MESSAGE_SET => null
         case MESSAGE_INDEXOF => NativeFunctionValue(indexOf _)
@@ -475,8 +479,8 @@ object Values {
     def stringDescr(brackets : Boolean) : String = {
       if (v) "true" else "false"
     }
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
+    override def sendMessage(message : Program.Id) : Value = {
+      message.name match {
         case _ => null
       }      
     }
@@ -492,8 +496,8 @@ object Values {
       if (v.isNil(false)) constr.name
       else mkBrackets(brackets, constr.name + " " +v.stringDescr(true))
     }
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
+    override def sendMessage(message : Program.Id) : Value = {
+      message.name match {
         //case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
         case _ => null
       }      
@@ -502,12 +506,12 @@ object Values {
 
   }
   
-  case class ObjectValue(messages : SortedMap[Program.Message, Value]) extends Value {   
-    import Program.Message
-    val collection = messages.contains(Message(MESSAGE_EMPTY)) &&
-       messages.contains(Message(MESSAGE_COLLECT_ADD)) &&
-       messages.contains(Message(MESSAGE_COLLECT_CLOSE)) &&
-       messages.contains(Message(MESSAGE_ITERATE))
+  case class ObjectValue(messages : SortedMap[Program.Id, Value]) extends Value {
+    import Program.Id
+    val collection = messages.contains(Id(MESSAGE_EMPTY)) &&
+       messages.contains(Id(MESSAGE_COLLECT_ADD)) &&
+       messages.contains(Id(MESSAGE_COLLECT_CLOSE)) &&
+       messages.contains(Id(MESSAGE_ITERATE))
 
     override def stringDescr(brackets : Boolean) : String = {
       if (isNil(false)) return "nil"
@@ -516,23 +520,19 @@ object Values {
       for ((m, v) <- messages) {
         if (!first) s=s+","
         first = false
-        s = s + m.m + "=" + v.stringDescr(false)
+        s = s + m.name + "=" + v.stringDescr(false)
       }
       s = s + "}"
       s
     }
 
-    def sendMessage(message : Program.Message) : Value = {
-      sendMessage(message, this)
-    }
-
-    override def sendMessage(message : Program.Message, _this:Value) : Value = {
+    override def sendMessage(message : Program.Id) : Value = {
       messages.get(message) match {
-        case Some(v : EnvironmentValue) => v.onLookup(_this)
+        case Some(v : EnvironmentValue) => v.onLookup()
         case Some(v) => v
         case None =>
           if (!collection) return null
-          message.m match {
+          message.name match {
             //case MESSAGE_STRING => null
             //case MESSAGE_MAP => null
             case m => sendCollectionMessage(this, m)
@@ -540,6 +540,37 @@ object Values {
       }
     }
     def typeof : TypeValue = TYPE_OBJ
+
+    def copy() : ObjectValue = {
+      def mutate(p : (Program.Id, Value)) : (Program.Id, Value) = {
+        p._2 match {
+          case e : EnvironmentValue =>
+            val newE = e.copy()
+            newE.env
+            (p._1, e.copy())
+          case _ => p
+        }
+      }
+      val newMessages = messages.map(mutate)
+      for ((_, e) <- newMessages) {
+        e match {
+          case e: EnvironmentValue =>
+            e.env = e.env.replace(newMessages)
+          case _ =>
+        }
+      }      
+      ObjectValue(newMessages)
+    }
+
+    def setThis(_this : Value) {
+      for ((m, e) <- messages) {
+        e match {
+          case e: EnvironmentValue =>
+            e.setThis(_this)
+          case _ =>
+        }
+      }
+    }
   }
 
 
@@ -556,7 +587,7 @@ object Values {
       else
         "_persistentException "+v.toString)
     }
-    override def sendMessage(message : Program.Message) : Value = {
+    override def sendMessage(message : Program.Id) : Value = {
       if (dynamic) return this
       else {
         val e = ExceptionValue(true, v)
@@ -681,7 +712,7 @@ object Values {
   class CustomForIterator(v : Value) extends ForIterator {
     var iterator = v
     def nextValue() : Value = {
-      iterator = iterator.sendMessage(Program.Message(MESSAGE_ITERATE)).force()
+      iterator = iterator.sendMessage(Program.Id(MESSAGE_ITERATE)).force()
       if (iterator.isDynamicException) return iterator
       iterator match {
         case VectorValue(Array()) => null
@@ -819,14 +850,14 @@ object Values {
   class CustomCollector(v : Value) extends Collector {
     var collector = v
     override def collect_close () : Value = {
-      val closed = collector.sendMessage(Program.Message(MESSAGE_COLLECT_CLOSE))
+      val closed = collector.sendMessage(Program.Id(MESSAGE_COLLECT_CLOSE))
       if (closed == null)
         dynamicException(CONSTRUCTOR_INVALIDMESSAGE, StringValue(MESSAGE_COLLECT_CLOSE))
       else
         closed
     }
     override def collect_add(v : Value) : ExceptionValue =  {
-      collector = collector.sendMessage(Program.Message(MESSAGE_COLLECT_ADD))
+      collector = collector.sendMessage(Program.Id(MESSAGE_COLLECT_ADD))
       if (collector == null)
         dynamicException(CONSTRUCTOR_INVALIDMESSAGE, StringValue(MESSAGE_COLLECT_ADD))
       else {
@@ -852,11 +883,11 @@ object Values {
     }
     def length : Int;
     def toVectorValue() : VectorValue;
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
+    override def sendMessage(message : Program.Id) : Value = {
+      message.name match {
         //case MESSAGE_LIST => this
         case MESSAGE_UMINUS =>
-          Evaluator.systemSendMessage(this, "seq", message.m)
+          Evaluator.systemSendMessage(this, "seq", message.name)
         case MESSAGE_APPLY =>
           Evaluator.systemSendMessage(this, "coll", MESSAGE_ATINDEX)
         case MESSAGE_EMPTY =>
@@ -929,11 +960,11 @@ object Values {
         s + ")"
       }
     }
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
+    override def sendMessage(message : Program.Id) : Value = {
+      message.name match {
         //case MESSAGE_VECTOR => this
         case MESSAGE_UMINUS =>
-          Evaluator.systemSendMessage(this, "seq", message.m)
+          Evaluator.systemSendMessage(this, "seq", message.name)
         case MESSAGE_EMPTY =>
           Evaluator.systemSendMessage(this, "vector", MESSAGE_EMPTY)
         case MESSAGE_APPLY =>
@@ -986,8 +1017,8 @@ object Values {
         s + "}"
       }
     }
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
+    override def sendMessage(message : Program.Id) : Value = {
+      message.name match {
         //case MESSAGE_STRING => null
         //case MESSAGE_SET => this
         case MESSAGE_EMPTY =>
@@ -1040,8 +1071,8 @@ object Values {
         s + "}"
       }
     }
-    override def sendMessage(message : Program.Message) : Value = {
-      message.m match {
+    override def sendMessage(message : Program.Id) : Value = {
+      message.name match {
         //case MESSAGE_STRING => null
         //case MESSAGE_MAP => this
         case MESSAGE_SLASHSLASH =>
@@ -1310,35 +1341,42 @@ object Values {
         result
       }
     }
-    override def sendMessage(message : Program.Message) : Value = {
-      sendMessage(message, this)
-    }
-    override def sendMessage(message : Program.Message, _this : Value) : Value = {
-      return force().sendMessage(message, _this)
+    override def sendMessage(message : Program.Id) : Value = {
+      return force().sendMessage(message)
     }   
   }
 
   // this is a special value that lives only inside environments
   abstract class EnvironmentValue(var env : Evaluator.SimpleEnvironment) extends Value {
     var evaluator : Evaluator = null
-    def sendMessage(m : Program.Message) : Value = {
+    protected var _this : Value = null
+    def sendMessage(m : Program.Id) : Value = {
       throw Evaluator.EvalX("EnvironmentValue has been sent a message. How?")
     }
     def stringDescr(brackets : Boolean) : String = {
       "_recursive"
     }
-    def onLookup() : Value = {
-      onLookup(null)
-    }
-    def onLookup(_this : Value) : Value;
+    def onLookup() : Value;
     def typeof = throw Evaluator.EvalX("environment value has no type")
+    def copy() : EnvironmentValue;
+    def setThis(newThis : Value) {
+      _this = newThis
+    }
   }
 
   case class EnvironmentValueMN(var se : Program.SimpleExpression)
   extends EnvironmentValue(null) {
 
-    def onLookup(_this : Value) : Value = {
+    def onLookup() : Value = {
       evaluator.evalSE(env.setThis(_this), se)
+    }
+
+    def copy() : EnvironmentValue = {
+      val e = EnvironmentValueMN(se)
+      e.env = env
+      e._this = _this
+      e.evaluator = evaluator
+      e
     }
   }
 
@@ -1346,7 +1384,7 @@ object Values {
                                 var result : Value)
   extends EnvironmentValue(null) {
 
-    def onLookup(_this : Value) : Value = {
+    def onLookup() : Value = {
       if (result != null) result
       else {
         var localEnv : Evaluator.SimpleEnvironment = null
@@ -1365,6 +1403,17 @@ object Values {
         result
       }
     }
+
+    def copy() : EnvironmentValue = {
+      this.synchronized {
+        val e = EnvironmentValueMS(se, result)
+        e.env = env
+        e._this = _this
+        e.evaluator = evaluator
+        e
+      }
+    }
+
   }
 
   case class EnvironmentValueMW(
@@ -1377,7 +1426,7 @@ object Values {
         result = cache.get()
       return result
     }
-    def onLookup(_this : Value) : Value = {
+    def onLookup() : Value = {
       var result = getResult()
       if (result != null) result
       else {
@@ -1402,6 +1451,17 @@ object Values {
         result
       }
     }
+
+    def copy() : EnvironmentValue = {
+      this.synchronized {
+        val e = EnvironmentValueMW(se, cache)
+        e.env = env
+        e._this = _this
+        e.evaluator = evaluator
+        e
+      }
+    }
+
   }
 
   case class ConcurrentValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment, se : Program.SimpleExpression)
@@ -1428,11 +1488,8 @@ object Values {
       futureTask.get().force()
     }
 
-    override def sendMessage(message : Program.Message) : Value = {
-      sendMessage(message, this)
-    }
-    override def sendMessage(message : Program.Message, _this : Value) : Value = {
-      return force().sendMessage(message, _this)
+    override def sendMessage(message : Program.Id) : Value = {
+      return force().sendMessage(message)
     }
   }
 
@@ -1448,8 +1505,8 @@ object Values {
       mkBrackets(brackets, outerValue.stringDescr(true)+":"+typeValue.path)
     }
 
-    override def sendMessage(message : Program.Message) : Value = {
-      return outerValue.sendMessage(message, this)
+    override def sendMessage(message : Program.Id) : Value = {
+      return outerValue.sendMessage(message)
     }
   
   }

@@ -1,43 +1,11 @@
-#(module hello
-
-val s = 2
-
-def world = s
-
-
-typedef suit 1 = Spades, 2 = Hearts, 3 = Clubs, 4 = Diamonds
-
-def inner(suit v) = v
-
-typedef wow _ = lazy (object
-                  def inner =
-                    match this
-                        case (wow i) => inner
-                        case x => #print x
-                    end
-                end)
-
-end
-
-
-val v = hello.wow 23
-(v, v.inner)
-)#
-
-val r = object
-
-def outer = this
-
-def name = "r"
-
-def u =
+val u =
   object
-    def test = (inner, outer)
-    def inner = this
-    def name = "u"
+    def color = this.calc
+    def calc = Green
   end
 
-end
+u.color
 
-val (i, o) = r.u.test
-(i.name, o.name)
+u.calc = Red
+
+u.color
