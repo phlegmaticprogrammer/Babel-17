@@ -1,11 +1,11 @@
 val u =
   object
-    def color = this.calc
+    def color = calc
     def calc = Green
   end
 
 u.color
 
-u.calc = Red
+val u.calc = Red
 
 u.color

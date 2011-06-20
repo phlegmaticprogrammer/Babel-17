@@ -658,8 +658,11 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
         if (e.isDynamicException) StatementException(e.asDynamicException)
         else {
           env.lookup(id).force() match {
-            case ObjectValue(map) =>
-              StatementCollector(env.rebind(id, ObjectValue(map + (m -> e))), coll)
+            case o: ObjectValue =>
+              val p = ObjectValue(o.messages + (m -> e))
+              val q = p.copy()
+              q.setThis(q)
+              StatementCollector(env.rebind(id, q), coll)
             case _ => StatementException(dynamicException(CONSTRUCTOR_UPDATEERROR))
           }
         }

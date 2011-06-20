@@ -34,3 +34,9 @@ val v = wow 23
 #assert typeof v == (: wow)
 #assert v.inner == 23
 end
+
+module standard.unittest.this_keyword.test3
+
+
+
+end
