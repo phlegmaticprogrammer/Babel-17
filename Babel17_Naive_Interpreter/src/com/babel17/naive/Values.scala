@@ -552,10 +552,12 @@ object Values {
         }
       }
       val newMessages = messages.map(mutate)
+      val keys = newMessages.keySet
       for ((_, e) <- newMessages) {
         e match {
           case e: EnvironmentValue =>
-            e.env = e.env.replace(newMessages)
+            val sliced = newMessages -- (keys -- e._messages)
+            e.env = e.env.replace(sliced)
           case _ =>
         }
       }      
@@ -567,6 +569,16 @@ object Values {
         e match {
           case e: EnvironmentValue =>
             e.setThis(_this)
+          case _ =>
+        }
+      }
+    }
+
+    def setEnvMessages(_messages : SortedSet[Id]) {
+      for ((m, e) <- messages) {
+        e match {
+          case e: EnvironmentValue =>
+            e._messages = _messages
           case _ =>
         }
       }
@@ -1349,7 +1361,8 @@ object Values {
   // this is a special value that lives only inside environments
   abstract class EnvironmentValue(var env : Evaluator.SimpleEnvironment) extends Value {
     var evaluator : Evaluator = null
-    protected var _this : Value = null
+    var _this : Value = null
+    var _messages : SortedSet[Program.Id] = SortedSet()
     def sendMessage(m : Program.Id) : Value = {
       throw Evaluator.EvalX("EnvironmentValue has been sent a message. How?")
     }
@@ -1376,6 +1389,7 @@ object Values {
       e.env = env
       e._this = _this
       e.evaluator = evaluator
+      e._messages = _messages
       e
     }
   }
@@ -1409,6 +1423,7 @@ object Values {
         val e = EnvironmentValueMS(se, result)
         e.env = env
         e._this = _this
+        e._messages = _messages
         e.evaluator = evaluator
         e
       }
@@ -1457,6 +1472,7 @@ object Values {
         val e = EnvironmentValueMW(se, cache)
         e.env = env
         e._this = _this
+        e._messages = _messages
         e.evaluator = evaluator
         e
       }

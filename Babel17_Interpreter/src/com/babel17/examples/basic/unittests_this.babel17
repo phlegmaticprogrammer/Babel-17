@@ -19,7 +19,6 @@ val (i, o) = r.u.test
 
 end
 
-
 module standard.unittest.this_keyword.test2
 
 typedef wow _ = lazy (object
@@ -37,6 +36,43 @@ end
 
 module standard.unittest.this_keyword.test3
 
+val u =
+  object
+    def color1 = calc
+    def color2 = this.calc
+    def calc = Green
+  end
 
+#assert u.color1 == u.color2 == Green
+
+u.calc = Red
+
+#assert u.color1 == u.color2 == Red
+
+end
+
+module standard.unittest.this_keyword.test4
+
+val u =
+  begin
+    def r = "r"
+    object
+      def test = r
+    end
+  end
+
+#assert u.test == "r"
+
+def v =
+  object + [u]
+    def r = "v.r"
+  end
+
+#assert u.test == v.test == "r"
+
+def w = object +[v] end
+
+## a subtle bug was causing w.test == "v.r"
+#assert u.test == v.test == w.test == "r"
 
 end

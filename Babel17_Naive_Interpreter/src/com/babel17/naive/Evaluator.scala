@@ -307,6 +307,9 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
         for (m <- messages) 
           s = s + (m -> env.lookup(m))
         val x = ObjectValue(s)
+        var envMessages : SortedSet[Id] = SortedSet()
+        envMessages = envMessages ++ messages
+        x.setEnvMessages(envMessages)
         x.setThis(x)
         x
     }
@@ -571,9 +574,6 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
       case _ => u
     }
   }
-
-
-
 
   def evalStatement_(env : Environment, coll : Collector, st : Statement) : StatementResult =
   {

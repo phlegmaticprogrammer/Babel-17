@@ -1,11 +1,12 @@
 val u =
   object
-    def color = calc
+    def color1 = calc
+    def color2 = this.calc
     def calc = Green
   end
 
-u.color
+#assert u.color1 == u.color2 == Green
 
-val u.calc = Red
+u.calc = Red
 
-u.color
+#assert u.color1 == u.color2 == Red
