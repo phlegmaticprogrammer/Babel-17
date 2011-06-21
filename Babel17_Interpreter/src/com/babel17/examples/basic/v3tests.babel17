@@ -1,9 +1,12 @@
-val s = {1}
+module hey
 
-module a
+def u = exception Whatever
+
 end
 
-module b
-end
+import tools.f
+import hey.u => ok
 
-a ~ b
+f 12 16
+try ok; false catch case Whatever => true end
+##catch Whatever try ok

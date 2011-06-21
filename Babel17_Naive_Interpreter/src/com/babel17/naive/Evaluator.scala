@@ -605,6 +605,13 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
           case NoMatch() => StatementException(dynamicException(CONSTRUCTOR_NOMATCH))
           case DoesMatch(newEnv) => StatementCollector(newEnv, coll)
         }
+      case SImport(path, id) =>
+        var se : SimpleExpression = SEId(path.ids.head)
+        for (message <- path.ids.tail) se = SEMessageSend(se, message)
+        val v = EnvironmentValueMN(se)
+        v.env = env.freeze
+        v.evaluator = this
+        StatementCollector(env.define(id, v), coll)
       case SYield(expr) =>
         val e = evalExpression(env, expr)
         if (e.isDynamicException) StatementException(e.asInstanceOf[ExceptionValue])

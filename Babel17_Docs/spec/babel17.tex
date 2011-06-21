@@ -218,6 +218,7 @@ Each value in Babel-17 has a unique type. All built-in types are depicted in Tab
 \metababel{PersistentException} & \verb+exc+ &  the type of persistent exceptions\\
 \metababel{DynamicException} & &  the type of dynamic exceptions\\
 \metababel{Type} &  \verb+type+ &  the type of types\\
+\metababel{Module} &  \verb+module+ &  the type of modules\\
 \end{tabular}
 \label{table:builtintypes}
 \end{table}
@@ -896,6 +897,8 @@ end
 \item $f \neq g$ for all values $f$ and $g$ of type \texttt{fun}
 \item sets are partially ordered by first comparing their sizes, and then their elements 
 \item maps are partially ordered by first comparing their sizes, then their keys, and then their corresponding values
+\item types are totally ordered by their names
+\item modules are totally ordered by their names
 \end{itemize}
 
 \section{Sets and Maps}\label{sec:setsandmaps}

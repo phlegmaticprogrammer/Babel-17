@@ -14,16 +14,16 @@
 \contentsline {section}{\tocsection {}{14}{Object Expressions}}{15}
 \contentsline {section}{\tocsection {}{15}{Boolean Operators}}{16}
 \contentsline {section}{\tocsection {}{16}{Order}}{17}
-\contentsline {section}{\tocsection {}{17}{Sets and Maps}}{18}
+\contentsline {section}{\tocsection {}{17}{Sets and Maps}}{19}
 \contentsline {section}{\tocsection {}{18}{Reals and Interval Arithmetic}}{19}
 \contentsline {section}{\tocsection {}{19}{Syntactic Sugar}}{20}
-\contentsline {section}{\tocsection {}{20}{Memoization}}{21}
+\contentsline {section}{\tocsection {}{20}{Memoization}}{20}
 \contentsline {section}{\tocsection {}{21}{Linear Scope}}{21}
-\contentsline {section}{\tocsection {}{22}{Record Updates}}{23}
+\contentsline {section}{\tocsection {}{22}{Record Updates}}{24}
 \contentsline {section}{\tocsection {}{23}{With}}{24}
 \contentsline {section}{\tocsection {}{24}{Loops}}{25}
 \contentsline {section}{\tocsection {}{25}{Pragmas}}{26}
-\contentsline {section}{\tocsection {}{26}{Modules and Types}}{26}
+\contentsline {section}{\tocsection {}{26}{Modules and Types}}{27}
 \contentsline {subsection}{\tocsubsection {}{26.1}{Loading Modules}}{27}
 \contentsline {subsection}{\tocsubsection {}{26.2}{Type Definitions}}{28}
 \contentsline {subsection}{\tocsubsection {}{26.3}{Simple Enumerations}}{30}
@@ -41,7 +41,7 @@
 \contentsline {subsection}{\tocsubsection {}{29.4}{Integer}}{36}
 \contentsline {subsection}{\tocsubsection {}{29.5}{Reals}}{36}
 \contentsline {subsection}{\tocsubsection {}{29.6}{String}}{36}
-\contentsline {subsection}{\tocsubsection {}{29.7}{List and Vector}}{36}
+\contentsline {subsection}{\tocsubsection {}{29.7}{List and Vector}}{37}
 \contentsline {subsection}{\tocsubsection {}{29.8}{Set}}{38}
 \contentsline {subsection}{\tocsubsection {}{29.9}{Map}}{38}
 \contentsline {subsection}{\tocsubsection {}{29.10}{Object}}{38}
