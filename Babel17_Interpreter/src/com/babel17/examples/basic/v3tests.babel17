@@ -1,12 +1,9 @@
-val u =
-  object
-    def color1 = calc
-    def color2 = this.calc
-    def calc = Green
-  end
+val s = {1}
 
-#assert u.color1 == u.color2 == Green
+module a
+end
 
-u.calc = Red
+module b
+end
 
-#assert u.color1 == u.color2 == Red
+a ~ b

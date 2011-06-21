@@ -45,6 +45,16 @@ class ModuleValues(evaluator : Evaluator, fileCentral : FileCentral) {
 
     def typeof : TypeValue = TYPE_MODULE
 
+    def compareToValue(that : Value) : Int = {
+      that match {
+        case that: BusyModuleValue =>
+          Values.comparePaths(path, that.path)
+        case that: ModuleValue =>
+          Values.comparePaths(path, that.path)
+        case _ => Values.CompareResult.UNRELATED
+      }
+    }
+
   }
 
   case class ModuleValue(path : Path, messages : SortedMap[Id, Value]) extends Value {
@@ -69,6 +79,16 @@ class ModuleValues(evaluator : Evaluator, fileCentral : FileCentral) {
     }
 
     def typeof : TypeValue = TYPE_MODULE
+
+    def compareToValue(that : Value) : Int = {
+      that match {
+        case that: BusyModuleValue =>
+          Values.comparePaths(path, that.path)
+        case that: ModuleValue =>
+          Values.comparePaths(path, that.path)
+        case _ => Values.CompareResult.UNRELATED
+      }
+    }
   }
 
   

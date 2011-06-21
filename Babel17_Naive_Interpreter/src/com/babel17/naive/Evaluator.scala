@@ -423,6 +423,19 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
           operatorsList = operatorsList.tail
         }
         BooleanValue(true)
+      case SERelate(u, v) =>
+        import Values.CompareResult._
+        val xu = evalSE(env, u).force()
+        if (xu.isDynamicException) return xu
+        val xv = evalSE(env, v)
+        if (xv.isDynamicException) return xv
+        val c = Values.compareValues(xu, xv)
+        c match {
+          case LESS => IntegerValue(-1)
+          case EQUAL => IntegerValue(0)
+          case GREATER => IntegerValue(1)
+          case UNRELATED => Values.dynamicException(Values.CONSTRUCTOR_UNRELATED)
+        }        
       case SECons(u, v) =>
         val xu = evalSE(env, u)
         if (xu.isDynamicException) return xu

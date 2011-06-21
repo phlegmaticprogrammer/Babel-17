@@ -160,6 +160,15 @@ object Values {
         }
       }
     }
+
+    def compareToValue(that : Value) : Int;
+  }
+
+  def comparePaths(p : Program.Path, q : Program.Path) : Int = {
+    import CompareResult._
+    val c = p.compare(q)
+    if (c < 0) LESS else if (c > 0) GREATER else EQUAL
+
   }
 
   case class TypeValue(path : Program.Path) extends Value {
@@ -167,6 +176,14 @@ object Values {
     def stringDescr(brackets : Boolean) : String = "(:"+path+")"
     def sendMessage(message : Program.Id) : Value = {
       null
+    }
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case TypeValue(that_path) =>
+          comparePaths(path, that_path)
+        case _ => UNRELATED
+      }
     }
   }
 
@@ -259,7 +276,16 @@ object Values {
         }
       }
       (q, r)
-    }        
+    }
+
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case IntegerValue(w) =>
+          if (v < w) LESS else if (v > w) GREATER else EQUAL
+        case _ => UNRELATED
+      }
+    }
   }
   
   abstract class FunctionValue extends Value {
@@ -283,7 +309,7 @@ object Values {
 
     def typeof : TypeValue = TYPE_FUN
 
-
+    def compareToValue(that : Value) : Int = CompareResult.UNRELATED
   }
     
   case class NativeFunctionValue(native : Function[Value, Value]) extends FunctionValue {    
@@ -427,6 +453,15 @@ object Values {
   }
 
   case class StringValue(v : String) extends Value {
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case StringValue(w) =>
+          val c = v.compare(w)
+          if (c < 0) LESS else if (c > 0) GREATER else EQUAL
+        case _ => UNRELATED
+      }
+    }
     def escape(s : String) : String = {
       if (s == "\\") "\\\\"
       else if (s == "\"") "\\\""
@@ -476,6 +511,15 @@ object Values {
   }
   
   case class BooleanValue(v : Boolean) extends Value {
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case BooleanValue(w) =>
+          val c = v.compare(w)
+          if (c < 0) LESS else if (c > 0) GREATER else EQUAL
+        case _ => UNRELATED
+      }
+    }
     def stringDescr(brackets : Boolean) : String = {
       if (v) "true" else "false"
     }
@@ -492,6 +536,14 @@ object Values {
   }
   
   case class ConstructorValue(constr : Program.Constr, v : Value) extends Value {
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case that : ConstructorValue =>
+          compareCExprs(this, that)
+        case _ => UNRELATED
+      }
+    }
     override def stringDescr(brackets : Boolean) : String = {
       if (v.isNil(false)) constr.name
       else mkBrackets(brackets, constr.name + " " +v.stringDescr(true))
@@ -512,6 +564,15 @@ object Values {
        messages.contains(Id(MESSAGE_COLLECT_ADD)) &&
        messages.contains(Id(MESSAGE_COLLECT_CLOSE)) &&
        messages.contains(Id(MESSAGE_ITERATE))
+
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case that : ObjectValue =>
+          compareObjects(this, that)
+        case _ => UNRELATED
+      }
+    }
 
     override def stringDescr(brackets : Boolean) : String = {
       if (isNil(false)) return "nil"
@@ -593,6 +654,14 @@ object Values {
   case class StackTraceElement(location : Location, description : String);
 
   case class ExceptionValue(dynamic : Boolean, v : Value) extends Value {
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case that : ExceptionValue =>
+          compareValues(v, that.v)
+        case _ => UNRELATED
+      }
+    }
     override def stringDescr(brackets : Boolean) : String = {
       mkBrackets(brackets, if (dynamic)
         "_dynamicException "+v.toString
@@ -908,6 +977,14 @@ object Values {
       }
     }
     def typeof : TypeValue = TYPE_LIST
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case that : ListValue =>
+          compareLists(this, that)
+        case _ => UNRELATED
+      }
+    }
   }
   
   case class EmptyListValue() extends ListValue {    
@@ -957,6 +1034,15 @@ object Values {
   
   case class VectorValue(tuple : Array[Value]) extends Value {
     def typeof : TypeValue = TYPE_VECT
+
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case that : VectorValue =>
+          compareVectors(this, that)
+        case _ => UNRELATED
+      }
+    }
 
     override def stringDescr(brackets : Boolean) : String = {
       val size = tuple.size
@@ -1062,6 +1148,14 @@ object Values {
       if (set.size == 0) dynamicException(CONSTRUCTOR_EMPTYCHOICE)
       else set.firstKey
     }    
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case that : SetValue =>
+          compareSets(this, that)
+        case _ => UNRELATED
+      }
+    }
   }
   
   case class MapValue(map : SortedMap[Value, Value]) extends Value {
@@ -1135,6 +1229,14 @@ object Values {
         VectorValue(Array(x._1, x._2))
       } else dynamicException(CONSTRUCTOR_EMPTYCHOICE)
     }
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case that : MapValue =>
+          compareMaps(this, that)
+        case _ => UNRELATED
+      }
+    }
   }
   
   val nil : Value = ObjectValue(SortedMap.empty)
@@ -1185,32 +1287,7 @@ object Values {
   def compareValues(v1 : Value, v2 : Value) : Int = {
     val f1 = v1.force()
     val f2 = v2.force()
-    import CompareResult._
-    (f1, f2) match {
-      case (ExceptionValue(_, x), ExceptionValue(_, y)) =>
-        compareValues(x, y)
-      case (x : ObjectValue, y : ObjectValue) => compareObjects(x, y)
-      case (x : MapValue, y : MapValue) => compareMaps(x, y)
-      case (x : SetValue, y : SetValue) => compareSets(x, y)
-      case (x : VectorValue, y : VectorValue) => compareVectors(x, y)
-      case (x : ListValue, y : ListValue) => compareLists(x, y)
-      case (x : ConstructorValue, y : ConstructorValue) => compareCExprs(x, y)
-      case (IntegerValue(x), IntegerValue(y)) => 
-        if (x < y) LESS else if (x > y) GREATER else EQUAL
-      case (BooleanValue(a), BooleanValue(b)) =>
-        val x = if (a) 1 else 0
-        val y = if (b) 1 else 0
-        if (x < y) LESS else if (x > y) GREATER else EQUAL
-      case (StringValue(x), StringValue(y)) => 
-        val c = x.compare(y)
-        if (c < 0) LESS else if (c > 0) GREATER else EQUAL
-      case (TypeValue(x), TypeValue(y)) =>
-        val c = x.compare(y)
-        if (c < 0) LESS else if (c > 0) GREATER else EQUAL
-      case (TypedValue(_, x, tx), TypedValue(_, y, ty)) =>
-        if (tx == ty) compareValues(x, y) else UNRELATED
-      case _ => UNRELATED
-    }
+    f1.compareToValue(f2)
   }
   
   def compareObjects(v1 : ObjectValue, v2 : ObjectValue) : Int = {
@@ -1355,7 +1432,10 @@ object Values {
     }
     override def sendMessage(message : Program.Id) : Value = {
       return force().sendMessage(message)
-    }   
+    }
+    def compareToValue(that : Value) : Int = {
+      throw Evaluator.EvalX("internal error, LazyValue should never be compared")
+    }
   }
 
   // this is a special value that lives only inside environments
@@ -1375,6 +1455,9 @@ object Values {
     def setThis(newThis : Value) {
       _this = newThis
     }
+    def compareToValue(that : Value) : Int =
+      throw Evaluator.EvalX("EnvironentValues cannot be compared")
+
   }
 
   case class EnvironmentValueMN(var se : Program.SimpleExpression)
@@ -1507,6 +1590,11 @@ object Values {
     override def sendMessage(message : Program.Id) : Value = {
       return force().sendMessage(message)
     }
+
+    def compareToValue(that : Value) : Int = {
+      throw Evaluator.EvalX("internal error, ConcurrentValue should never be compared")
+    }
+
   }
 
   case class TypedValue(innerValue : Value, outerValue : Value, typeValue : TypeValue)
@@ -1524,6 +1612,18 @@ object Values {
     override def sendMessage(message : Program.Id) : Value = {
       return outerValue.sendMessage(message)
     }
+
+    def compareToValue(that : Value) : Int = {
+      import CompareResult._
+      that match {
+        case that : TypedValue =>
+          if (typeValue == that.typeValue)
+            compareValues(outerValue, that.outerValue)
+          else UNRELATED
+        case _ => UNRELATED
+      }
+    }
+
   
   }
 
