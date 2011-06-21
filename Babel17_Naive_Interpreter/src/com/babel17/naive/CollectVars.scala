@@ -188,6 +188,10 @@ object CollectVars {
       case SPragma(PragmaAssert(e)) =>
         collectVars(e)
         term.freeVars = e.freeVars
+      case SPragma(PragmaCatch(e, pat)) =>
+        collectVars(e)
+        collectVars(pat)
+        term.freeVars = e.freeVars ++ pat.freeVars
       case SPragma(PragmaProfile(e)) =>
         collectVars(e)
         term.freeVars = e.freeVars

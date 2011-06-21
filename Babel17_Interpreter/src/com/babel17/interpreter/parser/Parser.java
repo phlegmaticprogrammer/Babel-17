@@ -701,13 +701,15 @@ public class Parser {
         case babel17Parser.YIELD:
           return new YieldNode(toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
           case babel17Parser.PRAGMA_PRINT:
-              return new PragmaNode(PragmaNode.PRAGMA_PRINT, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
+            return new PragmaNode(PragmaNode.PRAGMA_PRINT, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
         case babel17Parser.PRAGMA_LOG:
             return new PragmaNode(PragmaNode.PRAGMA_LOG, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
         case babel17Parser.PRAGMA_ASSERT:
-              return new PragmaNode(PragmaNode.PRAGMA_ASSERT, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
+            return new PragmaNode(PragmaNode.PRAGMA_ASSERT, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
         case babel17Parser.PRAGMA_PROFILE:
-              return new PragmaNode(PragmaNode.PRAGMA_PROFILE, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
+            return new PragmaNode(PragmaNode.PRAGMA_PROFILE, toNode(tree.getChild(0))).mergeLocation(loc).mergeLocation();
+        case babel17Parser.PRAGMA_CATCH:
+            return new PragmaNode(PragmaNode.PRAGMA_CATCH, toNode(tree.getChild(0)), toPattern(tree.getChild(1))).mergeLocation(loc).mergeLocation();
         default:
           pe.addMessage(loc, "syntax error");
           return new ParseErrorNode().mergeLocation(loc);

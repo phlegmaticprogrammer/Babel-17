@@ -129,7 +129,8 @@ object Program {
   case class PragmaPrint(e : Expression) extends Pragma
   case class PragmaLog(e : Expression) extends Pragma
   case class PragmaProfile(e : Expression) extends Pragma
-  case class PragmaAssert(e : Expression) extends Pragma   
+  case class PragmaAssert(e : Expression) extends Pragma
+  case class PragmaCatch(e : Expression, pat : Pattern) extends Pragma
 
   case class SVal(pat : Pattern, e : Expression) extends Statement
   case class SAssign(pat : Pattern, e : Expression) extends Statement

@@ -772,6 +772,8 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         PragmaProfile(transform_expr(env, e))
       case PragmaAssert(e) =>
         PragmaAssert(transform_expr(env, e))
+      case PragmaCatch(e, p) =>
+        PragmaCatch(transform_expr(env, e), transform_pat(env, p))
     }
     result.location = pragma.location
     result

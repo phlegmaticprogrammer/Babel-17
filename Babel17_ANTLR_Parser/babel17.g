@@ -415,6 +415,9 @@ PRAGMA_ASSERT
 PRAGMA_PROFILE
 	:	'#profile';
 	
+PRAGMA_CATCH
+	:	'#catch';
+	
 typeid 	:	Id (NL? PERIOD NL? Id)* -> ^(TYPEID Id*);
 
 typeannotation
@@ -497,10 +500,11 @@ statement
 	|	st_module
 	|	st_import
 	|	expr_or_assign
-	| 	PRAGMA_PRINT expr -> ^(PRAGMA_PRINT expr)
-	| 	PRAGMA_LOG expr -> ^(PRAGMA_LOG expr)
-	| 	PRAGMA_PROFILE expr -> ^(PRAGMA_PROFILE expr)
-	| 	PRAGMA_ASSERT expr -> ^(PRAGMA_ASSERT expr);
+	| 	PRAGMA_PRINT NL? expr -> ^(PRAGMA_PRINT expr)
+	| 	PRAGMA_LOG NL? expr -> ^(PRAGMA_LOG expr)
+	| 	PRAGMA_PROFILE NL? expr -> ^(PRAGMA_PROFILE expr)
+	| 	PRAGMA_ASSERT NL? expr -> ^(PRAGMA_ASSERT expr)
+	|	PRAGMA_CATCH NL? casepattern NL? L_try NL? expr -> ^(PRAGMA_CATCH expr casepattern);
 	
 objelem_assign
 	:	Id PERIOD Id -> ^(OBJELEM_ASSIGN Id Id);

@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g 2011-06-02 17:52:24
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g 2011-06-21 18:08:03
 
 package com.babel17.antlr;
 
@@ -10,9 +10,10 @@ import java.util.ArrayList;
 
 public class babel17Lexer extends Lexer {
     public static final int L_end=72;
+    public static final int PRAGMA_CATCH=173;
     public static final int U_NOT_EQUAL=119;
-    public static final int L_try=92;
     public static final int TIMESTIMES=136;
+    public static final int L_try=92;
     public static final int BigLetter=67;
     public static final int TOK_RELATE=132;
     public static final int ROUND_BRACKET_CLOSE=162;
@@ -96,8 +97,8 @@ public class babel17Lexer extends Lexer {
     public static final int RELATE=55;
     public static final int Letter=68;
     public static final int EXCLAMATION_MARK=149;
-    public static final int PRAGMA_ASSERT=171;
     public static final int APPLY=12;
+    public static final int PRAGMA_ASSERT=171;
     public static final int U_ARROW=143;
     public static final int L_else=77;
     public static final int PRIVATEID=44;
@@ -3266,9 +3267,30 @@ public class babel17Lexer extends Lexer {
     }
     // $ANTLR end "PRAGMA_PROFILE"
 
+    // $ANTLR start "PRAGMA_CATCH"
+    public final void mPRAGMA_CATCH() throws RecognitionException {
+        try {
+            int _type = PRAGMA_CATCH;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:419:2: ( '#catch' )
+            // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:419:4: '#catch'
+            {
+            match("#catch"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "PRAGMA_CATCH"
+
     public void mTokens() throws RecognitionException {
-        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:1:8: ( COMMENT | LINECOMMENT | L_begin | L_end | L_obj | L_with | L_if | L_then | L_else | L_elseif | L_while | L_for | L_do | L_yield | L_match | L_case | L_as | L_val | L_def | L_in | L_exception | L_to | L_downto | L_try | L_catch | L_concurrent | L_choose | L_lazy | L_memoize | L_true | L_false | L_this | L_random | L_nil | L_div | L_mod | L_module | L_typedef | L_typeof | L_private | L_import | L_unittest | L_and | L_not | L_or | L_root | L_native | A_EQUAL | U_EQUAL | A_NOT_EQUAL | U_NOT_EQUAL | LESS | A_LESS_EQ | U_LESS_EQ | GREATER | A_GREATER_EQ | U_GREATER_EQ | SC | PLUS | MINUS | TIMES | QUOTIENT | POW_tok | TOK_RELATE | TOK_CONVERT | A_DOUBLE_COLON | U_DOUBLE_COLON | TIMESTIMES | QUOTIENTQUOTIENT | PLUSPLUS | MINUSMINUS | A_DOUBLE_ARROW | U_DOUBLE_ARROW | A_ARROW | U_ARROW | A_ELLIPSIS | U_ELLIPSIS | COMMA | PERIOD | QUESTION_MARK | EXCLAMATION_MARK | L_force | WS | NL | Constr | Id | Float | Num | String | ROUND_BRACKET_OPEN | ROUND_BRACKET_CLOSE | SQUARE_BRACKET_OPEN | SQUARE_BRACKET_CLOSE | CURLY_BRACKET_OPEN | CURLY_BRACKET_CLOSE | ASSIGN | UNDERSCORE | COLON | PRAGMA_LOG | PRAGMA_PRINT | PRAGMA_ASSERT | PRAGMA_PROFILE )
-        int alt21=102;
+        // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:1:8: ( COMMENT | LINECOMMENT | L_begin | L_end | L_obj | L_with | L_if | L_then | L_else | L_elseif | L_while | L_for | L_do | L_yield | L_match | L_case | L_as | L_val | L_def | L_in | L_exception | L_to | L_downto | L_try | L_catch | L_concurrent | L_choose | L_lazy | L_memoize | L_true | L_false | L_this | L_random | L_nil | L_div | L_mod | L_module | L_typedef | L_typeof | L_private | L_import | L_unittest | L_and | L_not | L_or | L_root | L_native | A_EQUAL | U_EQUAL | A_NOT_EQUAL | U_NOT_EQUAL | LESS | A_LESS_EQ | U_LESS_EQ | GREATER | A_GREATER_EQ | U_GREATER_EQ | SC | PLUS | MINUS | TIMES | QUOTIENT | POW_tok | TOK_RELATE | TOK_CONVERT | A_DOUBLE_COLON | U_DOUBLE_COLON | TIMESTIMES | QUOTIENTQUOTIENT | PLUSPLUS | MINUSMINUS | A_DOUBLE_ARROW | U_DOUBLE_ARROW | A_ARROW | U_ARROW | A_ELLIPSIS | U_ELLIPSIS | COMMA | PERIOD | QUESTION_MARK | EXCLAMATION_MARK | L_force | WS | NL | Constr | Id | Float | Num | String | ROUND_BRACKET_OPEN | ROUND_BRACKET_CLOSE | SQUARE_BRACKET_OPEN | SQUARE_BRACKET_CLOSE | CURLY_BRACKET_OPEN | CURLY_BRACKET_CLOSE | ASSIGN | UNDERSCORE | COLON | PRAGMA_LOG | PRAGMA_PRINT | PRAGMA_ASSERT | PRAGMA_PROFILE | PRAGMA_CATCH )
+        int alt21=103;
         alt21 = dfa21.predict(input);
         switch (alt21) {
             case 1 :
@@ -3985,6 +4007,13 @@ public class babel17Lexer extends Lexer {
 
                 }
                 break;
+            case 103 :
+                // /Users/stevenobua/Programming/babel-17/Babel17_ANTLR_Parser/babel17.g:1:954: PRAGMA_CATCH
+                {
+                mPRAGMA_CATCH(); 
+
+                }
+                break;
 
         }
 
@@ -4046,29 +4075,29 @@ public class babel17Lexer extends Lexer {
         }
     }
     static final String DFA21_eotS =
-        "\2\uffff\22\56\1\146\1\uffff\1\151\2\uffff\1\153\2\uffff\1\155\1"+
-        "\160\1\162\1\164\2\uffff\1\167\3\uffff\1\171\10\uffff\2\172\15\uffff"+
-        "\5\56\1\u0082\2\56\1\u0085\1\u0086\2\56\1\u008a\4\56\1\u0091\11"+
-        "\56\1\u009c\12\56\31\uffff\1\56\1\u00aa\3\56\1\uffff\2\56\2\uffff"+
-        "\3\56\1\uffff\1\u00b3\2\56\1\u00b7\2\56\1\uffff\1\u00ba\1\u00bb"+
-        "\3\56\1\u00c0\4\56\1\uffff\1\u00c5\1\u00c6\3\56\1\u00ca\1\u00cb"+
-        "\3\56\2\uffff\1\56\1\uffff\1\u00d1\2\56\1\u00d4\2\56\1\u00d7\1\u00d8"+
-        "\1\uffff\1\u00d9\2\56\1\uffff\2\56\2\uffff\4\56\1\uffff\1\u00e3"+
-        "\3\56\2\uffff\1\u00e7\1\56\1\u00e9\2\uffff\3\56\1\u00ed\1\56\1\uffff"+
-        "\2\56\1\uffff\1\u00f1\1\56\3\uffff\2\56\1\u00f5\1\u00f6\1\56\1\u00f8"+
-        "\1\u00f9\2\56\1\uffff\1\u00fc\2\56\1\uffff\1\56\1\uffff\3\56\1\uffff"+
-        "\1\u0103\1\56\1\u0105\1\uffff\1\u0106\1\56\1\u0108\2\uffff\1\u0109"+
-        "\2\uffff\1\56\1\u010b\1\uffff\1\56\1\u010d\1\u010e\1\u010f\2\56"+
-        "\1\uffff\1\56\2\uffff\1\u0113\2\uffff\1\u0114\1\uffff\1\56\3\uffff"+
-        "\1\u0116\2\56\2\uffff\1\56\1\uffff\1\u011a\1\u011b\1\56\2\uffff"+
-        "\1\u011d\1\uffff";
+        "\2\uffff\22\56\1\147\1\uffff\1\152\2\uffff\1\154\2\uffff\1\156\1"+
+        "\161\1\163\1\165\2\uffff\1\170\3\uffff\1\172\10\uffff\2\173\16\uffff"+
+        "\5\56\1\u0083\2\56\1\u0086\1\u0087\2\56\1\u008b\4\56\1\u0092\11"+
+        "\56\1\u009d\12\56\31\uffff\1\56\1\u00ab\3\56\1\uffff\2\56\2\uffff"+
+        "\3\56\1\uffff\1\u00b4\2\56\1\u00b8\2\56\1\uffff\1\u00bb\1\u00bc"+
+        "\3\56\1\u00c1\4\56\1\uffff\1\u00c6\1\u00c7\3\56\1\u00cb\1\u00cc"+
+        "\3\56\2\uffff\1\56\1\uffff\1\u00d2\2\56\1\u00d5\2\56\1\u00d8\1\u00d9"+
+        "\1\uffff\1\u00da\2\56\1\uffff\2\56\2\uffff\4\56\1\uffff\1\u00e4"+
+        "\3\56\2\uffff\1\u00e8\1\56\1\u00ea\2\uffff\3\56\1\u00ee\1\56\1\uffff"+
+        "\2\56\1\uffff\1\u00f2\1\56\3\uffff\2\56\1\u00f6\1\u00f7\1\56\1\u00f9"+
+        "\1\u00fa\2\56\1\uffff\1\u00fd\2\56\1\uffff\1\56\1\uffff\3\56\1\uffff"+
+        "\1\u0104\1\56\1\u0106\1\uffff\1\u0107\1\56\1\u0109\2\uffff\1\u010a"+
+        "\2\uffff\1\56\1\u010c\1\uffff\1\56\1\u010e\1\u010f\1\u0110\2\56"+
+        "\1\uffff\1\56\2\uffff\1\u0114\2\uffff\1\u0115\1\uffff\1\56\3\uffff"+
+        "\1\u0117\2\56\2\uffff\1\56\1\uffff\1\u011b\1\u011c\1\56\2\uffff"+
+        "\1\u011e\1\uffff";
     static final String DFA21_eofS =
-        "\u011e\uffff";
+        "\u011f\uffff";
     static final String DFA21_minS =
         "\1\11\1\43\1\145\1\154\1\142\1\150\1\146\1\150\1\141\1\145\1\151"+
         "\2\141\1\156\4\141\1\162\1\156\1\75\1\uffff\1\75\2\uffff\1\75\2"+
         "\uffff\1\53\1\55\1\52\1\57\2\uffff\1\72\3\uffff\1\56\10\uffff\2"+
-        "\56\13\uffff\1\162\1\uffff\1\147\1\144\1\163\1\143\1\152\1\60\1"+
+        "\56\13\uffff\1\162\2\uffff\1\147\1\144\1\163\1\143\1\152\1\60\1"+
         "\164\1\151\2\60\1\160\1\145\1\60\1\165\1\160\1\162\1\154\1\60\1"+
         "\146\1\166\1\145\1\164\1\155\1\144\1\163\1\156\1\157\1\60\1\144"+
         "\1\154\1\172\1\156\1\157\1\154\2\164\2\151\30\uffff\2\151\1\60\3"+
@@ -4089,7 +4118,7 @@ public class babel17Lexer extends Lexer {
         "\1\u2265\1\160\1\145\1\170\1\162\1\151\1\156\1\171\2\157\1\151\2"+
         "\157\1\163\2\141\2\157\1\162\1\156\1\76\1\uffff\1\76\2\uffff\1\75"+
         "\2\uffff\1\53\1\76\1\52\1\57\2\uffff\1\76\3\uffff\1\56\10\uffff"+
-        "\2\145\13\uffff\1\162\1\uffff\1\147\1\144\1\163\1\143\1\152\1\u00fc"+
+        "\2\145\13\uffff\1\162\2\uffff\1\147\1\144\1\163\1\143\1\152\1\u00fc"+
         "\1\164\1\151\2\u00fc\1\160\1\151\1\u00fc\1\171\1\160\1\162\1\154"+
         "\1\u00fc\1\146\1\166\1\145\1\164\1\155\1\144\1\164\1\156\1\157\1"+
         "\u00fc\1\144\1\154\1\172\1\156\1\157\1\154\2\164\2\151\30\uffff"+
@@ -4112,19 +4141,19 @@ public class babel17Lexer extends Lexer {
         "\25\uffff\1\61\1\uffff\1\63\1\66\1\uffff\1\71\1\72\4\uffff\1\77"+
         "\1\100\1\uffff\1\103\1\111\1\113\1\uffff\1\115\1\116\1\120\1\121"+
         "\1\123\1\124\1\125\1\126\2\uffff\1\131\1\132\1\133\1\134\1\135\1"+
-        "\136\1\137\1\141\1\1\1\2\1\143\1\uffff\1\145\46\uffff\1\60\1\110"+
-        "\1\140\1\62\1\65\1\64\1\70\1\67\1\106\1\73\1\107\1\112\1\74\1\104"+
-        "\1\75\1\105\1\76\1\101\1\102\1\142\1\114\1\117\1\130\1\127\6\uffff"+
-        "\1\55\2\uffff\1\7\1\24\3\uffff\1\26\6\uffff\1\15\12\uffff\1\21\12"+
-        "\uffff\1\144\1\146\1\uffff\1\4\10\uffff\1\30\3\uffff\1\14\2\uffff"+
-        "\1\23\1\43\4\uffff\1\44\4\uffff\1\53\1\22\3\uffff\1\42\1\54\5\uffff"+
-        "\1\11\2\uffff\1\6\2\uffff\1\10\1\40\1\36\11\uffff\1\20\3\uffff\1"+
-        "\34\1\uffff\1\56\3\uffff\1\3\3\uffff\1\13\3\uffff\1\122\1\37\1\uffff"+
-        "\1\16\1\17\2\uffff\1\31\6\uffff\1\12\1\uffff\1\5\1\51\1\uffff\1"+
-        "\47\1\27\1\uffff\1\45\1\uffff\1\33\1\41\1\57\3\uffff\1\46\1\35\1"+
-        "\uffff\1\50\3\uffff\1\52\1\25\1\uffff\1\32";
+        "\136\1\137\1\141\1\1\1\2\1\143\1\uffff\1\145\1\147\46\uffff\1\60"+
+        "\1\110\1\140\1\62\1\65\1\64\1\70\1\67\1\106\1\73\1\107\1\112\1\74"+
+        "\1\104\1\75\1\105\1\76\1\101\1\102\1\142\1\114\1\117\1\130\1\127"+
+        "\6\uffff\1\55\2\uffff\1\7\1\24\3\uffff\1\26\6\uffff\1\15\12\uffff"+
+        "\1\21\12\uffff\1\144\1\146\1\uffff\1\4\10\uffff\1\30\3\uffff\1\14"+
+        "\2\uffff\1\23\1\43\4\uffff\1\44\4\uffff\1\53\1\22\3\uffff\1\42\1"+
+        "\54\5\uffff\1\11\2\uffff\1\6\2\uffff\1\10\1\40\1\36\11\uffff\1\20"+
+        "\3\uffff\1\34\1\uffff\1\56\3\uffff\1\3\3\uffff\1\13\3\uffff\1\122"+
+        "\1\37\1\uffff\1\16\1\17\2\uffff\1\31\6\uffff\1\12\1\uffff\1\5\1"+
+        "\51\1\uffff\1\47\1\27\1\uffff\1\45\1\uffff\1\33\1\41\1\57\3\uffff"+
+        "\1\46\1\35\1\uffff\1\50\3\uffff\1\52\1\25\1\uffff\1\32";
     static final String DFA21_specialS =
-        "\u011e\uffff}>";
+        "\u011f\uffff}>";
     static final String[] DFA21_transitionS = {
             "\1\53\1\54\1\uffff\2\54\22\uffff\1\53\1\52\1\61\1\1\4\uffff"+
             "\1\62\1\63\1\36\1\34\1\50\1\35\1\46\1\37\1\57\11\60\1\42\1\33"+
@@ -4136,54 +4165,45 @@ public class babel17Lexer extends Lexer {
             "\uffff\1\56\u1f29\uffff\1\47\1\uffff\2\54\u0168\uffff\1\45\77"+
             "\uffff\1\44\144\uffff\1\43\51\uffff\1\25\1\27\1\uffff\1\30\1"+
             "\32",
-            "\1\72\4\uffff\1\71\70\uffff\1\75\12\uffff\1\73\3\uffff\1\74",
-            "\1\76",
-            "\1\100\1\uffff\1\77\11\uffff\1\101",
-            "\1\102\17\uffff\1\103",
-            "\1\105\1\104",
-            "\1\106\6\uffff\1\110\1\107",
-            "\1\111\6\uffff\1\112\2\uffff\1\113\6\uffff\1\114",
-            "\1\116\15\uffff\1\115",
-            "\1\120\3\uffff\1\121\5\uffff\1\117",
-            "\1\122",
-            "\1\123\3\uffff\1\124\11\uffff\1\125",
-            "\1\126\6\uffff\1\130\6\uffff\1\127",
-            "\1\132\4\uffff\1\131",
-            "\1\133",
+            "\1\72\4\uffff\1\71\70\uffff\1\75\1\uffff\1\76\10\uffff\1\73"+
+            "\3\uffff\1\74",
+            "\1\77",
+            "\1\101\1\uffff\1\100\11\uffff\1\102",
+            "\1\103\17\uffff\1\104",
+            "\1\106\1\105",
+            "\1\107\6\uffff\1\111\1\110",
+            "\1\112\6\uffff\1\113\2\uffff\1\114\6\uffff\1\115",
+            "\1\117\15\uffff\1\116",
+            "\1\121\3\uffff\1\122\5\uffff\1\120",
+            "\1\123",
+            "\1\124\3\uffff\1\125\11\uffff\1\126",
+            "\1\127\6\uffff\1\131\6\uffff\1\130",
+            "\1\133\4\uffff\1\132",
             "\1\134",
-            "\1\135\15\uffff\1\136",
-            "\1\141\7\uffff\1\137\5\uffff\1\140",
-            "\1\142",
+            "\1\135",
+            "\1\136\15\uffff\1\137",
+            "\1\142\7\uffff\1\140\5\uffff\1\141",
             "\1\143",
-            "\1\144\1\145",
+            "\1\144",
+            "\1\145\1\146",
             "",
-            "\1\150\1\147",
-            "",
-            "",
-            "\1\152",
+            "\1\151\1\150",
             "",
             "",
-            "\1\154",
-            "\1\156\20\uffff\1\157",
-            "\1\161",
-            "\1\163",
+            "\1\153",
             "",
             "",
-            "\1\166\3\uffff\1\165",
+            "\1\155",
+            "\1\157\20\uffff\1\160",
+            "\1\162",
+            "\1\164",
             "",
             "",
-            "",
-            "\1\170",
+            "\1\167\3\uffff\1\166",
             "",
             "",
             "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\173\1\uffff\12\60\13\uffff\1\173\37\uffff\1\173",
-            "\1\173\1\uffff\12\60\13\uffff\1\173\37\uffff\1\173",
+            "\1\171",
             "",
             "",
             "",
@@ -4192,52 +4212,62 @@ public class babel17Lexer extends Lexer {
             "",
             "",
             "",
+            "\1\174\1\uffff\12\60\13\uffff\1\174\37\uffff\1\174",
+            "\1\174\1\uffff\12\60\13\uffff\1\174\37\uffff\1\174",
             "",
             "",
             "",
-            "\1\174",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
             "",
             "\1\175",
+            "",
+            "",
             "\1\176",
             "\1\177",
             "\1\u0080",
             "\1\u0081",
+            "\1\u0082",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u0083",
             "\1\u0084",
+            "\1\u0085",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u0087",
-            "\1\u0088\3\uffff\1\u0089",
+            "\1\u0088",
+            "\1\u0089\3\uffff\1\u008a",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u008c\3\uffff\1\u008b",
-            "\1\u008d",
+            "\1\u008d\3\uffff\1\u008c",
             "\1\u008e",
             "\1\u008f",
-            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\26\56\1\u0090\3\56"+
+            "\1\u0090",
+            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\26\56\1\u0091\3\56"+
             "\111\uffff\1\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff"+
             "\1\56\21\uffff\1\56\5\uffff\1\56",
-            "\1\u0092",
             "\1\u0093",
             "\1\u0094",
             "\1\u0095",
             "\1\u0096",
             "\1\u0097",
-            "\1\u0098\1\u0099",
-            "\1\u009a",
+            "\1\u0098",
+            "\1\u0099\1\u009a",
             "\1\u009b",
+            "\1\u009c",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u009d",
             "\1\u009e",
             "\1\u009f",
             "\1\u00a0",
@@ -4247,6 +4277,7 @@ public class babel17Lexer extends Lexer {
             "\1\u00a4",
             "\1\u00a5",
             "\1\u00a6",
+            "\1\u00a7",
             "",
             "",
             "",
@@ -4271,33 +4302,33 @@ public class babel17Lexer extends Lexer {
             "",
             "",
             "",
-            "\1\u00a7\5\uffff\1\u00a8",
-            "\1\u00a9",
+            "\1\u00a8\5\uffff\1\u00a9",
+            "\1\u00aa",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00ab",
             "\1\u00ac",
             "\1\u00ad",
-            "",
             "\1\u00ae",
+            "",
             "\1\u00af",
-            "",
-            "",
             "\1\u00b0",
+            "",
+            "",
             "\1\u00b1",
             "\1\u00b2",
+            "\1\u00b3",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00b4",
             "\1\u00b5",
-            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\2\56\1\u00b6\27\56"+
+            "\1\u00b6",
+            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\2\56\1\u00b7\27\56"+
             "\111\uffff\1\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff"+
             "\1\56\21\uffff\1\56\5\uffff\1\56",
-            "\1\u00b8",
             "\1\u00b9",
+            "\1\u00ba",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
@@ -4305,16 +4336,16 @@ public class babel17Lexer extends Lexer {
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00bc",
             "\1\u00bd",
             "\1\u00be",
-            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\24\56\1\u00bf\5\56"+
+            "\1\u00bf",
+            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\24\56\1\u00c0\5\56"+
             "\111\uffff\1\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff"+
             "\1\56\21\uffff\1\56\5\uffff\1\56",
-            "\1\u00c1",
             "\1\u00c2",
             "\1\u00c3",
             "\1\u00c4",
+            "\1\u00c5",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
@@ -4322,32 +4353,32 @@ public class babel17Lexer extends Lexer {
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00c7",
             "\1\u00c8",
             "\1\u00c9",
+            "\1\u00ca",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00cc",
             "\1\u00cd",
             "\1\u00ce",
-            "",
-            "",
             "\1\u00cf",
             "",
-            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\10\56\1\u00d0\21"+
+            "",
+            "\1\u00d0",
+            "",
+            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\10\56\1\u00d1\21"+
             "\56\111\uffff\1\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4"+
             "\uffff\1\56\21\uffff\1\56\5\uffff\1\56",
-            "\1\u00d2",
             "\1\u00d3",
+            "\1\u00d4",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00d5",
             "\1\u00d6",
+            "\1\u00d7",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
@@ -4358,87 +4389,87 @@ public class babel17Lexer extends Lexer {
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00da\12\uffff\1\u00db",
-            "\1\u00dc",
-            "",
+            "\1\u00db\12\uffff\1\u00dc",
             "\1\u00dd",
+            "",
             "\1\u00de",
-            "",
-            "",
             "\1\u00df",
+            "",
+            "",
             "\1\u00e0",
             "\1\u00e1",
             "\1\u00e2",
+            "\1\u00e3",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00e4",
             "\1\u00e5",
             "\1\u00e6",
+            "\1\u00e7",
             "",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00e8",
+            "\1\u00e9",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
             "",
             "",
-            "\1\u00ea",
             "\1\u00eb",
             "\1\u00ec",
+            "\1\u00ed",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00ee",
-            "",
             "\1\u00ef",
+            "",
             "\1\u00f0",
+            "\1\u00f1",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00f2",
-            "",
-            "",
-            "",
             "\1\u00f3",
+            "",
+            "",
+            "",
             "\1\u00f4",
+            "\1\u00f5",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00f7",
+            "\1\u00f8",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00fa",
             "\1\u00fb",
+            "\1\u00fc",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u00fd",
             "\1\u00fe",
-            "",
             "\1\u00ff",
             "",
             "\1\u0100",
+            "",
             "\1\u0101",
             "\1\u0102",
+            "\1\u0103",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u0104",
+            "\1\u0105",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
@@ -4446,23 +4477,23 @@ public class babel17Lexer extends Lexer {
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u0107",
-            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
-            "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
-            "\uffff\1\56\5\uffff\1\56",
-            "",
-            "",
+            "\1\u0108",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
             "",
             "",
-            "\1\u010a",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
             "",
-            "\1\u010c",
+            "",
+            "\1\u010b",
+            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
+            "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
+            "\uffff\1\56\5\uffff\1\56",
+            "",
+            "\1\u010d",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
@@ -4472,41 +4503,41 @@ public class babel17Lexer extends Lexer {
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u0110",
             "\1\u0111",
-            "",
             "\1\u0112",
             "",
-            "",
-            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
-            "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
-            "\uffff\1\56\5\uffff\1\56",
+            "\1\u0113",
             "",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
             "",
-            "\1\u0115",
+            "",
+            "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
+            "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
+            "\uffff\1\56\5\uffff\1\56",
+            "",
+            "\1\u0116",
             "",
             "",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u0117",
             "\1\u0118",
-            "",
-            "",
             "\1\u0119",
             "",
+            "",
+            "\1\u011a",
+            "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
             "\56\21\uffff\1\56\5\uffff\1\56\2\uffff\1\56\4\uffff\1\56\21"+
             "\uffff\1\56\5\uffff\1\56",
-            "\1\u011c",
+            "\1\u011d",
             "",
             "",
             "\12\56\7\uffff\32\56\4\uffff\1\56\1\uffff\32\56\111\uffff\1"+
@@ -4545,7 +4576,7 @@ public class babel17Lexer extends Lexer {
             this.transition = DFA21_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( COMMENT | LINECOMMENT | L_begin | L_end | L_obj | L_with | L_if | L_then | L_else | L_elseif | L_while | L_for | L_do | L_yield | L_match | L_case | L_as | L_val | L_def | L_in | L_exception | L_to | L_downto | L_try | L_catch | L_concurrent | L_choose | L_lazy | L_memoize | L_true | L_false | L_this | L_random | L_nil | L_div | L_mod | L_module | L_typedef | L_typeof | L_private | L_import | L_unittest | L_and | L_not | L_or | L_root | L_native | A_EQUAL | U_EQUAL | A_NOT_EQUAL | U_NOT_EQUAL | LESS | A_LESS_EQ | U_LESS_EQ | GREATER | A_GREATER_EQ | U_GREATER_EQ | SC | PLUS | MINUS | TIMES | QUOTIENT | POW_tok | TOK_RELATE | TOK_CONVERT | A_DOUBLE_COLON | U_DOUBLE_COLON | TIMESTIMES | QUOTIENTQUOTIENT | PLUSPLUS | MINUSMINUS | A_DOUBLE_ARROW | U_DOUBLE_ARROW | A_ARROW | U_ARROW | A_ELLIPSIS | U_ELLIPSIS | COMMA | PERIOD | QUESTION_MARK | EXCLAMATION_MARK | L_force | WS | NL | Constr | Id | Float | Num | String | ROUND_BRACKET_OPEN | ROUND_BRACKET_CLOSE | SQUARE_BRACKET_OPEN | SQUARE_BRACKET_CLOSE | CURLY_BRACKET_OPEN | CURLY_BRACKET_CLOSE | ASSIGN | UNDERSCORE | COLON | PRAGMA_LOG | PRAGMA_PRINT | PRAGMA_ASSERT | PRAGMA_PROFILE );";
+            return "1:1: Tokens : ( COMMENT | LINECOMMENT | L_begin | L_end | L_obj | L_with | L_if | L_then | L_else | L_elseif | L_while | L_for | L_do | L_yield | L_match | L_case | L_as | L_val | L_def | L_in | L_exception | L_to | L_downto | L_try | L_catch | L_concurrent | L_choose | L_lazy | L_memoize | L_true | L_false | L_this | L_random | L_nil | L_div | L_mod | L_module | L_typedef | L_typeof | L_private | L_import | L_unittest | L_and | L_not | L_or | L_root | L_native | A_EQUAL | U_EQUAL | A_NOT_EQUAL | U_NOT_EQUAL | LESS | A_LESS_EQ | U_LESS_EQ | GREATER | A_GREATER_EQ | U_GREATER_EQ | SC | PLUS | MINUS | TIMES | QUOTIENT | POW_tok | TOK_RELATE | TOK_CONVERT | A_DOUBLE_COLON | U_DOUBLE_COLON | TIMESTIMES | QUOTIENTQUOTIENT | PLUSPLUS | MINUSMINUS | A_DOUBLE_ARROW | U_DOUBLE_ARROW | A_ARROW | U_ARROW | A_ELLIPSIS | U_ELLIPSIS | COMMA | PERIOD | QUESTION_MARK | EXCLAMATION_MARK | L_force | WS | NL | Constr | Id | Float | Num | String | ROUND_BRACKET_OPEN | ROUND_BRACKET_CLOSE | SQUARE_BRACKET_OPEN | SQUARE_BRACKET_CLOSE | CURLY_BRACKET_OPEN | CURLY_BRACKET_CLOSE | ASSIGN | UNDERSCORE | COLON | PRAGMA_LOG | PRAGMA_PRINT | PRAGMA_ASSERT | PRAGMA_PROFILE | PRAGMA_CATCH );";
         }
     }
  

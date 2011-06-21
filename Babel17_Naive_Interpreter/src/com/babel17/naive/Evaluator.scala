@@ -664,6 +664,20 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
                   writeOutput.writeFailedAssertion(st.location, x.toString)
                 }
             }
+          case PragmaCatch(expr, pat) =>
+            def failed(x : Value) {
+                if (writeOutput != null) {
+                  writeOutput.writeFailedAssertion(st.location, x.toString)
+                }
+            }
+            evalExpression(env, expr) match {
+              case ex: ExceptionValue =>
+                matchPattern(env, pat, ex.v, false) match {
+                  case NoMatch () => failed(ex)
+                  case DoesMatch(_) =>
+                }
+              case x => failed(x)
+            }
           case PragmaProfile(expr) =>
             val t1 = System.currentTimeMillis
             val v = evalExpression(env, expr)

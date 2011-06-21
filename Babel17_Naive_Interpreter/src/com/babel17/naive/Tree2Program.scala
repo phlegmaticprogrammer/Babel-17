@@ -627,6 +627,9 @@ class Tree2Program extends ErrorProducer {
           case PRAGMA_LOG => PragmaLog(e)
           case PRAGMA_ASSERT => PragmaAssert(e)
           case PRAGMA_PROFILE => PragmaProfile(e)
+          case PRAGMA_CATCH =>
+            val pat = buildProperPattern(p.pattern())
+            PragmaCatch(e, pat)
         }
         SPragma(u)
       case n : MatchNode =>

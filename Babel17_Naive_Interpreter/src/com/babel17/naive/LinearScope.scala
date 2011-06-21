@@ -124,6 +124,10 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SPragma(PragmaAssert(e)) =>
         check_e(env, e)
         env
+      case SPragma(PragmaCatch(e, p)) =>
+        check_e(env, e)
+        check_p(env, p, false)
+        env
       case SVal(p, e) =>
         check_e(env, e)
         check_p(env, p, false)

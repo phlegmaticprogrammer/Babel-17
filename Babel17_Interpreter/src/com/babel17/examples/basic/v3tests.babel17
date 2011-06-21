@@ -8,5 +8,5 @@ import tools.f
 import hey.u => ok
 
 f 12 16
-try ok; false catch case Whatever => true end
-##catch Whatever try ok
+##try ok; false catch case Whatever => true end
+#catch Whatever try ok
