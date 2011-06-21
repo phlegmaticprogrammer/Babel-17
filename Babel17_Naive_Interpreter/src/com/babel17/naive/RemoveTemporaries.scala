@@ -548,30 +548,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
           case TypeSome(p) => p
         }
         TempConversionDef(rt2, transform_expr(env, e))
-      /*case SDef0(memo, vis, id, e, rt) =>
-        SDef0(memo, vis, id, transform_expr(env, e), transform_type(env, rt))
-      case SDef1(memo, vis, id, branches) =>
-        def f(x : (Pattern, Expression, Type)) = {
-          x match {
-            case (p, e, rt) =>
-              (transform_pat(env, p), transform_expr(env, e),
-               transform_type(env, rt))
-          }
-        }
-        SDef1(memo, vis, id, branches.map(f))
-      case STypeDef(memo, vis, id, branches) =>
-        def f(x : (Pattern, Option[Expression])) = {
-          x match {
-            case (p, None) =>
-              (transform_pat(env, p), None)
-            case (p, Some(e)) =>
-              (transform_pat(env, p), Some(transform_expr(env, e)))
-          }
-        }
-        STypeDef(memo, vis, id, branches.map(f))  */
       case _ : SImport => term
-      /*case SDefs(defs) =>
-        SDefs(defs.map(x => transform_st(env, x).asInstanceOf[Def]))    */
       case SModule(p : Path, b : Block) =>
         val newEnv = env.addPath(p)
         SModule(p, transform_block(newEnv, b))

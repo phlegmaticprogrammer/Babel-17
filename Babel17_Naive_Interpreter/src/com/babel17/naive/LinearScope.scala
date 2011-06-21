@@ -9,16 +9,6 @@ import com.babel17.interpreter.parser.ErrorMessage
 
 class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
 
- /* var errors : List[ErrorMessage] = List.empty
-  var source : Source = null
-
-  def error (loc : com.babel17.syntaxtree.Location, msg : String) = {
-    var l = loc;
-    if (loc == null) l = new Location(source, 0,0)
-    errors = (new ErrorMessage(l, msg)) :: errors
-    //println("at "+loc+": "+msg)
-  }*/
-
   def lookup (ids : SortedSet[Id], id : Id, linear : Boolean) {
     if (!ids.contains(id)) {
       if (linear) error(id.location, "identifier is not in linear scope")
@@ -38,14 +28,6 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
     def thaw () : Environment = {
       Environment(nonlinear, SortedSet())
     }
-/*    def removeThis() : SimpleEnvironment = {
-      val t = Id("this")
-      SimpleEnvironment(nonlinear - t)
-    }
-    def hasThis : Boolean = {
-      val t = Id("this")
-      nonlinear.contains(t)
-    }*/
   }
 
   val OBJECT_STATEMENT = 1
@@ -77,15 +59,6 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
     def define (id : Id) : Environment = {
       Environment(nonlinear + id, linear - id)
     }
-    /*def defineThis () : Environment = {
-      this.define(Id("this"))
-    }*/
-    /*def defineModule() : Environment = {
-      this.define(Id("$module"))
-    }
-    def inModule : Boolean = {
-      nonlinear.contains(Id("$module"))
-    }*/
   }
   
   def emptyEnv () : Environment = Environment(SortedSet(), SortedSet())

@@ -156,15 +156,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     if (writeOutput != null && writeOutput.pleaseCancel) {
       throw EvalX("program terminated by user")
     }
-  }
-
-  /*def lookup (ids : SortedSet[Id], id : Id, linear : Boolean) {
-    if (!ids.contains(id)) {
-      if (linear) error(id.location, "identifier is not in linear scope")
-      else error(id.location, "unknown identifier")
-    }
-  }*/
- 
+  } 
 
   def evaluate(env : Environment, term : Term) : Value = {
     term match {
