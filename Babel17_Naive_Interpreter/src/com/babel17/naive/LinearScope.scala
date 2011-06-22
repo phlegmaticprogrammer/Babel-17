@@ -154,7 +154,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
               vis = d.visibility
             case _ =>
           }
-          if ((vis != VisibilityYes()) && ((st_flags & (OBJECT_STATEMENT + MODULE_STATEMENT)) == 0))
+          if ((vis != VisibilityYes()) && ((st_flags & MODULE_STATEMENT) == 0))
             error(vis.location, "no private statement allowed here")
         }
         defs.foreach(check_st (env2, _, st_flags))
@@ -309,10 +309,10 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
           else
             check_p(tEnv, pat, false)
         }
-      case SEObj(b, _, _) =>
+      case SEObj(b, _) =>
         checkObjForThis(b)
         check_b(env.thaw(), b, OBJECT_STATEMENT)
-      case SEGlueObj(parents, b, _, _) =>
+      case SEGlueObj(parents, b, _) =>
         CollectVars.collectVars(parents)
         if (parents.freeVars.contains(Id("this"))) {
           error(parents.location, "'this' is not in scope")

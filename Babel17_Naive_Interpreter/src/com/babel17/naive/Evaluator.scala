@@ -291,7 +291,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     merged                                             */
   }
 
-  def evalObj(env : SimpleEnvironment, block : Block, messages : SortedSet[Id], public_messages : SortedSet[Id]) : Value = {
+  def evalObj(env : SimpleEnvironment, block : Block, messages : SortedSet[Id]) : Value = {
     evalBlock(env.thaw, new DefaultCollector(), block) match {
       case BlockException(de) => de
       case BlockCollector(env, _) =>
@@ -305,7 +305,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     }
   }
 
-  def evalObj(parents : Value, env : SimpleEnvironment, block : Block, messages : SortedSet[Id], public_messages : SortedSet[Id]) : Value = {
+  def evalObj(parents : Value, env : SimpleEnvironment, block : Block, messages : SortedSet[Id]) : Value = {
     var result : Object = null
     parents.force() match {
       case ex : ExceptionValue => return ex.asDynamicException
@@ -317,7 +317,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     result match {
       case ex : ExceptionValue => return ex.asDynamicException
       case plist : List[ObjectValue] =>
-        evalObj(env, block, messages, public_messages) match {
+        evalObj(env, block, messages) match {
           case ex : ExceptionValue => ex.asDynamicException
           case o : ObjectValue =>
             mergeTwoObjects(mergeObjects(plist, o), o)
@@ -490,10 +490,10 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
         val f = TypeIntroValue(this, env, TypeValue(ty), branches)
         f.stackTraceElement = se.stackTraceElement
         f
-      case SEGlueObj(parents, block, messages, public_messages) =>
-        evalObj(evalSE(env, parents), env, block, messages, public_messages)
-      case SEObj(block, messages, public_messages) =>
-        evalObj(env, block, messages, public_messages)
+      case SEGlueObj(parents, block, messages) =>
+        evalObj(evalSE(env, parents), env, block, messages)
+      case SEObj(block, messages) =>
+        evalObj(env, block, messages)
       case SEConcurrent(se) =>
         if (executor == null || executor.getActiveCount() >= maxNumThreads-1) {
           evalSE(env, se)

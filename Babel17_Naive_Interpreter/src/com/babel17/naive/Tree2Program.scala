@@ -468,12 +468,12 @@ class Tree2Program extends ErrorProducer {
         if (n.parents != null) {
           val parents = buildSimpleExpression(n.parents)
           if (n.combineMethod == ObjectNode.COMBINE_GLUE)
-            SEGlueObj(parents, block, SortedSet(), SortedSet())
+            SEGlueObj(parents, block, SortedSet())
           else {
             error(n.location, "cannot use * operator for inheritance, must use +");
-            SEGlueObj(parents, block, SortedSet(), SortedSet())
+            SEGlueObj(parents, block, SortedSet())
           }
-        } else SEObj(block, SortedSet(), SortedSet())
+        } else SEObj(block, SortedSet())
       case n : PrivateNode => {
         def buildVisibility(vNode : Node) : (Visibility, Id) = {
           vNode match {

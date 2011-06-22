@@ -575,16 +575,14 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SERecord(l) => SERecord(l.map(x => (x._1, tr(x._2))))
       case SEList(l) => SEList(l.map(tr _))
       case SEVector(l) => SEVector(l.map(tr _))
-      case SEGlueObj(p, _b, _, _) =>
+      case SEGlueObj(p, _b, _) =>
         val b = transform_block(env, _b)
         val m = CollectVars.collectDefIds(b.statements)
-        val publicm = CollectVars.filterPublicIds(b.statements, m)
-        SEGlueObj(tr(p), b, m, publicm)
-      case SEObj(_b, _, _) =>
+        SEGlueObj(tr(p), b, m)
+      case SEObj(_b, _) =>
         val b = transform_block(env, _b)
         val m = CollectVars.collectDefIds(b.statements)
-        val publicm = CollectVars.filterPublicIds(b.statements, m)
-        SEObj(b, m, publicm)
+        SEObj(b, m)
       case SEMessageSend(t, m) => SEMessageSend(tr(t), m)
       case SEApply(f, x) => SEApply(tr(f), tr(x))
       case SECompare(operands, operators) =>

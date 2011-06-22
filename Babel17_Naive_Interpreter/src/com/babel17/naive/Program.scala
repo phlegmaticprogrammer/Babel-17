@@ -191,9 +191,9 @@ object Program {
   case class SERecord(elems: List[(Id, SimpleExpression)]) extends SimpleExpression
   case class SEList(elems: List[SimpleExpression]) extends SimpleExpression
   case class SEVector(elems: List[SimpleExpression]) extends SimpleExpression
-  case class SEGlueObj(parents: SimpleExpression, b : Block, messages : SortedSet[Id], public_messages : SortedSet[Id]) extends SimpleExpression
+  case class SEGlueObj(parents: SimpleExpression, b : Block, messages : SortedSet[Id]) extends SimpleExpression
   //case class SEMergeObj(parents: SimpleExpression, b : Block) extends SimpleExpression
-  case class SEObj(b : Block, messages : SortedSet[Id], public_messages : SortedSet[Id]) extends SimpleExpression
+  case class SEObj(b : Block, messages : SortedSet[Id]) extends SimpleExpression
   case class SEMessageSend(target: SimpleExpression, m : Id) extends SimpleExpression
   case class SEApply(f : SimpleExpression, x : SimpleExpression) extends SimpleExpression
   case class SECompare(operands : List[SimpleExpression], operators : List[CompareOp]) extends SimpleExpression

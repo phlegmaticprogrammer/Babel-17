@@ -279,7 +279,7 @@ object CollectVars {
           }
         }
         term.freeVars = freeVars
-      case SEGlueObj(parents, b, _, _) =>
+      case SEGlueObj(parents, b, _) =>
         collectVars(parents)
         collectVars(b)
         term.freeVars = (parents.freeVars ++ b.freeVars) - Id("this")
@@ -287,7 +287,7 @@ object CollectVars {
         collectVars(parents)
         collectVars(b)
         term.freeVars = parents.freeVars ++ (b.freeVars - Id("this"))*/
-      case SEObj(b, _, _) =>
+      case SEObj(b, _) =>
         collectVars(b)
         term.freeVars = b.freeVars - Id("this")
       case SModule(path, b) =>

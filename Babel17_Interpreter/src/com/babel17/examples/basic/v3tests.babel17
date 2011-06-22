@@ -1,11 +1,7 @@
 
+val u = object
 
-def y x : int = x
+ def x = 2
+ private x
 
-def h  = 10
-
-val f = y
-
-f (-2)
-
-h
+end
