@@ -116,6 +116,8 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
       case d: SImport => env.define(d.id)
       case SDef0(_, _, id, e, _) =>
         val env2 = env.define(id)
+        if (id.name.startsWith("this:") && (st_flags & OBJECT_STATEMENT) == 0)
+          error(st.location, "conversions live in objects only")
         check_e(env2.freezeThaw(), e)
         env2
       case SDef1(_, _, id, branches) =>
@@ -136,12 +138,6 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
           }
         }
         env2
-      case SConversionDef(_, e) =>
-        val env2 = env //env.defineThis()
-        if ((st_flags & OBJECT_STATEMENT) == 0)
-          error(st.location, "conversions live in objects only")
-        check_e(env2.freezeThaw(), e)
-        env
       case SDefs(defs) =>
         var env2 = env
         for (d <- defs) {
@@ -313,10 +309,10 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
           else
             check_p(tEnv, pat, false)
         }
-      case SEObj(b, _) =>
+      case SEObj(b, _, _) =>
         checkObjForThis(b)
-        check_b(env/*.removeThis()*/.thaw(), b, OBJECT_STATEMENT)
-      case SEGlueObj(parents, b, _) =>
+        check_b(env.thaw(), b, OBJECT_STATEMENT)
+      case SEGlueObj(parents, b, _, _) =>
         CollectVars.collectVars(parents)
         if (parents.freeVars.contains(Id("this"))) {
           error(parents.location, "'this' is not in scope")

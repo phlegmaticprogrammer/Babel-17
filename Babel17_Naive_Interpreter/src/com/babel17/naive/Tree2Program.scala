@@ -464,16 +464,16 @@ class Tree2Program extends ErrorProducer {
           if (!isAllowedInObject(st))
             error(st.location, "this statement is not allowed in an object definition")
         }
-        val messages = CollectVars.collectDefIds(block.statements).toList
+        //val messages = CollectVars.collectDefIds(block.statements).toList
         if (n.parents != null) {
           val parents = buildSimpleExpression(n.parents)
           if (n.combineMethod == ObjectNode.COMBINE_GLUE)
-            SEGlueObj(parents, block, messages)
+            SEGlueObj(parents, block, SortedSet(), SortedSet())
           else {
             error(n.location, "cannot use * operator for inheritance, must use +");
-            SEGlueObj(parents, block, messages)
+            SEGlueObj(parents, block, SortedSet(), SortedSet())
           }
-        } else SEObj(block, messages)
+        } else SEObj(block, SortedSet(), SortedSet())
       case n : PrivateNode => {
         def buildVisibility(vNode : Node) : (Visibility, Id) = {
           vNode match {

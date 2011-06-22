@@ -155,9 +155,6 @@ object CollectVars {
           }
         }
         term.freeVars = freeVars - id
-      case SConversionDef(_, e) =>
-        collectVars(e)
-        term.freeVars = e.freeVars
       case TempConversionDef(_, e) =>
         collectVars(e)
         term.freeVars = e.freeVars
@@ -282,7 +279,7 @@ object CollectVars {
           }
         }
         term.freeVars = freeVars
-      case SEGlueObj(parents, b, _) =>
+      case SEGlueObj(parents, b, _, _) =>
         collectVars(parents)
         collectVars(b)
         term.freeVars = (parents.freeVars ++ b.freeVars) - Id("this")
@@ -290,7 +287,7 @@ object CollectVars {
         collectVars(parents)
         collectVars(b)
         term.freeVars = parents.freeVars ++ (b.freeVars - Id("this"))*/
-      case SEObj(b, _) =>
+      case SEObj(b, _, _) =>
         collectVars(b)
         term.freeVars = b.freeVars - Id("this")
       case SModule(path, b) =>

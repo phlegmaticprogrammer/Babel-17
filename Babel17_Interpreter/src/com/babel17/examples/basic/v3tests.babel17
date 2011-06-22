@@ -1,12 +1,11 @@
-module hey
 
-def u = exception Whatever
 
-end
+def y x : int = x
 
-import tools.f
-import hey.u => ok
+def h  = 10
 
-f 12 16
-##try ok; false catch case Whatever => true end
-#catch Whatever try ok
+val f = y
+
+f (-2)
+
+h

@@ -291,7 +291,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     merged                                             */
   }
 
-  def evalObj(env : SimpleEnvironment, block : Block, messages : List[Id]) : Value = {
+  def evalObj(env : SimpleEnvironment, block : Block, messages : SortedSet[Id], public_messages : SortedSet[Id]) : Value = {
     evalBlock(env.thaw, new DefaultCollector(), block) match {
       case BlockException(de) => de
       case BlockCollector(env, _) =>
@@ -299,15 +299,13 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
         for (m <- messages) 
           s = s + (m -> env.lookup(m))
         val x = ObjectValue(s)
-        var envMessages : SortedSet[Id] = SortedSet()
-        envMessages = envMessages ++ messages
-        x.setEnvMessages(envMessages)
+        x.setEnvMessages(messages)
         x.setThis(x)
         x
     }
   }
 
-  def evalObj(parents : Value, env : SimpleEnvironment, block : Block, messages : List[Id]) : Value = {
+  def evalObj(parents : Value, env : SimpleEnvironment, block : Block, messages : SortedSet[Id], public_messages : SortedSet[Id]) : Value = {
     var result : Object = null
     parents.force() match {
       case ex : ExceptionValue => return ex.asDynamicException
@@ -319,7 +317,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     result match {
       case ex : ExceptionValue => return ex.asDynamicException
       case plist : List[ObjectValue] =>
-        evalObj(env, block, messages) match {
+        evalObj(env, block, messages, public_messages) match {
           case ex : ExceptionValue => ex.asDynamicException
           case o : ObjectValue =>
             mergeTwoObjects(mergeObjects(plist, o), o)
@@ -492,10 +490,10 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
         val f = TypeIntroValue(this, env, TypeValue(ty), branches)
         f.stackTraceElement = se.stackTraceElement
         f
-      case SEGlueObj(parents, block, messages) =>
-        evalObj(evalSE(env, parents), env, block, messages)
-      case SEObj(block, messages) =>
-        evalObj(env, block, messages)
+      case SEGlueObj(parents, block, messages, public_messages) =>
+        evalObj(evalSE(env, parents), env, block, messages, public_messages)
+      case SEObj(block, messages, public_messages) =>
+        evalObj(env, block, messages, public_messages)
       case SEConcurrent(se) =>
         if (executor == null || executor.getActiveCount() >= maxNumThreads-1) {
           evalSE(env, se)
@@ -508,6 +506,17 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
         evalSE(env, se).typeof
       case SETypeExpr(path : Path) =>
         TypeValue(path)
+      case SEConvert(se, Left(ty)) =>
+        evalSE(env, se).typeConvert(TypeValue(ty))
+      case SEConvert(se, Right(tyExpr)) =>
+        evalSE(env, tyExpr).force() match {
+          case ty:TypeValue =>
+            evalSE(env, se).typeConvert(ty)
+          case x:ExceptionValue =>
+            x.asDynamicException
+          case _ =>
+            Values.dynamicException(CONSTRUCTOR_DOMAINERROR, StringValue("type expected"))
+        }
       case _ => throw EvalX("incomplete evalSE: "+se)
     }
   }
@@ -530,8 +539,13 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
     var e = env
     for (d <- defs) {
       d match {
-        case SDef0(m, _, id, expr, _) =>
-          val se = SEExpr(expr)
+        case SDef0(m, _, id, expr, ty) =>
+          var se : SimpleExpression = SEExpr(expr)
+          ty match {
+            case TypeNone() =>
+            case TypeSome(p) =>
+              se = SEConvert(se, Left(p))
+          }
           se.stackTraceElement = d.stackTraceElement
           val v = m match {
             case MemoTypeNone() => EnvironmentValueMN(se)
@@ -635,7 +649,6 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
       case d : SDef0 => evalDefs(env, coll, List(d))
       case d : SDef1 => evalDefs(env, coll, List(d))
       case d : STypeDef => evalDefs(env, coll, List(d))
-      case d : SConversionDef => evalDefs(env, coll, List(d))
       case SPragma(pragma) =>
         pragma match {
           case PragmaPrint(expr) =>

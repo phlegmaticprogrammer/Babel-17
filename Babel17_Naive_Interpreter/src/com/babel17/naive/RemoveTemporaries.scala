@@ -8,8 +8,11 @@ import com.babel17.syntaxtree.Location
 import com.babel17.syntaxtree.Source
 import com.babel17.interpreter.parser.ErrorMessage
 
-/* Removes temporary statements from a program. In the process, also replaces relative
-   paths by absolute ones and validates type annotations and import references. */
+/* Removes temporary statements from a program. Also:
+ * - replaces relative paths by absolute ones
+ * - validates type annotations and import references
+ * - calculates the messages and public_messages in SEObj and SEGlueObj
+ */
 
 class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
 
@@ -217,43 +220,6 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     Imports(packageIds, defIds, typeIds)
   }
 
-  class ConversionId(ty : Path) extends Id("this:"+ty) {
-    def typePath:Path = ty
-  }
-
-  /*def collectConversionIds(statements : List[Statement]) : List[Id] = {
-    var ids : List[Id] = List()
-    for (s <- statements) {
-      s match {
-       case TempConversionDef(ty, e) =>
-          val id : Id = new ConversionId(ty)
-          id.location = ty.location
-          ids = id :: ids
-       case _ =>
-      }
-    }
-    ids
-  }*/
-
-  class ModuleId(path : Path) extends Id("module:"+path) {
-    location = path.location
-  }
-
-  /*def collectModuleIds(statements : List[Statement]) : List[Id] = {
-    var ids : List[Id] = List()
-    for (s <- statements) {
-      s match {
-       case TempModuleDef(path, b) =>
-          val id : Id = new ModuleId(path)
-          id.location = path.location
-          ids = id :: ids
-       case _ =>
-      }
-    }
-    ids
-  }*/
-
-
   def transform_sts(env: ModuleEnv, _statements : List[Statement]) : List[Statement] = {
     val imports = collectImportedIds(env, _statements)
     val newEnv = env.addImports(imports)
@@ -318,28 +284,6 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
             sdef0.setLocation(s.location)
             sdef0.stackTraceElement = Values.StackTraceElement(id.location, "evaluation of def '"+id.name+"'")
             defs = defs + (id -> (sdef0, deps, l))
-          }
-          if (!defsFirstVal.contains(id))
-            defsFirstVal = defsFirstVal + (id -> (id, line))
-        case TempConversionDef(ty, e) =>
-          val id : Id = new ConversionId(ty)
-          id.location = ty.location
-          if (defs.contains(id))
-            error(id.location, "duplicate conversion for type '"+ty+"'")
-          else {
-            CollectVars.collectVars(s)
-            val deps = defIds ** s.freeVars
-            var l : Int = -1
-            for (v <- s.freeVars) {
-              if (vals.contains(v)) {
-                val x = vals(v)
-                if (x > l) l = x;
-              }
-            }
-            val sconv = SConversionDef(ty, e)
-            sconv.location = s.location
-            sconv.stackTraceElement = Values.StackTraceElement(id.location, "type conversion to '"+ty+"'")
-            defs = defs + (id -> (sconv, deps, l))
           }
           if (!defsFirstVal.contains(id))
             defsFirstVal = defsFirstVal + (id -> (id, line))
@@ -535,19 +479,16 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         SValRecordUpdate(id, m, transform_expr(env, e))
       case SAssignRecordUpdate(id, m, e) =>
         SAssignRecordUpdate(id, m, transform_expr(env, e))
-      /*
-        case SConversionDef(rt, e) =>
-        val rt2 = transform_type(env, TypeSome(rt)) match {
-          case TypeNone() => Path(List())
-          case TypeSome(p) => p
-        }
-        SConversionDef(rt2, transform_expr(env, e)) */
       case TempConversionDef(rt, e) =>
-        val rt2 = transform_type(env, TypeSome(rt)) match {
-          case TypeNone() => Path(List())
-          case TypeSome(p) => p
+        transform_type(env, TypeSome(rt)) match {
+          case TypeNone() =>
+            SBlock(Block(List()))
+          case TypeSome(p) =>
+            val e2 = transform_expr(env, e)
+            val id = Id("this:"+p)
+            id.location = rt.location
+            TempDef0(id, e2, TypeSome(p))
         }
-        TempConversionDef(rt2, transform_expr(env, e))
       case _ : SImport => term
       case SModule(p : Path, b : Block) =>
         val newEnv = env.addPath(p)
@@ -634,9 +575,16 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SERecord(l) => SERecord(l.map(x => (x._1, tr(x._2))))
       case SEList(l) => SEList(l.map(tr _))
       case SEVector(l) => SEVector(l.map(tr _))
-      case SEGlueObj(p, b, m) =>
-        SEGlueObj(tr(p), transform_block(env, b), m)
-      case SEObj(b, m) => SEObj(transform_block(env, b), m)
+      case SEGlueObj(p, _b, _, _) =>
+        val b = transform_block(env, _b)
+        val m = CollectVars.collectDefIds(b.statements)
+        val publicm = CollectVars.filterPublicIds(b.statements, m)
+        SEGlueObj(tr(p), b, m, publicm)
+      case SEObj(_b, _, _) =>
+        val b = transform_block(env, _b)
+        val m = CollectVars.collectDefIds(b.statements)
+        val publicm = CollectVars.filterPublicIds(b.statements, m)
+        SEObj(b, m, publicm)
       case SEMessageSend(t, m) => SEMessageSend(tr(t), m)
       case SEApply(f, x) => SEApply(tr(f), tr(x))
       case SECompare(operands, operators) =>

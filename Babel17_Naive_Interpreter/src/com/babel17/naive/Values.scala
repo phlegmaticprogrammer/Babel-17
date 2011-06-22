@@ -155,7 +155,12 @@ object Values {
         v.typeof match {
           case s : TypeValue =>
             if (s.path == t.path) this
-            else typeConversionError
+            else {
+              val id = Program.Id("this:"+t.path)
+              val r = sendMessage(id)
+              if (r == null) typeConversionError
+              else r
+            }
           case _ => typeConversionError
         }
       }
@@ -352,17 +357,25 @@ object Values {
     }
   }
 
+  def convertType(v : Value, ty : Program.Type) : Value = {
+    //println("#### convert '"+v+"' to type '"+ty+"'")
+    ty match {
+      case Program.TypeNone() => v
+      case Program.TypeSome(path) => v.typeConvert(TypeValue(path))
+    }
+  }
+
 
   case class ClosureValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment,
                            branches : List[(Program.Pattern, Program.Expression, Program.Type)]) extends FunctionValue
   {
     override def apply_(v : Value) : Value = {
       val e = env.thaw
-      for ((p, body, _) <- branches) {
+      for ((p, body, ty) <- branches) {
         evaluator.matchPattern(e, p, v, false)  match {
           case Evaluator.NoMatch() =>
           case Evaluator.DoesMatch(newEnv) =>
-            return evaluator.evalExpression(newEnv, body)
+            return convertType(evaluator.evalExpression(newEnv, body), ty)
         }
       }
       return domainError()
@@ -398,11 +411,11 @@ object Values {
         }
       }
       val e = env.thaw
-      for ((p, body, _) <- branches) {
+      for ((p, body, ty) <- branches) {
         evaluator.matchPattern(e, p, key, false)  match {
           case Evaluator.NoMatch() =>
           case Evaluator.DoesMatch(newEnv) =>
-            val computed = evaluator.evalExpression(newEnv, body)
+            val computed = convertType(evaluator.evalExpression(newEnv, body), ty)
             if (doCache)
               return save(key, computed)
             else
@@ -644,6 +657,7 @@ object Values {
         }
       }
     }
+
   }
 
 

@@ -55,6 +55,8 @@ object Interpreter {
           i = i + 1
         }
       } else {
+        //w.writeLine("program = "+term)
+        //w.writeLine("")
         try {
           val cpus = Runtime.getRuntime().availableProcessors
           if (cpus > 1) {
@@ -97,7 +99,7 @@ object Interpreter {
             w.writeLine("")
             w.writeLine(s)
           case ex =>
-            ex.printStackTrace
+            //ex.printStackTrace
             w.writeLineError("There was an internal error during the evaluation of the program:")
             w.writeLine("")
             if (ex.getMessage != null)
