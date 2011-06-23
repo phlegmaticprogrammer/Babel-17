@@ -6,8 +6,8 @@ and open the template in the editor.
 <!DOCTYPE MIME-resolver PUBLIC "-//NetBeans//DTD MIME Resolver 1.0//EN" "http://www.netbeans.org/dtds/mime-resolver-1_0.dtd">
 <MIME-resolver>
   <file>
-    <ext name="babel17"/>
     <ext name="b17"/>
+    <ext name="babel17"/>
     <ext name="babel-17" />
     <resolver mime="text/x-babel17"/>
   </file>

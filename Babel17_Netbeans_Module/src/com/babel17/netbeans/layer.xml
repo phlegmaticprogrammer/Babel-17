@@ -89,13 +89,23 @@
     </folder>
   </folder>
   <folder name="Templates">
-    <folder name="Other">
-      <file name="Babel17Template.babel17" url="Babel17Template.babel17">
+    <folder name="Babel17">
+      <file name="Babel17Template.b17" url="Babel17Template.b17">
         <attr name="SystemFileSystem.localizingBundle" stringvalue="com.babel17.netbeans.Bundle"/>
         <attr name="template" boolvalue="true"/>
       </file>
     </folder>
-  </folder>
+      <folder name="Project">
+            <folder name="Babel17">
+                <file name="Babel17ProjectProject.zip" url="Babel17ProjectProject.zip">
+                    <attr name="displayName" bundlevalue="com.babel17.netbeans.Bundle#Templates/Project/Babel17/Babel17ProjectProject.zip"/>
+                    <attr name="instantiatingIterator" methodvalue="com.babel17.netbeans.sample.Babel17ProjectWizardIterator.createIterator"/>
+                    <attr name="instantiatingWizardURL" urlvalue="nbresloc:/com/babel17/netbeans/sample/Babel17ProjectDescription.html"/>
+                    <attr name="template" boolvalue="true"/>
+                </file>
+            </folder>
+        </folder>
+    </folder>
 
   <folder name="Editors">
     <folder name="text">
