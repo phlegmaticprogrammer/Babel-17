@@ -4,6 +4,7 @@ import org.netbeans.modules.parsing.spi.*;
 import org.netbeans.modules.parsing.api.*;
 import com.babel17.interpreter.parser.ErrorMessage;
 import com.babel17.naive.Interpreter;
+import com.babel17.naive.FileCentral;
 import java.util.*;
 import java.io.*;
 import java.util.logging.*;
@@ -38,7 +39,8 @@ public class Babel17Parser extends Parser {
     this.snapshot = snapshot;
     Reader reader = new StringReader(snapshot.getText().toString());
     try {
-      errors = Interpreter.parseAndAnalyze(new Source("editor"), reader);
+      FileCentral fc = new FileCentral();
+      errors = Interpreter.parseAndAnalyze(fc, new Source("editor"), reader);
     } catch (IOException ex) {
       Logger.getLogger(Babel17Parser.class.getName()).log(Level.WARNING, null, ex);
     }

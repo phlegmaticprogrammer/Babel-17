@@ -14,12 +14,12 @@
 \contentsline {section}{\tocsection {}{14}{Object Expressions}}{15}
 \contentsline {section}{\tocsection {}{15}{Boolean Operators}}{16}
 \contentsline {section}{\tocsection {}{16}{Order}}{17}
-\contentsline {section}{\tocsection {}{17}{Sets and Maps}}{19}
+\contentsline {section}{\tocsection {}{17}{Sets and Maps}}{18}
 \contentsline {section}{\tocsection {}{18}{Reals and Interval Arithmetic}}{19}
 \contentsline {section}{\tocsection {}{19}{Syntactic Sugar}}{20}
 \contentsline {section}{\tocsection {}{20}{Memoization}}{20}
 \contentsline {section}{\tocsection {}{21}{Linear Scope}}{21}
-\contentsline {section}{\tocsection {}{22}{Record Updates}}{24}
+\contentsline {section}{\tocsection {}{22}{Record Updates}}{23}
 \contentsline {section}{\tocsection {}{23}{With}}{24}
 \contentsline {section}{\tocsection {}{24}{Loops}}{25}
 \contentsline {section}{\tocsection {}{25}{Pragmas}}{26}
@@ -30,17 +30,17 @@
 \contentsline {subsection}{\tocsubsection {}{26.4}{Algebraic Datatypes}}{30}
 \contentsline {subsection}{\tocsubsection {}{26.5}{Abstract Datatypes}}{30}
 \contentsline {subsection}{\tocsubsection {}{26.6}{Type Conversions}}{31}
-\contentsline {subsection}{\tocsubsection {}{26.7}{Import}}{32}
+\contentsline {subsection}{\tocsubsection {}{26.7}{Import}}{31}
 \contentsline {subsection}{\tocsubsection {}{26.8}{Abstract Datatypes, Continued}}{33}
 \contentsline {section}{\tocsection {}{27}{Unit Tests}}{34}
-\contentsline {section}{\tocsection {}{28}{Native Interface}}{36}
+\contentsline {section}{\tocsection {}{28}{Native Interface}}{35}
 \contentsline {section}{\tocsection {}{29}{Standard Library}}{36}
 \contentsline {subsection}{\tocsubsection {}{29.1}{compare\_}}{36}
 \contentsline {subsection}{\tocsubsection {}{29.2}{Collections and Collectors}}{36}
 \contentsline {subsection}{\tocsubsection {}{29.3}{Type Conversions}}{36}
 \contentsline {subsection}{\tocsubsection {}{29.4}{Integer}}{36}
 \contentsline {subsection}{\tocsubsection {}{29.5}{Reals}}{36}
-\contentsline {subsection}{\tocsubsection {}{29.6}{String}}{37}
+\contentsline {subsection}{\tocsubsection {}{29.6}{String}}{36}
 \contentsline {subsection}{\tocsubsection {}{29.7}{List and Vector}}{37}
 \contentsline {subsection}{\tocsubsection {}{29.8}{Set}}{38}
 \contentsline {subsection}{\tocsubsection {}{29.9}{Map}}{38}

@@ -677,17 +677,7 @@ object
   $s_n$
 end
 \end{babellisting}
-The $s_i$ are statements.  Those $s_i$ that are  \babelsrc{def} statements define the set of messages that the object responds to. If you want a def not to become a message, you state this using a \babelsrc{private} statement:
-\begin{babellisting}
-object 
-  private x, y
-  def x = 1
-  def y = 2
-  def z = 3
-end
-\end{babellisting}
-The above object responds to the message $z$ only.
-
+The $s_i$ are statements.  Those $s_i$ that are  \babelsrc{def} statements define the set of messages that the object responds to.
 Often you do not want to create objects from scratch but by modifying other already existing objects:
 \begin{babellisting}
 object + parents

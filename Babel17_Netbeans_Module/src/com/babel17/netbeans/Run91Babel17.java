@@ -96,7 +96,7 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
     final Runnable runnable = new Runnable() {
       public void run() {
         try {
-          Interpreter.run(filename, o);
+          Interpreter.run(0, new String[]{filename}, o);
         } finally {
           o.done();
         }        

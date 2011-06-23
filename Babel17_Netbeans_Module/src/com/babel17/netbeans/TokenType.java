@@ -111,6 +111,7 @@ public enum TokenType {
   CURLY_BRACKET_CLOSE(babel17Lexer.CURLY_BRACKET_CLOSE, "bracket"),
   
   PRAGMA_ASSERT(babel17Lexer.PRAGMA_ASSERT, "pragma"),
+  PRAGMA_CATCH(babel17Lexer.PRAGMA_CATCH, "pragma"),
   PRAGMA_LOG(babel17Lexer.PRAGMA_LOG, "pragma"),
   PRAGMA_PROFILE(babel17Lexer.PRAGMA_PROFILE, "pragma"),
   PRAGMA_PRINT(babel17Lexer.PRAGMA_PRINT, "pragma");
