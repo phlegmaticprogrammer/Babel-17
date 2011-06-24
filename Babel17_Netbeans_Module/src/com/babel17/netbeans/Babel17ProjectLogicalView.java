@@ -17,7 +17,7 @@ import java.awt.Image;
 class Babel17ProjectLogicalView implements LogicalViewProvider {
 
     private final Babel17Project project;
-
+ 
     public Babel17ProjectLogicalView(Babel17Project project) {
         this.project = project;
     }

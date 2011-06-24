@@ -37,9 +37,26 @@ class FileCentral {
     }        
   }
 
+  def getFileNames(): Array[String] = {
+    b17files.keySet.toArray
+  }
+  
+  def deleteB17File(filename : String) {
+    sync.synchronized {
+      b17files = b17files - filename
+      moduleSystem = None
+      modules = None
+    }
+  }
+  
   def updateB17File(filename : String) {
-    val result = Parser.parse(filename)
-    updateB17File(new Source(filename), result)
+    val f = new java.io.File(filename)
+    if (f.exists) {
+      val result = Parser.parse(filename)
+      updateB17File(new Source(filename), result)
+    } else {
+      deleteB17File(filename)
+    }
   }
 
   private def transformTerm(source : Source, term : Term) : (Term, List[ErrorMessage]) = {
@@ -141,5 +158,27 @@ class FileCentral {
       }
     }
   }
+  
+  def isErrorFree(filename : String) : Boolean = {
+    sync.synchronized {
+      updateModuleSystem
+      val ms = moduleSystem.get
+      b17files.get(filename) match {
+        case None => false
+        case Some(B17File(src, mds, script, errors)) =>
+          if (!errors.isEmpty) return false
+          val (_, e1) = transformTerm(src, script)
+          if (!e1.isEmpty) return false
+          for (md <- mds) {
+            val (_, e) = transformTerm(src, SModule(md.path, md.code))
+            if (!e.isEmpty) return false
+          }
+          true
+      }
+    }
+   
+  }
+  
+  
 
 }

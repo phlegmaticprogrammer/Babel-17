@@ -18,7 +18,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
             if ((flags & (ModuleSystem.FoundDef + ModuleSystem.FoundPackage)) != 0) {
               // ok
             } else error(id.location, "unknown identifier")
-          case _ => error(id.location, "unknowsn identifier")
+          case _ => error(id.location, "unknown identifier")
         }
       }
     }

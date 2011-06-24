@@ -11,15 +11,69 @@ import javax.swing.*;
 import java.beans.PropertyChangeListener;
 import org.netbeans.spi.project.ui.support.DefaultProjectOperations;
 
+import com.babel17.naive.FileCentral;
+import org.openide.windows.WindowManager;
+import org.openide.windows.Mode;
+import org.openide.windows.TopComponent;
+
+
 class Babel17Project implements Project {
 
     private final FileObject projectDir;
     private final ProjectState state;
+    private volatile FileCentral fileCentral;
+   
     private Lookup lkp;
 
     public Babel17Project(FileObject projectDir, ProjectState state) {
+        System.out.println("Babel17Project opened!");
         this.projectDir = projectDir;
         this.state = state;
+        this.fileCentral = makeFileCentral();
+        if (this.fileCentral != null)
+            projectDir.addRecursiveListener(new FCListener());        
+    }
+    
+    private FileCentral makeFileCentral() {
+        FileObject srcdir = projectDir.getFileObject("babel17_src");
+        if (srcdir == null) return null;
+        FileCentral fc = new FileCentral();
+        collectFiles(fc, srcdir);
+        return fc;       
+    }
+    
+    private boolean isBabel17File(FileObject fo) {
+        if (fo.isFolder()) return false;
+        String ext = fo.getExt();
+        if (ext.equals("b17") || ext.equals("babel17") || ext.equals("babel-17"))
+          return true;
+        else
+          return false;
+    }
+    
+    private void collectFiles(FileCentral fc, FileObject fo) {
+        if (fo.isFolder()) {
+            FileObject[] files = fo.getChildren();
+            for (FileObject co : files) collectFiles(fc, co);
+        } else {
+            if (isBabel17File(fo)) {
+                String p = fo.getPath();
+                System.out.println("collectFiles: '"+p+"'");
+                fc.updateB17File(p);
+            }
+        }
+    }
+    
+    public String[] getSourceFiles() {
+        FileCentral fc = makeFileCentral();
+        if (fc == null) return new String[]{};
+        else return fc.getFileNames();
+    }
+    
+    
+    
+    public FileCentral getFileCentral() {
+        return fileCentral;
     }
 
     @Override
@@ -54,6 +108,40 @@ class Babel17Project implements Project {
                     });
         }
         return lkp;
+    }
+    
+    private final class FCListener extends FileChangeAdapter {
+        public void fileChanged(FileEvent e) {
+            FileObject fo = e.getFile();
+            if (isBabel17File(fo)) {
+                String p = fo.getPath();
+                System.out.println("fileChanged: '"+p+"'");
+                fileCentral.updateB17File(p);
+            }
+        }
+        public void fileDeleted(FileEvent e) {
+            FileObject fo = e.getFile();
+            if (isBabel17File(fo)) {
+                String p = fo.getPath();
+                System.out.println("fileDeleted: '"+p+"'");
+                fileCentral.deleteB17File(p);
+            }
+        }
+        public void fileRenamed(FileRenameEvent e) {
+            FileObject fo = e.getFile();
+            if (fo.isFolder()) {
+                System.out.println("folder renamed: "+e);
+                fileCentral = makeFileCentral();
+            } else if (isBabel17File(fo)) {
+                String p = fo.getPath();
+                File newf = new File(p);
+                File oldf = new File(newf.getParentFile(), e.getName()+"."+e.getExt());
+                String q = oldf.getPath();
+                System.out.println("fileRenamed: "+q+" -> "+p);
+                fileCentral.deleteB17File(q);
+                fileCentral.updateB17File(p);
+            }
+        }                
     }
 
     private final class ActionProviderImpl implements ActionProvider {

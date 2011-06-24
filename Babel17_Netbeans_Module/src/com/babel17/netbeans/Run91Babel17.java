@@ -20,13 +20,16 @@ package com.babel17.netbeans;
  * 
  */
 
-import com.babel17.naive.Interpreter;
+import com.babel17.naive.*;
 import javax.swing.ImageIcon;
 import org.openide.LifecycleManager;
 import org.openide.filesystems.FileObject;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
+import org.netbeans.api.project.FileOwnerQuery;
+import org.netbeans.api.project.Project;
+
 
 import org.openide.filesystems.FileUtil;
 import org.openide.util.ImageUtilities;
@@ -96,7 +99,17 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
     final Runnable runnable = new Runnable() {
       public void run() {
         try {
-          Interpreter.run(0, new String[]{filename}, o);
+          Project project = FileOwnerQuery.getOwner(f);
+          if (project instanceof Babel17Project) {
+            Babel17Project p = (Babel17Project) project;
+            String[] sources = p.getSourceFiles();
+            String[] args = new String[sources.length+1];
+            args[0] = filename;
+            for (int i=0; i<sources.length; i++)
+                args[i+1] = sources[i];
+            Interpreter.run(0, args, o);
+          } else
+            Interpreter.run(0, new String[]{filename}, o);
         } finally {
           o.done();
         }        

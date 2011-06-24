@@ -23,6 +23,10 @@ import javax.swing.text.BadLocationException;
 //import org.netbeans.spi.editor.hints.*;
 import org.netbeans.spi.editor.errorstripe.UpToDateStatus;
 import org.openide.text.NbDocument;
+import org.openide.filesystems.FileObject;
+import org.netbeans.api.project.FileOwnerQuery;
+import org.netbeans.api.project.Project;
+
 
 public class Babel17Parser extends Parser {
 
@@ -39,8 +43,14 @@ public class Babel17Parser extends Parser {
     this.snapshot = snapshot;
     Reader reader = new StringReader(snapshot.getText().toString());
     try {
-      FileCentral fc = new FileCentral();
-      errors = Interpreter.parseAndAnalyze(fc, new Source("editor"), reader);
+      FileObject fo = snapshot.getSource().getFileObject();
+      Project project = FileOwnerQuery.getOwner(fo);
+      FileCentral fc = null;
+      if (project instanceof Babel17Project) {
+          fc = ((Babel17Project) project).getFileCentral();         
+      } else
+          fc = new FileCentral();
+      errors = Interpreter.parseAndAnalyze(fc, new Source(fo.getPath()), reader);
     } catch (IOException ex) {
       Logger.getLogger(Babel17Parser.class.getName()).log(Level.WARNING, null, ex);
     }
