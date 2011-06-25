@@ -51,7 +51,7 @@ class Babel17Project implements Project {
           return false;
     }
     
-    private void collectFiles(FileCentral fc, FileObject fo) {
+    public static void collectFiles(FileCentral fc, FileObject fo) {
         if (fo.isFolder()) {
             FileObject[] files = fo.getChildren();
             for (FileObject co : files) collectFiles(fc, co);

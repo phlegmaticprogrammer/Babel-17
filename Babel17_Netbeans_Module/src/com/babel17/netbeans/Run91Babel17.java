@@ -32,14 +32,16 @@ import org.netbeans.api.project.Project;
 
 
 import org.openide.filesystems.FileUtil;
-import org.openide.util.ImageUtilities;
-import org.openide.util.Lookup;
-import org.openide.util.RequestProcessor;
-import org.openide.util.Utilities;
+import org.openide.util.*;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import java.io.*;
+import java.util.*;
+
 import org.openide.util.actions.Presenter;
 
-public final class Run91Babel17 extends ContextAction<Babel17DataObject> 
-        implements Presenter.Menu, Presenter.Toolbar
+public final class Run91Babel17 extends AbstractAction
+        implements ContextAwareAction, LookupListener, Presenter.Menu, Presenter.Toolbar
 {
 
 /* public @Override Action createContextAwareInstance(Lookup context) {
@@ -50,6 +52,7 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
 
   JButton button = null;
   JMenuItem menuitem = null, popupitem = null;
+  private Lookup.Result<Babel17DataObject> result;  
 
   public Run91Babel17() {
     this(Utilities.actionsGlobalContext());
@@ -57,12 +60,14 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
 
 
   public Run91Babel17(Lookup context) {
-    super(context);
-    putValue(NAME, "Run Babel-17 script");
+    super("Run Babel-17 script");
+    //putValue(NAME, "Run Babel-17 script");
     String iconfile = "com/babel17/netbeans/Babel17RunIcon.png";
     putValue(SMALL_ICON, new ImageIcon(ImageUtilities.loadImage(iconfile, true)));
     //this.context = context;
     //putValue(DynamicMenuContent.HIDE_WHEN_DISABLED, true);
+    result = context.lookupResult(Babel17DataObject.class);
+    result.addLookupListener(this);
   }
 
   @Override
@@ -91,11 +96,12 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
 
 
 
-  public void performAction(Babel17DataObject context) {
+  public void actionPerformed(ActionEvent ev) {
     LifecycleManager.getDefault().saveAll();
+    Babel17DataObject context = getSelectedObject();
+    if (context == null) return;
     final FileObject f = context.getPrimaryFile();
-    final String filename = f.getPath().toString();//FileUtil.getFileDisplayName(f);
-    final WriteNetbeansOutput o = new WriteNetbeansOutput("Babel-17", filename);
+    final WriteNetbeansOutput o = new WriteNetbeansOutput("Babel-17");
     final Runnable runnable = new Runnable() {
       public void run() {
         try {
@@ -104,12 +110,12 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
             Babel17Project p = (Babel17Project) project;
             String[] sources = p.getSourceFiles();
             String[] args = new String[sources.length+1];
-            args[0] = filename;
+            args[0] = f.getPath().toString();
             for (int i=0; i<sources.length; i++)
                 args[i+1] = sources[i];
             Interpreter.run(0, args, o);
           } else
-            Interpreter.run(0, new String[]{filename}, o);
+            Interpreter.run(0, new String[]{f.getPath().toString()}, o);
         } finally {
           o.done();
         }        
@@ -117,6 +123,23 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
     };
     RequestProcessor.getDefault().post(runnable);
   }
+  
+  public Babel17DataObject getSelectedObject() {
+      java.util.Collection<? extends Babel17DataObject> coll = result.allInstances();
+      if (coll.size() != 1)
+          return null;
+      else {
+          Babel17DataObject dobj = null;
+          for (Babel17DataObject f : coll) {              
+              dobj = f;
+          }
+          return dobj;
+      }
+  }
+  
+  public void resultChanged(LookupEvent e) {
+      this.setEnabled(getSelectedObject() != null);
+  }  
 
   public JMenuItem getMenuPresenter() {
     menuitem = new JMenuItem(this);
@@ -142,10 +165,6 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
     button.setVisible(false);
     //components.add(button);
     return button;
-  }
-
-  public Class<Babel17DataObject> contextClass() {
-    return Babel17DataObject.class;
   }
 
   public Action createContextAwareInstance(Lookup context) {

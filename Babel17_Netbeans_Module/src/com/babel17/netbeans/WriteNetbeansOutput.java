@@ -32,7 +32,7 @@ public class WriteNetbeansOutput extends WriteOutput {
   InputOutput io;
   volatile boolean pleaseCancel = false;
   AbstractAction cancelAction = null;
-  String filename;
+  //String filename;
 
   public boolean pleaseCancel() {
     return pleaseCancel;
@@ -84,8 +84,7 @@ public class WriteNetbeansOutput extends WriteOutput {
   }
 
 
-  WriteNetbeansOutput(final String title, String filename) {
-    this.filename = filename;
+  WriteNetbeansOutput(final String title) {
     EventQueue.invokeLater(new Runnable() {
       public void run() {
         cancelAction = new CancelAction();

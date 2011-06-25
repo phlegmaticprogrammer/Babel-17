@@ -28,19 +28,15 @@ object Interpreter {
     a
   }
 
-  def runUnittests(testPath : String, filenames : Array[String], w : WriteOutput) {
+  def runUnittests(testfilenames: Array[String], filenames : Array[String], w : WriteOutput) {
     w.writeLineCommentary("Babel-17 v0.3alpha, Copyright \u00a9 2009 Steven Obua")
     w.writeLine("")
     w.writeLineCommentary("This program comes with ABSOLUTELY NO WARRANTY.")
     w.writeLineCommentary("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")
     w.writeLine("")
-    val f = new File(testPath)
-    if (f.isDirectory) {
-      w.writeLine("Running unit tests on all Babel-17 files in folder:");
-      w.writeLine("   "+testPath);
-    } else {
-      w.writeLine("Running unit tests in Babel-17 file:");
-      w.writeLine("   "+testPath);      
+    w.writeLine("Running unit tests from "+testfilenames.length+" Babel-17 files:");
+    for (ut <- testfilenames) {
+      w.writeLine("   "+ut);
     }
   }
 

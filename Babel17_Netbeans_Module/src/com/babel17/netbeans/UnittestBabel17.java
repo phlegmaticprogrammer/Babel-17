@@ -36,6 +36,7 @@ import org.openide.util.*;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.io.*;
+import java.util.*;
 
 import org.openide.util.actions.Presenter;
 
@@ -60,7 +61,7 @@ public final class UnittestBabel17 extends AbstractAction
 
 
   public UnittestBabel17(Lookup context) {
-      super("Run Babel-17 unit test(s)");
+    super("Run Babel-17 unit test(s)");
     //putValue(NAME, "Run Babel-17 unit test(s)");
     String iconfile = "com/babel17/netbeans/Babel17UnittestIcon.png";
     putValue(SMALL_ICON, new ImageIcon(ImageUtilities.loadImage(iconfile, true)));
@@ -83,21 +84,23 @@ public final class UnittestBabel17 extends AbstractAction
     }
   }
 
-
   public void actionPerformed(ActionEvent e) {
     LifecycleManager.getDefault().saveAll();
-    final FileObject f = getSelectedFileObject();
-    if (f == null) return;
-    final String filename = f.getPath().toString();// FileUtil.getFileDisplayName(f);
-    final WriteNetbeansOutput o = new WriteNetbeansOutput("Babel-17", filename);
+    final ArrayList<FileObject> fs = getSelectedFileObjects();
+    if (fs.isEmpty()) return;
+    final WriteNetbeansOutput o = new WriteNetbeansOutput("Babel-17");
     final Runnable runnable = new Runnable() {
       public void run() {
         try {
-          Project project = FileOwnerQuery.getOwner(f);
+          Project project = FileOwnerQuery.getOwner(fs.get(0));
           if (project instanceof Babel17Project) {
             Babel17Project p = (Babel17Project) project;
             String[] sources = p.getSourceFiles();
-            Interpreter.runUnittests(f.getPath().toString(), sources, o);
+            FileCentral fc = new FileCentral();
+            for (FileObject fo : fs) {
+                Babel17Project.collectFiles(fc, fo);
+            }
+            Interpreter.runUnittests(fc.getFileNames(), sources, o);
           }
         } finally {
           o.done();
@@ -107,27 +110,34 @@ public final class UnittestBabel17 extends AbstractAction
     RequestProcessor.getDefault().post(runnable);
   }
   
-  public FileObject getSelectedFileObject() {
+  public ArrayList<FileObject> getSelectedFileObjects() {
       java.util.Collection<? extends FileObject> coll = result.allInstances();
-      if (coll.size() != 1)
-          return null;
-      else {
-          FileObject fo = null;
-          for (FileObject f : coll) {              
-              Project project = FileOwnerQuery.getOwner(f);
-              if (project instanceof Babel17Project) {
-                  if (Babel17Project.isBabel17File(f) || f.isFolder()) {
-                      fo = f;
+      ArrayList<FileObject> fos = new ArrayList<FileObject>();
+      Project P = null;
+      boolean P_clash = false;
+      for (FileObject f : coll) {
+          Project project = FileOwnerQuery.getOwner(f);
+          if (project instanceof Babel17Project) {
+              if (Babel17Project.isBabel17File(f) || f.isFolder()) {
+                  if (P == null || P == project) {
+                      P = project;
+                  } else {
+                      P_clash = true;
                       break;
                   }
+                  fos.add(f);
+                  break;
               }
-          }          
-          return fo;
-      }   
+          }
+      }
+      if (P_clash) {
+          return new ArrayList<FileObject>();
+      }
+      return fos;
   }
   
   public void resultChanged(LookupEvent e) {
-      this.setEnabled(getSelectedFileObject() != null);
+      this.setEnabled(!getSelectedFileObjects().isEmpty());
   }
 
   public JMenuItem getMenuPresenter() {
