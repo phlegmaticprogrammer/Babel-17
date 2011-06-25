@@ -25,6 +25,7 @@ import org.openide.windows.IOColorPrint;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
 import org.openide.filesystems.FileUtil;
+//import org.netbeans.swing.tabcontrol.TabbedContainer;
 
 public class WriteNetbeansOutput extends WriteOutput {
 
@@ -204,12 +205,6 @@ public class WriteNetbeansOutput extends WriteOutput {
         public void run() {
           final JEditorPane[] panes = ec.getOpenedPanes();
 
-          //Here we're positioning the cursor,
-          //if the document isn't open, we need to open it first:
-
-          if ((panes != null) && (panes.length > 0)) {
-            setPosition(panes[0], loc);
-          } else {
             ec.addPropertyChangeListener(new PropertyChangeListener() {
 
               public void propertyChange(PropertyChangeEvent evt) {
@@ -221,9 +216,8 @@ public class WriteNetbeansOutput extends WriteOutput {
               }
             });
             ec.open();
-          }
         }
-
+        
         //Here we specify where the cursor will land:
         private void setPosition(JEditorPane pane, Location loc) {
           try {
@@ -239,7 +233,7 @@ public class WriteNetbeansOutput extends WriteOutput {
             while (index < len) {
               if (l > line || l == line && c >= col) {
                 pane.setCaretPosition(index);
-                pane.requestFocus();
+                pane.requestFocusInWindow();
                 return;
               }
               char ch = text.charAt(index);
@@ -253,7 +247,7 @@ public class WriteNetbeansOutput extends WriteOutput {
               }
             }
             pane.setCaretPosition(len - 1);
-            pane.requestFocus();
+            pane.requestFocusInWindow();
           } catch (BadLocationException ex) {
           }
         }
