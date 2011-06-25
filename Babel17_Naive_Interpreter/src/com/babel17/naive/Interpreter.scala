@@ -27,26 +27,119 @@ object Interpreter {
     }
     a
   }
-
-  def runUnittests(testfilenames: Array[String], filenames : Array[String], w : WriteOutput) {
+  
+  def writeCopyrightInfo(w : WriteOutput) {
     w.writeLineCommentary("Babel-17 v0.3alpha, Copyright \u00a9 2009 Steven Obua")
     w.writeLine("")
     w.writeLineCommentary("This program comes with ABSOLUTELY NO WARRANTY.")
     w.writeLineCommentary("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")
+    w.writeLine("")    
+  }
+  
+  def writeStaticErrors(errors : List[ErrorMessage], w : WriteOutput) : Boolean = {
+    if (errors.size == 0) return false
+    if (errors.length == 1)
+      w.writeLineError("Found "+errors.length+" static error:")
+    else
+      w.writeLineError("Found "+errors.length+" static errors:")
     w.writeLine("")
-    w.writeLine("Running unit tests from "+testfilenames.length+" Babel-17 files:");
-    for (ut <- testfilenames) {
-      w.writeLine("   "+ut);
+    var i = 1;
+    for (m <- errors) {
+      w.writeLocMsg(i+")", m.location, m.message)
+      i = i + 1
     }
+    return true    
   }
 
-
+  def runUnittests(testfilenames: Array[String], filenames : Array[String], w : WriteOutput) {
+    writeCopyrightInfo(w)
+    if (testfilenames.length == 0) {
+      w.writeLine("There are no unit tests to run.")
+      return
+    }
+    val fc = new FileCentral()
+    for (filename <- filenames) {
+      fc.updateB17File(filename)
+    }
+    for (filename <- testfilenames) {
+      fc.updateB17File(filename)
+    }
+    val errors = Errors.cleanupErrors(fc.getErrors)
+    if (writeStaticErrors(errors, w)) return
+    var evaluator : Evaluator = null
+    try {
+      val cpus = Runtime.getRuntime().availableProcessors
+      if (cpus > 1) {
+        w.writeLineCommentary("Found "+cpus+" available processors.")
+        w.writeLine("")
+      }
+      evaluator = new Evaluator(cpus, fc, EvaluationOptions(true))
+      evaluator.writeOutput = w
+      Evaluator.systemLibrary = evaluator.loadSystemLibrary
+    } catch {
+      case ex =>
+        //ex.printStackTrace
+        w.writeLineError("There was an internal error during initialization.")
+        w.writeLine("")
+        if (ex.getMessage != null)
+          w.writeLine(ex.getClass.getName+": "+ex.getMessage)
+        else
+          w.writeLine(ex.getClass.getName.toString)
+        return
+    }
+    var testCount = 0
+    var testFailures = 0
+    for (testfilename <- testfilenames) {
+      w.writeLineCommentary("looking in file '"+testfilename+"' for unit tests")
+      val b17file = fc.findFile(testfilename).get
+      val r = evaluator.assertionRecorder
+      
+      def handle(name : String, test : () => Values.Value) {
+          testCount = testCount + 1
+          r.clear
+          try{ 
+            test() match {
+            case ex : ExceptionValue =>
+              testFailures = testFailures + 1
+              w.writeLineError("unit test '"+name+"' failed: "+ex)
+            case _ =>
+              if (r.failures > 0) {
+                testFailures = testFailures + 1
+                w.writeLineError("unit test '"+name+"' failed "+r.stats)
+              } else if (r.successes > 0) {
+                w.writeLineSuccess("unit test '"+name+"' succeeded "+r.stats)
+              } 
+          }
+          } catch {
+            case x => 
+              testFailures = testFailures + 1
+              w.writeLineError("unit test '"+name+"' failed: "+x)
+          }        
+      }
+      
+      for (md <- b17file.mds) {
+        if (md.path.unittest)
+          handle (md.path.toString, () => evaluator.evalModule(md.path))
+        else if (md.messages.contains(Id("unittest")))
+          handle (md.path.toString()+".unittest", 
+            () => {
+              val m = evaluator.evalModule(md.path)
+              r.clear()
+              m.sendMessage(Id("unittest"))
+            })        
+      }    
+    }
+    
+    w.writeLine("")
+    if (testFailures == 0) {
+      w.writeLineSuccess("All "+testCount+" out of "+testCount+" unit tests were successful.")
+    } else {
+      w.writeLineError(testFailures+" out of "+testCount+" unit test(s) failed.")
+    }
+  }
+  
   def run(progIndex:Int, filenames : Array[String], w : WriteOutput) {
-    w.writeLineCommentary("Babel-17 v0.3alpha, Copyright \u00a9 2009 Steven Obua")
-    w.writeLine("")
-    w.writeLineCommentary("This program comes with ABSOLUTELY NO WARRANTY.")
-    w.writeLineCommentary("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")
-    w.writeLine("")
+    writeCopyrightInfo(w)
     if (filenames == null || filenames.length == 0) {
       w.writeLineError("Please specify which file to execute!")
     } else {
@@ -57,27 +150,14 @@ object Interpreter {
       }
       val (term, termErrors) = fc.getScript(filenames(progIndex)).get
       val errors = Errors.cleanupErrors(fc.getErrors ++ termErrors)
-      if (errors.length > 0) {
-        if (errors.length == 1)
-          w.writeLineError("Found "+errors.length+" static error:")
-        else
-          w.writeLineError("Found "+errors.length+" static errors:")
-        w.writeLine("")
-        var i = 1;
-        for (m <- errors) {
-          w.writeLocMsg(i+")", m.location, m.message)
-          i = i + 1
-        }
-      } else {
-        //w.writeLine("program = "+term)
-        //w.writeLine("")
+      if (!writeStaticErrors(errors, w)) {
         try {
           val cpus = Runtime.getRuntime().availableProcessors
           if (cpus > 1) {
             w.writeLineCommentary("Found "+cpus+" available processors.")
             w.writeLine("")
           }
-          val evaluator = new Evaluator(cpus, fc)
+          val evaluator = new Evaluator(cpus, fc, EvaluationOptions(true))
           evaluator.writeOutput = w
           Evaluator.systemLibrary = evaluator.loadSystemLibrary
           val v = evaluator.evaluate(Evaluator.emptyEnv, term)

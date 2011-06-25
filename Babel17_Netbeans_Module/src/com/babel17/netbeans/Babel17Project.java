@@ -58,7 +58,7 @@ class Babel17Project implements Project {
         } else {
             if (isBabel17File(fo)) {
                 String p = fo.getPath();
-                System.out.println("collectFiles: '"+p+"'");
+                //System.out.println("collectFiles: '"+p+"'");
                 fc.updateB17File(p);
             }
         }
@@ -115,7 +115,7 @@ class Babel17Project implements Project {
             FileObject fo = e.getFile();
             if (isBabel17File(fo)) {
                 String p = fo.getPath();
-                System.out.println("fileChanged: '"+p+"'");
+                //System.out.println("fileChanged: '"+p+"'");
                 fileCentral.updateB17File(p);
             }
         }
@@ -123,21 +123,21 @@ class Babel17Project implements Project {
             FileObject fo = e.getFile();
             if (isBabel17File(fo)) {
                 String p = fo.getPath();
-                System.out.println("fileDeleted: '"+p+"'");
+                //System.out.println("fileDeleted: '"+p+"'");
                 fileCentral.deleteB17File(p);
             }
         }
         public void fileRenamed(FileRenameEvent e) {
             FileObject fo = e.getFile();
             if (fo.isFolder()) {
-                System.out.println("folder renamed: "+e);
+                //System.out.println("folder renamed: "+e);
                 fileCentral = makeFileCentral();
             } else if (isBabel17File(fo)) {
                 String p = fo.getPath();
                 File newf = new File(p);
                 File oldf = new File(newf.getParentFile(), e.getName()+"."+e.getExt());
                 String q = oldf.getPath();
-                System.out.println("fileRenamed: "+q+" -> "+p);
+                //System.out.println("fileRenamed: "+q+" -> "+p);
                 fileCentral.deleteB17File(q);
                 fileCentral.updateB17File(p);
             }

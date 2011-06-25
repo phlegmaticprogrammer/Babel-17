@@ -128,14 +128,35 @@ object Evaluator {
 
 }
 
+class AssertionRecorder() {
+  @volatile
+  var successes : Int = 0
+  @volatile
+  var failures : Int = 0
+  def succeeded() { successes = successes + 1 }
+  def failed() { failures = failures + 1}
+  def clear() {
+    failures = 0
+    successes = 0
+  }
+  def stats : String = {
+    "("+successes+" out of "+(successes + failures)+" assertions held up)"
+  }
+}
 
-class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
+case class EvaluationOptions(val assertions : Boolean) 
+
+
+class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
+  val evaluationOptions : EvaluationOptions) 
+{
  
   import Evaluator._
 
   var executor : ThreadPoolExecutor = null
+  val assertionRecorder = new AssertionRecorder()
 
-  val moduleValues = new ModuleValues(this, fileCentral)
+  val moduleValues = new ModuleValues(this, fileCentral)  
 
   if (maxNumThreads > 1) {
     executor = new ThreadPoolExecutor(0, maxNumThreads-1, 500L, TimeUnit.MILLISECONDS,
@@ -662,26 +683,34 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral) {
               writeOutput.writeLocMsg("log", st.location, s)
             }
           case PragmaAssert(expr) =>
-            evalExpression(env, expr) match {
-              case BooleanValue(true) =>
-              case x =>
-                if (writeOutput != null) {
-                  writeOutput.writeFailedAssertion(st.location, x.toString)
-                }
+            if (evaluationOptions.assertions) {
+              evalExpression(env, expr) match {
+                case BooleanValue(true) =>
+                  assertionRecorder.succeeded()
+                case x =>
+                  assertionRecorder.failed()
+                  if (writeOutput != null) {
+                    writeOutput.writeFailedAssertion(st.location, x.toString)
+                  }
+              }
             }
           case PragmaCatch(expr, pat) =>
-            def failed(x : Value) {
+            if (evaluationOptions.assertions) {
+              def failed(x : Value) {
+                assertionRecorder.failed()
                 if (writeOutput != null) {
                   writeOutput.writeFailedAssertion(st.location, x.toString)
                 }
-            }
-            evalExpression(env, expr) match {
-              case ex: ExceptionValue =>
-                matchPattern(env, pat, ex.v, false) match {
-                  case NoMatch () => failed(ex)
-                  case DoesMatch(_) =>
-                }
-              case x => failed(x)
+              }
+              evalExpression(env, expr) match {
+                case ex: ExceptionValue =>
+                  matchPattern(env, pat, ex.v, false) match {
+                    case NoMatch () => failed(ex)
+                    case DoesMatch(_) =>
+                      assertionRecorder.succeeded()
+                  }
+                case x => failed(x)
+              }
             }
           case PragmaProfile(expr) =>
             val t1 = System.currentTimeMillis

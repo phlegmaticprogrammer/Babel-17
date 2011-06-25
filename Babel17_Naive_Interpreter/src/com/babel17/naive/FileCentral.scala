@@ -14,7 +14,7 @@ trait FileCentralFileListener {
 
 class FileCentral {
 
-  private case class B17File(source:Source, mds : List[ModuleSystem.ModuleDescr], script : Block, errors : List[ErrorMessage])
+  case class B17File(source:Source, mds : List[ModuleSystem.ModuleDescr], script : Block, errors : List[ErrorMessage])
 
   private var b17files : SortedMap[String, B17File] = SortedMap()
   private var modules : Option[(SortedMap[Path, (ModuleSystem.ModuleDescr, Block)], List[ErrorMessage])] = None
@@ -40,6 +40,12 @@ class FileCentral {
       modules = None
       
     }        
+  }
+  
+  def findFile(filename : String) : Option[B17File] = {
+    sync.synchronized {
+      b17files.get(filename)
+    }
   }
 
   def getFileNames(): Array[String] = {
