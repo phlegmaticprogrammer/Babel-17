@@ -4,6 +4,7 @@
   <folder name="Actions">
         <folder name="Build">
             <file name="com-babel17-netbeans-Run91Babel17.instance"/>
+            <file name="com-babel17-netbeans-UnittestBabel17.instance"/>
         </folder>
     </folder>
     <folder name="Loaders">
@@ -13,6 +14,10 @@
                     <file name="com-babel17-netbeans-Run91Babel17.shadow">
                         <attr name="originalFile" stringvalue="Actions/Build/com-babel17-netbeans-Run91Babel17.instance"/>
                         <attr name="position" intvalue="100"/>
+                    </file>
+                    <file name="com-babel17-netbeans-UnittestBabel17.shadow">
+                        <attr name="originalFile" stringvalue="Actions/Build/com-babel17-netbeans-UnittestBabel17.instance"/>
+                        <attr name="position" intvalue="101"/>
                     </file>
                     <file name="org-openide-actions-CopyAction.instance">
             <attr name="position" intvalue="400"/>
@@ -78,6 +83,10 @@
             <file name="com-babel17-netbeans-Run91Babel17.shadow">
                 <attr name="originalFile" stringvalue="Actions/Build/com-babel17-netbeans-Run91Babel17.instance"/>
                 <attr name="position" intvalue="-90"/>
+            </file>
+            <file name="com-babel17-netbeans-UnittestBabel17.shadow">
+                <attr name="originalFile" stringvalue="Actions/Build/com-babel17-netbeans-UnittestBabel17.instance"/>
+                <attr name="position" intvalue="-80"/>
             </file>
         </folder>
     </folder>
@@ -161,6 +170,10 @@
             <file name="com-babel17-netbeans-Run91Babel17.shadow">
                 <attr name="originalFile" stringvalue="Actions/Build/com-babel17-netbeans-Run91Babel17.instance"/>
                 <attr name="position" intvalue="2000"/>
+            </file>
+            <file name="com-babel17-netbeans-UnittestBabel17.shadow">
+                <attr name="originalFile" stringvalue="Actions/Build/com-babel17-netbeans-UnittestBabel17.instance"/>
+                <attr name="position" intvalue="2001"/>
             </file>
         </folder>
     </folder>

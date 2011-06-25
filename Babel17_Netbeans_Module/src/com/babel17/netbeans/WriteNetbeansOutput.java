@@ -22,11 +22,13 @@ import org.openide.cookies.EditorCookie;
 import org.openide.util.ImageUtilities;
 import org.openide.windows.IOColorLines;
 import org.openide.windows.IOColorPrint;
+import org.openide.filesystems.FileObject;
+import org.openide.loaders.DataObject;
+import org.openide.filesystems.FileUtil;
 
 public class WriteNetbeansOutput extends WriteOutput {
 
   InputOutput io;
-  Babel17DataObject dobj;
   volatile boolean pleaseCancel = false;
   AbstractAction cancelAction = null;
   String filename;
@@ -81,8 +83,7 @@ public class WriteNetbeansOutput extends WriteOutput {
   }
 
 
-  WriteNetbeansOutput(final String title, Babel17DataObject dobj, String filename) {
-    this.dobj = dobj;
+  WriteNetbeansOutput(final String title, String filename) {
     this.filename = filename;
     EventQueue.invokeLater(new Runnable() {
       public void run() {
@@ -151,10 +152,10 @@ public class WriteNetbeansOutput extends WriteOutput {
       } else prefix = "";
       //IOColorPrint.print(io, "at "+loc, new L(loc), false, Color.black);
       print(prefix, Color.black, null, false);
-      if (loc.getSource().getFilename().equals(filename))
+      //if (loc.getSource().getFilename().equals(filename))
         print("at "+loc, Color.blue, new L(loc), false);
-      else
-        print("at "+loc, Color.black, null, false);
+      //else
+        //print("at "+loc, Color.black, null, false);
 
       println(": "+message, Color.black);
       //writer.println("at " + loc, new L(loc), false);
@@ -186,7 +187,16 @@ public class WriteNetbeansOutput extends WriteOutput {
   }
 
   public void openAt(final Location loc) {
+    Babel17DataObject dobj = null;
+    try {
+        String filename = loc.getSource().getFilename();
+        FileObject fo = FileUtil.createData(new java.io.File(filename));
+        dobj = (Babel17DataObject) DataObject.find(fo);      
+    } catch (Exception e) {        
+    }
+    if (dobj == null) return;
     final EditorCookie.Observable ec = dobj.getCookie(EditorCookie.Observable.class);
+    
     if (ec != null) {
 
       org.netbeans.editor.Utilities.runInEventDispatchThread(new Runnable() {
@@ -248,7 +258,6 @@ public class WriteNetbeansOutput extends WriteOutput {
           }
         }
       });
-    } else {
     }
   }
 }

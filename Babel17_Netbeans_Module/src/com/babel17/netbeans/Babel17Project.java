@@ -42,7 +42,7 @@ class Babel17Project implements Project {
         return fc;       
     }
     
-    private boolean isBabel17File(FileObject fo) {
+    public static boolean isBabel17File(FileObject fo) {
         if (fo.isFolder()) return false;
         String ext = fo.getExt();
         if (ext.equals("b17") || ext.equals("babel17") || ext.equals("babel-17"))

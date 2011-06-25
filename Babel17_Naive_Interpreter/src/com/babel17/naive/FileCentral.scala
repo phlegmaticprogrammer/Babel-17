@@ -8,6 +8,10 @@ import com.babel17.syntaxtree.Source
 import com.babel17.interpreter.parser.ErrorMessage
 import com.babel17.interpreter.parser._
 
+trait FileCentralFileListener {
+  def fileStatusHasChanged(filename : String, hasErrors : Boolean);  
+}
+
 class FileCentral {
 
   private case class B17File(source:Source, mds : List[ModuleSystem.ModuleDescr], script : Block, errors : List[ErrorMessage])
@@ -34,6 +38,7 @@ class FileCentral {
       b17files = b17files + (filename -> f)
       moduleSystem = None
       modules = None
+      
     }        
   }
 

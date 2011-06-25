@@ -32,14 +32,15 @@ import org.netbeans.api.project.Project;
 
 
 import org.openide.filesystems.FileUtil;
-import org.openide.util.ImageUtilities;
-import org.openide.util.Lookup;
-import org.openide.util.RequestProcessor;
-import org.openide.util.Utilities;
+import org.openide.util.*;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import java.io.*;
+
 import org.openide.util.actions.Presenter;
 
-public final class Run91Babel17 extends ContextAction<Babel17DataObject> 
-        implements Presenter.Menu, Presenter.Toolbar
+public final class UnittestBabel17 extends AbstractAction 
+        implements ContextAwareAction, Presenter.Menu, Presenter.Toolbar, LookupListener
 {
 
 /* public @Override Action createContextAwareInstance(Lookup context) {
@@ -48,21 +49,25 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
 
   //private final Babel17DataObject context;
 
+ 
   JButton button = null;
-  JMenuItem menuitem = null, popupitem = null;
-
-  public Run91Babel17() {
+  JMenuItem menuitem = null;
+  private Lookup.Result<FileObject> result;  
+  
+  public UnittestBabel17() {
     this(Utilities.actionsGlobalContext());
   }
 
 
-  public Run91Babel17(Lookup context) {
-    super(context);
-    putValue(NAME, "Run Babel-17 script");
-    String iconfile = "com/babel17/netbeans/Babel17RunIcon.png";
+  public UnittestBabel17(Lookup context) {
+      super("Run Babel-17 unit test(s)");
+    //putValue(NAME, "Run Babel-17 unit test(s)");
+    String iconfile = "com/babel17/netbeans/Babel17UnittestIcon.png";
     putValue(SMALL_ICON, new ImageIcon(ImageUtilities.loadImage(iconfile, true)));
     //this.context = context;
     //putValue(DynamicMenuContent.HIDE_WHEN_DISABLED, true);
+    result = context.lookupResult(FileObject.class);
+    result.addLookupListener(this);
   }
 
   @Override
@@ -76,25 +81,14 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
       menuitem.setEnabled(enabled);
       menuitem.setVisible(enabled);
     }
-    if (popupitem != null) {
-      popupitem.setEnabled(enabled);
-      popupitem.setVisible(enabled);
-    }
-    /*if (!enabled) {
-      for (JComponent c : components) {
-        c.getParent().remove(c);
-
-      }
-      components.clear();
-    }*/
   }
 
 
-
-  public void performAction(Babel17DataObject context) {
+  public void actionPerformed(ActionEvent e) {
     LifecycleManager.getDefault().saveAll();
-    final FileObject f = context.getPrimaryFile();
-    final String filename = f.getPath().toString();//FileUtil.getFileDisplayName(f);
+    final FileObject f = getSelectedFileObject();
+    if (f == null) return;
+    final String filename = f.getPath().toString();// FileUtil.getFileDisplayName(f);
     final WriteNetbeansOutput o = new WriteNetbeansOutput("Babel-17", filename);
     final Runnable runnable = new Runnable() {
       public void run() {
@@ -103,13 +97,8 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
           if (project instanceof Babel17Project) {
             Babel17Project p = (Babel17Project) project;
             String[] sources = p.getSourceFiles();
-            String[] args = new String[sources.length+1];
-            args[0] = filename;
-            for (int i=0; i<sources.length; i++)
-                args[i+1] = sources[i];
-            Interpreter.run(0, args, o);
-          } else
-            Interpreter.run(0, new String[]{filename}, o);
+            Interpreter.runUnittests(f.getPath().toString(), sources, o);
+          }
         } finally {
           o.done();
         }        
@@ -117,38 +106,46 @@ public final class Run91Babel17 extends ContextAction<Babel17DataObject>
     };
     RequestProcessor.getDefault().post(runnable);
   }
+  
+  public FileObject getSelectedFileObject() {
+      java.util.Collection<? extends FileObject> coll = result.allInstances();
+      if (coll.size() != 1)
+          return null;
+      else {
+          FileObject fo = null;
+          for (FileObject f : coll) {              
+              Project project = FileOwnerQuery.getOwner(f);
+              if (project instanceof Babel17Project) {
+                  if (Babel17Project.isBabel17File(f) || f.isFolder()) {
+                      fo = f;
+                      break;
+                  }
+              }
+          }          
+          return fo;
+      }   
+  }
+  
+  public void resultChanged(LookupEvent e) {
+      this.setEnabled(getSelectedFileObject() != null);
+  }
 
   public JMenuItem getMenuPresenter() {
     menuitem = new JMenuItem(this);
     menuitem.setEnabled(false);
     menuitem.setVisible(false);
-    //components.add(item);
     return menuitem;
   }
-
-  /*public JMenuItem getPopupPresenter() {
-    popupitem = new JMenuItem(this);
-    popupitem.setEnabled(false);
-    popupitem.setVisible(false);
-    //components.add(item);
-    return popupitem;
-  }*/
-
 
   public JButton getToolbarPresenter() {
     button = new JButton(this);
     button.setText("");
     button.setEnabled(false);
     button.setVisible(false);
-    //components.add(button);
     return button;
   }
 
-  public Class<Babel17DataObject> contextClass() {
-    return Babel17DataObject.class;
-  }
-
   public Action createContextAwareInstance(Lookup context) {
-    return new Run91Babel17(context);
+    return new UnittestBabel17(context);
   }
 }

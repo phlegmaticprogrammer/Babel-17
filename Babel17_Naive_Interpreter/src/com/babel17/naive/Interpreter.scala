@@ -11,6 +11,7 @@ import com.babel17.naive.Values._
 import org.antlr.runtime.CharStream
 import org.antlr.runtime.ANTLRReaderStream
 import java.io.Reader
+import java.io.File
 
 object Interpreter {
 
@@ -26,6 +27,23 @@ object Interpreter {
     }
     a
   }
+
+  def runUnittests(testPath : String, filenames : Array[String], w : WriteOutput) {
+    w.writeLineCommentary("Babel-17 v0.3alpha, Copyright \u00a9 2009 Steven Obua")
+    w.writeLine("")
+    w.writeLineCommentary("This program comes with ABSOLUTELY NO WARRANTY.")
+    w.writeLineCommentary("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")
+    w.writeLine("")
+    val f = new File(testPath)
+    if (f.isDirectory) {
+      w.writeLine("Running unit tests on all Babel-17 files in folder:");
+      w.writeLine("   "+testPath);
+    } else {
+      w.writeLine("Running unit tests in Babel-17 file:");
+      w.writeLine("   "+testPath);      
+    }
+  }
+
 
   def run(progIndex:Int, filenames : Array[String], w : WriteOutput) {
     w.writeLineCommentary("Babel-17 v0.3alpha, Copyright \u00a9 2009 Steven Obua")
