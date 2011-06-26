@@ -64,6 +64,7 @@ object Values {
   val CONSTRUCTOR_INVALIDITERATOR = "INVALIDITERATOR"
   val CONSTRUCTOR_MODULENOTFOUND = "MODULENOTFOUND"
   val CONSTRUCTOR_DEADLOCK = "DEADLOCK"
+  val CONSTRUCTOR_REALOVERFLOW = "REALOVERFLOW"
 
   private def makeTypeValue(s : String) : TypeValue =
     TypeValue(Program.Path(List(Program.Id(s))));

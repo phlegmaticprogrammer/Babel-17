@@ -381,8 +381,24 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
             case x => x
           }
       case SERoot() => evalModule(Path(List()))
+      case SENative(se) =>
+        val v = evalSE(env, se)
+        if (v.isException) v.asDynamicException else Values.nil
       case SEInt(u) => IntegerValue(u)
       case SEBool(b) => BooleanValue(b)
+      case f : SEFloat => f.realValue
+      case SEInterval(a, b) =>
+        import IntervalArithmetic.{RealValue, interval}
+        evalSE(env, a) match {
+          case u : RealValue =>
+            evalSE(env, b) match {
+              case v : RealValue => interval(u, v)
+              case x : Exception => x
+              case _ => Values.domainError                
+            }
+          case x : Exception => x
+          case _ => Values.domainError
+        }
       case SEString(u) => StringValue(u)
       case SEConstr(constr, se) => 
         val v = evalSE(env, se)

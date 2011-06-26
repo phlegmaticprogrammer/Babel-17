@@ -926,13 +926,13 @@ matches a map consisting of $n$ key/value pairs such that the key/value pairs ma
 The pattern \babelsrc{\{ -> \}} matches the empty map. Map patterns can have a $\delta$ pattern, too.
 
 \section{Reals and Interval Arithmetic}\label{sec:reals}
-Babel-17 is radical in its treatment of floating point arithmetic: there is \emph{only} interval arithmetic. What that means is that reals are represented in Babel-17 as closed real intervals, i.e. as pairs $[a; b]$ where $a$ and $b$ are floating point numbers and $a \leq b$. The usual floating point numbers can then be viewed as that subset of reals for which $a = b$ holds. For example, the notation $1.2$ is just short for $[1.2; 1.2]$.
+Babel-17 is radical in its treatment of floating point arithmetic: there is \emph{only} interval arithmetic. What that means is that reals are represented in Babel-17 as closed real intervals, i.e. as pairs $[a; b]$ where $a$ and $b$ are floating point numbers and $a \leq b$. The usual floating point numbers $f$ can then be represented as $[f; f]$. For example, the notation $1.5$ is just short for $[1.5; 1.5]$.
 
 The general form of this interval notation is
 \begin{babellisting}
 [$a$; $b$]
 \end{babellisting}
-Its value is formed by evaluating $a$ and $b$, resulting in \texttt{real}s $[a_1; a_2]$ and $[b_1; b_2]$, respectively, and then forming the interval $[a_1; b_2]$ if $a_2 \leq b_1$. In case the evaluation does not yield reals, a \emph{DomainError}-exception is thrown. In case $a_2 > b_1$, an \emph{EmptyReal}-exception is raised.
+Its value is formed by evaluating $a$ and $b$, resulting in \texttt{real}s $[a_1; a_2]$ and $[b_1; b_2]$, respectively, and then forming the interval $[\min(a_1, b_1), \max(a_2, b_2)]$. In case the evaluation does not yield reals, a \emph{DomainError}-exception is thrown.
 
 The general rule of interval arithmetic in Babel-17 is as follows: If $f$ is a mapping from $\mathbb{R}^n$ to $\mathbb{R}$, then for its interval arithmetic implementation $F$ the following must hold for all $x_i \in \mathbb{R}$ and all \texttt{real}s $y_i = [u_i; v_i]$ such that $u_i \le x_i \le v_i$:
 \[
@@ -1772,9 +1772,7 @@ Babel-17 exposes the platform it is running on through its \emph{native interfac
 If there is no underlying platform you can access, the value \babelsrc{nil} is returned. In Babel-17 v0.3, this is the only value that is returned.
 
 \section{Standard Library}
-The standard library is an important part of the language definition of Babel-17.
-
-The standard library of Babel-17 lives in the module \emph{babel17.standard}. All public elements of this module are automatically and implicitly imported.
+The standard library is an important part of the language definition of Babel-17 and consists of the built-in types of Babel-17. In future versions of Babel-17, also the module \emph{lang} and all its submodules are part of the standard library.
 
 The messages implemented by the built-in types of the standard library can be grouped as follows:
 \begin{itemize}

@@ -1,0 +1,17 @@
+module standard.unittest.order.dummy_module1
+end
+
+module standard.unittest.order.dummy_module2
+end
+
+
+module standard.unittest.order.test1
+
+import standard.unittest.order.dummy_module1 => a
+import standard.unittest.order.dummy_module2 => b
+
+
+#assert a == a
+#assert a < b
+
+end

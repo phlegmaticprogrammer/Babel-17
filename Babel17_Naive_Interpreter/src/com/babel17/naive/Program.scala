@@ -170,7 +170,9 @@ object Program {
 
   abstract class SimpleExpression extends Term
   case class SEInt(value: BigInt) extends SimpleExpression
-  case class SEFloat(mantissa: BigInt, exponent: BigInt) extends SimpleExpression
+  case class SEFloat(mantissa: BigInt, exponent: BigInt) extends SimpleExpression {
+    val realValue = IntervalArithmetic.makeRealValue(mantissa, exponent)
+  }
   case class SEBool(value: Boolean) extends SimpleExpression
   case class SEString(value: String) extends SimpleExpression
   case class SEId(id: Id) extends SimpleExpression
