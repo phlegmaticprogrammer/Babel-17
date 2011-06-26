@@ -12,6 +12,7 @@ import com.babel17.interpreter.parser.ErrorMessage
  * - replaces relative paths by absolute ones
  * - validates type annotations and import references
  * - calculates the messages and public_messages in SEObj and SEGlueObj
+ * - removes submodules
  */
 
 class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
@@ -40,8 +41,8 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       ModuleEnv(local, imports.add(newImports), inUnitTestDef)
     }
 
-    def addPath(path : Path) : ModuleEnv = {
-      ModuleEnv(local.append(path), imports, inUnitTestDef)
+    def setPath(path : Path) : ModuleEnv = {
+      ModuleEnv(path, imports, inUnitTestDef)
     }
 
     def enterUnitTestDef : ModuleEnv = {
@@ -161,7 +162,6 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     var stCounter = 0;
     for (s <- statements) {
       s match {
-        case _ : SModule =>
         case TempImport(path, plus) =>
           if (stCounter > 0) {
             error(path.location, "import statements must appear only at the beginning of a block")
@@ -223,7 +223,13 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
   def transform_sts(env: ModuleEnv, _statements : List[Statement]) : List[Statement] = {
     val imports = collectImportedIds(env, _statements)
     val newEnv = env.addImports(imports)
-    val statements : List[Statement] = (_statements.map(s => transform_st(newEnv, s))).toList
+    def isSModule(st : Statement) : Boolean = {
+      st match {
+        case _ : SModule => true
+        case _ => false
+      }
+    }
+    val statements : List[Statement] = (_statements.filter(s => !isSModule(s)).map(s => transform_st(newEnv, s))).toList
     var memos : SortedMap[Id, MemoType] = SortedMap()
     var privates : SortedMap[Id, Visibility] = SortedMap()
     val defIds = CollectVars.collectDefIds(statements) //++ collectConversionIds(statements) ++ collectModuleIds(statements)
@@ -490,9 +496,6 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
             TempDef0(id, e2, TypeSome(p))
         }
       case _ : SImport => term
-      case SModule(p : Path, b : Block) =>
-        val newEnv = env.addPath(p)
-        SModule(p, transform_block(newEnv, b))
       case SYield(e) =>
         SYield(transform_expr(env, e))
       case SBlock(b) =>
@@ -702,12 +705,16 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     result
   }
 
-  def transform(env : ModuleEnv, term : Term) : Term = {
+  def transform(term : Term) : Term = {
+    val env = emptyModuleEnv
     term match {
       case b : Block => transform_block(env, b)
-      case e : Expression => transform_expr(env, e)
-      case st : Statement => transform_st(env, st)
-      case se : SimpleExpression => transform_se(env, se)
+      case SModule(p : Path, b : Block) =>
+        if (p.countUnittest > 1)
+            error(p.location, "'unittest' keyword appears more than once in module path");
+        val newEnv = env.setPath(p)
+        SModule(p, transform_block(newEnv, b))
+        
     }
   }
 

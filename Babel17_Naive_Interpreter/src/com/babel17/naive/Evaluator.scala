@@ -1136,7 +1136,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
     val result = Parser.parse(source, charstream)
     val fc = new FileCentral()
     fc.updateB17File(source, result)
-    val (term, termErrors) = fc.getScript(systemFilename).get //checker.buildProgram(result)
+    val (term, termErrors) = fc.getScript(systemFilename).get
     val errors = fc.getErrors ++ termErrors
     if (errors.length > 0) throw EvalX("static errors in system library")
     var sys : Map[String, FunctionValue] = Map.empty

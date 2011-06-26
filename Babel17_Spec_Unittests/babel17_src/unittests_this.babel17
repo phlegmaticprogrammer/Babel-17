@@ -1,4 +1,4 @@
-module standard.unittest.this_keyword.test1
+module lang.unittest.this_keyword.test1
 
 val r =
   object
@@ -19,7 +19,7 @@ val (i, o) = r.u.test
 
 end
 
-module standard.unittest.this_keyword.test2
+module lang.unittest.this_keyword.test2
 
 typedef wow _ = lazy (object
                   def inner =
@@ -34,7 +34,7 @@ val v = wow 23
 #assert v.inner == 23
 end
 
-module standard.unittest.this_keyword.test3
+module lang.unittest.this_keyword.test3
 
 val u =
   object
@@ -51,7 +51,7 @@ u.calc = Red
 
 end
 
-module standard.unittest.this_keyword.test4
+module lang.unittest.this_keyword.test4
 
 val u =
   begin

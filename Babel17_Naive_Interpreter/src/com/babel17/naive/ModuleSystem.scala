@@ -121,15 +121,24 @@ object ModuleSystem {
   }
 
   def scanForModules(term : Term) : List[ModuleDescr] = {
-    scanForModules(Path(List()), term)
+    scanForModules(Path(List()), List(), term)
   }
 
-  def scanForModules(currentPath:Path, term : Term) : List[ModuleDescr] = {
+  def scanForModules(currentPath:Path, currentImports:List[TempImport], term : Term) : List[ModuleDescr] = {
     term match {
       case prog: Block =>
         var l : List[ModuleDescr] = List()
+        var imps : List[TempImport] = List()
         for (st <- prog.statements) {
-          l = l ++ scanForModules(currentPath, st)
+          st match {
+            case s: TempImport =>
+              imps = s::imps
+            case _ => 
+          }          
+        }
+        imps = currentImports ++ imps.reverse
+        for (st <- prog.statements) {
+          l = l ++ scanForModules(currentPath, imps, st)
         }
         l
       case SModule(modPath, block) =>
@@ -139,7 +148,11 @@ object ModuleSystem {
         //val executable = CollectVars.isExecutable(block.statements)
         val path = currentPath.append(modPath)
         path.location = modPath.location
-        List(ModuleDescr(path, publicTypeIds, publicDefIds, block))
+        val b = Block(currentImports ++ block.statements)
+        b.location = block.location
+        b.stackTraceElement = block.stackTraceElement
+        val md = ModuleDescr(path, publicTypeIds, publicDefIds, b)
+        md::scanForModules(path, currentImports, block)
       case _ =>
         List()       
     }

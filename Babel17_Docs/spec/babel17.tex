@@ -1336,6 +1336,46 @@ The statements $s_i$ that may appear in modules are basically those that may als
 
 Identifiers introduced via definitions become the messages that this module responds to except when hidden via \babelsrc{private}. 
 
+Modules can be nested. Basically,
+\begin{babellisting}
+module $p_1.p_2.\ldots.p_n$
+  $S_1$
+  module $q_1.q_2.\ldots.q_m$
+  $\vdots$
+  end  
+  $S_2$  
+end
+\end{babellisting}
+means the same as
+\begin{babellisting}
+module $p_1.p_2.\ldots.p_n$
+  $S_1$
+  $S_2$  
+end
+module $p_1.p_2.\ldots.p_n.q_1.q_2.\ldots.q_m$
+$\vdots$
+end  
+\end{babellisting}
+A module cannot access its surrounding scope, with the exception of those identifiers that have been introduced via \babelsrc{import}. So the following is not allowed, because inside module $b$ the identifier $u$ cannot be accessed:
+\begin{babellisting}
+module $a$
+  val u = 2
+  module b
+    def message = u
+  end  
+end
+\end{babellisting}
+But the following \emph{is} allowed:
+\begin{babellisting}
+module $a$
+  import someCoolModule.importantValue => u
+  module b
+    def message = u
+  end  
+end
+\end{babellisting}
+
+
 \subsection{Loading Modules}
 Before a module can respond to messages, it must be loaded. 
 A module is in one of the following three states: DOWN, LOADING or UP. There are three things that one might  suspect to change the state of the module: 

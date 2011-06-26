@@ -74,7 +74,7 @@ class FileCentral {
     val ms = moduleSystem.get
     val rt = new RemoveTemporaries(ms)
     rt.source = source
-    val rterm = rt.transform(rt.emptyModuleEnv, term)
+    val rterm = rt.transform(term)
     val linearScope = new LinearScope(moduleSystem.get)
     linearScope.source = source
     linearScope.check(linearScope.emptyEnv, rterm)

@@ -333,18 +333,6 @@ class Tree2Program extends ErrorProducer {
       case n : ModuleNode => {
         val nodes = n.moduleId.ids
         val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
-        var ids : SortedSet[Id] = SortedSet()
-        val u = Id("unittest")
-        var ucount = 0
-        var loc : Location = null
-        for (i <- path.ids) {
-          if (i == u) {
-            ucount = ucount + 1
-            loc = i.location
-          }
-        }
-        if (ucount > 1)
-            error(loc, "'unittest' keyword appears more than once in module path");
         path.location = nodes.location
         SModule(path, buildBlock(n.block))
       }
@@ -667,7 +655,7 @@ class Tree2Program extends ErrorProducer {
       Block(List())
   }
 
-  def buildProgram(moduleSystem : ModuleSystem, errors : List[ErrorMessage],
+  /*def buildProgram(moduleSystem : ModuleSystem, errors : List[ErrorMessage],
                    result : Parser.ParseResult) : (Term, List[ErrorMessage]) = {
     val term = makeProgram(result)
     val mds = ModuleSystem.scanForModules(term)
@@ -684,6 +672,6 @@ class Tree2Program extends ErrorProducer {
     val es = errors ++ Errors.fromParseResult(result) ++
       moduleSystem.errors ++ rt.errors ++ linearScope.errors
     (rterm, es)
-  }
+  }*/
 
 }

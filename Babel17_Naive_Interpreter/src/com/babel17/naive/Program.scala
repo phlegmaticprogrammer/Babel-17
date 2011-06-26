@@ -41,13 +41,18 @@ object Program {
   case class Constr(name : String) extends Locatable
 
   case class Path(ids : List[Id]) extends Locatable with Ordered[Path]{
+    for (id <- ids)
+      location = Location.merge(location, id.location)
+    
     def last : Id = {
       ids.last
     }
-    def unittest:Boolean = {
+    def unittest:Boolean = countUnittest > 0
+    def countUnittest:Int = {
+      var c = 0
       for (id <- ids)
-        if (id.name == "unittest") return true
-      return false
+        if (id.name == "unittest") c = c+1
+      return c     
     }
     def prefix(l : Int) : Path = {
       Path(ids.take(l))
