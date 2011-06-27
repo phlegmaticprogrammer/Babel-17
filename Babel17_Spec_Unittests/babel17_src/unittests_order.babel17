@@ -10,13 +10,11 @@ module lang.unittest.order
 
 
     module test1
-        ##import lang.unittest.order => here
         import here.dummy_module1 => a
         import here.dummy_module2 => b
 
         #assert a == a
         #assert a < b
-
     end
 
 end

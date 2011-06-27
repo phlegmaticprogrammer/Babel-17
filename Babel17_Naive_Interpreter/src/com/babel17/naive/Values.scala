@@ -65,6 +65,7 @@ object Values {
   val CONSTRUCTOR_MODULENOTFOUND = "MODULENOTFOUND"
   val CONSTRUCTOR_DEADLOCK = "DEADLOCK"
   val CONSTRUCTOR_REALOVERFLOW = "REALOVERFLOW"
+  val CONSTRUCTOR_EMPTYREAL = "EMPTYREAL"  
 
   private def makeTypeValue(s : String) : TypeValue =
     TypeValue(Program.Path(List(Program.Id(s))));
@@ -83,8 +84,24 @@ object Values {
   val TYPE_EXC = makeTypeValue("exc")
   val TYPE_TYPE = makeTypeValue("type")
   val TYPE_MODULE = makeTypeValue("module")
+  
+  def makeConversion(s : String) = "this:"+s
 
+  val CONVERSION_INT = makeConversion("int")
+  val CONVERSION_REAL = makeConversion("real")
+  val CONVERSION_BOOL = makeConversion("bool")
+  val CONVERSION_STRING = makeConversion("string")
+  val CONVERSION_LIST = makeConversion("list")
+  val CONVERSION_VECT = makeConversion("vect")
+  val CONVERSION_SET = makeConversion("set")
+  val CONVERSION_MAP = makeConversion("map")
+  val CONVERSION_CEXP = makeConversion("cexp")
+  val CONVERSION_OBJ = makeConversion("obj")
+  val CONVERSION_FUN = makeConversion("fun")
+  val CONVERSION_EXC = makeConversion("exc")
+  val CONVERSION_TYPE = makeConversion("type")
 
+  
   abstract class Value {
     // sending an object a message always forces it
     def sendMessage(message : Program.Id) : Value;
@@ -210,6 +227,8 @@ object Values {
         case MESSAGE_MOD => NativeFunctionValue(mod _)
         case MESSAGE_TO => Evaluator.systemSendMessage(this, message.name)
         case MESSAGE_DOWNTO => Evaluator.systemSendMessage(this, message.name)
+        case CONVERSION_REAL => IntervalArithmetic.real_fromInt(this)
+        case CONVERSION_STRING => StringValue(v.toString)
         case _ => null
       }      
     }
@@ -1637,10 +1656,6 @@ object Values {
           else UNRELATED
         case _ => UNRELATED
       }
-    }
-
-  
+    }  
   }
-
-
 }

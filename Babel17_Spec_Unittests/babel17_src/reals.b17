@@ -1,0 +1,75 @@
+module lang.unittest.real
+
+val eps = 1e-8
+
+#assert 1.0 <= 2.0
+#assert 1.2 <= 1.2
+#assert not ([1.0; 2.0] <= [2.0; 3.0])
+#catch RealOverflow try 1e30000
+#catch DomainError try [1; 2.0]
+#catch DomainError try [1.0; 2]
+#assert [2.0; 1.0] == [1.0; 2.0]
+#catch UNRELATED try 2.0 ~ [2.0, 3.0]
+#assert [1.0; 2.0] < [3.0; 4.0]
+#catch UNRELATED try 1 ~ 1.0
+#catch RealOverflow try (30000000000000.0).exp
+#assert 1.5.width == 0.0
+#assert 1.5.degenerate 
+#assert 1.2.width > 0.0
+#assert not 1.2.degenerate
+#assert 1.0.middle == 1.0
+#assert [3.0; 5.0].left == 3.0
+#assert [3.0; 5.0].right == 5.0
+#assert 3.1.floor == 3.0
+#assert 3.1.ceil == 4.0
+#assert [3.1; 5.7].floor == 3.0
+#assert [3.1; 5.7].ceil == 6.0
+#assert 1.19 < 1.2.middle <> 1.2
+#assert 1.2.contains([-1.2; 0.5].abs)
+#assert (2.0.reciprocal - 0.5).abs < eps
+#catch DomainError try 0.0.reciprocal
+#assert (2.0 * 1.0.pi).contains(2.0.pi)
+#assert 3.14159 < 1.0.pi < 3.1416
+#assert 2.718 < 1.0.exp < 2.719
+#catch EmptyReal try [-2.0; -1.01].arcsin
+#assert -0.501.pi < [-2.0; -1.0].arcsin < -0.499.pi
+#assert 1.0.pi.sin.abs < eps
+#assert (1.0.pi.cos.abs - 1.0).abs < eps
+#assert [-10.0; 10.0].cos == [-1.0; 1.0]
+#catch DomainError try 0.5.pi.tan
+#assert 0.0.tan.abs < eps
+#assert (1.0.exp.ln - 1.0).abs < eps
+#assert 1.5 :> string == "1.5"
+#assert 1.2 :> string <> "1.2"
+#assert [3.0; 5.0].round == 4.0
+#assert [2.9; 5.4] :> int == 4
+#assert (8.0.log 2.0 - 3.0) < eps
+#assert 3 :> real == 3.0
+
+def bintest f = 
+begin
+  val a = random 1000 - (random 1000)
+  val b = random 1000 - (random 1000)
+  val diff = (f(a:>real,b:>real) - (f(a,b) :> real)).abs
+  diff < eps
+end
+
+#assert bintest ((a,b) => a+b)
+#assert bintest ((a,b) => a-b)
+#assert bintest ((a,b) => a*b)
+
+#assert 3.0 ++ 2.0 == [2.0; 3.0]
+#catch EmptyReal try 2.0 ** 3.0
+#assert [2.0; 5.0] ** [3.0; 7.0] == [3.0; 5.0]
+
+#catch DomainError try 1 + 1.0
+#catch DomainError try 1.0 * 1
+#catch DomainError try 2.0 ^ 2
+#catch DomainError try 0.0 ^ 0.0
+#catch DomainError try 0.0 ^ 2.0
+#catch DomainError try (-1.0) ^ 2.0
+
+#assert (2.0^3.0 - (2^3 :> real)) < eps
+#assert (6.0 / 1.5 - 4.0).abs < eps
+
+end
