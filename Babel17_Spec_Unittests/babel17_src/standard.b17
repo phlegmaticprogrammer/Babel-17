@@ -1,0 +1,31 @@
+module lang.unittest.spec.standard
+
+    module compare
+        #assert 1 <= 2 <= 3 > 0 <> 3
+    end
+
+end
+
+module lang.unittest.spec
+
+    module lexical
+        val x = 1
+        #assert x <> X
+        val xY = 1
+        #assert xy == 1
+        val xy = 2
+        #assert xY == 2
+        #assert Begin == BEgIn == BEGIN 
+        #assert 15 == 0xF == 0b1111 == 0o17
+        #assert 2 ≡ 2 
+        
+    end
+    
+    module exceptions
+        #catch 1 try (exception 1) < (exception 2)
+    end
+
+end
+
+
+

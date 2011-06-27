@@ -12,6 +12,7 @@ import org.openide.nodes.Node;
 import org.openide.nodes.Children;
 import org.openide.util.Lookup;
 import org.openide.text.DataEditorSupport;
+import org.openide.util.lookup.*;
 
 public class Babel17DataObject extends MultiDataObject {
 
@@ -28,6 +29,8 @@ public class Babel17DataObject extends MultiDataObject {
 
   @Override
   public Lookup getLookup() {
-    return getCookieSet().getLookup();
+      Lookup cookies = getCookieSet().getLookup();
+      Lookup feq = Lookups.singleton(new UTF8FEQImpl());
+      return new ProxyLookup(new Lookup[]{cookies,feq});
   }
 }

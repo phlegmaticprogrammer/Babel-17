@@ -88,7 +88,7 @@ public final class UnittestBabel17 extends AbstractAction
     LifecycleManager.getDefault().saveAll();
     final ArrayList<FileObject> fs = getSelectedFileObjects();
     if (fs.isEmpty()) return;
-    final WriteNetbeansOutput o = new WriteNetbeansOutput("Babel-17");
+    final WriteNetbeansOutput o = WriteNetbeansOutput.get();
     final Runnable runnable = new Runnable() {
       public void run() {
         try {

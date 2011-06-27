@@ -25,6 +25,7 @@ import org.openide.windows.IOColorPrint;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataObject;
 import org.openide.filesystems.FileUtil;
+import java.util.ArrayList;
 //import org.netbeans.swing.tabcontrol.TabbedContainer;
 
 public class WriteNetbeansOutput extends WriteOutput {
@@ -82,6 +83,26 @@ public class WriteNetbeansOutput extends WriteOutput {
       }
     });
   }
+  
+  private static ArrayList<WriteNetbeansOutput> wnos = new ArrayList<WriteNetbeansOutput>();
+  
+  public static WriteNetbeansOutput get() {
+      synchronized (wnos) {
+          for (WriteNetbeansOutput o : wnos) {
+              if (o.activate()) {
+                  wnos.remove(o);
+                  return o;
+              }
+          }
+      }
+      return new WriteNetbeansOutput("Babel-17");
+  }
+  
+  private void park() {
+      synchronized(wnos) {
+          wnos.add(this);
+      }
+  }
 
 
   WriteNetbeansOutput(final String title) {
@@ -101,6 +122,18 @@ public class WriteNetbeansOutput extends WriteOutput {
     writer.println("IOColorLines supported: "+IOColorLines.isSupported(io));*/
     //writer.println("----------------------------------------------------------");
     //io.setOutputVisible(true);
+  }
+  
+  public boolean activate() {
+      if (io.isClosed()) return false;
+      else {
+        cancelAction.setEnabled(true);
+        io.select();
+        writeLine("");
+        writeLine("----------------------------------------------------------------------------------------------");       
+        writeLine("");
+        return true;
+      }
   }
 
   public void writeLineCommentary(String s) {
@@ -182,6 +215,7 @@ public class WriteNetbeansOutput extends WriteOutput {
 
       public void run() {
         cancelAction.setEnabled(false);
+        park();
       }
     });
   }

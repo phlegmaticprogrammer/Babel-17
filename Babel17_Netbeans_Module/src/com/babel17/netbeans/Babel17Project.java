@@ -104,7 +104,8 @@ class Babel17Project implements Project {
                         new DemoDeleteOperation(),
                         new DemoCopyOperation(this),
                         new Info(), //Project information implementation
-                        new Babel17ProjectLogicalView(this), //Logical view of project implementation
+                        new Babel17ProjectLogicalView(this),
+                        new UTF8FEQImpl() 
                     });
         }
         return lkp;

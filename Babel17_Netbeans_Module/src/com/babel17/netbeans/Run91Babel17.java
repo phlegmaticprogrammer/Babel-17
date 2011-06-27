@@ -101,7 +101,7 @@ public final class Run91Babel17 extends AbstractAction
     Babel17DataObject context = getSelectedObject();
     if (context == null) return;
     final FileObject f = context.getPrimaryFile();
-    final WriteNetbeansOutput o = new WriteNetbeansOutput("Babel-17");
+    final WriteNetbeansOutput o = WriteNetbeansOutput.get();
     final Runnable runnable = new Runnable() {
       public void run() {
         try {

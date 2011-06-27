@@ -355,8 +355,7 @@ object IntervalArithmetic {
   }
   
   def real_toString(u : RealValue) : Value = {
-    if (u.lo == u.hi) StringValue(double2str(u.lo))
-    else StringValue("["+double2str(u.lo)+";"+double2str(u.hi)+"]")   
+    StringValue(u.stringDescr(false))
   }
   
   import scala.math.{sin,cos,tan,asin,acos,atan,floor,ceil,round}
