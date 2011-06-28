@@ -808,7 +808,12 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
               }
           }
         }
-        StatementException(dynamicException(CONSTRUCTOR_NOMATCH))
+        val x = 
+          if (e.isDynamicException) 
+            e.asDynamicException 
+        else
+            dynamicException(CONSTRUCTOR_NOMATCH)
+        StatementException(x)
       }
       case STry(mainblock, branches) => {
         var ex : ExceptionValue = null
@@ -860,11 +865,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       }
     }
     BlockCollector(e, c)
-  }
-
-  def logInvisibleException(ex : ExceptionValue) {
-  }
-    
+  }    
 
   def matchPattern(env : Environment, pat : Pattern, v : Value, rebind : Boolean) : MatchResult = {
     if (rebind) {
@@ -874,8 +875,9 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         case DoesMatch(_) =>
           DoesMatch(env.endRebinding(rebindEnv, pat.introducedVars))
       }
-    } else
+    } else {
       matchPat(env, pat, v, false)
+    }
   }
 
   def matchForIterator(env : Environment, pats : List[Pattern], delta : Pattern, iterator : ForIterator,
@@ -893,11 +895,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
     }
     for (p <- pats) {
       next = it.nextValue
-      if (next == null) return NoMatch()
-      if (next.isDynamicException) {
-        logInvisibleException(next.asDynamicException)
-        return NoMatch()
-      }
+      if (next == null || next.isDynamicException) return NoMatch()
       matchPat(currentEnv, p, next, rebind) match {
         case NoMatch() => return NoMatch()
         case DoesMatch(env) =>
@@ -952,7 +950,6 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case PVal(expr) =>
         val u = evalSE(env.freeze, expr)
         if (u.isDynamicException) {
-          logInvisibleException(u.asDynamicException)
           NoMatch()
         }
         else {
@@ -968,14 +965,10 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         v.force() match {
           case vector : VectorValue =>
             matchForIterator(env, plist, delta, iteratorOfValue(vector), rebind, identity)
-          case list : ListValue =>
-            matchForIterator(env, plist, delta, iteratorOfValue(list), rebind, _.asInstanceOf[ListValue].toVectorValue)
           case _ => NoMatch()
         }
       case PList(plist, delta) =>
         v.force() match {
-          case vector : VectorValue =>
-            matchForIterator(env, plist, delta, iteratorOfValue(vector), rebind, _.asInstanceOf[VectorValue].toListValue)
           case list : ListValue =>
             matchForIterator(env, plist, delta, iteratorOfValue(list), rebind, identity)
           case _ => NoMatch()
@@ -1013,8 +1006,6 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         }
       case PCons(head, tail) =>
         v.force() match {
-          case vector : VectorValue =>
-            matchForIterator(env, List(head), tail, iteratorOfValue(vector), rebind, _.asInstanceOf[VectorValue].toListValue)
           case list : ListValue =>
             matchForIterator(env, List(head), tail, iteratorOfValue(list), rebind, identity)
           case _ => NoMatch()
@@ -1027,64 +1018,71 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
               case BooleanValue(true) =>
                 DoesMatch(env)
               case x =>
-                if (x.isException) logInvisibleException(x.asInstanceOf[ExceptionValue])
                 NoMatch()
             }
         }
       case PRecord(fields, delta) =>
+        System.out.println("fields = "+fields)
         v.force() match {
           case ObjectValue(messages) =>
             var map = messages
             var currentEnv = env
             for ((m, p) <- fields) {
-              if (!messages.contains(m)) return NoMatch()
+              System.out.println("field = "+m)
+              var x : Value = null
+              messages.get(m) match {
+                case None => return NoMatch()
+                case Some(e:EnvironmentValue) => x = e.onLookup
+                case Some(y) => x = y
+              }
               map = map - m
-              matchPat(currentEnv, p, messages(m), rebind) match {
+              if (x.isDynamicException) return NoMatch()
+              matchPat(currentEnv, p, x, rebind) match {
                 case NoMatch() => return NoMatch()
                 case DoesMatch(env) =>
                   currentEnv = env
               }
             }
-            if (delta == null) {
+            if (!delta) {
               if (map.isEmpty) DoesMatch(currentEnv)
               else NoMatch()
             } else {
-              matchPat(currentEnv, delta, ObjectValue(map), rebind)
+              return DoesMatch(currentEnv)
             }
           case x =>
-            if (x.isException) logInvisibleException(x.asInstanceOf[ExceptionValue])
             NoMatch()
         }
       case PPredicate(pred, pat) =>
         val f = evalSE(env.freeze, pred).force()
         if (f.isException) {
-          logInvisibleException(f.asInstanceOf[ExceptionValue])
           return NoMatch()
         }
         f match {
           case f : FunctionValue =>
             val y = f.apply(v)
             if (y.isDynamicException) {
-              logInvisibleException(y.asDynamicException())
               return NoMatch()
             }
             matchPat(env, pat, y, rebind)
-          case c =>
-            val y = v.sendMessage(Id(MESSAGE_DESTRUCT))
-            if (y == null) return NoMatch()
-            y.force() match {
-              case f: FunctionValue =>
-                val y = f.apply(c)
-                if (y.isDynamicException) {
-                  logInvisibleException(y.asDynamicException())
-                  return NoMatch()
-                }
-                matchPat(env, pat, y, rebind)
-              case ex:ExceptionValue =>
-                logInvisibleException(ex)
-                NoMatch()
-              case _  => NoMatch()
+          case _ => return NoMatch()
+        }
+      case PDestruct(weapon, pat) =>
+        val c = evalSE(env.freeze, weapon).force()
+        if (c.isException) {
+          return NoMatch()
+        }
+        val y = v.sendMessage(Id(MESSAGE_DESTRUCT))
+        if (y == null) return NoMatch()
+        y.force() match {
+          case f: FunctionValue =>
+            val y = f.apply(c)
+            if (y.isDynamicException) {
+              return NoMatch()
             }
+            matchPat(env, pat, y, rebind)
+          case ex:ExceptionValue =>
+            NoMatch()
+          case _  => NoMatch()
         }
       case PInnerValue(ty, pat) =>
         v.force() match {
@@ -1093,9 +1091,6 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
               matchPat(env, pat, inner, rebind)
             else
               NoMatch()
-          case ex:ExceptionValue =>
-            logInvisibleException(ex)
-            NoMatch()
           case _ => NoMatch()
         }
       case PType(pat, TypeNone()) =>
@@ -1107,9 +1102,6 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
               matchPat(env, pat, v, rebind)
             else
               NoMatch()
-          case ex:ExceptionValue =>
-            logInvisibleException(ex)
-            NoMatch()
           case _ => NoMatch()
         }
       case PTypeVal(pat, tyExpr) =>

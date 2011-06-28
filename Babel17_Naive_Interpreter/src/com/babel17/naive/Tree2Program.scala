@@ -361,6 +361,8 @@ class Tree2Program extends ErrorProducer {
           case PRAGMA_PROFILE => PragmaProfile(e)
           case PRAGMA_CATCH =>
             val pat = buildProperPattern(p.pattern())
+            if (isExceptionPattern(pat)) 
+              error(pat.location, "superfluous 'exception'")
             PragmaCatch(e, pat)
         }
         SPragma(u)
@@ -368,8 +370,13 @@ class Tree2Program extends ErrorProducer {
         SMatch(buildSimpleExpression(n.value),
           mkBlockBranches(toList(n.patterns), toList(n.blocks)))
       case n : TryNode =>
-        STry(buildBlock(n.block),
+        val s = STry(buildBlock(n.block),
           mkBlockBranches(toList(n.patterns), toList(n.blocks)))
+        for ((pat,_) <- s.branches) {
+          if (isExceptionPattern(pat)) 
+              error(pat.location, "superfluous 'exception'")
+        }
+        s
       case n : MemoizeNode =>
         def buildMemo(memoNode : Node) : (MemoType, Id) = {
           memoNode match {
@@ -489,10 +496,19 @@ class Tree2Program extends ErrorProducer {
   def isDeltaPattern(pattern : Pattern) : Boolean = {
     pattern match {
       case PEllipsis() => true
-      case PIf (pat, _) => if (pat == null) false else isDeltaPattern(pat)
+      case PIf (pat, _) => isDeltaPattern(pat)
       case PAs (_, pat) => isDeltaPattern(pat)
       case _ => false
     }
+  }
+  
+  def isExceptionPattern(pattern : Pattern) : Boolean = {
+    pattern match {
+      case PException(_) => true
+      case PIf (pat, _) => isExceptionPattern(pat)
+      case PAs (_, pat) => isExceptionPattern(pat)
+      case _ => false
+    }    
   }
 
   def splitDelta(list : List[Pattern]) : (List[Pattern], Pattern) = {
@@ -534,7 +550,7 @@ class Tree2Program extends ErrorProducer {
         id.setLocation(patternNode.location)
         PId(id)
       case p : ConstrPattern =>
-        val arg = if (p.pattern == null) PRecord(List(), null) else buildProperPattern(p.pattern)
+        val arg = if (p.pattern == null) PAny() else buildProperPattern(p.pattern)
         val constr = Constr(p.name.toUpperCase)
         constr.setLocation(p.nameLocation)
         PConstr(constr, arg)
@@ -587,10 +603,13 @@ class Tree2Program extends ErrorProducer {
               if (!isDeltaPattern(delta)) {
                 error(d.location, "message/value or delta pattern expected");
                 delta = null;
+              } else delta match {
+                case PEllipsis() =>
+                case _ => error(d.location, "only a simple '...' is allowed here")
               }
             case _ => throwInternalError(e.location, "invalid key/value pattern")
           }
-        PRecord(elems.reverse, delta)
+        PRecord(elems.reverse, delta != null)
       case p : NullaryPattern =>
         import NullaryPattern._
         p.kind match {

@@ -353,6 +353,10 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
             error(id.location, "pattern variable may be bound only once")
           else if (pattern.freeVars.contains(id))
             error(id.location, "pattern variable clashes with free variable")
+        case PTypeVal(pat, se) =>
+          System.out.println("CHECK PTYPEVAL: "+pat+", se="+se)
+          check_simple(env.freeze(), se)
+          check_pat(env, pat)
         case _ =>
           val subps = CollectVars.subPatterns(pat)
           var intros : SortedSet[Id] = SortedSet()

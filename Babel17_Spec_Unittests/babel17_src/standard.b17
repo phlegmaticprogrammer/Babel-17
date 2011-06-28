@@ -43,7 +43,7 @@ module lang.unittest.spec
     module pattern_matching 
         #assert match 1 case "1" => false case 1 => true end
         
-        #catch NoMatch try match 1 case 2 => end
+        #catch NoMatch try: match 1 case 2 => end
         
         #assert match A 1
                   case A => true
@@ -52,11 +52,22 @@ module lang.unittest.spec
         
         #assert match exception A 1
                   case _ => false
+                  case x => false
                   case exception A 2 => false
                   case exception A => true
                 end
                 
-        #catch A try match exception A case _ => end
+        #assert match lazy exception A 
+                  case _ => true
+                end
+                                
+        #catch A try: match exception A case _ => end
+        
+        #assert try exception A catch case A => true end
+
+        #assert (try lazy exception A catch case A => true end) == (lazy exception A)
+
+        #catch NoMatch try: match lazy exception A case 1 => end
     
         #assert match [1, 2, 3]
                   case [_, y as ...] => y == [2, 3]
@@ -72,16 +83,147 @@ module lang.unittest.spec
                 end
         #assert match (1, 2, 3)
                   case [_, y as ...] => false
+                  case _::_ => false
                   case _ => true
-                end                               
+                end  
+        #assert match [1, 2, 3]
+                  case (1::2::tail) => tail == [3]
+                end
+        #assert match 1::2::3
+                  case 1::2::3 => false
+                  case 1::2::3::[] => true
+                end
+                
+        #catch NoMatch try: match 1 case (_ if 1/0) => end  
+        
+        #assert match "hello" case "hello" => true end
+        
+        #assert match random 6 case (x if 0 <= x < 6) => true end
+        
+        #assert begin
+                  val x = "cool"
+                  match "lala" 
+                    case (val x) => false
+                    case x => x == "lala"
+                  end
+                end
+        
+        #assert begin
+                  val x = "cool"
+                  match "cool" 
+                    case (val x) => true
+                    case x => false
+                  end
+                end
+                
+        #assert match lazy exception A 
+                    case (val exception A) => false
+                    case (val lazy exception A) => true
+                    case x => false
+                end                
+
+        #assert match A 1 
+                  case x => B x ? B (A _) =>  true
+                end
+
+        #assert match A 1 
+                  case x => x == A 1 ? =>  true
+                end
+
+        #assert 
+          begin
+            val x = object def destruct_ x = 0 end
+            match x 
+              case A ? _ => false
+              case A ? => false
+              case A ! 1 => false
+              case A ! 0 => 
+                match x 
+                  case A ! => true
+                end
+            end
+          end
+          
+        #assert match A
+                  case A nil => true
+                end
+        
+        #assert nil == object end
+        
+        begin
+            val x = object 
+                      def a = A 
+                      def b = B
+                      def c = C
+                    end
+
+            #assert match x 
+                      case {a = A, b = B, ...} => true
+                    end
+
+            #assert match x 
+                      case {a = A, b = B, c = _} => true
+                    end
+
+            #assert match x 
+                      case {a = A, b = B} => false
+                      case _ => true
+                    end
+
+            #assert match x 
+                      case {a = A, b = B, a = C, ...} => false
+                      case {a = A, b = B, a = _, ...} => true
+                    end
+                    
+            #assert match {1, 2, 3}
+                      case {1, 3, 2} => false
+                      case {1, 2, y as ...} => y == {3}
+                    end
+                    
+            #assert match {1 -> 2, 2 -> 1}
+                      case {2 -> _, ...} => false
+                      case {1 -> x, y as ...} => x == 2 and y == {2->1}
+                      case _ => true
+                    end
+            #assert match {1 -> 2}
+                      case {a -> b, y as ...} => 
+                        a == 1 and b == 2 and y == {->}
+                      end
+                      
+            #assert match {1, 2, 3}
+                      case for _, _ end => false
+                      case for _, _, _, _ end => false
+                      case for _, p, ... end => p == 2
+                    end
+        end   
+        
+        module type_patterns 
+        
+            typedef mytype _ = 43
+            
+            val x = mytype 42
+            
+            val t = (: mytype)
+            
+            #assert match x case mytype 42 => true end
+            #assert match x case _ : mytype => true end
+            #catch NoMatch try: match x case _ : (mytype) => false end
+            #assert match x case _ : (t) => true end
+            #assert x - 10 == 33
+            #assert match x 
+                      case 43 : mytype => false 
+                      case 43 => false
+                      case _ : mytype => true
+                    end      
+        end
+        
+        
+    end
+
+    module exceptions
+        #catch A try: (exception A) < (exception B)
     end
     
-    module exceptions
-        #catch A try (exception A) < (exception B)
-    end
 end
 
 
-
-val (_, y as ...) = [1,2,3]
-y

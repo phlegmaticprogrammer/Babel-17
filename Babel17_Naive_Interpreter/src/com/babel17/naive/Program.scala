@@ -240,7 +240,7 @@ object Program {
   case class PSet(elems: List[Pattern], delta : Pattern) extends Pattern
   case class PMap(keyValues : List[(Pattern, Pattern)], delta : Pattern) extends Pattern
   case class PFor(elems : List[Pattern], delta : Pattern) extends Pattern
-  case class PRecord(keyValues : List[(Id, Pattern)], delta : Pattern) extends Pattern
+  case class PRecord(keyValues : List[(Id, Pattern)], delta : Boolean) extends Pattern
   case class PPredicate(predicate:SimpleExpression, pattern : Pattern) extends Pattern
   case class PDestruct(constructor:SimpleExpression, pattern : Pattern) extends Pattern
   case class PVal(value:SimpleExpression) extends Pattern

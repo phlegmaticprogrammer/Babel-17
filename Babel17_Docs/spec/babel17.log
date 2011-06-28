@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  26 JUN 2011 21:23
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  29 JUN 2011 00:17
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -381,9 +381,9 @@ LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
  [8] [9] [10]
 [11] [12] [13]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 632.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 636.
  [14] [15]
-Overfull \hbox (29.07874pt too wide) in paragraph at lines 724--777
+Overfull \hbox (29.07874pt too wide) in paragraph at lines 728--781
  [][] 
  []
 
@@ -392,26 +392,26 @@ Underfull \vbox (badness 3354) has occurred while \output is active []
 
  [21]
 [22]
-Overfull \hbox (2.77594pt too wide) in paragraph at lines 1164--1165
+Overfull \hbox (2.77594pt too wide) in paragraph at lines 1168--1169
 []\OT1/cmr/m/n/10.95 For []-statements the []-branch is op-tional, but []-state
 ments throw a []
  []
 
 [23] [24] [25] [26] [27] [28] [29] [30] [31]
-Overfull \hbox (2.8936pt too wide) in paragraph at lines 1589--1590
+Overfull \hbox (2.8936pt too wide) in paragraph at lines 1593--1594
 \OT1/cmr/m/n/10.95 In case your ob-ject can-not con-vert to $\OML/cmm/m/it/10.9
 5 t$\OT1/cmr/m/n/10.95 , it should throw a \OT1/cmr/m/it/10.95 Type-Con-ver-sio
 n-Error\OT1/cmr/m/n/10.95 -exception. 
  []
 
 [32]
-Overfull \hbox (24.28415pt too wide) in paragraph at lines 1649--1650
+Overfull \hbox (24.28415pt too wide) in paragraph at lines 1653--1654
 []\OT1/cmr/m/n/10.95 There is the []-keyword that de-notes the mod-ule root. In
 -stead of [][][][][]
  []
 
 [33] [34] [35] [36] [37] [38]
-Overfull \hbox (19.11597pt too wide) in paragraph at lines 1913--1926
+Overfull \hbox (19.11597pt too wide) in paragraph at lines 1917--1930
  [][] 
  []
 
@@ -444,7 +444,7 @@ fb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pf
 b></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/symbols/msam1
 0.pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/symbols/m
 sbm10.pfb>
-Output written on babel17.pdf (40 pages, 342197 bytes).
+Output written on babel17.pdf (40 pages, 342362 bytes).
 PDF statistics:
  208 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

@@ -622,7 +622,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case PSet(l, delta) => PSet(l.map(tr _), tr(delta))
       case PMap(l, delta) => PMap(l.map(x => (tr(x._1), tr(x._2))), tr(delta))
       case PFor(l, delta) => PFor(l.map(tr _), tr(delta))
-      case PRecord(l, delta) => PRecord(l.map(x => (x._1, tr(x._2))), tr(delta))
+      case PRecord(l, delta) => PRecord(l.map(x => (x._1, tr(x._2))), delta)
       case PPredicate(se, pat) => PPredicate(transform_se(env, se), tr(pat))
       case PDestruct(se, pat) => PDestruct(transform_se(env, se), tr(pat))
       case PVal(se) => PVal(transform_se(env, se))

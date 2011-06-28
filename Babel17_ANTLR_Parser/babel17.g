@@ -437,9 +437,7 @@ defpattern
 	|	Constr defpattern? -> ^(Constr defpattern?);
 
 casepattern
-	: 	(pattern NL? ':') => pattern NL? ':' NL? typeannotation -> ^(TYPE_PATTERN typeannotation pattern)
-	|	pattern;
-
+	:	bracket_pattern;
 	
 bracket_pattern
 	:       (Id NL? L_as) => Id NL? L_as NL? pattern -> ^(L_as Id pattern)
@@ -504,7 +502,7 @@ statement
 	| 	PRAGMA_LOG NL? expr -> ^(PRAGMA_LOG expr)
 	| 	PRAGMA_PROFILE NL? expr -> ^(PRAGMA_PROFILE expr)
 	| 	PRAGMA_ASSERT NL? expr -> ^(PRAGMA_ASSERT expr)
-	|	PRAGMA_CATCH NL? casepattern NL? L_try NL? expr -> ^(PRAGMA_CATCH expr casepattern);
+	|	PRAGMA_CATCH NL? casepattern NL? L_try NL? COLON NL? expr -> ^(PRAGMA_CATCH expr casepattern);
 	
 objelem_assign
 	:	Id PERIOD Id -> ^(OBJELEM_ASSIGN Id Id);
@@ -569,8 +567,8 @@ expr_or_assign
 	|	expr;
 	
 expr	
-	:	lop_expr
-	|	obj_expr;
+	:	lop_expr;
+	//|	obj_expr;
 	
 control_expr
 	:	if_expr
@@ -586,8 +584,8 @@ with_control_expr
 
 	
 protected_expr
-	:	p_lop_expr
-	|	obj_expr;
+	:	p_lop_expr;
+	//|	obj_expr;
 	
 protected_expr_nc // protected expr, no commas allowed
 	:	protected_expr;
@@ -832,6 +830,7 @@ primitive_expr
 	|	L_root
 	|	(type_expr) => type_expr
 	|	(lambda_expr) => lambda_expr
+	|	obj_expr
 	| 	list_expr
 	|	with_control_expr
 	|	map_or_set_expr;

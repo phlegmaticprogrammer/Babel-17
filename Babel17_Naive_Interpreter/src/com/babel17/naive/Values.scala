@@ -316,6 +316,7 @@ object Values {
   abstract class FunctionValue extends Value {
     var stackTraceElement : StackTraceElement = null
     def apply(v : Value) : Value = {
+      if (v.isDynamicException) return v
       val w = apply_(v)
       if (w.isDynamicException && stackTraceElement != null) {
         w.asDynamicException.addToStackTrace(stackTraceElement)

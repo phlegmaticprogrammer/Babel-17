@@ -391,8 +391,7 @@ object CollectVars {
         val ps = kvs.map(_._1) ++ kvs.map(_._2)
         if (delta != null) delta::ps else ps
       case PRecord(kvs, delta) =>
-        val ps = kvs.map(_._2)
-        if (delta != null) delta::ps else ps
+        kvs.map(_._2)
       case PCons(h, t) => List(h,t)
       case PException(e) => List(e)
       case PInnerValue(_, p) => List(p)

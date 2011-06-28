@@ -20,6 +20,7 @@ class FileCentral {
   private var modules : Option[(SortedMap[Path, (ModuleSystem.ModuleDescr, Block)], List[ErrorMessage])] = None
   private var moduleSystem : Option[ModuleSystem] = None
   private val sync = "sync"
+  
 
   def updateB17File(source : Source, result : Parser.ParseResult) {
     val filename = source.getFilename
@@ -38,8 +39,7 @@ class FileCentral {
       b17files = b17files + (filename -> f)
       moduleSystem = None
       modules = None
-      
-    }        
+    }     
   }
   
   def findFile(filename : String) : Option[B17File] = {

@@ -397,7 +397,7 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{($f\ $ ? $\ p$)} & \patterndescr{$f$ is applied to the value to be matched; the match succeeds if the result of the application matches $p$}\\\hline
 \babelsrc{($f\ $ ?)} & \patterndescr{short for \babelsrc{($f\ $ ? true)} }\\\hline
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches a value of type \texttt{obj} that has exactly the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
-\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$, $\ \delta$\}} & \patterndescr{matches a value of type \texttt{obj} that has the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
+\babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$,  $\ \delta$\}} & \patterndescr{matches a value of type \texttt{obj} that has the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
 \babelsrc{nil} & \patterndescr{matches the empty object}\\\hline
 \babelsrc{exception} $p$ & \patterndescr{matches any exception such that its parameter matches $p$}\\\hline
 \babelsrc{$(p : t)$} & \patterndescr{matches anything that has type $t$ and matches $p$}\\\hline
@@ -410,12 +410,12 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \caption{Collection Patterns}
 \begin{tabular}{c|l}
 \textbf{Syntax} & \textbf{Description}\\\hline
-\babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$]} &  \patterndescr{matches a list/vector consisting of $n \ge 0$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
-\babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$)} &  \patterndescr{matches a vector/list consisting of $n=0$ or $n \ge 2$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
-\babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$]} &  \patterndescr{matches a list/vector consisting of at least $n \ge 1$ elements, such that the first $n$ elements $e_i$ of the list/vector are matched by the patterns $p_i$}\\\hline
-\babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$)} &  \patterndescr{matches a vector/list consisting of at least $n \ge 1$ elements, such that the first $n$ elements $e_i$ of the vector/list are matched by the patterns $p_i$}\\\hline
-\babelsrc{($p$, )} &  \patterndescr{matches a vector/list consisting of a single element that matches the pattern $p$.} \\\hline
-\babelsrc{($h$::$t$)} & \patterndescr{matches a non-empty list/vector such that $h$ matches the head of the list/vector and $t$ its tail}\\\hline
+\babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$]} &  \patterndescr{matches a list consisting of $n \ge 0$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
+\babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$)} &  \patterndescr{matches a vector consisting of $n=0$ or $n \ge 2$ elements, such that element $e_i$ of the list is matched by pattern $p_i$}\\\hline
+\babelsrc{[$p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$]} &  \patterndescr{matches a list consisting of at least $n \ge 1$ elements, such that the first $n$ elements $e_i$ of the list are matched by the patterns $p_i$}\\\hline
+\babelsrc{($p_1$, $\ \ldots\ $, $\ p_n$, $\ \delta$)} &  \patterndescr{matches a vector consisting of at least $n \ge 1$ elements, such that the first $n$ elements $e_i$ of the vector are matched by the patterns $p_i$}\\\hline
+\babelsrc{($p$, )} &  \patterndescr{matches a vector consisting of a single element that matches the pattern $p$.} \\\hline
+\babelsrc{($h$::$t$)} & \patterndescr{matches a non-empty list such that $h$ matches the head of the list and $t$ its tail}\\\hline
 \babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n$\}} & \patterndescr{see section~\ref{sec:setsandmaps}} \\\hline
 \babelsrc{\{$p_1$,$\ \ldots\ $,$\ p_n\ $, $\ \delta$\}} & \patterndescr{see section~\ref{sec:setsandmaps}} \\\hline
 \babelsrc{\{$q_1\ $ -> $\ p_1$,$\ \ldots\ $,$\ q_n\ $ -> $\ p_n$\}} & \patterndescr{see section~\ref{sec:setsandmaps}}\\\hline
@@ -448,7 +448,7 @@ catch
   case $p_n$ => $b_n$
 end  
 \end{babellisting}
-The meaning of the above is identical to the meaning of
+The meaning of the above is similar to the meaning of
 \begin{babellisting}
 match 
   begin 
@@ -462,7 +462,11 @@ case (exception $p_n$) => $b_n$
 case x => x
 end  
 \end{babellisting}
-except for the fact that the latter expression might not be legal Babel-17 because of linear scoping violations.
+except for two differences: 
+\begin{enumerate}
+\item  the latter expression might not be legal Babel-17 because of linear scoping violations,
+\item \babelsrc{try} does not catch persistent exceptions.
+\end{enumerate}
 
 \section{Non-Determinism in Babel-17}
 

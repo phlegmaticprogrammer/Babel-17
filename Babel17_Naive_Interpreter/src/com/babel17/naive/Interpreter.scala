@@ -224,10 +224,12 @@ object Interpreter {
   }
 
   def main(args : Array[String]): Unit = {
-    def f(name : String) : String = ("/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/src/com/babel17/examples/basic/"+name)
-    mainProc(Array(f("v3tests.babel17"), f("cool.babel-17"), f("test.b17")))
+    def f(name : String) : String = ("/Users/stevenobua/Programming/babel-17/Babel17_Spec_Unittests/babel17_src/"+name)
+    //mainProc(Array(f("v3tests.babel17"), f("cool.babel-17"), f("test.b17")))
+  
+   mainProc(Array(f("standard.b17")))
   }
-
+  
   def test {
     mainProc(Array("/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/src/com/babel17/examples/basic/v3tests.babel17"));
   }

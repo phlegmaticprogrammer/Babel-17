@@ -1,2 +1,8 @@
-[1.0;2.0]
+val x = lazy exception A
+
+x < 2
+
+match x 
+  case _ => 1
+end
 
