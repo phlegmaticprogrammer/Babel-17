@@ -17,6 +17,7 @@ module lang.unittest.spec
         #assert xY == 2
         #assert Begin == BEgIn == BEGIN 
         #assert 15 == 0xF == 0b1111 == 0o17
+        
         #assert 2 ≡ 2 
         #assert 2 ≢ 3
         #assert 2 ≤ 3
@@ -27,12 +28,15 @@ module lang.unittest.spec
         
         val [_, y as …] = [1,2,3]
         #assert y == [2, 3]
-        
+        #assert 15.0 == 1.5E1 == 1.5E+1 == 150E-1 == 15e0
+                
+    end
+    
+    module misc 
         #assert match [1, 2, 3]
                   case (_, y as ...) => false
                   case _ => true
                 end
-                
     end
     
     module exceptions

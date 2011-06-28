@@ -236,19 +236,29 @@ public class WriteNetbeansOutput extends WriteOutput {
       org.netbeans.editor.Utilities.runInEventDispatchThread(new Runnable() {
 
         public void run() {
-          final JEditorPane[] panes = ec.getOpenedPanes();
-
-            ec.addPropertyChangeListener(new PropertyChangeListener() {
-
+            final PropertyChangeListener me = new PropertyChangeListener() {
               public void propertyChange(PropertyChangeEvent evt) {
-                final JEditorPane[] panes = ec.getOpenedPanes();
-                if ((panes != null) && (panes.length > 0)) {
-                  setPosition(panes[0], loc);
-                  ec.removePropertyChangeListener(this);
-                }
+                final PropertyChangeListener me = this;
+                
+                EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        final JEditorPane[] panes = ec.getOpenedPanes();
+                        if ((panes != null) && (panes.length > 0)) {
+                          setPosition(panes[0], loc);
+                          ec.removePropertyChangeListener(me);
+                        }
+                    }
+                });
               }
-            });
+            };
+            ec.addPropertyChangeListener(me);
+            
             ec.open();
+            final JEditorPane[] panes = ec.getOpenedPanes();
+            if ((panes != null) && (panes.length > 0)) {
+                setPosition(panes[0], loc);
+                ec.removePropertyChangeListener(me);
+            } 
         }
         
         //Here we specify where the cursor will land:
