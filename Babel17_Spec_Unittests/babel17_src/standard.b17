@@ -18,14 +18,30 @@ module lang.unittest.spec
         #assert Begin == BEgIn == BEGIN 
         #assert 15 == 0xF == 0b1111 == 0o17
         #assert 2 ≡ 2 
+        #assert 2 ≢ 3
+        #assert 2 ≤ 3
+        #assert 3 ≥ 2
+        #assert 1 ∷ [] == [1]
+        #assert {1 → 2} 1 == 2
+        #assert (x ⇒ x * x) 2 == 4
         
+        val [_, y as …] = [1,2,3]
+        #assert y == [2, 3]
+        
+        #assert match [1, 2, 3]
+                  case (_, y as ...) => false
+                  case _ => true
+                end
+                
     end
     
     module exceptions
-        #catch 1 try (exception 1) < (exception 2)
+        #catch A try (exception A) < (exception B)
     end
 
 end
 
 
 
+val (_, y as ...) = [1,2,3]
+y

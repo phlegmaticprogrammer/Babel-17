@@ -604,13 +604,13 @@ obj_expr:	(L_obj NL? parents) => L_obj NL? parents block L_end -> ^(OBJ block pa
         |       L_obj block L_end -> ^(OBJ block);
 				
 lop_expr	
-	:	(lambda_expr) => lambda_expr
-	|	(lambda_expr_nobrackets) => lambda_expr_nobrackets
+	//:	(lambda_expr) => lambda_expr
+	:	(lambda_expr_nobrackets) => lambda_expr_nobrackets
 	|	op_expr;
 
 p_lop_expr	
-	:	(lambda_expr) => lambda_expr
-	|	(lambda_expr_nobrackets) => lambda_expr_nobrackets
+	//	(lambda_expr) => lambda_expr
+	:	(lambda_expr_nobrackets) => lambda_expr_nobrackets
 	|	p_op_expr;		
 
 if_expr	:	L_if NL? protected_expr NL? L_then block 
@@ -830,7 +830,8 @@ primitive_expr
 	|	L_this	
 	|	L_nil
 	|	L_root
-	|	type_expr
+	|	(type_expr) => type_expr
+	|	(lambda_expr) => lambda_expr
 	| 	list_expr
 	|	with_control_expr
 	|	map_or_set_expr;
