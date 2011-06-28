@@ -140,7 +140,10 @@ class AssertionRecorder() {
     successes = 0
   }
   def stats : String = {
-    "("+successes+" out of "+(successes + failures)+" assertions held up)"
+    if (failures == 0) 
+      "(all "+successes+" assertions held up)"
+    else  
+      "("+failures+" out of "+(successes + failures)+" assertion(s) failed)"
   }
 }
 

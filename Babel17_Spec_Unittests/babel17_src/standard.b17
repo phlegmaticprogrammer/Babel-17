@@ -17,7 +17,7 @@ module lang.unittest.spec
         #assert xY == 2
         #assert Begin == BEgIn == BEGIN 
         #assert 15 == 0xF == 0b1111 == 0o17
-        
+        #assert 15.0 == 1.5E1 == 1.5E+1 == 150E-1 == 15e0        
         #assert 2 ≡ 2 
         #assert 2 ≢ 3
         #assert 2 ≤ 3
@@ -28,21 +28,57 @@ module lang.unittest.spec
         
         val [_, y as …] = [1,2,3]
         #assert y == [2, 3]
-        #assert 15.0 == 1.5E1 == 1.5E+1 == 150E-1 == 15e0
-                
+        
+        #assert "\n" == "\u000A" == "\U0000000A"
+        
+        ## just a line comment
+        
+        #( and here a comment spanning 
+        two lines )#             
     end
     
-    module misc 
+    module builtin_types
+    end
+    
+    module pattern_matching 
+        #assert match 1 case "1" => false case 1 => true end
+        
+        #catch NoMatch try match 1 case 2 => end
+        
+        #assert match A 1
+                  case A => true
+                  case _ => false
+                end
+        
+        #assert match exception A 1
+                  case _ => false
+                  case exception A 2 => false
+                  case exception A => true
+                end
+                
+        #catch A try match exception A case _ => end
+    
+        #assert match [1, 2, 3]
+                  case [_, y as ...] => y == [2, 3]
+                  case _ => false
+                end
+        #assert match (1, 2, 3)
+                  case (_, y as ...) => y == (2, 3)
+                  case _ => false
+                end
         #assert match [1, 2, 3]
                   case (_, y as ...) => false
                   case _ => true
                 end
+        #assert match (1, 2, 3)
+                  case [_, y as ...] => false
+                  case _ => true
+                end                               
     end
     
     module exceptions
         #catch A try (exception A) < (exception B)
     end
-
 end
 
 

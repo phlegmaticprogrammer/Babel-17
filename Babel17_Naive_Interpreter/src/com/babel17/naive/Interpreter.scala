@@ -87,7 +87,7 @@ object Interpreter {
           w.writeLine(ex.getClass.getName.toString)
         return
     }
-    var testCount = 0
+    var testSuccesses = 0
     var testFailures = 0
     for (testfilename <- testfilenames) {
       w.writeLineCommentary("looking in file '"+testfilename+"' for unit tests")
@@ -95,7 +95,6 @@ object Interpreter {
       val r = evaluator.assertionRecorder
       
       def handle(name : String, test : () => Values.Value) {
-          testCount = testCount + 1
           r.clear
           try{ 
             test() match {
@@ -107,6 +106,7 @@ object Interpreter {
                 testFailures = testFailures + 1
                 w.writeLineError("unit test '"+name+"' failed "+r.stats)
               } else if (r.successes > 0) {
+                testSuccesses = testSuccesses + 1
                 w.writeLineSuccess("unit test '"+name+"' succeeded "+r.stats)
               } 
           }
@@ -132,9 +132,9 @@ object Interpreter {
     
     w.writeLine("")
     if (testFailures == 0) {
-      w.writeLineSuccess("All "+testCount+" out of "+testCount+" unit tests were successful.")
+      w.writeLineSuccess("All "+testSuccesses+" unit tests were successful.")
     } else {
-      w.writeLineError(testFailures+" out of "+testCount+" unit test(s) failed.")
+      w.writeLineError(testFailures+" out of "+(testSuccesses+testFailures)+" unit test(s) failed.")
     }
   }
   
