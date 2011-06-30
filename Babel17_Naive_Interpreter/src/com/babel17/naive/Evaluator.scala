@@ -392,9 +392,9 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case f : SEFloat => f.realValue
       case SEInterval(a, b) =>
         import IntervalArithmetic.{RealValue, interval}
-        evalSE(env, a) match {
+        toDomain(TYPE_REAL, evalSE(env, a)) match {
           case u : RealValue =>
-            evalSE(env, b) match {
+            toDomain(TYPE_REAL, evalSE(env, b)) match {
               case v : RealValue => interval(u, v)
               case x : Exception => x
               case _ => Values.domainError                
@@ -547,11 +547,11 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case SETypeExpr(path : Path) =>
         TypeValue(path)
       case SEConvert(se, Left(ty)) =>
-        evalSE(env, se).typeConvert(TypeValue(ty))
+        evalSE(env, se).typeConvert(false, TypeValue(ty))
       case SEConvert(se, Right(tyExpr)) =>
         evalSE(env, tyExpr).force() match {
           case ty:TypeValue =>
-            evalSE(env, se).typeConvert(ty)
+            evalSE(env, se).typeConvert(false, ty)
           case x:ExceptionValue =>
             x.asDynamicException
           case _ =>
@@ -632,6 +632,10 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         u
       case _ => u
     }
+  }
+  
+  def toDomain(dom : TypeValue, v : Value) : Value = {
+    v.typeConvert(true, dom)
   }
 
   def evalStatement_(env : Environment, coll : Collector, st : Statement) : StatementResult =
@@ -927,21 +931,21 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case PEllipsis() =>
         DoesMatch(env)
       case PString(s) =>
-        v.force() match {
+        v.typeConvert(true, TYPE_STRING) match {
           case StringValue(t) =>
             if (s == t) DoesMatch(env)
             else NoMatch()
           case _ => NoMatch()
         }
       case PInt(i) =>
-        v.force() match {
+        v.typeConvert(true, TYPE_INT) match {
           case IntegerValue(j) =>
             if (i == j) DoesMatch(env)
             else NoMatch()
           case _ => NoMatch()
         }
       case PBool(p) =>
-        v.force() match {
+        v.typeConvert(true, TYPE_BOOL) match {
           case BooleanValue(q) =>
             if (p == q) DoesMatch(env)
             else NoMatch()
@@ -957,24 +961,24 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           else NoMatch()
         }
       case PException(p) =>
-        v.force() match {
+        v.typeConvert(true, TYPE_EXC) match {
           case ex:ExceptionValue => matchPat(env, p, ex, rebind)
           case _ => NoMatch()
         }
       case PVector(plist, delta) =>
-        v.force() match {
+        v.typeConvert(true, TYPE_VECT) match {
           case vector : VectorValue =>
             matchForIterator(env, plist, delta, iteratorOfValue(vector), rebind, identity)
           case _ => NoMatch()
         }
       case PList(plist, delta) =>
-        v.force() match {
+        v.typeConvert(true, TYPE_LIST) match {
           case list : ListValue =>
             matchForIterator(env, plist, delta, iteratorOfValue(list), rebind, identity)
           case _ => NoMatch()
         }
       case PSet(plist, delta) =>
-        v.force() match {
+        v.typeConvert(true, TYPE_SET) match {
           case set : SetValue =>
             matchForIterator(env, plist, delta, iteratorOfValue(set), rebind, identity)
           case _ => NoMatch()
@@ -982,7 +986,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case PFor(plist, delta) =>
         matchForIterator(env, plist, delta, iteratorOfValue(v), rebind, identity)
       case PMap(kvlist, delta) =>
-        v.force() match {
+        v.typeConvert(true, TYPE_MAP) match {
           case map : MapValue =>
             val plist = kvlist.map(kv => PVector(List(kv._1, kv._2), null))
             matchForIterator(env, plist, delta, iteratorOfValue(map), rebind, identity)
@@ -996,7 +1000,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
             DoesMatch(newEnv)
         }
       case PConstr(constr, pat) =>
-        v.force() match {
+        v.typeConvert(true, TYPE_CEXP) match {
           case ConstructorValue(c, arg) =>
             if (c == constr)
               matchPat(env, pat, arg, rebind)
@@ -1005,7 +1009,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           case _ => NoMatch()
         }
       case PCons(head, tail) =>
-        v.force() match {
+        v.typeConvert(true, TYPE_LIST) match {
           case list : ListValue =>
             matchForIterator(env, List(head), tail, iteratorOfValue(list), rebind, identity)
           case _ => NoMatch()
@@ -1022,13 +1026,11 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
             }
         }
       case PRecord(fields, delta) =>
-        System.out.println("fields = "+fields)
-        v.force() match {
+        v.typeConvert(true, TYPE_OBJ) match {
           case ObjectValue(messages) =>
             var map = messages
             var currentEnv = env
             for ((m, p) <- fields) {
-              System.out.println("field = "+m)
               var x : Value = null
               messages.get(m) match {
                 case None => return NoMatch()
@@ -1096,10 +1098,11 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case PType(pat, TypeNone()) =>
         matchPat(env, pat, v, rebind)
       case PType(pat, TypeSome(ty)) =>
-        v.typeof match {
+        val u = v.typeConvert(true, TypeValue(ty))
+        u.typeof match {
           case TypeValue(vty) =>
             if (vty == ty)
-              matchPat(env, pat, v, rebind)
+              matchPat(env, pat, u, rebind)
             else
               NoMatch()
           case _ => NoMatch()

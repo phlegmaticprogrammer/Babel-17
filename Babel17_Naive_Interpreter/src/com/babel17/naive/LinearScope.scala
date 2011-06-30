@@ -354,7 +354,6 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
           else if (pattern.freeVars.contains(id))
             error(id.location, "pattern variable clashes with free variable")
         case PTypeVal(pat, se) =>
-          System.out.println("CHECK PTYPEVAL: "+pat+", se="+se)
           check_simple(env.freeze(), se)
           check_pat(env, pat)
         case _ =>

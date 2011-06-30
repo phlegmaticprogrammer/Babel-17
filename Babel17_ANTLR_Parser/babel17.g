@@ -85,6 +85,7 @@ MODULEID;
 TYPE_EXPR;
 TYPEOF;
 CONVERSION;
+AUTOMATIC_CONVERSION;
 CONVERT;
 RELATE;
 INTERVAL;
@@ -511,7 +512,8 @@ st_val	:	L_val NL? (pattern | objelem_assign) NL? '=' NL? expr -> ^(VAL pattern*
 		
 st_def	:	L_def NL? Id NL? (defpattern NL?)? (':' NL? typeid NL?)? '=' NL? expr 
 		  -> ^(DEF Id typeid? defpattern? expr)
-	|	L_def NL? L_this NL? ':' NL? typeid NL? '=' NL? expr -> ^(CONVERSION typeid expr);
+	|	L_def NL? L_this NL? ':' NL? typeid NL? '=' NL? expr -> ^(AUTOMATIC_CONVERSION typeid expr)
+	|	L_def NL? L_this NL? ':>' NL? typeid NL? '=' NL? expr -> ^(CONVERSION typeid expr);
 		  
 st_typedef
 	:	L_typedef NL? Id NL? typedef_clause (NL? COMMA NL? typedef_clause)* -> ^(TYPEDEF Id ^(NIL_TOKEN typedef_clause*));

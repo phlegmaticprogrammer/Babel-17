@@ -419,7 +419,7 @@ class Tree2Program extends ErrorProducer {
         TempTypeDef(id, clauses)
       case n : ConversionNode =>
         val e = buildExpression(n.expr)
-        TempConversionDef(buildTypePath(n.returnType), e)
+        TempConversionDef(buildTypePath(n.returnType), e, n.automatic)
       case n : TypeExprNode =>
         SETypeExpr(buildTypePath(n.typeId))
       case n : ListNode =>

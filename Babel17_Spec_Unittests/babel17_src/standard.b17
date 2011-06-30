@@ -3,6 +3,41 @@ module lang.unittest.spec.standard
     module compare
         #assert 1 <= 2 <= 3 > 0 <> 3
     end
+    
+    module type_conversions
+        
+        ## from bool
+        #assert true :> int == 1
+        #assert false :> int == 0
+        #assert true :> string == "true"
+        #assert false :> string == "false"
+        
+        ##from int
+        #assert -5 :> real == -5.0
+        #assert -5 :> string == "-5"
+        #assert begin val x = random 5; x :> bool == (x <> 0) end
+        
+        ##from real
+        #assert 5.1 :> int == 5
+        #assert 5.0 :> string == "5.0"
+        
+        ##from string
+        #assert " -5 " :> int == -5
+        #assert "5" :> int == 5
+        #catch DomainError try: "+5" :> int == 5
+        #catch DomainError try: "--5" :> int
+        #assert "true " :> bool == true
+        #assert " false" :> bool == false
+        #assert "  1.2" :> real == 1.2
+        #assert " [ 0.12; 0.13]" :> real == [0.12; 0.13]
+        #assert "[4; 5]" :> real == [4.0;  5.0]
+        #assert "[4.0; 5.0]" :> real == [4.0;  5.0]
+        #assert "[0xFF; 0b100000000]" :> real == [255.0; 256.0]
+        
+        #assert [1; 2] < 3
+        #catch DomainError try: [1; "2"]
+          
+    end
 
 end
 
@@ -78,13 +113,11 @@ module lang.unittest.spec
                   case _ => false
                 end
         #assert match [1, 2, 3]
-                  case (_, y as ...) => false
+                  case (_, y as ...) => y == (2, 3) and typeof y == (: vect)
                   case _ => true
                 end
         #assert match (1, 2, 3)
-                  case [_, y as ...] => false
-                  case _::_ => false
-                  case _ => true
+                  case [_, y as ...] => y == [2, 3] and typeof y == (: list)
                 end  
         #assert match [1, 2, 3]
                   case (1::2::tail) => tail == [3]
@@ -214,7 +247,16 @@ module lang.unittest.spec
                       case 43 : mytype => false 
                       case 43 => false
                       case _ : mytype => true
-                    end      
+                    end  
+                    
+            #assert (1,2)+3 :> list == (1,2,3)
+            
+        end
+        
+        module seq
+            #assert -(1,2) == (2,1)
+            #assert -[1, 2] == [2, 1]
+            #assert (1, 2) == [1, 2]
         end
         
         
@@ -225,5 +267,10 @@ module lang.unittest.spec
     end
     
 end
+
+
+
+
+
 
 

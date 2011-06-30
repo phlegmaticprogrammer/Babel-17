@@ -877,7 +877,10 @@ match (typeof a) $\sim$ (typeof b)
       case u : int => u
       case e => exception CompareError e
     end
-  case _ => exception Unrelated
+  case _ => 
+    $\emph{if a can be automatically converted to something of the type of b,} $
+    $\emph{or else if b can be automatically converted to something of the type of a,}$
+    $\emph{then do the conversion and proceed like above with the comparison.}$
 end
 \end{babellisting}
 \item persistent exceptions are partially ordered by their parameter 
@@ -946,7 +949,7 @@ The built-in order on \texttt{real}s is defined such that
 \[
 [a_1; a_2] \leq [b_1; b_2] \quad\text{iff}\quad a_2 < b_1 \vee (a_1 = b_1 \wedge a_2 = b_2)
 \]
-Note that certain seemingly obvious inequalities like $[1.0; 2.0] \leq 2.0$ do \emph{not} hold! Also note that while $[1.0; 2.0] < 3.0$ is true, the seemingly identical inequality $[1.0; 2.0] < 3$ is false! This is because \emph{Integers} and \emph{Reals} are unrelated with respect to the built-in order. 
+Note that certain seemingly obvious inequalities like $[1.0; 2.0] \leq 2.0$ do \emph{not} hold! 
 
 \section{Syntactic Sugar}
 One of the goals of Babel-17 is that Babel-17 code is easy to read and understand. I have found that allowing arbitrary user-specific extensions to the syntax of code is definitely not helping to achieve this goal. Nevertheless, a bare minimum of syntactic sugar is necessary to support the most basic conventions known from arithmetic; for example, one should be able to write \texttt{3 + 5} to denote the addition of the integer 3 and the integer 5.
@@ -1425,7 +1428,7 @@ A module may contain type definition statements. A new type $t$ is introduced vi
 \begin{babellisting}
 typedef $t$ $pat$ = $expr$
 \end{babellisting}
-where $t$ is an identifier, $pat$ a pattern and $expr$ an expression. Like a \babelsrc{def} statement, the above introduces a new function $t$. Unlike a \babelsrc{def} statement, it also introduces a new type $t$. The new function $t$ has the property that all non-exceptional values $v$ it returns will have type $t$ and will consist of two components: an \emph{inner value}, and an \emph{outer value}. The inner value $i$ is just the argument that was passed to $t$. The outer value $o$ is the result of evaluating and forcing $expr$ in case this does not lead to an exception. If $pat$ does not match, then a \emph{TypeError}-exception is thrown. 
+where $t$ is an identifier, $pat$ a pattern and $expr$ an expression. Like a \babelsrc{def} statement, the above introduces a new function $t$. Unlike a \babelsrc{def} statement, it also introduces a new type $t$. The new function $t$ has the property that all non-exceptional values $v$ it returns will have type $t$ and will consist of two components: an \emph{inner value}, and an \emph{outer value}. The inner value $i$ is just the argument that was passed to $t$. The outer value $o$ is the result of evaluating and forcing $expr$ in case this does not lead to an exception. If $pat$ does not match, then a \emph{DomainError}-exception is thrown. 
 
 The point of all this is that the value $v$ behaves just like its outer value $o$, i.e. $v$ responds to the same messages as $o$, and does so in the same way. Nevertheless, the type of $v$ is $t$, whatever the type of $o$ might be. This means that you can implement the behavior of $v$ by choosing an appropriate $o$ which accesses the hidden encapsulated state $i$. This hidden state can also be accessed in the module in which the type has been defined via the \emph{inner-value pattern} ($t$\ $p$) which matches $v$ if it has type $t$ and its inner value $i$ matches $p$.
 
@@ -1586,11 +1589,11 @@ Your own object can implement conversion to a type $t$ via
 \begin{babellisting}
 object 
   ...
-  def this : $t$ = ...
+  def this :> $t$ = ...
   ....
 end
 \end{babellisting}
-In case your object cannot convert to $t$, it should throw a \emph{TypeConversionError}-exception.
+In case your object cannot convert to $t$, it should throw a \emph{DomainError}-exception.
 
 You can annotate your \emph{def}-statements with a \emph{return type} $t$, for example:
 \begin{babellisting}
@@ -1600,6 +1603,27 @@ This is just another notation for
 \begin{babellisting}
 def myfun $pat$ = ($expr$ :> $t$)
 \end{babellisting}
+
+\subsection{Automatic Type Conversions}
+Type conversions are actually differentiated into two separate classes: those which are automatically applied, and those which are only applied in conjunction with the \texttt{:>} operator.
+
+Your own object can implement automatic type conversion to a type $t$ via 
+\begin{babellisting}
+object 
+  ...
+  def this : $t$ = ...
+  ....
+end
+\end{babellisting}
+Note that an automatic type conversion takes precedence over a non-automatic one when used in conjunction with the \texttt{:>} operator. In particular,
+\begin{babellisting}
+object 
+  def this : int = 1
+  def this :> int = 2
+end :> int
+\end{babellisting}
+will evaluate to $1$.
+
 
 \subsection{Import}
 A module can be accessed from anywhere via its module path. For example will 
@@ -1883,7 +1907,7 @@ Many built-in types have conversions defined between them. Table~\ref{tab:typeco
 \end{tabular}
 \label{tab:typeconversions}
 \end{table}
-Note that Babel-17 does no automatic type conversion.
+Note that some of these type conversions are automatic, and some are not.
 
 In the rest of this section we enumerate for each built-in type all messages that are supported by this type. Collector and collection messages are excluded from this enumeration.
 

@@ -2,9 +2,10 @@ package com.babel17.syntaxtree;
 
 public class ConversionNode extends Node {
 
-    public ConversionNode(TypeIdNode returnType, Node expr) {
+    public ConversionNode(TypeIdNode returnType, Node expr, boolean automatic) {
         this.returnType = returnType;
         this.expr = expr;
+        this.automatic = automatic;
     }
 
     public TypeIdNode returnType() {
@@ -14,6 +15,10 @@ public class ConversionNode extends Node {
     public Node expr() {
         return expr;
     }
+    
+    public boolean automatic() {
+        return automatic;
+    }
 
     public NodeList children() {
         return new NodeList().cons(expr).cons(returnType);
@@ -21,5 +26,6 @@ public class ConversionNode extends Node {
 
     private TypeIdNode returnType;
     private Node expr;
+    private boolean automatic;
 
 }

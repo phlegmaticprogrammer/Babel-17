@@ -51,8 +51,6 @@ object Values {
   val CONSTRUCTOR_DOMAINERROR = "DOMAINERROR"
   val CONSTRUCTOR_EMPTYCHOICE = "EMPTYCHOICE"  
   val CONSTRUCTOR_INVALIDMESSAGE = "INVALIDMESSAGE"
-  val CONSTRUCTOR_TYPECONVERSIONERROR = "TYPECONVERSIONERROR"
-  val CONSTRUCTOR_TYPEERROR = "TYPEERROR"
   val CONSTRUCTOR_NOMATCH = "NOMATCH"
   val CONSTRUCTOR_APPLYERROR = "APPLYERROR"
   val CONSTRUCTOR_INVALIDLIST = "INVALIDLIST"
@@ -85,7 +83,8 @@ object Values {
   val TYPE_TYPE = makeTypeValue("type")
   val TYPE_MODULE = makeTypeValue("module")
   
-  def makeConversion(s : String) = "this:"+s
+  def makeConversion(s : String) = "this:>"+s
+  def makeAutoConversion(s : String) = "this:"+s
 
   val CONVERSION_INT = makeConversion("int")
   val CONVERSION_REAL = makeConversion("real")
@@ -100,6 +99,20 @@ object Values {
   val CONVERSION_FUN = makeConversion("fun")
   val CONVERSION_EXC = makeConversion("exc")
   val CONVERSION_TYPE = makeConversion("type")
+
+  val AUTO_CONVERSION_INT = makeAutoConversion("int")
+  val AUTO_CONVERSION_REAL = makeAutoConversion("real")
+  val AUTO_CONVERSION_BOOL = makeAutoConversion("bool")
+  val AUTO_CONVERSION_STRING = makeAutoConversion("string")
+  val AUTO_CONVERSION_LIST = makeAutoConversion("list")
+  val AUTO_CONVERSION_VECT = makeAutoConversion("vect")
+  val AUTO_CONVERSION_SET = makeAutoConversion("set")
+  val AUTO_CONVERSION_MAP = makeAutoConversion("map")
+  val AUTO_CONVERSION_CEXP = makeAutoConversion("cexp")
+  val AUTO_CONVERSION_OBJ = makeAutoConversion("obj")
+  val AUTO_CONVERSION_FUN = makeAutoConversion("fun")
+  val AUTO_CONVERSION_EXC = makeAutoConversion("exc")
+  val AUTO_CONVERSION_TYPE = makeAutoConversion("type")
 
   
   abstract class Value {
@@ -164,11 +177,9 @@ object Values {
 
     def typeof : Value;
     
-    def typeConversionError = dynamicException(CONSTRUCTOR_TYPECONVERSIONERROR)
-
-    def typeConvert(t : TypeValue) : Value = {
+    def typeConvert(automatic : Boolean, t : TypeValue) : Value = {
       val v = force()
-      if (v.isException) v.asDynamicException
+      if (v.isDynamicException) v
       else {
         v.typeof match {
           case s : TypeValue =>
@@ -176,10 +187,17 @@ object Values {
             else {
               val id = Program.Id("this:"+t.path)
               val r = sendMessage(id)
-              if (r == null) typeConversionError
-              else r
+              if (r == null) { 
+                if (automatic) domainError
+                else {
+                  val id = Program.Id("this:>"+t.path)
+                  val r = sendMessage(id)
+                  if (r == null) domainError
+                  else r
+                }
+              } else r
             }
-          case _ => typeConversionError
+          case _ => domainError
         }
       }
     }
@@ -214,6 +232,10 @@ object Values {
     def stringDescr(brackets : Boolean) : String = v.toString()
 
     def typeof : TypeValue = TYPE_INT
+    
+    def iconv(v : Value) : Value = {
+      v.typeConvert(true, TYPE_INT)
+    }
 
 
     override def sendMessage(message : Program.Id) : Value = {
@@ -227,32 +249,41 @@ object Values {
         case MESSAGE_MOD => NativeFunctionValue(mod _)
         case MESSAGE_TO => Evaluator.systemSendMessage(this, message.name)
         case MESSAGE_DOWNTO => Evaluator.systemSendMessage(this, message.name)
-        case CONVERSION_REAL => IntervalArithmetic.real_fromInt(this)
+        case AUTO_CONVERSION_REAL => 
+          val r = IntervalArithmetic.real_fromInt(this)
+          r.typeConvert(true, TYPE_INT) match {
+            case IntegerValue(w) =>
+              if (v == w) r else null
+            case _ => null
+          }
+        case CONVERSION_REAL => 
+          IntervalArithmetic.real_fromInt(this)
         case CONVERSION_STRING => StringValue(v.toString)
+        case CONVERSION_BOOL => BooleanValue(v != 0)
         case _ => null
       }      
     }
     def plus(w : Value) : Value = {
-      w match {
+      iconv(w) match {
         case IntegerValue(w) =>
           IntegerValue(v + w)
         case _ => null
       }
     }
     def minus(w : Value) : Value = {
-      w match {
+      iconv(w) match {
         case IntegerValue(w) => IntegerValue(v - w)
         case _ => null
       }
     }
     def times(w : Value) : Value = {
-      w match {
+      iconv(w) match {
         case IntegerValue(w) => IntegerValue(v * w)
         case _ => null
       }
     }
     def pow(w : Value) : Value = {
-      w match {
+      iconv(w) match {
         case IntegerValue(w) => 
           if (w < 0) null 
           else if (v == 0) {
@@ -262,7 +293,7 @@ object Values {
         case _ => null
       }
     }
-    def intpow(w : BigInt) : BigInt = {
+    def intpow(w: BigInt) : BigInt = {
       if (w == 0) 1
       else if (w == 1) v
       else {
@@ -272,7 +303,7 @@ object Values {
       }
     } 
     def div(w : Value) : Value = {
-      w match {
+      iconv(w) match {
         case IntegerValue(w) => 
           if (w == 0) null
           else IntegerValue(euclid(v, w)._1)
@@ -280,7 +311,7 @@ object Values {
       }      
     }
     def mod(w : Value) : Value = {
-      w match {
+      iconv(w) match {
         case IntegerValue(w) =>
           if (w == 0) null
           else IntegerValue(euclid(v, w)._2)
@@ -374,7 +405,7 @@ object Values {
             }
         }
       }
-      return dynamicException(CONSTRUCTOR_TYPEERROR)
+      return dynamicException(CONSTRUCTOR_DOMAINERROR)
     }
   }
 
@@ -382,7 +413,7 @@ object Values {
     //println("#### convert '"+v+"' to type '"+ty+"'")
     ty match {
       case Program.TypeNone() => v
-      case Program.TypeSome(path) => v.typeConvert(TypeValue(path))
+      case Program.TypeSome(path) => v.typeConvert(false, TypeValue(path))
     }
   }
 
@@ -470,10 +501,6 @@ object Values {
       case MESSAGE_ATINDEX =>
       case MESSAGE_HEAD =>
       case MESSAGE_TAIL =>
- /*     case MESSAGE_LIST =>
-      case MESSAGE_VECTOR =>
-      case MESSAGE_SET =>
-      case MESSAGE_MAP =>*/
       case MESSAGE_SLASH =>
       case MESSAGE_SLASHSLASH =>
       case MESSAGE_TIMES =>
@@ -481,6 +508,14 @@ object Values {
       case MESSAGE_MINUS =>
       case MESSAGE_MINUSMINUS =>
       case MESSAGE_TIMESTIMES =>
+      case AUTO_CONVERSION_LIST =>
+        m = "coll_list"
+      case AUTO_CONVERSION_VECT =>
+        m = "coll_vector"
+      case CONVERSION_SET =>
+        m = "coll_set"
+      case CONVERSION_MAP =>
+        m = "coll_map"
       case _ => return null
     }
     Evaluator.systemSendMessage(target, m)
@@ -511,18 +546,64 @@ object Values {
       "\"" + w + "\""
     }
     override def sendMessage(message : Program.Id) : Value = {
+      import Program._
       message.name match {
-        //case MESSAGE_MAP => null
-        //case MESSAGE_SET => null
         case MESSAGE_INDEXOF => NativeFunctionValue(indexOf _)
         case MESSAGE_CONTAINS => NativeFunctionValue(contains _)
         case MESSAGE_EMPTY => Evaluator.systemSendMessage(this, "string", MESSAGE_EMPTY)
+        case CONVERSION_INT =>
+          Interpreter.parseSimpleExpression(v) match {
+            case Some(SEInt(i)) => IntegerValue(i)
+            case Some(SEMessageSend(SEInt(i), Id(MESSAGE_UMINUS))) =>
+              IntegerValue(-i)
+            case _ => null
+          }
+        case CONVERSION_BOOL =>
+          Interpreter.parseSimpleExpression(v) match {
+            case Some(SEBool(b)) => BooleanValue(b)
+            case _ => null
+          }          
+        case CONVERSION_REAL =>
+          import IntervalArithmetic._
+          def fromD(d : Double) : RealValue = {
+            if (d.isInfinite || d.isNaN) null else RealValue(d, d)
+          }
+          def mk(se : SimpleExpression) : RealValue = {
+            se match {
+              case SEInt(i) => fromD(i.toDouble)
+              case SEMessageSend(SEInt(i), Id(MESSAGE_UMINUS)) =>
+                fromD(-i.toDouble)
+              case SEFloat(mantissa, exponent) =>
+                makeRealValue(mantissa, exponent) match {
+                  case r: RealValue => r
+                  case _ => null
+                }
+              case SEMessageSend(SEFloat(mantissa, exponent), Id(MESSAGE_UMINUS)) =>
+                makeRealValue(-mantissa, exponent) match {
+                  case r: RealValue => r
+                  case _ => null
+                }
+            }
+          }
+          Interpreter.parseSimpleExpression(v) match {
+            case None => null
+            case Some(se) => 
+              se match {
+                case SEInterval(a, b) =>
+                  val u = mk(a)
+                  val v = mk(b)
+                  if (u != null && v != null) 
+                    interval(u, v)
+                  else null
+                case se => mk(se)
+              }
+          }          
         case m => sendCollectionMessage(this, m)
       }      
     }
 
     def indexOf(w : Value) : Value = {
-      w match {
+      w.typeConvert(true, TYPE_STRING) match {
         case StringValue(w) =>
           var i = v.indexOf(w)
           if (i >= 0) {
@@ -534,7 +615,7 @@ object Values {
     }
 
     def contains(w : Value) : Value = {
-      w match {
+      w.typeConvert(true, TYPE_STRING) match {
         case StringValue(w) =>
           BooleanValue(v.indexOf(w) >= 0)
         case _ => null
@@ -559,6 +640,8 @@ object Values {
     }
     override def sendMessage(message : Program.Id) : Value = {
       message.name match {
+        case CONVERSION_INT => IntegerValue(if (v) 1 else 0)
+        case CONVERSION_STRING => StringValue(if (v) "true" else "false")
         case _ => null
       }      
     }
@@ -725,7 +808,7 @@ object Values {
         e
       }
     }
-    def typeof : Value = if (dynamic) this else TYPE_EXC
+    def typeof : Value = TYPE_EXC //if (dynamic) this else TYPE_EXC
   }
 
   abstract class ForIterator {
@@ -952,7 +1035,7 @@ object Values {
       StringValue(builder.toString)
     }
     override def collect_add(v : Value) : ExceptionValue =  {
-      v.typeConvert(TYPE_STRING) match {
+      v.typeConvert(true, TYPE_STRING) match {
         case StringValue(s) =>
           builder.append(s)
           null
@@ -1109,7 +1192,7 @@ object Values {
     }
 
     def atIndex(i : Value) : Value = {
-      i match {
+      i.typeConvert(true, TYPE_INT) match {
         case IntegerValue(i) =>
           if (i < 0 || i >= tuple.length)
             domainError()
@@ -1318,11 +1401,32 @@ object Values {
       r
     }
   }
+          
 
   def compareValues(v1 : Value, v2 : Value) : Int = {
+    def conv(v1 : Value, v2 : Value) : Value = {
+      v2.typeof match {
+        case tv2: TypeValue =>
+          val c = v1.typeConvert(true, tv2)
+          c.typeof match {
+            case TypeValue(t1) =>
+              if (t1 == tv2.path) c else null
+            case _ => null
+          }
+        case _ => null
+      }
+    }
     val f1 = v1.force()
     val f2 = v2.force()
-    f1.compareToValue(f2)
+    val w2 = conv(f2, f1)
+    if (w2 != null)
+      f1.compareToValue(w2)
+    else {
+      val w1 = conv(f1, f2)
+      if (w1 != null)
+        CompareResult.negate(f2.compareToValue(w1))
+      else CompareResult.UNRELATED
+    }
   }
   
   def compareObjects(v1 : ObjectValue, v2 : ObjectValue) : Int = {

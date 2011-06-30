@@ -666,7 +666,16 @@ public class Parser {
             Node returnType = toNode(tree.getChild(0));
             if (returnType instanceof TypeIdNode) {
                 Node e = toNode(tree.getChild(1));
-                return new ConversionNode((TypeIdNode) returnType, e).mergeLocation(loc).mergeLocation();
+                return new ConversionNode((TypeIdNode) returnType, e, false).mergeLocation(loc).mergeLocation();
+            } else {
+                emptyStatement(loc);
+            }
+        }
+        case babel17Parser.AUTOMATIC_CONVERSION: {
+            Node returnType = toNode(tree.getChild(0));
+            if (returnType instanceof TypeIdNode) {
+                Node e = toNode(tree.getChild(1));
+                return new ConversionNode((TypeIdNode) returnType, e, true).mergeLocation(loc).mergeLocation();
             } else {
                 emptyStatement(loc);
             }

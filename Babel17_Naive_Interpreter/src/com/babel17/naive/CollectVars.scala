@@ -155,7 +155,7 @@ object CollectVars {
           }
         }
         term.freeVars = freeVars - id
-      case TempConversionDef(_, e) =>
+      case TempConversionDef(_, e, automatic) =>
         collectVars(e)
         term.freeVars = e.freeVars
       case SDefs(defs) =>

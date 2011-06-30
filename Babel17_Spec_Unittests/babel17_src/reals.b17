@@ -6,16 +6,19 @@ val eps = 1e-8
 #assert 1.2 <= 1.2
 #assert not ([1.0; 2.0] <= [2.0; 3.0])
 #catch RealOverflow try: 1e30000
-#catch DomainError try: [1; 2.0]
-#catch DomainError try:  [1.0; 2]
+#assert [1; 2.0] == [1; 2]
 #assert [2.0; 1.0] == [1.0; 2.0]
 #catch UNRELATED try: 2.0 ~ [2.0, 3.0]
 #assert [1.0; 2.0] < [3.0; 4.0]
-#catch UNRELATED try: 1 ~ 1.0
+#assert 1 == 1.0
+#assert 0 <> false
+#assert 0 :> bool == false
+#assert false :> int == 0
+#assert "10" <> 10
+#assert "10" :> int == 10
+#assert 1.0 == 1
 #catch RealOverflow try: (30000000000000.0).exp
-#assert 1.5.width == 0.0
 #assert 1.5.degenerate 
-#assert 1.2.width > 0.0
 #assert not 1.2.degenerate
 #assert 1.0.middle == 1.0
 #assert [3.0; 5.0].left == 3.0
@@ -41,9 +44,11 @@ val eps = 1e-8
 #assert (1.0.exp.ln - 1.0).abs < eps
 #assert 1.5 :> string == "1.5"
 #assert 1.2 :> string <> "1.2"
-#assert [3.0; 5.0].round == 4.0
+#assert [3.0; 5.0].round == 4.0 == 4
 #assert [2.9; 5.4] :> int == 4
-#assert (8.0.log 2.0 - 3.0) < eps
+#assert (8.0.log 2.0 - 3.0).abs < eps
+#assert ((8.0.log 2) - 3.0).abs < eps
+#assert (2.0^3 - 8.0).abs < eps
 #assert 3 :> real == 3.0
 
 def bintest f = 
@@ -62,12 +67,10 @@ end
 #catch EmptyReal try: 2.0 ** 3.0
 #assert [2.0; 5.0] ** [3.0; 7.0] == [3.0; 5.0]
 
-#catch DomainError try: 1 + 1.0
-#catch DomainError try: 1.0 * 1
-#catch DomainError try: 2.0 ^ 2
-#catch DomainError try: 0.0 ^ 0.0
-#catch DomainError try: 0.0 ^ 2.0
-#catch DomainError try: (-1.0) ^ 2.0
+#assert 1 + 1.0 == 2
+#assert ((1.0 + 1) - 2) < eps
+#assert typeof (1 + 1.0) == (: int)
+#assert typeof (1.0 + 1) == (: real)
 
 #assert (2.0^3.0 - (2^3 :> real)) < eps
 #assert (6.0 / 1.5 - 4.0).abs < eps

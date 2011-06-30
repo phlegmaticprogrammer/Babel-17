@@ -11,13 +11,14 @@ import com.babel17.naive.Values._
 import org.antlr.runtime.CharStream
 import org.antlr.runtime.ANTLRReaderStream
 import java.io.Reader
+import java.io.StringReader
 import java.io.File
 
 object Interpreter {
 
   @throws(classOf[java.io.IOException])
   def parseAndAnalyze(fc : FileCentral, source : Source, reader : java.io.Reader) : java.util.Collection[ErrorMessage] = {
-    var charstream: CharStream = new ANTLRReaderStream(reader)
+    val charstream: CharStream = new ANTLRReaderStream(reader)
     val result = Parser.parse(source, charstream)
     fc.updateB17File(source, result)
     val errors = Errors.cleanupErrors(fc.getErrorsOf(source.getFilename))
@@ -26,6 +27,22 @@ object Interpreter {
       a.add(e)
     }
     a
+  }
+  
+  def parseSimpleExpression(s : String) : Option[SimpleExpression] = {
+    val reader = new StringReader(s)
+    val charstream: CharStream = new ANTLRReaderStream(reader)
+    val source = new Source("string")
+    val result = Parser.parse(source, charstream)
+    if (result.hasErrors) return None
+    val checker = new Tree2Program()
+    checker.source = source
+    val term = checker.makeProgram(result)
+    if (checker.errors.length > 0) return None
+    term match {
+      case Block(List(SYield(ESimple(se)))) => Some(se)
+      case _ => None
+    }      
   }
   
   def writeCopyrightInfo(w : WriteOutput) {
@@ -227,7 +244,9 @@ object Interpreter {
     def f(name : String) : String = ("/Users/stevenobua/Programming/babel-17/Babel17_Spec_Unittests/babel17_src/"+name)
     //mainProc(Array(f("v3tests.babel17"), f("cool.babel-17"), f("test.b17")))
   
-   mainProc(Array(f("standard.b17")))
+   //mainProc(Array(f("standard.b17")))
+   runUnittests(Array(f("standard.b17")), Array(f("standard.b17")),
+                new WriteOutput())
   }
   
   def test {

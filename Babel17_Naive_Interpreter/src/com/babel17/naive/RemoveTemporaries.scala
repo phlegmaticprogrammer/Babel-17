@@ -485,13 +485,13 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         SValRecordUpdate(id, m, transform_expr(env, e))
       case SAssignRecordUpdate(id, m, e) =>
         SAssignRecordUpdate(id, m, transform_expr(env, e))
-      case TempConversionDef(rt, e) =>
+      case TempConversionDef(rt, e, automatic) =>
         transform_type(env, TypeSome(rt)) match {
           case TypeNone() =>
             SBlock(Block(List()))
           case TypeSome(p) =>
             val e2 = transform_expr(env, e)
-            val id = Id("this:"+p)
+            val id = if (automatic) Id("this:"+p) else Id("this:>"+p) 
             id.location = rt.location
             TempDef0(id, e2, TypeSome(p))
         }

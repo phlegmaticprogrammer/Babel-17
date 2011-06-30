@@ -36,6 +36,11 @@ object IntervalArithmetic {
   
   //val MESSAGE_MANTISSA = "mantissa"
   //val MESSAGE_SCALE = "scale"
+  //
+  
+  def rconv(v : Value) : Value = {
+    v.typeConvert(true, TYPE_REAL)
+  }
   
   case class RealValue(lo : Double, hi : Double) extends Value {
   
@@ -83,7 +88,6 @@ object IntervalArithmetic {
         case MESSAGE_LN => real_ln(this)
         case MESSAGE_LOG => NativeFunctionValue(log _)
         case MESSAGE_ABS => real_abs(this)
-        case MESSAGE_WIDTH => real_width(this)
         case MESSAGE_LEFT => RealValue(lo, lo)
         case MESSAGE_RIGHT => RealValue(hi, hi)
         case MESSAGE_MIDDLE => real_middle(this)
@@ -100,6 +104,11 @@ object IntervalArithmetic {
         case MESSAGE_ARCCOS => real_arccos(this)
         case MESSAGE_ARCTAN => real_arctan(this)     
         case MESSAGE_PI => real_timesPi(this)
+        case AUTO_CONVERSION_INT => 
+          if (lo == hi && lo.intValue == lo) 
+            IntegerValue(lo.intValue)
+          else
+            null
         case CONVERSION_INT => real_toInt(this)
         case CONVERSION_STRING => real_toString(this)
         //case MESSAGE_MANTISSA => real_mantissa(this)
@@ -109,7 +118,7 @@ object IntervalArithmetic {
     }
 
     def plus(w : Value) : Value = {
-      w match {
+      rconv(w) match {
         case w: RealValue =>
           real_add(this, w)
         case _ => null
@@ -117,21 +126,21 @@ object IntervalArithmetic {
     }
     
     def minus(w : Value) : Value = {
-      w match {
+      rconv(w) match {
         case w: RealValue => real_sub(this, w)
         case _ => null
       }
     }
     
     def times(w : Value) : Value = {
-      w match {
+      rconv(w) match {
         case w: RealValue => real_mult(this, w)
         case _ => null
       }
     }
     
     def quot(w : Value) : Value = {
-      w match {
+      rconv(w) match {
         case w: RealValue => real_quot(this, w)
         case _ => null
       }
@@ -139,40 +148,39 @@ object IntervalArithmetic {
     
     
     def pow(w : Value) : Value = {
-      w match {
+      rconv(w) match {
         case w: RealValue => real_pow(this, w)
         case _ => null
       }
     }    
     
     def log(w : Value) : Value =  {
-      w match {
+      rconv(w) match {
         case w: RealValue => real_log(this, w)
         case _ => null
       }      
     }
     
     def contains(w : Value) : Value = {
-      w match {
+      rconv(w) match {
         case w: RealValue => real_contains(this, w)
         case _ => null
       }            
     }
     
     def intersect(w : Value) : Value = {
-      w match {
+      rconv(w) match {
         case w: RealValue => real_intersect(this, w)
         case _ => null
       }                  
     }
   
     def hull(w : Value) : Value = {
-      w match {
+      rconv(w) match {
         case w: RealValue => interval(this, w)
         case _ => null
       }                  
     }
-
 
   }
 
@@ -303,11 +311,6 @@ object IntervalArithmetic {
     makeRV(x, x)
   }
   
-  def real_width(u : RealValue) : Value = {
-    val x = u.hi-u.lo
-    makeRV(x, x)
-  }
-  
   def real_middle(u : RealValue) : Value = {
     val x = u.lo + (u.hi-u.lo) / 2.0
     makeRV(x, x)
@@ -344,6 +347,7 @@ object IntervalArithmetic {
     IntegerValue(x)
   }
   
+    
   def real_fromInt(u : IntegerValue) : Value = {
     makeRealValue(u.v, 0)
   }
