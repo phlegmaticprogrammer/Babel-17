@@ -46,7 +46,7 @@ object Interpreter {
   }
   
   def writeCopyrightInfo(w : WriteOutput) {
-    w.writeLineCommentary("Babel-17 v0.3alpha, Copyright \u00a9 2009 Steven Obua")
+    w.writeLineCommentary("Babel-17 v0.3.0, Copyright \u00a9 2009 Steven Obua")
     w.writeLine("")
     w.writeLineCommentary("This program comes with ABSOLUTELY NO WARRANTY.")
     w.writeLineCommentary("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")

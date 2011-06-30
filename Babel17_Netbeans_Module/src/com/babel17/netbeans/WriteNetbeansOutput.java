@@ -127,6 +127,7 @@ public class WriteNetbeansOutput extends WriteOutput {
   public boolean activate() {
       if (io.isClosed()) return false;
       else {
+        pleaseCancel = false;
         cancelAction.setEnabled(true);
         io.select();
         writeLine("");
