@@ -361,6 +361,49 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
   def evalModule(path : Path) : Value = {
     moduleValues.findModuleValue(path)
   }
+  
+  def evalNew (_v : Value) : Value = {
+    val v = _v.force
+    var args : List[Value] = List()
+    var classname : String = null
+    var x : ExceptionValue = null
+    var classDescr : Option[JavaInterop.ClassDescr] = None 
+    def analyze(v : VectorValue) {
+      val tuple = v.tuple  
+      if (tuple.length == 0) return
+      tuple(0).force() match {
+        case e: ExceptionValue => x = e
+        case s: StringValue =>
+          classname = s.v
+          classDescr = JavaInterop.getClassDescr(classname)
+          args = tuple.tail.toList
+        case _ =>
+      }
+    }
+    v match {
+      case e: ExceptionValue => return e.asDynamicException
+      case s: StringValue =>
+        classname = s.v
+        classDescr = JavaInterop.getClassDescr(classname)
+      case vect: VectorValue => analyze(vect)
+      case _ =>
+        val w = v.typeConvert(true, Values.TYPE_VECT)
+        w match {
+          case vect: VectorValue => analyze(vect)
+          case _ => return domainError
+        }        
+    }
+    if (classDescr.isDefined) {
+      classDescr.get.newInstance(args)
+    } else {
+      if (x != null)
+        x.asDynamicException
+      else if (classname == null)
+        domainError
+      else 
+        dynamicException(CONSTRUCTOR_CLASSNOTFOUND, StringValue(classname))
+    }
+  }
 
   def evalSE_(env : SimpleEnvironment, se : SimpleExpression) : Value =
   {
@@ -386,7 +429,19 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case SERoot() => evalModule(Path(List()))
       case SENative(se) =>
         val v = evalSE(env, se)
-        if (v.isException) v.asDynamicException else Values.nil
+        v match {
+          case e: Exception => v.asDynamicException
+          case constrValue: ConstructorValue =>
+            if (constrValue.constr.name == "PLATFORM") {
+              if (constrValue.v.isNil(true))
+                ConstructorValue(Constr("Java"), Values.nil)
+              else
+                domainError
+            } else if (constrValue.constr.name == "NEW") {
+              evalNew (constrValue.v)
+            } else domainError
+          case _ => domainError
+        }
       case SEInt(u) => IntegerValue(u)
       case SEBool(b) => BooleanValue(b)
       case f : SEFloat => f.realValue

@@ -64,6 +64,9 @@ object Values {
   val CONSTRUCTOR_DEADLOCK = "DEADLOCK"
   val CONSTRUCTOR_REALOVERFLOW = "REALOVERFLOW"
   val CONSTRUCTOR_EMPTYREAL = "EMPTYREAL"  
+  val CONSTRUCTOR_CLASSNOTFOUND = "CLASSNOTFOUND"
+  val CONSTRUCTOR_NATIVEERROR = "NATIVEERROR"
+  val CONSTRUCTOR_NATIVECLASH = "NATIVECLASH"  
 
   private def makeTypeValue(s : String) : TypeValue =
     TypeValue(Program.Path(List(Program.Id(s))));
@@ -82,6 +85,7 @@ object Values {
   val TYPE_EXC = makeTypeValue("exc")
   val TYPE_TYPE = makeTypeValue("type")
   val TYPE_MODULE = makeTypeValue("module")
+  val TYPE_NATIVE = makeTypeValue("native")
   
   def makeConversion(s : String) = "this:>"+s
   def makeAutoConversion(s : String) = "this:"+s
@@ -508,9 +512,9 @@ object Values {
       case MESSAGE_MINUS =>
       case MESSAGE_MINUSMINUS =>
       case MESSAGE_TIMESTIMES =>
-      case AUTO_CONVERSION_LIST =>
+      case CONVERSION_LIST =>
         m = "coll_list"
-      case AUTO_CONVERSION_VECT =>
+      case CONVERSION_VECT =>
         m = "coll_vector"
       case CONVERSION_SET =>
         m = "coll_set"
@@ -1091,6 +1095,8 @@ object Values {
           Evaluator.systemSendMessage(this, "coll", MESSAGE_ATINDEX)
         case MESSAGE_EMPTY =>
           Evaluator.systemSendMessage(this, "list", MESSAGE_EMPTY)
+        case AUTO_CONVERSION_VECT =>
+          sendCollectionMessage(this, CONVERSION_VECT)
         case m => sendCollectionMessage(this, m)
       }
     }
@@ -1187,6 +1193,8 @@ object Values {
           NativeFunctionValue(atIndex _)
         case MESSAGE_ATINDEX =>
           NativeFunctionValue(atIndex _)
+        case AUTO_CONVERSION_LIST =>
+          sendCollectionMessage(this, CONVERSION_LIST)
         case m => sendCollectionMessage(this, m)
       }
     }
