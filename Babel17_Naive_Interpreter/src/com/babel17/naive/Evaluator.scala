@@ -404,6 +404,21 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         dynamicException(CONSTRUCTOR_CLASSNOTFOUND, StringValue(classname))
     }
   }
+  
+  def evalNewClassObj(v : Value) : Value = {
+    v.typeConvert(true, TYPE_STRING) match {
+      case StringValue(s) => 
+        try {
+          val c = Class.forName(s)
+          JavaInterop.NativeValue(c)
+        } catch {
+          case x: ClassNotFoundException => 
+            JavaInterop.nativeError(x)
+        }
+      case x:ExceptionValue => x.asDynamicException
+      case _ => domainError
+    }
+  }
 
   def evalSE_(env : SimpleEnvironment, se : SimpleExpression) : Value =
   {
@@ -434,11 +449,13 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           case constrValue: ConstructorValue =>
             if (constrValue.constr.name == "PLATFORM") {
               if (constrValue.v.isNil(true))
-                ConstructorValue(Constr("Java"), Values.nil)
+                ConstructorValue(Constr("JAVA"), Values.nil)
               else
                 domainError
             } else if (constrValue.constr.name == "NEW") {
               evalNew (constrValue.v)
+            } else if (constrValue.constr.name == "CLASS") {
+              evalNewClassObj(constrValue.v)
             } else domainError
           case _ => domainError
         }

@@ -244,7 +244,8 @@ object Interpreter {
     def f(name : String) : String = ("/Users/stevenobua/Programming/babel-17/Babel17_Spec_Unittests/babel17_src/"+name)
     //mainProc(Array(f("v3tests.babel17"), f("cool.babel-17"), f("test.b17")))
   
-   mainProc(Array(f("standard.b17")))
+   mainProc(Array(f("nativeinterop.b17")))
+   //mainProc(Array(f("standard.b17")))
    //runUnittests(Array(f("standard.b17")), Array(f("standard.b17")),
    //             new WriteOutput())
   }

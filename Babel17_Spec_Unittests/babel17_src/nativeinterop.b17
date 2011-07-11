@@ -1,0 +1,61 @@
+module lang.unittest.spec.nativeinterop
+
+    if native Platform == Java then
+        val h = native New ("com.babel17.java.JavaInteropUnittestHelper", 
+          "hello world", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    
+        #assert h.a == 2
+        #assert h.msg <> "hello world"
+        #assert h.msg () == "hello world"
+        #catch DomainError try: h.msg ("another param",)
+        #catch DomainError try: h.msg "another param"       
+        #assert h.pick (4, 6, 8) == (5, 7, 9)
+        #assert h.pick [] == ()
+        #assert h.pick () == []
+        #assert h.pick () == ()
+        #assert h.pick 5 <> 6
+        #assert h.pick 5 == (6,)
+        #assert h.b <> 2
+        #assert h.b () == 3
+        
+        def test_num (f, numbits, signed, limited) = 
+        begin
+            val g = f h
+            val bits = numbits - 1
+            val maxnum = if signed then 2^bits - 1 else 2^numbits-1 end
+            val minnum = if signed then -2^bits else 0 end
+            #assert g maxnum == maxnum
+            #assert g minnum == minnum
+            if (limited) then
+                #catch DomainError try: g (maxnum+1) == maxnum+1
+                #catch DomainError try: g (minnum-1) == minnum-1
+            end
+        end
+        def test_num (f, numbits) = test_num (f, numbits, true, true)
+        
+        
+        test_num (h => h.id_byte, 8)
+        test_num (h => h.id_short, 16)
+        test_num (h => h.id_int, 32)
+        test_num (h => h.id_long, 64)
+        test_num (h => h.id_bigint, 1024, true, false)
+        test_num (h => h.id_char, 16, false, true)
+        #assert h.id_char " " == 32
+        #assert h.nil_string "blub" == nil
+        #catch DomainError try: h.id_int nil
+        #assert h.id_integer nil == h.id_bigint nil == nil        
+        #assert h.id_bigint 5 == h.id_int 5 == h.id_integer 5 == 5
+        #assert h.id_boolean true == (not h.id_boolean false) == true
+        
+        
+        #assert h.inner.q == 12
+        begin
+          val d = h.inner.direction
+          ##assert d.north.valueof "north" InvocationTargetException ???
+        end
+    
+    else
+        #assert false
+    end
+
+end

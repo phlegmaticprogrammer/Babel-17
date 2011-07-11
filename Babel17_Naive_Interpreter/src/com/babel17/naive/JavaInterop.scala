@@ -88,7 +88,7 @@ object JavaInterop {
   }
 
 
-  def collectJMembers(classObj : Class[_]) : Map[String, List[JMember]] = {
+  def collectJMembers(classObj : Class[_]) : SortedMap[String, List[JMember]] = {
     var members : SortedMap[String, List[JMember]] = SortedMap()
     for (f <- classObj.getFields) {
       val jf = JField(f, (f.getModifiers & Modifier.STATIC) != 0,
@@ -199,8 +199,17 @@ object JavaInterop {
     new ClassDescr(v)
   }
   
+  def getClassClassDescr(v : Class[_]) : ClassDescr = {
+    val c1 = new ClassDescr(v.getClass)
+    val c2 = getClassDescr(v)
+    c1.addStaticJMembers(c2)
+    c1
+  }
+  
   def getClassDescrForObj(v : Object) : ClassDescr = {
-    new ClassDescr(v.getClass)
+    if (v.isInstanceOf[Class[_]]) {
+      getClassClassDescr(v.asInstanceOf[Class[_]])
+    } else getClassDescr(v.getClass)
   }
   
   def inrange(v : BigInt, minvalue : Long, maxvalue : Long) : Boolean = {
@@ -243,7 +252,12 @@ object JavaInterop {
       case JLong(primitive) =>
         resolveNum(arg, primitive, Long.MinValue, Long.MaxValue, _.longValue)
       case JChar(primitive) =>
-        resolveNum(arg, primitive, Char.MinValue, Char.MaxValue, _.charValue)
+        def res_char = resolveNum(arg, primitive, Char.MinValue, Char.MaxValue, _.charValue)
+        arg.force() match {
+          case StringValue(s) =>
+            if (s.length == 1) Some(s.charAt(0)) else res_char
+          case _ =>  res_char  
+        }
       case JBoolean(primitive) =>
         arg.typeConvert(true, TYPE_BOOL) match {
           case BooleanValue(x) => Some(x)
@@ -362,7 +376,7 @@ object JavaInterop {
   }
   
   def makeValueOfType(obj:Any, ty : JavaType) : Value = {
-    if (obj == null) nil
+    if (obj == null) return nil
     ty match {
       case JVoid() => nil
       case JByte(_) => IntegerValue(obj.asInstanceOf[Byte])
@@ -381,12 +395,25 @@ object JavaInterop {
     }
   }
   
+  def mergeJMembers(jmembers1 : SortedMap[String, List[JMember]],
+                    jmembers2 : SortedMap[String, List[JMember]]) : SortedMap[String, List[JMember]] =
+  {
+    var newMembers = jmembers1
+    for ((name, l2) <- jmembers2) {
+      jmembers1.get(name) match {
+        case None => newMembers = newMembers + (name -> l2)
+        case Some(l1) => newMembers = newMembers + (name -> (l2 ++ l1).toList)
+      }
+    }
+    newMembers
+  }
+  
   class ClassDescr(classObj : java.lang.Class[_]) {
     
     def classname = classObj.getName 
     
-    private val jconstructors = collectJConstructors(classObj)
-    private val jmembers = collectJMembers(classObj)
+    private var jconstructors = collectJConstructors(classObj)
+    private var jmembers = collectJMembers(classObj)
     
     def newInstance(args : List[Value]) : Value = {
       System.out.println("new instance("+classname+"), args = "+args)
@@ -410,6 +437,31 @@ object JavaInterop {
         }
       }
       dynamicException(CONSTRUCTOR_DOMAINERROR)     
+    }
+    
+    def addStaticJMembers(classDescr : ClassDescr) {
+      var newJMembers : SortedMap[String, List[JMember]] = SortedMap()
+      for ((name, members) <- classDescr.jmembers) {
+        var l : List[JMember] = List()
+        for (jmember <- members) {
+          jmember match {
+            case jf: JField => 
+                if (jf.isStatic) {
+                  l = jf :: l
+                }
+            case jm: JMethod => {
+                if (jm.isStatic) {
+                  l = jm :: l
+                }
+            }
+            case jc: JInnerClass => 
+                l = jc :: l
+            case clash : JClash =>
+          }
+        }
+        newJMembers = newJMembers + (name -> l.reverse)
+      }
+      jmembers = mergeJMembers(jmembers, newJMembers)
     }
     
     def sendMessage(v : NativeValue, message : Id) : Value = {

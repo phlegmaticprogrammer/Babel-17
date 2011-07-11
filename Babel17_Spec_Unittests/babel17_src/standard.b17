@@ -51,6 +51,8 @@ module lang.unittest.spec
         val xy = 2
         #assert xY == 2
         #assert Begin == BEgIn == BEGIN 
+        #assert Begin == BEgIn
+        #assert Begin == Begin
         #assert 15 == 0xF == 0b1111 == 0o17
         #assert 15.0 == 1.5E1 == 1.5E+1 == 150E-1 == 15e0        
         #assert 2 ≡ 2 
@@ -125,6 +127,12 @@ module lang.unittest.spec
         #assert match 1::2::3
                   case 1::2::3 => false
                   case 1::2::3::[] => true
+                end
+        #assert match {1, 2}
+                  case a::b => false
+                  case (a, b) => false
+                  case {2, 1} => false
+                  case {1, 2} => true
                 end
                 
         #catch NoMatch try: match 1 case (_ if 1/0) => end  

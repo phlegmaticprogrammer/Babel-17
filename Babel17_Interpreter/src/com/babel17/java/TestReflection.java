@@ -11,16 +11,17 @@ public class TestReflection {
 
     public static void main(String args[]) throws Exception {
         //Class c = Class.forName("java.util.ArrayList");
-        Class c = Class.forName("com.babel17.java.TestClass");
+        //Class c = Class.forName("com.babel17.java.TestClass");
+        Class c = Class.forName("com.babel17.java.JavaInteropUnittestHelper$Inner");
         //Class c = Class.forName("com.google.appengine.api.datastore.Query");
-        Constructor constr = c.getConstructor(new Class[]{int.class});
+        /*Constructor constr = c.getConstructor(new Class[]{int.class});
         Method m = c.getMethod("varargs", new Class[]{String.class, int[].class});
         Object o = constr.newInstance(new Object[]{new Integer(12)});
-        m.invoke(o, "hello", new int[] {7, 4, 9, 12, 34, new Integer(33)});   
-      /*  printMembers(c.getConstructors(), "Constructors");
+        m.invoke(o, "hello", new int[] {7, 4, 9, 12, 34, new Integer(33)});   */
+        printMembers(c.getConstructors(), "Constructors");
         printMembers(c.getFields(), "Fields");
         printMembers(c.getMethods(), "Methods");
-        printClasses(c);*/
+        printClasses(c);
     }
 
     private static void printMembers(Member[] mbrs, String s) {
