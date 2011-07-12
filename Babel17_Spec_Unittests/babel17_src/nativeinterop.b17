@@ -51,9 +51,30 @@ module lang.unittest.spec.nativeinterop
         #assert h.inner.q == 12
         begin
           val d = h.inner.direction
-          ##assert d.north.valueof "north" InvocationTargetException ???
+          #assert d.north <> d.south
+          #assert d.north == d.north
+          #assert 
+            match d.north 
+              case val d.south => false
+              case val d.north => true
+            end
+            
+          begin
+            val i = 0
+            for direction in d.values () do
+              #assert direction.ordinal () == i
+              i = i + 1
+            end
+          end
+          #assert d.valueof "SOUTH" == d.south
         end
-    
+        
+        #catch NativeError(RuntimeException s) if 
+                 s.contains "crash, please catch it"
+          try: h.crash ()
+        
+        #assert h.ambi_int nil == "Integer: null"
+        #assert h.ambi_int 2 == "Integer: 2"
     else
         #assert false
     end

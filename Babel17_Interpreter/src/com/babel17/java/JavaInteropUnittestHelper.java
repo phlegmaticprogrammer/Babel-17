@@ -87,6 +87,22 @@ public class JavaInteropUnittestHelper {
         return null;
     }
     
+    public String ambi_int(Integer i) {
+        return "Integer: "+i;
+    }
+
+    public String ambi_int(int i) {
+        return "int: "+i;
+    }
+    
+    public String test_a() {
+        return "test_a";
+    }
+    
+    public String test_A() {
+        return "test_A";
+    }    
+    
     public String[] modify_array(String x[]) {
         for (int i=0; i<x.length; i++) {
             if (i % 2 == 0) x[i] = null;

@@ -9,7 +9,7 @@ object JavaInterop {
   import java.lang.reflect.Modifier
   
   
-  abstract class JavaType
+  abstract class JavaType 
   
   case class JVoid() extends JavaType
   case class JByte(primitive : Boolean) extends JavaType
@@ -24,7 +24,7 @@ object JavaInterop {
   case class JString() extends JavaType
   case class JArray(elemType : JavaType) extends JavaType
   case class JObject(c : java.lang.Class[_]) extends JavaType
-  
+    
   def classOf(ty : JavaType) : Class[_] = {
     import com.babel17.naive.PrimitiveTypes._
     ty match {
@@ -54,7 +54,20 @@ object JavaInterop {
   private val jobject = JObject(PrimitiveTypes.object_class)
   
   def nativeError(x:Any) : Value = {
-    dynamicException(CONSTRUCTOR_NATIVEERROR, StringValue(x.toString))
+    def exc(x : Throwable) : Value = {
+      val name = x.getClass.getSimpleName.toUpperCase
+      val msg = x.getMessage
+      ConstructorValue(Program.Constr(name), StringValue(msg))
+    }
+    var cause : Value = Values.nil
+    x match {
+      case x: java.lang.reflect.InvocationTargetException =>
+        cause = exc(x.getTargetException)
+      case x: Throwable =>
+        cause = exc(x)
+      case _ => cause = StringValue(x.toString)
+    }
+    dynamicException(CONSTRUCTOR_NATIVEERROR, cause)
   }
   
   case class JavaTypeArgs(args : List[JavaType], vararg : Option[JavaType]) {
@@ -195,15 +208,31 @@ object JavaInterop {
     } 
   }
   
+  import java.util.concurrent.ConcurrentHashMap
+  
+  private val classDescrCache : ConcurrentHashMap[String, ClassDescr] = new ConcurrentHashMap() 
+  private val classClassDescrCache : ConcurrentHashMap[String, ClassDescr] = new ConcurrentHashMap()
+  
   def getClassDescr(v : Class[_]) : ClassDescr = {
-    new ClassDescr(v)
+    val key = v.getCanonicalName
+    var descr : ClassDescr = classDescrCache.get(key)
+    if (descr == null) {
+      descr = new ClassDescr(v)
+      classDescrCache.put(key, descr)
+    }
+    descr
   }
   
   def getClassClassDescr(v : Class[_]) : ClassDescr = {
-    val c1 = new ClassDescr(v.getClass)
-    val c2 = getClassDescr(v)
-    c1.addStaticJMembers(c2)
-    c1
+    val key = v.getCanonicalName
+    var descr : ClassDescr = classClassDescrCache.get(key)
+    if (descr == null) {
+      descr = new ClassDescr(v.getClass)
+      val c = getClassDescr(v)
+      descr.addStaticJMembers(c)
+      classClassDescrCache.put(key, descr)
+    }
+    descr
   }
   
   def getClassDescrForObj(v : Object) : ClassDescr = {
