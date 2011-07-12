@@ -377,6 +377,10 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           classname = s.v
           classDescr = JavaInterop.getClassDescr(classname)
           args = tuple.tail.toList
+        case JavaInterop.NativeValue(c:Class[_]) =>
+          classname = c.getCanonicalName
+          classDescr = JavaInterop.getClassDescr(classname)
+          args = tuple.tail.toList
         case _ =>
       }
     }
@@ -385,6 +389,9 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case s: StringValue =>
         classname = s.v
         classDescr = JavaInterop.getClassDescr(classname)
+      case JavaInterop.NativeValue(c:Class[_]) =>
+        classname = c.getCanonicalName
+        classDescr = JavaInterop.getClassDescr(classname)        
       case vect: VectorValue => analyze(vect)
       case _ =>
         val w = v.typeConvert(true, Values.TYPE_VECT)
