@@ -329,9 +329,19 @@ object JavaInterop {
               Some(c.cast(v))
             } catch {
               case _: ClassCastException => None
-            }
+            }          
           case _ =>
-            if (arg.isNil(true)) Some(null) else None
+            if (arg.isNil(true)) Some(null) 
+            else {
+              try {
+                resolveValue(arg) match {
+                  case Some(x) => Some(c.cast(x))
+                  case None => None
+                }
+              } catch {
+                case _: ClassCastException => None
+              }                        
+            }
         }
       case JArray(elemType) =>
         arg.typeConvert(true, TYPE_VECT) match {
@@ -353,6 +363,36 @@ object JavaInterop {
         }        
     }
   }
+  
+  def resolveValueSeq(seq : Seq[Value]) : Option[Array[_]] = {
+    try {
+      val result = 
+        for (s <- seq) 
+          yield resolveValue(s).get
+      Some(result.toArray)      
+    } catch {
+      case _ : Exception => None
+    }
+  }
+  
+  def resolveValue(arg : Value) : Option[Any] = {
+    val a = arg.force()
+    if (a.isNil(true)) return Some(null)
+    a match {
+      case IntegerValue(v) => 
+        if (inrange(v, Int.MinValue, Int.MaxValue)) Some(v.intValue)
+        else if (inrange(v, Long.MinValue, Long.MaxValue)) Some(v.longValue)
+        else Some(v.bigInteger)
+      case StringValue(s) => Some(s)
+      case VectorValue(tuple) => resolveValueSeq(tuple)
+      case l: ListValue => resolveValueSeq(l.toList)
+      case BooleanValue(b) => Some(b)
+      case JavaInterop.NativeValue(v) => Some(v)
+      case IntervalArithmetic.RealValue(lo, hi) => Some(lo+(hi-lo)/2.0)
+      case _ => None
+    }
+  }
+  
   
   def resolve(args : List[Value], jargs : JavaTypeArgs) : Option[Array[Object]] = {
     if (!canHandleArgs(jargs, args.length)) return None
@@ -400,7 +440,26 @@ object JavaInterop {
     val v = IntervalArithmetic.makeRV(d, d)
     v match {
       case _ : IntervalArithmetic.RealValue => v
-      case _ => NativeValue(d.asInstanceOf[AnyRef])
+      case e : ExceptionValue => e.asPersistentException
+      case _ => v
+    }
+  }
+  
+  def makeValue(obj:Any) : Value = {
+    if (obj == null) return nil
+    obj match {
+      case i: Long => IntegerValue(i)
+      case i: Int => IntegerValue(i)
+      case i: Short => IntegerValue(i)
+      case i: Byte => IntegerValue(i)
+      case i: Char => IntegerValue(i)
+      case b: Boolean => BooleanValue(b)
+      case i: java.math.BigInteger => IntegerValue(new BigInt(i))
+      case s: String => StringValue(s)
+      case f: Float => makeReal(f)
+      case d: Double => makeReal(d)
+      case a: Array[_] => VectorValue(a.map(makeValue (_)).toArray)
+      case _ => NativeValue(obj.asInstanceOf[AnyRef])
     }
   }
   
@@ -416,7 +475,8 @@ object JavaInterop {
       case JBoolean(_) => BooleanValue(obj.asInstanceOf[Boolean])
       case JChar(_) => IntegerValue(obj.asInstanceOf[Char])
       case JString() => StringValue(obj.asInstanceOf[String])
-      case JObject(c) => NativeValue(obj.asInstanceOf[AnyRef])
+      case JObject(c) => makeValue(obj)
+        //NativeValue(obj.asInstanceOf[AnyRef])
       case JArray(elemType) =>
         VectorValue(obj.asInstanceOf[Array[_]].map(makeValueOfType(_, elemType)))
       case JFloat(primitive) => makeReal(obj.asInstanceOf[Float])

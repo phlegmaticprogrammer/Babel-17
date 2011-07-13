@@ -171,6 +171,11 @@ object Values {
       throw Evaluator.EvalX("this is not an exception, cannot make dynamic")
     }
 
+    def asPersistentException() : ExceptionValue = {
+      throw Evaluator.EvalX("this is not an exception, cannot make persistent")
+    }
+
+
     def isNil(force : Boolean) : Boolean = {
       val v = if (force) this.force() else this
       v match {
@@ -808,6 +813,14 @@ object Values {
       if (dynamic) this
       else {
         val e = ExceptionValue(true, v)
+        e.stackTrace = stackTrace;
+        e
+      }
+    }
+    override def asPersistentException() : ExceptionValue = {
+      if (!dynamic) this
+      else {
+        val e = ExceptionValue(false, v)
         e.stackTrace = stackTrace;
         e
       }

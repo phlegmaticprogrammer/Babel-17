@@ -93,8 +93,26 @@ module lang.unittest.spec.nativeinterop
         #assert h.a_mul 7 == 7 * h.a
         
         #assert h_class.a_mul 7 == 7 * h_class.a
+        
+        begin
+            val s = native New ("java.lang.Short", 2)
+            val ar = native New ("java.util.ArrayList")
+            val _ = 
+              begin
+                ar.add 1
+                ar.add 10
+                ar.add 5
+                ar.add s
+                ar.add ((18, 13, 15),)
+              end
+            #assert ar.toArray () == (1,10,5,2,(18,13,15))
+        end
     else
         #assert false
     end
 
 end
+
+
+
+

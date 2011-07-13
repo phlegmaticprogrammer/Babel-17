@@ -36,6 +36,19 @@ module lang.unittest.spec.standard
         
         #assert [1; 2] < 3
         #catch DomainError try: [1; "2"]
+        
+        #assert
+          match {1, 2}
+            case (a, b) => false
+            case _ => true
+          end
+          
+        #assert 
+          match (1, 2)
+            case {a, b} => false
+            case _ => true
+          end
+        
           
     end
 
@@ -275,17 +288,6 @@ module lang.unittest.spec
     end
     
 end
-
-native Platform
-##native Class ("com.babel17.java.TestClass")
-val c = "com.babel17.java.TestClass"
-native New (c, 3)
-native New (c, "s")
-val test = native New (c, "s", 4, 8, 12, 0, 12, 45, 11)
-test.print ["komisch"]
-
-
-
 
 
 
