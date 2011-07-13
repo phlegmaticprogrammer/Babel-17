@@ -202,6 +202,8 @@ class Tree2Program extends ErrorProducer {
       case LAZY => SELazy(attachSTE(arg, "lazy"))
       case RANDOM => SERandom(arg)
       case NATIVE => SENative(arg)
+      case MIN => SEMin(arg)
+      case MAX => SEMax(arg)
       case CONCURRENT => SEConcurrent(attachSTE(arg, "random"))
       case CHOOSE => SEChoose(arg)
       case FORCE => SEForce(attachSTE(arg, "force"))

@@ -324,6 +324,8 @@ object CollectVars {
       case SELazy(se) => List(se)
       case SERandom(se) => List(se)
       case SENative(se) => List(se)
+      case SEMax(se) => List(se)
+      case SEMin(se) => List(se)
       case SETypeOf(se) => List(se)
       case SEChoose(se) => List(se)
       case SEForce(se) => List(se)

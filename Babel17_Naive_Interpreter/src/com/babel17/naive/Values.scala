@@ -928,7 +928,11 @@ object Values {
   class CustomForIterator(v : Value) extends ForIterator {
     var iterator = v
     def nextValue() : Value = {
-      iterator = iterator.sendMessage(Program.Id(MESSAGE_ITERATE)).force()
+      val w = iterator.sendMessage(Program.Id(MESSAGE_ITERATE))
+      if (w == null) {
+        return dynamicException(CONSTRUCTOR_INVALIDITERATOR)
+      }
+      iterator = w.force()
       if (iterator.isDynamicException) return iterator
       iterator match {
         case VectorValue(Array()) => null

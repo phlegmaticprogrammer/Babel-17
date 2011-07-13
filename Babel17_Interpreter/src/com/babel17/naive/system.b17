@@ -193,6 +193,27 @@ match x
   case _ => false
 end
 
+def minimum coll =
+match coll
+  case (for m, rest as ... end) =>
+    for x in rest do 
+      if x ~ m < 0 then m = x end 
+    end
+    m
+  case _ => exception DomainError
+end
+
+def maximum coll = 
+match coll
+  case (for m, rest as ... end) =>
+    for x in rest do 
+      if x ~ m > 0 then m = x end 
+    end
+    m
+  case _ => exception DomainError
+end
+
+
 
 
 

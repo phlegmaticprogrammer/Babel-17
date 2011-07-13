@@ -287,6 +287,17 @@ module lang.unittest.spec
         #catch A try: (exception A) < (exception B)
     end
     
+    module order 
+      #assert max (1, -1.0) == 1
+      #assert min (1, -1.0) == -1.0
+      #catch Unrelated try: min (1, "a")
+      #catch Unrelated try: max (1, "a")      
+      #catch DomainError try: min ()
+      #catch DomainError try: max ()
+      #catch DomainError try: min 2
+      #catch DomainError try: max 2
+    end
+    
 end
 
 

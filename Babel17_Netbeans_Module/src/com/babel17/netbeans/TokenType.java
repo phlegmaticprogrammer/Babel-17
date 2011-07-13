@@ -50,6 +50,8 @@ public enum TokenType {
   NOT(babel17Lexer.L_not, "keyword_operator"),
   ROOT(babel17Lexer.L_root, "keyword_operator"),
   NATIVE(babel17Lexer.L_native, "keyword_operator"),
+  MAX(babel17Lexer.L_max, "keyword_operator"),
+  MIN(babel17Lexer.L_min, "keyword_operator"),
 
 
   COLON(babel17Lexer.COLON, "operator"),

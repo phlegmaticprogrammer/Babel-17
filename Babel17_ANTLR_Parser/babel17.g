@@ -249,6 +249,10 @@ L_root	:	'root';
 
 L_native:	'native';
 
+L_min	:	'min';
+
+L_max	:	'max';
+
 /* Symbolic Tokens */
 
 A_EQUAL	:	'==';
@@ -725,7 +729,7 @@ p_term_expr
 	|	p_arith_expr;
 
 builtin_fun
-	:	L_random | L_choose | L_typeof | L_native;
+	:	L_random | L_choose | L_typeof | L_native | L_min | L_max;
 
 arith_expr
 	:	plusplus_expr;

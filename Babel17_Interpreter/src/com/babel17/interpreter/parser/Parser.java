@@ -62,6 +62,8 @@ public class Parser {
     k.add("and");
     k.add("root");
     k.add("native");
+    k.add("min");
+    k.add("max");
 
     return k;
   }
@@ -401,6 +403,10 @@ public class Parser {
           return toUnaryNode(tree, OperatorNode.FORCE);
         case babel17Parser.L_typeof:
           return toUnaryNode(tree, OperatorNode.TYPEOF);
+        case babel17Parser.L_min:
+          return toUnaryNode(tree, OperatorNode.MIN);
+        case babel17Parser.L_max:
+          return toUnaryNode(tree, OperatorNode.MAX);         
         case babel17Parser.EMPTY_MAP:
           return new MapNode(new NodeList()).mergeLocation(loc);
         case babel17Parser.L_nil:

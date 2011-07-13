@@ -426,6 +426,12 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case _ => domainError
     }
   }
+  
+  def evalExtremum(msg : String, env: SimpleEnvironment, se : SimpleExpression) : Value = {
+    val v = evalSE(env, se)
+    if (v.isException) v.asDynamicException
+    else systemSendMessage(v, msg)
+  }
 
   def evalSE_(env : SimpleEnvironment, se : SimpleExpression) : Value =
   {
@@ -449,6 +455,8 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
             case x => x
           }
       case SERoot() => evalModule(Path(List()))
+      case SEMax(se) => evalExtremum("maximum", env, se)
+      case SEMin(se) => evalExtremum("minimum", env, se)
       case SENative(se) =>
         val v = evalSE(env, se)
         v match {

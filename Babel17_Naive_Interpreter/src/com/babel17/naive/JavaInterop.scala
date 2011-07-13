@@ -263,9 +263,9 @@ object JavaInterop {
   }
   
   def resolve_(arg : Value, ty : JavaType) : Option[Any] = {
-    System.out.println("resolve: arg="+arg+", ty="+ty);
+    //System.out.println("resolve: arg="+arg+", ty="+ty);
     val x = resolve(arg, ty)
-    System.out.println("  resolved: "+x);
+    //System.out.println("  resolved: "+x);
     x
   }
   
@@ -505,7 +505,7 @@ object JavaInterop {
     private var jmembers = collectJMembers(classObj)
     
     def newInstance(args : List[Value]) : Value = {
-      System.out.println("new instance("+classname+"), args = "+args)
+      //System.out.println("new instance("+classname+"), args = "+args)
       for (jc <- jconstructors) {
         resolve(args, jc.args) match {
           case None =>
@@ -587,7 +587,7 @@ object JavaInterop {
               case Some(params) =>
                 val u = if (jm.isStatic) null else v.v
                 try {
-                  System.out.println("invoke method "+jm.m+", params = "+params.toList+", u = "+u)
+                  //System.out.println("invoke method "+jm.m+", params = "+params.toList+", u = "+u)
                   val r = jm.m.invoke(u, params:_*)
                   return makeValueOfType(r, jm.returnType)
                 } catch {

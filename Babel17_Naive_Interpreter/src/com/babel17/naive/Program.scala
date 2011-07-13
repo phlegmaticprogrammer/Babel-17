@@ -185,6 +185,8 @@ object Program {
   case class SEThis() extends SimpleExpression 
   case class SERoot() extends SimpleExpression
   case class SENative(u : SimpleExpression) extends SimpleExpression
+  case class SEMin(u : SimpleExpression) extends SimpleExpression
+  case class SEMax(u : SimpleExpression) extends SimpleExpression
   case class SEExpr(se: Expression) extends SimpleExpression
   case class SEOr(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SEAnd(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
