@@ -121,8 +121,9 @@ object Program {
       case _ : SPragma => true
       case _ : SVal => true
       case _ : SAssign => true
-      case _ : SAssignRecordUpdate => true
-      case _ : SValRecordUpdate => true
+      case _ : SLensAssign => true
+      //case _ : SAssignRecordUpdate => true
+      //case _ : SValRecordUpdate => true
       case _ => false
     }
   }
@@ -139,8 +140,9 @@ object Program {
 
   case class SVal(pat : Pattern, e : Expression) extends Statement
   case class SAssign(pat : Pattern, e : Expression) extends Statement
-  case class SValRecordUpdate(id : Id, m : Id, e : Expression) extends Statement
-  case class SAssignRecordUpdate(id : Id, m : Id, e : Expression) extends Statement
+  case class SLensAssign(id : Id, lens : SimpleExpression, e : Expression) extends Statement
+  //case class SValRecordUpdate(id : Id, m : Id, e : Expression) extends Statement
+  //case class SAssignRecordUpdate(id : Id, m : Id, e : Expression) extends Statement
   case class SModule(path : Path, b : Block) extends Statement
   case class SDef0(memoize : MemoType, visibility : Visibility,
                    id : Id, e : Expression, returnType : Type) extends Def
@@ -204,6 +206,7 @@ object Program {
   //case class SEMergeObj(parents: SimpleExpression, b : Block) extends SimpleExpression
   case class SEObj(b : Block, messages : SortedSet[Id]) extends SimpleExpression
   case class SEMessageSend(target: SimpleExpression, m : Id) extends SimpleExpression
+  case class SELensSend(target : SimpleExpression, lens : SimpleExpression) extends SimpleExpression
   case class SEApply(f : SimpleExpression, x : SimpleExpression) extends SimpleExpression
   case class SECompare(operands : List[SimpleExpression], operators : List[CompareOp]) extends SimpleExpression
   case class SERelate(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
@@ -216,6 +219,7 @@ object Program {
   case class SEException(u : SimpleExpression) extends SimpleExpression
   case class SETypeOf(u : SimpleExpression) extends SimpleExpression
   case class SETypeExpr(path : Path) extends SimpleExpression
+  case class SELens(id : Id, se : SimpleExpression) extends SimpleExpression // Lens.isLensPath(se) == Some(id)
 
   abstract class CompareOp extends Locatable
   case class EQUAL() extends CompareOp
@@ -266,4 +270,6 @@ object Program {
    *
    */
 
+
+  
 }

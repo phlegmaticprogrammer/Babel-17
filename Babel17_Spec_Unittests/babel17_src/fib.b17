@@ -4,9 +4,3 @@ def fib n = fib (n-1) + fib (n-2)
 memoize fib
 
 fib 100
-
-val x = native New "com.babel17.java.TestClass"
-val x = native New ("com.babel17.java.TestClass", 2, 3)
-val y = native New ("com.babel17.java.TestClass", ())
-
-

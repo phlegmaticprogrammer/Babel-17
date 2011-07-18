@@ -107,11 +107,9 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SAssign(p, e) =>
         check_e(env, e)
         check_p(env, p, true)
-      case SValRecordUpdate(id, m, e) =>
+      case SLensAssign(id, lens, e) =>
         check_e(env, e)
-        env.bind(id)
-      case SAssignRecordUpdate(id, m, e) =>
-        check_e(env, e)
+        check_simple(env.freeze, lens)
         env.rebind(id)
       case d: SImport => env.define(d.id)
       case SDef0(_, _, id, e, _) =>

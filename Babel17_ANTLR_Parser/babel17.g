@@ -59,8 +59,8 @@ BLOCK;
 BEGIN;
 WITH;
 VAL;
-OBJELEM_ASSIGN;
 ASSIGN;
+LENS_ASSIGN;
 ARROW;
 DEF;
 YIELD;
@@ -95,6 +95,9 @@ IMPORT_ALL;
 IMPORT_SET;
 IMPORT_PLUS;
 IMPORT_MINUS;
+
+MESSAGE_ID;
+MESSAGE_LENS;
 }
 
 @lexer::header {
@@ -252,6 +255,8 @@ L_native:	'native';
 L_min	:	'min';
 
 L_max	:	'max';
+
+L_lens  :	'lens';
 
 /* Symbolic Tokens */
 
@@ -509,10 +514,7 @@ statement
 	| 	PRAGMA_ASSERT NL? expr -> ^(PRAGMA_ASSERT expr)
 	|	PRAGMA_CATCH NL? casepattern NL? L_try NL? COLON NL? expr -> ^(PRAGMA_CATCH expr casepattern);
 	
-objelem_assign
-	:	Id PERIOD Id -> ^(OBJELEM_ASSIGN Id Id);
-	
-st_val	:	L_val NL? (pattern | objelem_assign) NL? '=' NL? expr -> ^(VAL pattern* objelem_assign* expr);
+st_val	:	L_val NL? pattern NL? '=' NL? expr -> ^(VAL pattern expr);
 		
 st_def	:	L_def NL? Id NL? (defpattern NL?)? (':' NL? typeid NL?)? '=' NL? expr 
 		  -> ^(DEF Id typeid? defpattern? expr)
@@ -569,7 +571,9 @@ st_import
 	:	L_import NL? importprefix (NL? (PERIOD NL? importall | PERIOD NL? importset | token_DOUBLE_ARROW NL? Id))? -> ^(L_import importprefix importall? importset? Id?);
 	
 expr_or_assign
-	:	((pattern | objelem_assign) NL? '=') => (pattern | objelem_assign) NL? '=' NL? expr -> ^(ASSIGN pattern* objelem_assign* expr)
+	//:	((pattern | objelem_assign) NL? '=') => (pattern | objelem_assign) NL? '=' NL? expr -> ^(ASSIGN pattern* objelem_assign* expr)
+	:	(pattern NL? '=' ) => pattern NL? '=' NL? expr -> ^(ASSIGN pattern expr)
+	|	(term_expr NL? '=' ) => term_expr NL? '=' NL? expr -> ^(LENS_ASSIGN term_expr expr)
 	|	expr;
 	
 expr	
@@ -664,14 +668,22 @@ for_expr:	L_for NL? pattern NL? L_in NL? protected_expr NL? L_do block L_end
 	
 op_expr	
 	:	builtin_primitive^ op_expr
+	|	lens_expr
 	|	bool_expr;
 	
 p_op_expr
 	:	builtin_primitive^ NL!? p_op_expr
+	|	p_lens_expr
 	|	p_bool_expr;
 
 builtin_primitive
 	:	L_exception | L_lazy | L_concurrent | L_force;
+	
+lens_expr
+	:	L_lens NL? Id NL? token_DOUBLE_ARROW NL? op_expr -> ^(L_lens Id op_expr);
+	
+p_lens_expr
+	:	L_lens NL? Id NL? token_DOUBLE_ARROW NL? p_op_expr -> ^(L_lens Id p_op_expr);
 
 bool_expr 
 	:	bool_or_expr;
@@ -806,7 +818,11 @@ p_basic_expr
 	:	message_send_expr;
 
 message_send_expr
-	:	primitive_expr (NL? PERIOD NL? Id)* -> ^(MESSAGE_SEND primitive_expr Id*);
+	:	primitive_expr (NL? PERIOD NL? message_expr)* -> ^(MESSAGE_SEND primitive_expr message_expr*);
+	
+message_expr
+	:	Id -> ^(MESSAGE_ID Id)
+	|	'(' NL? p_op_expr NL? ')' -> ^(MESSAGE_LENS p_op_expr);
 	
 list_expr 
 	:	('[' NL? protected_expr_nc NL? ';') => '[' NL? protected_expr_nc NL? ';' NL? protected_expr_nc NL? ']' -> ^(INTERVAL protected_expr_nc*)

@@ -300,6 +300,19 @@ module lang.unittest.spec
     
 end
 
+#(val x = {a = 10, b = 20}
+
+x.a = 12
+
+(x.get 10).h = Some 12
+val u = x.get 10
+x..get 10
+lens l = (x.get 10).h 
+x(.)l :- list
+u.h = Some 12
+u.g = Some 13 )#
+
+
 
 
 

@@ -3,9 +3,16 @@ package com.babel17.syntaxtree;
 public final class MessageNode extends Node {
 
   private String name;
+  private Node lens;
 
   public MessageNode(String name) {
     this.name = name;
+    this.lens = null;
+  }
+  
+  public MessageNode(Node lens) {
+    this.lens = lens;
+    this.name = null;
   }
 
   public String description() {
@@ -13,6 +20,11 @@ public final class MessageNode extends Node {
   }
 
   public String name() { return name; }
-  public NodeList children() { return null; }
+  public Node lens() { return lens; }
+  public NodeList children() {
+    NodeList l = new NodeList();
+    if (lens != null) l = l.cons(lens);
+    return l;
+  }
 
 }

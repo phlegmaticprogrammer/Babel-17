@@ -62,6 +62,9 @@ public final class OperatorNode extends Node {
   public final static int MIN = 46;
   public final static int MAX = 47;
   
+  public final static int LENS = 48;
+  
+  
 
 
   public OperatorNode(int operator) {

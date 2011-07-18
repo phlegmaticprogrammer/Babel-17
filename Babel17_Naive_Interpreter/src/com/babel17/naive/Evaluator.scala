@@ -432,23 +432,26 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
     if (v.isException) v.asDynamicException
     else systemSendMessage(v, msg)
   }
+  
+  def evalId(env : SimpleEnvironment, id: Id) : Value = {
+    var v : Value = null
+    try {
+      v = env.lookup(id)
+    } catch {
+      case x : java.util.NoSuchElementException =>
+        val path = Path(List(id))
+        return evalModule(path)
+    }
+    v match {
+      case ev : EnvironmentValue => ev.onLookup()
+      case x => x
+    }   
+  }
 
   def evalSE_(env : SimpleEnvironment, se : SimpleExpression) : Value =
   {
     se match {
-      case SEId(id) =>
-        var v : Value = null
-        try {
-          v = env.lookup(id)
-        } catch {
-          case x : java.util.NoSuchElementException =>
-            val path = Path(List(id))
-            return evalModule(path)
-        }
-        v match {
-          case ev : EnvironmentValue => ev.onLookup()
-          case x => x
-        }
+      case SEId(id) => evalId(env, id)
       case SEThis() =>
           env.lookup(ID_THIS) match {
             case ev : EnvironmentValue => ev.onLookup()
@@ -502,6 +505,18 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         val v = evalSE(env, target).sendMessage(message)
         if (v == null) dynamicException(CONSTRUCTOR_INVALIDMESSAGE, StringValue(message.name))
         else v
+      case SELensSend(target, lensExpr) =>
+        val x = evalSE(env, target)
+        if (x.isDynamicException) x
+        else {
+          evalSE(env, lensExpr).force() match {
+            case g: ExceptionValue => g.asDynamicException
+            case g => 
+              val f = g.extractFunctionValue
+              if (f.isException) f.asDynamicException
+              else f.asInstanceOf[FunctionValue].apply(x)
+          }
+        }
       case SERecord(messageValuePairs) =>
         var map : SortedMap[Id, Value] = SortedMap()
         for ((m, se) <- messageValuePairs) {
@@ -578,6 +593,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         else v.choose()
       case SEForce(e) =>
         evalSE(env, e).force()
+      case lens : SELens => Lens.evalLens(this, env, lens)
       case SENot(e) =>
         evalSE(env, e) match {
           case BooleanValue(b) => BooleanValue (!b)
@@ -742,6 +758,21 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           case NoMatch() => StatementException(dynamicException(CONSTRUCTOR_NOMATCH))
           case DoesMatch(newEnv) => StatementCollector(newEnv, coll)
         }
+      case SLensAssign(id, lensExpr, expr) =>
+        val e = evalExpression(env, expr)
+        if (e.isDynamicException) return StatementException(e.asDynamicException)
+        val senv = env.freeze
+        val lens = evalSE(senv, lensExpr)
+        if (lens.isException) return StatementException(lens.asDynamicException)
+        lens.typeConvert(true, Values.TYPE_LENS) match {
+          case l: Lens.LensValue =>
+            val x = evalId(senv, id)
+            if (x.isDynamicException) return StatementException(x.asDynamicException)
+            val y = l.lensPut(x, e)
+            if (y.isDynamicException) return StatementException(y.asDynamicException)
+            StatementCollector(env.rebind(id, y), coll)
+          case _ => StatementException(Lens.lensError("lens expected, found: '"+lens.stringDescr(false)+"'"))
+        }
       case SImport(path, id) =>
         var se : SimpleExpression = SEId(path.ids.head)
         for (message <- path.ids.tail) se = SEMessageSend(se, message)
@@ -831,7 +862,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
             }
         }
         StatementCollector(env, coll)
-      case SAssignRecordUpdate(id, m, expr) =>
+ /*     case SAssignRecordUpdate(id, m, expr) =>
         val e = evalExpression(env, expr)
         if (e.isDynamicException) StatementException(e.asDynamicException)
         else {
@@ -850,7 +881,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         else {
           val x = ObjectValue(SortedMap(m -> e))
           StatementCollector(env.bind(id, x), coll)
-        }
+        }*/
       case SWhile(cond, block) =>
         do {
           evalSE(env.freeze, cond).force() match {

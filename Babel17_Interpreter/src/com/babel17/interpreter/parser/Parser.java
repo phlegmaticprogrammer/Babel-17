@@ -64,6 +64,7 @@ public class Parser {
     k.add("native");
     k.add("min");
     k.add("max");
+    k.add("lens");
 
     return k;
   }
@@ -200,26 +201,21 @@ public class Parser {
         case babel17Parser.PROG:
           return toNode(tree.getChild(0));
         case babel17Parser.BLOCK:
-          return new BlockNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();
+          return new BlockNode(toNodeList(tree).suppressErrors()).mergeLocation(loc).mergeLocation();   
+        case babel17Parser.LENS_ASSIGN: {
+          Node leftSide = toNode(tree.getChild(0));
+          Node rightSide = toNode(tree.getChild(1));
+          return new LensAssignNode(leftSide, rightSide).mergeLocation(loc).mergeLocation();
+        }
         case babel17Parser.ASSIGN:
         case babel17Parser.VAL: {
           boolean assign = tree.getType() == babel17Parser.ASSIGN;
           Tree left = tree.getChild(0);
-          if (left.getType() == babel17Parser.OBJELEM_ASSIGN) {
-            IdentifierNode id = (IdentifierNode) toNode(left.getChild(0));
-            IdentifierNode mid = (IdentifierNode) toNode(left.getChild(1));
-            MessageNode m = new MessageNode(mid.name());
-            m.mergeLocation(mid.location());
-            Node rightSide = toNode(tree.getChild(1));
-            return new ObjectUpdateNode(assign, id, m, rightSide).
-                    mergeLocation(loc).mergeLocation();
-
-          } else {
-            PatternNode pattern = toPattern(tree.getChild(0));
-            Node rightSide = toNode(tree.getChild(1));
-            return new ValNode(assign, pattern, rightSide).mergeLocation(loc).
-                  mergeLocation();
-          }
+          PatternNode pattern = toPattern(tree.getChild(0));
+          Node rightSide = toNode(tree.getChild(1));
+          return new ValNode(assign, pattern, rightSide).mergeLocation(loc).
+                mergeLocation();
+          
         }
         case babel17Parser.Id: {
           String name = tree.getText();
@@ -289,15 +285,28 @@ public class Parser {
           return leftassocBinary(l, OperatorNode.APPLY).mergeLocation(loc);
         }
         case babel17Parser.MESSAGE_SEND: {
-          NodeList l = toNodeList(tree);
-          if (l.hasErrors()) return BeginNode.empty();
-          Node result = l.head();
-          for (Node n : l.tail()) {
-            IdentifierNode id = (IdentifierNode) n;
-            MessageNode m = new MessageNode(id.name());
-            m.mergeLocation(id.location());
-            result = new BinaryNode(new OperatorNode(OperatorNode.MESSAGE_SEND),
+          int count = tree.getChildCount();
+          if (count == 0) return BeginNode.empty();
+          Node result = toNode(tree.getChild(0));
+          for (int i=1; i<count; i++) {
+            MessageNode m = null;
+            Tree sub = tree.getChild(i);
+            if (sub.getType() == babel17Parser.MESSAGE_ID) {
+              Node n = toNode(sub.getChild(0));
+              if (n instanceof IdentifierNode) {
+                IdentifierNode id = (IdentifierNode) n;
+                m = new MessageNode(id.name());
+                m.mergeLocation(id.location());              
+              }
+            } else if (sub.getType() == babel17Parser.MESSAGE_LENS) {
+              Node n = toNode(sub.getChild(0));
+              m = new MessageNode(n);
+              m.mergeLocation(n.location());
+            }
+            if (m != null) {
+              result = new BinaryNode(new OperatorNode(OperatorNode.MESSAGE_SEND),
                     result, m).mergeLocation(m.location());
+            }
           }
           return result.mergeLocation(loc);
         }
@@ -387,6 +396,8 @@ public class Parser {
         case babel17Parser.L_root:
           return toNullaryNode(OperatorNode.ROOT).
                   mergeLocation(loc);
+        case babel17Parser.L_lens:
+          return toBinaryNode(tree, OperatorNode.LENS);
         case babel17Parser.L_native:
           return toUnaryNode(tree, OperatorNode.NATIVE);
         case babel17Parser.L_random:

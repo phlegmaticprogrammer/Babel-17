@@ -39,6 +39,8 @@ object Values {
   val MESSAGE_ATINDEX = "atindex"
   val MESSAGE_HEAD = "head"
   val MESSAGE_TAIL = "tail"
+  
+  val MESSAGE_PUTBACK = "putback"
 
  /* val MESSAGE_STRING = "string"
   val MESSAGE_BOOLEAN = "boolean"
@@ -84,8 +86,9 @@ object Values {
   val TYPE_FUN = makeTypeValue("fun")
   val TYPE_EXC = makeTypeValue("exc")
   val TYPE_TYPE = makeTypeValue("type")
-  val TYPE_MODULE = makeTypeValue("module")
-  val TYPE_NATIVE = makeTypeValue("native")
+  val TYPE_MODULE = makeTypeValue("moduletype")
+  val TYPE_NATIVE = makeTypeValue("nativetype")
+  val TYPE_LENS = makeTypeValue("lenstype")
   
   def makeConversion(s : String) = "this:>"+s
   def makeAutoConversion(s : String) = "this:"+s

@@ -205,7 +205,9 @@ object ModuleSystem {
     ty("fun")
     ty("exc")
     ty("type")
-    ty("module")
+    ty("moduletype")
+    ty("nativetype")
+    ty("lenstype")
 
     ModuleDescr(Path(List()), typeIds, SortedSet(), Block(List()))
 

@@ -481,10 +481,12 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         SVal(transform_pat(env, p), transform_expr(env, e))
       case SAssign(p, e) =>
         SAssign(transform_pat(env, p), transform_expr(env, e))
-      case SValRecordUpdate(id, m, e) =>
+      case SLensAssign(id, lens, e) =>
+        SLensAssign(id, transform_se(env, lens), transform_expr(env, e))
+      /*case SValRecordUpdate(id, m, e) =>
         SValRecordUpdate(id, m, transform_expr(env, e))
       case SAssignRecordUpdate(id, m, e) =>
-        SAssignRecordUpdate(id, m, transform_expr(env, e))
+        SAssignRecordUpdate(id, m, transform_expr(env, e))*/
       case TempConversionDef(rt, e, automatic) =>
         transform_type(env, TypeSome(rt)) match {
           case TypeNone() =>
@@ -546,6 +548,8 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
     val result = se match {
       case SEExpr(e) =>
         SEExpr(transform_expr(env, e))
+      case SEMin(u) => SEMin(tr(u))
+      case SEMax(u) => SEMax(tr(u))
       case SEOr(u, v) => SEOr(tr(u), tr(v))
       case SEAnd(u, v) => SEAnd(tr(u), tr(v))
       case SENot(u) => SENot(tr(u))
@@ -558,6 +562,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
           case TypeNone() => tr(u)
         }
       case SECons(h, t) => SECons(tr(h), tr(t))
+      case SEConstr(n, t) => SEConstr(n, tr(t))
       case SEFun(m, branches) =>
         def f(x : (Pattern, Expression, Type)) =
           (transform_pat(env, x._1), transform_expr(env, x._2),
@@ -578,6 +583,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SERecord(l) => SERecord(l.map(x => (x._1, tr(x._2))))
       case SEList(l) => SEList(l.map(tr _))
       case SEVector(l) => SEVector(l.map(tr _))
+      case SELens(id, l) => SELens(id, tr(l))
       case SEGlueObj(p, _b, _) =>
         val b = transform_block(env, _b)
         val m = CollectVars.collectDefIds(b.statements)
@@ -587,6 +593,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         val m = CollectVars.collectDefIds(b.statements)
         SEObj(b, m)
       case SEMessageSend(t, m) => SEMessageSend(tr(t), m)
+      case SELensSend(target, lens) => SELensSend(tr(target), tr(lens))
       case SEApply(f, x) => SEApply(tr(f), tr(x))
       case SECompare(operands, operators) =>
         SECompare(operands.map(tr _), operators)
@@ -597,6 +604,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SEForce(u) => SEForce(tr(u))
       case SEException(u) => SEException(tr(u))
       case SETypeOf(u) => SETypeOf(tr(u))
+      case SENative(u) => SENative(tr(u))
       case SETypeExpr(path) =>
         env.resolveTypeAnnotation(path) match {
           case None =>
@@ -605,7 +613,13 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
           case Some(rp) =>
             SETypeExpr(rp)
         }
-      case _ => se
+      case s: SEId => s
+      case s: SEInt => s
+      case s: SEBool => s
+      case s: SEString => s
+      case s: SEFloat => s
+      case s: SERoot => s
+      case s: SEThis => s
     }
     result.location = se.location
     result.stackTraceElement = se.stackTraceElement
@@ -644,7 +658,12 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         if (err)
           error(ty.location, "no local type definition for: '"+ty+"'")
         PInnerValue(localType, tr(pattern))
-      case _ => pattern
+      case p: PInt => p
+      case p: PBool => p
+      case p: PString => p
+      case p: PId => p
+      case p: PAny => p
+      case p: PEllipsis => p
     }
     result.location = pattern.location
     result

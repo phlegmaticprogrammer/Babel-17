@@ -31,6 +31,7 @@ public enum TokenType {
   CONCURRENT(babel17Lexer.L_concurrent),
   CHOOSE(babel17Lexer.L_choose, "keyword_operator"),
   LAZY(babel17Lexer.L_lazy),
+  LENS(babel17Lexer.L_lens),
   MEMOIZE(babel17Lexer.L_memoize),
   THIS(babel17Lexer.L_this, "keyword_operator"),
   RANDOM(babel17Lexer.L_random, "keyword_operator"),

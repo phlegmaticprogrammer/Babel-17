@@ -45,9 +45,9 @@ val u =
 
 #assert u.color1 == u.color2 == Green
 
-u.calc = Red
+##u.calc = Red
 
-#assert u.color1 == u.color2 == Red
+##assert u.color1 == u.color2 == Red
 
 end
 

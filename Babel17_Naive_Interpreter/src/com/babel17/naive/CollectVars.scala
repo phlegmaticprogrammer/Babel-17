@@ -107,15 +107,11 @@ object CollectVars {
         collectVars(e)
         term.freeVars = p.freeVars ++ e.freeVars
         term.assignedVars = p.introducedVars ++ e.assignedVars   
-      case SValRecordUpdate(id, m, e) =>
+      case SLensAssign(id, lens, e) =>
         collectVars(e)
-        term.freeVars = e.freeVars
-        term.introducedVars = SortedSet(id)
-        term.assignedVars = e.assignedVars
-      case SAssignRecordUpdate(id, m, e) =>
-        collectVars(e)
-        term.freeVars = e.freeVars
-        term.assignedVars = e.assignedVars + id
+        collectVars(lens)
+        term.freeVars = e.freeVars ++ lens.freeVars
+        term.assignedVars = SortedSet(id)
       case SDef0(_, _, id , e, _) =>
         collectVars(e)
         term.freeVars = e.freeVars - id
@@ -294,14 +290,16 @@ object CollectVars {
         collectVars(b)
         term.freeVars = b.freeVars
       case SImport(path, id) =>
+      case t: TempImport =>
+      case SELens(id, se) =>
+        collectVars(se)
+        term.freeVars = se.freeVars - id 
       case se : SimpleExpression =>
         val ses = subSimpleExpressions(se)
         for (s <- ses) {
           collectVars(s)
           term.freeVars = term.freeVars ++ s.freeVars
         }
-      case _ =>
-        // nothing to do
     }
   }
   
@@ -324,6 +322,7 @@ object CollectVars {
       case SELazy(se) => List(se)
       case SERandom(se) => List(se)
       case SENative(se) => List(se)
+      case SELensSend(target, lens) => List(target, lens)
       case SEMax(se) => List(se)
       case SEMin(se) => List(se)
       case SETypeOf(se) => List(se)

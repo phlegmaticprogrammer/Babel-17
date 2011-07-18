@@ -1,0 +1,66 @@
+module lang.unittest.spec.lenses
+
+val u = {a = 1, b = {i = 2, j = 3}}
+val v = u
+
+val l = lens x => x.b.i
+
+#assert l u == u.(l) == 2
+
+#assert typeof l == (: lensType)
+
+u.(l) = 5
+
+#assert u == {a = 1, b = {i = 5, j = 3}}
+#assert v == {a = 1, b = {i = 2, j = 3}}
+
+v.b.j = 42
+v.(l) = 6
+v.a = v.a + 10
+
+#assert v == {a = 11, b = {i = 6, j = 42}}
+
+l = lens x => x
+
+v.(l) = 77
+
+#assert v == 77
+
+typedef mymap (c : map) = 
+    object
+      def get k = if c.containsKey(k) then Some (c k) else None end
+      def get_putback_ k = 
+        (case Some x => mymap (c + (k, x))
+         case None => mymap (c - k))
+      def this:map = c
+    end
+  
+val c = { 1 -> 2, 2 -> 3, 3 -> 4, 4 -> 1 }
+val m = mymap c
+
+#assert m.get 3 == Some 4
+
+m.get 3 = Some 10
+
+#assert m == {1 -> 2, 2 -> 3, 3 -> 10, 4 -> 1}
+
+m.get 3 = None
+
+#assert m == {1 -> 2, 2 -> 3, 4 -> 1}
+
+val f = lens x => x.b
+val g = lens x => x.i      
+
+u.(f*g) = 13
+
+#assert u.b.i == 13
+#assert u.(f*g) == 13
+
+
+
+
+end
+
+
+
+

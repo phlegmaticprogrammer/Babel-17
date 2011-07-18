@@ -103,6 +103,7 @@ class Tree2Program extends ErrorProducer {
       case MESSAGE_SEND =>
         build(rightNode) match {
           case msg : Id => SEMessageSend(left(), msg)
+          case SELens(_, lens) => SELensSend(left(), lens)
           case x => throwInternalError(op.location, "buildBinaryOperation, no message: "+x)
         }
       case OR => SEOr(left(), right())
@@ -117,6 +118,26 @@ class Tree2Program extends ErrorProducer {
           case t =>
             SEConvert(left(), Right(right()))
         }
+      case LENS =>
+        var r : SimpleExpression = null
+        left() match {
+          case SEId(id) =>
+            val se = right()
+            Lens.isLensPath(se) match {
+              case Some(id2) =>
+                if (id2 == id) {
+                  r = SELens(id, se)
+                } 
+              case _ =>
+            }
+          case _ =>
+        }
+        if (r == null) {
+          error(rightNode.location, "invalid lens expression")
+          right()
+        }
+        else r
+        
       case x => throwInternalError(op.location, "buildBinaryOperation: "+x)
     }
   }
@@ -204,7 +225,7 @@ class Tree2Program extends ErrorProducer {
       case NATIVE => SENative(arg)
       case MIN => SEMin(arg)
       case MAX => SEMax(arg)
-      case CONCURRENT => SEConcurrent(attachSTE(arg, "random"))
+      case CONCURRENT => SEConcurrent(attachSTE(arg, "concurrent"))
       case CHOOSE => SEChoose(arg)
       case FORCE => SEForce(attachSTE(arg, "force"))
       case EXCEPTION => attachSTE(SEException(arg), "exception")
@@ -279,7 +300,10 @@ class Tree2Program extends ErrorProducer {
       case n : StringNode =>
         SEString(n.value)
       case n : MessageNode =>
-        Id(n.name().toLowerCase)
+        if (n.name != null)
+          Id(n.name().toLowerCase)
+        else
+          SELens(null, buildSimpleExpression(n.lens)) // hack
       case n : NullaryNode =>
         buildNullary(n)
       case n : BinaryNode =>
@@ -296,22 +320,35 @@ class Tree2Program extends ErrorProducer {
         val e = buildExpression(n.rightSide)
         val p = buildProperPattern(n.pattern)
         if (n.assign) SAssign(p, e) else SVal(p, e)
-      case n : ObjectUpdateNode =>
+      case n : LensAssignNode =>
+        val l = buildSimpleExpression(n.leftSide)
+        var id : Id = null
+        var se : SimpleExpression = null
+        Lens.isLensPath(l) match {
+          case Some(id2) => 
+            id = id2
+            se = SELens(id, l)
+          case None =>
+            l match {
+              case SELensSend(SEId(id2), lens) =>
+                CollectVars.collectVars(lens)
+                if (lens.freeVars.contains(id2))
+                  error(lens.location, "lens expression contains '"+id2.name+"'")
+                id = id2
+                se = lens             
+              case _ =>
+            }
+        }        
         val e = buildExpression(n.rightSide)
-        val id = Id(n.id.name.toLowerCase)
-        id.setLocation(n.id.location)
-        val m = Id(n.message.name)
-        m.setLocation(n.message.location)
-        if (n.assign)
-          SAssignRecordUpdate(id, m, e)
-        else
-          SValRecordUpdate(id, m, e)
+        if (id == null) {
+          error(n.leftSide.location, "invalid left hand side of assignment")
+          SYield(e)
+        } else
+          SLensAssign(id, se, e)
       case n : ImportNode => {
         val nodes = n.ids
         val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
         path.location = nodes.location
-        /*if (n.importAll)
-    error(path.location, "no wildcard imports allowed")*/
         if (nodes.length < 1)
           error(n.location, "import path must contain at least one dot")
         def mkid(n : Node) = build(n).asInstanceOf[Id]
