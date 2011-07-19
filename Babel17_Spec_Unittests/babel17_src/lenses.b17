@@ -28,6 +28,8 @@ v.(l) = 77
 
 typedef mymap (c : map) = 
     object
+      def lookup k = c k
+      def lookup_putback_ k = x => mymap (c + (k, x))
       def get k = if c.containsKey(k) then Some (c k) else None end
       def get_putback_ k = 
         (case Some x => mymap (c + (k, x))
@@ -47,6 +49,10 @@ m.get 3 = Some 10
 m.get 3 = None
 
 #assert m == {1 -> 2, 2 -> 3, 4 -> 1}
+
+#catch DomainError try: m.lookup 10
+m.lookup 10 = 24
+#assert m.lookup 10 == 24
 
 val f = lens x => x.b
 val g = lens x => x.i      
@@ -79,6 +85,19 @@ u.(f).(g) = 80
   begin
     u.(exception 2) = 18
   end
+  
+val fst = lens ((x, y) => x, (x, y) => z => (z, y))
+val snd = lens ((x, y) => y, (x, y) => z => (x, z))
+
+val x = (1, 2)
+
+x.(fst) = 10
+
+#assert x == (10, 2)
+
+x.(snd) = 13
+
+#assert x == (10, 13)
 
 
 end

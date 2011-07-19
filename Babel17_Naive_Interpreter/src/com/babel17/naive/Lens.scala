@@ -184,6 +184,8 @@ object Lens {
     def lensPut(forwards : List[LensPathElem], state : Value, p : Value) : Value = {
       forwards match {
         case List() => p
+        case List(lpe) =>
+          goBackward(lpe, state, p)
         case lpe :: lpes =>
           val s = goForward(lpe, state)
           if (s.isDynamicException) return s
@@ -198,6 +200,7 @@ object Lens {
     def combine(right : Value) : Value = {
       right match {
         case PrimitiveLensValue(forwards2) => PrimitiveLensValue(forwards ++ forwards2)  
+        case f: FunctionsLensValue => PrimitiveLensValue(forwards ++ List(LensLPE(f)))
         case _ => null
       }
     }
@@ -248,5 +251,28 @@ object Lens {
       case Left(ls) => PrimitiveLensValue(ls.reverseMap(revArgs _).toList)
     }
   } 
+  
+  case class FunctionsLensValue(fget:FunctionValue, fput:FunctionValue) extends LensValue {
+  
+    def lensGet(state : Value) : Value = {
+      fget.apply(state)
+    }
+    
+    def lensPut(state : Value, p : Value) : Value = {
+      fput.apply(state).extractFunctionValue match {
+        case f: FunctionValue => f.apply(p)
+        case x: ExceptionValue => x.asDynamicException
+      }      
+    }
+    
+    def combine(right : Value) : Value = {
+      right match {
+        case PrimitiveLensValue(forwards2) => PrimitiveLensValue(LensLPE(this) :: forwards2)  
+        case f: FunctionsLensValue => PrimitiveLensValue(List(LensLPE(this), LensLPE(f)))
+        case _ => null
+      }
+    }    
+    
+  }
     
 }

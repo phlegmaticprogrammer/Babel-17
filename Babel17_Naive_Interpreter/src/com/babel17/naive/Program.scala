@@ -220,6 +220,7 @@ object Program {
   case class SETypeOf(u : SimpleExpression) extends SimpleExpression
   case class SETypeExpr(path : Path) extends SimpleExpression
   case class SELens(id : Id, se : SimpleExpression) extends SimpleExpression // Lens.isLensPath(se) == Some(id)
+  case class SEDirectLens(fget : SimpleExpression, fput : SimpleExpression) extends SimpleExpression
 
   abstract class CompareOp extends Locatable
   case class EQUAL() extends CompareOp

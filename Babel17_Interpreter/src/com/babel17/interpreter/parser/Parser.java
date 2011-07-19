@@ -398,6 +398,8 @@ public class Parser {
                   mergeLocation(loc);
         case babel17Parser.L_lens:
           return toBinaryNode(tree, OperatorNode.LENS);
+        case babel17Parser.FUNCTIONS_LENS:
+          return toBinaryNode(tree, OperatorNode.FUNCTIONS_LENS);          
         case babel17Parser.L_native:
           return toUnaryNode(tree, OperatorNode.NATIVE);
         case babel17Parser.L_random:

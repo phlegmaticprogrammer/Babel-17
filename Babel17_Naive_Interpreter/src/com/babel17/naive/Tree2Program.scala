@@ -137,6 +137,8 @@ class Tree2Program extends ErrorProducer {
           right()
         }
         else r
+      case FUNCTIONS_LENS =>
+        SEDirectLens(left(), right())
         
       case x => throwInternalError(op.location, "buildBinaryOperation: "+x)
     }

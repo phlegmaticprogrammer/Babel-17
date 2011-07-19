@@ -98,6 +98,8 @@ IMPORT_MINUS;
 
 MESSAGE_ID;
 MESSAGE_LENS;
+
+FUNCTIONS_LENS;
 }
 
 @lexer::header {
@@ -680,10 +682,12 @@ builtin_primitive
 	:	L_exception | L_lazy | L_concurrent | L_force;
 	
 lens_expr
-	:	L_lens NL? Id NL? token_DOUBLE_ARROW NL? op_expr -> ^(L_lens Id op_expr);
+	:	L_lens NL? Id NL? token_DOUBLE_ARROW NL? op_expr -> ^(L_lens Id op_expr)
+	|	L_lens NL? ROUND_BRACKET_OPEN NL? protected_expr NL? COMMA NL? protected_expr NL? ROUND_BRACKET_CLOSE -> ^(FUNCTIONS_LENS protected_expr protected_expr);
 	
 p_lens_expr
-	:	L_lens NL? Id NL? token_DOUBLE_ARROW NL? p_op_expr -> ^(L_lens Id p_op_expr);
+	:	L_lens NL? Id NL? token_DOUBLE_ARROW NL? p_op_expr -> ^(L_lens token_DOUBLE_ARROW Id p_op_expr)
+	|	L_lens NL? ROUND_BRACKET_OPEN NL? protected_expr NL? COMMA NL? protected_expr NL? ROUND_BRACKET_CLOSE -> ^(FUNCTIONS_LENS protected_expr protected_expr);
 
 bool_expr 
 	:	bool_or_expr;

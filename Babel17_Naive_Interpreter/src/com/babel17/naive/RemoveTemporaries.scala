@@ -584,6 +584,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SEList(l) => SEList(l.map(tr _))
       case SEVector(l) => SEVector(l.map(tr _))
       case SELens(id, l) => SELens(id, tr(l))
+      case SEDirectLens(u, v) => SEDirectLens(tr(u), tr(v))
       case SEGlueObj(p, _b, _) =>
         val b = transform_block(env, _b)
         val m = CollectVars.collectDefIds(b.statements)

@@ -598,6 +598,16 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case SEForce(e) =>
         evalSE(env, e).force()
       case lens : SELens => Lens.evalLens(this, env, lens)
+      case SEDirectLens(f, g) =>
+        val u = evalSE(env, f).extractFunctionValue
+        val v = evalSE(env, g).extractFunctionValue
+        (u, v) match {
+          case (x:FunctionValue, y:FunctionValue) =>
+            Lens.FunctionsLensValue(x, y)
+          case (x:ExceptionValue, _) => x.asDynamicException
+          case (_, y:ExceptionValue) => y.asDynamicException
+          case _ => Lens.lensError("pair of functions as lens arguments expected")
+        }
       case SENot(e) =>
         evalSE(env, e) match {
           case BooleanValue(b) => BooleanValue (!b)

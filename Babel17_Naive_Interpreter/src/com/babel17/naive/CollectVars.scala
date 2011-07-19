@@ -333,6 +333,7 @@ object CollectVars {
       case SERelate(u, v) => List(u, v)
       case SEConvert(u, Right(v)) => List(u, v)
       case SEConvert(u, _) => List(u)
+      case SEDirectLens(u, v) => List(u, v)
       case _ => List()
     }
   }
