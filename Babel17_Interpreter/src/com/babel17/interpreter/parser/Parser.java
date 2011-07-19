@@ -60,6 +60,7 @@ public class Parser {
     k.add("not");
     k.add("or");
     k.add("and");
+    k.add("xor");
     k.add("root");
     k.add("native");
     k.add("min");
@@ -192,6 +193,44 @@ public class Parser {
             throw new RuntimeException("invalid import prefix, code = "+op.operator());
       } else return ids;
   }
+  
+  private OperatorNode modifycode(Tree tree) {
+    int code = modifycode_(tree);
+    OperatorNode n = new OperatorNode(code);
+    n.mergeLocation(getLocation(tree));
+    return n;   
+  }
+  
+  private int modifycode_(Tree tree) {
+    switch (tree.getType()) {
+      case babel17Parser.ML_plus: return OperatorNode.PLUS;
+      case babel17Parser.MR_plus: return OperatorNode.PLUS;
+      case babel17Parser.ML_plusplus: return OperatorNode.PLUSPLUS;
+      case babel17Parser.MR_plusplus: return OperatorNode.PLUSPLUS;
+      case babel17Parser.ML_minus: return OperatorNode.MINUS;
+      case babel17Parser.MR_minus: return OperatorNode.MINUS;
+      case babel17Parser.ML_minusminus: return OperatorNode.MINUSMINUS;
+      case babel17Parser.MR_minusminus: return OperatorNode.MINUSMINUS;
+      case babel17Parser.ML_times: return OperatorNode.TIMES;
+      case babel17Parser.MR_times: return OperatorNode.TIMES;
+      case babel17Parser.ML_timestimes: return OperatorNode.TIMESTIMES;
+      case babel17Parser.MR_timestimes: return OperatorNode.TIMESTIMES;
+      case babel17Parser.ML_slash: return OperatorNode.QUOTIENT;
+      case babel17Parser.MR_slash: return OperatorNode.QUOTIENT;
+      case babel17Parser.ML_slashslash: return OperatorNode.QUOTIENTQUOTIENT;
+      case babel17Parser.MR_slashslash: return OperatorNode.QUOTIENTQUOTIENT;
+      case babel17Parser.ML_pow: return OperatorNode.POW;
+      case babel17Parser.MR_pow: return OperatorNode.POW;
+      case babel17Parser.L_and: return OperatorNode.AND;
+      case babel17Parser.L_or: return OperatorNode.OR;
+      case babel17Parser.L_xor: return OperatorNode.XOR;
+      case babel17Parser.L_div: return OperatorNode.DIV;
+      case babel17Parser.L_mod: return OperatorNode.MOD;
+      case babel17Parser.L_min: return OperatorNode.MIN;
+      case babel17Parser.L_max: return OperatorNode.MAX;        
+    }
+    throw new RuntimeException("invalid modify code");
+  }
 
   private Node toNode(Tree tree) {
     Location loc = getLocation(tree);
@@ -206,6 +245,18 @@ public class Parser {
           Node leftSide = toNode(tree.getChild(0));
           Node rightSide = toNode(tree.getChild(1));
           return new LensAssignNode(leftSide, rightSide).mergeLocation(loc).mergeLocation();
+        }
+        case babel17Parser.LENS_MODIFY_LEFT: {
+          OperatorNode op = modifycode(tree.getChild(0));
+          Node leftSide = toNode(tree.getChild(1));
+          Node rightSide = toNode(tree.getChild(2));
+          return new LensModifyNode(true, op, leftSide, rightSide).mergeLocation(loc).mergeLocation();
+        }
+        case babel17Parser.LENS_MODIFY_RIGHT: {
+          OperatorNode op = modifycode(tree.getChild(0));
+          Node leftSide = toNode(tree.getChild(1));
+          Node rightSide = toNode(tree.getChild(2));
+          return new LensModifyNode(false, op, leftSide, rightSide).mergeLocation(loc).mergeLocation();
         }
         case babel17Parser.ASSIGN:
         case babel17Parser.VAL: {
@@ -314,6 +365,8 @@ public class Parser {
           return toBinaryNode(tree, OperatorNode.OR);
         case babel17Parser.L_and:
           return toBinaryNode(tree, OperatorNode.AND);
+        case babel17Parser.L_xor:
+          return toBinaryNode(tree, OperatorNode.XOR);
         case babel17Parser.L_not:
           return toUnaryNode(tree, OperatorNode.NOT);
         case babel17Parser.PLUSPLUS:

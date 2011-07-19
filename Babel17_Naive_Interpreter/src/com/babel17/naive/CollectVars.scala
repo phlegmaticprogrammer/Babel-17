@@ -112,6 +112,12 @@ object CollectVars {
         collectVars(lens)
         term.freeVars = e.freeVars ++ lens.freeVars
         term.assignedVars = SortedSet(id)
+      case SLensModify(id, lens, e, f) =>
+        collectVars(e)
+        collectVars(lens)
+        collectVars(f)
+        term.freeVars = e.freeVars ++ lens.freeVars ++ f.freeVars
+        term.assignedVars = SortedSet(id)        
       case SDef0(_, _, id , e, _) =>
         collectVars(e)
         term.freeVars = e.freeVars - id
@@ -307,6 +313,7 @@ object CollectVars {
     se match {
       case SEConstr(_, se) => List(se)
       case SEOr(u,v) => List(u,v)
+      case SEXor(u,v) => List(u, v)
       case SEAnd(u,v) => List(u,v)
       case SENot(u) => List(u)
       case SEInterval(u, v) => List(u, v)

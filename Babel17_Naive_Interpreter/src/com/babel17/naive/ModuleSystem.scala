@@ -189,25 +189,26 @@ object ModuleSystem {
   def rootModule : ModuleDescr = {
 
     var typeIds : SortedSet[Id] = SortedSet()
-    def ty(s : String) {
-      typeIds = typeIds + Id(s)
+    def ty(s : Values.TypeValue) {
+      typeIds = typeIds + s.path.ids.head
     }
-    ty("int")
-    ty("real")
-    ty("bool")
-    ty("string")
-    ty("list")
-    ty("vect")
-    ty("set")
-    ty("map")
-    ty("cexp")
-    ty("obj")
-    ty("fun")
-    ty("exc")
-    ty("type")
-    ty("moduletype")
-    ty("nativetype")
-    ty("lenstype")
+    import Values._
+    ty(TYPE_INT)
+    ty(TYPE_REAL)
+    ty(TYPE_BOOL)
+    ty(TYPE_STRING)
+    ty(TYPE_LIST)
+    ty(TYPE_VECT)
+    ty(TYPE_SET)
+    ty(TYPE_MAP)
+    ty(TYPE_CEXP)
+    ty(TYPE_OBJ)
+    ty(TYPE_FUN)
+    ty(TYPE_EXC)
+    ty(TYPE_TYPE)
+    ty(TYPE_MODULE)
+    ty(TYPE_NATIVE)
+    ty(TYPE_LENS)
 
     ModuleDescr(Path(List()), typeIds, SortedSet(), Block(List()))
 

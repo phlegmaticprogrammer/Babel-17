@@ -5,6 +5,11 @@ import Values._
 import Evaluator._
 
 object Lens {
+  
+  val MESSAGE_GET = "get"
+  val MESSAGE_PUTBACK = "putback"
+  val MESSAGE_MODIFY = "modify"
+  
 
   /* definition of what a lens expression is */ 
   def isLensPath(se : SimpleExpression) : Option[Id] = {
@@ -76,13 +81,39 @@ object Lens {
     def nativePutback(state : Value) : Value = {
       NativeFunctionValue(lensPut(state, _))
     }    
+    
+    def nativeModify2(state : Value, f : Value) : Value = {
+      f.extractFunctionValue match {
+        case f:FunctionValue =>
+          lensModify(state, f.apply _)
+        case x:ExceptionValue => x.asDynamicException
+      }
+    }
+    
+    def nativeModify(state : Value) : Value = {
+      NativeFunctionValue(nativeModify2(state, _))
+    }    
+    
     override def sendMessage(message : Id) : Value = {
       message.name match {
         case MESSAGE_APPLY => return NativeFunctionValue(lensGet _)
+        case MESSAGE_GET => return NativeFunctionValue(lensGet _)        
+        case AUTO_CONVERSION_FUN => return NativeFunctionValue(lensGet _)
         case MESSAGE_PUTBACK => return NativeFunctionValue(nativePutback _)
+        case MESSAGE_MODIFY => return NativeFunctionValue(nativeModify _)
         case MESSAGE_TIMES => return NativeFunctionValue(combine _)
       }
       return null;
+    }
+    
+    def lensModify(state : Value, f : Function[Value, Value]) : Value = {
+      var s = lensGet(state)
+      if (s.isDynamicException) s.asDynamicException
+      else {
+        s = f(s)
+        if (s.isDynamicException) s.asDynamicException
+        else lensPut(state, s)
+      }
     }
   }
   
@@ -196,6 +227,21 @@ object Lens {
     }
     
     def lensPut(state : Value, p : Value) : Value = lensPut(forwards, state, p)
+    
+    def lensModify(forwards : List[LensPathElem], state : Value, p : Function[Value, Value]) : Value = {
+      forwards match {
+        case List() => p(state)
+        case lpe :: lpes =>
+          val s = goForward(lpe, state)
+          if (s.isDynamicException) return s
+          val q = lensModify(lpes, s, p)
+          if (q.isDynamicException) return q
+          goBackward(lpe, state, q)          
+      }
+    }
+    
+    override def lensModify(state : Value, p : Function[Value, Value]) : Value = 
+      lensModify(forwards, state, p)  
     
     def combine(right : Value) : Value = {
       right match {

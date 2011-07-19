@@ -4,7 +4,7 @@ module lang.unittest.spec.nativeinterop
         val h_class = native Class "com.babel17.java.JavaInteropUnittestHelper"
         #assert h_class.getCanonicalName () == "com.babel17.java.JavaInteropUnittestHelper"
         
-        #assert typeof h_class == (: nativeType)
+        #assert typeof h_class == (: native_)
         
         val h = native New (h_class,  
           "hello world", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)

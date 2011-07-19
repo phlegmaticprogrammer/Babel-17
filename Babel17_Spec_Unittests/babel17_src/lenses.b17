@@ -7,7 +7,7 @@ val l = lens x => x.b.i
 
 #assert l u == u.(l) == 2
 
-#assert typeof l == (: lensType)
+#assert typeof l == (: lens_)
 
 u.(l) = 5
 
@@ -19,6 +19,12 @@ v.(l) = 6
 v.a = v.a + 10
 
 #assert v == {a = 11, b = {i = 6, j = 42}}
+
+v.b.j = v.b.i
+v.b.i ^= 2
+v.b.j =^ 2
+
+#assert v.b == { i = 6^2, j = 2^6 }
 
 l = lens x => x
 
@@ -98,6 +104,22 @@ x.(fst) = 10
 x.(snd) = 13
 
 #assert x == (10, 13)
+
+val x = 10
+x += 2
+#assert x == 12
+
+x div= 2
+#assert x == 6
+
+x =div 18
+#assert x == 3
+
+val x = true
+
+x xor= true
+
+#assert not x
 
 
 end

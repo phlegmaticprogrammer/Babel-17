@@ -624,6 +624,16 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           case x =>
             if (x.isException) x.asDynamicException else domainError()
         }
+      case SEXor(u,v) => 
+        evalSE(env, u) match {
+          case BooleanValue(a) =>
+            evalSE(env, v) match {
+              case BooleanValue(b) => BooleanValue(a != b)
+              case x => if (x.isException) x.asDynamicException else domainError()
+            }
+          case x =>
+            if (x.isException) x.asDynamicException else domainError()
+        }        
       case SEAnd(u,v) => 
         evalSE(env, u) match {
           case BooleanValue(a) =>
@@ -787,6 +797,26 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           case x:ExceptionValue => StatementException(x.asDynamicException)
           case _ => StatementException(Lens.lensError("lens expected, found: '"+lens.stringDescr(false)+"'"))
         }
+      case SLensModify(id, lensExpr:SELens, expr, f) =>
+        val e = evalExpression(env, expr)
+        if (e.isDynamicException) return StatementException(e.asDynamicException)
+        val senv = env.freeze
+        val g = evalSE(senv, f).extractFunctionValue
+        if (g.isException) return StatementException(g.asDynamicException)
+        def F(v : Value) : Value = {
+          g.asInstanceOf[FunctionValue].apply(VectorValue(Array(v, e)))
+        }
+        val lens = evalSE(senv, lensExpr)
+        lens match {
+          case l: Lens.LensValue =>
+            val x = evalId(senv, id)
+            if (x.isDynamicException) return StatementException(x.asDynamicException)
+            val y = l.lensModify(x, F)
+            if (y.isDynamicException) return StatementException(y.asDynamicException)
+            StatementCollector(env.rebind(id, y), coll)
+          case x:ExceptionValue => StatementException(x.asDynamicException)
+          case _ => StatementException(Lens.lensError("lens expected, found: '"+lens.stringDescr(false)+"'"))
+        }        
       case SImport(path, id) =>
         var se : SimpleExpression = SEId(path.ids.head)
         for (message <- path.ids.tail) se = SEMessageSend(se, message)

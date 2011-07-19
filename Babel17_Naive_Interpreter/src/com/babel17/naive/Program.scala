@@ -122,6 +122,7 @@ object Program {
       case _ : SVal => true
       case _ : SAssign => true
       case _ : SLensAssign => true
+      case _ : SLensModify => true
       //case _ : SAssignRecordUpdate => true
       //case _ : SValRecordUpdate => true
       case _ => false
@@ -141,6 +142,7 @@ object Program {
   case class SVal(pat : Pattern, e : Expression) extends Statement
   case class SAssign(pat : Pattern, e : Expression) extends Statement
   case class SLensAssign(id : Id, lens : SELens, e : Expression) extends Statement
+  case class SLensModify(id : Id, lens : SELens, e : Expression, f : SimpleExpression) extends Statement
   //case class SValRecordUpdate(id : Id, m : Id, e : Expression) extends Statement
   //case class SAssignRecordUpdate(id : Id, m : Id, e : Expression) extends Statement
   case class SModule(path : Path, b : Block) extends Statement
@@ -193,6 +195,7 @@ object Program {
   case class SEOr(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SEAnd(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SENot(u : SimpleExpression) extends SimpleExpression
+  case class SEXor(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SEInterval(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SECons(head : SimpleExpression, tail : SimpleExpression) extends SimpleExpression
   case class SEFun(m : MemoType, branches: List[(Pattern, Expression, Type)]) extends SimpleExpression

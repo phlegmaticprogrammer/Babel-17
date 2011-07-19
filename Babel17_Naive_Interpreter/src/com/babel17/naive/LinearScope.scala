@@ -111,6 +111,12 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
         check_e(env, e)
         check_simple(env.freeze, lens)
         env.rebind(id)
+      case SLensModify(id, lens, e, f) =>
+        check_e(env, e)
+        val senv = env.freeze
+        check_simple(senv, lens)
+        check_simple(senv, f)
+        env.rebind(id)        
       case d: SImport => env.define(d.id)
       case SDef0(_, _, id, e, _) =>
         val env2 = env.define(id)

@@ -61,6 +61,8 @@ WITH;
 VAL;
 ASSIGN;
 LENS_ASSIGN;
+LENS_MODIFY_LEFT;
+LENS_MODIFY_RIGHT;
 ARROW;
 DEF;
 YIELD;
@@ -169,6 +171,33 @@ Digit 	:	'0' .. '9';
 fragment
 Hex 	:	 Digit | 'A' .. 'F' | 'a' .. 'f';
 
+/* modification operators */
+
+ML_plus	:	'+=';
+MR_plus	:	'=+';
+ML_plusplus	:	'++=';
+MR_plusplus	:	'=++';
+
+ML_minus	:	'-=';
+MR_minus	:	'=-';
+ML_minusminus	:	'--=';
+MR_minusminus	:	'=--';
+
+ML_times	:	'*=';
+MR_times	:	'=*';
+ML_timestimes	:	'**=';
+MR_timestimes	:	'=**';
+
+ML_slash	:	'/=';
+MR_slash	:	'=/';
+ML_slashslash	:	'//=';
+MR_slashslash	:	'=//';
+
+ML_pow	:	'^=';
+MR_pow	:	'=^';
+
+
+
 /* Reserved literals that are actually used: */ 
 L_begin	:	'begin';
 L_end 	:	'end';
@@ -250,6 +279,8 @@ L_not	:	'not';
 
 L_or	:	'or';
 
+L_xor	:	'xor';
+
 L_root	:	'root';
 
 L_native:	'native';
@@ -314,6 +345,9 @@ token_AND
 	:	L_and;
 token_NOT
 	:	L_not;
+	
+token_XOR
+	:	L_xor;
 
 A_DOUBLE_COLON
 	:	'::';
@@ -574,10 +608,27 @@ st_import
 	
 expr_or_assign
 	//:	((pattern | objelem_assign) NL? '=') => (pattern | objelem_assign) NL? '=' NL? expr -> ^(ASSIGN pattern* objelem_assign* expr)
-	:	(pattern NL? '=' ) => pattern NL? '=' NL? expr -> ^(ASSIGN pattern expr)
+	:	(Id NL? left_modify) => Id NL? left_modify NL? expr -> ^(LENS_MODIFY_LEFT left_modify Id expr)	
+	|	(Id NL? right_modify) => Id NL? right_modify NL? expr -> ^(LENS_MODIFY_RIGHT right_modify Id expr)		
+	|	(Id NL? '=' ) => Id NL? '=' NL? expr -> ^(LENS_ASSIGN Id expr)
+	|	(pattern NL? '=' ) => pattern NL? '=' NL? expr -> ^(ASSIGN pattern expr)
+	|	(term_expr NL? left_modify) => term_expr NL? left_modify NL? expr -> ^(LENS_MODIFY_LEFT left_modify term_expr expr)	
+	|	(term_expr NL? right_modify) => term_expr NL? right_modify NL? expr -> ^(LENS_MODIFY_RIGHT right_modify term_expr expr)	
 	|	(term_expr NL? '=' ) => term_expr NL? '=' NL? expr -> ^(LENS_ASSIGN term_expr expr)
 	|	expr;
 	
+left_modify
+	:	ML_plus | ML_plusplus | ML_minus | ML_minusminus | ML_times | ML_timestimes | ML_slash | ML_slashslash | ML_pow | left_modify_op^ '='!;
+
+right_modify
+	:	MR_plus | MR_plusplus | MR_minus | MR_minusminus | MR_times | MR_timestimes | MR_slash | MR_slashslash | MR_pow | '='! right_modify_op^;
+
+right_modify_op
+	:	token_AND | token_OR | token_XOR | L_div | L_mod;
+
+left_modify_op
+	:	right_modify_op | L_min | L_max;
+		
 expr	
 	:	lop_expr;
 	//|	obj_expr;
@@ -702,11 +753,16 @@ p_bool_or_expr
 	:	p_bool_and_expr (NL!? token_OR^ NL!? p_bool_and_expr)*; 
 
 bool_and_expr
-	:	bool_not_expr (NL!? token_AND^ NL!? bool_not_expr)*;
+	:	bool_xor_expr (NL!? token_AND^ NL!? bool_xor_expr)*;
 	
 p_bool_and_expr
-	:	p_bool_not_expr (NL!? token_AND^ NL!? p_bool_not_expr)*;
+	:	p_bool_xor_expr (NL!? token_AND^ NL!? p_bool_xor_expr)*;
 
+bool_xor_expr
+	:	bool_not_expr (NL!? token_XOR^ NL!? bool_not_expr)*;
+	
+p_bool_xor_expr
+	:	p_bool_not_expr (NL!? token_XOR^ NL!? p_bool_not_expr)*;
 
 bool_not_expr
 	:	token_NOT^ NL!? bool_not_expr

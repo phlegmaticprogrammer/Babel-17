@@ -65,6 +65,7 @@ public final class OperatorNode extends Node {
   public final static int LENS = 48;
   public final static int FUNCTIONS_LENS = 49;
   
+  public final static int XOR = 50;
 
   public OperatorNode(int operator) {
     this.operator = operator;

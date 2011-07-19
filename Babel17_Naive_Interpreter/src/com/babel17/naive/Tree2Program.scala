@@ -73,6 +73,51 @@ class Tree2Program extends ErrorProducer {
     se.setLocation(node.location())
     return se
   }
+  
+  def buildModifier(left : Boolean, op : OperatorNode) : SimpleExpression = {
+    val loc = op.location
+    val x = Id("x")
+    x.location = loc
+    val y = Id("y")
+    y.location = loc
+    val sx = SEId(x)
+    sx.location = loc
+    val sy = SEId(y)
+    sy.location = loc
+    def mk(m : String) : SimpleExpression = {
+      val msg = Id(m.toLowerCase)
+      msg.location = loc
+      SEApply(SEMessageSend(sx, msg), sy)
+    }
+    import OperatorNode._
+    val body = 
+    op.operator match {
+      case PLUS => mk(Values.MESSAGE_PLUS)
+      case MINUS => mk(Values.MESSAGE_MINUS)
+      case TIMES => mk(Values.MESSAGE_TIMES)
+      case QUOTIENT => mk(Values.MESSAGE_SLASH)
+      case DIV => mk(Values.MESSAGE_DIV)
+      case MOD => mk(Values.MESSAGE_MOD)
+      case POW => mk(Values.MESSAGE_POW)
+      case PLUSPLUS => mk(Values.MESSAGE_PLUSPLUS)
+      case MINUSMINUS => mk(Values.MESSAGE_MINUSMINUS)
+      case TIMESTIMES => mk(Values.MESSAGE_TIMESTIMES)
+      case QUOTIENTQUOTIENT => mk(Values.MESSAGE_SLASHSLASH)
+      case OR => SEOr(sx, sy)
+      case AND => SEAnd(sx, sy)
+      case XOR => SEXor(sx, sy)
+      case MIN => SEMin(SEVector(List(sx, sy)))
+      case MAX => SEMax(SEVector(List(sx, sy)))
+    }
+    val pat = 
+      if (left)
+        PVector(List(PId(x), PId(y)), null)
+      else
+        PVector(List(PId(y), PId(x)), null)        
+    val f = SEFun(MemoTypeNone(), List((pat, ESimple(body), TypeNone())))
+    f.location = loc
+    f
+  }
 
   def buildBinaryOperation(leftNode:Node, rightNode:Node,
                            op : OperatorNode) : SimpleExpression =
@@ -331,7 +376,18 @@ class Tree2Program extends ErrorProducer {
           case None =>
             error(n.leftSide.location, "invalid left hand side of assignment")
             SYield(e)
-        }        
+        }    
+      case n : LensModifyNode =>
+        val l = buildSimpleExpression(n.leftSide)
+        val e = buildExpression(n.rightSide)
+        val f = buildModifier(n.left, n.op)
+        Lens.isLensPath(l) match {
+          case Some(id) => 
+            SLensModify(id, SELens(id, l), e,  f)
+          case None =>
+            error(n.leftSide.location, "invalid left hand side of assignment")
+            SYield(e)
+        }            
       case n : ImportNode => {
         val nodes = n.ids
         val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
