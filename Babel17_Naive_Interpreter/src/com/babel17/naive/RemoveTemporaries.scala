@@ -482,7 +482,7 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SAssign(p, e) =>
         SAssign(transform_pat(env, p), transform_expr(env, e))
       case SLensAssign(id, lens, e) =>
-        SLensAssign(id, transform_se(env, lens), transform_expr(env, e))
+        SLensAssign(id, transform_se(env, lens).asInstanceOf[SELens], transform_expr(env, e))
       /*case SValRecordUpdate(id, m, e) =>
         SValRecordUpdate(id, m, transform_expr(env, e))
       case SAssignRecordUpdate(id, m, e) =>

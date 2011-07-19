@@ -509,12 +509,16 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         val x = evalSE(env, target)
         if (x.isDynamicException) x
         else {
-          evalSE(env, lensExpr).force() match {
-            case g: ExceptionValue => g.asDynamicException
-            case g => 
-              val f = g.extractFunctionValue
-              if (f.isException) f.asDynamicException
-              else f.asInstanceOf[FunctionValue].apply(x)
+          val lens = evalSE(env, lensExpr).force()
+          if (lens.isException) lens.asDynamicException
+          else {
+            lens.typeConvert(true, Values.TYPE_LENS) match {
+              case l: Lens.LensValue => l.lensGet (x)
+              case _ => 
+                val f = lens.extractFunctionValue
+                if (f.isException) f.asDynamicException
+                else f.asInstanceOf[FunctionValue].apply(x)
+            }
           }
         }
       case SERecord(messageValuePairs) =>
@@ -758,19 +762,19 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           case NoMatch() => StatementException(dynamicException(CONSTRUCTOR_NOMATCH))
           case DoesMatch(newEnv) => StatementCollector(newEnv, coll)
         }
-      case SLensAssign(id, lensExpr, expr) =>
+      case SLensAssign(id, lensExpr:SELens, expr) =>
         val e = evalExpression(env, expr)
         if (e.isDynamicException) return StatementException(e.asDynamicException)
         val senv = env.freeze
         val lens = evalSE(senv, lensExpr)
-        if (lens.isException) return StatementException(lens.asDynamicException)
-        lens.typeConvert(true, Values.TYPE_LENS) match {
+        lens match {
           case l: Lens.LensValue =>
             val x = evalId(senv, id)
             if (x.isDynamicException) return StatementException(x.asDynamicException)
             val y = l.lensPut(x, e)
             if (y.isDynamicException) return StatementException(y.asDynamicException)
             StatementCollector(env.rebind(id, y), coll)
+          case x:ExceptionValue => StatementException(x.asDynamicException)
           case _ => StatementException(Lens.lensError("lens expected, found: '"+lens.stringDescr(false)+"'"))
         }
       case SImport(path, id) =>

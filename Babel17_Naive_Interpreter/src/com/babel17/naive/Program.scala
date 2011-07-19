@@ -140,7 +140,7 @@ object Program {
 
   case class SVal(pat : Pattern, e : Expression) extends Statement
   case class SAssign(pat : Pattern, e : Expression) extends Statement
-  case class SLensAssign(id : Id, lens : SimpleExpression, e : Expression) extends Statement
+  case class SLensAssign(id : Id, lens : SELens, e : Expression) extends Statement
   //case class SValRecordUpdate(id : Id, m : Id, e : Expression) extends Statement
   //case class SAssignRecordUpdate(id : Id, m : Id, e : Expression) extends Statement
   case class SModule(path : Path, b : Block) extends Statement

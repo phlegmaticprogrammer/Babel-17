@@ -10,16 +10,30 @@ object Lens {
   def isLensPath(se : SimpleExpression) : Option[Id] = {
     def findLensPath(se : SimpleExpression) : Option[Id] = {
       se match {
-        case SEMessageSend(SEId(id),_) => Some(id)       
+        case SEId(id) => Some(id)
         case SEMessageSend(target, _) => findLensPath(target)
-        case SEApply(u, v) => findLensPath(u)
+        case SELensSend(target, _) => findLensPath(target)
+        case SEApply(u, v) => findProperLensPath(u)
         case _ => None
       }
     }
+    def findProperLensPath(se : SimpleExpression) : Option[Id] = {
+      se match {
+        case SEMessageSend(target, _) => findLensPath(target)
+        case SEApply(u, v) => findProperLensPath(u)
+        case _ => None
+      }
+    }    
     def verifyLensPath(id : Id, se : SimpleExpression) : Boolean = {
       se match {
-        case SEMessageSend(SEId(id2),_) => true     
+        case SEId(id2) => true     
         case SEMessageSend(target, _) => verifyLensPath(id, target)
+        case SELensSend(target, lens) => 
+          CollectVars.collectVars(lens)
+          if (lens.freeVars.contains(id))
+            false
+          else
+            verifyLensPath(id, target)        
         case SEApply(u, v) => 
           CollectVars.collectVars(v)
           if (v.freeVars.contains(id))
@@ -28,10 +42,6 @@ object Lens {
             verifyLensPath(id, u)
         case _ => false
       }      
-    }
-    se match {
-      case SEId(id) => return Some(id)
-      case _ =>
     }
     findLensPath(se) match {
       case None => None
@@ -43,7 +53,10 @@ object Lens {
     }
   }   
   
-  case class LensPathElem(message : Id, args : List[Value])
+  class LensPathElem
+  
+  case class MessageLPE(message : Id, args : List[Value]) extends LensPathElem
+  case class LensLPE(lens : LensValue) extends LensPathElem
     
   abstract class LensValue extends Value {
     def typeof = Values.TYPE_LENS
@@ -84,29 +97,39 @@ object Lens {
     override def stringDescr(brackets : Boolean) : String = {
       var s = "_lens"
       for (lpe <- forwards) {
-        s = s + " ." + lpe.message.name 
-        for (a <- lpe.args) {
-          s = s + " " + a.stringDescr(true)
+        lpe match {
+          case lpe: MessageLPE =>
+            s = s + " ." + lpe.message.name 
+            for (a <- lpe.args) {
+              s = s + " " + a.stringDescr(true)
+            }
+          case lpe: LensLPE =>
+            s = s + " ." + lpe.lens.stringDescr(true)
         }
       }
+      if (brackets && forwards.length > 0) s = "("+s+")"
       return s
     }
     
     def lensGet(state : Value) = lensGet(forwards, state)
     
     def goForward(lpe : LensPathElem, state : Value) : Value = {
-      var r : Value = state.sendMessage(lpe.message)
-      if (r == null) return lensError("unknown message '"+lpe.message.name+"'")
-      if (r.isDynamicException) return r
-      for (a <- lpe.args) {
-        r = r.extractFunctionValue()
-        if (r.isDynamicException) return r
-        else {
-          r = r.asInstanceOf[FunctionValue].apply(a)
+      lpe match {
+        case lpe: MessageLPE => 
+          var r : Value = state.sendMessage(lpe.message)
+          if (r == null) return lensError("unknown message '"+lpe.message.name+"'")
           if (r.isDynamicException) return r
-        }        
+          for (a <- lpe.args) {
+            r = r.extractFunctionValue()
+            if (r.isDynamicException) return r
+            else {
+              r = r.asInstanceOf[FunctionValue].apply(a)
+              if (r.isDynamicException) return r
+            }        
+          }
+          r
+        case lpe: LensLPE => lpe.lens.lensGet(state)
       }
-      r
     }
     
     def lensGet(forwards : List[LensPathElem], state : Value) : Value = {
@@ -118,7 +141,7 @@ object Lens {
       s
     }
     
-    def goBackward(lpe : LensPathElem, state : Value, p : Value) : Value = {
+    def goBackwardMessageLPE(lpe : MessageLPE, state : Value, p : Value) : Value = {
       val msg = Id(lpe.message +"_putback_")
       msg.location = lpe.message.location
       var r : Value = state.sendMessage(msg)
@@ -148,6 +171,15 @@ object Lens {
       if (r.isException) r.asDynamicException
       else r.asInstanceOf[FunctionValue].apply(p)        
     }    
+    
+    def goBackward(lpe : LensPathElem, state : Value, p : Value) : Value = {
+      lpe match {
+        case lpe: MessageLPE =>
+          goBackwardMessageLPE(lpe, state, p)
+        case lpe: LensLPE =>
+          lpe.lens.lensPut(state, p)
+      }
+    }
     
     def lensPut(forwards : List[LensPathElem], state : Value, p : Value) : Value = {
       forwards match {
@@ -180,21 +212,36 @@ object Lens {
         case SEId(id) => Left(List())
         case SEMessageSend(target, m) => 
           makePath(target) match {
-            case Left(ls) => Left(LensPathElem(m, List()) :: ls)
+            case Left(ls) => Left(MessageLPE(m, List()) :: ls)
             case x => x
           }
         case SEApply(u, v) =>
           makePath(u) match {
-            case Left(LensPathElem(m, args) :: ls) =>
+            case Left(MessageLPE(m, args) :: ls) =>
               val e = evaluator.evalSE(env, v)
               if (e.isDynamicException) Right(e)
-              else Left(LensPathElem(m, e::args) :: ls)
+              else Left(MessageLPE(m, e::args) :: ls)
             case x => x
+          }
+        case SELensSend(target, lensExpr) =>
+          makePath(target) match {
+            case Left(ls) => 
+              evaluator.evalSE(env, lensExpr).typeConvert(true, Values.TYPE_LENS) match {
+                case lens : LensValue =>
+                  Left(LensLPE(lens)::ls)
+                case x: ExceptionValue => Right(x.asDynamicException)
+                case x => Right(lensError("lens expected, found: '"+x.stringDescr(false)+"'"))
+              }
+            case x => x            
           }
       }
     }    
     def revArgs(lpe : LensPathElem) : LensPathElem = {
-      LensPathElem(lpe.message, lpe.args.reverse)
+      lpe match {
+        case lpe: MessageLPE => 
+          MessageLPE(lpe.message, lpe.args.reverse)
+        case lpe => lpe
+      }
     }
     makePath(lens.se) match {
       case Right(x) => x

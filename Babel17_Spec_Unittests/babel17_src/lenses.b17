@@ -56,7 +56,29 @@ u.(f*g) = 13
 #assert u.b.i == 13
 #assert u.(f*g) == 13
 
+val h = lens x => x.(f).(g)
 
+#assert u.(h) == 13
+
+u.(h) = 79
+
+#assert u.b.i == 79
+
+u.(f).(g) = 80
+
+#assert u.b.i == 80
+
+#catch ApplyError try: u.(2)
+
+#catch DomainError try:
+  begin
+    u.(2) = 18
+  end
+
+#catch 2 try:
+  begin
+    u.(exception 2) = 18
+  end
 
 
 end

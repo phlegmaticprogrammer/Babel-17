@@ -322,29 +322,14 @@ class Tree2Program extends ErrorProducer {
         if (n.assign) SAssign(p, e) else SVal(p, e)
       case n : LensAssignNode =>
         val l = buildSimpleExpression(n.leftSide)
-        var id : Id = null
-        var se : SimpleExpression = null
-        Lens.isLensPath(l) match {
-          case Some(id2) => 
-            id = id2
-            se = SELens(id, l)
-          case None =>
-            l match {
-              case SELensSend(SEId(id2), lens) =>
-                CollectVars.collectVars(lens)
-                if (lens.freeVars.contains(id2))
-                  error(lens.location, "lens expression contains '"+id2.name+"'")
-                id = id2
-                se = lens             
-              case _ =>
-            }
-        }        
         val e = buildExpression(n.rightSide)
-        if (id == null) {
-          error(n.leftSide.location, "invalid left hand side of assignment")
-          SYield(e)
-        } else
-          SLensAssign(id, se, e)
+        Lens.isLensPath(l) match {
+          case Some(id) => 
+            SLensAssign(id, SELens(id, l), e)
+          case None =>
+            error(n.leftSide.location, "invalid left hand side of assignment")
+            SYield(e)
+        }        
       case n : ImportNode => {
         val nodes = n.ids
         val path = Path(toList(nodes).map(x => build(x).asInstanceOf[Id]))
