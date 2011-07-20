@@ -404,8 +404,8 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$,  $\ \delta$\}} & \patterndescr{matches a value of type \texttt{obj} that has the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
 \babelsrc{nil} & \patterndescr{matches the empty object}\\\hline
 \babelsrc{exception} $p$ & \patterndescr{matches any exception such that its parameter matches $p$}\\\hline
-\babelsrc{$(p : t)$} & \patterndescr{matches anything that has type $t$ and matches $p$}\\\hline
-\babelsrc{$(p : (e))$} & \patterndescr{matches anything that matches $p$ and has the type that $e$ evaluates to}\\\hline
+\babelsrc{$(p : t)$} & \patterndescr{matches anything that has (or is auto-convertible to) type $t$ and matches $p$}\\\hline
+\babelsrc{$(p : (e))$} & \patterndescr{matches anything that matches $p$ and is or auto-converts to the type that $e$ evaluates to}\\\hline
 \babelsrc{$(t\ p)$} & \patterndescr{inner-value pattern; see Section~\ref{sec:typedefs}}
 \end{tabular}
 \label{table:basicpatterns}
@@ -1311,7 +1311,7 @@ x **=y & x = x ** y\\
 x =** y & x = y ** x\\
 x /= y & x = x / y \\
 x =/ y & x = y / x \\
-x //=y & x = x // y\\
+x //= y & x = x // y\\
 x =// y & x = y // x\\
 x and= y & x = x and y \\
 x =and y & x = y and x \\
@@ -1398,14 +1398,6 @@ x.a.b = 10
 x.(a).b = 10
 x.a.(b) = 10
 \end{babellisting}
-
-
-
-
-
-
-
-
 
 \section{With}\label{sec:collector}
 By default, all yielded values of a block expression are collected into a list which collapses in the case of a single element. The programmer might want to deviate from this default and collect the yielded values differently, for example to get rid of the collapsing behavior. The \babelsrc{with} expression allows her to do just that. Its syntax is:
@@ -1846,12 +1838,9 @@ Alternatively, to make the above statement even shorter, import \emph{both} the 
 import util.orderedSet
 def e : orderedSet = orderedSet.empty
 \end{babellisting}
-Of course, you can also just import all members of the module instead:
-\begin{babellisting}
-import util.orderedSet._
-def e : orderedSet = empty
-\end{babellisting}
-You can also rename imports, for example:
+It is not possible to just import all members of a module; Babel-17 is dynamically typed, and the danger of accidental mayhem just would be too big.
+
+You can rename imports, for example:
 \begin{babellisting}
 import util.orderedSet => set
 def e : set = set.empty
@@ -1859,11 +1848,6 @@ def e : set = set.empty
 You can combine several imports into a single one:
 \begin{babellisting}
 import util.orderedSet.{empty, insert => orderedInsert} 
-def e : set = set.empty
-\end{babellisting}
-or import everything from a module \emph{except} certain names:
-\begin{babellisting}
-import util.orderedSet.{-empty}
 def e : set = set.empty
 \end{babellisting}
 All imports must be grouped together at the beginning of a block, and later \babelsrc{import}-statements in this group take earlier \babelsrc{import}-statements in this group (and outside this group, of course) into account.
@@ -2029,16 +2013,65 @@ end
 \section{Native Interface}
 Babel-17 exposes the platform it is running on through its \emph{native interface}. To query which platform you are running on, use the expression
 \begin{babellisting}
-	native Platform
+native Platform
 \end{babellisting}
-If there is no underlying platform you can access, the value \babelsrc{nil} is returned. In Babel-17 v0.3, this is the only value that is returned.
+If there is no underlying platform you can access, the value \babelsrc{nil} is returned.
+\subsection{The Java Platform}
+In case of
+\begin{babellisting}
+native Platform == Java
+\end{babellisting}
+there is a limited form of Java interoperability available. With
+\begin{babellisting}
+val v = native New ($classname$, $x_1$, $\ldots$, $x_n$)
+\end{babellisting}
+you can create a value $v$ of type \verb+native_+ that is a wrapper for a Java object of class $classname$; the $x_i$ are the arguments that are passed to the constructor. Table~\ref{table:javaconversion} describes how values are converted between Babel-17 and Java.
+\begin{table}
+\caption{Conversions between Babel-17 and Java Values}
+\begin{tabular}{r|l}
+\textbf{Babel-17} & \textbf{Java} \\\hline
+\babelsrc{nil} & \texttt{null} \\
+\babelsrc{native_} & \texttt{Object} \\
+\texttt{int} & \patterndescr {\texttt{byte Byte short Short char Char int Integer long Long BigInteger}} \\
+\texttt{real} & \texttt{float Float double Double} \\
+\texttt{bool} & \texttt{boolean Boolean} \\
+\texttt{vect} & Java array \\
+\end{tabular}
+\label{table:javaconversion}
+\end{table}
+
+You can access the fields of $v$ and call its methods by sending messages to $v$. This holds also true for static fields and messages. So for example, you can do the following:
+\begin{babellisting}
+val ar = native New ("java.util.ArrayList", 5)
+val _ =
+  begin
+    ar.add 1
+    ar.add 10
+    ar.add 5
+    ar.add ((18, 13, 15),)
+  end
+ar.toArray ()
+\end{babellisting}
+This evaluates to \texttt{(1, 10, 5, (18, 13, 15))}.
+
+Ambiguities are resolved in \emph{some} way. The only rule you can rely on is that access to methods shadows access to fields. Note that ambiguities not only arise because of typing ambiguities, but also because messages in Babel-17 are case-insensitive, but in Java method and field names are case-sensitive.
+
+You can instantiate a native value that corresponds to a Java class $classname$ via
+\begin{babellisting}
+val c = native Class $classname$
+\end{babellisting}
+The value $c$ will in addition to the normal class fields and methods also understand messages that correspond to the static fields and methods of the class. For example:
+\begin{babellisting}
+val c = native Class "java.lang.Integer"
+c.parseInt "120"
+\end{babellisting}
+will evaluate to 120.
 
 \section{Standard Library}
 The standard library is an important part of the language definition of Babel-17 and consists of the built-in types of Babel-17. In future versions of Babel-17, also the module \emph{lang} and all its submodules are part of the standard library.
 
 The messages implemented by the built-in types of the standard library can be grouped as follows:
 \begin{itemize}
-\item \babelsrc{compare\_},
 \item collector related messages (Section~\ref{sec:collector}),
 \item collection related messages (Section~\ref{sec:loops}),
 \item messages that convert between different types,
@@ -2047,9 +2080,6 @@ The messages implemented by the built-in types of the standard library can be gr
 \end{itemize}
 
 As a convention, all messages that are normally only used via some sort of syntactic sugar end with an underscore in their name.
-
-\subsection{compare\_}
-The role of the \babelsrc{compare\_} message has been explained in Section~\ref{sec:order}. There we have also described the canonical orderings of the built-in types.
 
 \subsection{Collections and Collectors}
 The built-in types that can be used as collectors and collections are: List, Vector, Set, Map and String. In the case of maps,
@@ -2082,7 +2112,6 @@ $c$ \verb+//+ $f$  & \tabparbox{map created by all key/value pairs $(x,\ f(x))$ 
 \end{tabular}
 \label{tab:generalcollectmessages}
 \end{table}
-
 
 \subsection{Type Conversions}
 Many built-in types have conversions defined between them. Table~\ref{tab:typeconversions} lists all of them.
