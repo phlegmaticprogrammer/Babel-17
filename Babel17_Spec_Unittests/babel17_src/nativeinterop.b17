@@ -115,5 +115,3 @@ module lang.unittest.spec.nativeinterop
 
 end
 
-val c = native Class ("java.lang.Integer")
-c.parseInt "120"
