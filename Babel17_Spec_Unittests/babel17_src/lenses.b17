@@ -124,6 +124,8 @@ x xor= true
 
 end
 
+lens x => (x.mymap.lookup 10) + 40
+
 
 
 

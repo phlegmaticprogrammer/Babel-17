@@ -82,9 +82,9 @@ I always wanted a programming language
 \item that has a simple mechanized formal semantics,
 \item that is beautiful.
 \end{itemize}
-There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will have been achieved. The version described in this document is Babel-17 v0.3, so there is still some distance to go. 
+There is no such language out there. Therefore I decided to create one. When Babel-17 will have reached v1.0 then the above goals will have been achieved. The version described in this document is Babel-17 v0.3.1, so there is still some distance to go. 
 
-Babel-17 is not a radically new or revolutionary programming language. It picks those raisins I like out of languages like Standard ML, Scala, Alice ML, Java, Javascript, Erlang, Haskell, Lisp, Clojure and Mathematica, and tries to evolve them into a beautiful new design. 
+Babel-17 is not a radically new or revolutionary programming language. It picks those raisins I like out of languages like Standard ML~\cite{standardml}, Scala~\cite{scala}, Isabelle~\cite{isabelle} (which is not a language, but a system for interactive theorem proving), Alice ML, Java, Javascript, Erlang, Haskell, Lisp, Clojure and Mathematica, and tries to evolve them into a beautiful new design. 
 
 Babel-17 is a functional language. It is not a pure functional language because it contains sources of non-determinism like the ability to pick one of two values randomly. If you take these few sources of non-determinism out of the language, it becomes pure. 
 
@@ -96,14 +96,14 @@ The default evaluation order of Babel-17 is strict. But optional laziness is bui
 
 Babel-17 has pattern matching and exception handling. Both are carefully integrated with each other and with the laziness and concurrency capabilities of Babel-17.
 
-Furthermore, Babel-17 establishes the paradigm of \emph{purely functional structured programming}  via the notion of linear scope.
+Furthermore, Babel-17 establishes the paradigm of \emph{purely functional structured programming}~\cite{pfsp}  via the notion of linear scope.
 
 In this document  I specify Babel-17 in a mostly informal style: formal notation is sometimes used when it supports clarity.
 
 \section{Reference Implementation}
 
-At \url{http://babel-17.com} you will find a reference implementation of Babel-17 v0.3 that fully supports the language as described in this document. There you will also find a Netbeans plugin that has syntax and error-highlighting for Babel-17 programs. As you find your way through this document, it might be helpful to directly try out Babel-17 in Netbeans to see if the interpreter behaves as you would guess from this spec. 
-%If you find implausible behavior, email your findings to \texttt{bugparade@babel-17.com}. Each proper bug will be listed together with your name (unless you don't wish so; then don't give your name in the email; it's also OK not to give your real name but an alias) and date of your discovery forever at \texttt{babel-17.com}. You can also provide a link to your blog or whatever. There will also be a high-score of who submitted the most bugs.
+At \cite{babel17} you will find a reference implementation of Babel-17 that fully supports the language as described in this document. There you will also find a Netbeans plugin that has syntax and error-highlighting for Babel-17 programs. As you find your way through this document, it might be helpful to directly try out Babel-17 in Netbeans to see if the interpreter behaves as you would guess from this spec. 
+If you find implausible behavior, email your findings to \texttt{bugparade@babel-17.com}. Preferably you would also send along  a unit test that fails because of the observed behavior, but which you think should succeed.
 
 \section{Lexical Matters}
 Babel-17 source code is always written UTF-8 encoded. If it ain't UTF-8, it ain't Babel-17. 
@@ -1002,7 +1002,7 @@ def fib n = fib (n-1) + fib (n-2)
 The difference between weak and strong memoization is that strong memoization always remembers a value once it has been computed; weak memoization instead may choose not to remember computed results in certain situations, for example in order to free memory in low memory situations. Note that all arguments to the same memoized function must be totally ordered by the built-in partial order. 
 
 \section{Linear Scope}
-We are now ready to explore the full power of block expressions and statements in Babel-17. We approach the topic of this and the following sections, \emph{linear scope}, in an example-oriented way. A more in-depth treatment can be found in my paper \emph{Purely Functional Structured Programming}, also available at \url{www.babel-17.com}.
+We are now ready to explore the full power of block expressions and statements in Babel-17. We approach the topic of this and the following sections, \emph{linear scope}, in an example-oriented way. A more in-depth treatment can be found in my paper \emph{Purely Functional Structured Programming}~\cite{pfsp}.
 
 First, we extend the syntax of \babelsrc{val}-statements such that it is legal to leave out the keyword \babelsrc{val} in certain situations. Whenever the situation is such that it is legal to write
 \begin{babellisting}
@@ -1220,6 +1220,191 @@ u = u.$m$_putback_ $t$
 The reason for this exception is that it allows us to generalize the concept of a purely functional record update to the concept of a \emph{lens}.
 
 \section{Lenses}
+Lenses~\cite{lenses} allow us to generalize the thing we did with updating records in a purely functional way. Lenses and linear scope work together well; this is very similar to how lenses and the state monad work together well~\cite{lensesfi}.
+
+A \emph{lens} is basically a pair of functions $(g, p)$, where $g$ is called the \emph{get} function and $p$ is called the \emph{putback} function of the lens. In the special case where a lens represents a field $m$ of a record $u$, this pair would be defined via
+\[
+	g\ u= u.m, \quad p\ u\ t = \textsl{a copy of $u$ where the field $m$ has been set to $t$}
+\]
+Generalizing from this special case, a lens should obey the following laws:
+\[
+	g\ (p\ u\ t) = t,\quad p\ u\ (g\ u) = u
+\]
+In Babel-17, these laws are just recommendations for how to construct a lens as there are no mechanisms in place to ensure that a lens actually obeys them.
+
+You can define a lens in Babel-17 directly via providing \emph{get} and \emph{putback} explictly:
+\begin{babellisting}
+def g u = u.m
+def p u = t => begin u.m = t; u end
+val l = lens (g, p)
+\end{babellisting}
+The above code constructs a new lens $l$. Lenses actually form their own type, so we have \babelsrc{typeof l == (: lens_)}.
+
+What can you do with a lens once you got one? You can apply $l$ to a value $u$ via
+\begin{babellisting}
+l u
+\end{babellisting}
+This applies the \emph{get} function of $l$ to $u$, so for our specific $l$ we have \babelsrc{l u == u.m}.
+In order to emphasize the aspect that $l$ can be regarded as a field accessor for $u$, instead of \babelsrc{l u} you can also write
+\begin{babellisting}
+u.(l)
+\end{babellisting}
+This notation has the advantage that it can also be used on the left hand side of an assignment:
+\begin{babellisting}
+val u = {m = 10, n = 12}
+u.(l) = 23
+u == {m = 23, n = 12}
+\end{babellisting}
+The above evaluates to \babelsrc{true}, because the line \babelsrc{u.(l) = 23} is short for \babelsrc{u = l.putback u 23}. 
+
+Lenses come automatically equipped with a \emph{modify} operation, \babelsrc{l.modify u f} is short for \babelsrc{l.putback u (f (l u))}. There is special notation that supports this operation:
+\begin{babellisting}
+val u = {m = 10, n = 12}
+u.(l) += 2
+u == {m = 12, n = 12}
+\end{babellisting}
+This again evaluates to \babelsrc{true}, because the line \babelsrc{u.(l) += 2} is short for 
+\begin{babellisting}
+u = l.modify u (u => u +  2)
+\end{babellisting}
+The \emph{identity lens} 
+\begin{babellisting}
+val id = lens (x => x, x => y => y)
+\end{babellisting}
+blurs the distinction between normal assignment and lens assignment, because the meaning of
+\begin{babellisting}
+val x = 10
+x = 12
+\end{babellisting}
+is exactly the same as the meaning of
+\begin{babellisting}
+val x = 10
+x.(id) = 12
+\end{babellisting}
+In particular, our new assignment operators like \babelsrc{+=} and \babelsrc{*=} also work in the context of normal assignment:
+\begin{babellisting}
+val x = 10
+x += 2
+x == 12
+\end{babellisting}
+This evaluates to \babelsrc{true}. Tables~\ref{table:modifyingoperators} list all modifying assignment operators.
+\begin{table}
+\caption{Modifying Assignment Operators}
+\begin{tabular}{r|l}
+\textbf{Syntax} & \textbf{Semantics} \\\hline
+x += y & x = x + y \\
+x =+ y & x = y + x \\
+x ++=y & x = x ++ y\\
+x =++ y & x = y ++ x\\
+x $-$= y & x = x $-$ y \\
+x =$-$ y & x = y $-$ x \\
+x $-$$-$= y & x = x $-$$-$ y\\
+x =$-$$-$ y & x = y $-$$-$ x\\
+x xor= y & x = x xor y \\
+x =xor y & x = y xor x \\
+\end{tabular}
+\begin{tabular}{r|l}
+\textbf{Syntax} & \textbf{Semantics} \\\hline
+x *= y & x = x * y \\
+x =* y & x = y * x \\
+x **=y & x = x ** y\\
+x =** y & x = y ** x\\
+x /= y & x = x / y \\
+x =/ y & x = y / x \\
+x //=y & x = x // y\\
+x =// y & x = y // x\\
+x and= y & x = x and y \\
+x =and y & x = y and x \\
+\end{tabular}
+\begin{tabular}{r|l}
+\textbf{Syntax} & \textbf{Semantics} \\\hline
+x \verb+^+= y & x = x \verb+^+ y \\
+x =\verb+^+ y & x = y \verb+^+ x \\
+x div= y & x = x div y \\
+x =div y & x = y div x \\
+x mod= y & x = x mod y \\
+x =mod y & x = y mod x \\
+x min= y & x = min (x, y) \\
+x max= y & x = max (x, y) \\
+x or= y & x = x or y \\
+x =or y & x = y or x \\
+\end{tabular}
+\label{table:modifyingoperators}
+\end{table}
+
+Besides via directly giving the pair of functions that form a lens, a lens can also be defined by its \emph{access path}. The access path of a lens is basically just how you would write down the \emph{get} function of the lens if it could be defined using message passing (possibly with arguments) and lens application only. For example, instead of defining a lens via
+\begin{babellisting}
+def g u = u.m
+def p u = t => begin u.m = t; u end
+val l = lens (g, p)
+\end{babellisting}
+you could just write
+\begin{babellisting}
+val l = lens u => u.m
+\end{babellisting}
+The identity lens becomes even simpler in this form:
+\begin{babellisting}
+val id = lens u => u
+\end{babellisting}
+Another valid legal lens definition is:
+\begin{babellisting}
+val h = lens x => ((x.mymap.lookup 10) + 40).(l)
+\end{babellisting}
+You could define the above lens directly via a pair of functions as follows:
+\begin{babellisting}
+def g x = ((x.mymap.lookup 10) + 40).(l)
+def p x = t => 
+  begin
+    val u1 = x.mymap
+    val u2 = u1.lookup 10
+    val u3 = u2 + 40
+    val new_u3 = l.putback u3 t
+    val new_u2 = u2.plus__putback_ 40 new_u3
+    val new_u1 = u1.lookup_putback_ 10 new_u2
+    val new_x = x
+    new_x.mymap = new_u1
+    new_x
+  end
+
+val h = lens (g, p)
+\end{babellisting}
+
+The cool thing about lenses is that they are \emph{composable}. Given two lenses $a$ and $b$, we can define a new lens $c$ via
+\begin{babellisting}
+val c = lens x => x.(a).(b)
+\end{babellisting}
+Multiplication of lenses is defined to be just this composition, so we could also just write
+\begin{babellisting}
+val c = a * b
+\end{babellisting}
+
+Here is an example that illustrates composition:
+\begin{babellisting}
+val a = lens x => x.a
+val b = lens x => x.b
+
+val x = {a = {a = 1, b = 2}, b = {a = 3, b = 4}}
+
+x.(a*b) = 10
+x.(b*a) = 20
+
+x == {a = {a = 1, b = 10}, b = {a = 20, b = 4}}
+\end{babellisting}
+This evaluates to \babelsrc{true}. Note that if the left hand side of an assignment is an access path, then the corresponding lens is automatically constructed. Therefore, in the above context the following five lines have identical meaning:
+\begin{babellisting}
+x.(a*b) = 10
+x.(a).(b) = 10
+x.a.b = 10
+x.(a).b = 10
+x.a.(b) = 10
+\end{babellisting}
+
+
+
+
+
+
+
 
 
 \section{With}\label{sec:collector}
@@ -1984,5 +2169,41 @@ While there will probably always be a reference implementation of Babel-17 that 
 \noindent\textbf{Development of the language} 
 Babel-17 is a dynamically typed purely functional programming language with a module system that has powerful encapsulation mechanisms.
 Some way of dealing with state, user interfaces, and communication with the outside world will be added to future versions of Babel-17. 
+
+\bibliographystyle{abbrvnat}
+
+% The bibliography should be embedded for final submission.
+
+\begin{thebibliography}{10}
+
+%\bibitem{erlang}Armstrong. \newblock\emph{Programming Erlang: Software for a Concurrent World}. \newblock Pragmatic Bookshelf, 2007.
+
+%\bibitem{structuredprogramming}Dahl, Dijkstra, Hoare. \newblock\emph{Structured Programming.} 
+%\newblock Academic Press, London, 1972.
+
+%\bibitem{debruijn}De Bruijn, Govert. \newblock\emph{A survey of the project AUTOMATH}. \newblock  In Hindley and Seldin (editors), \emph{To H. B. Curry: Essays on Combinatory Logic, Lambda Calculus and Formalism}, Academic Press, 1980.
+
+%\bibitem{monads}Jones, Wadler. \newblock Imperative Functional Programming. \newblock\emph{ACM Symposium on Principles of Programming Languages}, 1993, pp 71-74. 
+
+\bibitem{standardml}Milner; Tofte, Harper, MacQueen. \newblock\emph{The Definition of Standard ML.}\newblock MIT Press, 1997.
+
+\bibitem{scala}Odersky, Spoon, Venners. \newblock\emph{Programming in Scala}.\newblock Artima Press, 2008.
+
+%\bibitem{lineartypes} Wadler. \newblock Linear types can change the world! \newblock\emph{In M. Broy and C. Jones, editors, Programming Concepts and Methods}. North Holland, Amsterdam, 1990.
+
+\bibitem{babel17}Babel-17. \newblock \url{http://www.babel-17.com}
+
+\bibitem{pfsp}Mini Babel-17. \newblock \url{http://www.babel-17.com/Mini-Babel-17}
+
+\bibitem{isabelle}Isabelle. \newblock \url{http://isabelle.in.tum.de}
+
+\bibitem{lenses}Foster, Greenwald, Moore, Pierce, Schmitt. \newblock Combinators for Bi-Directional Tree Transformations. \newblock\emph{ACM Symposium on Principles of Programming Languages}, 2005. 
+
+\bibitem{lensesfi}Edward Kmett. Lenses: A Functional Imperative. \newblock \url{http://www.youtube.com/watch?v=efv0SQNde5Q}
+
+\bibitem{babel17novel}Samuel R. Delany. \newblock\emph{Babel-17}. \newblock Ace Books, 1966.
+
+\end{thebibliography}
+
 
 \end{document}  
