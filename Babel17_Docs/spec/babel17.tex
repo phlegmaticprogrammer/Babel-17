@@ -31,7 +31,7 @@
 \newenvironment{babelcode}[0]{\begin{center}\tt}{\end{center}}
 
 \lstdefinelanguage{babellanguage} 
-{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this,as,object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch,private,import,module,unittest,typedef,typeof,and,or,not, root,native},
+{morekeywords={lazy, concurrent, force, match, case, exception, begin, end, random, choose,force,true, false, infinity, val, def, this,as,object,if,then,else,elseif,memoize,for,in,yield,while,do,with,nil, div, mod,try,catch,private,import,module,unittest,typedef,typeof,and,or,not, root,native,xor,lens,min,max},
 sensitive=true, 
 morecomment=[l]{//}, 
 morecomment=[s]{/*}{*/}, 
@@ -121,7 +121,7 @@ while &  for & do & choose & random & yield & match & case \\
 as & val & def & in & exception & lazy & concurrent & memoize \\
 to & downto & true & false & nil & unittest &  force & this \\
 try & catch &  typedef &  typeof &  module &  private &  import & not  \\
-and & or & native &  root &  &   &  & 
+and & or & xor & native &  root &  lens &   min & max 
 \end{tabular}
 \end{center}
 Note that keywords are written always in lower case. For example, {\tt bEGIN} is not a legal keyword, but it also isn't an identifier (because of case insensitivity). Also note that {\tt Begin} and {\tt BEGIN} denote the same legal constructor. When we talk about identifiers in the rest of the paper, we always mean identifiers which are not keywords.
@@ -163,7 +163,7 @@ String consisting only of line feed via 32-bit escaping & \verb+"\U0000000A"+
 Multi-line comments in Babel-17 are written between matching pairs of \verb+#(+ and \verb+)#+ and can span several lines. 
 Single-line comments start with \verb+##+. 
 
-\emph{Pragmas} start with \verb+#+, just like comments. There are the following pragmas: \verb+#assert+, \verb+#log+, \verb+#print+, \verb+#profile+. 
+\emph{Pragmas} start with \verb+#+, just like comments. There are the following pragmas: \verb+#assert+, \verb+#catch+, \verb+#log+, \verb+#print+, \verb+#profile+. 
 
 Finally, here are all ASCII special symbols that can occur in a Babel-17 program:
 \newcommand{\mapcurlyleft}{\{|}
@@ -175,7 +175,9 @@ Finally, here are all ASCII special symbols that can occur in a Babel-17 program
 \verb-|- & \verb+&+ & \verb+!+ & \verb-++- & \verb+--+& \verb+**+  &
 \verb-//- & \verb+,+ & \verb+::+ & \verb+->+ & \verb+=>+& \verb+?+  & \verb+...+  \\
 \verb-(- & \verb+)+ & \verb+[+ & \verb+]+ & \verb+{+& \verb+}+  & \verb+.+ &  \verb+:+ &
- \verb+~+ &\verb+:>+ & &
+ \verb+~+ &\verb+:>+ & \verb-+=-&  \verb-++=- & \verb-=+- \\
+ \verb-=++- & \verb+*=+ & \verb+**=+ & \verb+=*+& \verb+=**+  & \verb+/=+ &  \verb+//=+ &
+ \verb+=/+ &\verb+=//+ &\verb-^=-&  \verb-=^- \\
 \end{tabular}
 \end{center}
 Table~\ref{table:furthersymbols} lists all other Unicode symbols that have a meaning in Babel-17.
@@ -218,7 +220,9 @@ Each value in Babel-17 has a unique type. All built-in types are depicted in Tab
 \metababel{PersistentException} & \verb+exc+ &  the type of persistent exceptions\\
 \metababel{DynamicException} & &  the type of dynamic exceptions\\
 \metababel{Type} &  \verb+type+ &  the type of types\\
-\metababel{Module} &  \verb+module+ &  the type of modules\\
+\metababel{Module} &  \verb+module_+ &  the type of modules\\
+\metababel{Lens} &  \verb+lens_+ &  the type of lenses\\
+\metababel{Native} &  \verb+native_+ &  the type of native values\\
 \end{tabular}
 \label{table:builtintypes}
 \end{table}
@@ -722,7 +726,7 @@ object end
 
 \section{Boolean Operators}
 
-Babel-17 provides the usual boolean operators. They are just syntactic sugar for certain \babelsrc{match} expressions; the exact translations are given in Table~\ref{tab:booleanops}.
+Babel-17 provides the usual boolean operators. They are just syntactic sugar for certain \babelsrc{match} expressions; the exact translations are given in Table~\ref{tab:booleanops}. Furthermore, there is the \babelsrc{xor} operator which is defined in the usual way.
 \begin{table}
 \caption{Boolean Operators}
 \begin{tabular}{c|c|c}
@@ -866,27 +870,21 @@ match a $\sim$ b
 end
 \end{babellisting}
 
+In principle, two values $a$ and $b$ are unrelated if they have different types. This statement is weakened by the existence of automatic type conversion (Section~\ref{sec:automatictypeconversion}): if $a$ and $b$ have different types, it is checked if $a$ can be automatically converted to something of type \babelsrc{typeof\ $b$}, or if $b$ can be automatically converted into something of type \babelsrc{typeof\ $a$}. If so, then one of these conversions is done and the result is compared with the other value.
+
 The built-in partial order has the following properties:
 \begin{itemize}
-\item values of type \texttt{type} are totally ordered by their name
-\item $a \sim b$ is equivalent to
+\item if $a$ and $b$ have the same type, and this type is \texttt{obj} or user-defined (see Section ~\ref{sec:typedefs} for how to define your own types), then $a \sim b$ is equivalent to
 \begin{babellisting}
-match (typeof a) $\sim$ (typeof b)
-  case 0 => 
     match a.compare_ b
       case u : int => u
       case e => exception CompareError e
     end
-  case _ => 
-    $\emph{if a can be automatically converted to something of the type of b,} $
-    $\emph{or else if b can be automatically converted to something of the type of a,}$
-    $\emph{then do the conversion and proceed like above with the comparison.}$
-end
 \end{babellisting}
 \item persistent exceptions are partially ordered by their parameter 
- \item booleans are totally ordered and \babelsrc{false} $<$ \babelsrc{true} holds
- \item integers are totally ordered in the obvious way
-  \item reals are partially ordered as described in Section~\ref{sec:reals}
+\item booleans are totally ordered and \babelsrc{false} $<$ \babelsrc{true} holds
+\item integers are totally ordered in the obvious way
+\item reals are partially ordered as described in Section~\ref{sec:reals}
 \item strings are totally ordered via lexicographic ordering
 \item lists are partially ordered by the lexicographic ordering 
 \item vectors are partially ordered by the lexicographic ordering 
@@ -897,6 +895,11 @@ end
 \item types are totally ordered by their names
 \item modules are totally ordered by their names
 \end{itemize}
+
+There are built-in operators \babelsrc{min} and \babelsrc{max} that compute the minimum and the maximum of a \emph{collection} (Section~\ref{sec:loops} defines what a collection is). For example,
+\begin{babellisting}
+  min (1, 2) == max (-1, 1, 0) == 1
+\end{babellisting}
 
 \section{Sets and Maps}\label{sec:setsandmaps}
 Sets and maps are built into Babel-17. For example, the set consisting of 3, 42 and 15 can be written as
@@ -1190,9 +1193,9 @@ Babel-17 allows to write down the above statement in a more concise form:
 \begin{babellisting}
 u.x = 9   
 \end{babellisting}
-In general, 
+In general, for a value $u$ of type \texttt{obj},
 \begin{babellisting}
-u.m = $t$   
+u.$m$ = $t$   
 \end{babellisting}
 is shorthand notation for 
 \begin{babellisting}
@@ -1200,18 +1203,24 @@ u =
   begin
     val evaluated_t = $t$
     object + [u]
-      def m = evaluated_t
+      def $m$ = evaluated_t
     end
   end      
 \end{babellisting}
-For the sake of completeness, there is also the much less useful notation
+
+Actually, there is an exception to the above rule: if $u$ has a message \texttt{$m$\_putback\_}, then 
 \begin{babellisting}
-val u.m = $t$   
+u.$m$ = $t$   
 \end{babellisting}
-which is short for 
+is actually shorthand for 
 \begin{babellisting}
-val u = { m = $t$ }  
+u = u.$m$_putback_ $t$
 \end{babellisting}
+
+The reason for this exception is that it allows us to generalize the concept of a purely functional record update to the concept of a \emph{lens}.
+
+\section{Lenses}
+
 
 \section{With}\label{sec:collector}
 By default, all yielded values of a block expression are collected into a list which collapses in the case of a single element. The programmer might want to deviate from this default and collect the yielded values differently, for example to get rid of the collapsing behavior. The \babelsrc{with} expression allows her to do just that. Its syntax is:
@@ -1604,7 +1613,7 @@ This is just another notation for
 def myfun $pat$ = ($expr$ :> $t$)
 \end{babellisting}
 
-\subsection{Automatic Type Conversions}
+\subsection{Automatic Type Conversions}\label{sec:automatictypeconversion}
 Type conversions are actually differentiated into two separate classes: those which are automatically applied, and those which are only applied in conjunction with the \texttt{:>} operator.
 
 Your own object can implement automatic type conversion to a type $t$ via 
