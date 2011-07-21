@@ -1,15 +1,15 @@
 \contentsline {section}{\tocsection {}{1}{Introduction}}{2}
 \contentsline {section}{\tocsection {}{2}{Reference Implementation}}{3}
 \contentsline {section}{\tocsection {}{3}{Lexical Matters}}{3}
-\contentsline {section}{\tocsection {}{4}{Overview of Built-in Types}}{5}
+\contentsline {section}{\tocsection {}{4}{Overview of Built-in Types}}{4}
 \contentsline {section}{\tocsection {}{5}{Objects and Functions}}{5}
 \contentsline {section}{\tocsection {}{6}{Exceptions}}{6}
-\contentsline {section}{\tocsection {}{7}{Laziness and Concurrency}}{6}
-\contentsline {section}{\tocsection {}{8}{Lists and Vectors}}{7}
+\contentsline {section}{\tocsection {}{7}{Laziness and Concurrency}}{7}
+\contentsline {section}{\tocsection {}{8}{Lists and Vectors}}{8}
 \contentsline {section}{\tocsection {}{9}{CExprs}}{8}
 \contentsline {section}{\tocsection {}{10}{Pattern Matching}}{8}
-\contentsline {section}{\tocsection {}{11}{Non-Determinism in Babel-17}}{11}
-\contentsline {section}{\tocsection {}{12}{Block Expressions}}{11}
+\contentsline {section}{\tocsection {}{11}{Non-Determinism in Babel-17}}{10}
+\contentsline {section}{\tocsection {}{12}{Block Expressions}}{12}
 \contentsline {section}{\tocsection {}{13}{Anonymous Functions}}{14}
 \contentsline {section}{\tocsection {}{14}{Object Expressions}}{15}
 \contentsline {section}{\tocsection {}{15}{Boolean Operators}}{16}
@@ -20,7 +20,7 @@
 \contentsline {section}{\tocsection {}{20}{Memoization}}{20}
 \contentsline {section}{\tocsection {}{21}{Linear Scope}}{21}
 \contentsline {section}{\tocsection {}{22}{Record Updates}}{24}
-\contentsline {section}{\tocsection {}{23}{Lenses}}{24}
+\contentsline {section}{\tocsection {}{23}{Lenses}}{25}
 \contentsline {section}{\tocsection {}{24}{With}}{27}
 \contentsline {section}{\tocsection {}{25}{Loops}}{28}
 \contentsline {section}{\tocsection {}{26}{Pragmas}}{29}
@@ -39,13 +39,13 @@
 \contentsline {subsection}{\tocsubsection {}{29.1}{The Java Platform}}{40}
 \contentsline {section}{\tocsection {}{30}{Standard Library}}{41}
 \contentsline {subsection}{\tocsubsection {}{30.1}{Collections and Collectors}}{41}
-\contentsline {subsection}{\tocsubsection {}{30.2}{Type Conversions}}{41}
-\contentsline {subsection}{\tocsubsection {}{30.3}{Integer}}{41}
-\contentsline {subsection}{\tocsubsection {}{30.4}{Reals}}{41}
-\contentsline {subsection}{\tocsubsection {}{30.5}{String}}{41}
-\contentsline {subsection}{\tocsubsection {}{30.6}{List and Vector}}{42}
+\contentsline {subsection}{\tocsubsection {}{30.2}{Type Conversions}}{42}
+\contentsline {subsection}{\tocsubsection {}{30.3}{Integer}}{43}
+\contentsline {subsection}{\tocsubsection {}{30.4}{Reals}}{43}
+\contentsline {subsection}{\tocsubsection {}{30.5}{String}}{43}
+\contentsline {subsection}{\tocsubsection {}{30.6}{List and Vector}}{43}
 \contentsline {subsection}{\tocsubsection {}{30.7}{Set}}{43}
 \contentsline {subsection}{\tocsubsection {}{30.8}{Map}}{43}
 \contentsline {subsection}{\tocsubsection {}{30.9}{Object}}{43}
-\contentsline {section}{\tocsection {}{31}{What's Next?}}{43}
+\contentsline {section}{\tocsection {}{31}{What's Next?}}{44}
 \contentsline {section}{\tocsection {}{}{References}}{44}

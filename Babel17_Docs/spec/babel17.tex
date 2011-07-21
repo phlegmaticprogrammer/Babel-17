@@ -98,7 +98,9 @@ Babel-17 has pattern matching and exception handling. Both are carefully integra
 
 Furthermore, Babel-17 establishes the paradigm of \emph{purely functional structured programming}~\cite{pfsp}  via the notion of linear scope.
 
-In this document  I specify Babel-17 in a mostly informal style: formal notation is sometimes used when it supports clarity.
+In this document  I specify Babel-17 in a mostly informal style: formal notation is sometimes used when it supports clarity. 
+
+Not part of this document, but also part of the overall Babel-17 specification is its formal ANTLR v3.0 grammar; and the (small, but growing) set of unit tests that correspond to the different sections of this document. Both artifacts are available at~\cite{babel17}.
 
 \section{Reference Implementation}
 
@@ -2035,6 +2037,7 @@ you can create a value $v$ of type \verb+native_+ that is a wrapper for a Java o
 \texttt{int} & \patterndescr {\texttt{byte Byte short Short char Char int Integer long Long BigInteger}} \\
 \texttt{real} & \texttt{float Float double Double} \\
 \texttt{bool} & \texttt{boolean Boolean} \\
+\texttt{string} & \texttt{String char Char} \\ 
 \texttt{vect} & Java array \\
 \end{tabular}
 \label{table:javaconversion}
