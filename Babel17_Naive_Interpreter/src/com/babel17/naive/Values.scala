@@ -24,6 +24,7 @@ object Values {
   val MESSAGE_TO = "to_"
   val MESSAGE_DOWNTO = "downto_"
   val MESSAGE_DESTRUCT = "destruct_"
+  val MESSAGE_COMPARE = "compare_"
 
   val MESSAGE_ITERATE = "iterate_"
   val MESSAGE_COLLECT_ADD = "collector_add_"
@@ -126,7 +127,7 @@ object Values {
     
     // this returns either a dynamic exception or a FunctionValue
     def extractFunctionValue() : Value = {
-      if (isDynamicException()) return this
+      if (isException()) return this.asDynamicException
       val f = sendMessage(Program.Id(MESSAGE_APPLY))
       if (f == null) dynamicException(CONSTRUCTOR_APPLYERROR)
       else if (f.isInstanceOf[FunctionValue] || f.isDynamicException()) f
@@ -685,6 +686,13 @@ object Values {
 
   }
   
+  def doLookupIfNecessary(v : Value) : Value = {
+    v match {
+      case v: EnvironmentValue => v.onLookup
+      case _ => v
+    }
+  }
+  
   case class ObjectValue(messages : SortedMap[Program.Id, Value]) extends Value {
     import Program.Id
     val collection = messages.contains(Id(MESSAGE_EMPTY)) &&
@@ -696,7 +704,11 @@ object Values {
       import CompareResult._
       that match {
         case that : ObjectValue =>
-          compareObjects(this, that)
+          compareViaCompare(this, that) match {
+            case Some(c) => c
+            case None => compareObjects(this, that)
+          }
+          
         case _ => UNRELATED
       }
     }
@@ -713,6 +725,7 @@ object Values {
       s = s + "}"
       s
     }
+   
 
     override def sendMessage(message : Program.Id) : Value = {
       messages.get(message) match {
@@ -1454,13 +1467,43 @@ object Values {
       else CompareResult.UNRELATED
     }
   }
-  
-  def compareObjects(v1 : ObjectValue, v2 : ObjectValue) : Int = {
+           
+  val MESSAGE_COMPARE_Id = Program.Id(MESSAGE_COMPARE)
+           
+  def compareViaCompare(v1 : Value, v2 : Value) : Option[Int] = {
     import CompareResult._
+    val comp : Value = v1.sendMessage(MESSAGE_COMPARE_Id)
+    if (comp == null) None
+    else {
+      comp.extractFunctionValue match {
+        case f: FunctionValue =>
+          f.apply(v2).force() match {
+            case IntegerValue(u) =>
+              if (u < 0) Some (LESS)
+              else if (u == 0) Some(EQUAL)
+              else Some(GREATER)
+            case u => 
+              println("NOT AN INT: "+u)
+              
+              Some(UNRELATED)
+          }
+        case ex =>
+          println("ERROR: "+ex)
+          None
+        //case _ => Some(UNRELATED)
+      }
+      
+    }
+  }
+ 
+  def compareObjects(v1 : ObjectValue, v2 : ObjectValue) : Int = {
+    import CompareResult._      
+          
     val s1 = v1.messages.size
     val s2 = v2.messages.size
     if (s1 < s2) return LESS
     if (s1 > s2) return GREATER    
+    if (s1 == 0) return EQUAL
     var i1 = v1.messages.iterator
     var i2 = v2.messages.iterator
     while (!i1.isEmpty) {
@@ -1472,13 +1515,28 @@ object Values {
     }
     i1 = v1.messages.iterator
     i2 = v2.messages.iterator
+    var unrelated = false
     while (!i1.isEmpty) {
-      var (_, v1) = i1.next
-      var (_, v2) = i2.next
-      val c = compareValues(v1, v2)
-      if (c != EQUAL) return c
+      var (m1, v1) = i1.next
+      var (m2, v2) = i2.next
+      v1 = doLookupIfNecessary(v1).force()
+      v2 = doLookupIfNecessary(v2).force()
+      (v1, v2) match {
+        case (_: FunctionValue, _:FunctionValue) =>
+        case _ =>
+          val c = compareValues(v1, v2)
+          if (c != EQUAL) {
+            if (c == UNRELATED) 
+              unrelated = true
+            else
+              return c
+          }          
+      }
     }
-    return EQUAL
+    if (unrelated)
+      return UNRELATED
+    else
+      return EQUAL
   }
 
   def compareMaps(v1 : MapValue, v2 : MapValue) : Int = {
@@ -1783,7 +1841,12 @@ object Values {
       that match {
         case that : TypedValue =>
           if (typeValue == that.typeValue)
-            compareValues(outerValue, that.outerValue)
+            compareViaCompare(this, that) match {
+              case Some(c) => c
+              case None => 
+                compareValues(outerValue, that.outerValue)            
+            }
+
           else UNRELATED
         case _ => UNRELATED
       }

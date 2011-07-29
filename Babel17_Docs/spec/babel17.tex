@@ -880,9 +880,11 @@ The built-in partial order has the following properties:
 \begin{babellisting}
     match a.compare_ b
       case u : int => u
-      case e => exception CompareError e
+      case _ => exception Unrelated
+      case (exception _) => exception Unrelated
     end
 \end{babellisting}
+if $a$ has a \texttt{compare\_} message; if not then $a$ and $b$ are compared according to the number, names and contents of their messages
 \item persistent exceptions are partially ordered by their parameter 
 \item booleans are totally ordered and \babelsrc{false} $<$ \babelsrc{true} holds
 \item integers are totally ordered in the obvious way

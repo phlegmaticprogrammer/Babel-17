@@ -46,7 +46,7 @@ object Interpreter {
   }
   
   def writeCopyrightInfo(w : WriteOutput) {
-    w.writeLineCommentary("Babel-17 v0.3.0, Copyright \u00a9 2009 Steven Obua")
+    w.writeLineCommentary("Babel-17 v0.3.2, Copyright \u00a9 2009 Steven Obua")
     w.writeLine("")
     w.writeLineCommentary("This program comes with ABSOLUTELY NO WARRANTY.")
     w.writeLineCommentary("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")
@@ -205,7 +205,8 @@ object Interpreter {
               w.writeLine(x.stringDescr(false))
           }
         } catch {
-          case (Evaluator.EvalX(s)) =>
+          case (ex @ Evaluator.EvalX(s)) =>
+            ex.printStackTrace
             w.writeLineError("The evaluation of the program has failed: ")
             w.writeLine("")
             w.writeLine(s)
@@ -241,10 +242,11 @@ object Interpreter {
   }
 
   def main(args : Array[String]): Unit = {
-    def f(name : String) : String = ("/Users/stevenobua/Programming/babel-17/Babel17_Spec_Unittests/babel17_src/"+name)
+    //def f(name : String) : String = ("/Users/stevenobua/Programming/babel-17/Babel17_Spec_Unittests/babel17_src/"+name)
+    def f(name : String) : String = ("/Users/stevenobua/NetbeansProjects/Poker/babel17_src/"+name)
     //mainProc(Array(f("v3tests.babel17"), f("cool.babel-17"), f("test.b17")))
   
-   mainProc(Array(f("nativeinterop.b17")))
+   mainProc(Array(f("script.b17"), f("poker.b17")))
    //mainProc(Array(f("standard.b17")))
    //runUnittests(Array(f("standard.b17")), Array(f("standard.b17")),
    //             new WriteOutput())
