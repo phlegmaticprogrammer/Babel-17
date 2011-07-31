@@ -552,8 +552,11 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           var secondOperand = evalSE(env, operandsList(0))
           if (secondOperand.isDynamicException) return secondOperand
           var operator = operatorsList(0)
-          if (!compareValuesByOp(operator, firstOperand, secondOperand)) 
-            return BooleanValue(false)
+          compareValuesByOp(operator, firstOperand, secondOperand) match {
+            case Some(true) =>
+            case Some(false) => return BooleanValue(false)
+            case None => return Values.dynamicException(Values.CONSTRUCTOR_UNRELATED)
+          }
           firstOperand = secondOperand
           operandsList = operandsList.tail
           operatorsList = operatorsList.tail
@@ -688,17 +691,18 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
     }
   }
   
-  def compareValuesByOp(op : Program.CompareOp, u : Value, v : Value) : Boolean = {
+  def compareValuesByOp(op : Program.CompareOp, u : Value, v : Value) : Option[Boolean] = {
     import CompareResult._
     val r = compareValues(u, v)
-    op match {
+    if (r == UNRELATED) return None
+    Some (op match {
       case Program.LESS_EQ() => r == LESS || r == EQUAL
       case Program.GREATER_EQ() => r == GREATER || r == EQUAL
       case Program.EQUAL() => r == EQUAL
       case Program.LESS() => r == LESS
       case Program.GREATER() => r == GREATER
       case Program.UNEQUAL() => !(r == EQUAL)
-    }    
+    })
   }
 
   def evalDefs(env : Environment, coll : Collector, defs : List[Def]) : StatementResult = {

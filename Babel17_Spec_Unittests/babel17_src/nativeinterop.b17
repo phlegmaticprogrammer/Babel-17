@@ -12,12 +12,12 @@ module lang.unittest.spec.nativeinterop
           "hello world", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
           
         #assert h.msg () == g.msg () 
-        #assert h <> g
+        #catch Unrelated try: h <> g
         
         #assert h.getClass () == h_class
     
         #assert h.a == 2
-        #assert h.msg <> "hello world"
+        #catch Unrelated try: h.msg <> "hello world"
         #assert h.msg () == "hello world"
         #catch DomainError try: h.msg ("another param",)
         #catch DomainError try: h.msg "another param"       
@@ -25,9 +25,9 @@ module lang.unittest.spec.nativeinterop
         #assert h.pick [] == ()
         #assert h.pick () == []
         #assert h.pick () == ()
-        #assert h.pick 5 <> 6
+        #catch Unrelated try: h.pick 5 <> 6
         #assert h.pick 5 == (6,)
-        #assert h.b <> 2
+        #catch Unrelated try: h.b <> 2
         #assert h.b () == 3
         #assert h.nothing () == nil
         

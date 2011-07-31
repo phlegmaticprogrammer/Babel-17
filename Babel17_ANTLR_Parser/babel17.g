@@ -481,6 +481,10 @@ defpattern
 	:	primitive_pattern (NL? token_DOUBLE_COLON NL? primitive_pattern)*
 		-> ^(LIST_CONS primitive_pattern*)
 	|	Constr defpattern? -> ^(Constr defpattern?);
+	
+valpattern
+	:	(pattern NL? ':') => pattern NL? ':' NL? typeannotation -> ^(TYPE_PATTERN typeannotation pattern)
+	|	pattern;
 
 casepattern
 	:	bracket_pattern;
@@ -550,7 +554,7 @@ statement
 	| 	PRAGMA_ASSERT NL? expr -> ^(PRAGMA_ASSERT expr)
 	|	PRAGMA_CATCH NL? casepattern NL? L_try NL? COLON NL? expr -> ^(PRAGMA_CATCH expr casepattern);
 	
-st_val	:	L_val NL? pattern NL? '=' NL? expr -> ^(VAL pattern expr);
+st_val	:	L_val NL? valpattern NL? '=' NL? expr -> ^(VAL valpattern expr);
 		
 st_def	:	L_def NL? Id NL? (defpattern NL?)? (':' NL? typeid NL?)? '=' NL? expr 
 		  -> ^(DEF Id typeid? defpattern? expr)

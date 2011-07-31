@@ -68,6 +68,7 @@ object Values {
   val CONSTRUCTOR_CLASSNOTFOUND = "CLASSNOTFOUND"
   val CONSTRUCTOR_NATIVEERROR = "NATIVEERROR"
   val CONSTRUCTOR_NATIVECLASH = "NATIVECLASH"  
+  val CONSTRUCTOR_DESTRUCTFAILED = "DESTRUCTFAILED"
 
   private def makeTypeValue(s : String) : TypeValue =
     TypeValue(Program.Path(List(Program.Id(s))));
@@ -679,8 +680,17 @@ object Values {
     override def sendMessage(message : Program.Id) : Value = {
       message.name match {
         //case MESSAGE_TOSTRING => StringValue(stringValue(false, false))
+        case MESSAGE_DESTRUCT => NativeFunctionValue(destruct _)
         case _ => null
       }      
+    }
+    def destruct(destructor : Value) : Value = {
+      destructor.force() match {
+        case ConstructorValue(c, v2) =>
+          if (constr == c && v2.isNil(true)) v
+          else dynamicException(CONSTRUCTOR_DESTRUCTFAILED)  
+        case ex: ExceptionValue => ex.asDynamicException
+      }
     }
     def typeof : TypeValue = TYPE_CEXP
 

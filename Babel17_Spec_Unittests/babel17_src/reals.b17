@@ -4,17 +4,17 @@ val eps = 1e-8
 
 #assert 1.0 <= 2.0
 #assert 1.2 <= 1.2
-#assert not ([1.0; 2.0] <= [2.0; 3.0])
+#catch Unrelated try: [1.0; 2.0] <= [2.0; 3.0]
 #catch RealOverflow try: 1e30000
 #assert [1; 2.0] == [1; 2]
 #assert [2.0; 1.0] == [1.0; 2.0]
 #catch UNRELATED try: 2.0 ~ [2.0, 3.0]
 #assert [1.0; 2.0] < [3.0; 4.0]
 #assert 1 == 1.0
-#assert 0 <> false
+#catch Unrelated try: 0 <> false
 #assert 0 :> bool == false
 #assert false :> int == 0
-#assert "10" <> 10
+#catch Unrelated try: "10" <> 10
 #assert "10" :> int == 10
 #assert 1.0 == 1
 #catch RealOverflow try: (30000000000000.0).exp
@@ -27,7 +27,7 @@ val eps = 1e-8
 #assert 3.1.ceil == 4.0
 #assert [3.1; 5.7].floor == 3.0
 #assert [3.1; 5.7].ceil == 6.0
-#assert 1.19 < 1.2.middle <> 1.2
+#assert 1.19 < 1.2.middle
 #assert 1.2.contains([-1.2; 0.5].abs)
 #assert (2.0.reciprocal - 0.5).abs < eps
 #catch DomainError try: 0.0.reciprocal

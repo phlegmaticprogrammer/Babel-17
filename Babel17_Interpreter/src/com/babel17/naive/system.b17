@@ -178,8 +178,10 @@ end
 
 def coll_pow_ c = f =>
 with c.empty do
-  for (x if f x) in c do
-    yield x
+  for x in c do
+    if f x then
+      yield x
+    end
   end
 end
 

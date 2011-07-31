@@ -58,7 +58,7 @@ module lang.unittest.spec
 
     module lexical
         val x = 1
-        #assert x <> X
+        #catch Unrelated try: x <> X
         val xY = 1
         #assert xy == 1
         val xy = 2
@@ -278,6 +278,36 @@ module lang.unittest.spec
             #assert -(1,2) == (2,1)
             #assert -[1, 2] == [2, 1]
             #assert (1, 2) == [1, 2]
+        end
+        
+        module destruct        
+          #assert 
+            match Ace 10 
+              case Ace ! => true
+            end
+            
+          #assert  
+            match Ace 10 
+              case Ace ! p => p == 10
+            end        
+            
+          typedef boom x = 
+            object
+              def destruct_ Ace = x
+            end  
+            
+          #assert 
+            match boom 10 
+              case Ace => false
+              case Ace _ => false
+              case Ace ! => true
+            end
+            
+          #assert 
+            match boom 10
+              case Ace ! p => p == 10
+            end
+            
         end
         
         

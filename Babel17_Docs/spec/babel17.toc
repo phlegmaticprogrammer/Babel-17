@@ -17,7 +17,7 @@
 \contentsline {section}{\tocsection {}{17}{Sets and Maps}}{19}
 \contentsline {section}{\tocsection {}{18}{Reals and Interval Arithmetic}}{20}
 \contentsline {section}{\tocsection {}{19}{Syntactic Sugar}}{20}
-\contentsline {section}{\tocsection {}{20}{Memoization}}{21}
+\contentsline {section}{\tocsection {}{20}{Memoization}}{20}
 \contentsline {section}{\tocsection {}{21}{Linear Scope}}{21}
 \contentsline {section}{\tocsection {}{22}{Record Updates}}{24}
 \contentsline {section}{\tocsection {}{23}{Lenses}}{25}
