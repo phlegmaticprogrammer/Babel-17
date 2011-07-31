@@ -16,10 +16,24 @@ module lang.unittest.spec.standard
         #assert -5 :> real == -5.0
         #assert -5 :> string == "-5"
         #assert begin val x = random 5; x :> bool == (x <> 0) end
+        #assert
+          match 5 ^ 1000 
+            case x : real => false
+            case x : int => true
+          end
+        #assert
+          match 5 ^ 10 
+            case x : real => true
+            case x : int => false
+          end
+        #catch REALOVERFLOW try: 5^1000 :> real 
+
         
         ##from real
         #assert 5.1 :> int == 5
         #assert 5.0 :> string == "5.0"
+        #assert match 5.1 case x : int => false case _ => true end
+        #assert match 5.0 case x : int => x == 5 case _ => false end
         
         ##from string
         #assert " -5 " :> int == -5
@@ -48,8 +62,16 @@ module lang.unittest.spec.standard
             case {a, b} => false
             case _ => true
           end
-        
           
+        #assert (("a", "b"),) :> map == {"a" -> "b"}
+        #assert (("a", "b"),) :> list == [("a","b")]
+        
+        #assert match {1, 2} case x : list => false case _ => true end
+        
+        #assert {(1, 2)} :> map == {1 -> 2}
+        #assert {1,2} :> vect == (1, 2)
+        #assert {1,2} :> list == [1, 2]
+        #catch Unrelated try: {1, 2} == (1, 2)
     end
 
 end
@@ -329,21 +351,3 @@ module lang.unittest.spec
     end
     
 end
-
-#(val x = {a = 10, b = 20}
-
-x.a = 12
-
-(x.get 10).h = Some 12
-val u = x.get 10
-x..get 10
-lens l = (x.get 10).h 
-x(.)l :- list
-u.h = Some 12
-u.g = Some 13 )#
-
-
-
-
-
-

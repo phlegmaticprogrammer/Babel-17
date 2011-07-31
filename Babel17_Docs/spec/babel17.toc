@@ -46,6 +46,6 @@
 \contentsline {subsection}{\tocsubsection {}{30.6}{List and Vector}}{43}
 \contentsline {subsection}{\tocsubsection {}{30.7}{Set}}{43}
 \contentsline {subsection}{\tocsubsection {}{30.8}{Map}}{43}
-\contentsline {subsection}{\tocsubsection {}{30.9}{Object}}{43}
+\contentsline {subsection}{\tocsubsection {}{30.9}{Object}}{44}
 \contentsline {section}{\tocsection {}{31}{What's Next?}}{44}
 \contentsline {section}{\tocsection {}{}{References}}{44}

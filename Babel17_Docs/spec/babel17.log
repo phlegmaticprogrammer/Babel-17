@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  31 JUL 2011 14:01
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2010.6.10)  31 JUL 2011 17:05
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -410,16 +410,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 2038--2038
  []
 
 [40] [41] [42]
-Overfull \hbox (19.11597pt too wide) in paragraph at lines 2168--2181
+Overfull \hbox (19.11597pt too wide) in paragraph at lines 2171--2184
  [][] 
  []
 
 [43] [44] (./babel17.aux) ) 
 Here is how much of TeX's memory you used:
- 6378 strings out of 493848
- 82068 string characters out of 3149207
+ 6362 strings out of 493848
+ 81908 string characters out of 3149207
  160492 words of memory out of 3000000
- 9401 multiletter control sequences out of 15000+200000
+ 9385 multiletter control sequences out of 15000+200000
  16970 words of font info for 64 fonts, out of 3000000 for 9000
  875 hyphenation exceptions out of 8191
  41i,17n,40p,696b,1669s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -444,7 +444,7 @@ b></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
 </usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.
 pfb></usr/local/texlive/2009/texmf-dist/fonts/type1/public/amsfonts/symbols/msb
 m10.pfb>
-Output written on babel17.pdf (44 pages, 386669 bytes).
+Output written on babel17.pdf (44 pages, 387188 bytes).
 PDF statistics:
  225 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

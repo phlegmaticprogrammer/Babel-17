@@ -2078,7 +2078,7 @@ The messages implemented by the built-in types of the standard library can be gr
 \begin{itemize}
 \item collector related messages (Section~\ref{sec:collector}),
 \item collection related messages (Section~\ref{sec:loops}),
-\item messages that convert between different types,
+\item \emph{putback} messages that implement lens functionality,
 \item those messages that are listed as syntactic sugar in Table~\ref{tab:syntacticsugar},
 \item messages specific to the type. 
 \end{itemize}
@@ -2118,23 +2118,26 @@ $c$ \verb+//+ $f$  & \tabparbox{map created by all key/value pairs $(x,\ f(x))$ 
 \end{table}
 
 \subsection{Type Conversions}
-Many built-in types have conversions defined between them. Table~\ref{tab:typeconversions} lists all of them.
+Many built-in types have conversions defined between them. Some of these type conversions are automatic, and some are not. Table~\ref{tab:typeconversions} lists all of them. Note that a "yes" and "auto" do not necessarily mean that \emph{all} values of the source type can be converted to the destination type. For example, \verb+5^1000+ cannot be converted to \texttt{real}, and \texttt{5.1} cannot be automatically converted to \texttt{int}, but nevertheless \texttt{5.1 :> int == 5} holds.
 \begin{table}
-\caption{Type Conversions}
-\begin{tabular}{c|l}
-\textbf{Destination Type} & \textbf{Source Types} \\\hline
-\babelsrc{Integer} & Boolean, String, Real \\
-\babelsrc{Real} & Integer, String \\
-\babelsrc{Boolean} & Integer, String \\
-\babelsrc{String} & Integer, Real, Boolean \\
-\babelsrc{List} &  Vector, Set, Map \\
-\babelsrc{Vector} & List, Set, Map \\
-\babelsrc{Set} & List, Vector, Map \\
-\babelsrc{Map} & List, Vector, Set \\
+\caption{Type Conversions \texttt{src :> dest}}
+\begin{tabular}{cc|cccccccc}
+   & \textbf{dest}& \texttt{int} & \texttt{bool} & \texttt{real} & \texttt{string} & \texttt{list} & \texttt{vect} & \texttt{set} & \texttt{map}  \\
+ \textbf{src} & \\\hline
+\texttt{int} & & - & yes & auto & yes & no & no & no & no \\
+\texttt{bool} & &  yes &  - & no  & yes & no & no & no & no\\
+\texttt{real} & & auto & no & - & yes & no & no & no & no \\
+\texttt{string} & & yes & yes & yes & -  & yes & yes & yes & no\\
+\texttt{list} & & no & no & no & no & - & auto & yes & yes\\
+\texttt{vect} & & no & no & no & no & auto & - & yes & yes\\
+\texttt{set} & & no & no & no & no & yes & yes & - & yes\\
+\texttt{map} & & no & no & no & no & yes & yes & yes & -\\
 \end{tabular}
+
 \label{tab:typeconversions}
 \end{table}
-Note that some of these type conversions are automatic, and some are not.
+
+
 
 In the rest of this section we enumerate for each built-in type all messages that are supported by this type. Collector and collection messages are excluded from this enumeration.
 
