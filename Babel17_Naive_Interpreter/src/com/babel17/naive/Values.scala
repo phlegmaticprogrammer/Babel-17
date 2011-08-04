@@ -68,7 +68,6 @@ object Values {
   val CONSTRUCTOR_CLASSNOTFOUND = "CLASSNOTFOUND"
   val CONSTRUCTOR_NATIVEERROR = "NATIVEERROR"
   val CONSTRUCTOR_NATIVECLASH = "NATIVECLASH"  
-  val CONSTRUCTOR_DESTRUCTFAILED = "DESTRUCTFAILED"
 
   private def makeTypeValue(s : String) : TypeValue =
     TypeValue(Program.Path(List(Program.Id(s))));
@@ -409,6 +408,7 @@ object Values {
       for ((p, body) <- branches) {
         evaluator.matchPattern(e, p, v, false)  match {
           case Evaluator.NoMatch() =>
+          case Evaluator.MatchX(x) => return x
           case Evaluator.DoesMatch(newEnv) =>
             body match {
               case None => return typed(v, v)
@@ -438,6 +438,7 @@ object Values {
       for ((p, body, ty) <- branches) {
         evaluator.matchPattern(e, p, v, false)  match {
           case Evaluator.NoMatch() =>
+          case Evaluator.MatchX(x) => return x
           case Evaluator.DoesMatch(newEnv) =>
             return convertType(evaluator.evalExpression(newEnv, body), ty)
         }
@@ -478,6 +479,11 @@ object Values {
       for ((p, body, ty) <- branches) {
         evaluator.matchPattern(e, p, key, false)  match {
           case Evaluator.NoMatch() =>
+          case Evaluator.MatchX(x) => 
+            if (doCache)
+              return save(key, x)
+            else
+              return x
           case Evaluator.DoesMatch(newEnv) =>
             val computed = convertType(evaluator.evalExpression(newEnv, body), ty)
             if (doCache)
@@ -688,7 +694,7 @@ object Values {
       destructor.force() match {
         case ConstructorValue(c, v2) =>
           if (constr == c && v2.isNil(true)) v
-          else dynamicException(CONSTRUCTOR_DESTRUCTFAILED)  
+          else dynamicException(CONSTRUCTOR_DOMAINERROR)  
         case ex: ExceptionValue => ex.asDynamicException
       }
     }

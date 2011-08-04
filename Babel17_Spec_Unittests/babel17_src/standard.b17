@@ -27,6 +27,19 @@ module lang.unittest.spec.standard
             case x : int => false
           end
         #catch REALOVERFLOW try: 5^1000 :> real 
+        
+        #assert 8 == 
+          begin
+            def f (exception u) = u * u * u
+            f (lazy exception 2)
+          end     
+          
+        #catch 2 try:
+          begin
+            def f (exception u) = u * u * u
+            f (exception 2)
+          end     
+          
 
         
         ##from real
@@ -132,6 +145,10 @@ module lang.unittest.spec
         #assert match lazy exception A 
                   case _ => true
                 end
+                
+        #assert match lazy exception A 
+                  case exception A => true
+                end      
                                 
         #catch A try: match exception A case _ => end
         
@@ -170,7 +187,7 @@ module lang.unittest.spec
                   case {1, 2} => true
                 end
                 
-        #catch NoMatch try: match 1 case (_ if 1/0) => end  
+        #catch DomainError try: match 1 case (_ if 1 div 0) => end  
         
         #assert match "hello" case "hello" => true end
         
@@ -193,10 +210,14 @@ module lang.unittest.spec
                 end
                 
         #assert match lazy exception A 
-                    case (val exception A) => false
                     case (val lazy exception A) => true
                     case x => false
-                end                
+                end   
+                
+        #catch A try: 
+               match 1 
+                 case (val exception A) => false
+               end
 
         #assert match A 1 
                   case x => B x ? B (A _) =>  true
@@ -210,8 +231,6 @@ module lang.unittest.spec
           begin
             val x = object def destruct_ x = 0 end
             match x 
-              case A ? _ => false
-              case A ? => false
               case A ! 1 => false
               case A ! 0 => 
                 match x 

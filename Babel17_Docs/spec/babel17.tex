@@ -1403,7 +1403,7 @@ x.a.(b) = 10
 \end{babellisting}
 
 \section{With}\label{sec:collector}
-By default, all yielded values of a block expression are collected into a list which collapses in the case of a single element. The programmer might want to deviate from this default and collect the yielded values differently, for example to get rid of the collapsing behavior. The \babelsrc{with} expression allows her to do just that. Its syntax is:
+By default, all yielded values of a block expression are collected into a vector which collapses in the case of a single element. The programmer might want to deviate from this default and collect the yielded values differently, for example to get rid of the collapsing behavior. The \babelsrc{with} expression allows her to do just that. Its syntax is:
 \begin{babellisting}
 with $c$ do 
   $b$
@@ -2136,8 +2136,6 @@ Many built-in types have conversions defined between them. Some of these type co
 
 \label{tab:typeconversions}
 \end{table}
-
-
 
 In the rest of this section we enumerate for each built-in type all messages that are supported by this type. Collector and collection messages are excluded from this enumeration.
 

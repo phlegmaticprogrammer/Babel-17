@@ -93,6 +93,7 @@ object Evaluator {
   abstract class MatchResult  
   case class NoMatch() extends MatchResult 
   case class DoesMatch(env : Environment) extends MatchResult
+  case class MatchX(x:ExceptionValue) extends MatchResult
 
   abstract class StatementResult
   case class StatementException(de : ExceptionValue) extends StatementResult
@@ -777,6 +778,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         if (e.isDynamicException) return StatementException(e.asDynamicException)
         matchPattern(env, pat, e, false) match {          
           case NoMatch() => StatementException(dynamicException(CONSTRUCTOR_NOMATCH))
+          case MatchX(x) => StatementException(x)
           case DoesMatch(newEnv) => StatementCollector(newEnv, coll)
         }
       case SAssign(pat, expr) =>
@@ -784,6 +786,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         if (e.isDynamicException) return StatementException(e.asDynamicException)
         matchPattern(env, pat, e, true) match {
           case NoMatch() => StatementException(dynamicException(CONSTRUCTOR_NOMATCH))
+          case MatchX(x) => StatementException(x)
           case DoesMatch(newEnv) => StatementCollector(newEnv, coll)
         }
       case SLensAssign(id, lensExpr:SELens, expr) =>
@@ -895,6 +898,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
                 case ex: ExceptionValue =>
                   matchPattern(env, pat, ex.v, false) match {
                     case NoMatch () => failed(ex)
+                    case MatchX (x) => failed(x)
                     case DoesMatch(_) =>
                       assertionRecorder.succeeded()
                   }
@@ -956,6 +960,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           matchPattern(env, pat, v, false) match {
             case NoMatch() =>
               // do nothing
+            case MatchX(x) => return StatementException(x)
             case DoesMatch(blockEnv) =>
               evalBlock(blockEnv, coll, block) match {
                 case BlockException(ex) => return StatementException(ex)
@@ -971,6 +976,8 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           matchPattern(env, pat, e, false) match {
             case NoMatch() =>
               // do nothing, go to next branch
+            case MatchX(x) => 
+              return StatementException(x)
             case DoesMatch(blockEnv) =>
               evalBlock(blockEnv, coll, block) match {
                 case BlockException(ex) => return StatementException(ex)
@@ -997,6 +1004,8 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           matchPattern(env, pat, ex.v, false) match {
             case NoMatch() =>
               // do nothing, go to next branch
+            case MatchX(x) =>
+              return StatementException(x)
             case DoesMatch(blockEnv) =>
               evalBlock(blockEnv, coll, block) match {
                 case BlockException(ex) => return StatementException(ex)
@@ -1042,6 +1051,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       val rebindEnv = env.beginRebinding(pat.introducedVars)
       matchPat(rebindEnv, pat, v, true) match {
         case NoMatch() => NoMatch()
+        case MatchX(x) => MatchX(x)
         case DoesMatch(_) =>
           DoesMatch(env.endRebinding(rebindEnv, pat.introducedVars))
       }
@@ -1068,6 +1078,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       if (next == null || next.isDynamicException) return NoMatch()
       matchPat(currentEnv, p, next, rebind) match {
         case NoMatch() => return NoMatch()
+        case MatchX(x) => return MatchX(x)
         case DoesMatch(env) =>
           currentEnv = env
       }
@@ -1119,16 +1130,16 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         }
       case PVal(expr) =>
         val u = evalSE(env.freeze, expr)
-        if (u.isDynamicException) {
-          NoMatch()
+        if (u.isException) {
+          MatchX(u.asDynamicException)
         }
         else {
           if (compareValues(u, v) == CompareResult.EQUAL) DoesMatch(env)
           else NoMatch()
         }
       case PException(p) =>
-        v.typeConvert(true, TYPE_EXC) match {
-          case ex:ExceptionValue => matchPat(env, p, ex, rebind)
+        v.force() match {
+          case ex:ExceptionValue => matchPat(env, p, ex.v, rebind)
           case _ => NoMatch()
         }
       case PVector(plist, delta) =>
@@ -1161,6 +1172,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case PAs(id, pat) =>
         matchPat(env, pat, v, rebind) match {
           case NoMatch() => NoMatch()
+          case MatchX(x) => MatchX(x)
           case DoesMatch(env) =>
             val newEnv = if (rebind) env.rebind(id, v) else env.bind(id, v)
             DoesMatch(newEnv)
@@ -1183,10 +1195,13 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
       case PIf(pat, cond) =>
         matchPat(env, pat, v, rebind) match {
           case NoMatch() => NoMatch()
+          case MatchX(x) => MatchX(x)
           case DoesMatch(env) =>
             evalSE(env.freeze, cond).force() match {
               case BooleanValue(true) =>
                 DoesMatch(env)
+              case x:ExceptionValue =>
+                MatchX(x.asDynamicException)
               case x =>
                 NoMatch()
             }
@@ -1207,6 +1222,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
               if (x.isDynamicException) return NoMatch()
               matchPat(currentEnv, p, x, rebind) match {
                 case NoMatch() => return NoMatch()
+                case MatchX(x) => return MatchX(x)
                 case DoesMatch(env) =>
                   currentEnv = env
               }
@@ -1221,35 +1237,39 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
             NoMatch()
         }
       case PPredicate(pred, pat) =>
-        val f = evalSE(env.freeze, pred).force()
-        if (f.isException) {
-          return NoMatch()
+        val f = evalSE(env.freeze, pred).extractFunctionValue
+        if (f.isDynamicException) {
+          return MatchX(f.asDynamicException)
         }
         f match {
           case f : FunctionValue =>
             val y = f.apply(v)
             if (y.isDynamicException) {
-              return NoMatch()
+              return MatchX(y.asDynamicException)
             }
             matchPat(env, pat, y, rebind)
-          case _ => return NoMatch()
         }
       case PDestruct(weapon, pat) =>
         val c = evalSE(env.freeze, weapon).force()
-        if (c.isException) {
-          return NoMatch()
+        if (c.isDynamicException) {
+          return MatchX(c.asDynamicException)
         }
         val y = v.sendMessage(Id(MESSAGE_DESTRUCT))
         if (y == null) return NoMatch()
-        y.force() match {
+        y.extractFunctionValue match {
           case f: FunctionValue =>
             val y = f.apply(c)
             if (y.isDynamicException) {
-              return NoMatch()
+              y.asDynamicException.v.force() match {
+                case ConstructorValue(Constr(CONSTRUCTOR_DOMAINERROR), _) =>
+                  return NoMatch()
+                case _ =>
+              }
+              return MatchX(y.asDynamicException)
             }
             matchPat(env, pat, y, rebind)
           case ex:ExceptionValue =>
-            NoMatch()
+            MatchX(ex.asDynamicException)
           case _  => NoMatch()
         }
       case PInnerValue(ty, pat) =>
@@ -1274,11 +1294,11 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
           case _ => NoMatch()
         }
       case PTypeVal(pat, tyExpr) =>
-        evalSE(env.freeze(), tyExpr) match {
+        evalSE(env.freeze(), tyExpr).force() match {
           case TypeValue(ty) =>
             matchPat(env, PType(pat, TypeSome(ty)), v, rebind)
-          case _ =>
-            NoMatch()
+          case x:ExceptionValue => MatchX(x.asDynamicException)
+          case _ => NoMatch()
         }
       case _ => throw EvalX("incomplete matchPattern: "+pat)
    }
