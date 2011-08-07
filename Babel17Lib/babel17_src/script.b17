@@ -1,0 +1,17 @@
+module lang.io
+
+
+
+
+end
+
+def openUrl url = 
+begin
+  val urlobj = native New ("java.net.URL", url)
+  val con = urlobj.openConnection ()
+  con.getInputStream ()  
+end
+
+val stream = openUrl "http://stream.twitter.com/1/statuses/sample.json -ustevenobua:p.k.dick"
+
+stream.close ()

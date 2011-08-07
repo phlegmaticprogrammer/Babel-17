@@ -65,12 +65,13 @@ class Babel17ProjectLogicalView implements LogicalViewProvider {
 
         @Override
         public Action[] getActions(boolean arg0) {
-            Action[] nodeActions = new Action[7];
+            Action[] nodeActions = new Action[9];
             nodeActions[0] = CommonProjectActions.newFileAction();
             nodeActions[1] = CommonProjectActions.copyProjectAction();
             nodeActions[2] = CommonProjectActions.deleteProjectAction();
             nodeActions[5] = CommonProjectActions.setAsMainProjectAction();
             nodeActions[6] = CommonProjectActions.closeProjectAction();
+            nodeActions[8] = CommonProjectActions.customizeProjectAction();
             return nodeActions;
         }
 

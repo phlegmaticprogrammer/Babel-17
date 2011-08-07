@@ -382,7 +382,7 @@ is given by the block expression $b_i$. If none of the pattern matches then ther
 \item If $e$ is a dynamic exception, then the value of the match is just $e$.
 \item Otherwise the result is a dynamic exception with parameter \babelsrc{NoMatch}.
 \end{enumerate}
-A few of the pattern constructs  incorporate arbitrary value expressions. When these expressions raise exceptions, the whole pattern they are contained in is rendered non-matching.
+A few of the pattern constructs  incorporate arbitrary value expressions. When these expressions raise exceptions, they are propagated up.
 
 So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\ref{table:collectionpatterns} list all ways of building a pattern.
 \begin{table}
@@ -397,7 +397,7 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{$s$} & \patterndescr{a string $s$, like \babelsrc{"hello"}, matches just that string $s$}\\\hline
 \babelsrc{($p$)} & \patterndescr{same as $p$} \\\hline
 \babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches any non-exceptional value that matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
-\babelsrc{(val $\ e$)} & \patterndescr{matches any non-exceptional  value which is equivalent to $e$}\\\hline
+\babelsrc{(val $\ e$)} & \patterndescr{matches any non-exceptional  value which is equivalent to $e$; in case an \texttt{Unrelated}-exception is thrown, this pattern just does not match, and does \emph{not} propagate up the exception}\\\hline
 \babelsrc{($c\ $ \! $\ p$)} & \patterndescr{let $v$ be the value to be matched; then the match succeeds if the result $v$.\babelsrc{destruct\_}  $c$ matches $p$}\\\hline
 \babelsrc{($c\ $ \!)} & \patterndescr{short for \babelsrc{($c\ $ \! \_)} }\\\hline
 \babelsrc{($f\ $ ? $\ p$)} & \patterndescr{$f$ is applied to the value to be matched; the match succeeds if the result of the application matches $p$}\\\hline
@@ -1247,7 +1247,7 @@ What can you do with a lens once you got one? You can apply $l$ to a value $u$ v
 \begin{babellisting}
 l u
 \end{babellisting}
-This applies the \emph{get} function of $l$ to $u$, so for our specific $l$ we have \babelsrc{l u == u.m}.
+This applies the \emph{get} function of $l$ to $u$, so for our specific $l$ we have that \babelsrc{l u} is equivalent to \babelsrc{u.m}.
 In order to emphasize the aspect that $l$ can be regarded as a field accessor for $u$, instead of \babelsrc{l u} you can also write
 \begin{babellisting}
 u.(l)
@@ -1268,7 +1268,7 @@ u == {m = 12, n = 12}
 \end{babellisting}
 This again evaluates to \babelsrc{true}, because the line \babelsrc{u.(l) += 2} is short for 
 \begin{babellisting}
-u = l.modify u (u => u +  2)
+u = l.modify u (m => m +  2)
 \end{babellisting}
 The \emph{identity lens} 
 \begin{babellisting}

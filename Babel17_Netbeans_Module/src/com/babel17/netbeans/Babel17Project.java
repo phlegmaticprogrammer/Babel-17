@@ -12,6 +12,7 @@ import java.beans.PropertyChangeListener;
 import org.netbeans.spi.project.ui.support.DefaultProjectOperations;
 
 import com.babel17.naive.FileCentral;
+import java.util.prefs.Preferences;
 import org.openide.windows.WindowManager;
 import org.openide.windows.Mode;
 import org.openide.windows.TopComponent;
@@ -32,6 +33,10 @@ class Babel17Project implements Project {
         this.fileCentral = makeFileCentral();
         if (this.fileCentral != null)
             projectDir.addRecursiveListener(new FCListener());        
+    }
+    
+    public Preferences getPreferences() {
+      return ProjectUtils.getPreferences(this, Babel17Project.class, true);
     }
     
     private FileCentral makeFileCentral() {
@@ -105,7 +110,8 @@ class Babel17Project implements Project {
                         new DemoCopyOperation(this),
                         new Info(), //Project information implementation
                         new Babel17ProjectLogicalView(this),
-                        new UTF8FEQImpl() 
+                        new UTF8FEQImpl(),
+                        new Babel17CustomizerImpl(this)
                     });
         }
         return lkp;
