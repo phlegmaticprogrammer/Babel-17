@@ -68,7 +68,7 @@ object Interpreter {
     return true    
   }
 
-  def runUnittests(testfilenames: Array[String], filenames : Array[String], w : WriteOutput) {
+  def runUnittests(options : EvaluationOptions, testfilenames: Array[String], filenames : Array[String], w : WriteOutput) {
     writeCopyrightInfo(w)
     if (testfilenames.length == 0) {
       w.writeLine("There are no unit tests to run.")
@@ -90,7 +90,7 @@ object Interpreter {
         w.writeLineCommentary("Found "+cpus+" available processors.")
         w.writeLine("")
       }
-      evaluator = new Evaluator(cpus, fc, EvaluationOptions(true))
+      evaluator = new Evaluator(cpus, fc, options)
       evaluator.writeOutput = w
       Evaluator.systemLibrary = evaluator.loadSystemLibrary
     } catch {
@@ -155,7 +155,7 @@ object Interpreter {
     }
   }
   
-  def run(progIndex:Int, filenames : Array[String], w : WriteOutput) {
+  def run(options : EvaluationOptions, progIndex:Int, filenames : Array[String], w : WriteOutput) {
     writeCopyrightInfo(w)
     if (filenames == null || filenames.length == 0) {
       w.writeLineError("Please specify which file to execute!")
@@ -174,7 +174,7 @@ object Interpreter {
             w.writeLineCommentary("Found "+cpus+" available processors.")
             w.writeLine("")
           }
-          val evaluator = new Evaluator(cpus, fc, EvaluationOptions(true))
+          val evaluator = new Evaluator(cpus, fc, options)
           evaluator.writeOutput = w
           Evaluator.systemLibrary = evaluator.loadSystemLibrary
           val v = evaluator.evaluate(Evaluator.emptyEnv, term)
@@ -223,6 +223,8 @@ object Interpreter {
     }
 
   }
+  
+  def defaultOptions : EvaluationOptions = EvaluationOptions(true, "")
 
   def mainProc(args: Array[String]): Unit = {
     var arguments = args
@@ -238,18 +240,17 @@ object Interpreter {
         i = i + 1
       }
     }
-    run(progIndex, arguments, new WriteOutput())
+    run(defaultOptions, progIndex, arguments, new WriteOutput())
   }
 
   def main(args : Array[String]): Unit = {
-    //def f(name : String) : String = ("/Users/stevenobua/Programming/babel-17/Babel17_Spec_Unittests/babel17_src/"+name)
-    def f(name : String) : String = ("/Users/stevenobua/NetbeansProjects/Poker/babel17_src/"+name)
+    def f(name : String) : String = ("/Users/stevenobua/Programming/babel-17/Babel17_Spec_Unittests/babel17_src/"+name)
+    //def f(name : String) : String = ("/Users/stevenobua/NetbeansProjects/Poker/babel17_src/"+name)
     //mainProc(Array(f("v3tests.babel17"), f("cool.babel-17"), f("test.b17")))
   
-   mainProc(Array(f("script.b17"), f("poker.b17")))
-   //mainProc(Array(f("standard.b17")))
-   //runUnittests(Array(f("standard.b17")), Array(f("standard.b17")),
-   //             new WriteOutput())
+   //mainProc(Array(f("script.b17"), f("poker.b17")))
+   runUnittests(defaultOptions, Array(f("nativeinterop.b17")), Array(),
+                new WriteOutput())
   }
   
   def test {

@@ -1,12 +1,38 @@
 package com.babel17.naive
 
-object JavaInterop {
-
+class JavaInterop(evaluator : Evaluator, javalibs : String) {
+  
   import Values._
   import Program.Id
   import scala.collection.immutable.SortedSet
   import scala.collection.immutable.SortedMap
   import java.lang.reflect.Modifier
+  import java.net.URL
+  import java.net.URLClassLoader
+  import java.io.File
+
+  private def getLoader  : ClassLoader = {
+    val parent = this.getClass.getClassLoader
+    if (javalibs.trim == "") return parent
+    def filename2url(filename : String) : URL = {
+      val name = filename.trim
+      if (name == "" || !name.endsWith(".jar")) null
+      else {
+        val f = new File(name)
+        if (f.isFile && f.exists)
+          f.toURL
+        else null
+      }
+    }
+    val jars = javalibs.split(';').map(filename2url).filter (_ != null)
+    URLClassLoader.newInstance(jars, parent);    
+  }
+  
+  val loader = getLoader
+  
+  def loadClass(name : String) : Class[_] = {
+    Class.forName(name, true, loader)
+  }
   
   
   abstract class JavaType 
@@ -28,21 +54,21 @@ object JavaInterop {
   def classOf(ty : JavaType) : Class[_] = {
     import com.babel17.naive.PrimitiveTypes._
     ty match {
-      case JByte(false) => Byte.getClass
+      case JByte(false) => Byte_class
       case JByte(true) => byte_class
-      case JShort(false) => Short.getClass
+      case JShort(false) => Short_class
       case JShort(true) => short_class
-      case JInt(false) => Int.getClass
+      case JInt(false) => Int_class
       case JInt(true) => int_class
-      case JLong(false) => Long.getClass
+      case JLong(false) => Long_class
       case JLong(true) => long_class
-      case JFloat(false) => Float.getClass
+      case JFloat(false) => Float_class
       case JFloat(true) => float_class
-      case JDouble(false) => Double.getClass
+      case JDouble(false) => Double_class
       case JDouble(true) => double_class
-      case JBoolean(false) => Boolean.getClass
+      case JBoolean(false) => Boolean_class
       case JBoolean(true) => boolean_class
-      case JChar(false) => Char.getClass
+      case JChar(false) => Char_class
       case JChar(true) => char_class
       case JString() => string_class
       case JObject(c) => c
@@ -141,7 +167,7 @@ object JavaInterop {
   
   def getClassDescr(name : String) : Option[ClassDescr] = {
     try {
-      val c = Class.forName(name)
+      val c = loadClass(name)
       Some(getClassDescr(c))
     } catch {
       case _:Exception => None
@@ -253,7 +279,7 @@ object JavaInterop {
   {
     arg.typeConvert(true, TYPE_INT) match {
       case IntegerValue(x) =>
-        if (inrange(x, minValue, maxValue))
+        if (inrange(x, minValue, maxValue)) 
           Some(cast(x))
         else None
       case _ =>
@@ -269,11 +295,15 @@ object JavaInterop {
     x
   }
   
+  def bigint2Byte(x : BigInt) : java.lang.Object = {
+    x.byteValue.asInstanceOf[java.lang.Byte]
+  }
+  
   def resolve(arg : Value, ty : JavaType) : Option[Any] = {
     ty match {
       case JVoid() => None
       case JByte(primitive) =>
-        resolveNum(arg, primitive, Byte.MinValue, Byte.MaxValue, _.byteValue)        
+        resolveNum(arg, primitive, Byte.MinValue, Byte.MaxValue, _.byteValue)                    
       case JShort(primitive) =>
         resolveNum(arg, primitive, Short.MinValue, Short.MaxValue, _.shortValue)        
       case JInt(primitive) =>
@@ -350,8 +380,9 @@ object JavaInterop {
             val elems = java.lang.reflect.Array.newInstance(elemClass, v.length)
             var i = 0
             while (i < v.length) {
-              resolve (v(i), ty) match {
-                case None => return None
+              resolve (v(i), elemType) match {
+                case None => 
+                  return None
                 case Some(e) =>
                   java.lang.reflect.Array.set(elems, i, e)
                   i = i + 1
@@ -387,7 +418,7 @@ object JavaInterop {
       case VectorValue(tuple) => resolveValueSeq(tuple)
       case l: ListValue => resolveValueSeq(l.toList)
       case BooleanValue(b) => Some(b)
-      case JavaInterop.NativeValue(v) => Some(v)
+      case NativeValue(v) => Some(v)
       case IntervalArithmetic.RealValue(lo, hi) => Some(lo+(hi-lo)/2.0)
       case _ => None
     }
@@ -659,6 +690,71 @@ object JavaInterop {
       }
     }
 
+  } 
+  
+  def evalNew (_v : Value) : Value = {
+    val v = _v.force
+    var args : List[Value] = List()
+    var classname : String = null
+    var x : ExceptionValue = null
+    var classDescr : Option[ClassDescr] = None 
+    def analyze(v : VectorValue) {
+      val tuple = v.tuple  
+      if (tuple.length == 0) return
+      tuple(0).force() match {
+        case e: ExceptionValue => x = e
+        case s: StringValue =>
+          classname = s.v
+          classDescr = getClassDescr(classname)
+          args = tuple.tail.toList
+        case NativeValue(c:Class[_]) =>
+          classname = c.getCanonicalName
+          classDescr = getClassDescr(classname)
+          args = tuple.tail.toList
+        case _ =>
+      }
+    }
+    v match {
+      case e: ExceptionValue => return e.asDynamicException
+      case s: StringValue =>
+        classname = s.v
+        classDescr = getClassDescr(classname)
+      case NativeValue(c:Class[_]) =>
+        classname = c.getCanonicalName
+        classDescr = getClassDescr(classname)        
+      case vect: VectorValue => analyze(vect)
+      case _ =>
+        val w = v.typeConvert(true, Values.TYPE_VECT)
+        w match {
+          case vect: VectorValue => analyze(vect)
+          case _ => return domainError
+        }        
+    }
+    if (classDescr.isDefined) {
+      classDescr.get.newInstance(args)
+    } else {
+      if (x != null)
+        x.asDynamicException
+      else if (classname == null)
+        domainError
+      else 
+        dynamicException(CONSTRUCTOR_CLASSNOTFOUND, StringValue(classname))
+    }
+  }
+  
+  def evalNewClassObj(v : Value) : Value = {
+    v.typeConvert(true, TYPE_STRING) match {
+      case StringValue(s) => 
+        try {
+          val c = loadClass(s)
+          NativeValue(c)
+        } catch {
+          case x: ClassNotFoundException => 
+            nativeError(x)
+        }
+      case x:ExceptionValue => x.asDynamicException
+      case _ => domainError
+    }
   }  
 
 

@@ -12,6 +12,12 @@ begin
   con.getInputStream ()  
 end
 
-val stream = openUrl "http://stream.twitter.com/1/statuses/sample.json -ustevenobua:p.k.dick"
+##val stream = openUrl "http://stream.twitter.com/1/statuses/sample.json -ustevenobua:p.k.dick"
 
-stream.close ()
+##stream.close ()
+
+val base64 = native New "org.apache.commons.codec.binary.Base64"
+val s = native New ("java.lang.String", "Basic stevenobua:p.k.dick")
+val bytes = s.getBytes ()
+base64.encode (bytes,)
+

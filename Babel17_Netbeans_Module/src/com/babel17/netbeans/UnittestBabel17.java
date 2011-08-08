@@ -100,7 +100,8 @@ public final class UnittestBabel17 extends AbstractAction
             for (FileObject fo : fs) {
                 Babel17Project.collectFiles(fc, fo);
             }
-            Interpreter.runUnittests(fc.getFileNames(), sources, o);
+            EvaluationOptions options = new EvaluationOptions(true, p.getPreferences().get("JAVALIBS", ""));            
+            Interpreter.runUnittests(options, fc.getFileNames(), sources, o);
           }
         } finally {
           o.done();

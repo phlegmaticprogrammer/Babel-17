@@ -108,14 +108,17 @@ public final class Run91Babel17 extends AbstractAction
           Project project = FileOwnerQuery.getOwner(f);
           if (project instanceof Babel17Project) {
             Babel17Project p = (Babel17Project) project;
+            EvaluationOptions options = new EvaluationOptions(true, p.getPreferences().get("JAVALIBS", ""));
             String[] sources = p.getSourceFiles();
             String[] args = new String[sources.length+1];
             args[0] = f.getPath().toString();
             for (int i=0; i<sources.length; i++)
                 args[i+1] = sources[i];
-            Interpreter.run(0, args, o);
-          } else
-            Interpreter.run(0, new String[]{f.getPath().toString()}, o);
+            Interpreter.run(options, 0, args, o);
+          } else {
+            EvaluationOptions options = new EvaluationOptions(true, "");
+            Interpreter.run(options, 0, new String[]{f.getPath().toString()}, o);
+          }
         } finally {
           o.done();
         }        

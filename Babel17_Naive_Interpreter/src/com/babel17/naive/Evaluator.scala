@@ -148,7 +148,7 @@ class AssertionRecorder() {
   }
 }
 
-case class EvaluationOptions(val assertions : Boolean) 
+case class EvaluationOptions(val assertions : Boolean, val javalibs : String) 
 
 
 class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
@@ -170,6 +170,8 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
 
   val random : java.util.Random = new java.util.Random()
   var writeOutput : WriteOutput = null
+  
+  var javainterop = new JavaInterop(this, evaluationOptions.javalibs)
 
   def writeline(s : String) {
     if (writeOutput != null) {
@@ -363,70 +365,6 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
     moduleValues.findModuleValue(path)
   }
   
-  def evalNew (_v : Value) : Value = {
-    val v = _v.force
-    var args : List[Value] = List()
-    var classname : String = null
-    var x : ExceptionValue = null
-    var classDescr : Option[JavaInterop.ClassDescr] = None 
-    def analyze(v : VectorValue) {
-      val tuple = v.tuple  
-      if (tuple.length == 0) return
-      tuple(0).force() match {
-        case e: ExceptionValue => x = e
-        case s: StringValue =>
-          classname = s.v
-          classDescr = JavaInterop.getClassDescr(classname)
-          args = tuple.tail.toList
-        case JavaInterop.NativeValue(c:Class[_]) =>
-          classname = c.getCanonicalName
-          classDescr = JavaInterop.getClassDescr(classname)
-          args = tuple.tail.toList
-        case _ =>
-      }
-    }
-    v match {
-      case e: ExceptionValue => return e.asDynamicException
-      case s: StringValue =>
-        classname = s.v
-        classDescr = JavaInterop.getClassDescr(classname)
-      case JavaInterop.NativeValue(c:Class[_]) =>
-        classname = c.getCanonicalName
-        classDescr = JavaInterop.getClassDescr(classname)        
-      case vect: VectorValue => analyze(vect)
-      case _ =>
-        val w = v.typeConvert(true, Values.TYPE_VECT)
-        w match {
-          case vect: VectorValue => analyze(vect)
-          case _ => return domainError
-        }        
-    }
-    if (classDescr.isDefined) {
-      classDescr.get.newInstance(args)
-    } else {
-      if (x != null)
-        x.asDynamicException
-      else if (classname == null)
-        domainError
-      else 
-        dynamicException(CONSTRUCTOR_CLASSNOTFOUND, StringValue(classname))
-    }
-  }
-  
-  def evalNewClassObj(v : Value) : Value = {
-    v.typeConvert(true, TYPE_STRING) match {
-      case StringValue(s) => 
-        try {
-          val c = Class.forName(s)
-          JavaInterop.NativeValue(c)
-        } catch {
-          case x: ClassNotFoundException => 
-            JavaInterop.nativeError(x)
-        }
-      case x:ExceptionValue => x.asDynamicException
-      case _ => domainError
-    }
-  }
   
   def evalExtremum(msg : String, env: SimpleEnvironment, se : SimpleExpression) : Value = {
     val v = evalSE(env, se)
@@ -472,9 +410,9 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
               else
                 domainError
             } else if (constrValue.constr.name == "NEW") {
-              evalNew (constrValue.v)
+              javainterop.evalNew (constrValue.v)
             } else if (constrValue.constr.name == "CLASS") {
-              evalNewClassObj(constrValue.v)
+              javainterop.evalNewClassObj(constrValue.v)
             } else domainError
           case _ => domainError
         }

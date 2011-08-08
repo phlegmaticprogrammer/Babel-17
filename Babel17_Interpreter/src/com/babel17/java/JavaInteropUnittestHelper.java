@@ -121,4 +121,17 @@ public class JavaInteropUnittestHelper {
         
     }
     
+    public byte[] takeBytes(byte[] bytes) {
+      for (int i=1; i<bytes.length; i++)
+        bytes[i] = (byte) (bytes[i-1] + bytes[i]);
+      return bytes;
+    }
+    
+    public Byte[] takeBytes2(Byte[] bytes) {
+      for (int i=1; i<bytes.length; i++)
+        bytes[i] = (byte) (bytes[i-1] + bytes[i]);
+      return bytes;
+    }
+
+
 }
