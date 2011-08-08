@@ -2,7 +2,7 @@
 <auxiliary-configuration xmlns="http://www.netbeans.org/ns/auxiliary-configuration/1">
     <preferences xmlns="http://www.netbeans.org/ns/auxiliary-configuration-preferences/1">
         <module name="com-babel17-netbeans">
-            <property name="JAVALIBS" value="/Users/stevenobua/Programming/babel-17/Babel17Lib/libs/commons-codec-1.5/commons-codec-1.5.jar"/>
+            <property name="JAVALIBS" value="/Users/stevenobua/Programming/babel-17/Third_Party_Libs/commons-codec-1.5.jar;"/>
         </module>
         <module name="org-netbeans-modules-editor-indent">
             <node name="CodeStyle"/>
