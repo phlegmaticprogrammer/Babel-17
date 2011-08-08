@@ -77,24 +77,3 @@ def w = object +[v] end
 
 end
 
-module lang.unittest.order
-
-    import lang.unittest.order => here
-
-    module dummy_module1
-    end
-
-    module dummy_module2
-    end
-
-
-    module test1
-        import here.dummy_module1 => a
-        import here.dummy_module2 => b
-
-        #assert a == a
-        #assert a < b
-    end
-
-end
-

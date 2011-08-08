@@ -11,10 +11,11 @@ val eps = 1e-8
 #catch UNRELATED try: 2.0 ~ [2.0, 3.0]
 #assert [1.0; 2.0] < [3.0; 4.0]
 #assert 1 == 1.0
-#catch Unrelated try: 0 <> false
+#assert 0 <> false
 #assert 0 :> bool == false
 #assert false :> int == 0
-#catch Unrelated try: "10" <> 10
+#catch Unrelated try: "10" <= 10
+#assert "10" <> 10
 #assert "10" :> int == 10
 #assert 1.0 == 1
 #catch RealOverflow try: (30000000000000.0).exp

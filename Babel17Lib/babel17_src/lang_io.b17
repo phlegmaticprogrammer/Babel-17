@@ -1,0 +1,75 @@
+module lang.io
+
+val class_utils = native Class "com.babel17.java.io.Utils"
+
+private encodeBase64
+def encodeBase64 (t : string) = 
+begin
+  val base64 = native New "org.apache.commons.codec.binary.Base64"
+  val s = native New ("java.lang.String", t)
+  val encoded = base64.encode (s.getBytes(),)
+  native New ("java.lang.String", encoded) :> string
+end
+
+def curl (s : string) = curl (s, false, nil, nil)
+
+def curl (url, binary) = curl (url, binary, nil, nil)
+
+def curl (url, binary, user, password) = 
+begin
+  try 
+    val urlobj = native New ("java.net.URL", url)
+    val uc = urlobj.openConnection ()
+    if (user <> nil) then
+      val userpass = user + ":" + password
+      val basicAuth = "Basic " + (encodeBase64 userpass)
+      val _ = uc.setRequestProperty ("Authorization", basicAuth)
+    end
+    val stream = uc.getInputStream()
+    #print uc.getContentEncoding()
+    stream = native New ("java.io.BufferedInputStream", stream, 64*1024)
+    if binary then
+      inputstream (JavaInputStream stream)
+    else
+      stream = native New ("java.io.InputStreamReader", stream, "UTF-8")
+      inputstream (JavaReader stream)
+    end
+  catch
+    case x => exception CurlError x
+  end 
+end
+
+private inputstream
+
+def makeStream (stream, bin, f) = 
+  object
+    def binary = bin
+    def read = 
+      try 
+        val c = stream.read () 
+        if c < 0 then nil else f c end
+      catch 
+        case NativeError IOException s => IOError s 
+      end 
+    def iterate_ = 
+    begin
+      match read
+        case nil => ()
+        case x => (x, this)
+      end   
+    end
+  end
+
+
+typedef inputstream (JavaInputStream instream) =
+  makeStream (instream, true, c => c)
+  
+typedef inputstream (JavaReader reader) = 
+  makeStream (reader, false, c => class_utils.fromChar c) 
+
+end
+
+
+##val stream = openUrl "http://stream.twitter.com/1/statuses/sample.json -ustevenobua:p.k.dick"
+
+##stream.close ()

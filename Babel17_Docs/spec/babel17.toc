@@ -18,27 +18,27 @@
 \contentsline {section}{\tocsection {}{18}{Reals and Interval Arithmetic}}{20}
 \contentsline {section}{\tocsection {}{19}{Syntactic Sugar}}{20}
 \contentsline {section}{\tocsection {}{20}{Memoization}}{21}
-\contentsline {section}{\tocsection {}{21}{Linear Scope}}{21}
+\contentsline {section}{\tocsection {}{21}{Linear Scope}}{22}
 \contentsline {section}{\tocsection {}{22}{Record Updates}}{24}
 \contentsline {section}{\tocsection {}{23}{Lenses}}{25}
-\contentsline {section}{\tocsection {}{24}{With}}{27}
+\contentsline {section}{\tocsection {}{24}{With}}{28}
 \contentsline {section}{\tocsection {}{25}{Loops}}{28}
-\contentsline {section}{\tocsection {}{26}{Pragmas}}{29}
+\contentsline {section}{\tocsection {}{26}{Pragmas}}{30}
 \contentsline {section}{\tocsection {}{27}{Modules and Types}}{30}
 \contentsline {subsection}{\tocsubsection {}{27.1}{Loading Modules}}{31}
 \contentsline {subsection}{\tocsubsection {}{27.2}{Type Definitions}}{32}
 \contentsline {subsection}{\tocsubsection {}{27.3}{Simple Enumerations}}{34}
-\contentsline {subsection}{\tocsubsection {}{27.4}{Algebraic Datatypes}}{34}
-\contentsline {subsection}{\tocsubsection {}{27.5}{Abstract Datatypes}}{34}
+\contentsline {subsection}{\tocsubsection {}{27.4}{Algebraic Datatypes}}{35}
+\contentsline {subsection}{\tocsubsection {}{27.5}{Abstract Datatypes}}{35}
 \contentsline {subsection}{\tocsubsection {}{27.6}{Type Conversions}}{35}
-\contentsline {subsection}{\tocsubsection {}{27.7}{Automatic Type Conversions}}{35}
+\contentsline {subsection}{\tocsubsection {}{27.7}{Automatic Type Conversions}}{36}
 \contentsline {subsection}{\tocsubsection {}{27.8}{Import}}{36}
 \contentsline {subsection}{\tocsubsection {}{27.9}{Abstract Datatypes, Continued}}{37}
 \contentsline {section}{\tocsection {}{28}{Unit Tests}}{38}
 \contentsline {section}{\tocsection {}{29}{Native Interface}}{40}
 \contentsline {subsection}{\tocsubsection {}{29.1}{The Java Platform}}{40}
 \contentsline {section}{\tocsection {}{30}{Standard Library}}{41}
-\contentsline {subsection}{\tocsubsection {}{30.1}{Collections and Collectors}}{41}
+\contentsline {subsection}{\tocsubsection {}{30.1}{Collections and Collectors}}{42}
 \contentsline {subsection}{\tocsubsection {}{30.2}{Type Conversions}}{42}
 \contentsline {subsection}{\tocsubsection {}{30.3}{Integer}}{43}
 \contentsline {subsection}{\tocsubsection {}{30.4}{Reals}}{43}
@@ -46,6 +46,6 @@
 \contentsline {subsection}{\tocsubsection {}{30.6}{List and Vector}}{43}
 \contentsline {subsection}{\tocsubsection {}{30.7}{Set}}{43}
 \contentsline {subsection}{\tocsubsection {}{30.8}{Map}}{43}
-\contentsline {subsection}{\tocsubsection {}{30.9}{Object}}{44}
+\contentsline {subsection}{\tocsubsection {}{30.9}{Object}}{43}
 \contentsline {section}{\tocsection {}{31}{What's Next?}}{44}
 \contentsline {section}{\tocsection {}{}{References}}{44}

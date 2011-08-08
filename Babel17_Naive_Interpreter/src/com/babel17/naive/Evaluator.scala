@@ -633,7 +633,7 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
   def compareValuesByOp(op : Program.CompareOp, u : Value, v : Value) : Option[Boolean] = {
     import CompareResult._
     val r = compareValues(u, v)
-    if (r == UNRELATED) return None
+    if (r == UNRELATED && !(op == Program.EQUAL () || op == Program.UNEQUAL ())) return None
     Some (op match {
       case Program.LESS_EQ() => r == LESS || r == EQUAL
       case Program.GREATER_EQ() => r == GREATER || r == EQUAL

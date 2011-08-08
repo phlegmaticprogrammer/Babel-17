@@ -863,11 +863,19 @@ end
 \end{babellisting}
 In the above, \babelsrc{t}, \babelsrc{u}, \babelsrc{v} and \babelsrc{w} are supposed to be fresh identifiers.  Also note that if there are operands that are dynamic exceptions, then the result of a comparison is a dynamic exception with the same parameter as the first such operand (from left to right).
 
-It is possible that two values $a$ and $b$ are not related with respect to the built-in order. In this case, $a \sim b$ throws an \emph{Unrelated}-exception. Taking this into account, the definition of $a$ $op$ $b$ for $op$ $\in \{<, >, <=, >=, ==, <>\}$ is
+It is possible that two values $a$ and $b$ are not related with respect to the built-in order. In this case, $a \sim b$ throws an \emph{Unrelated}-exception. Taking this into account, the definition of $a$ $op$ $b$ for $op$ $\in \{<, >, <=, >=\}$ is
 \begin{babellisting}
 match a $\sim$ b 
   case (u if u $op$ 0) => true
   case _ => false
+end
+\end{babellisting}
+The cases $op$ $\in \{==, <>\}$ do not propagate the \emph{Unrelated}-exception, and are defined like this:
+\begin{babellisting}
+match a $\sim$ b 
+  case (u if u $op$ 0) => true
+  case _ => false
+  case (exception Unrelated) => true $op$ false
 end
 \end{babellisting}
 

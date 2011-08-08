@@ -84,7 +84,7 @@ module lang.unittest.spec.standard
         #assert {(1, 2)} :> map == {1 -> 2}
         #assert {1,2} :> vect == (1, 2)
         #assert {1,2} :> list == [1, 2]
-        #catch Unrelated try: {1, 2} == (1, 2)
+        #assert not {1, 2} == (1, 2)
     end
 
 end
@@ -93,7 +93,7 @@ module lang.unittest.spec
 
     module lexical
         val x = 1
-        #catch Unrelated try: x <> X
+        #assert x <> X
         val xY = 1
         #assert xy == 1
         val xy = 2
@@ -367,6 +367,9 @@ module lang.unittest.spec
       #catch DomainError try: max ()
       #catch DomainError try: min 2
       #catch DomainError try: max 2
+      #catch Unrelated try: 1 <= nil
+      #assert not 1 == nil
+      #assert 1 <> nil
     end
     
 end

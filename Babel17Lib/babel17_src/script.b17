@@ -1,23 +1,27 @@
-module lang.io
+import lang.io.curl
 
+val stream = curl ("http://stream.twitter.com/1/statuses/sample.json", false, "stevenobua", "p.k.dick")
 
+##val stream = curl "http://www.spiegel.de"
 
+val line = ""
 
+val normal = 0
+val media = 0
+val bytes = 0
+
+for c in stream do 
+  if c == "\n" then
+    if line.contains "\"media\"" then
+      #print line
+      media += 1
+    else
+      normal += 1
+    end
+    bytes = bytes + line.size
+    #print ("read "+(bytes :> string)+" bytes", (media :> string) + " pictures",  (media * 1000 div (media + normal) :> string) + " promille")
+    line = ""
+  else
+    line += c
+  end
 end
-
-def openUrl url = 
-begin
-  val urlobj = native New ("java.net.URL", url)
-  val con = urlobj.openConnection ()
-  con.getInputStream ()  
-end
-
-##val stream = openUrl "http://stream.twitter.com/1/statuses/sample.json -ustevenobua:p.k.dick"
-
-##stream.close ()
-
-val base64 = native New "org.apache.commons.codec.binary.Base64"
-val s = native New ("java.lang.String", "Basic stevenobua:p.k.dick")
-val bytes = s.getBytes ()
-base64.encode (bytes,)
-
