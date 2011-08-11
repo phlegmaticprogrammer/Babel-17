@@ -1,0 +1,7 @@
+def node n = n :: (lazy node (n+1))
+
+for i in node 0 do
+  #print i
+end
+
+val _ = a + b

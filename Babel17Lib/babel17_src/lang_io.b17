@@ -23,10 +23,9 @@ begin
     if (user <> nil) then
       val userpass = user + ":" + password
       val basicAuth = "Basic " + (encodeBase64 userpass)
-      val _ = uc.setRequestProperty ("Authorization", basicAuth)
+      _ = uc.setRequestProperty ("Authorization", basicAuth)
     end
     val stream = uc.getInputStream()
-    #print uc.getContentEncoding()
     stream = native New ("java.io.BufferedInputStream", stream, 64*1024)
     if binary then
       inputstream (JavaInputStream stream)
@@ -39,10 +38,11 @@ begin
   end 
 end
 
-private inputstream
+private inputstream, makestream
 
 def makeStream (stream, bin, f) = 
-  object
+begin
+  val s = object
     def binary = bin
     def read = 
       try 
@@ -58,7 +58,29 @@ def makeStream (stream, bin, f) =
         case x => (x, this)
       end   
     end
+    def close = stream.close ()
   end
+  if not bin then
+    s = object + [s]
+      def readLine = 
+        try
+          class_utils.readLine stream
+        catch
+          case NativeError IOException s => IOError s
+        end
+      def lines = lineIterator this      
+    end
+    
+    def lineIterator z = object
+      def iterate_ = 
+        match z.readLine
+          case nil => ()
+          case l => (l, lineIterator z)
+        end
+    end
+  end
+  s
+end
 
 
 typedef inputstream (JavaInputStream instream) =
@@ -68,8 +90,3 @@ typedef inputstream (JavaReader reader) =
   makeStream (reader, false, c => class_utils.fromChar c) 
 
 end
-
-
-##val stream = openUrl "http://stream.twitter.com/1/statuses/sample.json -ustevenobua:p.k.dick"
-
-##stream.close ()

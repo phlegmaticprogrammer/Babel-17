@@ -1,11 +1,13 @@
 import lang.io.curl
 
-val stream = curl ("http://stream.twitter.com/1/statuses/sample.json", false, "stevenobua", "p.k.dick")
+val stream = curl ("http://stream.twitter.com/1/statuses/sample.json", false, "stevenobua", "cooldude")
 
 ##val stream = curl "http://www.spiegel.de"
 
-val line = ""
+def slow = 
+begin
 
+val line = ""
 val normal = 0
 val media = 0
 val bytes = 0
@@ -25,3 +27,29 @@ for c in stream do
     line += c
   end
 end
+
+end
+
+def fast = 
+begin
+
+val normal = 0
+val media = 0
+val bytes = 0
+
+for line in stream.lines do 
+
+    if line.contains "\"media\"" then
+      #print line
+      media += 1
+    else
+      normal += 1
+    end
+    bytes = bytes + line.size
+    #print ("read "+(bytes :> string)+" bytes", (media :> string) + " pictures",  (media * 1000 div (media + normal) :> string) + " promille")
+
+end
+
+end
+
+fast
