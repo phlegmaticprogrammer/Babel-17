@@ -1,7 +1,24 @@
-def node n = n :: (lazy node (n+1))
+val o1 = object def x = 0; def m = this.x end
+#assert o1.m == 0
+o1.x = 1
+#assert o1.m == 1
 
-for i in node 0 do
-  #print i
+val m1 = o1.m
+#assert m1 == 1
+
+val o2 = object def x = 2; def m = o1.m end
+#assert o2.m == 1
+
+val o3 = object 
+def self = this 
+def x = 3
+def i = object def x = 4; def f = self.x; def g = this.x end
 end
 
-val _ = a + b
+#assert o3.i.f == 3
+#assert o3.i.g == 4
+
+
+
+
+
