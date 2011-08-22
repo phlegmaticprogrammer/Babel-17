@@ -1115,15 +1115,6 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
             val newEnv = if (rebind) env.rebind(id, v) else env.bind(id, v)
             DoesMatch(newEnv)
         }
-      case PConstr(constr, pat) =>
-        v.typeConvert(true, TYPE_CEXP) match {
-          case ConstructorValue(c, arg) =>
-            if (c == constr)
-              matchPat(env, pat, arg, rebind)
-            else
-              NoMatch()
-          case _ => NoMatch()
-        }
       case PCons(head, tail) =>
         v.typeConvert(true, TYPE_LIST) match {
           case list : ListValue =>
@@ -1188,28 +1179,9 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
             matchPat(env, pat, y, rebind)
         }
       case PDestruct(weapon, pat) =>
-        val c = evalSE(env.freeze, weapon).force()
-        if (c.isDynamicException) {
-          return MatchX(c.asDynamicException)
-        }
-        val y = v.sendMessage(Id(MESSAGE_DESTRUCT))
-        if (y == null) return NoMatch()
-        y.extractFunctionValue match {
-          case f: FunctionValue =>
-            val y = f.apply(c)
-            if (y.isDynamicException) {
-              y.asDynamicException.v.force() match {
-                case ConstructorValue(Constr(CONSTRUCTOR_DOMAINERROR), _) =>
-                  return NoMatch()
-                case _ =>
-              }
-              return MatchX(y.asDynamicException)
-            }
-            matchPat(env, pat, y, rebind)
-          case ex:ExceptionValue =>
-            MatchX(ex.asDynamicException)
-          case _  => NoMatch()
-        }
+        pdestruct(env, v, weapon, pat, rebind)
+      case PConstr(constr, pat) =>
+        pdestruct(env, v, SEConstr(constr, SERecord(List())), pat, rebind)
       case PInnerValue(ty, pat) =>
         v.force() match {
           case TypedValue(inner, _, vty) =>
@@ -1240,6 +1212,34 @@ class Evaluator(val maxNumThreads : Int, val fileCentral : FileCentral,
         }
       case _ => throw EvalX("incomplete matchPattern: "+pat)
    }
+  }
+  
+  def pdestruct(env : Environment, v : Value, 
+                weapon : SimpleExpression, pat : Pattern, 
+                rebind : Boolean) : MatchResult = 
+  {
+        val c = evalSE(env.freeze, weapon).force()
+        if (c.isDynamicException) {
+          return MatchX(c.asDynamicException)
+        }
+        val y = v.sendMessage(Id(MESSAGE_DESTRUCT))
+        if (y == null) return NoMatch()
+        y.extractFunctionValue match {
+          case f: FunctionValue =>
+            val y = f.apply(c)
+            if (y.isDynamicException) {
+              y.asDynamicException.v.force() match {
+                case ConstructorValue(Constr(CONSTRUCTOR_DOMAINERROR), _) =>
+                  return NoMatch()
+                case _ =>
+              }
+              return MatchX(y.asDynamicException)
+            }
+            matchPat(env, pat, y, rebind)
+          case ex:ExceptionValue =>
+            MatchX(ex.asDynamicException)
+          case _  => NoMatch()
+        }  
   }
 
 

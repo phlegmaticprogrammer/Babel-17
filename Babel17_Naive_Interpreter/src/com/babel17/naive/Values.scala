@@ -389,7 +389,7 @@ object Values {
   }
 
   case class TypeIntroValue(evaluator : Evaluator, env : Evaluator.SimpleEnvironment, ty : TypeValue,
-                           branches : List[(Program.Pattern, Option[Program.Expression])]) extends FunctionValue
+                           branches : List[(Program.Pattern, Program.Expression)]) extends FunctionValue
   {
     private def typed(inner : Value, outer : Value) : Value = {
       outer.force() match {
@@ -410,11 +410,7 @@ object Values {
           case Evaluator.NoMatch() =>
           case Evaluator.MatchX(x) => return x
           case Evaluator.DoesMatch(newEnv) =>
-            body match {
-              case None => return typed(v, v)
-              case Some(b) =>
-                return typed(v, evaluator.evalExpression(newEnv, b))
-            }
+            return typed(v, evaluator.evalExpression(newEnv, body))
         }
       }
       return dynamicException(CONSTRUCTOR_DOMAINERROR)

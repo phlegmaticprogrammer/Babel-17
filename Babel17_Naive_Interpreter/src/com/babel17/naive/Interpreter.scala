@@ -46,7 +46,7 @@ object Interpreter {
   }
   
   def writeCopyrightInfo(w : WriteOutput) {
-    w.writeLineCommentary("Babel-17 v0.3.2, Copyright \u00a9 2009 Steven Obua")
+    w.writeLineCommentary("Babel-17 v0.3.3, Copyright \u00a9 2009-2011 Steven Obua")
     w.writeLine("")
     w.writeLineCommentary("This program comes with ABSOLUTELY NO WARRANTY.")
     w.writeLineCommentary("It is published under the GNU Public License (http://www.gnu.org/licenses/gpl.html).")
@@ -257,7 +257,4 @@ object Interpreter {
     mainProc(Array("/Users/stevenobua/Programming/babel-17/Babel17_Interpreter/src/com/babel17/examples/basic/v3tests.babel17"));
   }
 
-
-
 }
-

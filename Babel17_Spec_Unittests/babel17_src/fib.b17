@@ -4,3 +4,5 @@ def fib n = fib (n-1) + fib (n-2)
 memoize fib
 
 fib 100
+
+def cool (x, x) = x*y

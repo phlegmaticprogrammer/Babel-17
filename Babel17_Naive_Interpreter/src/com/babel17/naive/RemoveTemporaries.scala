@@ -324,8 +324,20 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
           if (!defsFirstVal.contains(id))
             defsFirstVal = defsFirstVal + (id -> (id, line))
         case TempTypeDef(id, branches) =>
-          def handleTempTypeDef(pat : Pattern, e : Option[Expression]) {
-            var branches : List[(Pattern, Option[Expression])] = List()
+          def handleTempTypeDef(_pat : Pattern, _e : Option[Expression]) {
+            var pat : Pattern = null
+            var e : Expression = null
+            _e match {
+              case None => 
+                val (pat1, e1, _) = pattern2se(_pat, 0)
+                pat = pat1
+                e = ESimple(e1)
+                e.location = e1.location
+              case Some(e1) =>
+                pat = _pat
+                e = e1
+            }
+            var branches : List[(Pattern, Expression)] = List()
             var deps : SortedSet[Id] = SortedSet()
             var maxval : Int = -1
             if (defs.contains(id)) {
@@ -574,13 +586,8 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
           transform_type(env, x._3))
         SEFun(m, branches.map(f))
       case SETypeIntro(m, ty, branches) =>
-        def g(e : Option[Expression]) =
-          e match {
-            case None => None
-            case Some(e) => Some(transform_expr(env, e))
-          }
-        def f(x : (Pattern, Option[Expression])) =
-          (transform_pat(env, x._1), g(x._2))
+        def f(x : (Pattern, Expression)) =
+          (transform_pat(env, x._1), transform_expr(env, x._2))
         val (TypeSome(transformedTy)) = transform_type(env, TypeSome(ty))
         SETypeIntro(m, ty, branches.map(f))
       case SESet(l) => SESet(l.map(tr _))
@@ -741,6 +748,149 @@ class RemoveTemporaries(moduleSystem : ModuleSystem) extends ErrorProducer {
         SModule(p, transform_block(newEnv, b))
         
     }
+  }
+  
+  def identityPattern2SE(pat : Pattern) : Boolean = {
+    def ok(pat : Pattern) : Boolean = {
+      pat match {
+        case PId(id) => true
+        case PAny() => true
+        case PIf(pat, condition) => ok(pat)
+        case PAs(id, pat) => ok(pat)
+        case PException(pat : Pattern) => ok(pat)
+        case PType(pat, TypeNone()) => ok(pat)
+        case _ => false
+      }
+    }
+    ok(pat)
+  }
+    
+  def pattern2se(pat : Pattern, vindex : Int) : (Pattern, SimpleExpression, Int) = {
+    var vi = vindex
+    def newId : Id = {
+      val id = Id("_pat_"+vi)
+      vi = vi+1
+      id.location = pat.location
+      id
+    }
+    def patterns2ses(pats : List[Pattern]) :(List[Pattern], List[SimpleExpression]) = {
+      var ps : List[Pattern] = List()
+      var ses : List[SimpleExpression] = List()
+      for (pat <- pats) {
+        val (pat2, se, index) = pattern2se(pat, vi)
+        vi = index
+        ps = pat2 :: ps
+        ses = se :: ses
+      }
+      (ps.reverse, ses.reverse)
+    }
+    def addCols(col1 : SimpleExpression, col2 : SimpleExpression) : SimpleExpression = {
+      SEApply(SEMessageSend(col1, Id(Values.MESSAGE_PLUSPLUS)), col2)
+    }
+    def fallback () : (Pattern, SimpleExpression) = {
+      val id = newId
+      if (!identityPattern2SE(pat)) {
+        error(pat.location, "cannot derive expression from pattern")
+      }
+      (PAs(id, pat), SEId(id))
+    }
+    val (newpat, se) =
+    pat match {
+      // first those patterns that are unproblematic
+      case PInt(v) => (pat, SEInt(v))
+      case PBool(v) => (pat, SEBool(v))
+      case PString(v) => (pat, SEString(v))
+      case PId(id) => (pat, SEId(id))
+      case PAny() => 
+        val id = newId
+        (PId(id),SEId(id))
+      case PConstr(c, pat) =>
+        val (pat2, se, index) = pattern2se(pat, vi)
+        vi = index        
+        (PConstr(c, pat2), SEConstr(c, se))
+      case PVector(elems, delta) =>
+        val (pats, ses) = patterns2ses(elems)
+        if (delta == null)
+          (PVector(pats, null), SEVector(ses))
+        else {
+          val id = newId          
+          (PVector(pats, PAs(id, delta)), addCols(SEVector(ses), SEId(id)))
+        }   
+      case PList(elems, delta) =>
+        val (pats, ses) = patterns2ses(elems)
+        if (delta == null)
+          (PList(pats, null), SEList(ses))
+        else {
+          val id = newId          
+          (PList(pats, PAs(id, delta)), addCols(SEList(ses), SEId(id)))
+        }   
+      case PSet(elems, delta) =>
+        val (pats, ses) = patterns2ses(elems)
+        if (delta == null)
+          (PSet(pats, null), SESet(ses))
+        else {
+          val id = newId          
+          (PSet(pats, PAs(id, delta)), addCols(SESet(ses), SEId(id)))
+        }   
+      case PMap(keyValues, delta) =>
+        val keys = keyValues.map(_._1).toList
+        val values = keyValues.map(_._2).toList
+        val (newkeys, seskeys) = patterns2ses(keys)
+        val (newvalues, sesvalues) = patterns2ses(values)
+        if (delta == null)
+          (PMap(newkeys.zip(newvalues), null), SEMap(seskeys.zip(sesvalues)))
+        else {
+          val id = newId
+          (PMap(newkeys.zip(newvalues), PAs(id, delta)), 
+           addCols(SEMap(seskeys.zip(sesvalues)), SEId(id)))
+        }
+      case PVal(value) =>
+        val id = newId
+        (PAs(id, PVal(value)), SEId(id))
+      case PIf(pat, condition) =>
+        val (pat2, se, index) = pattern2se(pat, vi)
+        vi = index
+        (PIf(pat2, condition), se)
+      case PAs(id, pat) =>
+        val (pat2, se, index) = pattern2se(pat, vi)
+        vi = index
+        (PAs(id, pat2), se)
+      case PCons(h, t) =>
+        val (h2, hse, index1) = pattern2se(h, vi)
+        val (t2, tse, index2) = pattern2se(t, index1)
+        vi = index2
+        (PCons(h2, t2), SECons(hse, tse))
+      case PException(pat : Pattern) =>
+        val (pat2, se, index) = pattern2se(pat, vi)
+        vi = index
+        (PException(pat2), SELazy(SEException(se)))
+      // now those patterns that cannot (always) be reconstructed
+      case PRecord(keyValues, delta) =>
+        if (!delta) {
+          val ids : List[Id] = keyValues.map(_._1).toList
+          val pats : List[Pattern] = keyValues.map(_._2).toList
+          val (newpats, ses) = patterns2ses(pats)
+          val newKeyValues : List[(Id, Pattern)] = ids.zip(newpats).toList
+          val keySES : List[(Id, SimpleExpression)] = ids.zip(ses).toList 
+          (PRecord(newKeyValues, false), SERecord(keySES))
+        } else {
+          fallback ()
+        }
+      case _ : PFor => fallback()
+      case _ : PPredicate => fallback()
+      case _ : PDestruct => fallback()
+      case _ : PEllipsis => fallback()
+      case PType(pat, TypeNone()) =>
+        val (p, se, index) = pattern2se(pat, vi)
+        vi = index
+        (p, se)
+      case _ : PType => fallback()
+      case _ : PTypeVal => fallback()
+      case _ : PInnerValue => fallback()        
+    }
+    newpat.location = pat.location
+    se.location = pat.location
+    (newpat, se, vi)
   }
 
 }

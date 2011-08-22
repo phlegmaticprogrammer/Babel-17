@@ -151,7 +151,7 @@ object Program {
   case class SDef1(memoize : MemoType, visibility : Visibility,
                    id : Id, branches : List[(Pattern, Expression, Type)]) extends Def
   case class STypeDef(memoize : MemoType, visibility : Visibility,
-                      id : Id, ty : Path, branches : List[(Pattern, Option[Expression])]) extends Def
+                      id : Id, ty : Path, branches : List[(Pattern, Expression)]) extends Def
   case class SImport(path : Path, id : Id) extends Statement
   case class SDefs(defs : List[Def]) extends Statement
   case class SYield(e : Expression) extends Statement
@@ -199,7 +199,7 @@ object Program {
   case class SEInterval(u : SimpleExpression, v : SimpleExpression) extends SimpleExpression
   case class SECons(head : SimpleExpression, tail : SimpleExpression) extends SimpleExpression
   case class SEFun(m : MemoType, branches: List[(Pattern, Expression, Type)]) extends SimpleExpression
-  case class SETypeIntro(m : MemoType, ty: Path, branches: List[(Pattern, Option[Expression])]) extends SimpleExpression
+  case class SETypeIntro(m : MemoType, ty: Path, branches: List[(Pattern, Expression)]) extends SimpleExpression
   case class SESet(elems: List[SimpleExpression]) extends SimpleExpression
   case class SEMap(elems: List[(SimpleExpression, SimpleExpression)]) extends SimpleExpression
   case class SERecord(elems: List[(Id, SimpleExpression)]) extends SimpleExpression

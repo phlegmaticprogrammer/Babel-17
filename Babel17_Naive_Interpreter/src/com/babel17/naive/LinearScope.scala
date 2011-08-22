@@ -136,10 +136,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
         for ((pat, e) <- branches) {
           var env3 = check_p(env2.freezeThaw(), pat, false)
           //if ((st_flags & OBJECT_STATEMENT) != 0) env3 = env3.defineThis()
-          e match {
-            case Some(e) => check_e(env3, e)
-            case None =>
-          }
+          check_e(env3, e)
         }
         env2
       case SDefs(defs) =>
@@ -308,10 +305,7 @@ class LinearScope(moduleSystem : ModuleSystem) extends ErrorProducer {
       case SETypeIntro(_, _, branches) =>
         val tEnv = env.thaw()
         for ((pat, e) <- branches) {
-          if (e != None)
-            check_e(check_p(tEnv, pat, false), e.get)
-          else
-            check_p(tEnv, pat, false)
+          check_e(check_p(tEnv, pat, false), e)
         }
       case SEObj(b, _) =>
         checkObjForThis(b)

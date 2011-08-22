@@ -268,8 +268,8 @@ module lang.unittest.spec
             #assert match x 
                       case {a = A, b = B, a = C, ...} => false
                       case {a = A, b = B, a = _, ...} => true
-                    end
-                    
+                    end                 
+                                        
             #assert match {1, 2, 3}
                       case {1, 3, 2} => false
                       case {1, 2, y as ...} => y == {3}
@@ -291,6 +291,20 @@ module lang.unittest.spec
                       case for _, p, ... end => p == 2
                     end
         end   
+        
+        begin
+          def myobj = object def destruct_ Boom = 1 end
+
+          #assert 
+            match myobj
+              case Boom x => x == 1
+            end
+
+          #assert
+            match Boom 1
+              case Boom x => x == 1
+            end
+        end
         
         module type_patterns 
         
@@ -339,14 +353,12 @@ module lang.unittest.spec
             
           #assert 
             match boom 10 
-              case Ace => false
-              case Ace _ => false
-              case Ace ! => true
+              case Ace => true
             end
             
           #assert 
             match boom 10
-              case Ace ! p => p == 10
+              case Ace p => p == 10
             end
             
         end

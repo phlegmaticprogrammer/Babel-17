@@ -133,13 +133,10 @@ object CollectVars {
         var freeVars = SortedSet[Id]()
         for (b <- branches) {
           b match {
-            case (p, Some(e)) =>
+            case (p, e) =>
               collectVars(p)
               collectVars(e)
               freeVars = freeVars ++ p.freeVars ++ (e.freeVars -- p.introducedVars)
-            case (p, None) =>
-              collectVars(p)
-              freeVars = freeVars ++ p.freeVars
           }
         }
         term.freeVars = freeVars - id
@@ -273,12 +270,8 @@ object CollectVars {
         var freeVars = SortedSet[Id]()
         for ((pat, body) <- branches) {
           collectVars(pat)
-          if (body != None) {
-            collectVars(body.get)
-            freeVars = freeVars ++ pat.freeVars ++ (body.get.freeVars -- pat.introducedVars)
-          } else {
-            freeVars = freeVars ++ pat.freeVars
-          }
+          collectVars(body)
+          freeVars = freeVars ++ pat.freeVars ++ (body.freeVars -- pat.introducedVars)          
         }
         term.freeVars = freeVars
       case SEGlueObj(parents, b, _) =>

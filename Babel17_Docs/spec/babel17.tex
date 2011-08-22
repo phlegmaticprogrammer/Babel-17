@@ -393,13 +393,13 @@ So what does a pattern look like? Table~\ref{table:basicpatterns}  and  Table~\r
 \babelsrc{$x$} & \patterndescr{an identifier $x$ matches anything but a dynamic exception and binds the matched expression to $x$}\\\hline
 \babelsrc{($x\ $ as $\ p$)} & \patterndescr{matches $p$, and binds the successfully matched value to $x$; the match fails if $p$ does not match or if the matched value is a dynamic exception}\\\hline
 \babelsrc{$z$} & \patterndescr{an integer number $z$, like \babelsrc{0} or \babelsrc{42} or \babelsrc{-10}, matches just that number $z$}\\\hline
-\babelsrc{$c\ $ $p$} & \patterndescr{matches a \metababel{CExpr} with constructor $c$ if the parameter of the \metababel{CExpr} matches $p$; instead of \babelsrc{$c\ $ $\_$} you can just write \babelsrc{$c$}}\\\hline
+\babelsrc{$c\ $ $p$} & \patterndescr{here $c$ is a constructor; same as \babelsrc{($c\ $ \! $\ p$)}; instead of \babelsrc{$c\ $ $\_$} you can just write \babelsrc{$c$}}\\\hline
 \babelsrc{$s$} & \patterndescr{a string $s$, like \babelsrc{"hello"}, matches just that string $s$}\\\hline
 \babelsrc{($p$)} & \patterndescr{same as $p$} \\\hline
 \babelsrc{($p\ $ if $\ e$)} & \patterndescr{matches any non-exceptional value that matches $p$, but only if $e$ evaluates to \babelsrc{true}; identifiers bound in $p$ can be used in $e$}\\\hline
 \babelsrc{(val $\ e$)} & \patterndescr{matches any non-exceptional  value which is equivalent to $e$; in case an \texttt{Unrelated}-exception is thrown, this pattern just does not match, and does \emph{not} propagate up the exception}\\\hline
-\babelsrc{($c\ $ \! $\ p$)} & \patterndescr{let $v$ be the value to be matched; then the match succeeds if the result $v$.\babelsrc{destruct\_}  $c$ matches $p$}\\\hline
-\babelsrc{($c\ $ \!)} & \patterndescr{short for \babelsrc{($c\ $ \! \_)} }\\\hline
+\babelsrc{($u\ $ \! $\ p$)} & \patterndescr{let $v$ be the value to be matched; then the match succeeds if the result $v$.\babelsrc{destruct\_}  $u$ matches $p$}\\\hline
+\babelsrc{($u\ $ \!)} & \patterndescr{short for \babelsrc{($u\ $ \! \_)} }\\\hline
 \babelsrc{($f\ $ ? $\ p$)} & \patterndescr{$f$ is applied to the value to be matched; the match succeeds if the result of the application matches $p$}\\\hline
 \babelsrc{($f\ $ ?)} & \patterndescr{short for \babelsrc{($f\ $ ? true)} }\\\hline
 \babelsrc{\{$m_1\ $ = $\ p_1$,$\ \ldots\ $,$\ m_n\ $ = $\ p_n$\}} & \patterndescr{matches a value of type \texttt{obj} that has exactly the messages $m_1$,.., $m_n$ such that the message values match the given patterns}\\\hline
@@ -1700,12 +1700,13 @@ end
 \end{babellisting}
 Another shortcut notation allows you to write instead of
 \begin{babellisting}
-typedef $t$ (x as $p$) = x
+typedef $t$ $p$ = $u_p$
 \end{babellisting}
 just 
 \begin{babellisting}
 typedef $t$ $p$
 \end{babellisting}
+Here $u_p$ is basically the pattern $p$ converted into a term. Not all patterns $p$ allow such a conversion; the shortcut notation is only available for patterns that do.
 
 Finally, it is possible to identify a type with the module it is defined in by using the same name for the type and the module. For example:
 \begin{babellisting}
