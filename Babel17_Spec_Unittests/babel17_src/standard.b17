@@ -384,5 +384,27 @@ module lang.unittest.spec
       #assert 1 <> nil
     end
     
+    module type_definition_abbreviation
+    
+      typedef suit Hearts, Spades, Diamonds, (x as Clubs) = x
+      
+      def objHearts = object 
+        def destruct_ Hearts = nil 
+        def hello = "objHearts!" 
+      end
+      
+      def objClubs = object
+        def destruct_ Clubs = nil
+        def hello = "objClubs!"
+      end
+          
+      val hearts = suit objHearts
+      val clubs = suit objClubs
+      
+      #assert clubs.hello == "objClubs!"
+      #catch InvalidMessage try: hearts.hello
+          
+    end
+    
 end
 

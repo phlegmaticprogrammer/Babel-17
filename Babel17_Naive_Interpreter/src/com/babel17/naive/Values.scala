@@ -758,8 +758,6 @@ object Values {
       def mutate(p : (Program.Id, Value)) : (Program.Id, Value) = {
         p._2 match {
           case e : EnvironmentValue =>
-            val newE = e.copy()
-            newE.env
             (p._1, e.copy())
           case _ => p
         }
@@ -770,7 +768,8 @@ object Values {
         e match {
           case e: EnvironmentValue =>
             val sliced = newMessages -- (keys -- e._messages)
-            e.env = e.env.replace(sliced)
+            if (e.env != null)
+              e.env = e.env.replace(sliced)
           case _ =>
         }
       }      

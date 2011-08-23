@@ -129,6 +129,7 @@ object Interpreter {
           }
           } catch {
             case x => 
+              x.printStackTrace
               testFailures = testFailures + 1
               w.writeLineError("unit test '"+name+"' failed: "+x)
           }        
@@ -249,7 +250,7 @@ object Interpreter {
     //mainProc(Array(f("v3tests.babel17"), f("cool.babel-17"), f("test.b17")))
   
    //mainProc(Array(f("script.b17"), f("poker.b17")))
-   runUnittests(defaultOptions, Array(f("nativeinterop.b17")), Array(),
+   runUnittests(defaultOptions, Array(f("script.b17")), Array(),
                 new WriteOutput())
   }
   

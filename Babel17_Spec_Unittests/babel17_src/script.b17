@@ -1,0 +1,13 @@
+val obj1 = object
+  def hello = this.msg
+  memoize hello
+  def msg = "obj1"
+end
+
+_ = obj1.hello
+
+val obj2 = object +[obj1] 
+  def msg = "obj2"
+end
+
+obj2.hello
